@@ -15,3 +15,127 @@ Mix.install([
 Klepsidra is a simple task timer prototype, developed in Elixir initially deployed in a Livebook.
 
 The purpose of this program is to time business and personal activities, for commercial purposes, analytics, data collection and better time estimation, and personal development.
+
+## Primitive implementation
+
+To start off with, let's create a primitive version of the timer we want. Very simply, every timed activity needs to have a start timestamp—when the timer was started—an end timestamp—when it was stopped—a calculated duration in minutes (to avoid recalculation), a description of the activity timed, and a list of tags applied to the activity.
+
+<!-- livebook:{"break_markdown":true} -->
+
+In this primitive version, all the timestamps will be stored in a simple list structure, `activity_timers`.
+
+```elixir
+activity_timers = []
+```
+
+It is helpful to create a simple structure to store this information, ensuring a consistent and robust storage.
+
+```elixir
+defmodule Klepsidra.ActivityTimer do
+  @doc """
+  An activity timer structure. Ensures that `NaiveDateTime` stamps are stored in starting 
+  and ending pairs, making it easy to spot _dangling_ timers.
+
+  To avoid expensive duration recalculation, the duration integer and time unit will be 
+  stored for the calculated timer duration. There is a shadow pair of _reported_ duration 
+  and time units, used as the basis for future reporting needs. For example, some 
+  professionals bill in six-minute intervals, so any duration is automatically rounded up 
+  to the nearest six-minute multiple.
+  """
+  @enforce_keys [
+    :start_stamp
+    # :end_stamp,
+    # :duration,
+    # :duration_time_unit,
+    # :reported_duration,
+    # :reported_duration_time_unit
+  ]
+  defstruct start_stamp: nil,
+            end_stamp: nil,
+            duration: 0,
+            duration_time_unit: :minute,
+            reported_duration: 0,
+            reported_duration_time_unit: :minute,
+            description: "",
+            tags: []
+
+  @type t :: %__MODULE__{
+          start_stamp: NaiveDateTime.t(),
+          end_stamp: NaiveDateTime.t(),
+          duration: non_neg_integer,
+          reported_duration: non_neg_integer,
+          description: String.t(),
+          tags: List.t()
+        }
+
+  def start_new_timer(timers_list) when is_list(timers_list) do
+    [%Klepsidra.ActivityTimer{start_stamp: NaiveDateTime.utc_now()} | timers_list]
+  end
+
+  def stop_timer(
+        [%Klepsidra.ActivityTimer{start_stamp: start_stamp, end_stamp: nil} = current_timer | _] =
+          _timers_list
+      ) do
+    end_stamp = NaiveDateTime.utc_now()
+    duration = NaiveDateTime.diff(end_stamp, start_stamp, :minute) + 1
+
+    current_timer
+    |> Map.put(:end_stamp, end_stamp)
+    |> Map.put(:duration, duration)
+    |> Map.put(:duration_time_unit, :minute)
+    |> Map.put(:reported_duration, duration)
+    |> Map.put(:reported_duration_time_unit, :minute)
+  end
+end
+```
+
+Let's try to start a new timer:
+
+```elixir
+activity_timers
+|> Klepsidra.ActivityTimer.start_new_timer()
+|> tap(fn _ -> :timer.sleep(139_000) end)
+|> Klepsidra.ActivityTimer.stop_timer()
+```
+
+## Connecting to a database
+
+Create an SQLite database in memory, for development purposes.
+
+```elixir
+{:ok, conn} = Exqlite.Sqlite3.open("#{__DIR__}/test-db.sqlite")
+```
+
+Create a basic table to store user-defined tags.
+
+```elixir
+:ok =
+  Exqlite.Sqlite3.execute(
+    conn,
+    "create table tags (id integer primary key, name text, description text)"
+  )
+```
+
+```elixir
+{:ok, tags_statement} =
+  Exqlite.Sqlite3.prepare(conn, "insert into tags (name, description) values (?1, ?2)")
+```
+
+```elixir
+Exqlite.Sqlite3.bind(conn, tags_statement, [
+  "development",
+  "Covers general code development activities"
+])
+```
+
+```elixir
+Exqlite.Sqlite3.step(conn, tags_statement)
+```
+
+```elixir
+{:ok, statement} = Exqlite.Sqlite3.prepare(conn, "select * from tags;")
+```
+
+```elixir
+Exqlite.Sqlite3.step(conn, statement)
+```
