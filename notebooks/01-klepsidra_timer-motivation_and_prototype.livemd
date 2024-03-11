@@ -1,0 +1,184 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# Klepsidra timer: First steps and prototyping
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.12.3"},
+  {:kino_db, "~> 0.2.6"},
+  {:exqlite, "~> 0.19.0"}
+])
+```
+
+## Introduction
+
+Klepsidra is a simple task timer prototype, developed in Elixir initially deployed in a Livebook.
+
+The purpose of this program is to time business and personal activities, for commercial purposes, analytics, data collection and better time estimation, and personal development.
+
+## Inspiration
+
+The need to know where time goes has always been a driving force. Whether it's for personal tracking or professional billing needs, it has always been needed, and it's a need I filled with a range of historical tools. Of these, I have always found [Org-Mode](https://orgmode.org/) to be one of the most useful.
+
+Org Mode—just like a Livebook—is intended to be written in hiererarchical sections, and just as Livebook it is a plain text file. A clock can be started in any section the author is currently working in, and all the software does is add a metadata `:LOGBOOK:` block under the relevant section. As a plain text file, the _clocking in_ and _clocking out_ times are appended to that block, along with calculated durations, all in a specified, easily readable (by humans), and parseable (by software) text (Hinman, 2023).
+
+<!-- livebook:{"break_markdown":true} -->
+
+Being plain text makes it easy to work on and modify when needed—imagine all the times you've forgotten to start the clock on time, or worse, have left it running. And the beauty of all this is that a simple command can be run at any time to aggregate all the timers in a document—or even across Org Mode documents—constructing a timesheet with timing breakdowns.
+
+<!-- livebook:{"break_markdown":true} -->
+
+So, the system is simple, malleable, and very useful. Yet it has major shortcomings—which is not a flaw, but an artefact of the system—making it problematic.
+
+* It is Emacs software, so it isn't easily portable without _always_ using Emacs
+* It _is_ plain text, locating the data to that file, or a carefully listed set of files; it is not portable
+* The timers are limited to the purpose of that document and can be categorised according to any number of purposes, forcing the use of Org Mode, and therefore Emacs, for _absolutely everything_, which is not portable
+* For every timer, a duration is calculated and stored, there is no provision for any further metadata, such as a fine-grained description of what was done, categorisation of activity through tagging, calculation of _blocks of time_ spent and billable
+* Timers are weakly linked to the section, and strongly linked to the document
+
+The last point deserves a little explanation. Much of my writing and programming begins as an exploratory process. In the course of the exploration, I change section names by necessity, split sections into deeper subsections, combine smaller sections into a more encompassing one, and more. In doing that, I necessarily change the scope of the work within the section, which necessarily results in the particular attached timings becoming _untrue_. The absolute time spent is accurate, but it no longer accurately reflects the work within.
+
+Yes, timers (being plain text) can be copied and moved around, but without any further metadata attached to individual timings, they individually lose all meaning, and this undermines their purpose to a large degree.
+
+## Towards a more useful activity timer
+
+The conteders have been named, but have fallen short for me. What do I want?
+
+* A system that is quick and easy to use
+* Data which is forever portable, to any future system, process or analysis method
+* Timers which are _decoupled_ from the activity and independent
+* Data format must be durable and easy to analyse, manipulate and reuse
+* Timers which can be annotated with details of the activity measured, and categorised across multiple categories
+* An _open_ system which lends itself to endless UI paradigms: web, desktop, tablet, mobile, CLI facilities at the very least, with further possibilities as necessary: timers controlled by email, text message, Telegram messenger, dedicated custom hardware (embedded devices), digitised pens and any other form of interaction deemed to remove friction or inertia to regular use
+* A system which provides deep and faceted insight into how time has been used, where analytics are not only possible but easy
+* A system which doesn't only record the absolute duration of activities, but records blocks of time used—according to a range of possible time accounting regimes—for the purposes of commercial billing
+
+## Primitive implementation
+
+To start off with, let's create a primitive version of the timer we want. Very simply, every timed activity needs to have a start timestamp—when the timer was started—an end timestamp—when it was stopped—a calculated duration in minutes (to avoid recalculation), a description of the activity timed, and a list of tags applied to the activity.
+
+<!-- livebook:{"break_markdown":true} -->
+
+In this primitive version, all the timestamps will be stored in a simple list structure, `activity_timers`.
+
+```elixir
+activity_timers = []
+```
+
+It is helpful to create a simple structure to store this information, ensuring a consistent and robust storage.
+
+```elixir
+defmodule Klepsidra.ActivityTimer do
+  @doc """
+  An activity timer structure. Ensures that `NaiveDateTime` stamps are stored in starting 
+  and ending pairs, making it easy to spot _dangling_ timers.
+
+  To avoid expensive duration recalculation, the duration integer and time unit will be 
+  stored for the calculated timer duration. There is a shadow pair of _reported_ duration 
+  and time units, used as the basis for future reporting needs. For example, some 
+  professionals bill in six-minute intervals, so any duration is automatically rounded up 
+  to the nearest six-minute multiple.
+  """
+  @enforce_keys [
+    :start_stamp
+    # :end_stamp,
+    # :duration,
+    # :duration_time_unit,
+    # :reported_duration,
+    # :reported_duration_time_unit
+  ]
+  defstruct start_stamp: nil,
+            end_stamp: nil,
+            duration: 0,
+            duration_time_unit: :minute,
+            reported_duration: 0,
+            reported_duration_time_unit: :minute,
+            description: "",
+            tags: []
+
+  @type t :: %__MODULE__{
+          start_stamp: NaiveDateTime.t(),
+          end_stamp: NaiveDateTime.t(),
+          duration: non_neg_integer,
+          reported_duration: non_neg_integer,
+          description: String.t(),
+          tags: List.t()
+        }
+
+  def start_new_timer(timers_list) when is_list(timers_list) do
+    [%Klepsidra.ActivityTimer{start_stamp: NaiveDateTime.utc_now()} | timers_list]
+  end
+
+  def stop_timer(
+        [%Klepsidra.ActivityTimer{start_stamp: start_stamp, end_stamp: nil} = current_timer | _] =
+          _timers_list
+      ) do
+    end_stamp = NaiveDateTime.utc_now()
+    duration = NaiveDateTime.diff(end_stamp, start_stamp, :minute) + 1
+
+    current_timer
+    |> Map.put(:end_stamp, end_stamp)
+    |> Map.put(:duration, duration)
+    |> Map.put(:duration_time_unit, :minute)
+    |> Map.put(:reported_duration, duration)
+    |> Map.put(:reported_duration_time_unit, :minute)
+  end
+end
+```
+
+Let's try to start a new timer:
+
+```elixir
+activity_timers
+|> Klepsidra.ActivityTimer.start_new_timer()
+|> tap(fn _ -> :timer.sleep(139_000) end)
+|> Klepsidra.ActivityTimer.stop_timer()
+```
+
+## Connecting to a database
+
+Create an SQLite database in memory, for development purposes.
+
+```elixir
+{:ok, conn} = Exqlite.Sqlite3.open("#{__DIR__}/test-db.sqlite")
+```
+
+Create a basic table to store user-defined tags.
+
+```elixir
+:ok =
+  Exqlite.Sqlite3.execute(
+    conn,
+    "create table tags (id integer primary key, name text, description text)"
+  )
+```
+
+```elixir
+{:ok, tags_statement} =
+  Exqlite.Sqlite3.prepare(conn, "insert into tags (name, description) values (?1, ?2)")
+```
+
+```elixir
+Exqlite.Sqlite3.bind(conn, tags_statement, [
+  "development",
+  "Covers general code development activities"
+])
+```
+
+```elixir
+Exqlite.Sqlite3.step(conn, tags_statement)
+```
+
+```elixir
+{:ok, statement} = Exqlite.Sqlite3.prepare(conn, "select * from tags;")
+```
+
+```elixir
+Exqlite.Sqlite3.step(conn, statement)
+```
+
+## References
+
+* Hinman, L. (2023, March 20). Clocking time with Org-mode. https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
+
+* Dominik, C., & Guerry, B. (2024, March 9). Org Mode. https://orgmode.org
