@@ -12,7 +12,6 @@
   rows={@streams.tags}
   row_click={fn {_id, tag} -> JS.navigate(~p"/tags/#{tag}") end}
 >
-  <:col :let={{_id, tag}} label="Tag"><%= tag.tag %></:col>
   <:col :let={{_id, tag}} label="Name"><%= tag.name %></:col>
   <:col :let={{_id, tag}} label="Colour"><%= tag.colour %></:col>
   <:col :let={{_id, tag}} label="Description"><%= tag.description %></:col>

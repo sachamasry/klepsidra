@@ -4,7 +4,6 @@ defmodule Klepsidra.Categorisation.Tag do
 
   schema "tags" do
     field :name, :string
-    field :tag, :string
     field :description, :string
     field :colour, :string
 
@@ -14,7 +13,7 @@ defmodule Klepsidra.Categorisation.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:tag, :name, :colour, :description])
-    |> validate_required([:tag])
+    |> cast(attrs, [:name, :colour, :description])
+    |> validate_required([:name])
   end
 end

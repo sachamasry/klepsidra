@@ -50,9 +50,20 @@ The conteders have been named, but have fallen short for me. What do I want?
 4. Data format must be durable and easy to analyse, manipulate and reuse
 5. Timers may be started and ended at random times due to user error and need to be easily modifiable; timing events can be missed altogether if a user isn't near any method of triggering timers, and needs to register events manually, post facto. Essentially, this must be easy to do
 6. Timers which can be annotated with details of the activity measured, and categorised across multiple categories
-7. An _open_ system which lends itself to endless UI paradigms: web, desktop, tablet, mobile, CLI facilities at the very least, with further possibilities as necessary: timers controlled by email, text message, Telegram messenger, dedicated custom hardware (embedded devices), digitised pens and any other form of interaction deemed to remove friction or inertia to regular use
+7. An _open_ system which lends itself to endless UI paradigms: web, desktop, tablet, mobile, CLI facilities at the very least, with further possibilities as necessary: timers controlled by email, text message, Telegram messenger, dedicated custom hardware (embedded devices), digitised pens and any other form of interaction deemed to reduce friction or inertiaa impeding its regular use
 8. A system which provides deep and faceted insight into how time has been used, where analytics are not only possible but easy
 9. A system which doesn't only record the absolute duration of activities, but records blocks of time used—according to a range of possible time accounting regimes—for the purposes of commercial billing
+
+<!-- livebook:{"break_markdown":true} -->
+
+Beyond the clear requirements, there is a _would be nice to have_ feature: locality of data. It would be desirable that the data is local to the device on which it is being used, ensuring:
+
+* Data privacy
+* High performance due to data being on the same device as the UI, the front and back end
+* Low lag times, and no downtime associated with volatile network connections
+* Ease of data backup
+
+The entire concept is enshrined in an article, _Local-first software_ describing the concept and its benefits at the level of detail the topic deserves (Kleppmann et al., 2019).
 
 ## Data representation
 
@@ -147,14 +158,14 @@ defmodule Klepsidra.ActivityTimer do
         }
 
   def start_new_timer(timers_list) when is_list(timers_list) do
-    [%Klepsidra.ActivityTimer{start_stamp: NaiveDateTime.utc_now()} | timers_list]
+    [%Klepsidra.ActivityTimer{start_stamp: NaiveDateTime.local_now()} | timers_list]
   end
 
   def stop_timer(
         [%Klepsidra.ActivityTimer{start_stamp: start_stamp, end_stamp: nil} = current_timer | _] =
           _timers_list
       ) do
-    end_stamp = NaiveDateTime.utc_now()
+    end_stamp = NaiveDateTime.local_now()
     duration = NaiveDateTime.diff(end_stamp, start_stamp, :minute) + 1
 
     current_timer
@@ -175,6 +186,16 @@ activity_timers
 |> tap(fn _ -> :timer.sleep(139_000) end)
 |> Klepsidra.ActivityTimer.stop_timer()
 ```
+
+This little test demonstrates that the above structure is a sufficient starting point for satisying the desiderata laid out previously. The next step is to convert this into an SQLite table.
+
+## Choice of data store
+
+Elixir's Phoenix framework uses Ecto as its object-relational data mapping layer (ORM). Ecto prefers PostgreSQL as a data store, and for many reasons, this is an excellent choice. Klepsidra is a small and feature-limited system, at least at this point, when it is merely being built as a demonstration of its ability to fulfill specified needs. For the purposes of agile development, speed and overall ease of deployment, including the relevant consideration of a local-first application, this system will use SQLite as its data store.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Despite PostgreSQL being the preferred target database, SQLite is well-supported by Ecto, and that is the datebase which will be targeted throughout the prototype development phase, while always striving to keep compatibility with Postgres, preserving the option of future migration to that data store. What is really exciting is a new database replication system, Electric SQL, aiming to foster local-first experiences by synchronising a local-first SQLite database—with data translation—to a network- or cloud-available PostgreSQL, or even a local PostgreSQL to a cloud-hosted one (ElectricSQL - Sync for Modern Apps, n.d.).
 
 ## Connecting to a database
 
@@ -231,3 +252,7 @@ Exqlite.Sqlite3.step(conn, statement)
 * 8.5. Date/Time Types. (2024, February 8). PostgreSQL Documentation. https://www.postgresql.org/docs/16/datatype-datetime.html
 
 * NaiveDateTime—Elixir v1.16.2. (2024, March 10). https://hexdocs.pm/elixir/1.16.2/NaiveDateTime.html#content
+
+* Kleppmann, M., Wiggins, A., Hardenberg, P. van, & McGranaghan, M. (2019, April 1). Local-first software: You own your data, in spite of the cloud. https://www.inkandswitch.com/local-first/
+
+* ElectricSQL - Sync for modern apps. (n.d.). Retrieved 12 March 2024, from https://electric-sql.com/

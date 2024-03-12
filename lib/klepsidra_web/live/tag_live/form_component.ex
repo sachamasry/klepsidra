@@ -19,7 +19,6 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:tag]} type="text" label="Tag" />
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:colour]} type="text" label="Colour" />
         <.input field={@form[:description]} type="text" label="Description" />

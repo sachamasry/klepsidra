@@ -3,7 +3,6 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
 
   def change do
     create table(:tags) do
-      add :tag, :string
       add :name, :string
       add :colour, :string
       add :description, :string
