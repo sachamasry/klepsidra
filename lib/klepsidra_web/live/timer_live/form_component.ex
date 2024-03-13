@@ -19,20 +19,15 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:start_stamp]} type="text" label="Start stamp" />
-        <.input field={@form[:end_stamp]} type="text" label="End timestamp" />
+        <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
+        <.input field={@form[:end_stamp]} type="datetime-local" label="End imestamp" />
         <.input field={@form[:duration]} type="number" label="Duration" />
         <.input field={@form[:duration_time_unit]} type="text" label="Duration time unit" />
         <.input field={@form[:reported_duration]} type="number" label="Reported duration" />
         <.input field={@form[:reported_duration_time_unit]} type="text" label="Reported duration time unit" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
 
-        <.input
-        type="select"
-        field={@form[:tag_id]}
-        placeholder="Tag"
-        options={@tags}
-        />
+        <.input field={@form[:tag_id]} type="select" placeholder="Tag" options={@tags} />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
