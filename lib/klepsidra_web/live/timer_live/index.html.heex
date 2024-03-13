@@ -1,0 +1,62 @@
+<.header>
+  Listing Timers
+  <:actions>
+    <.link patch={~p"/timers/start"}>
+      <.button>Start Timer</.button>
+    </.link>
+    <.link patch={~p"/timers/new"}>
+      <.button>Manual Timer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="timers"
+  rows={@streams.timers}
+  row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer}") end}
+>
+  <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
+  <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
+  <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
+  <:col :let={{_id, timer}} label="Duration time unit"><%= timer.duration_time_unit %></:col>
+  <:col :let={{_id, timer}} label="Reported duration"><%= timer.reported_duration %></:col>
+  <:col :let={{_id, timer}} label="Reported duration time unit"><%= timer.reported_duration_time_unit %></:col>
+  <:col :let={{_id, timer}} label="Description"><%= timer.description %></:col>
+  <:action :let={{_id, timer}}>
+    <div class="sr-only">
+      <.link navigate={~p"/timers/#{timer}"}>Show</.link>
+    </div>
+    <.link patch={~p"/timers/#{timer}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, timer}}>
+    <.link patch={~p"/timers/#{timer}/stop"}>Stop</.link>
+    <.link
+      phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.FormComponent}
+    id={@timer.id || :new}
+    title={@page_title}
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+  />
+</.modal>
+
+<.modal :if={@live_action in [:start]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={:start}
+    title="Starting timer"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+  />
+</.modal>

@@ -1,0 +1,32 @@
+<.header>
+  <%= @timer.start_stamp %>–<%= @timer.end_stamp %> <%= if is_nil(@timer.end_stamp), do: "(Running timer)" %>
+  <:subtitle>Activity timer record.</:subtitle>
+  <:actions>
+    <.link patch={~p"/timers/#{@timer}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit timer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Start time"><%= @timer.start_stamp %></:item>
+  <:item title="End time"><%= @timer.end_stamp %></:item>
+  <:item title="Duration"><%= @timer.duration %></:item>
+  <:item title="Duration time unit"><%= @timer.duration_time_unit %></:item>
+  <:item title="Reported duration"><%= @timer.reported_duration %></:item>
+  <:item title="Reported duration time unit"><%= @timer.reported_duration_time_unit %></:item>
+  <:item title="Description"><%= @timer.description %></:item>
+</.list>
+
+<.back navigate={~p"/timers"}>Back to activity timers</.back>
+
+<.modal :if={@live_action == :edit} id="timer-modal" show on_cancel={JS.patch(~p"/timers/#{@timer}")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.FormComponent}
+    id={@timer.id}
+    title={@page_title}
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers/#{@timer}"}
+  />
+</.modal>
