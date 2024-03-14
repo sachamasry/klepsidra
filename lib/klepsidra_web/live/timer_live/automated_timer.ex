@@ -20,7 +20,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         phx-submit="save"
       >
       <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" value={NaiveDateTime.local_now()} readonly />
-        <.input field={@form[:end_stamp]} type="hidden" label="End time" disabled hidden />
+      <div class="hidden">
+        <.input field={@form[:end_stamp]} type="hidden" label="End time" disabled />
+        </div>
         <.input field={@form[:description]} type="textarea" label="Description" />
 
         <.input field={@form[:tag_id]} type="select" placeholder="Tag" options={@tags} />

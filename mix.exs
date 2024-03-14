@@ -51,7 +51,9 @@ defmodule Klepsidra.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:live_view_native, "~> 0.2"},
-      {:live_view_native_swiftui, "~> 0.2"}
+      {:live_view_native_swiftui, "~> 0.2"},
+      {:ex_cldr, "~> 2.37"},
+      {:ex_cldr_units, "~> 3.0"}
     ]
   end
 
