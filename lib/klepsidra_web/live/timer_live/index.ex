@@ -20,6 +20,13 @@ defmodule KlepsidraWeb.TimerLive.Index do
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 
+  defp apply_action(socket, :stop, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Clock out")
+    |> assign(:clocked_out, Klepsidra.TimeTracking.Timer.clock_out(TimeTracking.get_timer!(id).start_stamp, :minute))
+    |> assign(:timer, TimeTracking.get_timer!(id))
+  end
+
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "Manual Timer")
@@ -29,6 +36,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
   defp apply_action(socket, :start, _params) do
     socket
     |> assign(:page_title, "Starting Timer")
+    |> assign(:start_timestamp, Klepsidra.TimeTracking.Timer.get_current_timestamp())
     |> assign(:timer, %Timer{})
   end
 

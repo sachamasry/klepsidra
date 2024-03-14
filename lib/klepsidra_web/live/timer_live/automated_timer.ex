@@ -19,10 +19,32 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         phx-change="validate"
         phx-submit="save"
       >
-      <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" value={NaiveDateTime.local_now()} readonly />
-      <div class="hidden">
-        <.input field={@form[:end_stamp]} type="hidden" label="End time" disabled />
+      <.input field={@form[:start_stamp]} type="datetime-local" label="Start time"
+      value={@timer.start_stamp || @start_timestamp} readonly
+      />
+
+      <div class={if @invocation_context == :start, do: "hidden"}>
+      <.input field={@form[:end_stamp]} type="datetime-local" label="End time"
+      value={@timer.end_stamp || @end_timestamp} />
+
+        <.input field={@form[:duration]} type="number" label="Duration"
+        value={@duration || 0} readonly
+        />
+
+    <.input field={@form[:duration_time_unit]} type="select" label="Duration time unit"
+    options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
+    value="minute"
+    />
+
+    <.input field={@form[:reported_duration]} type="number" label="Reported duration"
+    value={@duration || 0} readonly
+    />
+    <.input field={@form[:reported_duration_time_unit]} type="select" label="Reported duration time unit"
+    options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
+    value="minute"
+    />
         </div>
+
         <.input field={@form[:description]} type="textarea" label="Description" />
 
         <.input field={@form[:tag_id]} type="select" placeholder="Tag" options={@tags} />
@@ -61,7 +83,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     save_timer(socket, socket.assigns.action, timer_params)
   end
 
-  defp save_timer(socket, :edit, timer_params) do
+  defp save_timer(socket, :stop, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})

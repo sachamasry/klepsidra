@@ -24,4 +24,34 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> validate_required([:start_stamp])
     |> unique_constraint(:tag)
   end
+
+  @doc """
+  Gets the current local date and time, without a timezone component
+  """
+  def get_current_timestamp() do
+    NaiveDateTime.local_now()
+  end
+
+  @doc """
+  Calculates the time elapsed between start and end timestamps, in minutes
+  """
+  def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) when is_struct(start_timestamp, NaiveDateTime) and is_struct(end_timestamp, NaiveDateTime) and is_atom(unit) do
+    NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
+  end
+
+  @doc """
+  Clock out of an active timer, given a starting timestamp string.
+
+  Returns the ending timestamp and duration in the requested unit of time.
+  """
+  def clock_out(start_timestamp, unit \\ :minute) when is_bitstring(start_timestamp) and is_atom(unit) do
+    end_timestamp = get_current_timestamp()
+
+    start_timestamp <> ":00"
+    |> NaiveDateTime.from_iso8601()
+    |> case do
+         {:ok, start_timestamp} -> %{end_timestamp: end_timestamp, timer_duration: calculate_timer_duration(start_timestamp, end_timestamp, unit)}
+         {:error, _} -> nil
+       end
+  end
 end

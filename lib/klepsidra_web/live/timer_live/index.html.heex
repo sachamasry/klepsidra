@@ -58,5 +58,23 @@
     action={@live_action}
     timer={@timer}
     patch={~p"/timers"}
+    invocation_context={:start}
+    start_timestamp={@start_timestamp}
+    end_timestamp=""
+    duration="0"
+  />
+</.modal>
+
+<.modal :if={@live_action in [:stop]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={@timer.id}
+    title="Clock out"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+    invocation_context={:stop}
+    end_timestamp={@clocked_out.end_timestamp}
+    duration={@clocked_out.timer_duration}
   />
 </.modal>
