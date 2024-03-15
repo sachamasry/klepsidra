@@ -11,8 +11,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Make form dynamic: changing start or end times must recalculate durations
 - Enable changing duration unit, automatically recalculating durations
+- Make form dynamic: changing start or end times must recalculate durations
 - Explore defining custom durations and recalculating durations in terms of new time blocks
 - Resize datetime, duration and duration unit controls to more efficiently use space
 - Change tag to a many-to-many relationship
@@ -25,7 +25,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Test on month-first locales
 - Test on 12-hour clock locales
-- Do all browsers return a 'T' delimited datetime-local stamp? Do both delimiters need to be handled?
+- Do all browsers return a 'T' delimited datetime-local stamp? Do both delimiters need to be handled? According to the standard, yes
 
 ## Learn more
 

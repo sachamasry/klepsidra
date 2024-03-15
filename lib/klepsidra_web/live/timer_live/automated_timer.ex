@@ -86,10 +86,10 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     %{"timer" => %{"duration_time_unit" => duration_unit}} = params
     start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
     end_timestamp = (Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp)
-    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(end_timestamp, start_timestamp, String.to_atom(duration_unit))
+    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(duration_unit))
 
     socket =
-    assign(socket, duration_unit: "seconds")
+    assign(socket, duration: to_string(duration), duration_unit: "seconds")
 
     IO.inspect(params, label: "Params")
     IO.inspect(socket.assigns.timer.end_stamp, label: "Timer end stamp")

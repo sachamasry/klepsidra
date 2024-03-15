@@ -17,7 +17,24 @@ Essentially, JavaScript elides the seconds value, unless it has been entered or 
 
 <!-- livebook:{"break_markdown":true} -->
 
-This causes data interoperability problems. As a result of the above, datetime stamps passed by the front end will therefore always be in the `YYYY-MM-DD hh:mm` format, which is _almost_ ISO 8601:2019 compatible (‘ISO 8601’, 2024). But not quite. Since it is missing the seconds component, `NaiveDateTime.from_iso8601/1` will fail with an error. This adds a friction point when ingesting data from the front end, needing the adding of a _seconds_ time component.
+This causes data interoperability problems. As a result of the above, datetime stamps passed by the front end will therefore always be in the `YYYY-MM-DD hh:mm` format, which is _almost_ ISO 8601:2019 compatible (‘ISO 8601’, 2024). But not quite since it misses the seconds component (HTML Standard, n.d.). Attempting to ingest that non standards-compliant string, `NaiveDateTime.from_iso8601/1` will fail with an error. This adds a friction point when ingesting data from the front end, needing the adding of a _seconds_ time component.
+
+<!-- livebook:{"break_markdown":true} -->
+
+> 2.3.5.5 Local dates and times
+> 
+> A local date and time consists of a specific proleptic-Gregorian date, consisting of a year, a month, and a day, and a time, consisting of an hour, a minute, a second, and a fraction of a second, but expressed without a time zone. [GREGORIAN]
+
+> A string is a valid local date and time string representing a date and time if it consists of the following components in the given order:
+
+> A valid date string representing the date
+> A U+0054 LATIN CAPITAL LETTER T character (T) or a U+0020 SPACE character
+> A valid time string representing the time
+> A string is a valid normalized local date and time string representing a date and time if it consists of the following components in the given order:
+
+> A valid date string representing the date
+> A U+0054 LATIN CAPITAL LETTER T character (T)
+> A valid time string representing the time, expressed as the shortest possible string for the given time (e.g. omitting the seconds component entirely if the given time is zero seconds past the minute)
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -133,6 +150,8 @@ This satisfies both directions of boundary conversions needed, and demonstrates 
 Given that it works almost as easily, while providing a wealth of functionality to be used in future development, such as filtering timers to reveal only those in a time period, it is more sensible to use the Timex library for boundary conversions.
 
 ## References
+
+* HTML Standard. (n.d.). Retrieved 15 March 2024, from https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-normalised-local-date-and-time-string
 
 * ISO 8601. (2024). In Wikipedia. https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1211060072
 
