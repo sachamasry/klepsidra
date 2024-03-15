@@ -21,6 +21,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
 - Change data defaults for duration to nil, and no duration time units until clocking out
 
+### Tests
+
+- Test on month-first locales
+- Test on 12-hour clock locales
+- Do all browsers return a 'T' delimited datetime-local stamp? Do both delimiters need to be handled?
+
 ## Learn more
 
   * Official website: https://www.phoenixframework.org/

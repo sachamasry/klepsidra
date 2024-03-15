@@ -1,0 +1,141 @@
+<!-- livebook:{"autosave_interval_s":60,"persist_outputs":true} -->
+
+# 2. Klepsidra datetime-local timestamp manipulations
+
+```elixir
+Mix.install([
+  {:timex, "~> 3.7"},
+  {:date_time_parser, "~> 1.2"}
+])
+```
+
+## Summary
+
+In the process of working on the timer in LiveView, one aspect of friction has come up: parsing HTML's `datetime-local` datetime stamp.
+
+Essentially, JavaScript elides the seconds value, unless it has been entered or is non-zero. When the seconds are zero, only the hour and minute components are stored and transferred over the wire. This provides a better user experience, particularly with manually created timers, since it isn't desirable to ask the user an input for the seconds component. As it is an effectively meaningless precision in the context of timing activities, it's best to avoid it.
+
+<!-- livebook:{"break_markdown":true} -->
+
+This causes data interoperability problems. As a result of the above, datetime stamps passed by the front end will therefore always be in the `YYYY-MM-DD hh:mm` format, which is _almost_ ISO 8601:2019 compatible (‘ISO 8601’, 2024). But not quite. Since it is missing the seconds component, `NaiveDateTime.from_iso8601/1` will fail with an error. This adds a friction point when ingesting data from the front end, needing the adding of a _seconds_ time component.
+
+<!-- livebook:{"break_markdown":true} -->
+
+The reverse is also a problem, although a smaller one, when stringified `NativeDateTime` structures are passed as values into HTML forms. Since there is a seconds component in these structures, converting it to a string and applying it to HTML elements as a _value_, now produces a less readable value in the input field. Anything that further complicates fast user comprehension must be removed. In these cases, the seconds component must be stripped out.
+
+<!-- livebook:{"break_markdown":true} -->
+
+The ideal solution is to rely on Elixir's core functionality, but in the interest of better maintainability, the simplest external libraries are a good solution.
+
+## Using the date_time_parser library
+
+The `date_time_parser` library seems like a simple solution to the first problem, gracefully ingesting incomplete datetime strings passed from the HTML user interface, parsing them to the correct extended ISO 8601 specification.
+
+Let us specify two example string formats to be expected, one with a `T` delimiter between the date and time components, and the other with just a space.
+
+```elixir
+html_datetimestamp_t_delimited = "2024-03-15T15:01"
+html_datetimestamp_space_delimited = "2024-03-15 15:01"
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"2024-03-15 15:01"
+```
+
+Both of these will be passed into the `parse_datetime/1` function. To see both results, they are returned in a tuple.
+
+```elixir
+{
+  DateTimeParser.parse_datetime!(html_datetimestamp_t_delimited),
+  DateTimeParser.parse_datetime!(html_datetimestamp_space_delimited)
+}
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{~N[2024-03-15 15:01:00], ~N[2024-03-15 15:01:00]}
+```
+
+This experiment satisfies the desired input parsing, returning proper `NativeDateTime` structures, with zeroed seconds components. Our core requirement of handling only these structures internally has been met, and this conversion will take place at the application boundary layer.
+
+## Using the Timex library
+
+As the _"...richest, most comprehensive date/time library for Elixir..."_, `Timex` was considered (Getting Started — Timex v3.7.11, 2023). While undoubtedly a heavy library with even more extencive dependencies than `date_time_parser`, it really does provide a rich choice of date and time calculation and manipulation functionality.
+
+Let's try to parse the inbound datetime-local stamp with Timex, as before. Timex' `parse/2` function takes the input string as the first argument, and a `format_string` as the second, which can be one of two types. Timex offers its own default directive format, which is simple to read and memorise, and the standard strftime format, which many people are used to.
+
+Let's see both in action, just for comparison.
+
+```elixir
+[
+  {
+    Timex.parse!(html_datetimestamp_t_delimited, "%Y-%m-%dT%H:%M", :strftime),
+    Timex.parse!(html_datetimestamp_space_delimited, "%Y-%m-%d %H:%M", :strftime)
+  },
+  {
+    Timex.parse!(html_datetimestamp_t_delimited, "{YYYY}-{M}-{D}T{h24}:{m}"),
+    Timex.parse!(html_datetimestamp_space_delimited, "{YYYY}-{M}-{D} {h24}:{m}")
+  }
+]
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[
+  {~N[2024-03-15 15:01:00], ~N[2024-03-15 15:01:00]},
+  {~N[2024-03-15 15:01:00], ~N[2024-03-15 15:01:00]}
+]
+```
+
+Unlike `date_time_parser`, Timex provides formatting functions as well. Can it be used at the boundary to easily convert `NativeDateTime` timestamps to a string, _and_ elide the seconds component?
+
+Towards this, there is a `format/2` function, offering an identical conversion in the opposite (outbound) direction as well. Let's see it in action.
+
+```elixir
+datetime_stamp = ~N[2024-03-15 15:01:00]
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+~N[2024-03-15 15:01:00]
+```
+
+```elixir
+[
+  {
+    Timex.format!(datetime_stamp, "%Y-%m-%dT%H:%M", :strftime),
+    Timex.format!(datetime_stamp, "%Y-%m-%d %H:%M", :strftime)
+  },
+  {
+    Timex.format!(datetime_stamp, "{YYYY}-{M}-{D}T{h24}:{m}"),
+    Timex.format!(datetime_stamp, "{YYYY}-{M}-{D} {h24}:{m}")
+  }
+]
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[{"2024-03-15T15:01", "2024-03-15 15:01"}, {"2024-3-15T15:01", "2024-3-15 15:01"}]
+```
+
+And it returns properly formatted `T` and space-delimited datetime strings, with the seconds component elided, ready to pass to HTML elements' value slots.
+
+This satisfies both directions of boundary conversions needed, and demonstrates the best path to follow.
+
+## Concluding thoughts
+
+Given that it works almost as easily, while providing a wealth of functionality to be used in future development, such as filtering timers to reveal only those in a time period, it is more sensible to use the Timex library for boundary conversions.
+
+## References
+
+* ISO 8601. (2024). In Wikipedia. https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1211060072
+
+* DateTimeParser—DateTimeParser v1.2.0. (2023, December 6). https://hexdocs.pm/date_time_parser/DateTimeParser.htm
+
+* Getting Started—Timex v3.7.11. (2023, May 4). https://hexdocs.pm/timex/getting-started.html
