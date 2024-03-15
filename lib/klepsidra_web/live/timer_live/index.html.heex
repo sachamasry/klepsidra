@@ -62,6 +62,7 @@
     start_timestamp={@start_timestamp}
     end_timestamp=""
     duration="0"
+    duration_unit=""
   />
 </.modal>
 
@@ -74,7 +75,8 @@
     timer={@timer}
     patch={~p"/timers"}
     invocation_context={:stop}
-    end_timestamp={@clocked_out.end_timestamp}
+    end_timestamp={to_string(@clocked_out.end_timestamp)}
     duration={@clocked_out.timer_duration}
+    duration_unit={@duration_unit}
   />
 </.modal>

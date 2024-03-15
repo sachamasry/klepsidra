@@ -197,48 +197,6 @@ Elixir's Phoenix framework uses Ecto as its object-relational data mapping layer
 
 Despite PostgreSQL being the preferred target database, SQLite is well-supported by Ecto, and that is the datebase which will be targeted throughout the prototype development phase, while always striving to keep compatibility with Postgres, preserving the option of future migration to that data store. What is really exciting is a new database replication system, Electric SQL, aiming to foster local-first experiences by synchronising a local-first SQLite database—with data translation—to a network- or cloud-available PostgreSQL, or even a local PostgreSQL to a cloud-hosted one (ElectricSQL - Sync for Modern Apps, n.d.).
 
-## Connecting to a database
-
-Create an SQLite database in memory, for development purposes.
-
-```elixir
-{:ok, conn} = Exqlite.Sqlite3.open("#{__DIR__}/test-db.sqlite")
-```
-
-Create a basic table to store user-defined tags.
-
-```elixir
-:ok =
-  Exqlite.Sqlite3.execute(
-    conn,
-    "create table tags (id integer primary key, name text, description text)"
-  )
-```
-
-```elixir
-{:ok, tags_statement} =
-  Exqlite.Sqlite3.prepare(conn, "insert into tags (name, description) values (?1, ?2)")
-```
-
-```elixir
-Exqlite.Sqlite3.bind(conn, tags_statement, [
-  "development",
-  "Covers general code development activities"
-])
-```
-
-```elixir
-Exqlite.Sqlite3.step(conn, tags_statement)
-```
-
-```elixir
-{:ok, statement} = Exqlite.Sqlite3.prepare(conn, "select * from tags;")
-```
-
-```elixir
-Exqlite.Sqlite3.step(conn, statement)
-```
-
 ## References
 
 * ISO 8601. (2024). In Wikipedia. https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1211060072

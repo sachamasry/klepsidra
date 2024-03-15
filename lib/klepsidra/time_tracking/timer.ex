@@ -35,6 +35,10 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Calculates the time elapsed between start and end timestamps, in minutes
   """
+  def calculate_timer_duration(start_timestamp, end_timestamp, unit) when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
+    calculate_timer_duration(NaiveDateTime.from_iso8601!(start_timestamp), NaiveDateTime.from_iso8601!(end_timestamp), unit)
+  end
+
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) when is_struct(start_timestamp, NaiveDateTime) and is_struct(end_timestamp, NaiveDateTime) and is_atom(unit) do
     NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
   end

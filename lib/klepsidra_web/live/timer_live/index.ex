@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
   defp apply_action(socket, :stop, %{"id" => id}) do
     socket
     |> assign(:page_title, "Clock out")
-    |> assign(:clocked_out, Klepsidra.TimeTracking.Timer.clock_out(TimeTracking.get_timer!(id).start_stamp, :minute))
+    |> assign(clocked_out: Klepsidra.TimeTracking.Timer.clock_out(TimeTracking.get_timer!(id).start_stamp, :minute), duration_unit: "minute")
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 

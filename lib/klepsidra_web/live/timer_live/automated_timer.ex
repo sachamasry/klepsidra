@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       value={@timer.start_stamp || @start_timestamp} readonly
       />
 
-      <div class={if @invocation_context == :start, do: "hidden"}>
+      <div :if={@invocation_context == :stop}>
       <.input field={@form[:end_stamp]} type="datetime-local" label="End time"
       value={@timer.end_stamp || @end_timestamp} />
 
@@ -31,9 +31,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         value={@duration || 0} readonly
         />
 
-    <.input field={@form[:duration_time_unit]} type="select" label="Duration time unit"
+    <.input field={@form[:duration_time_unit]}
+    phx-change="duration_unit"
+    type="select"
+    label="Duration time unit"
     options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
-    value="minute"
+    value={@duration_unit}
     />
 
     <.input field={@form[:reported_duration]} type="number" label="Reported duration"
@@ -77,6 +80,25 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       |> Map.put(:action, :validate)
 
     {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event("duration_unit", params, socket) do
+    %{"timer" => %{"duration_time_unit" => duration_unit}} = params
+    start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
+    end_timestamp = (Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp)
+    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(end_timestamp, start_timestamp, String.to_atom(duration_unit))
+
+    socket =
+    assign(socket, duration_unit: "seconds")
+
+    IO.inspect(params, label: "Params")
+    IO.inspect(socket.assigns.timer.end_stamp, label: "Timer end stamp")
+    IO.inspect(socket.assigns.form.data.end_stamp, label: "Form end stamp")
+    IO.inspect(Map.get(socket.assigns.form.params, "end_stamp", nil), label: "Form end stamp")
+    IO.inspect(socket.assigns.end_timestamp, label: "Socket")
+    # IO.inspect(socket, label: "Socket")
+
+    {:noreply, socket}
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
