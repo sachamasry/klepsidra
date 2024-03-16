@@ -7,7 +7,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     field :description, :string
     field :start_stamp, :string
     field :end_stamp, :string
-    field :duration, :integer, default: 0
+    field :duration, :integer, default: nil
     field :duration_time_unit, :string
     field :reported_duration, :integer
     field :reported_duration_time_unit, :string

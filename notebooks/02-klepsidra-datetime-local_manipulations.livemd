@@ -141,6 +141,16 @@ datetime_stamp = ~N[2024-03-15 15:01:00]
 [{"2024-03-15T15:01", "2024-03-15 15:01"}, {"2024-3-15T15:01", "2024-3-15 15:01"}]
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+
+13:38:48.058 [debug] Tzdata polling for update.
+
+13:38:49.044 [debug] Tzdata polling shows the loaded tz database is up to date.
+
+```
+
 And it returns properly formatted `T` and space-delimited datetime strings, with the seconds component elided, ready to pass to HTML elements' value slots.
 
 This satisfies both directions of boundary conversions needed, and demonstrates the best path to follow.

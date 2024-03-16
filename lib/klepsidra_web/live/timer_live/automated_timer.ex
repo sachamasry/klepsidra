@@ -23,7 +23,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       />
 
       <div :if={@invocation_context == :stop}>
-      <.input field={@form[:end_stamp]} type="datetime-local" label="End time"
+      <.input field={@form[:end_stamp]}
+      phx-change="end_stamp_change"
+      type="datetime-local" label="End time"
       value={@timer.end_stamp || @end_timestamp} />
 
         <.input field={@form[:duration]} type="text" label="Duration"
@@ -107,6 +109,21 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     socket =
       assign(socket, reported_duration: duration, reported_duration_time_unit: reported_duration_time_unit)
     IO.inspect(socket, label: "Socker")
+
+    {:noreply, socket}
+  end
+
+  def handle_event("end_stamp_change", params, socket) do
+    %{"timer" => %{"end_stamp" => end_stamp}} = params
+
+    start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
+    duration_time_unit = nil
+    # duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(reported_duration_time_unit)) |> to_string()
+
+    # socket =
+    #   assign(socket, reported_duration: duration, reported_duration_time_unit: reported_duration_time_unit)
+
+    IO.inspect(socket, label: "Socket")
 
     {:noreply, socket}
   end
