@@ -29,7 +29,7 @@
     <.link patch={~p"/timers/#{timer}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, timer}}>
-    <.link patch={~p"/timers/#{timer}/stop"}>Stop</.link>
+    <.link :if={is_nil(timer.end_stamp)} patch={~p"/timers/#{timer}/stop"}>Stop</.link>
     <.link
       phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
@@ -63,6 +63,7 @@
     end_timestamp=""
     duration="0"
     duration_unit=""
+    reported_duration="0"
   />
 </.modal>
 
@@ -70,7 +71,7 @@
   <.live_component
     module={KlepsidraWeb.TimerLive.AutomatedTimer}
     id={@timer.id}
-    title="Clock out"
+    title="Stopping timer"
     action={@live_action}
     timer={@timer}
     patch={~p"/timers"}
@@ -78,5 +79,7 @@
     end_timestamp={to_string(@clocked_out.end_timestamp)}
     duration={@clocked_out.timer_duration}
     duration_unit={@duration_unit}
+    reported_duration={@clocked_out.timer_duration}
+    reported_duration_unit={@duration_unit}
   />
 </.modal>

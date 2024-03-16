@@ -98,4 +98,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   def convert_naivedatetime_to_html!(datetime_stamp) when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
+
+  @doc """
+  Formats a number into a string according to a unit definition for a locale.
+  """
+  def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
+    Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration), Klepsidra.Cldr)
+  end
 end

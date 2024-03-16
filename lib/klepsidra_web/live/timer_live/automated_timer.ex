@@ -9,7 +9,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Manage activity timers.</:subtitle>
       </.header>
 
       <.simple_form
@@ -27,22 +26,24 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       <.input field={@form[:end_stamp]} type="datetime-local" label="End time"
       value={@timer.end_stamp || @end_timestamp} />
 
-        <.input field={@form[:duration]} type="number" label="Duration"
+        <.input field={@form[:duration]} type="text" label="Duration"
         value={@duration || 0} readonly
         />
 
     <.input field={@form[:duration_time_unit]}
-    phx-change="duration_unit"
+    phx-change="duration_unit_change"
     type="select"
     label="Duration time unit"
     options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
     value={@duration_unit}
     />
 
-    <.input field={@form[:reported_duration]} type="number" label="Reported duration"
-    value={@duration || 0} readonly
+    <.input field={@form[:reported_duration]} type="text" label="Reported duration"
+    value={@reported_duration || @duration || 0} readonly
     />
-    <.input field={@form[:reported_duration_time_unit]} type="select" label="Reported duration time unit"
+    <.input field={@form[:reported_duration_time_unit]}
+    phx-change="reported_duration_unit_change"
+    type="select" label="Reported duration time unit"
     options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
     value="minute"
     />
@@ -50,10 +51,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
         <.input field={@form[:description]} type="textarea" label="Description" />
 
-        <.input field={@form[:tag_id]} type="select" placeholder="Tag" options={@tags} />
+        <.input field={@form[:tag_id]} type="select" label="Tag" placeholder="Tag" options={@tags} />
 
         <:actions>
-          <.button phx-disable-with="Saving...">Save</.button>
+          <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
+          <.button :if={@invocation_context == :stop} phx-disable-with="Saving...">Stop</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -82,21 +84,29 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     {:noreply, assign_form(socket, changeset)}
   end
 
-  def handle_event("duration_unit", params, socket) do
-    %{"timer" => %{"duration_time_unit" => duration_unit}} = params
+  def handle_event("duration_unit_change", params, socket) do
+    %{"timer" => %{"duration_time_unit" => duration_time_unit}} = params
+
     start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
     end_timestamp = (Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp)
-    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(duration_unit))
+    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(duration_time_unit)) |> to_string()
 
     socket =
-    assign(socket, duration: to_string(duration), duration_unit: "seconds")
+    assign(socket, duration: duration, duration_unit: duration_time_unit)
 
-    IO.inspect(params, label: "Params")
-    IO.inspect(socket.assigns.timer.end_stamp, label: "Timer end stamp")
-    IO.inspect(socket.assigns.form.data.end_stamp, label: "Form end stamp")
-    IO.inspect(Map.get(socket.assigns.form.params, "end_stamp", nil), label: "Form end stamp")
-    IO.inspect(socket.assigns.end_timestamp, label: "Socket")
-    # IO.inspect(socket, label: "Socket")
+    {:noreply, socket}
+  end
+
+  def handle_event("reported_duration_unit_change", params, socket) do
+    %{"timer" => %{"reported_duration_time_unit" => reported_duration_time_unit}} = params
+
+    start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
+    end_timestamp = (Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp)
+    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(reported_duration_time_unit)) |> to_string()
+
+    socket =
+      assign(socket, reported_duration: duration, reported_duration_time_unit: reported_duration_time_unit)
+    IO.inspect(socket, label: "Socker")
 
     {:noreply, socket}
   end

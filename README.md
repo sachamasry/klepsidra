@@ -11,7 +11,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Enable changing duration unit, automatically recalculating durations
 - Make form dynamic: changing start or end times must recalculate durations
 - Explore defining custom durations and recalculating durations in terms of new time blocks
 - Resize datetime, duration and duration unit controls to more efficiently use space
