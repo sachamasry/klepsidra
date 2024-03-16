@@ -108,24 +108,26 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     socket =
       assign(socket, reported_duration: duration, reported_duration_time_unit: reported_duration_time_unit)
-    IO.inspect(socket, label: "Socker")
 
     {:noreply, socket}
   end
 
   def handle_event("end_stamp_change", params, socket) do
-    %{"timer" => %{"end_stamp" => end_stamp}} = params
+    %{"timer" => %{"end_stamp" => end_timestamp}} = params
 
     start_timestamp = (Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp)
-    duration_time_unit = nil
-    # duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(reported_duration_time_unit)) |> to_string()
+    duration_time_unit = socket.assigns.duration_unit
+    reported_duration_time_unit = (Map.get(socket.assigns, :reported_duration_time_unit, nil) || socket.assigns.reported_duration_unit)
+    duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(duration_time_unit)) |> to_string()
+    reported_duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(reported_duration_time_unit)) |> to_string()
 
-    # socket =
-    #   assign(socket, reported_duration: duration, reported_duration_time_unit: reported_duration_time_unit)
-
-    IO.inspect(socket, label: "Socket")
-
-    {:noreply, socket}
+    {:noreply,
+    assign(socket,
+      end_stamp: end_timestamp,
+      duration: duration,
+      duration_time_unit: duration_time_unit,
+      reported_duration: reported_duration,
+      reported_duration_time_unit: reported_duration_time_unit)}
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
