@@ -24,7 +24,7 @@ defmodule KlepsidraWeb.Router do
 
     # get "/", PageController, :home
 
-    live "/", HelloLive
+    live "/", TimerLive.Index, :index
 
     live "/tags", TagLive.Index, :index
     live "/tags/new", TagLive.Index, :new
