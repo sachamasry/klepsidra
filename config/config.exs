@@ -59,6 +59,12 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# CLDR Units configuration: define custom units
+config :ex_cldr_units,  :additional_units,
+  six_minute_block: [base_unit: :minute, factor: 6, offset: 0],
+  quarter_hour: [base_unit: :minute, factor: 15, offset: 0],
+  half_hour: [base_unit: :minute, factor: 30, offset: 0]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

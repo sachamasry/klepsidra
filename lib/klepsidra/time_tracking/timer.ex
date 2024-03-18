@@ -1,5 +1,6 @@
 defmodule Klepsidra.TimeTracking.Timer do
   use Ecto.Schema
+
   import Ecto.Changeset
   alias Klepsidra.Categorisation.Tag 
 
@@ -43,7 +44,17 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) when is_struct(start_timestamp, NaiveDateTime) and is_struct(end_timestamp, NaiveDateTime) and is_atom(unit) do
-    NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
+    cond do
+      unit in [:second, :minute, :hour, :day] ->
+        NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
+
+      true ->
+        NaiveDateTime.diff(end_timestamp, start_timestamp, :minute) + 1
+        |> Cldr.Unit.new!(:minute)
+        |> Klepsidra.Cldr.Unit.convert!(unit)
+        |> Map.get(:value)
+        |> Decimal.round(0, :up)
+    end
   end
 
   @doc """

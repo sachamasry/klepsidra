@@ -46,12 +46,13 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     <.input field={@form[:reported_duration_time_unit]}
     phx-change="reported_duration_unit_change"
     type="select" label="Reported duration time unit"
-    options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
+    options={[{"Seconds", "second"}, {"Minutes", "minute"}, {"Six-minute block", "six_minute_block"}, {"Quarter hour", "quarter_hour"}, {"Half hour", "half_hour"}, {"Hours", "hour"}, {"Days", "day"}]}
     value="minute"
     />
         </div>
 
-        <.input field={@form[:description]} type="textarea" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description"
+        placeholder={if @invocation_context == :start, do: "What are you working on?", else: "What did you work on?"} />
 
         <.input field={@form[:tag_id]} type="select" label="Tag" placeholder="Tag" options={@tags} />
 
