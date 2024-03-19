@@ -77,6 +77,7 @@ defmodule Klepsidra.TimeTracking.Timer do
        end
   end
 
+  @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
   @doc """
   Parses HTML `datetime-local` strings into `NativeDateTime` structures.
 

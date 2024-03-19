@@ -4,6 +4,12 @@ defmodule Klepsidra.MixProject do
   def project do
     [
       app: :klepsidra,
+      dialyzer: [
+        plt_add_deps: :apps_direct,
+        plt_add_apps: [],
+        plt_ignore_apps: [:ex_cldr, :ex_cldr_numbers, :ex_cldr_currencies, :ex_cldr_lists, :ex_cldr_units],
+        list_unused_filters: true
+      ],
       version: "0.1.0",
       elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
