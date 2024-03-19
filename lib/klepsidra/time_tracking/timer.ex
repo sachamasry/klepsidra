@@ -79,7 +79,7 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
   @doc """
-  Parses HTML `datetime-local` strings into `NativeDateTime` structures.
+  Parses HTML `datetime-local` strings into `NativeDateTime` structure.
 
   Datetime strings coming from HTML, from `datetime-local` type fields,
   are not conformant to the extended date and time of day  ISO 8601:2019 standard format.
@@ -88,11 +88,21 @@ defmodule Klepsidra.TimeTracking.Timer do
   error.
 
   Using the Timex library's `parse/2` function, parse these strings into an ISO
-  conforming `NativeDateTime` structure, returning it.
+  conforming `NativeDateTime` structure, returning a success tuple:
+  {:ok, ~N[...]}, or {:error, reason} upon failure.
   """
   def parse_html_datetime(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
+
+  @spec parse_html_datetime!(String.t) :: %NaiveDateTime{}
+  @doc """
+  Parses HTML `datetime-local` strings into `NativeDateTime` structure.
+
+  Works just like `parse_html_datetime\1`, but instead of returning an {:ok, _} or
+  {:error, reason} tuple, returns the `NaiveDateTime` struct on success, otherwise
+  raises an error.
+  """
   def parse_html_datetime!(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
