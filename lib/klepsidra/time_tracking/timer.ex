@@ -26,6 +26,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> unique_constraint(:tag)
   end
 
+  @spec get_current_timestamp() :: %NaiveDateTime{}
   @doc """
   Gets the current local date and time, without a timezone component
   """
