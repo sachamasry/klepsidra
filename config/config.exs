@@ -61,9 +61,19 @@ config :phoenix, :json_library, Jason
 
 # CLDR Units configuration: define custom units
 config :ex_cldr_units,  :additional_units,
-  six_minute_block: [base_unit: :minute, factor: 6, offset: 0],
-  quarter_hour: [base_unit: :minute, factor: 15, offset: 0],
-  half_hour: [base_unit: :minute, factor: 30, offset: 0]
+  five_minute_increment: [base_unit: :minute, factor: 5, offset: 0],
+  six_minute_increment: [base_unit: :minute, factor: 6, offset: 0],
+  ten_minute_increment: [base_unit: :minute, factor: 10, offset: 0],
+  twelve_minute_increment: [base_unit: :minute, factor: 12, offset: 0],
+  fifteen_minute_increment: [base_unit: :minute, factor: 15, offset: 0],
+  eighteen_minute_increment: [base_unit: :minute, factor: 18, offset: 0],
+  twenty_minute_increment: [base_unit: :minute, factor: 20, offset: 0],
+  twenty_four_minute_increment: [base_unit: :minute, factor: 24, offset: 0],
+  thirty_minute_increment: [base_unit: :minute, factor: 30, offset: 0],
+  thirty_six_minute_increment: [base_unit: :minute, factor: 36, offset: 0],
+  fourty_five_minute_increment: [base_unit: :minute, factor: 45, offset: 0],
+  ninety_minute_increment: [base_unit: :minute, factor: 90, offset: 0],
+  one_hundred_twenty_minute_increment: [base_unit: :minute, factor: 120, offset: 0]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

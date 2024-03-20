@@ -6,25 +6,32 @@ defmodule Klepsidra.Cldr do
     default_locale: "en",
     providers: [Cldr.Number, Cldr.Unit, Cldr.List]
 
-  unit_localization(:six_minute_block, "en", :long,
+  unit_localization(:five_minute_increment, "en", :long,
     nominative: %{
-      one: "{0} six minute block",
-      other: "{0} six minute blocks"
+      one: "{0} five minute increment",
+      other: "{0} five minute increments"
     },
-    display_name: "six minute block"
+    display_name: "Five minute increment"
   )
-  unit_localization(:quarter_hour, "en", :long,
+  unit_localization(:six_minute_increment, "en", :long,
     nominative: %{
-      one: "{0} quarter hour",
-      other: "{0} quarter hours"
+      one: "{0} six minute increment",
+      other: "{0} six minute increments"
     },
-    display_name: "quarter hour"
+    display_name: "Six minute increment"
+  )
+  unit_localization(:ten_minute_increment, "en", :long,
+    nominative: %{
+      one: "{0} ten minute increment",
+      other: "{0} ten minute increments"
+    },
+    display_name: "Ten minute increment"
   )
   unit_localization(:half_hour, "en", :long,
     nominative: %{
       one: "{0} half hour",
-      other: "{0} half hour blocks"
+      other: "{0} half hour increments"
     },
-    display_name: "half hour"
+    display_name: "Half hour"
   )
 end

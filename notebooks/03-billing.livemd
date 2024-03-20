@@ -4,7 +4,21 @@
 
 ## On billing
 
-Klepsidra is a mixed-purpose product: it needs to be a platform for analytics on how and where time is spent, on a personal and commercial level. It aspires towards the type, but not personally-invasive detail, that Stephen Wolfram's personal time tracking achieves. An important aspect of this is that it manages client billing, making it painless and low-friction.
+Klepsidra is a mixed-purpose product: it needs to be a platform for analytics on how and where time is spent, on a personal and commercial level. It aspires towards the kind—without the personally-invasive level of detail—of tracking that Stephen Wolfram's method achieves. An important aspect of this is that it manages client billing, making it painless, quick and easy to use.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Essentially, time tracking is useful if it helps to:
+
+* Bill accurately for your time
+* Track productivity and see if tasks are taking longer than they should
+* Discover and prioritize high-value tasks to boost business profits
+* Discover and reduce non-billable tasks to minimize time wasting
+* Understand your resource availability by estimating how many hours will be needed to complete tasks
+* Schedule resources accurately
+* Pay employees fairly for time spent on time-intensive tasks
+
+The system will be considered successful if it manages all of the above.
 
 ## Personal time tracking and analytics
 
@@ -14,6 +28,47 @@ Klepsidra is a mixed-purpose product: it needs to be a platform for analytics on
 
 ## Time increments
 
+The easiest form of billing is per-hour billing. This has its own disadvantages as it is a very coarse measure, which is a contentious tug-of-war between clients who obviously prefer much finer increments, in some examples demanding down to per-minute detailed charging, and service providers who tend towards more coarse time units. There is much to be said for both tendencies, but what is really important is that there is no standard and many _billing increments_ are used in commerce.
+
+<!-- livebook:{"break_markdown":true} -->
+
+To name a few examples, those in the legal profession often use tenths of an hour—six minute increments; customer support may use the even finer five-minute increments; Medicare practitioners use eight-minute blocks; quarter-hour (15 minute) increments are used across most service providers; designers, developers and other professionals use half-hour, hour, and even two-hour blocks. In fact, this is a business-specific decision, and there are often complex policies using a combination of several of the above.
+
+<!-- livebook:{"break_markdown":true} -->
+
+To satisfy all the above needs, Klepsidra needs to provide all the above increments for flexibility across all practical service providers' requirements. The `ex_cldr_unit` library makes it relatively easy to create custom units, based on those already in the library. The catch is that this is not a dynamic process, rather a pre-defined and compiled one "...units are compiled into code" (Elixir-Cldr/Cldr_units, 2017/2023). This forces the hard-coding of all possible increments into code to be able to rely on all these complex time conversions, whereupon the user interface will have to be used to limit the list to only desired increments. A good explanation states "Common billing increments range from minutes to hours, each serving specific purposes and preferences within different industries and professions" (Forecast, 2024).
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Compiled list of all sensible billing increments to be used
+
+Below is a list of billing increments in use to some extent across a range of service providers. Is is important to keep in mind that, whichever billing increment, Klepsidra will—by default—round up towards a multiple of that increment. For example, if 13 minutes have elapsed, this would be equivalent to three 6-minute, two 10-minute, one 1-hour increments, for example, and would be invoiced pro-rata according to that calculation. Please note that, when all the increments are taken into account combinatorically, there is a wealth of billing choices here!
+
+| Billing increment | In minutes | In hours | Description                                                                        |
+| ----------------- | ---------- | -------- | ---------------------------------------------------------------------------------- |
+| 5 minutes         | 5          | 0.0833   | A particularly fine increment for high precision with many predictably short tasks |
+| 6 minutes         | 6          | 0.1      | Offers precision in time tracking and billing                                      |
+| 10 minutes        | 10         | 0.1667   | At six blocks per hour, it is fairly fine though an unruly fraction for billing    |
+| 12 minutes        | 12         | 0.2      | Balanced granularity for short-term engagements                                    |
+| 15 minutes        | 15         | 0.25     | Ideal for meetings, consultations, and tasks                                       |
+| 18 minutes        | 18         | 0.3      | Commonly used for technical tasks and reviews                                      |
+| 20 minutes        | 20         | 0.3333   | Offers balance between quarter and half-hour increments                            |
+| 24 minutes        | 24         | 0.4      | Provides flexibility for diverse tasks                                             |
+| 30 minutes        | 30         | 0.5      | Convenient increment for routine activities                                        |
+| 36 minutes        | 36         | 0.6      | Suitable for medium-length consultations                                           |
+| 45 minutes        | 45         | 0.75     | Used for sessions requiring extended time                                          |
+| 1 hour            | 60         | 1        | Standard billing unit for project work (common in agencies)                        |
+| 1.5 hours         | 90         | 1.5      | Provides flexibility for longer engagements                                        |
+| 2 hours           | 120        | 2        | Ideal for specialized tasks and consultations                                      |
+
+<!-- livebook:{"break_markdown":true} -->
+
+That's fourteen different billing increments there, in addition to the base unit—minute—which should provide sufficient flexibility to most service providers. This is not a complex system, and precludes use by some regulated professionals such as the previously mentioned physical therapists and related providers on Medicare, for example. Successfully providing for their needs requires a more complex calculation, including time ranges, providing the ability to define staggered, unequal billing increments, as well as those where there is an initial flat fee increment, followed by finer increments once a predefined lenght of time has elapsed.
+
 ## References
 
+* Cldr.Unit—Cldr Units v3.16.4. (2023, November 2). https://hexdocs.pm/ex_cldr_units/Cldr.Unit.html#content
 
+* Elixir-cldr/cldr_units. (2023). [Elixir]. Elixir CLDR. https://github.com/elixir-cldr/cldr_units (Original work published 2017)
+
+* Forecast. (2024, March 18). What are Billing Increments? https://www.forecast.app/learn/what-are-billing-increments
