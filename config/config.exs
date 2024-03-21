@@ -72,6 +72,7 @@ config :ex_cldr_units,  :additional_units,
   thirty_minute_increment: [base_unit: :minute, factor: 30, offset: 0],
   thirty_six_minute_increment: [base_unit: :minute, factor: 36, offset: 0],
   fourty_five_minute_increment: [base_unit: :minute, factor: 45, offset: 0],
+  sixty_minute_increment: [base_unit: :minute, factor: 60, offset: 0],
   ninety_minute_increment: [base_unit: :minute, factor: 90, offset: 0],
   one_hundred_twenty_minute_increment: [base_unit: :minute, factor: 120, offset: 0]
 

@@ -26,10 +26,10 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> unique_constraint(:tag)
   end
 
-  @spec get_current_timestamp() :: %NaiveDateTime{}
   @doc """
   Gets the current local date and time, without a timezone component
   """
+  @spec get_current_timestamp() :: %NaiveDateTime{}
   def get_current_timestamp() do
     NaiveDateTime.local_now()
   end
@@ -37,6 +37,8 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Calculates the time elapsed between start and end timestamps, in minutes
   """
+  def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) 
+
   def calculate_timer_duration(start_timestamp, end_timestamp, unit) when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
     calculate_timer_duration(
       parse_html_datetime!(start_timestamp),
@@ -44,7 +46,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       unit)
   end
 
-  def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) when is_struct(start_timestamp, NaiveDateTime) and is_struct(end_timestamp, NaiveDateTime) and is_atom(unit) do
+  def calculate_timer_duration(start_timestamp, end_timestamp, unit) when is_struct(start_timestamp, NaiveDateTime) and is_struct(end_timestamp, NaiveDateTime) and is_atom(unit) do
     cond do
       unit in [:second, :minute, :hour, :day] ->
         NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1

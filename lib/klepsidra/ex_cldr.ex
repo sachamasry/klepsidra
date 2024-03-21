@@ -259,6 +259,29 @@ defmodule Klepsidra.Cldr do
     display_name: "45 min"
   )
 
+  # 60 minute increment
+  unit_localization(:sixty_minute_increment, "en", :long,
+    nominative: %{
+      one: "{0} sixty minute increment",
+      other: "{0} sixty minute increments"
+    },
+    display_name: "60 minute increment"
+  )
+  unit_localization(:sixty_minute_increment, "en", :short,
+    nominative: %{
+      one: "{0} sixty mins",
+      other: "{0} sixty mins"
+    },
+    display_name: "60 mins"
+  )
+  unit_localization(:sixty_minute_increment, "en", :narrow,
+    nominative: %{
+      one: "{0} sixty min",
+      other: "{0} sixty min"
+    },
+    display_name: "60 min"
+  )
+
   # 90 minute increment
   unit_localization(:ninety_minute_increment, "en", :long,
     nominative: %{

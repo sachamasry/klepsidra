@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
   def render(assigns) do
@@ -36,7 +37,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     phx-change="duration_unit_change"
     type="select"
     label="Duration time unit"
-    options={Klepsidra.TimeTracking.TimeUnits.construct_duration_unit_options_list(use_primitives?: true)}
+    options={Units.construct_duration_unit_options_list(use_primitives?: true)}
     value={@duration_unit}
     />
 
@@ -46,7 +47,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     <.input field={@form[:reported_duration_time_unit]}
     phx-change="reported_duration_unit_change"
     type="select" label="Reported duration time unit"
-    options={[{"Seconds", "second"}, {"Minutes", "minute"}, {"Six-minute block", "six_minute_block"}, {"Quarter hour", "quarter_hour"}, {"Half hour", "half_hour"}, {"Hours", "hour"}, {"Days", "day"}]}
+    options={Units.construct_duration_unit_options_list()}
     value="minute"
     />
         </div>
