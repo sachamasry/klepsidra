@@ -2,7 +2,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   use Ecto.Schema
 
   import Ecto.Changeset
-  alias Klepsidra.Categorisation.Tag 
+  alias Klepsidra.Categorisation.Tag
 
   schema "timers" do
     field :description, :string

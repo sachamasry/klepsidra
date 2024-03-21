@@ -36,7 +36,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     phx-change="duration_unit_change"
     type="select"
     label="Duration time unit"
-    options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
+    options={Klepsidra.TimeTracking.TimeUnits.construct_duration_unit_options_list(use_primitives?: true)}
     value={@duration_unit}
     />
 
