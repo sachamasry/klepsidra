@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,9 +22,14 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   defp apply_action(socket, :stop, %{"id" => id}) do
+    start_timestamp = TimeTracking.get_timer!(id).start_stamp
+    clocked_out = Timer.clock_out(start_timestamp, :minute)
+    billing_duration_unit = Units.get_default_billing_increment()
+    billing_duration = Timer.calculate_timer_duration(start_timestamp, clocked_out.end_timestamp, String.to_atom(billing_duration_unit))
+
     socket
     |> assign(:page_title, "Clock out")
-    |> assign(clocked_out: Klepsidra.TimeTracking.Timer.clock_out(TimeTracking.get_timer!(id).start_stamp, :minute), duration_unit: "minute")
+    |> assign(clocked_out: clocked_out, duration_unit: "minute", billing_duration: billing_duration, billing_duration_unit: billing_duration_unit)
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 

@@ -48,7 +48,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     phx-change="reported_duration_unit_change"
     type="select" label="Reported duration time unit"
     options={Units.construct_duration_unit_options_list()}
-    value="minute"
+    value={Units.get_default_billing_increment()}
     />
         </div>
 

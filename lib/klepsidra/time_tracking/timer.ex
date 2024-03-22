@@ -27,7 +27,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Gets the current local date and time, without a timezone component
+  Get the current local date and time without a timezone component.
+
+  Returns a `NaiveDateTime` struct.
   """
   @spec get_current_timestamp() :: %NaiveDateTime{}
   def get_current_timestamp() do
@@ -35,8 +37,13 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Calculates the time elapsed between start and end timestamps, in minutes
+  Calculates the time elapsed between start and end timestamps.
+
+  The time unit can be passed in as the optional `unit` argument. If it is omitted,
+  minutes are used as the default time unit.
   """
+  @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
+  @spec calculate_timer_duration(%NaiveDateTime{}, %NaiveDateTime{}, atom()) :: integer()
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) 
 
   def calculate_timer_duration(start_timestamp, end_timestamp, unit) when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
@@ -63,24 +70,19 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Clock out of an active timer, given a starting timestamp string.
 
-  Returns the ending timestamp and duration in the requested unit of time.
+  Returns a map containing the ending timestamp and duration in the requested unit of time.
   """
+  @spec clock_out(String.t(), atom()) :: %{end_timestamp: String.t(), timer_duration: integer()}
   def clock_out(start_timestamp, unit \\ :minute) when is_bitstring(start_timestamp) and is_atom(unit) do
     end_timestamp = get_current_timestamp()
 
-    start_timestamp
-    |> parse_html_datetime()
-    |> case do
-         {:ok, start_timestamp} -> %{
-                                   end_timestamp: convert_naivedatetime_to_html!(end_timestamp),
-                                   timer_duration: calculate_timer_duration(start_timestamp,
-                                     end_timestamp,
-                                     unit)}
-         {:error, _} -> nil
-       end
+    %{end_timestamp: convert_naivedatetime_to_html!(end_timestamp),
+      timer_duration: calculate_timer_duration(
+        parse_html_datetime!(start_timestamp),
+        end_timestamp,
+        unit)}
   end
 
-  @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
   @doc """
   Parses HTML `datetime-local` strings into `NativeDateTime` structure.
 
@@ -94,11 +96,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   conforming `NativeDateTime` structure, returning a success tuple:
   {:ok, ~N[...]}, or {:error, reason} upon failure.
   """
+  @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
   def parse_html_datetime(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
 
-  @spec parse_html_datetime!(String.t) :: %NaiveDateTime{}
   @doc """
   Parses HTML `datetime-local` strings into `NativeDateTime` structure.
 
@@ -106,6 +108,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   {:error, reason} tuple, returns the `NaiveDateTime` struct on success, otherwise
   raises an error.
   """
+  @spec parse_html_datetime!(String.t) :: %NaiveDateTime{}
   def parse_html_datetime!(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
@@ -117,9 +120,12 @@ defmodule Klepsidra.TimeTracking.Timer do
   Returns a `datetime-local` compatible string, in the format "YYYY-MM-DDThh:mm". This
   can directly be fed into an `input` element's `value` slot.
   """
+  @spec convert_naivedatetime_to_html(%NaiveDateTime{}) :: {:ok, String.t()} | {:error, String.t()}
   def convert_naivedatetime_to_html(datetime_stamp) when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
+
+  @spec convert_naivedatetime_to_html(%NaiveDateTime{}) :: String.t()
   def convert_naivedatetime_to_html!(datetime_stamp) when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
@@ -127,6 +133,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Formats a number into a string according to a unit definition for a locale.
   """
+  @spec duration_to_string(integer(), atom()) :: String.t()
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
     Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration), Klepsidra.Cldr)
   end

@@ -12,7 +12,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Make form dynamic: changing start or end times must recalculate durations
-- Explore defining custom durations and recalculating durations in terms of new time blocks
 - Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
 - Add checkbox determining whether time is billable?
 - Resize datetime, duration and duration unit controls to more efficiently use space
