@@ -13,8 +13,7 @@ defmodule Klepsidra.CategorisationFixtures do
       |> Enum.into(%{
         colour: "some colour",
         description: "some description",
-        name: "some name",
-        tag: "some tag"
+        name: "some tag",
       })
       |> Klepsidra.Categorisation.create_tag()
 

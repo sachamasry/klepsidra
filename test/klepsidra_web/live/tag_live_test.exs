@@ -4,9 +4,9 @@ defmodule KlepsidraWeb.TagLiveTest do
   import Phoenix.LiveViewTest
   import Klepsidra.CategorisationFixtures
 
-  @create_attrs %{name: "some name", tag: "some tag", description: "some description", colour: "some colour"}
-  @update_attrs %{name: "some updated name", tag: "some updated tag", description: "some updated description", colour: "some updated colour"}
-  @invalid_attrs %{name: nil, tag: nil, description: nil, colour: nil}
+  @create_attrs %{name: "some tag", description: "some description", colour: "some colour"}
+  @update_attrs %{name: "some updated tag", description: "some updated description", colour: "some updated colour"}
+  @invalid_attrs %{name: nil, description: nil, colour: nil}
 
   defp create_tag(_) do
     tag = tag_fixture()
@@ -43,7 +43,7 @@ defmodule KlepsidraWeb.TagLiveTest do
 
       html = render(index_live)
       assert html =~ "Tag created successfully"
-      assert html =~ "some name"
+      assert html =~ "some tag"
     end
 
     test "updates tag in listing", %{conn: conn, tag: tag} do
@@ -66,7 +66,7 @@ defmodule KlepsidraWeb.TagLiveTest do
 
       html = render(index_live)
       assert html =~ "Tag updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "some updated tag"
     end
 
     test "deletes tag in listing", %{conn: conn, tag: tag} do
@@ -107,7 +107,7 @@ defmodule KlepsidraWeb.TagLiveTest do
 
       html = render(show_live)
       assert html =~ "Tag updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "some updated tag"
     end
   end
 end

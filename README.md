@@ -11,6 +11,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
+- Add testing to Fossil pre-commit hooks
+- Create customised scripts for pre-commint hooks, with better action messages
 - Make form dynamic: changing start or end times must recalculate durations
 - Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
 - Add checkbox determining whether time is billable?

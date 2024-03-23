@@ -8,7 +8,7 @@ defmodule Klepsidra.CategorisationTest do
 
     import Klepsidra.CategorisationFixtures
 
-    @invalid_attrs %{name: nil, tag: nil, description: nil, colour: nil}
+    @invalid_attrs %{name: nil, description: nil, colour: nil}
 
     test "list_tags/0 returns all tags" do
       tag = tag_fixture()
@@ -21,11 +21,10 @@ defmodule Klepsidra.CategorisationTest do
     end
 
     test "create_tag/1 with valid data creates a tag" do
-      valid_attrs = %{name: "some name", tag: "some tag", description: "some description", colour: "some colour"}
+      valid_attrs = %{name: "some tag", description: "some description", colour: "some colour"}
 
       assert {:ok, %Tag{} = tag} = Categorisation.create_tag(valid_attrs)
-      assert tag.name == "some name"
-      assert tag.tag == "some tag"
+      assert tag.name == "some tag"
       assert tag.description == "some description"
       assert tag.colour == "some colour"
     end
@@ -36,11 +35,10 @@ defmodule Klepsidra.CategorisationTest do
 
     test "update_tag/2 with valid data updates the tag" do
       tag = tag_fixture()
-      update_attrs = %{name: "some updated name", tag: "some updated tag", description: "some updated description", colour: "some updated colour"}
+      update_attrs = %{name: "some updated tag", description: "some updated description", colour: "some updated colour"}
 
       assert {:ok, %Tag{} = tag} = Categorisation.update_tag(tag, update_attrs)
-      assert tag.name == "some updated name"
-      assert tag.tag == "some updated tag"
+      assert tag.name == "some updated tag"
       assert tag.description == "some updated description"
       assert tag.colour == "some updated colour"
     end

@@ -4,9 +4,12 @@ defmodule KlepsidraWeb.TimerLiveTest do
   import Phoenix.LiveViewTest
   import Klepsidra.TimeTrackingFixtures
 
-  @create_attrs %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, duration_time_unit: "some duration_time_unit", reported_duration: 42, reported_duration_time_unit: "some reported_duration_time_unit"}
-  @update_attrs %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, duration_time_unit: "some updated duration_time_unit", reported_duration: 43, reported_duration_time_unit: "some updated reported_duration_time_unit"}
-  @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, duration_time_unit: nil, reported_duration: nil, reported_duration_time_unit: nil}
+  # @create_attrs %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, duration_time_unit: "some duration_time_unit", reported_duration: 42, reported_duration_time_unit: "some reported_duration_time_unit"}
+  @create_attrs %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, reported_duration: 42}
+  # @update_attrs %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, duration_time_unit: "some updated duration_time_unit", reported_duration: 43, reported_duration_time_unit: "some updated reported_duration_time_unit"}
+  @update_attrs %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, reported_duration: 43}
+  # @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, duration_time_unit: nil, reported_duration: nil, reported_duration_time_unit: nil}
+  @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, reported_duration: nil}
 
   defp create_timer(_) do
     timer = timer_fixture()
@@ -26,8 +29,8 @@ defmodule KlepsidraWeb.TimerLiveTest do
     test "saves new timer", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/timers")
 
-      assert index_live |> element("a", "New Timer") |> render_click() =~
-               "New Timer"
+      assert index_live |> element("a", "Manual Timer") |> render_click() =~
+               "Manual Timer"
 
       assert_patch(index_live, ~p"/timers/new")
 
@@ -50,7 +53,7 @@ defmodule KlepsidraWeb.TimerLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/timers")
 
       assert index_live |> element("#timers-#{timer.id} a", "Edit") |> render_click() =~
-               "Edit Timer"
+               "Edit"
 
       assert_patch(index_live, ~p"/timers/#{timer}/edit")
 
