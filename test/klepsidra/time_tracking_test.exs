@@ -1,6 +1,8 @@
 defmodule Klepsidra.TimeTrackingTest do
   use Klepsidra.DataCase
 
+  doctest Klepsidra.TimeTracking.Timer
+
   alias Klepsidra.TimeTracking
 
   describe "timers" do

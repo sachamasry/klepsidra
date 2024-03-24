@@ -95,6 +95,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   Using the Timex library's `parse/2` function, parse these strings into an ISO
   conforming `NativeDateTime` structure, returning a success tuple:
   {:ok, ~N[...]}, or {:error, reason} upon failure.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
+      {:ok, ~N[1970-01-01 11:15:00]}
   """
   @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
   def parse_html_datetime(datetime_string) when is_bitstring(datetime_string) do
