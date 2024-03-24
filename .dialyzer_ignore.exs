@@ -20,6 +20,7 @@
   {"lib/klepsidra/categorisation/tag.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_type},
+  {"lib/klepsidra/ex_cldr.ex", :contract_supertype},
   {"lib/klepsidra/mailer.ex", :unknown_function},
   {"lib/klepsidra/repo.ex", :callback_info_missing},
   {"lib/klepsidra/repo.ex", :unknown_function},

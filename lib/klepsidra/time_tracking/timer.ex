@@ -31,7 +31,7 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   Returns a `NaiveDateTime` struct.
   """
-  @spec get_current_timestamp() :: %NaiveDateTime{}
+  @spec get_current_timestamp() :: NaiveDateTime.t()
   def get_current_timestamp() do
     NaiveDateTime.local_now()
   end
@@ -133,7 +133,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Formats a number into a string according to a unit definition for a locale.
   """
-  @spec duration_to_string(integer(), atom()) :: String.t()
+  @spec duration_to_string(integer(), atom()) :: []
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
     Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration), Klepsidra.Cldr)
   end
