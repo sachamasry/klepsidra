@@ -62,7 +62,8 @@ defmodule Klepsidra.MixProject do
       {:live_view_native_swiftui, "~> 0.2"},
       {:ex_cldr_units, "~> 3.16.3"},
       {:timex, "~> 3.7"},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
     ]
   end
 

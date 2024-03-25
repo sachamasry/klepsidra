@@ -43,7 +43,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   minutes are used as the default time unit.
   """
   @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
-  @spec calculate_timer_duration(%NaiveDateTime{}, %NaiveDateTime{}, atom()) :: integer()
+  @spec calculate_timer_duration(NaiveDateTime.t(), NaiveDateTime.t(), atom()) :: integer()
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute) 
 
   def calculate_timer_duration(start_timestamp, end_timestamp, unit) when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
@@ -100,8 +100,12 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
       {:ok, ~N[1970-01-01 11:15:00]}
+
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-02-29T11:15")
+      {:error, :invalid_date}
   """
-  @spec parse_html_datetime(String.t) :: {:ok, %NaiveDateTime{}} | {:error, String.t}
+  @spec parse_html_datetime(String.t) :: {:ok, NaiveDateTime.t()} | {:error, String.t}
   def parse_html_datetime(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
@@ -113,7 +117,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   {:error, reason} tuple, returns the `NaiveDateTime` struct on success, otherwise
   raises an error.
   """
-  @spec parse_html_datetime!(String.t) :: %NaiveDateTime{}
+  @spec parse_html_datetime!(String.t) :: NaiveDateTime.t()
   def parse_html_datetime!(datetime_string) when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
@@ -125,12 +129,12 @@ defmodule Klepsidra.TimeTracking.Timer do
   Returns a `datetime-local` compatible string, in the format "YYYY-MM-DDThh:mm". This
   can directly be fed into an `input` element's `value` slot.
   """
-  @spec convert_naivedatetime_to_html(%NaiveDateTime{}) :: {:ok, String.t()} | {:error, String.t()}
+  @spec convert_naivedatetime_to_html(NaiveDateTime.t()) :: {:ok, String.t()} | {:error, String.t()}
   def convert_naivedatetime_to_html(datetime_stamp) when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
 
-  @spec convert_naivedatetime_to_html(%NaiveDateTime{}) :: String.t()
+  @spec convert_naivedatetime_to_html(NaiveDateTime.t()) :: String.t()
   def convert_naivedatetime_to_html!(datetime_stamp) when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
