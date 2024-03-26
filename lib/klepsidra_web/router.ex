@@ -36,9 +36,17 @@ defmodule KlepsidraWeb.Router do
     live "/timers/start", TimerLive.Index, :start
     live "/timers/:id/edit", TimerLive.Index, :edit
     live "/timers/:id/stop", TimerLive.Index, :stop
+    live "/timers/:id/notes/new", NotesLive.Index, :new
 
     live "/timers/:id", TimerLive.Show, :show
     live "/timers/:id/show/edit", TimerLive.Show, :edit
+
+    live "/notes", NoteLive.Index, :index
+    live "/notes/new", NoteLive.Index, :new                    
+    live "/notes/:id/edit", NoteLive.Index, :edit                                                                             
+
+    live "/notes/:id", NoteLive.Show, :show                    
+    live "/notes/:id/show/edit", NoteLive.Show, :edit   
   end
 
   # Other scopes may use custom stacks.

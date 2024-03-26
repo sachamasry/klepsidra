@@ -70,7 +70,17 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Clock out of an active timer, given a starting timestamp string.
 
+  ## Return values
+
   Returns a map containing the ending timestamp and duration in the requested unit of time.
+
+  ## Examples
+
+      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp |> NaiveDateTime.add(-15, :minute) |> Klepsidra.TimeTracking.Timer.clock_out()
+      # %{end_timestamp: "2024-03-26T21:33", timer_duration: 15}
+
+      # iex> Klepsidra.TimeTracking.Timer.clock_out("2024-03-26T21:19", :hour)
+      # %{end_timestamp: "2024-03-26T21:35", timer_duration: 1}
   """
   @spec clock_out(String.t(), atom()) :: %{end_timestamp: String.t(), timer_duration: integer()}
   def clock_out(start_timestamp, unit \\ :minute) when is_bitstring(start_timestamp) and is_atom(unit) do

@@ -25,6 +25,7 @@
   {"lib/klepsidra/repo.ex", :callback_info_missing},
   {"lib/klepsidra/repo.ex", :unknown_function},
   {"lib/klepsidra/time_tracking/timer.ex", :unknown_function},
+  {"lib/klepsidra/time_tracking/note.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},
   {"lib/klepsidra_web/controllers/page_controller.ex", :callback_info_missing},
   {"lib/klepsidra_web/controllers/page_controller.ex", :unknown_function},

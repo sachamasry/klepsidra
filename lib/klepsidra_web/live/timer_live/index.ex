@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
@@ -37,6 +38,12 @@ defmodule KlepsidraWeb.TimerLive.Index do
     socket
     |> assign(:page_title, "Manual Timer")
     |> assign(:timer, %Timer{})
+  end
+
+  defp apply_action(socket, :new_note, _params) do
+    socket
+    |> assign(:page_title, "New Note")
+    |> assign(:note, %Note{})
   end
 
   defp apply_action(socket, :start, _params) do

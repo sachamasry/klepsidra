@@ -23,4 +23,19 @@ defmodule Klepsidra.TimeTrackingFixtures do
 
     timer
   end
+
+  @doc """
+  Generate a note.
+  """
+  def note_fixture(attrs \\ %{}) do
+    {:ok, note} =
+      attrs
+      |> Enum.into(%{
+        note: "some note",
+        user_id: 42
+      })
+      |> Klepsidra.TimeTracking.create_note()
+
+    note
+  end
 end

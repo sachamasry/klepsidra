@@ -26,6 +26,7 @@
     <div class="sr-only">
       <.link navigate={~p"/timers/#{timer}"}>Show</.link>
     </div>
+    <.link patch={~p"/timers/#{timer}/notes/new"}>Note</.link>
     <.link patch={~p"/timers/#{timer}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, timer}}>
