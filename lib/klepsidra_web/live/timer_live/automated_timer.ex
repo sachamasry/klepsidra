@@ -19,41 +19,41 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         phx-change="validate"
         phx-submit="save"
       >
-      <.input field={@form[:start_stamp]} type="datetime-local" label="Start time"
-      value={@timer.start_stamp || @start_timestamp} readonly
-      />
-
-      <div :if={@invocation_context == :stop}>
-      <.input field={@form[:end_stamp]}
-      phx-change="end_stamp_change"
-      type="datetime-local" label="End time"
-      value={@timer.end_stamp || @end_timestamp} />
-
-        <.input field={@form[:duration]} type="text" label="Duration"
-        value={@duration || 0} readonly
+        <.input field={@form[:start_stamp]} type="datetime-local" label="Start time"
+          value={@timer.start_stamp || @start_timestamp} readonly
         />
 
-    <.input field={@form[:duration_time_unit]}
-    phx-change="duration_unit_change"
-    type="select"
-    label="Duration time unit"
-    options={Units.construct_duration_unit_options_list(use_primitives?: true)}
-    value={@duration_unit}
-    />
+        <div :if={@invocation_context == :stop}>
+          <.input field={@form[:end_stamp]}
+            phx-change="end_stamp_change"
+            type="datetime-local" label="End time"
+            value={@timer.end_stamp || @end_timestamp} />
 
-    <.input field={@form[:reported_duration]} type="text" label="Reported duration"
-    value={@reported_duration || @duration || 0} readonly
-    />
-    <.input field={@form[:reported_duration_time_unit]}
-    phx-change="reported_duration_unit_change"
-    type="select" label="Reported duration time unit"
-    options={Units.construct_duration_unit_options_list()}
-    value={Units.get_default_billing_increment()}
-    />
+          <.input field={@form[:duration]} type="text" label="Duration"
+            value={@duration || 0} readonly
+          />
+
+          <.input field={@form[:duration_time_unit]}
+            phx-change="duration_unit_change"
+            type="select"
+            label="Duration time unit"
+            options={Units.construct_duration_unit_options_list(use_primitives?: true)}
+            value={@duration_unit}
+          />
+
+          <.input field={@form[:reported_duration]} type="text" label="Reported duration"
+            value={@reported_duration || @duration || 0} readonly
+          />
+          <.input field={@form[:reported_duration_time_unit]}
+            phx-change="reported_duration_unit_change"
+            type="select" label="Reported duration time unit"
+            options={Units.construct_duration_unit_options_list()}
+            value={Units.get_default_billing_increment()}
+          />
         </div>
 
         <.input field={@form[:description]} type="textarea" label="Description"
-        placeholder={if @invocation_context == :start, do: "What are you working on?", else: "What did you work on?"} />
+          placeholder={if @invocation_context == :start, do: "What are you working on?", else: "What did you work on?"} />
 
         <.input field={@form[:tag_id]} type="select" label="Tag" placeholder="Tag" options={@tags} />
 
@@ -96,7 +96,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(duration_time_unit)) |> to_string()
 
     socket =
-    assign(socket, duration: duration, duration_unit: duration_time_unit)
+      assign(socket, duration: duration, duration_unit: duration_time_unit)
 
     {:noreply, socket}
   end
@@ -124,12 +124,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     reported_duration = Klepsidra.TimeTracking.Timer.calculate_timer_duration(start_timestamp, end_timestamp, String.to_atom(reported_duration_time_unit)) |> to_string()
 
     {:noreply,
-    assign(socket,
-      end_stamp: end_timestamp,
-      duration: duration,
-      duration_time_unit: duration_time_unit,
-      reported_duration: reported_duration,
-      reported_duration_time_unit: reported_duration_time_unit)}
+     assign(socket,
+            end_stamp: end_timestamp,
+            duration: duration,
+            duration_time_unit: duration_time_unit,
+            reported_duration: reported_duration,
+            reported_duration_time_unit: reported_duration_time_unit)}
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do

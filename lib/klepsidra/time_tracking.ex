@@ -132,7 +132,7 @@ defmodule Klepsidra.TimeTracking do
 
   defp filter_by_timer(query, %{timer_id: nil}), do: query
 
-  defp filter_by_timer(query, %{timer_id: timer_id}) do
+  defp filter_by_timer(_query, %{timer_id: _timer_id}) do
     # where(query, timer_id: ^timer_id)
   end
 

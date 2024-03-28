@@ -12,7 +12,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Create Notes entity, and make it possible to record notes from timers
-- Enable SQLite full-text search
+  - Enable SQLite full-text search
 - Create customised scripts for pre-commint hooks, with better action messages
 - Start enabling full-text search on relevant database fields
 - Make form dynamic: changing start or end times must recalculate durations
