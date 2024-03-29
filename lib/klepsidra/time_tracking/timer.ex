@@ -4,6 +4,10 @@ defmodule Klepsidra.TimeTracking.Timer do
   import Ecto.Changeset
   alias Klepsidra.Categorisation.Tag
 
+  @moduledoc """
+  Defines the `timers` schema and functions needed to clock in, out and parse datetimes.
+  """
+
   schema "timers" do
     field :description, :string
     field :start_stamp, :string
@@ -41,7 +45,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   Returns a `NaiveDateTime` struct.
   """
   @spec get_current_timestamp() :: NaiveDateTime.t()
-  def get_current_timestamp() do
+  def get_current_timestamp do
     NaiveDateTime.local_now()
   end
 
@@ -56,8 +60,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute)
 
   def calculate_timer_duration(start_timestamp, end_timestamp, unit)
-      when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and
-             is_atom(unit) do
+      when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
     calculate_timer_duration(
       parse_html_datetime!(start_timestamp),
       parse_html_datetime!(end_timestamp),
@@ -71,16 +74,14 @@ defmodule Klepsidra.TimeTracking.Timer do
                end_timestamp,
                NaiveDateTime
              ) and is_atom(unit) do
-    cond do
-      unit in [:second, :minute, :hour, :day] ->
-        NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
-
-      true ->
-        (NaiveDateTime.diff(end_timestamp, start_timestamp, :minute) + 1)
-        |> Cldr.Unit.new!(:minute)
-        |> Klepsidra.Cldr.Unit.convert!(unit)
-        |> Map.get(:value)
-        |> Decimal.round(0, :up)
+    if unit in [:second, :minute, :hour, :day] do
+      NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
+    else
+      (NaiveDateTime.diff(end_timestamp, start_timestamp, :minute) + 1)
+      |> Cldr.Unit.new!(:minute)
+      |> Klepsidra.Cldr.Unit.convert!(unit)
+      |> Map.get(:value)
+      |> Decimal.round(0, :up)
     end
   end
 

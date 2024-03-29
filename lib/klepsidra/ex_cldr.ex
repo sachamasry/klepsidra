@@ -1,4 +1,13 @@
 defmodule Klepsidra.Cldr do
+  @moduledoc """
+  Defines additional time units encountered in the commercial world.
+
+  Businesses record their time units in a range of time units, or billing increments,
+  based on standard time primitives such as minutes and hours. Building on `Cldr.Units`,
+  any desired time units must be defined here before they can be used in an application,
+  since they must be compiled prior to use.
+  """
+
   use Cldr.Unit.Additional
 
   use Cldr,

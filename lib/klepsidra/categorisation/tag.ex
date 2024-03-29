@@ -1,4 +1,12 @@
 defmodule Klepsidra.Categorisation.Tag do
+  @moduledoc """
+  Defines a schema for the `Tags` entity, used for categorising timed activities
+  with free form tags.
+
+  To provide a helpful flourish which will make selected tags stand out, we include a 
+  `colour` field.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 

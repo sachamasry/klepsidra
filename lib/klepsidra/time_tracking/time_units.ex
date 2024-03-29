@@ -1,4 +1,6 @@
-defmodule Klepsidra.TimeTracking.TimeUnits  do
+defmodule Klepsidra.TimeTracking.TimeUnits do
+  alias Klepsidra.Cldr.Unit.Additional, as: AdditionalUnits
+
   @moduledoc """
   Provides handling and user interface presentation of time units.
   """
@@ -15,7 +17,7 @@ defmodule Klepsidra.TimeTracking.TimeUnits  do
   conversion.
   """
   @spec get_default_billing_increment() :: String.t()
-  def get_default_billing_increment() do
+  def get_default_billing_increment do
     Atom.to_string(@default_billing_increment)
   end
 
@@ -28,7 +30,6 @@ defmodule Klepsidra.TimeTracking.TimeUnits  do
   @spec construct_duration_unit_options_list() :: [{String.t(), String.t()}]
   def construct_duration_unit_options_list(opts \\ []) do
     use_time_primitives? = Keyword.get(opts, :use_primitives?, false)
-    IO.inspect(use_time_primitives?, label: "Primitives")
 
     case use_time_primitives? do
       true ->
@@ -36,9 +37,9 @@ defmodule Klepsidra.TimeTracking.TimeUnits  do
 
       false ->
         [
-          {"Minutes", "minute"} |
-          Klepsidra.Cldr.Unit.Additional.units_for(@locale, @style)
-          |> Enum.map(fn {k, v} -> {v.display_name, Atom.to_string(k)} end)
+          {"Minutes", "minute"}
+          | AdditionalUnits.units_for(@locale, @style)
+            |> Enum.map(fn {k, v} -> {v.display_name, Atom.to_string(k)} end)
         ]
     end
   end
