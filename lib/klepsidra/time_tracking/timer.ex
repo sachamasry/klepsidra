@@ -93,11 +93,17 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp |> NaiveDateTime.add(-15, :minute) |> Klepsidra.TimeTracking.Timer.clock_out()
-      # %{end_timestamp: "2024-03-26T21:33", timer_duration: 15}
+      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      ...> |> NaiveDateTime.add(-15, :minute)
+      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      ...> |> Klepsidra.TimeTracking.Timer.clock_out()
+      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 16}
 
-      # iex> Klepsidra.TimeTracking.Timer.clock_out("2024-03-26T21:19", :hour)
-      # %{end_timestamp: "2024-03-26T21:35", timer_duration: 1}
+      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      ...> |> NaiveDateTime.add(-15, :minute)
+      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      ...> |> Klepsidra.TimeTracking.Timer.clock_out(:hour)
+      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 1}
   """
   @spec clock_out(String.t(), atom()) :: %{end_timestamp: String.t(), timer_duration: integer()}
   def clock_out(start_timestamp, unit \\ :minute)
@@ -124,22 +130,41 @@ defmodule Klepsidra.TimeTracking.Timer do
   passed without a seconds component. `NativeDateTime` cannot parse this, returning an
   error.
 
-  Using the Timex library's `parse/2` function, parse these strings into an ISO
-  conforming `NativeDateTime` structure, returning a success tuple:
-  {:ok, ~N[...]}, or {:error, reason} upon failure.
+  Using the Timex library's `parse/2` function, parse datetime strings into an ISO
+  conforming `NativeDateTime` structure, returning a result tuple:
+
+  `{:ok, ~N[...]}` on success, or {:error, reason} upon failure.
+
+  It is possible to receive a datetime with date and time components separated by either
+  a letter "t" or a single space (" "), binary pattern matching will determine which is
+  received in the `datetime_string` argument.
 
   ## Examples
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
       {:ok, ~N[1970-01-01 11:15:00]}
 
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01 11:15")
+      {:ok, ~N[1970-01-01 11:15:00]}
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-02-29T11:15")
       {:error, :invalid_date}
   """
   @spec parse_html_datetime(String.t()) :: {:ok, NaiveDateTime.t()} | {:error, String.t()}
-  def parse_html_datetime(datetime_string) when is_bitstring(datetime_string) do
+  def parse_html_datetime(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+  end
+
+  def parse_html_datetime(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), " ",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
   end
 
   @doc """
@@ -148,10 +173,31 @@ defmodule Klepsidra.TimeTracking.Timer do
   Works just like `parse_html_datetime\1`, but instead of returning an {:ok, _} or
   {:error, reason} tuple, returns the `NaiveDateTime` struct on success, otherwise
   raises an error.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
+      {:ok, ~N[1970-01-01 11:15:00]}
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01 11:15")
+      {:ok, ~N[1970-01-01 11:15:00]}
+
   """
   @spec parse_html_datetime!(String.t()) :: NaiveDateTime.t()
-  def parse_html_datetime!(datetime_string) when is_bitstring(datetime_string) do
+  def parse_html_datetime!(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+  end
+
+  def parse_html_datetime!(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), " ",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
   end
 
   @doc """
