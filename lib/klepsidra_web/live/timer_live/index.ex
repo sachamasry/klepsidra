@@ -2,13 +2,16 @@ defmodule KlepsidraWeb.TimerLive.Index do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking
-  alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.Note
+  alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :timers, TimeTracking.list_timers())}
+    {:ok,
+     socket
+     |> assign(display_help: false)
+     |> stream(:timers, TimeTracking.list_timers())}
   end
 
   @impl true
@@ -26,11 +29,22 @@ defmodule KlepsidraWeb.TimerLive.Index do
     start_timestamp = TimeTracking.get_timer!(id).start_stamp
     clocked_out = Timer.clock_out(start_timestamp, :minute)
     billing_duration_unit = Units.get_default_billing_increment()
-    billing_duration = Timer.calculate_timer_duration(start_timestamp, clocked_out.end_timestamp, String.to_atom(billing_duration_unit))
+
+    billing_duration =
+      Timer.calculate_timer_duration(
+        start_timestamp,
+        clocked_out.end_timestamp,
+        String.to_atom(billing_duration_unit)
+      )
 
     socket
     |> assign(:page_title, "Clock out")
-    |> assign(clocked_out: clocked_out, duration_unit: "minute", billing_duration: billing_duration, billing_duration_unit: billing_duration_unit)
+    |> assign(
+      clocked_out: clocked_out,
+      duration_unit: "minute",
+      billing_duration: billing_duration,
+      billing_duration_unit: billing_duration_unit
+    )
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 
@@ -49,7 +63,11 @@ defmodule KlepsidraWeb.TimerLive.Index do
   defp apply_action(socket, :start, _params) do
     socket
     |> assign(:page_title, "Starting Timer")
-    |> assign(:start_timestamp, Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!())
+    |> assign(
+      :start_timestamp,
+      Timer.get_current_timestamp()
+      |> Timer.convert_naivedatetime_to_html!()
+    )
     |> assign(:timer, %Timer{})
   end
 
@@ -75,5 +93,22 @@ defmodule KlepsidraWeb.TimerLive.Index do
     {:ok, _} = TimeTracking.delete_timer(timer)
 
     {:noreply, stream_delete(socket, :timers, timer)}
+  end
+
+  @impl true
+  def handle_event("keyboard_event", %{"key" => "s"} = _params, socket) do
+    {:noreply,
+     assign(socket,
+       live_action: :start,
+       page_title: "Starting Timer",
+       start_timestamp:
+         Timer.get_current_timestamp()
+         |> Timer.convert_naivedatetime_to_html!(),
+       timer: %Timer{}
+     )}
+  end
+
+  def handle_event("keyboard_event", _params, socket) do
+    {:noreply, socket}
   end
 end

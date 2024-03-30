@@ -1,7 +1,8 @@
+<div phx-window-keyup="keyboard_event">
 <.header>
   Listing Timers
   <:actions>
-    <.link patch={~p"/timers/start"}>
+    <.link phx-keyup="start_timer" patch={~p"/timers/start"}>
       <.button>Start Timer</.button>
     </.link>
     <.link patch={~p"/timers/new"}>
@@ -95,3 +96,4 @@
 <!--     patch={~p"/timers"} -->
 <!--   /> -->
 <!-- </.modal> -->
+</div>
