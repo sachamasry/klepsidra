@@ -108,6 +108,13 @@ defmodule KlepsidraWeb.TimerLive.Index do
      )}
   end
 
+  def handle_event("keyboard_event", %{"key" => "?"} = _params, socket) do
+    {:noreply,
+     assign(socket,
+       display_help: true
+     )}
+  end
+
   def handle_event("keyboard_event", _params, socket) do
     {:noreply, socket}
   end
