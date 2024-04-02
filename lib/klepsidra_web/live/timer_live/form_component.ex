@@ -22,14 +22,20 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End imestamp" />
         <.input field={@form[:duration]} type="number" label="Duration" />
-        <.input field={@form[:duration_time_unit]} type="select" label="Duration time unit"
+        <.input
+          field={@form[:duration_time_unit]}
+          type="select"
+          label="Duration time unit"
           options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
           value="minute"
         />
         <.input field={@form[:reported_duration]} type="number" label="Reported duration" />
-        <.input field={@form[:reported_duration_time_unit]} type="select" label="Reported duration time unit"
-        options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
-        value="minute"
+        <.input
+          field={@form[:reported_duration_time_unit]}
+          type="select"
+          label="Reported duration time unit"
+          options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
+          value="minute"
         />
         <.input field={@form[:description]} type="textarea" label="Description" />
 
@@ -51,8 +57,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_tag()
-     |> assign_form(changeset)
-    }
+     |> assign_form(changeset)}
   end
 
   @impl true

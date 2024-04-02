@@ -23,6 +23,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "5 minutes"
   )
+
   unit_localization(:five_minute_increment, "en", :short,
     nominative: %{
       one: "{0} five mins",
@@ -30,6 +31,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "5 mins"
   )
+
   unit_localization(:five_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} five min",
@@ -46,6 +48,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "6 minutes"
   )
+
   unit_localization(:six_minute_increment, "en", :short,
     nominative: %{
       one: "{0} six mins",
@@ -53,6 +56,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "6 mins"
   )
+
   unit_localization(:six_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} six min",
@@ -69,6 +73,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "10 minute increment"
   )
+
   unit_localization(:ten_minute_increment, "en", :short,
     nominative: %{
       one: "{0} ten mins",
@@ -76,6 +81,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "10 mins"
   )
+
   unit_localization(:ten_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} ten min",
@@ -92,6 +98,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "12 minute increment"
   )
+
   unit_localization(:twelve_minute_increment, "en", :short,
     nominative: %{
       one: "{0} twelve mins",
@@ -99,6 +106,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "12 mins"
   )
+
   unit_localization(:twelve_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} twelve min",
@@ -115,6 +123,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "15 minute increment"
   )
+
   unit_localization(:fifteen_minute_increment, "en", :short,
     nominative: %{
       one: "{0} fifteen mins",
@@ -122,6 +131,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "15 mins"
   )
+
   unit_localization(:fifteen_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} fifteen min",
@@ -138,6 +148,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "18 minute increment"
   )
+
   unit_localization(:eighteen_minute_increment, "en", :short,
     nominative: %{
       one: "{0} eighteen mins",
@@ -145,6 +156,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "18 mins"
   )
+
   unit_localization(:eighteen_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} eighteen min",
@@ -161,6 +173,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "20 minute increment"
   )
+
   unit_localization(:twenty_minute_increment, "en", :short,
     nominative: %{
       one: "{0} twenty mins",
@@ -168,6 +181,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "20 mins"
   )
+
   unit_localization(:twenty_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} twenty min",
@@ -184,6 +198,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "24 minute increment"
   )
+
   unit_localization(:twenty_four_minute_increment, "en", :short,
     nominative: %{
       one: "{0} twenty-four mins",
@@ -191,6 +206,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "24 mins"
   )
+
   unit_localization(:twenty_four_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} twenty-four min",
@@ -207,6 +223,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "30 minute increment"
   )
+
   unit_localization(:thirty_minute_increment, "en", :short,
     nominative: %{
       one: "{0} thirty mins",
@@ -214,6 +231,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "30 mins"
   )
+
   unit_localization(:thirty_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} thirty min",
@@ -230,6 +248,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "36 minute increment"
   )
+
   unit_localization(:thirty_six_minute_increment, "en", :short,
     nominative: %{
       one: "{0} thirty-six mins",
@@ -237,6 +256,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "36 mins"
   )
+
   unit_localization(:thirty_six_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} thirty-six min",
@@ -253,6 +273,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "45 minute increment"
   )
+
   unit_localization(:fourty_five_minute_increment, "en", :short,
     nominative: %{
       one: "{0} fourty-five mins",
@@ -260,6 +281,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "45 mins"
   )
+
   unit_localization(:fourty_five_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} fourty-five min",
@@ -276,6 +298,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "60 minute increment"
   )
+
   unit_localization(:sixty_minute_increment, "en", :short,
     nominative: %{
       one: "{0} sixty mins",
@@ -283,6 +306,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "60 mins"
   )
+
   unit_localization(:sixty_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} sixty min",
@@ -299,6 +323,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "90 minute increment"
   )
+
   unit_localization(:ninety_minute_increment, "en", :short,
     nominative: %{
       one: "{0} ninety mins",
@@ -306,6 +331,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "90 mins"
   )
+
   unit_localization(:ninety_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} ninety min",
@@ -322,6 +348,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "2 hour increment"
   )
+
   unit_localization(:one_hundred_twenty_minute_increment, "en", :short,
     nominative: %{
       one: "{0} one-twenty mins",
@@ -329,6 +356,7 @@ defmodule Klepsidra.Cldr do
     },
     display_name: "2 hours"
   )
+
   unit_localization(:one_hundred_twenty_minute_increment, "en", :narrow,
     nominative: %{
       one: "{0} one-twenty min",
