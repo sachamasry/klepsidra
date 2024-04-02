@@ -4,12 +4,27 @@ defmodule KlepsidraWeb.TimerLiveTest do
   import Phoenix.LiveViewTest
   import Klepsidra.TimeTrackingFixtures
 
-  # @create_attrs %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, duration_time_unit: "some duration_time_unit", reported_duration: 42, reported_duration_time_unit: "some reported_duration_time_unit"}
-  @create_attrs %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, reported_duration: 42}
-  # @update_attrs %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, duration_time_unit: "some updated duration_time_unit", reported_duration: 43, reported_duration_time_unit: "some updated reported_duration_time_unit"}
-  @update_attrs %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, reported_duration: 43}
-  # @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, duration_time_unit: nil, reported_duration: nil, reported_duration_time_unit: nil}
-  @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, reported_duration: nil}
+  @create_attrs %{
+    description: "some description",
+    start_stamp: "some start_stamp",
+    end_stamp: "some end_stamp",
+    duration: 42,
+    reported_duration: 42
+  }
+  @update_attrs %{
+    description: "some updated description",
+    start_stamp: "some updated start_stamp",
+    end_stamp: "some updated end_stamp",
+    duration: 43,
+    reported_duration: 43
+  }
+  @invalid_attrs %{
+    description: nil,
+    start_stamp: nil,
+    end_stamp: nil,
+    duration: nil,
+    reported_duration: nil
+  }
 
   defp create_timer(_) do
     timer = timer_fixture()

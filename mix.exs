@@ -13,7 +13,13 @@ defmodule Klepsidra.MixProject do
       dialyzer: [
         plt_add_deps: :apps_direct,
         plt_add_apps: [],
-        plt_ignore_apps: [:ex_cldr, :ex_cldr_numbers, :ex_cldr_currencies, :ex_cldr_lists, :ex_cldr_units],
+        plt_ignore_apps: [
+          :ex_cldr,
+          :ex_cldr_numbers,
+          :ex_cldr_currencies,
+          :ex_cldr_lists,
+          :ex_cldr_units
+        ],
         list_unused_filters: true,
         flags: ["-Wunmatched_returns", :error_handling, :underspecs, :unknown, :unmatched_returns]
         # flags: ["-Wunmatched_returns"]
@@ -62,9 +68,13 @@ defmodule Klepsidra.MixProject do
       {:live_view_native_swiftui, "~> 0.2"},
       {:ex_cldr_units, "~> 3.16.3"},
       {:timex, "~> 3.7"},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
+      {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
+      {:sobelow, ">= 0.0.0", only: [:dev], runtime: false},
+      {:mix_audit, ">= 0.0.0", only: [:dev], runtime: false}
     ]
   end
 

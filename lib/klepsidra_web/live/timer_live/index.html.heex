@@ -1,5 +1,5 @@
 <div phx-window-keyup="keyboard_event">
-  <.modal id="cheatsheet" :if={@display_help} show on_cancel={JS.patch(~p"/timers")}>
+  <.modal :if={@display_help} id="cheatsheet" show on_cancel={JS.patch(~p"/timers")}>
   <h1 class="text-center mt-8">Keyboard Shortcuts</h1>
   <p class="text-center mt-8">Klepsidra is designed to be usable with the
   keyboard, so key actions can be operated with simple keyboard commands.</p>
@@ -31,7 +31,8 @@
   <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
   <:col :let={{_id, timer}} label="Duration time unit"><%= timer.duration_time_unit %></:col>
   <:col :let={{_id, timer}} label="Reported duration"><%= timer.reported_duration %></:col>
-  <:col :let={{_id, timer}} label="Reported duration time unit"><%= timer.reported_duration_time_unit %></:col>
+  <:col :let={{_id, timer}} label="Reported duration time unit">
+    <%= timer.reported_duration_time_unit %></:col>
   <:col :let={{_id, timer}} label="Description"><%= timer.description %></:col>
   <:action :let={{_id, timer}}>
     <div class="sr-only">
@@ -51,7 +52,10 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal :if={@live_action in [:new, :edit]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}>
   <.live_component
     module={KlepsidraWeb.TimerLive.FormComponent}
     id={@timer.id || :new}

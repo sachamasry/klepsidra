@@ -5,7 +5,11 @@ defmodule KlepsidraWeb.TagLiveTest do
   import Klepsidra.CategorisationFixtures
 
   @create_attrs %{name: "some tag", description: "some description", colour: "some colour"}
-  @update_attrs %{name: "some updated tag", description: "some updated description", colour: "some updated colour"}
+  @update_attrs %{
+    name: "some updated tag",
+    description: "some updated description",
+    colour: "some updated colour"
+  }
   @invalid_attrs %{name: nil, description: nil, colour: nil}
 
   defp create_tag(_) do

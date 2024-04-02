@@ -35,7 +35,12 @@ defmodule Klepsidra.CategorisationTest do
 
     test "update_tag/2 with valid data updates the tag" do
       tag = tag_fixture()
-      update_attrs = %{name: "some updated tag", description: "some updated description", colour: "some updated colour"}
+
+      update_attrs = %{
+        name: "some updated tag",
+        description: "some updated description",
+        colour: "some updated colour"
+      }
 
       assert {:ok, %Tag{} = tag} = Categorisation.update_tag(tag, update_attrs)
       assert tag.name == "some updated tag"

@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-140ECCCA.js"></script>
+    <script src="dist/sidebar_items-2AB28387.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -142,11 +142,31 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#change_note/2" translate="no">change_note(note, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking note changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#change_timer/2" translate="no">change_timer(timer, attrs \\ %{})</a>
 
       </div>
 
         <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking timer changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_note/1" translate="no">create_note(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a note.</p></div>
 
     </div>
 
@@ -162,11 +182,31 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#delete_note/1" translate="no">delete_note(note)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a note.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#delete_timer/1" translate="no">delete_timer(timer)</a>
 
       </div>
 
         <div class="summary-synopsis"><p>Deletes a timer.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_note!/1" translate="no">get_note!(id)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single note.</p></div>
 
     </div>
 
@@ -182,11 +222,41 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#list_notes/0" translate="no">list_notes()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of notes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_notes/1" translate="no">list_notes(filter)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns a list of notes matching the given <code class="inline">filter</code>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#list_timers/0" translate="no">list_timers()</a>
 
       </div>
 
         <div class="summary-synopsis"><p>Returns the list of timers.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_note/2" translate="no">update_note(note, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a note.</p></div>
 
     </div>
 
@@ -213,6 +283,32 @@ Pages
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
+<section class="detail" id="change_note/2">
+
+    <span id="change_note/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_note/2" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_note(note, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking note changes.</p><h2 id="change_note/2-examples" class="section-heading">
+  <a href="#change_note/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_note</span><span class="p" data-group-id="4415916451-1">(</span><span class="n">note</span><span class="p" data-group-id="4415916451-1">)</span><span class="w">
+</span><span class="p" data-group-id="4415916451-2">%</span><span class="nc" data-group-id="4415916451-2">Ecto.Changeset</span><span class="p" data-group-id="4415916451-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4415916451-3">%</span><span class="nc" data-group-id="4415916451-3">Note</span><span class="p" data-group-id="4415916451-3">{</span><span class="p" data-group-id="4415916451-3">}</span><span class="p" data-group-id="4415916451-2">}</span></code></pre>
+  </section>
+</section>
 <section class="detail" id="change_timer/2">
 
     <span id="change_timer/1"></span>
@@ -235,8 +331,37 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_timer</span><span class="p" data-group-id="5950457664-1">(</span><span class="n">timer</span><span class="p" data-group-id="5950457664-1">)</span><span class="w">
-</span><span class="p" data-group-id="5950457664-2">%</span><span class="nc" data-group-id="5950457664-2">Ecto.Changeset</span><span class="p" data-group-id="5950457664-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5950457664-3">%</span><span class="nc" data-group-id="5950457664-3">Timer</span><span class="p" data-group-id="5950457664-3">{</span><span class="p" data-group-id="5950457664-3">}</span><span class="p" data-group-id="5950457664-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_timer</span><span class="p" data-group-id="2715785534-1">(</span><span class="n">timer</span><span class="p" data-group-id="2715785534-1">)</span><span class="w">
+</span><span class="p" data-group-id="2715785534-2">%</span><span class="nc" data-group-id="2715785534-2">Ecto.Changeset</span><span class="p" data-group-id="2715785534-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2715785534-3">%</span><span class="nc" data-group-id="2715785534-3">Timer</span><span class="p" data-group-id="2715785534-3">{</span><span class="p" data-group-id="2715785534-3">}</span><span class="p" data-group-id="2715785534-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_note/1">
+
+    <span id="create_note/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_note/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_note(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a note.</p><h2 id="create_note/1-examples" class="section-heading">
+  <a href="#create_note/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="8138368889-1">(</span><span class="p" data-group-id="8138368889-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="8138368889-2">}</span><span class="p" data-group-id="8138368889-1">)</span><span class="w">
+</span><span class="p" data-group-id="8138368889-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8138368889-4">%</span><span class="nc" data-group-id="8138368889-4">Note</span><span class="p" data-group-id="8138368889-4">{</span><span class="p" data-group-id="8138368889-4">}</span><span class="p" data-group-id="8138368889-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="8138368889-5">(</span><span class="p" data-group-id="8138368889-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="8138368889-6">}</span><span class="p" data-group-id="8138368889-5">)</span><span class="w">
+</span><span class="p" data-group-id="8138368889-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8138368889-8">%</span><span class="nc" data-group-id="8138368889-8">Ecto.Changeset</span><span class="p" data-group-id="8138368889-8">{</span><span class="p" data-group-id="8138368889-8">}</span><span class="p" data-group-id="8138368889-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="create_timer/1">
@@ -261,11 +386,38 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="5922107862-1">(</span><span class="p" data-group-id="5922107862-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="5922107862-2">}</span><span class="p" data-group-id="5922107862-1">)</span><span class="w">
-</span><span class="p" data-group-id="5922107862-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5922107862-4">%</span><span class="nc" data-group-id="5922107862-4">Timer</span><span class="p" data-group-id="5922107862-4">{</span><span class="p" data-group-id="5922107862-4">}</span><span class="p" data-group-id="5922107862-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="9700043679-1">(</span><span class="p" data-group-id="9700043679-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="9700043679-2">}</span><span class="p" data-group-id="9700043679-1">)</span><span class="w">
+</span><span class="p" data-group-id="9700043679-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9700043679-4">%</span><span class="nc" data-group-id="9700043679-4">Timer</span><span class="p" data-group-id="9700043679-4">{</span><span class="p" data-group-id="9700043679-4">}</span><span class="p" data-group-id="9700043679-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="5922107862-5">(</span><span class="p" data-group-id="5922107862-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5922107862-6">}</span><span class="p" data-group-id="5922107862-5">)</span><span class="w">
-</span><span class="p" data-group-id="5922107862-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5922107862-8">%</span><span class="nc" data-group-id="5922107862-8">Ecto.Changeset</span><span class="p" data-group-id="5922107862-8">{</span><span class="p" data-group-id="5922107862-8">}</span><span class="p" data-group-id="5922107862-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="9700043679-5">(</span><span class="p" data-group-id="9700043679-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9700043679-6">}</span><span class="p" data-group-id="9700043679-5">)</span><span class="w">
+</span><span class="p" data-group-id="9700043679-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9700043679-8">%</span><span class="nc" data-group-id="9700043679-8">Ecto.Changeset</span><span class="p" data-group-id="9700043679-8">{</span><span class="p" data-group-id="9700043679-8">}</span><span class="p" data-group-id="9700043679-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_note/1">
+
+  <div class="detail-header">
+    <a href="#delete_note/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_note(note)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a note.</p><h2 id="delete_note/1-examples" class="section-heading">
+  <a href="#delete_note/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="2771388493-1">(</span><span class="n">note</span><span class="p" data-group-id="2771388493-1">)</span><span class="w">
+</span><span class="p" data-group-id="2771388493-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2771388493-3">%</span><span class="nc" data-group-id="2771388493-3">Note</span><span class="p" data-group-id="2771388493-3">{</span><span class="p" data-group-id="2771388493-3">}</span><span class="p" data-group-id="2771388493-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="2771388493-4">(</span><span class="n">note</span><span class="p" data-group-id="2771388493-4">)</span><span class="w">
+</span><span class="p" data-group-id="2771388493-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2771388493-6">%</span><span class="nc" data-group-id="2771388493-6">Ecto.Changeset</span><span class="p" data-group-id="2771388493-6">{</span><span class="p" data-group-id="2771388493-6">}</span><span class="p" data-group-id="2771388493-5">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="delete_timer/1">
@@ -288,11 +440,38 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="0869600209-1">(</span><span class="n">timer</span><span class="p" data-group-id="0869600209-1">)</span><span class="w">
-</span><span class="p" data-group-id="0869600209-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0869600209-3">%</span><span class="nc" data-group-id="0869600209-3">Timer</span><span class="p" data-group-id="0869600209-3">{</span><span class="p" data-group-id="0869600209-3">}</span><span class="p" data-group-id="0869600209-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="9425404156-1">(</span><span class="n">timer</span><span class="p" data-group-id="9425404156-1">)</span><span class="w">
+</span><span class="p" data-group-id="9425404156-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9425404156-3">%</span><span class="nc" data-group-id="9425404156-3">Timer</span><span class="p" data-group-id="9425404156-3">{</span><span class="p" data-group-id="9425404156-3">}</span><span class="p" data-group-id="9425404156-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="0869600209-4">(</span><span class="n">timer</span><span class="p" data-group-id="0869600209-4">)</span><span class="w">
-</span><span class="p" data-group-id="0869600209-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0869600209-6">%</span><span class="nc" data-group-id="0869600209-6">Ecto.Changeset</span><span class="p" data-group-id="0869600209-6">{</span><span class="p" data-group-id="0869600209-6">}</span><span class="p" data-group-id="0869600209-5">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="9425404156-4">(</span><span class="n">timer</span><span class="p" data-group-id="9425404156-4">)</span><span class="w">
+</span><span class="p" data-group-id="9425404156-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9425404156-6">%</span><span class="nc" data-group-id="9425404156-6">Ecto.Changeset</span><span class="p" data-group-id="9425404156-6">{</span><span class="p" data-group-id="9425404156-6">}</span><span class="p" data-group-id="9425404156-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_note!/1">
+
+  <div class="detail-header">
+    <a href="#get_note!/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_note!(id)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single note.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.11.2/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Note does not exist.</p><h2 id="get_note!/1-examples" class="section-heading">
+  <a href="#get_note!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="8421966063-1">(</span><span class="mi">123</span><span class="p" data-group-id="8421966063-1">)</span><span class="w">
+</span><span class="p" data-group-id="8421966063-2">%</span><span class="nc" data-group-id="8421966063-2">Note</span><span class="p" data-group-id="8421966063-2">{</span><span class="p" data-group-id="8421966063-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="8421966063-3">(</span><span class="mi">456</span><span class="p" data-group-id="8421966063-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
 <section class="detail" id="get_timer!/1">
@@ -315,11 +494,52 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0042104357-1">(</span><span class="mi">123</span><span class="p" data-group-id="0042104357-1">)</span><span class="w">
-</span><span class="p" data-group-id="0042104357-2">%</span><span class="nc" data-group-id="0042104357-2">Timer</span><span class="p" data-group-id="0042104357-2">{</span><span class="p" data-group-id="0042104357-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0278871569-1">(</span><span class="mi">123</span><span class="p" data-group-id="0278871569-1">)</span><span class="w">
+</span><span class="p" data-group-id="0278871569-2">%</span><span class="nc" data-group-id="0278871569-2">Timer</span><span class="p" data-group-id="0278871569-2">{</span><span class="p" data-group-id="0278871569-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0042104357-3">(</span><span class="mi">456</span><span class="p" data-group-id="0042104357-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0278871569-3">(</span><span class="mi">456</span><span class="p" data-group-id="0278871569-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_notes/0">
+
+  <div class="detail-header">
+    <a href="#list_notes/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_notes()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of notes.</p><h2 id="list_notes/0-examples" class="section-heading">
+  <a href="#list_notes/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_notes</span><span class="p" data-group-id="1079147338-1">(</span><span class="p" data-group-id="1079147338-1">)</span><span class="w">
+</span><span class="p" data-group-id="1079147338-2">[</span><span class="p" data-group-id="1079147338-3">%</span><span class="nc" data-group-id="1079147338-3">Note</span><span class="p" data-group-id="1079147338-3">{</span><span class="p" data-group-id="1079147338-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1079147338-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_notes/1">
+
+  <div class="detail-header">
+    <a href="#list_notes/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_notes(filter)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns a list of notes matching the given <code class="inline">filter</code>.</p><p>Example filter:</p><p>%{timer_id: 42}</p>
   </section>
 </section>
 <section class="detail" id="list_timers/0">
@@ -342,8 +562,35 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="4949952107-1">(</span><span class="p" data-group-id="4949952107-1">)</span><span class="w">
-</span><span class="p" data-group-id="4949952107-2">[</span><span class="p" data-group-id="4949952107-3">%</span><span class="nc" data-group-id="4949952107-3">Timer</span><span class="p" data-group-id="4949952107-3">{</span><span class="p" data-group-id="4949952107-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="4949952107-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="7793783726-1">(</span><span class="p" data-group-id="7793783726-1">)</span><span class="w">
+</span><span class="p" data-group-id="7793783726-2">[</span><span class="p" data-group-id="7793783726-3">%</span><span class="nc" data-group-id="7793783726-3">Timer</span><span class="p" data-group-id="7793783726-3">{</span><span class="p" data-group-id="7793783726-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="7793783726-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_note/2">
+
+  <div class="detail-header">
+    <a href="#update_note/2" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_note(note, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a note.</p><h2 id="update_note/2-examples" class="section-heading">
+  <a href="#update_note/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="1638384238-1">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1638384238-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="1638384238-2">}</span><span class="p" data-group-id="1638384238-1">)</span><span class="w">
+</span><span class="p" data-group-id="1638384238-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1638384238-4">%</span><span class="nc" data-group-id="1638384238-4">Note</span><span class="p" data-group-id="1638384238-4">{</span><span class="p" data-group-id="1638384238-4">}</span><span class="p" data-group-id="1638384238-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="1638384238-5">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1638384238-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="1638384238-6">}</span><span class="p" data-group-id="1638384238-5">)</span><span class="w">
+</span><span class="p" data-group-id="1638384238-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1638384238-8">%</span><span class="nc" data-group-id="1638384238-8">Ecto.Changeset</span><span class="p" data-group-id="1638384238-8">{</span><span class="p" data-group-id="1638384238-8">}</span><span class="p" data-group-id="1638384238-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="update_timer/2">
@@ -366,11 +613,11 @@ Pages
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="5132562996-1">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5132562996-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="5132562996-2">}</span><span class="p" data-group-id="5132562996-1">)</span><span class="w">
-</span><span class="p" data-group-id="5132562996-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5132562996-4">%</span><span class="nc" data-group-id="5132562996-4">Timer</span><span class="p" data-group-id="5132562996-4">{</span><span class="p" data-group-id="5132562996-4">}</span><span class="p" data-group-id="5132562996-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="8862242657-1">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8862242657-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="8862242657-2">}</span><span class="p" data-group-id="8862242657-1">)</span><span class="w">
+</span><span class="p" data-group-id="8862242657-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8862242657-4">%</span><span class="nc" data-group-id="8862242657-4">Timer</span><span class="p" data-group-id="8862242657-4">{</span><span class="p" data-group-id="8862242657-4">}</span><span class="p" data-group-id="8862242657-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="5132562996-5">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5132562996-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5132562996-6">}</span><span class="p" data-group-id="5132562996-5">)</span><span class="w">
-</span><span class="p" data-group-id="5132562996-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5132562996-8">%</span><span class="nc" data-group-id="5132562996-8">Ecto.Changeset</span><span class="p" data-group-id="5132562996-8">{</span><span class="p" data-group-id="5132562996-8">}</span><span class="p" data-group-id="5132562996-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="8862242657-5">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8862242657-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="8862242657-6">}</span><span class="p" data-group-id="8862242657-5">)</span><span class="w">
+</span><span class="p" data-group-id="8862242657-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8862242657-8">%</span><span class="nc" data-group-id="8862242657-8">Ecto.Changeset</span><span class="p" data-group-id="8862242657-8">{</span><span class="p" data-group-id="8862242657-8">}</span><span class="p" data-group-id="8862242657-7">}</span></code></pre>
   </section>
 </section>
 

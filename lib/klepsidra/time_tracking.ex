@@ -136,7 +136,6 @@ defmodule Klepsidra.TimeTracking do
     # where(query, timer_id: ^timer_id)
   end
 
-
   @doc """
   Gets a single note.
 

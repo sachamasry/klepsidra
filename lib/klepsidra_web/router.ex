@@ -5,9 +5,11 @@ defmodule KlepsidraWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
+
     plug :put_root_layout,
       html: {KlepsidraWeb.Layouts, :root},
       swiftui: {KlepsidraWeb.Layouts.SwiftUI, :root}
+
     plug :protect_from_forgery
     plug :put_secure_browser_headers
 
@@ -42,11 +44,11 @@ defmodule KlepsidraWeb.Router do
     live "/timers/:id/show/edit", TimerLive.Show, :edit
 
     live "/notes", NoteLive.Index, :index
-    live "/notes/new", NoteLive.Index, :new                    
-    live "/notes/:id/edit", NoteLive.Index, :edit                                                                             
+    live "/notes/new", NoteLive.Index, :new
+    live "/notes/:id/edit", NoteLive.Index, :edit
 
-    live "/notes/:id", NoteLive.Show, :show                    
-    live "/notes/:id/show/edit", NoteLive.Show, :edit   
+    live "/notes/:id", NoteLive.Show, :show
+    live "/notes/:id/show/edit", NoteLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -60,7 +60,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # CLDR Units configuration: define custom units
-config :ex_cldr_units,  :additional_units,
+config :ex_cldr_units, :additional_units,
   five_minute_increment: [base_unit: :minute, factor: 5, offset: 0],
   six_minute_increment: [base_unit: :minute, factor: 6, offset: 0],
   ten_minute_increment: [base_unit: :minute, factor: 10, offset: 0],

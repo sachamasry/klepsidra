@@ -32,5 +32,5 @@
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
   {"lib/klepsidra_web/live/hello_styles.ex", :unknown_function},
-  {"lib/klepsidra_web/router.ex", :unknown_function},
+  {"lib/klepsidra_web/router.ex", :unknown_function}
 ]

@@ -10,7 +10,15 @@ defmodule Klepsidra.TimeTrackingTest do
 
     import Klepsidra.TimeTrackingFixtures
 
-    @invalid_attrs %{description: nil, start_stamp: nil, end_stamp: nil, duration: nil, duration_time_unit: nil, reported_duration: nil, reported_duration_time_unit: nil}
+    @invalid_attrs %{
+      description: nil,
+      start_stamp: nil,
+      end_stamp: nil,
+      duration: nil,
+      duration_time_unit: nil,
+      reported_duration: nil,
+      reported_duration_time_unit: nil
+    }
 
     test "list_timers/0 returns all timers" do
       timer = timer_fixture()
@@ -23,7 +31,15 @@ defmodule Klepsidra.TimeTrackingTest do
     end
 
     test "create_timer/1 with valid data creates a timer" do
-      valid_attrs = %{description: "some description", start_stamp: "some start_stamp", end_stamp: "some end_stamp", duration: 42, duration_time_unit: "some duration_time_unit", reported_duration: 42, reported_duration_time_unit: "some reported_duration_time_unit"}
+      valid_attrs = %{
+        description: "some description",
+        start_stamp: "some start_stamp",
+        end_stamp: "some end_stamp",
+        duration: 42,
+        duration_time_unit: "some duration_time_unit",
+        reported_duration: 42,
+        reported_duration_time_unit: "some reported_duration_time_unit"
+      }
 
       assert {:ok, %Timer{} = timer} = TimeTracking.create_timer(valid_attrs)
       assert timer.description == "some description"
@@ -41,7 +57,16 @@ defmodule Klepsidra.TimeTrackingTest do
 
     test "update_timer/2 with valid data updates the timer" do
       timer = timer_fixture()
-      update_attrs = %{description: "some updated description", start_stamp: "some updated start_stamp", end_stamp: "some updated end_stamp", duration: 43, duration_time_unit: "some updated duration_time_unit", reported_duration: 43, reported_duration_time_unit: "some updated reported_duration_time_unit"}
+
+      update_attrs = %{
+        description: "some updated description",
+        start_stamp: "some updated start_stamp",
+        end_stamp: "some updated end_stamp",
+        duration: 43,
+        duration_time_unit: "some updated duration_time_unit",
+        reported_duration: 43,
+        reported_duration_time_unit: "some updated reported_duration_time_unit"
+      }
 
       assert {:ok, %Timer{} = timer} = TimeTracking.update_timer(timer, update_attrs)
       assert timer.description == "some updated description"
