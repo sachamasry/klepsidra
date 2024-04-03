@@ -74,3 +74,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# Configure Paraxial security checker
+config :paraxial,
+  paraxial_api_key: System.get_env("PARAXIAL_API_KEY"),
+  paraxial_url: "https://app.paraxial.io"

@@ -73,8 +73,8 @@ defmodule Klepsidra.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
       {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
-      {:sobelow, ">= 0.0.0", only: [:dev], runtime: false},
-      {:mix_audit, ">= 0.0.0", only: [:dev], runtime: false}
+      {:mix_audit, ">= 0.0.0"},
+      {:paraxial, "~> 2.7.3"}
     ]
   end
 
