@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.TimerLive.Show do
+  @moduledoc false
+
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking

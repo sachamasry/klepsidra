@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.TimerLive.FormComponent do
+  @moduledoc false
+
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking

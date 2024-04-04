@@ -1,9 +1,9 @@
 defmodule Klepsidra.TimeTracking.TimeUnits do
-  alias Klepsidra.Cldr.Unit.Additional, as: AdditionalUnits
-
   @moduledoc """
   Provides handling and user interface presentation of time units.
   """
+
+  alias Klepsidra.Cldr.Unit.Additional, as: AdditionalUnits
 
   @locale :en
   @style :narrow

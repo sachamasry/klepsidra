@@ -1,12 +1,12 @@
 defmodule Klepsidra.TimeTracking.Timer do
+  @moduledoc """
+  Defines the `timers` schema and functions needed to clock in, out and parse datetimes.
+  """
+
   use Ecto.Schema
 
   import Ecto.Changeset
   alias Klepsidra.Categorisation.Tag
-
-  @moduledoc """
-  Defines the `timers` schema and functions needed to clock in, out and parse datetimes.
-  """
 
   schema "timers" do
     field :description, :string

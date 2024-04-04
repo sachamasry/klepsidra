@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.TagLive.Show do
+  @moduledoc false
+
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.Categorisation

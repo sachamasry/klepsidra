@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.ErrorHTML do
+  @moduledoc false
+
   use KlepsidraWeb, :html
 
   # If you want to customize your error pages,

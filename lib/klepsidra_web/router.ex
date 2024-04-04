@@ -1,6 +1,8 @@
 defmodule KlepsidraWeb.Router do
   use KlepsidraWeb, :router
 
+  @moduledoc false
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session

@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.PageController do
+  @moduledoc false
+
   use KlepsidraWeb, :controller
 
   def home(conn, _params) do
