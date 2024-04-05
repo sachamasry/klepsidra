@@ -8,6 +8,15 @@ defmodule Klepsidra.TimeTracking.Timer do
   import Ecto.Changeset
   alias Klepsidra.Categorisation.Tag
 
+  @type t :: %__MODULE__{
+          description: String.t(),
+          start_stamp: String.t(),
+          end_stamp: String.t(),
+          duration: integer,
+          duration_time_unit: String.t(),
+          reported_duration: integer,
+          reported_duration_time_unit: String.t()
+        }
   schema "timers" do
     field :description, :string
     field :start_stamp, :string

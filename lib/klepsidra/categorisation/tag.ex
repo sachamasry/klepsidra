@@ -10,6 +10,11 @@ defmodule Klepsidra.Categorisation.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{
+          name: String.t(),
+          description: String.t(),
+          colour: String.t()
+        }
   schema "tags" do
     field :name, :string
     field :description, :string
