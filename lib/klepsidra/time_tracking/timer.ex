@@ -232,6 +232,26 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @doc """
   Formats a number into a string according to a unit definition for a locale.
+
+  Takes an integer duration, and an atom time unit, including any custom time
+  units defined and compiled as part of this project.
+
+  Returns a tuple {:ok, ...} containing a locale-specific and quantity-sensitive
+  pluralisation of the defined time unit as a string.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.duration_to_string(3, :minute)
+      {:ok, "3 minutes"}
+
+      iex> Klepsidra.TimeTracking.Timer.duration_to_string(7, :six_minute_increment)
+      {:ok, "7 six minute increments"}
+
+      iex> Klepsidra.TimeTracking.Timer.duration_to_string(1, :hour)
+      {:ok, "1 hour"}
+
+      iex> Klepsidra.TimeTracking.Timer.duration_to_string(0, :second)
+      {:ok, "0 seconds"}
   """
   @spec duration_to_string(integer(), atom()) :: []
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
