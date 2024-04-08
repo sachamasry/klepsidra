@@ -211,7 +211,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Convert `NativeDateTime` structure to HTML-ready string, with the seconds component
+  Converts `NativeDateTime` structure to HTML-ready string, with the seconds component
   elided.
 
   Returns a tuple with `:ok` or `:error` as the first element, with a string
@@ -231,7 +231,20 @@ defmodule Klepsidra.TimeTracking.Timer do
     Timex.format(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
   end
 
-  @spec convert_naivedatetime_to_html(NaiveDateTime.t()) :: String.t()
+  @doc """
+  Converts `NativeDateTime` structure to HTML-ready string, with the seconds component
+  elided.
+
+  Returns a string compatible with HTML's input `datetime-local` element, in the
+  format "YYYY-MM-DDThh:mm". This can directly be fed into an `input` element's
+  `value` slot.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(~N[2024-04-07 22:12:32])
+      "2024-04-07T22:12"
+  """
+  @spec convert_naivedatetime_to_html!(NaiveDateTime.t()) :: String.t()
   def convert_naivedatetime_to_html!(datetime_stamp)
       when is_struct(datetime_stamp, NaiveDateTime) do
     Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")

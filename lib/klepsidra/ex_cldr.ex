@@ -6,6 +6,10 @@ defmodule Klepsidra.Cldr do
   based on standard time primitives such as minutes and hours. Building on `Cldr.Units`,
   any desired time units must be defined here before they can be used in an application,
   since they must be compiled prior to use.
+
+  Using the hour as a guide, practically all common divisions of the hour-in minutes-are
+  defined here. This follows research carried out into time increments different industries
+  choose to use to bill their clients in.
   """
 
   use Cldr.Unit.Additional

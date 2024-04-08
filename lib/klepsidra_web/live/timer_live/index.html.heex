@@ -102,13 +102,14 @@
     reported_duration_unit={@billing_duration_unit}
   />
 </.modal>
-<!-- <.modal :if={@live_action in [:new, :edit]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}> -->
-<!--   <.live_component -->
-<!--     module={KlepsidraWeb.TimerLive.FormComponent} -->
-<!--     id={@timer.id || :new} -->
-<!--     title={@page_title} -->
-<!--     action={@live_action} -->
-<!--     timer={@timer} -->
-<!--     patch={~p"/timers"} -->
-<!--   /> -->
-<!-- </.modal> -->
+
+<.modal id="notes-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.live_component
+    module={KlepsidraWeb.NoteLive.FormComponent}
+    id={:new}
+    title={@page_title}
+    action={:new}
+    note={%Klepsidra.TimeTracking.Note{}}
+    patch={~p"/timers"}
+  />
+</.modal>
