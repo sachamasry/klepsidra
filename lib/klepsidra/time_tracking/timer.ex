@@ -63,6 +63,30 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   The time unit can be passed in as the optional `unit` argument. If it is omitted,
   minutes are used as the default time unit.
+
+  In calculating the time duration, the difference between the two timestamps is
+  always incremented by one. This ensures that if the timer were simply started
+  and immediately stopped, it would still register the use of one unit of time.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45")
+      72
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :minute)
+      72
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :second)
+      4261
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :hour)
+      2
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:34", :hour)
+      2
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:33", :hour)
+      1
   """
   @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
   @spec calculate_timer_duration(NaiveDateTime.t(), NaiveDateTime.t(), atom()) :: integer()
