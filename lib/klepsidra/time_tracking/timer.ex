@@ -49,9 +49,23 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Get the current local date and time without a timezone component.
+  Get the current local date and time, without a timezone component,
+  for the timezone the the computer the program is running on is set to.
+
+  This function will display what the date and time are right now, for the
+  time zone configuration the computer is localised to.
+
+  Relying on this function to return the time is fine for many uses, including for
+  timing tasks, but is unsuitable for use where real precision and time awareness may be
+  critical.
 
   Returns a `NaiveDateTime` struct.
+
+  ## Examples
+
+      iex> naivedatetime_stamp = Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      iex> naivedatetime_stamp.year >= 2024
+      true
   """
   @spec get_current_timestamp() :: NaiveDateTime.t()
   def get_current_timestamp do
