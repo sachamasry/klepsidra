@@ -103,9 +103,8 @@
   />
 </.modal>
 
-<.modal id="notes-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal :if={@live_action in [:new_note]} id="notes-modal" show on_cancel={JS.patch(~p"/timers")}>
   <.live_component
-    module={KlepsidraWeb.NoteLive.FormComponent}
     id={:new}
     title={@page_title}
     action={:new}
