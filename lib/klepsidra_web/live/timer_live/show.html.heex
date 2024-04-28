@@ -19,6 +19,8 @@
   <:item title="Description"><%= @timer.description %></:item>
 </.list>
 
+<.live_component module={NoteFormComponent} id={:new_note} />
+
 <.back navigate={~p"/timers"}>Back to activity timers</.back>
 
 <.modal

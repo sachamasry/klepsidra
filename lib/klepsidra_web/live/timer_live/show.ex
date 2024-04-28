@@ -4,6 +4,8 @@ defmodule KlepsidraWeb.TimerLive.Show do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking
+  # alias Klepsidra.TimeTracking.Note
+  alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
 
   @impl true
   def mount(_params, _session, socket) do
