@@ -125,16 +125,9 @@ defmodule Klepsidra.TimeTracking do
   %{timer_id: 42}
   """
   def list_notes(filter) when is_map(filter) do
-    from(Note)
-    |> filter_notes_by_timer(filter)
-    |> Repo.all()
-  end
-
-  defp filter_notes_by_timer(query, %{timer_id: nil}), do: query
-
-  defp filter_notes_by_timer(_query, %{timer_id: timer_id}) do
-    Repo.get!(Note, timer_id)
-    # where(query, timer_id: ^timer_id)
+    # from(Note)
+    # |> filter_notes_by_timer(filter)
+    # |> Repo.all()
   end
 
   @doc """
@@ -152,6 +145,14 @@ defmodule Klepsidra.TimeTracking do
 
   """
   def get_note!(id), do: Repo.get!(Note, id)
+
+  @doc false
+  def get_note_by_timer_id!(timer_id) do
+    Note
+    |> where(timer_id: ^timer_id)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
+  end
 
   @doc """
   Creates a note.

@@ -21,6 +21,17 @@
 
 <.live_component module={NoteFormComponent} id={:new_note} timer_id={@timer_id} />
 
+<div>
+  <div :for={note <- @notes}>
+    <div>
+      <%= note.inserted_at %>
+    </div>
+    <div>
+      <%= note.note %>
+    </div>
+  </div>
+</div>
+
 <.back navigate={~p"/timers"}>Back to activity timers</.back>
 
 <.modal

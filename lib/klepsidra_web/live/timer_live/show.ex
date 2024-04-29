@@ -11,8 +11,13 @@ defmodule KlepsidraWeb.TimerLive.Show do
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
 
+    notes = TimeTracking.get_note_by_timer_id!(String.to_integer(timer_id))
+
     socket =
-      assign(socket, timer_id: timer_id)
+      assign(socket,
+        timer_id: timer_id,
+        notes: notes
+      )
 
     {:ok, socket}
   end

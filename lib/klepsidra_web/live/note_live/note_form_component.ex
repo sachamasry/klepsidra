@@ -19,7 +19,12 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
     ~H"""
     <div>
       <.simple_form for={@note_form} phx-submit="save" phx-change="validate" phx-target={@myself}>
-        <.input field={@note_form[:note]} type="text" placeholder="Notes" autocomplete="off" />
+        <.input
+          field={@note_form[:note]}
+          type="text"
+          placeholder="Type a new note here"
+          autocomplete="off"
+        />
         <.button>Save note</.button>
       </.simple_form>
     </div>
@@ -53,7 +58,13 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
     case TimeTracking.create_note(note_params) do
       {:ok, note} ->
         notify_parent({:saved, note})
-        socket = assign(socket, :notes, note)
+        changeset = TimeTracking.change_note(note)
+
+        socket =
+          assign(socket,
+            notes: note,
+            form: to_form(changeset)
+          )
 
         {:noreply,
          socket

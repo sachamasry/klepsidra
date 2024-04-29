@@ -23,6 +23,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
+- Style note timeline display
+- Create notes in a modal directly from timer listing view
 - Begin adding keyboard shortcuts for an improved user interface
 - Create Notes entity, and make it possible to record notes from timers
   - Enable SQLite full-text search
