@@ -8,7 +8,12 @@ defmodule KlepsidraWeb.TimerLive.Show do
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
+    timer_id = Map.get(params, "id")
+
+    socket =
+      assign(socket, timer_id: timer_id)
+
     {:ok, socket}
   end
 

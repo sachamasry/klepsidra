@@ -22,7 +22,7 @@ defmodule Klepsidra.TimeTracking.Note do
   @doc false
   def changeset(note, attrs) do
     note
-    |> cast(attrs, [:note, :user_id])
+    |> cast(attrs, [:note, :user_id, :timer_id])
     |> validate_required([:note])
   end
 end

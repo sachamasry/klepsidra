@@ -18,11 +18,25 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
     ~H"""
     <div>
       <.simple_form for={@note_form} phx-submit="save" phx-change="validate" phx-target={@myself}>
+        <.input
+          field={@note_form[:timer_id]}
+          type="hidden"
+          name={@note_form[:timer_id].name}
+          value={@timer_id}
+        />
         <.input field={@note_form[:note]} type="text" placeholder="Notes" autocomplete="off" />
         <.button>Save note</.button>
       </.simple_form>
     </div>
     """
+  end
+
+  @impl true
+  def update(%{timer_id: timer_id} = assigns, socket) do
+    {:ok,
+     socket
+     |> assign(timer_id: timer_id)
+     |> assign(assigns)}
   end
 
   @impl true

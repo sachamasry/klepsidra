@@ -19,7 +19,7 @@
   <:item title="Description"><%= @timer.description %></:item>
 </.list>
 
-<.live_component module={NoteFormComponent} id={:new_note} />
+<.live_component module={NoteFormComponent} id={:new_note} timer_id={@timer_id} />
 
 <.back navigate={~p"/timers"}>Back to activity timers</.back>
 
