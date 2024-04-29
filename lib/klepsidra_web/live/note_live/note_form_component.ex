@@ -8,7 +8,8 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
 
   @impl true
   def mount(socket) do
-    changeset = TimeTracking.change_note(%Note{})
+    changeset =
+      TimeTracking.change_note(%Note{})
 
     {:ok, assign(socket, :note_form, to_form(changeset))}
   end
@@ -18,12 +19,6 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
     ~H"""
     <div>
       <.simple_form for={@note_form} phx-submit="save" phx-change="validate" phx-target={@myself}>
-        <.input
-          field={@note_form[:timer_id]}
-          type="hidden"
-          name={@note_form[:timer_id].name}
-          value={@timer_id}
-        />
         <.input field={@note_form[:note]} type="text" placeholder="Notes" autocomplete="off" />
         <.button>Save note</.button>
       </.simple_form>
@@ -32,10 +27,9 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   end
 
   @impl true
-  def update(%{timer_id: timer_id} = assigns, socket) do
+  def update(assigns, socket) do
     {:ok,
      socket
-     |> assign(timer_id: timer_id)
      |> assign(assigns)}
   end
 
@@ -50,10 +44,11 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   end
 
   def handle_event("save", %{"note" => note_params}, socket) do
+    note_params = Map.put(note_params, "timer_id", socket.assigns.timer_id)
+
     save_note(socket, note_params)
   end
 
-  @spec save_note(map(), map()) :: {:noreply, map()}
   defp save_note(socket, note_params) do
     case TimeTracking.create_note(note_params) do
       {:ok, note} ->

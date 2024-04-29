@@ -126,13 +126,14 @@ defmodule Klepsidra.TimeTracking do
   """
   def list_notes(filter) when is_map(filter) do
     from(Note)
-    |> filter_by_timer(filter)
+    |> filter_notes_by_timer(filter)
     |> Repo.all()
   end
 
-  defp filter_by_timer(query, %{timer_id: nil}), do: query
+  defp filter_notes_by_timer(query, %{timer_id: nil}), do: query
 
-  defp filter_by_timer(_query, %{timer_id: _timer_id}) do
+  defp filter_notes_by_timer(_query, %{timer_id: timer_id}) do
+    Repo.get!(Note, timer_id)
     # where(query, timer_id: ^timer_id)
   end
 
