@@ -1,10 +1,14 @@
 %Doctor.Config{
   ignore_modules: [
-    Klepsidra.Cldr.Unit.Additional,
-    Klepsidra.Cldr.Number.System,
-    Klepsidra.Cldr.Number.Symbol,
-    Klepsidra.Cldr.Number.Formatter.Decimal,
     Klepsidra.Cldr.Currency,
+    Klepsidra.Cldr.Time,
+    Klepsidra.Cldr.Date,
+    Klepsidra.Cldr.DateTime,
+    Klepsidra.Cldr.DateTime.Relative,
+    Klepsidra.Cldr.Number.Formatter.Decimal,
+    Klepsidra.Cldr.Number.Symbol,
+    Klepsidra.Cldr.Number.System,
+    Klepsidra.Cldr.Unit.Additional,
     KlepsidraWeb,
     KlepsidraWeb.ErrorHTML,
     KlepsidraWeb.ErrorJSON,

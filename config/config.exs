@@ -59,6 +59,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configure custom CLDR backend for use
+config :ex_cldr,
+  default_locale: "en_GB",
+  default_backend: Klepsidra.Cldr
+
 # CLDR Units configuration: define custom units
 config :ex_cldr_units, :additional_units,
   five_minute_increment: [base_unit: :minute, factor: 5, offset: 0],
