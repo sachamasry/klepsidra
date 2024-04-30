@@ -23,7 +23,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Style note timeline display
 - Create notes in a modal directly from timer listing view
 - Replace timer note scaffold CRUD functionality
   - Create from timer show and listing views

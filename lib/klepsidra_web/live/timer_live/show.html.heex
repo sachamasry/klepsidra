@@ -19,14 +19,18 @@
   <:item title="Description"><%= @timer.description %></:item>
 </.list>
 
+<.back navigate={~p"/timers"}>Back to activity timers</.back>
+
+<h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">Notes</h2>
+
 <.live_component module={NoteFormComponent} id={:new_note} timer_id={@timer_id} />
 
-<div>
-  <div :for={note <- @notes}>
-    <div>
-      <%= note.inserted_at %>
+<div class="timer-notes mt-6 divide-y divide-violet-100">
+  <div :for={note <- @notes} class="my-6">
+    <div class="timer-notes__datetime mt-6 text-sky-700 font-medium">
+      <%= note.inserted_at |> Cldr.DateTime.to_string!() %>
     </div>
-    <div>
+    <div class="timer-notes__note my-6">
       <%= note.note %>
     </div>
   </div>

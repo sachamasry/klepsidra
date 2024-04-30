@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.0">
 
 
-    <title>Klepsidra.Cldr.Rbnf.Ordinal — klepsidra v0.1.0</title>
+    <title>Klepsidra.Cldr.DateTime.Formatter — klepsidra v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
@@ -117,29 +117,15 @@ Pages
 
 <h1>
 
-  <span translate="no">Klepsidra.Cldr.Rbnf.Ordinal</span> 
+  <span translate="no">Klepsidra.Cldr.DateTime.Formatter</span> 
   <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Functions to implement the ordinal rule-based-number-format rules of CLDR.</p><p>As CLDR notes, the data is incomplete or non-existent for many languages.  It
-is considered complete for English however.</p><p>The standard public API for RBNF is via the <a href="https://hexdocs.pm/ex_cldr_numbers/2.32.4/Cldr.Number.html#to_string/2"><code class="inline">Cldr.Number.to_string/2</code></a> function.</p><p>The functions on this module are defined at compile time based upon the RBNF rules
-defined in the Unicode CLDR data repository.  Available rules are identified by:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">rule_sets</span><span class="p" data-group-id="1683955923-1">(</span><span class="ss">:en</span><span class="p" data-group-id="1683955923-1">)</span><span class="w">
-</span><span class="p" data-group-id="1683955923-2">[</span><span class="ss">:digits_ordinal</span><span class="p" data-group-id="1683955923-2">]</span><span class="w">
-
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">rule_sets</span><span class="p" data-group-id="1683955923-3">(</span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="1683955923-3">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">sort</span><span class="p" data-group-id="1683955923-4">(</span><span class="p" data-group-id="1683955923-4">)</span><span class="w">
-</span><span class="p" data-group-id="1683955923-5">[</span><span class="w">
-  </span><span class="ss">:digits_ordinal</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_feminine</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_feminine_plural</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_masculine</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_masculine_plural</span><span class="w">
-</span><span class="p" data-group-id="1683955923-5">]</span></code></pre><p>A rule can then be invoked on an available rule_set.  For example</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">digits_ordinal</span><span class="p" data-group-id="2103290333-1">(</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="2103290333-1">)</span><span class="w">
-</span><span class="s">&quot;123rd&quot;</span></code></pre><p>This call is equivalent to the call through the public API of:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Number</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="0282115500-1">(</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:ordinal</span><span class="p" data-group-id="0282115500-1">)</span><span class="w">
-</span><span class="p" data-group-id="0282115500-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123rd&quot;</span><span class="p" data-group-id="0282115500-2">}</span></code></pre>
+<p>Implements the compilation and execution of
+date, time and datetime formats.</p>
   </section>
 
 
@@ -157,31 +143,19 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#all_rule_sets/0" translate="no">all_rule_sets()</a>
+        <a href="#format/4" translate="no">format(date, format, locale \\ Cldr.get_locale(), options \\ [])</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Returns the formatted and localised date, time or datetime
+for a given <a href="https://hexdocs.pm/elixir/Date.html"><code class="inline">Date</code></a>, <a href="https://hexdocs.pm/elixir/Time.html"><code class="inline">Time</code></a>, <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> or struct with the
+appropriate fields.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#digits_ordinal/2" translate="no">digits_ordinal(number, locale)</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#rule_sets/0" translate="no">rule_sets()</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#rule_sets/1" translate="no">rule_sets(rbnf_locale_name)</a>
+        <a href="#gmt_tz_format/3" translate="no">gmt_tz_format(locale, offset, options \\ [])</a>
 
       </div>
 
@@ -200,65 +174,74 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="all_rule_sets/0">
+<section class="detail" id="format/4">
+
+    <span id="format/2"></span>
+
+    <span id="format/3"></span>
 
   <div class="detail-header">
-    <a href="#all_rule_sets/0" class="detail-link" title="Link to this function">
+    <a href="#format/4" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">all_rule_sets()</h1>
+    <h1 class="signature" translate="no">format(date, format, locale \\ Cldr.get_locale(), options \\ [])</h1>
 
 
   </div>
 
   <section class="docstring">
 
+      <div class="specs">
 
+          <pre translate="no"><span class="attribute">@spec</span> format(
+  <a href="https://hexdocs.pm/elixir/Calendar.html#t:date/0">Calendar.date</a>() | <a href="https://hexdocs.pm/elixir/Calendar.html#t:time/0">Calendar.time</a>() | <a href="https://hexdocs.pm/elixir/Calendar.html#t:datetime/0">Calendar.datetime</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.Locale.html#t:locale_reference/0">Cldr.Locale.locale_reference</a>(),
+  <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
+) :: {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}}</pre>
+
+      </div>
+
+<p>Returns the formatted and localised date, time or datetime
+for a given <a href="https://hexdocs.pm/elixir/Date.html"><code class="inline">Date</code></a>, <a href="https://hexdocs.pm/elixir/Time.html"><code class="inline">Time</code></a>, <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> or struct with the
+appropriate fields.</p><h2 id="format/4-arguments" class="section-heading">
+  <a href="#format/4-arguments" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Arguments</span>
+</h2>
+<ul><li><p><code class="inline">date</code> is a <a href="https://hexdocs.pm/elixir/Date.html"><code class="inline">Date</code></a>, <a href="https://hexdocs.pm/elixir/Time.html"><code class="inline">Time</code></a>, <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> or other struct that
+contains the required date and time fields.</p></li><li><p><code class="inline">format</code> is a valid format string, for example <code class="inline">yy/MM/dd hh:MM</code></p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.LanguageTag.html"><code class="inline">Cldr.LanguageTag</code></a> struct. The default is <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">options</code> is a keyword list of options.  The valid options are:</p></li></ul><h2 id="format/4-options" class="section-heading">
+  <a href="#format/4-options" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Options</span>
+</h2>
+<ul><li><code class="inline">:number_system</code>.  The resulting formatted and localised date/time
+string will be transliterated into this number system. Number system
+is anything returned from <a href="Klepsidra.Cldr.Number.System.html#number_systems_for/1"><code class="inline">Klepsidra.Cldr.Number.System.number_systems_for/1</code></a></li></ul><p><em>NOTE</em> This function is called by <a href="https://hexdocs.pm/ex_cldr_dates_times/2.16.0/Cldr.Date.html#to_string/2"><code class="inline">Cldr.Date.to_string/2</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.16.0/Cldr.Time.html#to_string/2"><code class="inline">Cldr.Time.to_string/2</code></a>
+and <a href="https://hexdocs.pm/ex_cldr_dates_times/2.16.0/Cldr.DateTime.html#to_string/2"><code class="inline">Cldr.DateTime.to_string/2</code></a> which is the preferred API.</p><h2 id="format/4-examples" class="section-heading">
+  <a href="#format/4-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Formatter</span><span class="o">.</span><span class="n">format</span><span class="w"> </span><span class="ld">~U[2017-09-03 10:23:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;yy/MM/dd hh:MM&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
+</span><span class="p" data-group-id="3760797740-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;17/09/03 10:09&quot;</span><span class="p" data-group-id="3760797740-1">}</span></code></pre>
   </section>
 </section>
-<section class="detail" id="digits_ordinal/2">
+<section class="detail" id="gmt_tz_format/3">
+
+    <span id="gmt_tz_format/2"></span>
 
   <div class="detail-header">
-    <a href="#digits_ordinal/2" class="detail-link" title="Link to this function">
+    <a href="#gmt_tz_format/3" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">digits_ordinal(number, locale)</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
-<section class="detail" id="rule_sets/0">
-
-  <div class="detail-header">
-    <a href="#rule_sets/0" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">rule_sets()</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
-<section class="detail" id="rule_sets/1">
-
-  <div class="detail-header">
-    <a href="#rule_sets/1" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">rule_sets(rbnf_locale_name)</h1>
+    <h1 class="signature" translate="no">gmt_tz_format(locale, offset, options \\ [])</h1>
 
 
   </div>
