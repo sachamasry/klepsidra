@@ -42,7 +42,10 @@
     <.link patch={~p"/timers/#{@timer}/notes/#{note.id}/edit"} phx-click={JS.push_focus()}>
       <.button>Edit note</.button>
     </.link>
-    <.button phx-click={JS.push("delete", value: %{id: note.id})} data-confirm="Are you sure?">
+    <.button
+      phx-click={JS.push("delete", value: %{id: note.id})}
+      data-confirm="Are you sure you want to delete this note?"
+    >
       Delete
     </.button>
   </div>

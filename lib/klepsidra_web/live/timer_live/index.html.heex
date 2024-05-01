@@ -39,7 +39,7 @@
     <div class="sr-only">
       <.link navigate={~p"/timers/#{timer}"}>Show</.link>
     </div>
-    <.link patch={~p"/timers/#{timer}/notes/new"}>Note</.link>
+    <.link patch={~p"/timers/#{timer}/notes/new"} phx-click={JS.push_focus()}>+ Note</.link>
     <.link patch={~p"/timers/#{timer}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, timer}}>
@@ -103,12 +103,17 @@
   />
 </.modal>
 
-<.modal :if={@live_action in [:new_note]} id="notes-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal :if={@live_action == :new_note} id="note-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.header>
+    <%= @page_title %>
+  </.header>
+
   <.live_component
     module={NoteFormComponent}
-    id={:new_note}
+    id={:new}
+    action={@live_action}
     title={@page_title}
-    patch={~p"/timers"}
     timer_id={@timer_id}
+    patch={~p"/timers"}
   />
 </.modal>

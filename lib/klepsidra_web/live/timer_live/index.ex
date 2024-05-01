@@ -4,9 +4,10 @@ defmodule KlepsidraWeb.TimerLive.Index do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking
-  alias Klepsidra.TimeTracking.Note
+  # alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
+  alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
 
   @impl true
   def mount(_params, _session, socket) do
@@ -57,10 +58,10 @@ defmodule KlepsidraWeb.TimerLive.Index do
     |> assign(:timer, %Timer{})
   end
 
-  defp apply_action(socket, :new_note, _params) do
+  defp apply_action(socket, :new_note, %{"id" => id} = _params) do
     socket
-    |> assign(:page_title, "New Note")
-    |> assign(:note, %Note{})
+    |> assign(:page_title, "New note")
+    |> assign(:timer_id, id)
   end
 
   defp apply_action(socket, :start, _params) do
@@ -76,7 +77,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Acitivity Timers")
+    |> assign(:page_title, "Activity Timers")
     |> assign(:timer, nil)
   end
 
@@ -91,6 +92,11 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, _note}}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     timer = TimeTracking.get_timer!(id)
     {:ok, _} = TimeTracking.delete_timer(timer)
@@ -99,24 +105,24 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   @impl true
-  def handle_event("keyboard_event", %{"key" => "s"} = _params, socket) do
-    {:noreply,
-     assign(socket,
-       live_action: :start,
-       page_title: "Starting Timer",
-       start_timestamp:
-         Timer.get_current_timestamp()
-         |> Timer.convert_naivedatetime_to_html!(),
-       timer: %Timer{}
-     )}
-  end
+  # def handle_event("keyboard_event", %{"key" => "s"} = _params, socket) do
+  #   {:noreply,
+  #    assign(socket,
+  #      live_action: :start,
+  #      page_title: "Starting Timer",
+  #      start_timestamp:
+  #        Timer.get_current_timestamp()
+  #        |> Timer.convert_naivedatetime_to_html!(),
+  #      timer: %Timer{}
+  #    )}
+  # end
 
-  def handle_event("keyboard_event", %{"key" => "?"} = _params, socket) do
-    {:noreply,
-     assign(socket,
-       display_help: true
-     )}
-  end
+  # def handle_event("keyboard_event", %{"key" => "?"} = _params, socket) do
+  #   {:noreply,
+  #    assign(socket,
+  #      display_help: true
+  #    )}
+  # end
 
   def handle_event("keyboard_event", _params, socket) do
     {:noreply, socket}
