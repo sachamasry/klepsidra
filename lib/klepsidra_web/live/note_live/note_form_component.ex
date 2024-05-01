@@ -25,7 +25,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           placeholder="Type a new note here"
           autocomplete="off"
         />
-        <.button>Save note</.button>
+        <.button phx-disable-with="Saving note...">Save note</.button>
       </.simple_form>
     </div>
     """
@@ -57,12 +57,13 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   defp save_note(socket, note_params) do
     case TimeTracking.create_note(note_params) do
       {:ok, note} ->
-        notify_parent({:saved, note})
-        changeset = TimeTracking.change_note(note)
+        notify_parent({:saved_note, note})
+
+        changeset =
+          TimeTracking.change_note(%Note{})
 
         socket =
           assign(socket,
-            notes: note,
             form: to_form(changeset)
           )
 

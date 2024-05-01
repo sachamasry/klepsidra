@@ -21,18 +21,22 @@
 
 <.back navigate={~p"/timers"}>Back to activity timers</.back>
 
-<h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">Notes</h2>
+<h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium"><%= @notes_title %></h2>
 
 <.live_component module={NoteFormComponent} id={:new_note} timer_id={@timer_id} />
 
-<div class="timer-notes mt-6 divide-y divide-violet-100">
-  <div :for={note <- @notes} class="my-6">
-    <div class="timer-notes__datetime mt-6 text-sky-700 font-medium">
+<div id="timer-notes" phx-update="stream" class="timer-notes mt-6 divide-y divide-violet-100">
+  <div :for={{note_id, note} <- @streams.notes} id={note_id} class="my-6">
+    <div class="timer-notes__datetime mt-6 text-violet-800 font-medium">
       <%= note.inserted_at |> Cldr.DateTime.to_string!() %>
     </div>
     <div class="timer-notes__note my-6">
       <%= note.note %>
     </div>
+
+    <.link phx-click={JS.push("delete", value: %{id: note.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
   </div>
 </div>
 
