@@ -1,3 +1,5 @@
+<div phx-window-keyup="keyboard_event"></div>
+
 <.header>
   <%= @timer.start_stamp %>–<%= @timer.end_stamp %>
   <%= if is_nil(@timer.end_stamp), do: "(Running timer)" %>
@@ -5,6 +7,9 @@
   <:actions>
     <.link patch={~p"/timers/#{@timer}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit timer</.button>
+    </.link>
+    <.link patch={~p"/timers/#{@timer}/new-note"} phx-click={JS.push_focus()}>
+      <.button>New Note</.button>
     </.link>
   </:actions>
 </.header>
@@ -34,9 +39,12 @@
       <%= note.note %>
     </div>
 
-    <.link phx-click={JS.push("delete", value: %{id: note.id})} data-confirm="Are you sure?">
-      Delete
+    <.link patch={~p"/timers/#{@timer}/notes/#{note.id}/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit note</.button>
     </.link>
+    <.button phx-click={JS.push("delete", value: %{id: note.id})} data-confirm="Are you sure?">
+      Delete
+    </.button>
   </div>
 </div>
 
@@ -55,5 +63,24 @@
     action={@live_action}
     timer={@timer}
     patch={~p"/timers/#{@timer}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:new_note, :edit_note]}
+  id="note-modal"
+  show
+  on_cancel={JS.patch(~p"/timers/#{@timer}")}
+>
+  <.header>
+    New note
+  </.header>
+  <.live_component
+    module={NoteFormComponent}
+    id={:new}
+    action={@live_action}
+    title={@page_title}
+    timer_id={@timer_id}
+    patch={~p"/timers/#{@timer_id}"}
   />
 </.modal>

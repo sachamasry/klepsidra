@@ -35,6 +35,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   defp page_title(:show), do: "Show Timer"
   defp page_title(:edit), do: "Edit Timer"
+  defp page_title(:new_note), do: "New note"
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
@@ -49,6 +50,21 @@ defmodule KlepsidraWeb.TimerLive.Show do
      |> assign(:note_count, note_metadata.note_count)
      |> assign(:notes_title, note_metadata.section_title)
      |> stream_delete(:notes, note)}
+  end
+
+  @impl true
+  def handle_event("keyboard_event", %{"key" => "n"} = _params, socket) do
+    {:noreply,
+     socket
+     |> assign(
+       live_action: :new_note,
+       page_title: "New note"
+     )
+     |> push_patch(to: ~p"/timers/#{socket.assigns.timer_id}/new-note")}
+  end
+
+  def handle_event("keyboard_event", _params, socket) do
+    {:noreply, socket}
   end
 
   @impl true
