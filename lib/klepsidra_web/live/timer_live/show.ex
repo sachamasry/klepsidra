@@ -12,15 +12,14 @@ defmodule KlepsidraWeb.TimerLive.Show do
     timer_id = Map.get(params, "id")
 
     notes = TimeTracking.get_note_by_timer_id!(String.to_integer(timer_id))
-    note_count = if length(notes) > 0, do: length(notes)
-    note_pluralisation = if note_count == 1, do: "Note", else: "Notes"
-    notes_title = [note_count, note_pluralisation] |> Enum.join(" ")
+
+    note_metadata = title_notes_section(length(notes))
 
     socket =
       socket
       |> stream(:notes, notes)
-      |> assign(:note_count, note_count)
-      |> assign(:notes_title, notes_title)
+      |> assign(:note_count, note_metadata.note_count)
+      |> assign(:notes_title, note_metadata.section_title)
       |> assign(:timer_id, timer_id)
 
     {:ok, socket}
@@ -43,14 +42,12 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
     {:ok, _} = TimeTracking.delete_note(note)
 
-    note_count = socket.assigns.note_count - 1
-    note_pluralisation = if note_count == 1, do: "Note", else: "Notes"
-    notes_title = [note_count, note_pluralisation] |> Enum.join(" ")
+    note_metadata = title_notes_section(socket.assigns.note_count - 1)
 
     {:noreply,
      socket
-     |> assign(:note_count, note_count)
-     |> assign(:notes_title, notes_title)
+     |> assign(:note_count, note_metadata.note_count)
+     |> assign(:notes_title, note_metadata.section_title)
      |> stream_delete(:notes, note)}
   end
 
@@ -61,14 +58,23 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, note}}, socket) do
-    note_count = socket.assigns.note_count + 1
-    note_pluralisation = if note_count == 1, do: "Note", else: "Notes"
-    notes_title = [note_count, note_pluralisation] |> Enum.join(" ")
+    note_metadata = title_notes_section(socket.assigns.note_count + 1)
 
     {:noreply,
      socket
-     |> assign(:note_count, note_count)
-     |> assign(:notes_title, notes_title)
+     |> assign(:note_count, note_metadata.note_count)
+     |> assign(:notes_title, note_metadata.section_title)
      |> stream_insert(:notes, note, at: 0)}
+  end
+
+  defp title_notes_section(note_count) when is_integer(note_count) do
+    title_note_count = if note_count > 0, do: note_count, else: ""
+    note_pluralisation = if note_count == 1, do: "Note", else: "Notes"
+
+    %{
+      note_count: note_count,
+      title_pluralisation: note_pluralisation,
+      section_title: [title_note_count, note_pluralisation] |> Enum.join(" ")
+    }
   end
 end

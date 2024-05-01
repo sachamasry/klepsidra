@@ -33,8 +33,11 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
 
   @impl true
   def update(assigns, socket) do
+    changeset = TimeTracking.change_note(%Note{})
+
     {:ok,
      socket
+     |> assign_form(changeset)
      |> assign(assigns)}
   end
 
@@ -51,10 +54,10 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   def handle_event("save", %{"note" => note_params}, socket) do
     note_params = Map.put(note_params, "timer_id", socket.assigns.timer_id)
 
-    save_note(socket, note_params)
+    save_note(socket, :new, note_params)
   end
 
-  defp save_note(socket, note_params) do
+  defp save_note(socket, :new, note_params) do
     case TimeTracking.create_note(note_params) do
       {:ok, note} ->
         notify_parent({:saved_note, note})
@@ -62,13 +65,9 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
         changeset =
           TimeTracking.change_note(%Note{})
 
-        socket =
-          assign(socket,
-            form: to_form(changeset)
-          )
-
         {:noreply,
          socket
+         |> assign_form(changeset)
          |> put_flash(:info, "Note created successfully")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -77,7 +76,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    assign(socket, :form, to_form(changeset))
+    assign(socket, :note_form, to_form(changeset))
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
