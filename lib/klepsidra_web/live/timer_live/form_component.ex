@@ -41,8 +41,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         />
         <.input field={@form[:description]} type="textarea" label="Description" />
 
-        <.input field={@form[:tag_id]} type="select" placeholder="Tag" options={@tags} />
-
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
@@ -58,9 +56,18 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_tag()
+     #  |> assign_tag()
      |> assign_form(changeset)}
   end
+
+  # @impl true
+  # def handle_event("validate", %{"timer" => %{"tag_id" => "new"} = _timer_params}, socket) do
+  #   # Launch new tag modal
+
+  #   # Refresh list
+
+  #   {:noreply, socket}
+  # end
 
   @impl true
   def handle_event("validate", %{"timer" => timer_params}, socket) do
@@ -110,13 +117,14 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
-  defp assign_tag(socket) do
-    tags =
-      Klepsidra.Categorisation.list_tags()
-      |> Enum.map(fn tag -> {tag.name, tag.id} end)
+  # defp assign_tag(socket) do
+  #   tags =
+  #     Klepsidra.Categorisation.list_tags()
+  #     |> Enum.map(fn tag -> {tag.name, tag.id} end)
+  #     |> Kernel.++([{"+ New tag", :new}])
 
-    assign(socket, :tags, tags)
-  end
+  #   assign(socket, :tags, tags)
+  # end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

@@ -3,12 +3,14 @@ defmodule Klepsidra.Categorisation.Tag do
   Defines a schema for the `Tags` entity, used for categorising timed activities
   with free form tags.
 
-  To provide a helpful flourish which will make selected tags stand out, we include a 
+  To provide a helpful flourish which will make selected tags stand out, we include a
   `colour` field.
   """
 
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias Klepsidra.Categorisation.TimerTags
 
   @type t :: %__MODULE__{
           name: String.t(),
@@ -21,6 +23,8 @@ defmodule Klepsidra.Categorisation.Tag do
     field :colour, :string
 
     timestamps()
+
+    many_to_many :timers, TimerTags, join_through: "timer_tags"
   end
 
   @doc false

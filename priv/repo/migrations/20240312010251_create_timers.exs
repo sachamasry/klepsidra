@@ -10,7 +10,6 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
       add :reported_duration, :integer
       add :reported_duration_time_unit, :string
       add :description, :string
-      add :tag_id, references(:tags, on_delete: :nothing)
 
       timestamps()
     end

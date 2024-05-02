@@ -83,8 +83,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
-        <.input field={@form[:tag_id]} type="select" label="Tag" placeholder="Tag" options={@tags} />
-
         <:actions>
           <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
           <.button :if={@invocation_context == :stop} phx-disable-with="Saving...">Stop</.button>

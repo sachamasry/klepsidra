@@ -22,6 +22,7 @@
   {"deps/phoenix/lib/phoenix/router.ex", :callback_info_missing},
   {"deps/plug/lib/plug/debugger.ex", :unknown_function},
   {"lib/klepsidra/categorisation/tag.ex", :unknown_function},
+  {"lib/klepsidra/categorisation/timer_tags.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_type},
   {"lib/klepsidra/ex_cldr.ex", :contract_supertype},

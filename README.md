@@ -23,16 +23,15 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
+- Change tag to a many-to-many relationship
+- Update tag picking for multiple tag selection
 - Begin adding keyboard shortcuts for an improved user interface
-- Create Notes entity, and make it possible to record notes from timers
-  - Enable SQLite full-text search
-- Start enabling full-text search on relevant database fields
+- Enable SQLite notes field full-text search
+- Start enabling full-text search on other relevant database fields
 - Make form dynamic: changing start or end times must recalculate durations
 - Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
 - Add checkbox determining whether time is billable?
 - Resize datetime, duration and duration unit controls to more efficiently use space
-- Change tag to a many-to-many relationship
-- Update tag picking for multiple tag selection
 - Start implementing colour palette
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
 - Change data defaults for duration to nil, and no duration time units until clocking out

@@ -6,7 +6,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   use Ecto.Schema
 
   import Ecto.Changeset
-  alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.Categorisation.TimerTags
 
   @type t :: %__MODULE__{
           description: String.t(),
@@ -26,7 +26,11 @@ defmodule Klepsidra.TimeTracking.Timer do
     field :reported_duration, :integer
     field :reported_duration_time_unit, :string
 
-    belongs_to :tag, Tag
+    has_many :timer_tags, TimerTags,
+      preload_order: [asc: :position],
+      on_replace: :delete
+
+    has_many :tags, through: [:timer_tags, :tag]
 
     timestamps()
   end
@@ -41,11 +45,14 @@ defmodule Klepsidra.TimeTracking.Timer do
       :duration_time_unit,
       :reported_duration,
       :reported_duration_time_unit,
-      :description,
-      :tag_id
+      :description
     ])
     |> validate_required([:start_stamp])
-    |> unique_constraint(:tag)
+    |> cast_assoc(:timer_tags,
+      with: &TimerTags.changeset/3,
+      sort_param: :tags_order,
+      drop_param: :tags_delete
+    )
   end
 
   @doc """
