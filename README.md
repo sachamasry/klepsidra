@@ -23,8 +23,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Replace timer note scaffold CRUD functionality
-  - Update from timer show view
 - Begin adding keyboard shortcuts for an improved user interface
 - Create Notes entity, and make it possible to record notes from timers
   - Enable SQLite full-text search

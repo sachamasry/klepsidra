@@ -76,14 +76,15 @@
   on_cancel={JS.patch(~p"/timers/#{@timer}")}
 >
   <.header>
-    New note
+    <%= @page_title %>
   </.header>
   <.live_component
     module={NoteFormComponent}
-    id={:new}
-    action={@live_action}
+    id={@note.id || :new}
     title={@page_title}
+    action={@live_action}
     timer_id={@timer_id}
+    note={@note}
     patch={~p"/timers/#{@timer_id}"}
   />
 </.modal>

@@ -26,16 +26,27 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   @impl true
+  def handle_params(%{"id" => _id, "note_id" => note_id}, _, socket) do
+    socket = assign(socket, :note, TimeTracking.get_note!(note_id))
+
+    {:noreply,
+     socket
+     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:note, TimeTracking.get_note!(note_id))}
+  end
+
   def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:timer, TimeTracking.get_timer!(id))}
+     |> assign(:timer, TimeTracking.get_timer!(id))
+     |> assign(:note, %Klepsidra.TimeTracking.Note{})}
   end
 
   defp page_title(:show), do: "Show Timer"
   defp page_title(:edit), do: "Edit Timer"
   defp page_title(:new_note), do: "New note"
+  defp page_title(:edit_note), do: "Edit note"
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
@@ -52,16 +63,16 @@ defmodule KlepsidraWeb.TimerLive.Show do
      |> stream_delete(:notes, note)}
   end
 
-  @impl true
-  def handle_event("keyboard_event", %{"key" => "n"} = _params, socket) do
-    {:noreply,
-     socket
-     |> assign(
-       live_action: :new_note,
-       page_title: "New note"
-     )
-     |> push_patch(to: ~p"/timers/#{socket.assigns.timer_id}/new-note")}
-  end
+  # @impl true
+  # def handle_event("keyboard_event", %{"key" => "n"} = _params, socket) do
+  #   {:noreply,
+  #    socket
+  #    |> assign(
+  #      live_action: :new_note,
+  #      page_title: "New note"
+  #    )
+  #    |> push_patch(to: ~p"/timers/#{socket.assigns.timer_id}/new-note")}
+  # end
 
   def handle_event("keyboard_event", _params, socket) do
     {:noreply, socket}
@@ -70,6 +81,17 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, _timer}}, socket) do
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:updated_note, note}}, socket) do
+    note_metadata = title_notes_section(socket.assigns.note_count + 1)
+
+    {:noreply,
+     socket
+     |> assign(:note_count, note_metadata.note_count)
+     |> assign(:notes_title, note_metadata.section_title)
+     |> stream_insert(:notes, note)}
   end
 
   @impl true
