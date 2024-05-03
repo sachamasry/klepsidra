@@ -4,6 +4,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.Categorisation
+  alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
@@ -83,9 +85,33 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
+        <div id="tags" phx-hook="SortableInputsFor" class="space-y-2">
+          <.inputs_for :let={timer_tag} field={@form[:timer_tags]}>
+            <div class="flex space-x-2 drag-item">
+              <.icon name="hero-bars-3" class="w-6 h-6 relative top-2" data-handle />
+              <.input type="hidden" name="timer[tags_order]" value={timer_tag.index} />
+              <label>
+                <input
+                  type="checkbox"
+                  name="timer[tags_delete][]"
+                  value={timer_tag.index}
+                  class="hidden"
+                />
+                <.icon name="hero-x-mark" />
+              </label>
+              <.input type="select" field={timer_tag[:tag_id]} placeholder="Tag" options={@tags} />
+            </div>
+          </.inputs_for>
+        </div>
+
         <:actions>
           <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
           <.button :if={@invocation_context == :stop} phx-disable-with="Saving...">Stop</.button>
+
+          <label class="block cursor-pointer">
+            <input type="checkbox" name="timer[tags_order][]" class="hidden" />
+            <.icon name="hero-plus-circle" />add more
+          </label>
         </:actions>
       </.simple_form>
     </div>
@@ -99,8 +125,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_tag()
-     |> assign_form(changeset)}
+     |> assign_form(changeset)
+     |> assign_tags()}
   end
 
   @impl true
@@ -235,12 +261,18 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    assign(socket, :form, to_form(changeset))
+    if Ecto.Changeset.get_field(changeset, :timer_tags) == [] do
+      timer_tags = %TimerTags{}
+      changeset = Ecto.Changeset.put_change(changeset, :timer_tags, [timer_tags])
+      assign(socket, :form, to_form(changeset))
+    else
+      assign(socket, :form, to_form(changeset))
+    end
   end
 
-  defp assign_tag(socket) do
+  defp assign_tags(socket) do
     tags =
-      Klepsidra.Categorisation.list_tags()
+      Categorisation.list_tags()
       |> Enum.map(fn tag -> {tag.name, tag.id} end)
 
     assign(socket, :tags, tags)
