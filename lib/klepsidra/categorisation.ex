@@ -145,4 +145,21 @@ defmodule Klepsidra.Categorisation do
       nil -> {:ok, %TimerTags{}}
     end
   end
+
+  @doc """
+  Simple search for tags defined in the system, performing a prefix filter only.
+
+  This search takes in the `search_phrase`, and after converting it to lowercase,
+  compares it against a list of similarly lowercased tag names (`name` field), from the
+  database. The comparison checks filters all tags that start with the normalised
+  search phrase.
+  """
+  def tag_search(search_phrase) do
+    search_phrase = String.downcase(search_phrase)
+
+    Klepsidra.Categorisation.list_tags()
+    |> Enum.filter(fn %{name: name} ->
+      String.starts_with?(String.downcase(name), search_phrase)
+    end)
+  end
 end

@@ -23,8 +23,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Change tag to a many-to-many relationship
-  - It is desirable to use type-ahead to select tags, not a select box
+- It is desirable to use type-ahead to select tags, not a select box
+  - Create primitive autocomplete tag search
+  - Create a full-text tag search
   - Tags already added should not be added again
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
 - Begin adding keyboard shortcuts for an improved user interface
