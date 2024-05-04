@@ -41,3 +41,38 @@
     patch={~p"/tags"}
   />
 </.modal>
+
+<div class="tag-search">
+  <h1 class="mt-8">Find a tag</h1>
+  <form phx-submit="tag_search" phx-change="autocomplete">
+    <input
+      type="text"
+      name="search_phrase"
+      value={@search_phrase}
+      placeholder="Enter tag"
+      autofocus
+      autocomplete="off"
+      phx-debounce="500"
+      list="matches"
+    />
+    <button>Search</button>
+
+    <datalist id="matches">
+      <option :for={{id, name} <- @matches} value={id}>
+        <%= name %>
+      </option>
+    </datalist>
+  </form>
+
+  <div>
+    <%= inspect(@matches) %>
+  </div>
+
+  <div class="tags-list">
+    <ul>
+      <li :for={tag <- @filtered_tags}>
+        <div class="tag-name"><%= tag.name %></div>
+      </li>
+    </ul>
+  </div>
+</div>

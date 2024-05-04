@@ -153,8 +153,14 @@ defmodule Klepsidra.Categorisation do
   compares it against a list of similarly lowercased tag names (`name` field), from the
   database. The comparison checks filters all tags that start with the normalised
   search phrase.
+
+  ## Examples
+
+      iex> search_tags_by_name_prefix("hello")
+      [%Tag{}, ...]
   """
-  def tag_search(search_phrase) do
+  @spec search_tags_by_name_prefix(String.t()) :: [Tag.t(), ...]
+  def search_tags_by_name_prefix(search_phrase) do
     search_phrase = String.downcase(search_phrase)
 
     Klepsidra.Categorisation.list_tags()
