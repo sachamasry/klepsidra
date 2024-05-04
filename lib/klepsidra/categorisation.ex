@@ -1,12 +1,22 @@
 defmodule Klepsidra.Categorisation do
   @moduledoc """
-  The Categorisation context.
+  The Categorisation context provides a way to categorise entities within the
+  application.
+
+  A general-purpose _tagging_ module provides a record of all tags used for various entities.
+  Presently, tagging is only used in activity timers so that users can simply categorise
+  their timed activities, to help filter activities by category, to search for timers, and to
+  make it easier to collate timers with client invoicing in mind.
+
+  Tagging activity timers requires a many-to-many relationship between timers and
+  tags, which is recorded in the `timer_tags` table.
   """
 
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
   alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.Categorisation.TimerTags
 
   @doc """
   Returns the list of tags.
@@ -100,5 +110,39 @@ defmodule Klepsidra.Categorisation do
   """
   def change_tag(%Tag{} = tag, attrs \\ %{}) do
     Tag.changeset(tag, attrs)
+  end
+
+  @doc """
+  """
+  def tag_timer(timer, %{tag: tag_attrs} = attrs) do
+    tag = create_or_find_tag(tag_attrs)
+
+    timer
+    |> Ecto.build_assoc(:timer_tags)
+    |> TimerTags.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:tag, tag)
+    |> Repo.insert()
+  end
+
+  defp create_or_find_tag(%{name: "" <> name} = attrs) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, tag} -> tag
+      _ -> Repo.get_by(Tag, name: name)
+    end
+  end
+
+  defp create_or_find_tag(_), do: nil
+
+  @doc """
+  """
+  def delete_tag_from_timer(timer, tag) do
+    Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag.id)
+    |> case do
+      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
+      nil -> {:ok, %TimerTags{}}
+    end
   end
 end

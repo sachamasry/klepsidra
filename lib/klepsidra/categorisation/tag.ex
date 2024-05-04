@@ -32,5 +32,6 @@ defmodule Klepsidra.Categorisation.Tag do
     tag
     |> cast(attrs, [:name, :colour, :description])
     |> validate_required([:name])
+    |> unique_constraint(:name, name: :tags_name_index)
   end
 end

@@ -24,7 +24,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Change tag to a many-to-many relationship
-- Update tag picking for multiple tag selection
+  - It is desirable to use type-ahead to select tags, not a select box
+  - Tags already added should not be added again
+- Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
 - Begin adding keyboard shortcuts for an improved user interface
 - Enable SQLite notes field full-text search
 - Start enabling full-text search on other relevant database fields

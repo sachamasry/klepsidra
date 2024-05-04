@@ -27,7 +27,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     field :reported_duration_time_unit, :string
 
     has_many :timer_tags, TimerTags,
-      preload_order: [asc: :position],
+      preload_order: [asc: :tag_id],
       on_replace: :delete
 
     has_many :tags, through: [:timer_tags, :tag]
@@ -48,11 +48,12 @@ defmodule Klepsidra.TimeTracking.Timer do
       :description
     ])
     |> validate_required([:start_stamp])
-    |> cast_assoc(:timer_tags,
-      with: &TimerTags.changeset/3,
-      sort_param: :tags_order,
-      drop_param: :tags_delete
-    )
+
+    # |> cast_assoc(:timer_tags,
+    # with: &TimerTags.changeset/3,
+    # sort_param: :tags_order,
+    # drop_param: :tags_delete
+    # )
   end
 
   @doc """
