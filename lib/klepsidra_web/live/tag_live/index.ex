@@ -6,6 +6,8 @@ defmodule KlepsidraWeb.TagLive.Index do
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
 
+  alias KlepsidraWeb.Live.TagLive.SearchFormComponent
+
   @impl true
   def mount(_params, _session, socket) do
     socket =
