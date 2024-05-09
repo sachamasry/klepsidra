@@ -137,6 +137,22 @@ defmodule Klepsidra.Categorisation do
   defp create_or_find_tag(_), do: nil
 
   @doc """
+  Gets a single timer tag record.
+
+  Raises `Ecto.NoResultsError` if the Tag does not exist.
+
+  ## Examples
+
+      iex> get_timer_tag!(123)
+      %TimerTag{}
+
+      iex> get_timer_tag!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_timer_tag!(id), do: Repo.get_by!(TimerTags, id: id)
+
+  @doc """
   """
   def delete_tag_from_timer(timer, tag) do
     Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag.id)
@@ -144,6 +160,12 @@ defmodule Klepsidra.Categorisation do
       %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
       nil -> {:ok, %TimerTags{}}
     end
+  end
+
+  @doc """
+  """
+  def delete_timer_tag(%TimerTags{} = timer_tag) do
+    Repo.delete(timer_tag)
   end
 
   @doc """
@@ -164,6 +186,7 @@ defmodule Klepsidra.Categorisation do
     search_phrase = String.downcase(search_phrase)
 
     Klepsidra.Categorisation.list_tags()
+    |> Enum.sort_by(fn tag -> tag.name end)
     |> Enum.filter(fn %{name: name} ->
       String.starts_with?(String.downcase(name), search_phrase)
     end)
