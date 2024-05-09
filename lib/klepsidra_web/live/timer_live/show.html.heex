@@ -14,6 +14,8 @@
   </:actions>
 </.header>
 
+<.live_component module={SearchFormComponent} id={:new} timer_id={@timer_id} />
+
 <.list>
   <:item title="Start time"><%= @timer.start_stamp %></:item>
   <:item title="End time"><%= @timer.end_stamp %></:item>
@@ -88,5 +90,3 @@
     patch={~p"/timers/#{@timer_id}"}
   />
 </.modal>
-
-<.live_component module={SearchFormComponent} id={:new} timer_id={@timer_id} />
