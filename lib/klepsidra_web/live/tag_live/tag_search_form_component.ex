@@ -14,8 +14,8 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="tag-search">
-      <form phx_submit="submit" phx_change="tag_search" phx-target={@myself}>
+    <div class="tag-search my-6">
+      <form phx_change="tag_search" phx-trigger-action={false} phx-target={@myself}>
         <div
           class="py-2 px-3 bg-white border border-gray-400"
           phx-window-keydown="set-focus"
@@ -23,13 +23,13 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
         >
           <span
             :for={timer_tag <- @timer_tags}
-            class="inline-block text-xs bg-green-400 text-white py-1 px-2 mr-1 mb-1 rounded"
+            class="inline-block text-xs bg-green-400 text-white py-1 px-2 mr-2 mb-1 rounded font-semibold"
             style={if timer_tag.tag.colour, do: "background-color:" <> timer_tag.tag.colour}
           >
             <span><%= timer_tag.tag.name %></span>
             <a
               href="#"
-              class="text-white hover:text-white"
+              class="text-white hover:text-white pl-1"
               phx-click="delete"
               phx-target={@myself}
               phx-value-timer-tag-id={timer_tag.id}
@@ -53,14 +53,17 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
         <div :if={@search_results != []} class="relative">
           <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
             <div
-              :for={{{_id, search_result}, idx} <- Enum.with_index(@search_results)}
+              :for={{{_id, tag_name, tag_colour}, idx} <- Enum.with_index(@search_results)}
               class={"cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 #{if(idx == @current_focus, do: "bg-gray-200")}"}
-              phx-submit="sbmt"
               phx-click="pick"
               phx-target={@myself}
-              phx-value-name={search_result}
+              phx-value-name={tag_name}
             >
-              <%= raw(format_search_result(search_result, @search_phrase)) %>
+              <span style="display: inline-block; width: calc(100% - (1.2rem + 1.5rem));">
+                <%= raw(format_search_result(tag_name, @search_phrase)) %>
+              </span>
+              <span style={"display: inline-block; height: 1.2rem; width: 1.2rem; border-radius: 20%; background-color: #{tag_colour || "transparent"};"}>
+              </span>
             </div>
           </div>
         </div>
@@ -95,7 +98,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
 
     search_results =
       Klepsidra.Categorisation.search_tags_by_name_prefix(search_phrase)
-      |> Enum.map(fn tag -> {tag.id, tag.name} end)
+      |> Enum.map(fn tag -> {tag.id, tag.name, tag.colour} end)
 
     socket =
       assign(socket,
@@ -138,7 +141,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
   end
 
   # PREVENT FORM SUBMIT
-  def handle_event("submit", _, socket), do: {:noreply, socket}
+  # def handle_event("submit", _, socket), do: {:noreply, socket}
 
   # UP
   def handle_event("set-focus", %{"key" => "ArrowUp"}, socket) do

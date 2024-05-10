@@ -23,14 +23,16 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- It is desirable to use type-ahead to select tags, not a select box
-  - Create primitive autocomplete tag search
-  - Create a full-text tag search
-  - Tags already added should not be added again
+- Tagging UX improvements
+  - Esc keypress closes tag choices
+  - Add ability for freeform tag typing to create new tags
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
-- Begin adding keyboard shortcuts for an improved user interface
-- Enable SQLite notes field full-text search
-- Start enabling full-text search on other relevant database fields
+  - Specifically for timestamps recorded for notes
+- Full-text search
+  - Create a full-text tag search
+  - Begin adding keyboard shortcuts for an improved user interface
+  - Enable SQLite notes field full-text search
+  - Start enabling full-text search on other relevant database fields
 - Make form dynamic: changing start or end times must recalculate durations
 - Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
 - Add checkbox determining whether time is billable?

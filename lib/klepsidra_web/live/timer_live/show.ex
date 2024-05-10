@@ -75,9 +75,9 @@ defmodule KlepsidraWeb.TimerLive.Show do
   #    |> push_patch(to: ~p"/timers/#{socket.assigns.timer_id}/new-note")}
   # end
 
-  def handle_event("keyboard_event", _params, socket) do
-    {:noreply, socket}
-  end
+  # def handle_event("keyboard_event", _params, socket) do
+  #   {:noreply, socket}
+  # end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, _timer}}, socket) do
