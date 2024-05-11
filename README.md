@@ -24,8 +24,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Tagging UX improvements
+  - Provide ability to set new tag colour when creating freeform tag in live component
   - Esc keypress closes tag choices
-  - Add ability for freeform tag typing to create new tags
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
   - Specifically for timestamps recorded for notes
 - Full-text search

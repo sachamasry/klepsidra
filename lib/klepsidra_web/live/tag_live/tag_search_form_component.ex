@@ -148,7 +148,10 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
     current_focus =
       Enum.max([socket.assigns.current_focus - 1, 0])
 
-    {:noreply, assign(socket, current_focus: current_focus)}
+    socket =
+      assign(socket, current_focus: current_focus)
+
+    {:noreply, socket}
   end
 
   # DOWN
@@ -156,18 +159,21 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
     current_focus =
       Enum.min([socket.assigns.current_focus + 1, length(socket.assigns.search_results) - 1])
 
-    {:noreply, assign(socket, current_focus: current_focus)}
+    socket =
+      assign(socket, current_focus: current_focus)
+
+    {:noreply, socket}
   end
 
   # ENTER
   def handle_event("set-focus", %{"key" => "Enter"}, socket) do
-    case Enum.at(socket.assigns.search_results, socket.assigns.current_focus) do
-      {_, "" <> search_phrase} ->
-        handle_event("pick", %{"name" => search_phrase}, socket)
+    search_phrase =
+      case Enum.at(socket.assigns.search_results, socket.assigns.current_focus) do
+        {_, "" <> search_phrase} -> handle_event("pick", %{"name" => search_phrase}, socket)
+        _ -> socket.assigns.search_phrase
+      end
 
-      _ ->
-        {:noreply, socket}
-    end
+    handle_event("pick", %{"name" => search_phrase}, socket)
   end
 
   # FALLBACK FOR NON RELATED KEY STROKES
