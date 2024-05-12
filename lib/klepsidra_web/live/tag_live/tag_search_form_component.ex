@@ -105,7 +105,8 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
       assign(socket,
         tags: tags,
         search_results: search_results,
-        search_phrase: search_phrase
+        search_phrase: search_phrase,
+        current_focus: -1
       )
 
     {:noreply, socket}
@@ -118,7 +119,8 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
       timer_tags: sort_tags(timer.timer_tags),
       tags: [],
       search_results: [],
-      search_phrase: ""
+      search_phrase: "",
+      current_focus: -1
     ]
 
     {:noreply, assign(socket, assigns)}
@@ -135,14 +137,15 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
       timer_tags: timer_tags,
       tags: [],
       search_results: [],
-      search_phrase: ""
+      search_phrase: "",
+      current_focus: -1
     ]
 
     {:noreply, assign(socket, assigns)}
   end
 
   # PREVENT FORM SUBMIT
-  # def handle_event("submit", _, socket), do: {:noreply, socket}
+  def handle_event("submit", _, socket), do: {:noreply, socket}
 
   # UP
   def handle_event("set-focus", %{"key" => "ArrowUp"}, socket) do
@@ -175,6 +178,17 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
       end
 
     handle_event("pick", %{"name" => search_phrase}, socket)
+  end
+
+  # Esc
+  def handle_event("set-focus", %{"key" => "Escape"}, socket) do
+    socket =
+      assign(socket,
+        search_results: [],
+        current_focus: -1
+      )
+
+    {:noreply, socket}
   end
 
   # FALLBACK FOR NON RELATED KEY STROKES
