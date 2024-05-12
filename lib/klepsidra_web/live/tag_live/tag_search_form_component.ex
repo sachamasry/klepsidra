@@ -47,6 +47,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
             autocomplete="off"
             phx-change="tag_search"
             phx-debounce="500"
+            onkeydown="return event.key != 'Enter';"
           />
         </div>
 
@@ -169,7 +170,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
   def handle_event("set-focus", %{"key" => "Enter"}, socket) do
     search_phrase =
       case Enum.at(socket.assigns.search_results, socket.assigns.current_focus) do
-        {_, "" <> search_phrase} -> handle_event("pick", %{"name" => search_phrase}, socket)
+        {_, "" <> search_phrase, _} -> handle_event("pick", %{"name" => search_phrase}, socket)
         _ -> socket.assigns.search_phrase
       end
 
