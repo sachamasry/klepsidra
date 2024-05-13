@@ -24,12 +24,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Tagging UX improvements
-  - Esc keypress closes tag choices
-  - Provide visual UI to close tag choices, if desired, like a select control
   - Provide ability to set new tag colour when creating freeform tag in live component
-  - Provide way to display all tags in dropdown, relieving the need for guesswork and tag duplication
   - Add foreground colour field to tags
   - Document tag selector live component
+  - Improve search functionality to perform fuzzy query directly in the database
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
   - Specifically for timestamps recorded for notes
 - Full-text search

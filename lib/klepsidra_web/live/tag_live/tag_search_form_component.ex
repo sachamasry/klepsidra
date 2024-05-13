@@ -38,17 +38,63 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
             </a>
           </span>
 
-          <input
-            type="text"
-            class="form-control inline-block text-sm focus:outline-none"
-            name="search_phrase"
-            value={@search_phrase}
-            placeholder="Enter tag"
-            autocomplete="off"
-            phx-change="tag_search"
-            phx-debounce="500"
-            onkeydown="return event.key != 'Enter';"
-          />
+          <div style="display:inline-block">
+            <input
+              type="text"
+              class="form-control inline-block text-sm focus:outline-none border-indigo-400 border-r-0"
+              name="search_phrase"
+              value={@search_phrase}
+              placeholder="Enter tag"
+              autocomplete="off"
+              phx-change="tag_search"
+              phx-debounce="500"
+              onkeydown="return event.key != 'Enter';"
+            />
+            <a
+              href="#"
+              class="inline-block align-bottom border border-indigo-400 text-indigo-400"
+              phx-click="toggle-results"
+              phx-target={@myself}
+              phx-value-search-phrase={@search_phrase}
+            >
+              <svg
+                :if={@search_results == []}
+                height="2.25rem"
+                viewBox="0 0 21 21"
+                width="1.7rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  transform="translate(7 5)"
+                >
+                  <path d="m.5 3.5 3-3 3 3" /><path d="m.5 8.5 3 3 3-3" />
+                </g>
+              </svg>
+              <svg
+                :if={@search_results != []}
+                height="2.25rem"
+                viewBox="0 0 21 21"
+                width="1.7rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  transform="translate(7 6)"
+                >
+                  <path d="m.5 9.5 3-3 3 3" /><path d="m.5.5 3 3 3-3" />
+                </g>
+              </svg>
+            </a>
+          </div>
         </div>
 
         <div :if={@search_results != []} class="relative">
@@ -108,6 +154,22 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
         search_phrase: search_phrase,
         current_focus: -1
       )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("toggle-results", %{"search-phrase" => search_phrase}, socket) do
+    search_results =
+      case socket.assigns.search_results do
+        [] ->
+          Klepsidra.Categorisation.search_tags_by_name_prefix(search_phrase)
+          |> Enum.map(fn tag -> {tag.id, tag.name, tag.colour} end)
+
+        _ ->
+          []
+      end
+
+    socket = assign(socket, search_results: search_results)
 
     {:noreply, socket}
   end
