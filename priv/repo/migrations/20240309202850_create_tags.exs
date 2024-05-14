@@ -5,6 +5,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
     create table(:tags) do
       add :name, :string, null: false
       add :colour, :string
+      add :fg_colour, :string
       add :description, :string
 
       timestamps()

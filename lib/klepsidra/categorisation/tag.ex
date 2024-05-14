@@ -21,6 +21,7 @@ defmodule Klepsidra.Categorisation.Tag do
     field :name, :string
     field :description, :string
     field :colour, :string
+    field :fg_colour, :string
 
     timestamps()
 
@@ -30,7 +31,7 @@ defmodule Klepsidra.Categorisation.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:name, :colour, :description])
+    |> cast(attrs, [:name, :colour, :fg_colour, :description])
     |> validate_required([:name])
     |> unique_constraint(:name, name: :tags_name_index)
   end

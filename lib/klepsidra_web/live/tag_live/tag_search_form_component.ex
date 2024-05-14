@@ -24,12 +24,15 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
           <span
             :for={timer_tag <- @timer_tags}
             class="inline-block text-xs bg-green-400 text-white py-1 px-2 mr-2 mb-1 rounded font-semibold"
-            style={if timer_tag.tag.colour, do: "background-color:" <> timer_tag.tag.colour}
+            style={
+              if timer_tag.tag.colour,
+                do: "background-color:#{timer_tag.tag.colour};color:#{timer_tag.tag.fg_colour};"
+            }
           >
             <span><%= timer_tag.tag.name %></span>
             <a
               href="#"
-              class="text-white hover:text-white pl-1"
+              class="hover:text-white pl-1"
               phx-click="delete"
               phx-target={@myself}
               phx-value-timer-tag-id={timer_tag.id}
@@ -47,7 +50,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
               placeholder="Enter tag"
               autocomplete="off"
               phx-change="tag_search"
-              phx-debounce="500"
+              phx-debounce="10"
               onkeydown="return event.key != 'Enter';"
             />
             <a
@@ -100,7 +103,9 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
         <div :if={@search_results != []} class="relative">
           <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
             <div
-              :for={{{_id, tag_name, tag_colour}, idx} <- Enum.with_index(@search_results)}
+              :for={
+                {{_id, tag_name, tag_colour, _tag_fg_colour}, idx} <- Enum.with_index(@search_results)
+              }
               class={"cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 #{if(idx == @current_focus, do: "bg-gray-200")}"}
               phx-click="pick"
               phx-target={@myself}
@@ -145,7 +150,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
 
     search_results =
       Klepsidra.Categorisation.search_tags_by_name_prefix(search_phrase)
-      |> Enum.map(fn tag -> {tag.id, tag.name, tag.colour} end)
+      |> Enum.map(fn tag -> {tag.id, tag.name, tag.colour, tag.fg_colour} end)
 
     socket =
       assign(socket,

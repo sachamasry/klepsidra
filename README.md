@@ -23,11 +23,15 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
+- Create simple 'customer' entity, to link timers to a customer for later invoicing
+  - Only expose customer choice if timer is billable
 - Tagging UX improvements
+  - Change default tag background to a shade of grey
   - Provide ability to set new tag colour when creating freeform tag in live component
-  - Add foreground colour field to tags
+  - Make it possible to drill into the tag from the live component
   - Document tag selector live component
   - Improve search functionality to perform fuzzy query directly in the database
+  - Develop ability to cope with temporary data structures, before a timer has been created?
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
   - Specifically for timestamps recorded for notes
 - Full-text search
