@@ -22,8 +22,8 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:colour]} type="text" label="Colour" />
-        <.input field={@form[:fg_colour]} type="text" label="Foreground colour" />
+        <.input field={@form[:colour]} type="color" label="Colour" />
+        <.input field={@form[:fg_colour]} type="color" label="Text colour" />
         <.input field={@form[:description]} type="text" label="Description" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Tag</.button>

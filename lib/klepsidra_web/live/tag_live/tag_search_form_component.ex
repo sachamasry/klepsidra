@@ -44,7 +44,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
           <div style="display:inline-block">
             <input
               type="text"
-              class="form-control inline-block text-sm focus:outline-none border-indigo-400 border-r-0"
+              class="form-control inline-block text-sm focus:outline-none rounded border-indigo-400"
               name="search_phrase"
               value={@search_phrase}
               placeholder="Enter tag"
@@ -55,7 +55,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
             />
             <a
               href="#"
-              class="inline-block align-bottom border border-indigo-400 text-indigo-400"
+              class="inline-block align-bottom border rounded border-indigo-400 text-indigo-400"
               phx-click="toggle-results"
               phx-target={@myself}
               phx-value-search-phrase={@search_phrase}
