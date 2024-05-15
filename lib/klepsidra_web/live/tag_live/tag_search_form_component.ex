@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
         >
           <span
             :for={timer_tag <- @timer_tags}
-            class="inline-block text-xs bg-green-400 text-white py-1 px-2 mr-2 mb-1 rounded font-semibold"
+            class="inline-block text-xs bg-slate-400 text-white py-1 px-2 mr-2 mb-1 rounded font-semibold"
             style={
               if timer_tag.tag.colour,
                 do: "background-color:#{timer_tag.tag.colour};color:#{timer_tag.tag.fg_colour};"

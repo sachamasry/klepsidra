@@ -23,10 +23,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
+- Decide on critical functionality needed for MVP, or first release; document requirements
 - Create simple 'customer' entity, to link timers to a customer for later invoicing
   - Only expose customer choice if timer is billable
 - Tagging UX improvements
-  - Change default tag background to a shade of grey
+  - Make colour picking easier, through use of dedicated colour picker control
   - Provide ability to set new tag colour when creating freeform tag in live component
   - Make it possible to drill into the tag from the live component
   - Document tag selector live component
