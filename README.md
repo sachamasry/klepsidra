@@ -24,11 +24,25 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## To do
 
 - Decide on critical functionality needed for MVP, or first release; document requirements
+
+### MVP: Make application self-hosting
+
 - Create simple 'customer' entity, to link timers to a customer for later invoicing
   - Only expose customer choice if timer is billable
+- Ensure quick notes feature works from all ways a note can be recorded
+- Tagging UX improvements
+  - Make it possible to drill into the tag from the live component
+  - Remove old tagging attempts from views
+- Provide a 'today' view
+  - Timers recorded today
+  - Open timers needing closing
+- Provide reporting
+  - Filter: by customer; tags; date range
+
+### Future
+
 - Tagging UX improvements
   - Provide ability to set new tag colour when creating freeform tag in live component
-  - Make it possible to drill into the tag from the live component
   - Document tag selector live component
   - Improve search functionality to perform fuzzy query directly in the database
   - Develop ability to cope with temporary data structures, before a timer has been created?
