@@ -27,6 +27,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Create very simple 'project' entity, merely holding the base details of a project
 - Create simple 'customer' entity, to link timers to a customer for later invoicing
   - Only expose customer choice if timer is billable
 - Ensure quick notes feature works from all ways a note can be recorded

@@ -15,7 +15,8 @@ defmodule Klepsidra.Categorisation.Tag do
   @type t :: %__MODULE__{
           name: String.t(),
           description: String.t(),
-          colour: String.t()
+          colour: String.t(),
+          fg_colour: String.t()
         }
   schema "tags" do
     field :name, :string
