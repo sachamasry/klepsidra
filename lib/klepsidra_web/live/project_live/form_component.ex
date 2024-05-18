@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage project records in your database.</:subtitle>
+        <:subtitle>Manage projects you're involved in</:subtitle>
       </.header>
 
       <.simple_form
@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:active]} type="checkbox" label="Active" />
+        <.input :if={@action == :edit} field={@form[:active]} type="checkbox" label="Active?" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Project</.button>
         </:actions>

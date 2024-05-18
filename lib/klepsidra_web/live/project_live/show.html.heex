@@ -1,6 +1,6 @@
 <.header>
-  Project <%= @project.id %>
-  <:subtitle>This is a project record from your database.</:subtitle>
+  <%= @project.name %>
+  <:subtitle><%= @project.description %></:subtitle>
   <:actions>
     <.link patch={~p"/projects/#{@project}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit project</.button>
@@ -9,9 +9,10 @@
 </.header>
 
 <.list>
-  <:item title="Name"><%= @project.name %></:item>
-  <:item title="Description"><%= @project.description %></:item>
-  <:item title="Active"><%= @project.active %></:item>
+  <:item title="Active?">
+    <div class={"rounded-full h-full aspect-square #{if @project.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:item>
 </.list>
 
 <.back navigate={~p"/projects"}>Back to projects</.back>
