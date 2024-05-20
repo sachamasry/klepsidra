@@ -7,6 +7,7 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   import Ecto.Changeset
   alias Klepsidra.Categorisation.TimerTags
+  alias Klepsidra.Projects.Project
 
   @type t :: %__MODULE__{
           description: String.t(),
@@ -15,7 +16,8 @@ defmodule Klepsidra.TimeTracking.Timer do
           duration: integer,
           duration_time_unit: String.t(),
           reported_duration: integer,
-          reported_duration_time_unit: String.t()
+          reported_duration_time_unit: String.t(),
+          project_id: integer
         }
   schema "timers" do
     field :description, :string
@@ -32,6 +34,8 @@ defmodule Klepsidra.TimeTracking.Timer do
 
     has_many :tags, through: [:timer_tags, :tag]
 
+    belongs_to :project, Project
+
     timestamps()
   end
 
@@ -45,9 +49,11 @@ defmodule Klepsidra.TimeTracking.Timer do
       :duration_time_unit,
       :reported_duration,
       :reported_duration_time_unit,
-      :description
+      :description,
+      :project_id
     ])
     |> validate_required([:start_stamp])
+    |> unique_constraint(:project)
 
     # |> cast_assoc(:timer_tags,
     # with: &TimerTags.changeset/3,

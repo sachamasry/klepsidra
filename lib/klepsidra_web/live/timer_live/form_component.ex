@@ -41,6 +41,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         />
         <.input field={@form[:description]} type="textarea" label="Description" />
 
+        <.input
+          field={@form[:project_id]}
+          type="select"
+          placeholder="Project"
+          options={[{"Project one", "1"}, {"Project two", "2"}]}
+        />
+
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
         </:actions>

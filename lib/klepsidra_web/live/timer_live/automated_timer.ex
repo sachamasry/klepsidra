@@ -85,33 +85,16 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
-        <div id="tags" phx-hook="SortableInputsFor" class="space-y-2">
-          <.inputs_for :let={timer_tag} field={@form[:timer_tags]}>
-            <div class="flex space-x-2 drag-item">
-              <.icon name="hero-bars-3" class="w-6 h-6 relative top-2" data-handle />
-              <.input type="hidden" name="timer[tags_order]" value={timer_tag.index} />
-              <label>
-                <input
-                  type="checkbox"
-                  name="timer[tags_delete][]"
-                  value={timer_tag.index}
-                  class="hidden"
-                />
-                <.icon name="hero-x-mark" />
-              </label>
-              <.input type="select" field={timer_tag[:tag_id]} placeholder="Tag" options={@tags} />
-            </div>
-          </.inputs_for>
-        </div>
+        <.input
+          field={@form[:project_id]}
+          type="select"
+          placeholder="Project"
+          options={[{"Project one", "1"}, {"Project two", "2"}]}
+        />
 
         <:actions>
           <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
           <.button :if={@invocation_context == :stop} phx-disable-with="Saving...">Stop</.button>
-
-          <label class="block cursor-pointer">
-            <input type="checkbox" name="timer[tags_order][]" class="hidden" />
-            <.icon name="hero-plus-circle" />add more
-          </label>
         </:actions>
       </.simple_form>
     </div>
