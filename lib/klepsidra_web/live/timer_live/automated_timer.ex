@@ -4,9 +4,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
-  alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
+  alias Klepsidra.Projects
 
   @impl true
   def render(assigns) do
@@ -85,12 +85,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
-        <.input
-          field={@form[:project_id]}
-          type="select"
-          placeholder="Project"
-          options={[{"Project one", "1"}, {"Project two", "2"}]}
-        />
+        <.input field={@form[:project_id]} type="select" placeholder="Project" options={@projects} />
 
         <:actions>
           <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
@@ -109,7 +104,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
      socket
      |> assign(assigns)
      |> assign_form(changeset)
-     |> assign_tags()}
+     |> assign_project()}
   end
 
   @impl true
@@ -253,12 +248,13 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     end
   end
 
-  defp assign_tags(socket) do
-    tags =
-      Categorisation.list_tags()
-      |> Enum.map(fn tag -> {tag.name, tag.id} end)
+  # @spec assign_project(%Phoenix.LiveView.Socket{}) :: %Klepsidra.Projects.Project{}
+  defp assign_project(socket) do
+    projects =
+      Projects.list_projects()
+      |> Enum.map(fn project -> {project.name, project.id} end)
 
-    assign(socket, :tags, tags)
+    assign(socket, :projects, projects)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

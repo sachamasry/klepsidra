@@ -4,6 +4,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.Projects
 
   @impl true
   def render(assigns) do
@@ -41,12 +42,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         />
         <.input field={@form[:description]} type="textarea" label="Description" />
 
-        <.input
-          field={@form[:project_id]}
-          type="select"
-          placeholder="Project"
-          options={[{"Project one", "1"}, {"Project two", "2"}]}
-        />
+        <.input field={@form[:project_id]} type="select" placeholder="Project" options={@projects} />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
@@ -63,7 +59,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     #  |> assign_tag()
+     |> assign_project()
      |> assign_form(changeset)}
   end
 
@@ -124,14 +120,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
-  # defp assign_tag(socket) do
-  #   tags =
-  #     Klepsidra.Categorisation.list_tags()
-  #     |> Enum.map(fn tag -> {tag.name, tag.id} end)
-  #     |> Kernel.++([{"+ New tag", :new}])
+  defp assign_project(socket) do
+    projects =
+      Projects.list_projects()
+      |> Enum.map(fn project -> {project.name, project.id} end)
 
-  #   assign(socket, :tags, tags)
-  # end
+    assign(socket, :projects, projects)
+  end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
