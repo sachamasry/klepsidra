@@ -97,14 +97,15 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   @impl true
+  @spec update(map(), Phoenix.LiveView.Socket.t()) :: {:ok, Phoenix.LiveView.Socket.t()}
   def update(%{timer: timer} = assigns, socket) do
     changeset = TimeTracking.change_timer(timer)
 
     {:ok,
      socket
-     |> assign(assigns)
      |> assign_form(changeset)
-     |> assign_project()}
+     |> assign_project()
+     |> assign(assigns)}
   end
 
   @impl true
@@ -248,13 +249,13 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     end
   end
 
-  # @spec assign_project(%Phoenix.LiveView.Socket{}) :: %Klepsidra.Projects.Project{}
+  @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
   defp assign_project(socket) do
     projects =
       Projects.list_projects()
       |> Enum.map(fn project -> {project.name, project.id} end)
 
-    assign(socket, :projects, projects)
+    assign(socket, projects: projects)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

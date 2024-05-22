@@ -4,13 +4,13 @@ defmodule KlepsidraWeb.ProjectLiveTest do
   import Phoenix.LiveViewTest
   import Klepsidra.ProjectsFixtures
 
-  @create_attrs %{active: true, name: "some name", description: "some description"}
+  @create_attrs %{name: "some name", description: "some description"}
   @update_attrs %{
     active: false,
     name: "some updated name",
     description: "some updated description"
   }
-  @invalid_attrs %{active: false, name: nil, description: nil}
+  @invalid_attrs %{name: nil, description: nil}
 
   defp create_project(_) do
     project = project_fixture()
@@ -35,13 +35,13 @@ defmodule KlepsidraWeb.ProjectLiveTest do
 
       assert_patch(index_live, ~p"/projects/new")
 
-      # assert index_live
-      #        |> form("#project-form", project: @invalid_attrs)
-      #        |> render_change() =~ "can&#39;t be blank"
+      assert index_live
+             |> form("#project-form", project: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
 
-      # assert index_live
-      #        |> form("#project-form", project: @create_attrs)
-      #        |> render_submit()
+      assert index_live
+             |> form("#project-form", project: @create_attrs)
+             |> render_submit()
 
       # assert_patch(index_live, ~p"/projects")
 

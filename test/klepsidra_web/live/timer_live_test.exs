@@ -34,98 +34,98 @@ defmodule KlepsidraWeb.TimerLiveTest do
   describe "Index" do
     setup [:create_timer]
 
-    # test "lists all timers", %{conn: conn, timer: timer} do
-    #   {:ok, _index_live, html} = live(conn, ~p"/timers")
+    test "lists all timers", %{conn: conn, timer: timer} do
+      {:ok, _index_live, html} = live(conn, ~p"/timers")
 
-    #   assert html =~ "Listing Timers"
-    #   assert html =~ timer.description
-    # end
+      assert html =~ "Listing Timers"
+      assert html =~ timer.description
+    end
 
-    # test "saves new timer", %{conn: conn} do
-    #   {:ok, index_live, _html} = live(conn, ~p"/timers")
+    test "saves new timer", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, ~p"/timers")
 
-    #   assert index_live |> element("a", "Manual Timer") |> render_click() =~
-    #            "Manual Timer"
+      assert index_live |> element("a", "Manual Timer") |> render_click() =~
+               "Manual Timer"
 
-    #   assert_patch(index_live, ~p"/timers/new")
+      assert_patch(index_live, ~p"/timers/new")
 
-    #   assert index_live
-    #          |> form("#timer-form", timer: @invalid_attrs)
-    #          |> render_change() =~ "can&#39;t be blank"
+      assert index_live
+             |> form("#timer-form", timer: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
 
-    #   assert index_live
-    #          |> form("#timer-form", timer: @create_attrs)
-    #          |> render_submit()
+      assert index_live
+             |> form("#timer-form", timer: @create_attrs)
+             |> render_submit()
 
-    #   assert_patch(index_live, ~p"/timers")
+      assert_patch(index_live, ~p"/timers")
 
-    #   html = render(index_live)
-    #   assert html =~ "Timer created successfully"
-    #   assert html =~ "some description"
-    # end
+      html = render(index_live)
+      assert html =~ "Timer created successfully"
+      assert html =~ "some description"
+    end
 
-    # test "updates timer in listing", %{conn: conn, timer: timer} do
-    #   {:ok, index_live, _html} = live(conn, ~p"/timers")
+    test "updates timer in listing", %{conn: conn, timer: timer} do
+      {:ok, index_live, _html} = live(conn, ~p"/timers")
 
-    #   assert index_live |> element("#timers-#{timer.id} a", "Edit") |> render_click() =~
-    #            "Edit"
+      assert index_live |> element("#timers-#{timer.id} a", "Edit") |> render_click() =~
+               "Edit"
 
-    #   assert_patch(index_live, ~p"/timers/#{timer}/edit")
+      assert_patch(index_live, ~p"/timers/#{timer}/edit")
 
-    #   assert index_live
-    #          |> form("#timer-form", timer: @invalid_attrs)
-    #          |> render_change() =~ "can&#39;t be blank"
+      assert index_live
+             |> form("#timer-form", timer: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
 
-    #   assert index_live
-    #          |> form("#timer-form", timer: @update_attrs)
-    #          |> render_submit()
+      assert index_live
+             |> form("#timer-form", timer: @update_attrs)
+             |> render_submit()
 
-    #   assert_patch(index_live, ~p"/timers")
+      assert_patch(index_live, ~p"/timers")
 
-    #   html = render(index_live)
-    #   assert html =~ "Timer updated successfully"
-    #   assert html =~ "some updated description"
-    # end
+      html = render(index_live)
+      assert html =~ "Timer updated successfully"
+      assert html =~ "some updated description"
+    end
 
-    # test "deletes timer in listing", %{conn: conn, timer: timer} do
-    #   {:ok, index_live, _html} = live(conn, ~p"/timers")
+    test "deletes timer in listing", %{conn: conn, timer: timer} do
+      {:ok, index_live, _html} = live(conn, ~p"/timers")
 
-    #   assert index_live |> element("#timers-#{timer.id} a", "Delete") |> render_click()
-    #   refute has_element?(index_live, "#timers-#{timer.id}")
-    # end
+      assert index_live |> element("#timers-#{timer.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#timers-#{timer.id}")
+    end
   end
 
   describe "Show" do
     setup [:create_timer]
 
-    # test "displays timer", %{conn: conn, timer: timer} do
-    #   {:ok, _show_live, html} = live(conn, ~p"/timers/#{timer}")
+    test "displays timer", %{conn: conn, timer: timer} do
+      {:ok, _show_live, html} = live(conn, ~p"/timers/#{timer}")
 
-    #   assert html =~ "Show Timer"
-    #   assert html =~ timer.description
-    # end
+      assert html =~ "Show Timer"
+      assert html =~ timer.description
+    end
 
-    # test "updates timer within modal", %{conn: conn, timer: timer} do
-    #   {:ok, show_live, _html} = live(conn, ~p"/timers/#{timer}")
+    test "updates timer within modal", %{conn: conn, timer: timer} do
+      {:ok, show_live, _html} = live(conn, ~p"/timers/#{timer}")
 
-    #   assert show_live |> element("a", "Edit") |> render_click() =~
-    #            "Edit Timer"
+      assert show_live |> element("a", "Edit") |> render_click() =~
+               "Edit Timer"
 
-    #   assert_patch(show_live, ~p"/timers/#{timer}/show/edit")
+      assert_patch(show_live, ~p"/timers/#{timer}/show/edit")
 
-    #   assert show_live
-    #          |> form("#timer-form", timer: @invalid_attrs)
-    #          |> render_change() =~ "can&#39;t be blank"
+      assert show_live
+             |> form("#timer-form", timer: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
 
-    #   assert show_live
-    #          |> form("#timer-form", timer: @update_attrs)
-    #          |> render_submit()
+      assert show_live
+             |> form("#timer-form", timer: @update_attrs)
+             |> render_submit()
 
-    #   assert_patch(show_live, ~p"/timers/#{timer}")
+      assert_patch(show_live, ~p"/timers/#{timer}")
 
-    #   html = render(show_live)
-    #   assert html =~ "Timer updated successfully"
-    #   assert html =~ "some updated description"
-    # end
+      html = render(show_live)
+      assert html =~ "Timer updated successfully"
+      assert html =~ "some updated description"
+    end
   end
 end
