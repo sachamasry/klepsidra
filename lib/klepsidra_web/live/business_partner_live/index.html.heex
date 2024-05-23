@@ -1,0 +1,52 @@
+<.header>
+  Listing Business partners
+  <:actions>
+    <.link patch={~p"/customers/new"}>
+      <.button>New Business partner</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="business_partners"
+  rows={@streams.business_partners}
+  row_click={fn {_id, business_partner} -> JS.navigate(~p"/customers/#{business_partner}") end}
+>
+  <:col :let={{_id, business_partner}} label="Name"><%= business_partner.name %></:col>
+  <:col :let={{_id, business_partner}} label="Description">
+    <%= business_partner.description %>
+  </:col>
+  <:col :let={{_id, business_partner}} label="Customer"><%= business_partner.customer %></:col>
+  <:col :let={{_id, business_partner}} label="Supplier"><%= business_partner.supplier %></:col>
+  <:col :let={{_id, business_partner}} label="Active"><%= business_partner.active %></:col>
+  <:action :let={{_id, business_partner}}>
+    <div class="sr-only">
+      <.link navigate={~p"/customers/#{business_partner}"}>Show</.link>
+    </div>
+    <.link patch={~p"/customers/#{business_partner}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, business_partner}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: business_partner.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="business_partner-modal"
+  show
+  on_cancel={JS.patch(~p"/customers")}
+>
+  <.live_component
+    module={KlepsidraWeb.BusinessPartnerLive.FormComponent}
+    id={@business_partner.id || :new}
+    title={@page_title}
+    action={@live_action}
+    business_partner={@business_partner}
+    patch={~p"/customers"}
+  />
+</.modal>

@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.0">
 
 
-    <title>Klepsidra.TimeTracking.Note — klepsidra v0.1.0</title>
+    <title>Klepsidra.BusinessPartners.BusinessPartner — klepsidra v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
@@ -117,14 +117,15 @@ Pages
 
 <h1>
 
-  <span translate="no">Klepsidra.TimeTracking.Note</span> 
+  <span translate="no">Klepsidra.BusinessPartners.BusinessPartner</span> 
   <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Defines the data schema for the <code class="inline">Note</code> entity, annotations of timed activities.</p>
+<p>Defines a schema for the <code class="inline">Business Partners</code> entity, recording customers and
+suppliers of the busines.</p>
   </section>
 
 
@@ -177,14 +178,16 @@ Pages
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.TimeTracking.Note{
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.BusinessPartners.BusinessPartner{
   __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  active: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  customer: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  description: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
   inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  note: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  timer_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
-  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  user_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  supplier: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>

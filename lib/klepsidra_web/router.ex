@@ -60,6 +60,13 @@ defmodule KlepsidraWeb.Router do
 
     live "/projects/:id", ProjectLive.Show, :show
     live "/projects/:id/show/edit", ProjectLive.Show, :edit
+
+    live "/customers", BusinessPartnerLive.Index, :index
+    live "/customers/new", BusinessPartnerLive.Index, :new
+    live "/customers/:id/edit", BusinessPartnerLive.Index, :edit
+
+    live "/customers/:id", BusinessPartnerLive.Show, :show
+    live "/customers/:id/show/edit", BusinessPartnerLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

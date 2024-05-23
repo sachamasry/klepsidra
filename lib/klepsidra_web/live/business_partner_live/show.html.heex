@@ -1,0 +1,35 @@
+<.header>
+  Business partner <%= @business_partner.id %>
+  <:subtitle>This is a business_partner record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/customers/#{@business_partner}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit business_partner</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @business_partner.name %></:item>
+  <:item title="Description"><%= @business_partner.description %></:item>
+  <:item title="Customer"><%= @business_partner.customer %></:item>
+  <:item title="Supplier"><%= @business_partner.supplier %></:item>
+  <:item title="Active"><%= @business_partner.active %></:item>
+</.list>
+
+<.back navigate={~p"/customers"}>Back to business_partners</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="business_partner-modal"
+  show
+  on_cancel={JS.patch(~p"/customers/#{@business_partner}")}
+>
+  <.live_component
+    module={KlepsidraWeb.BusinessPartnerLive.FormComponent}
+    id={@business_partner.id}
+    title={@page_title}
+    action={@live_action}
+    business_partner={@business_partner}
+    patch={~p"/customers/#{@business_partner}"}
+  />
+</.modal>
