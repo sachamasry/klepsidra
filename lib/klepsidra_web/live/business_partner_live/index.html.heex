@@ -16,9 +16,10 @@
   <:col :let={{_id, business_partner}} label="Description">
     <%= business_partner.description %>
   </:col>
-  <:col :let={{_id, business_partner}} label="Customer"><%= business_partner.customer %></:col>
-  <:col :let={{_id, business_partner}} label="Supplier"><%= business_partner.supplier %></:col>
-  <:col :let={{_id, business_partner}} label="Active"><%= business_partner.active %></:col>
+  <:col :let={{_id, business_partner}} label="Active?">
+    <div class={"rounded-full h-full aspect-square w-5 #{if business_partner.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:col>
   <:action :let={{_id, business_partner}}>
     <div class="sr-only">
       <.link navigate={~p"/customers/#{business_partner}"}>Show</.link>

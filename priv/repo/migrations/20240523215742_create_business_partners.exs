@@ -7,7 +7,7 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
       add :description, :string
       add :customer, :boolean, default: false, null: false
       add :supplier, :boolean, default: false, null: false
-      add :active, :boolean, default: false, null: false
+      add :active, :boolean, default: true, null: false
 
       timestamps()
     end

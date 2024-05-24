@@ -27,9 +27,14 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Add checkbox determining whether time is billable?
 - Create simple 'customer' entity, to link timers to a customer for later invoicing
   - Only expose customer choice if timer is billable
 - Ensure quick notes feature works from all ways a note can be recorded
+- Complete all data structure, validations, defaults and indexes needed
+  - Create a many-to-many projects to tags table
+  - Create a business partners `notes` table
+  - Create a projects `notes` table
 - Tagging UX improvements
   - Make it possible to drill into the tag from the live component
   - Remove old tagging attempts from views
@@ -55,7 +60,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Start enabling full-text search on other relevant database fields
 - Make form dynamic: changing start or end times must recalculate durations
 - Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
-- Add checkbox determining whether time is billable?
 - Resize datetime, duration and duration unit controls to more efficiently use space
 - Start implementing colour palette
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format

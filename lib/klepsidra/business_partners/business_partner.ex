@@ -19,7 +19,7 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
     field :description, :string
     field :customer, :boolean, default: false
     field :supplier, :boolean, default: false
-    field :active, :boolean, default: false
+    field :active, :boolean, default: true
 
     timestamps()
   end

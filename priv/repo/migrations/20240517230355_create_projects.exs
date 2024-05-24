@@ -6,6 +6,7 @@ defmodule Klepsidra.Repo.Migrations.CreateProjects do
       add :name, :string, null: false
       add :description, :string
       add :active, :boolean, default: true, null: false
+      add :business_partner_id, references(:business_partners, on_delete: :nothing)
 
       timestamps()
     end

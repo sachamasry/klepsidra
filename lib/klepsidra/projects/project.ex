@@ -1,21 +1,30 @@
 defmodule Klepsidra.Projects.Project do
   @moduledoc """
-  Defines a schema for the `Projects` entity, used for grouping timers
-  according to some long-running project leading to the activity being needed.
+  Defines a schema for the `Projects` entity, used to label long-running projects.
+
+  Projects can be initiated by both customers, as well as in response to supplier
+  requirements, and can be linked to a `BusinessPartner` entity.
+
+  Timers can also belong to projects, timing disparate activities as part of a
+  long-running project.
   """
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Klepsidra.BusinessPartners.BusinessPartner
 
   @type t :: %__MODULE__{
           name: String.t(),
           description: String.t(),
+          business_partner_id: integer,
           active: boolean()
         }
   schema "projects" do
-    field :active, :boolean, default: true
     field :name, :string
     field :description, :string
+    field :active, :boolean, default: true
+
+    belongs_to :business_partner, BusinessPartner
 
     timestamps()
   end

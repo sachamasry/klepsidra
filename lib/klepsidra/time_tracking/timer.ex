@@ -15,16 +15,19 @@ defmodule Klepsidra.TimeTracking.Timer do
           end_stamp: String.t(),
           duration: integer,
           duration_time_unit: String.t(),
+          billable: boolean,
+          business_partner_id: integer,
+          project_id: integer,
           reported_duration: integer,
-          reported_duration_time_unit: String.t(),
-          project_id: integer
+          reported_duration_time_unit: String.t()
         }
   schema "timers" do
-    field :description, :string
     field :start_stamp, :string
     field :end_stamp, :string
+    field :description, :string
     field :duration, :integer, default: nil
     field :duration_time_unit, :string
+    field :billable, :boolean, default: false
     field :reported_duration, :integer
     field :reported_duration_time_unit, :string
 
@@ -35,6 +38,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     has_many :tags, through: [:timer_tags, :tag]
 
     belongs_to :project, Project
+    belongs_to :business_partner, BusinessPartner
 
     timestamps()
   end
@@ -54,12 +58,6 @@ defmodule Klepsidra.TimeTracking.Timer do
     ])
     |> validate_required([:start_stamp])
     |> unique_constraint(:project)
-
-    # |> cast_assoc(:timer_tags,
-    # with: &TimerTags.changeset/3,
-    # sort_param: :tags_order,
-    # drop_param: :tags_delete
-    # )
   end
 
   @doc """
