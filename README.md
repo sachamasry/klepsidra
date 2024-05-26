@@ -28,6 +28,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Add checkbox determining whether time is billable?
+  - Once timer has been made billable, show the customer select control
+  - If the `billable` checkbox has been toggled, clear customer selection and hide customer select control
 - Create simple 'customer' entity, to link timers to a customer for later invoicing
   - Only expose customer choice if timer is billable
 - Ensure quick notes feature works from all ways a note can be recorded
