@@ -7,6 +7,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias Klepsidra.Projects
+  alias Klepsidra.BusinessPartners
 
   @impl true
   def render(assigns) do
@@ -85,6 +86,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
+        <.input
+          field={@form[:business_partner_id]}
+          type="select"
+          placeholder="Customer"
+          options={@business_partners}
+        />
         <.input field={@form[:project_id]} type="select" placeholder="Project" options={@projects} />
 
         <:actions>
@@ -105,6 +112,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
      socket
      |> assign_form(changeset)
      |> assign_project()
+     |> assign_business_partner()
      |> assign(assigns)}
   end
 
@@ -256,6 +264,16 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       |> Enum.map(fn project -> {project.name, project.id} end)
 
     assign(socket, projects: projects)
+  end
+
+  @spec assign_project(Phoenix.LiveView.Socket.t()) ::
+          Klepsidra.BusinessPartners.BusinessPartner.t()
+  defp assign_business_partner(socket) do
+    business_partners =
+      BusinessPartners.list_business_partners()
+      |> Enum.map(fn bp -> {bp.name, bp.id} end)
+
+    assign(socket, business_partners: business_partners)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

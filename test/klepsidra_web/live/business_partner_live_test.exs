@@ -5,20 +5,14 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
   import Klepsidra.BusinessPartnersFixtures
 
   @create_attrs %{
-    active: true,
     name: "some name",
-    description: "some description",
-    customer: true,
-    supplier: true
+    description: "some description"
   }
   @update_attrs %{
-    active: false,
     name: "some updated name",
-    description: "some updated description",
-    customer: false,
-    supplier: false
+    description: "some updated description"
   }
-  @invalid_attrs %{active: false, name: nil, description: nil, customer: false, supplier: false}
+  @invalid_attrs %{name: nil, description: nil}
 
   defp create_business_partner(_) do
     business_partner = business_partner_fixture()

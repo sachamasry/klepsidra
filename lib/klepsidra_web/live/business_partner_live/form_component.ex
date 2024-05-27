@@ -23,9 +23,6 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:customer]} type="checkbox" label="Customer" />
-        <.input field={@form[:supplier]} type="checkbox" label="Supplier" />
-        <.input field={@form[:active]} type="checkbox" label="Active" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Business partner</.button>
         </:actions>
@@ -55,6 +52,8 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
   end
 
   def handle_event("save", %{"business_partner" => business_partner_params}, socket) do
+    business_partner_params = Map.merge(business_partner_params, %{"customer" => "true"})
+
     save_business_partner(socket, socket.assigns.action, business_partner_params)
   end
 
