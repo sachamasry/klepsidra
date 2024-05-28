@@ -89,10 +89,18 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         <.input
           field={@form[:business_partner_id]}
           type="select"
+          label="Customer"
           placeholder="Customer"
           options={@business_partners}
         />
-        <.input field={@form[:project_id]} type="select" placeholder="Project" options={@projects} />
+
+        <.input
+          field={@form[:project_id]}
+          type="select"
+          label="Project"
+          placeholder="Project"
+          options={@projects}
+        />
 
         <:actions>
           <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
@@ -260,8 +268,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
   defp assign_project(socket) do
     projects =
-      Projects.list_projects()
-      |> Enum.map(fn project -> {project.name, project.id} end)
+      [
+        {"", ""}
+        | Projects.list_projects()
+          |> Enum.map(fn project -> {project.name, project.id} end)
+      ]
 
     assign(socket, projects: projects)
   end
@@ -270,8 +281,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           Klepsidra.BusinessPartners.BusinessPartner.t()
   defp assign_business_partner(socket) do
     business_partners =
-      BusinessPartners.list_business_partners()
-      |> Enum.map(fn bp -> {bp.name, bp.id} end)
+      [
+        {"", ""}
+        | BusinessPartners.list_business_partners()
+          |> Enum.map(fn bp -> {bp.name, bp.id} end)
+      ]
 
     assign(socket, business_partners: business_partners)
   end

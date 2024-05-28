@@ -8,13 +8,14 @@ defmodule Klepsidra.TimeTracking.Timer do
   import Ecto.Changeset
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Projects.Project
+  alias Klepsidra.BusinessPartners.BusinessPartner
 
   @type t :: %__MODULE__{
-          description: String.t(),
           start_stamp: String.t(),
           end_stamp: String.t(),
           duration: integer,
           duration_time_unit: String.t(),
+          description: String.t(),
           billable: boolean,
           business_partner_id: integer,
           project_id: integer,
@@ -24,10 +25,14 @@ defmodule Klepsidra.TimeTracking.Timer do
   schema "timers" do
     field :start_stamp, :string
     field :end_stamp, :string
-    field :description, :string
     field :duration, :integer, default: nil
     field :duration_time_unit, :string
+    field :description, :string
     field :billable, :boolean, default: false
+
+    belongs_to :business_partner, BusinessPartner
+    belongs_to :project, Project
+
     field :reported_duration, :integer
     field :reported_duration_time_unit, :string
 
@@ -36,9 +41,6 @@ defmodule Klepsidra.TimeTracking.Timer do
       on_replace: :delete
 
     has_many :tags, through: [:timer_tags, :tag]
-
-    belongs_to :project, Project
-    belongs_to :business_partner, BusinessPartner
 
     timestamps()
   end
@@ -51,10 +53,12 @@ defmodule Klepsidra.TimeTracking.Timer do
       :end_stamp,
       :duration,
       :duration_time_unit,
-      :reported_duration,
-      :reported_duration_time_unit,
       :description,
-      :project_id
+      :billable,
+      :business_partner_id,
+      :project_id,
+      :reported_duration,
+      :reported_duration_time_unit
     ])
     |> validate_required([:start_stamp])
     |> unique_constraint(:project)
