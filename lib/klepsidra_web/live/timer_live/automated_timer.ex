@@ -86,6 +86,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
+        <.input field={@form[:billable]} type="checkbox" label="Billable?" />
+
         <.input
           field={@form[:business_partner_id]}
           type="select"
