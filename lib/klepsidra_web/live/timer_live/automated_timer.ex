@@ -86,9 +86,16 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           }
         />
 
-        <.input field={@form[:billable]} type="checkbox" label="Billable?" />
+        <.input
+          field={@form[:billable]}
+          type="checkbox"
+          phx-click="toggle-billable"
+          phx-target={@myself}
+          label="Billable?"
+        />
 
         <.input
+          :if={@billable_activity?}
           field={@form[:business_partner_id]}
           type="select"
           label="Customer"
@@ -121,8 +128,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     {:ok,
      socket
      |> assign_form(changeset)
-     |> assign_project()
+     |> assign(billable_activity?: false)
      |> assign_business_partner()
+     |> assign_project()
      |> assign(assigns)}
   end
 
@@ -223,6 +231,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
      )}
   end
 
+  def handle_event("toggle-billable", _, socket) do
+    billable_activity = !socket.assigns.billable_activity?
+
+    socket =
+      socket
+      |> assign(billable_activity?: billable_activity)
+      |> assign_business_partner()
+
+    {:noreply, socket}
+  end
+
   def handle_event("save", %{"timer" => timer_params}, socket) do
     save_timer(socket, socket.assigns.action, timer_params)
   end
@@ -279,15 +298,21 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     assign(socket, projects: projects)
   end
 
-  @spec assign_project(Phoenix.LiveView.Socket.t()) ::
-          Klepsidra.BusinessPartners.BusinessPartner.t()
+  # @spec assign_business_partner(Phoenix.LiveView.Socket.t()) ::
+  #         Klepsidra.BusinessPartners.BusinessPartner.t()
   defp assign_business_partner(socket) do
     business_partners =
-      [
-        {"", ""}
-        | BusinessPartners.list_business_partners()
-          |> Enum.map(fn bp -> {bp.name, bp.id} end)
-      ]
+      case socket.assigns.billable_activity? do
+        true ->
+          [
+            {"", ""}
+            | BusinessPartners.list_business_partners()
+              |> Enum.map(fn bp -> {bp.name, bp.id} end)
+          ]
+
+        _ ->
+          [{"", ""}]
+      end
 
     assign(socket, business_partners: business_partners)
   end
