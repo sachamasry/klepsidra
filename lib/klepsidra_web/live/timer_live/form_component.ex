@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.Projects
+  alias Klepsidra.BusinessPartners
 
   @impl true
   def render(assigns) do
@@ -42,7 +43,24 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         />
         <.input field={@form[:description]} type="textarea" label="Description" />
 
-        <.input field={@form[:project_id]} type="select" placeholder="Project" options={@projects} />
+        <.input
+          field={@form[:billable]}
+          type="checkbox"
+          phx-click="toggle-billable"
+          phx-target={@myself}
+          label="Billable?"
+        />
+
+        <.input
+          :if={@billable_activity?}
+          field={@form[:business_partner_id]}
+          type="select"
+          label="Customer"
+          placeholder="Customer"
+          options={@business_partners}
+        />
+
+        <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
@@ -56,11 +74,15 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   def update(%{timer: timer} = assigns, socket) do
     changeset = TimeTracking.change_timer(timer)
 
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign_project()
-     |> assign_form(changeset)}
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign(billable_activity?: assigns.timer.billable)
+      |> assign_business_partner()
+      |> assign_project()
+      |> assign_form(changeset)
+
+    {:ok, socket}
   end
 
   # @impl true
@@ -71,6 +93,24 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   #   {:noreply, socket}
   # end
+
+  def handle_event("toggle-billable", _params, socket) do
+    billable_activity = !socket.assigns.billable_activity?
+
+    _business_partner_id =
+      case billable_activity do
+        true -> socket.assigns.timer.business_partner_id
+        false -> ""
+      end
+
+    socket =
+      socket
+      |> assign(billable_activity?: billable_activity)
+      # |> assign(socket.assigns.timer.business_partner_id: business_partner_id)
+      |> assign_business_partner()
+
+    {:noreply, socket}
+  end
 
   @impl true
   def handle_event("validate", %{"timer" => timer_params}, socket) do
@@ -120,12 +160,33 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
+  @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
   defp assign_project(socket) do
     projects =
-      Projects.list_projects()
-      |> Enum.map(fn project -> {project.name, project.id} end)
+      [
+        {"", ""}
+        | Projects.list_projects()
+          |> Enum.map(fn project -> {project.name, project.id} end)
+      ]
 
-    assign(socket, :projects, projects)
+    assign(socket, projects: projects)
+  end
+
+  defp assign_business_partner(socket) do
+    business_partners =
+      case socket.assigns.billable_activity? do
+        true ->
+          [
+            {"", ""}
+            | BusinessPartners.list_business_partners()
+              |> Enum.map(fn bp -> {bp.name, bp.id} end)
+          ]
+
+        _ ->
+          [{"", ""}]
+      end
+
+    assign(socket, business_partners: business_partners)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
