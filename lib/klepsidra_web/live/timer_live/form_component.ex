@@ -97,17 +97,25 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   def handle_event("toggle-billable", _params, socket) do
     billable_activity = !socket.assigns.billable_activity?
 
-    _business_partner_id =
+    business_partner_id =
       case billable_activity do
         true -> socket.assigns.timer.business_partner_id
         false -> ""
       end
 
+    changeset =
+      socket.assigns.form.data
+      |> TimeTracking.change_timer(%{
+        billable: billable_activity,
+        business_partner_id: business_partner_id
+      })
+      |> Map.put(:action, :update)
+
     socket =
       socket
       |> assign(billable_activity?: billable_activity)
-      # |> assign(socket.assigns.timer.business_partner_id: business_partner_id)
       |> assign_business_partner()
+      |> assign_form(changeset)
 
     {:noreply, socket}
   end
