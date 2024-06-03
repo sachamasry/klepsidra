@@ -116,6 +116,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       |> assign(billable_activity?: billable_activity)
       |> assign_business_partner()
       |> assign_form(changeset)
+      |> assign(socket.assigns.form.data.description, "Test")
 
     {:noreply, socket}
   end
