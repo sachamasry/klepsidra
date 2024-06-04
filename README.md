@@ -28,9 +28,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Fix uniqueness constraint clash when saving a second timer within one minute
-- Create simple 'customer' entity, to link timers to a customer for later invoicing
-  - Only expose customer choice if timer is billable
-  - Require customer choice if timer is billable
 - Ensure quick notes feature works from all ways a note can be recorded
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table

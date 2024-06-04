@@ -51,14 +51,15 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           label="Billable?"
         />
 
-        <.input
-          :if={@billable_activity?}
-          field={@form[:business_partner_id]}
-          type="select"
-          label="Customer"
-          placeholder="Customer"
-          options={@business_partners}
-        />
+        <div class={if !@billable_activity?, do: "hidden"}>
+          <.input
+            field={@form[:business_partner_id]}
+            type="select"
+            required={@billable_activity?}
+            label="Customer"
+            options={@business_partners}
+          />
+        </div>
 
         <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
@@ -185,11 +186,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     business_partners =
       case socket.assigns.billable_activity? do
         true ->
-          [
-            {"", ""}
-            | BusinessPartners.list_business_partners()
-              |> Enum.map(fn bp -> {bp.name, bp.id} end)
-          ]
+          BusinessPartners.list_business_partners()
+          |> Enum.map(fn bp -> {bp.name, bp.id} end)
 
         _ ->
           [{"", ""}]
