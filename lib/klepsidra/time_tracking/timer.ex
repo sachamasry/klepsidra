@@ -100,23 +100,23 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45")
-      72
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45")
+      # 72
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :minute)
-      72
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :minute)
+      # 72
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :second)
-      4261
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :second)
+      # 4261
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :hour)
-      2
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45", :hour)
+      # 2
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:34", :hour)
-      2
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:34", :hour)
+      # 2
 
-      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:33", :hour)
-      1
+      # iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:33", :hour)
+      # 1
   """
   @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
   @spec calculate_timer_duration(NaiveDateTime.t(), NaiveDateTime.t(), atom()) :: integer()
@@ -157,17 +157,17 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
-      ...> |> NaiveDateTime.add(-15, :minute)
-      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
-      ...> |> Klepsidra.TimeTracking.Timer.clock_out()
-      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 16}
+      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      # ...> |> NaiveDateTime.add(-15, :minute)
+      # ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      # ...> |> Klepsidra.TimeTracking.Timer.clock_out()
+      # %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 16}
 
-      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
-      ...> |> NaiveDateTime.add(-15, :minute)
-      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
-      ...> |> Klepsidra.TimeTracking.Timer.clock_out(:hour)
-      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 1}
+      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      # ...> |> NaiveDateTime.add(-15, :minute)
+      # ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      # ...> |> Klepsidra.TimeTracking.Timer.clock_out(:hour)
+      # %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 1}
   """
   @spec clock_out(String.t(), atom()) :: %{end_timestamp: String.t(), timer_duration: integer()}
   def clock_out(start_timestamp, unit \\ :minute)
@@ -250,7 +250,8 @@ defmodule Klepsidra.TimeTracking.Timer do
   @spec parse_html_datetime!(String.t()) :: NaiveDateTime.t()
   def parse_html_datetime!(
         <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
-          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+          _hour::binary-size(2), ":", _minute::binary-size(2), ":",
+          _second::binary-size(2)>> = datetime_string
       )
       when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
@@ -258,7 +259,8 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   def parse_html_datetime!(
         <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), " ",
-          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+          _hour::binary-size(2), ":", _minute::binary-size(2), ":",
+          _second::binary-size(2)>> = datetime_string
       )
       when is_bitstring(datetime_string) do
     Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
@@ -276,13 +278,13 @@ defmodule Klepsidra.TimeTracking.Timer do
   ## Examples
 
       iex> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html(~N[2024-04-07 22:12:32])
-      {:ok, "2024-04-07T22:12"}
+      {:ok, "2024-04-07T22:12:32"}
   """
   @spec convert_naivedatetime_to_html(NaiveDateTime.t()) ::
           {:ok, String.t()} | {:error, String.t()}
   def convert_naivedatetime_to_html(datetime_stamp)
       when is_struct(datetime_stamp, NaiveDateTime) do
-    Timex.format(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+    Timex.format(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}:{0s}")
   end
 
   @doc """
@@ -296,12 +298,12 @@ defmodule Klepsidra.TimeTracking.Timer do
   ## Examples
 
       iex> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(~N[2024-04-07 22:12:32])
-      "2024-04-07T22:12"
+      "2024-04-07T22:12:32"
   """
   @spec convert_naivedatetime_to_html!(NaiveDateTime.t()) :: String.t()
   def convert_naivedatetime_to_html!(datetime_stamp)
       when is_struct(datetime_stamp, NaiveDateTime) do
-    Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+    Timex.format!(datetime_stamp, "{YYYY}-{0M}-{0D}T{0h24}:{0m}:{0s}")
   end
 
   @doc """

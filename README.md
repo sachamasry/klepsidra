@@ -28,6 +28,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Fix uniqueness constraint clash when saving a second timer within one minute
+  - The constraint breaks due to only one minute fine-ness; increase to per-second, by adding seconds to timestamps
+  - Check and correct all remaining timer functionality to work with new level of timestamp detail
 - Ensure quick notes feature works from all ways a note can be recorded
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table
