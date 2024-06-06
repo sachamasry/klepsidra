@@ -231,6 +231,24 @@ defmodule Klepsidra.TimeTracking.Timer do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
   end
 
+  def parse_html_datetime(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
+          _hour::binary-size(2), ":", _minute::binary-size(2), ":",
+          _second::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}:{0s}")
+  end
+
+  def parse_html_datetime(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), " ",
+          _hour::binary-size(2), ":", _minute::binary-size(2), ":",
+          _second::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}:{0s}")
+  end
+
   @doc """
   Parses HTML `datetime-local` strings into `NativeDateTime` structure.
 
