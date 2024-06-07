@@ -208,8 +208,14 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
       {:ok, ~N[1970-01-01 11:15:00]}
 
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15:39")
+      {:ok, ~N[1970-01-01 11:15:39]}
+
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01 11:15")
       {:ok, ~N[1970-01-01 11:15:00]}
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01 11:15:59")
+      {:ok, ~N[1970-01-01 11:15:59]}
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-02-29T11:15")
       {:error, :invalid_date}
@@ -258,21 +264,43 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
-      {:ok, ~N[1970-01-01 11:15:00]}
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime!("1970-01-01T11:15")
+      ~N[1970-01-01 11:15:00]
 
-      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01 11:15")
-      {:ok, ~N[1970-01-01 11:15:00]}
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime!("1970-01-01T11:15:39")
+      ~N[1970-01-01 11:15:39]
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime!("1970-01-01 11:15")
+      ~N[1970-01-01 11:15:00]
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime!("1970-01-01 11:15:59")
+      ~N[1970-01-01 11:15:59]
 
   """
   @spec parse_html_datetime!(String.t()) :: NaiveDateTime.t()
+  def parse_html_datetime!(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+  end
+
+  def parse_html_datetime!(
+        <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), " ",
+          _hour::binary-size(2), ":", _minute::binary-size(2)>> = datetime_string
+      )
+      when is_bitstring(datetime_string) do
+    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
+  end
+
   def parse_html_datetime!(
         <<_year::binary-size(4), "-", _month::binary-size(2), "-", _day::binary-size(2), "T",
           _hour::binary-size(2), ":", _minute::binary-size(2), ":",
           _second::binary-size(2)>> = datetime_string
       )
       when is_bitstring(datetime_string) do
-    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}")
+    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D}T{0h24}:{0m}:{0s}")
   end
 
   def parse_html_datetime!(
@@ -281,7 +309,7 @@ defmodule Klepsidra.TimeTracking.Timer do
           _second::binary-size(2)>> = datetime_string
       )
       when is_bitstring(datetime_string) do
-    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}")
+    Timex.parse!(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}:{0s}")
   end
 
   @doc """
