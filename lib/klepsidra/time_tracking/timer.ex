@@ -117,6 +117,18 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:33", :hour)
       1
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration(~N[2024-06-06 23:40:31], ~N[2024-06-07 01:23:45])
+      104
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration(~N[2024-06-06 23:40:31], ~N[2024-06-07 01:23:45], :minute)
+      104
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration(~N[2024-06-06 23:40:31], ~N[2024-06-07 01:23:45], :second)
+      6195
+
+      iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration(~N[2024-06-06 23:40:31], ~N[2024-06-07 01:23:45], :hour)
+      2
   """
   @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
   @spec calculate_timer_duration(NaiveDateTime.t(), NaiveDateTime.t(), atom()) :: integer()
