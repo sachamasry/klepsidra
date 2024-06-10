@@ -169,17 +169,17 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
-      # ...> |> NaiveDateTime.add(-15, :minute)
-      # ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
-      # ...> |> Klepsidra.TimeTracking.Timer.clock_out()
-      # %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 16}
+      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      ...> |> NaiveDateTime.add(-15, :minute)
+      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      ...> |> Klepsidra.TimeTracking.Timer.clock_out()
+      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 16}
 
-      # iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
-      # ...> |> NaiveDateTime.add(-15, :minute)
-      # ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
-      # ...> |> Klepsidra.TimeTracking.Timer.clock_out(:hour)
-      # %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 1}
+      iex> Klepsidra.TimeTracking.Timer.get_current_timestamp()
+      ...> |> NaiveDateTime.add(-15, :minute)
+      ...> |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!()
+      ...> |> Klepsidra.TimeTracking.Timer.clock_out(:hour)
+      %{end_timestamp: Klepsidra.TimeTracking.Timer.get_current_timestamp() |> Klepsidra.TimeTracking.Timer.convert_naivedatetime_to_html!(), timer_duration: 1}
   """
   @spec clock_out(String.t(), atom()) :: %{end_timestamp: String.t(), timer_duration: integer()}
   def clock_out(start_timestamp, unit \\ :minute)
