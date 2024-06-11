@@ -4,6 +4,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.Projects
   alias Klepsidra.BusinessPartners
 
@@ -137,6 +138,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   defp save_timer(socket, :edit, timer_params) do
+    end_timer =
+      Timer.parse_html_datetime!(timer_params["end_stamp"])
+      |> Timer.convert_naivedatetime_to_html!()
+
+    timer_params =
+      Map.put(timer_params, "end_stamp", end_timer)
+
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})
