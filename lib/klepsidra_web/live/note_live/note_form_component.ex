@@ -42,10 +42,12 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   def update(%{note: note} = assigns, socket) do
     changeset = TimeTracking.change_note(note)
 
-    {:ok,
-     socket
-     |> assign_form(changeset)
-     |> assign(assigns)}
+    socket =
+      socket
+      |> assign_form(changeset)
+      |> assign(assigns)
+
+    {:ok, socket}
   end
 
   @impl true
@@ -97,11 +99,13 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
         changeset =
           TimeTracking.change_note(%Note{})
 
-        {:noreply,
-         socket
-         |> assign_form(changeset)
-         |> put_flash(:info, "Note created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        {
+          :noreply,
+          socket
+          |> assign_form(changeset)
+          |> put_flash(:info, "Note created successfully")
+          #  |> push_patch(to: socket.assigns.patch)
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}

@@ -28,7 +28,12 @@
 
 <h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium"><%= @notes_title %></h2>
 
-<.live_component module={NoteFormComponent} id={:new_note} timer_id={@timer_id} />
+<.live_component
+  module={NoteFormComponent}
+  id={:new_note}
+  timer_id={@timer_id}
+  action={:new_note}
+/>
 
 <div id="timer-notes" phx-update="stream" class="timer-notes mt-6 divide-y divide-violet-100">
   <div :for={{note_id, note} <- @streams.notes} id={note_id} class="my-6">
