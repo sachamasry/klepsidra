@@ -123,6 +123,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   @impl true
   @spec update(map(), Phoenix.LiveView.Socket.t()) :: {:ok, Phoenix.LiveView.Socket.t()}
   def update(%{timer: timer} = assigns, socket) do
+    timer = TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
+
     changeset = TimeTracking.change_timer(timer)
 
     {:ok,
