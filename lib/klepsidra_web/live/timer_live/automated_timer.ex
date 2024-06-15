@@ -4,6 +4,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias Klepsidra.Projects
@@ -123,7 +124,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   @impl true
   @spec update(map(), Phoenix.LiveView.Socket.t()) :: {:ok, Phoenix.LiveView.Socket.t()}
   def update(%{timer: timer} = assigns, socket) do
-    timer = TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
+    timer =
+      case timer.id do
+        nil -> timer
+        _ -> TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
+      end
 
     changeset = TimeTracking.change_timer(timer)
 
@@ -156,7 +161,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp
 
     duration =
-      Klepsidra.TimeTracking.Timer.calculate_timer_duration(
+      Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
         String.to_atom(duration_time_unit)
@@ -179,7 +184,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       Map.get(socket.assigns.form.params, "end_stamp", nil) || socket.assigns.end_timestamp
 
     duration =
-      Klepsidra.TimeTracking.Timer.calculate_timer_duration(
+      Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
         String.to_atom(reported_duration_time_unit)
@@ -208,7 +213,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         socket.assigns.reported_duration_unit
 
     duration =
-      Klepsidra.TimeTracking.Timer.calculate_timer_duration(
+      Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
         String.to_atom(duration_time_unit)
@@ -216,7 +221,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       |> to_string()
 
     reported_duration =
-      Klepsidra.TimeTracking.Timer.calculate_timer_duration(
+      Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
         String.to_atom(reported_duration_time_unit)
