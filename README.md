@@ -28,6 +28,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Validate start and end stamp user input
+- Fix 'reported duration' units
+  - Change name to billing time increment
+  - Ensure 'regular' timer form drop-down has all timer increments available
+  - Ensure that duration and billing duration fields are calculated from their time unit choice
+  - Changing either the start or end stamp must recalcualate both durations
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table
   - Create a business partners `notes` table

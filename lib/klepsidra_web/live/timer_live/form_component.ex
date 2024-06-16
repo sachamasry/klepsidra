@@ -118,7 +118,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       |> assign(billable_activity?: billable_activity)
       |> assign_business_partner()
       |> assign_form(changeset)
-      |> assign(socket.assigns.form.data.description, "Test")
 
     {:noreply, socket}
   end
@@ -194,8 +193,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     business_partners =
       case socket.assigns.billable_activity? do
         true ->
-          BusinessPartners.list_business_partners()
-          |> Enum.map(fn bp -> {bp.name, bp.id} end)
+          [
+            {"", ""}
+            | BusinessPartners.list_business_partners()
+              |> Enum.map(fn bp -> {bp.name, bp.id} end)
+          ]
 
         _ ->
           [{"", ""}]
