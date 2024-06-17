@@ -25,15 +25,18 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input
-          field={@form[:start_stamp]}
-          type="datetime-local"
-          label="Start time"
-          value={@timer.start_stamp || @start_timestamp}
-          readonly
-        />
+        <div :if={@invocation_context == :start}>
+          <.input
+            field={@form[:description]}
+            type="text"
+            label="Description"
+            placeholder="What are you working on?"
+          />
+        </div>
 
         <div :if={@invocation_context == :stop}>
+          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" readonly />
+
           <.input
             field={@form[:end_stamp]}
             phx-change="end_stamp_change"
@@ -74,18 +77,14 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             options={Units.construct_duration_unit_options_list()}
             value={Units.get_default_billing_increment()}
           />
-        </div>
 
-        <.input
-          field={@form[:description]}
-          type="textarea"
-          label="Description"
-          placeholder={
-            if @invocation_context == :start,
-              do: "What are you working on?",
-              else: "What did you work on?"
-          }
-        />
+          <.input
+            field={@form[:description]}
+            type="textarea"
+            label="Description"
+            placeholder="What did you work on?"
+          />
+        </div>
 
         <.input
           field={@form[:billable]}
@@ -250,6 +249,16 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
+    # |> assign(
+    #   :start_timestamp,
+    # )
+    timer_params =
+      Map.merge(timer_params, %{
+        "start_stamp" =>
+          Timer.get_current_timestamp()
+          |> Timer.convert_naivedatetime_to_html!()
+      })
+
     save_timer(socket, socket.assigns.action, timer_params)
   end
 

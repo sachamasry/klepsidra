@@ -137,6 +137,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   defp save_timer(socket, :edit, timer_params) do
+    # Add ability to save if end timestamp is missing
     end_timer =
       Timer.parse_html_datetime!(timer_params["end_stamp"])
       |> Timer.convert_naivedatetime_to_html!()

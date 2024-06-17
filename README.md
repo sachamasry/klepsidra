@@ -33,6 +33,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Ensure 'regular' timer form drop-down has all timer increments available
   - Ensure that duration and billing duration fields are calculated from their time unit choice
   - Changing either the start or end stamp must recalcualate both durations
+  - Refactor code to reduce duplication
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table
   - Create a business partners `notes` table

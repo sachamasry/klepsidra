@@ -66,11 +66,6 @@ defmodule KlepsidraWeb.TimerLive.Index do
   defp apply_action(socket, :start, _params) do
     socket
     |> assign(:page_title, "Starting Timer")
-    |> assign(
-      :start_timestamp,
-      Timer.get_current_timestamp()
-      |> Timer.convert_naivedatetime_to_html!()
-    )
     |> assign(:timer, %Timer{})
   end
 
