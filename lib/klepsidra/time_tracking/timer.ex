@@ -61,6 +61,9 @@ defmodule Klepsidra.TimeTracking.Timer do
       :reported_duration_time_unit
     ])
     |> validate_required([:start_stamp])
+    |> validate_format(:end_stamp, ~r/^$|^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$/,
+      message: "Please enter a valid ending date and time"
+    )
     |> unique_constraint(:project)
   end
 

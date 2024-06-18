@@ -14,7 +14,7 @@ defmodule Klepsidra.TimeTrackingFixtures do
         description: "some description",
         duration: 42,
         duration_time_unit: "some duration_time_unit",
-        end_stamp: "some end_stamp",
+        end_stamp: "2024-12-09 12:34:56",
         reported_duration: 42,
         reported_duration_time_unit: "some reported_duration_time_unit",
         start_stamp: "some start_stamp"

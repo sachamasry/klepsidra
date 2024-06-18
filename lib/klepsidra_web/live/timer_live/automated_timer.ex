@@ -249,9 +249,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
-    # |> assign(
-    #   :start_timestamp,
-    # )
     timer_params =
       Map.merge(timer_params, %{
         "start_stamp" =>
