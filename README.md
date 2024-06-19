@@ -27,12 +27,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
-- Validate start and end stamp user input
-  - Empty start stamps are *never* allowed, and must always parse to a `NaiveDateTime` structure
-  - Empty end stamps are allowed for as long as the user wants to update other information, and is not stopping a timer
-  - Once non-blank, the end stamp must validate as a full timestamp, and 
-  - May not appear in the past, relative to the start stamp
-  - May not appear in the 'distant' future, relative to the start stamp; More than one day should be considered invalid—why would any activity take longer than a day?
 - Fix 'reported duration' units
   - Change name to billing time increment
   - Ensure 'regular' timer form drop-down has all timer increments available
@@ -45,7 +39,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Create a projects `notes` table
 - Tagging UX improvements
   - Make it possible to drill into the tag from the live component
-  - Remove old tagging attempts from views
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing

@@ -72,6 +72,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   parseable values. This ensures not only that the timestamp is a correctly
   formated string, but also that the representation is a valid date and time, i.e.
   a 13th month, or 32nd day will be considered invalid.
+
+  ## Options
+
+      * `:message` - the message on failure, defaults to "Enter a valid date and time"
+
   """
   @spec validate_timestamp(t, atom, Keyword.t()) :: t
   def validate_timestamp(changeset, field, opts \\ []) do
@@ -127,7 +132,13 @@ defmodule Klepsidra.TimeTracking.Timer do
          {:empty_end_stamp, true} <- {:empty_end_stamp, end_stamp != ""},
          true <- is_struct(parsed_end_stamp, NaiveDateTime),
          {:chronological_order, true} <-
-           {:chronological_order, NaiveDateTime.before?(parsed_start_stamp, parsed_end_stamp)} do
+           {:chronological_order, NaiveDateTime.before?(parsed_start_stamp, parsed_end_stamp)},
+         {:duration_check, true} <-
+           {:duration_check,
+            NaiveDateTime.before?(
+              parsed_end_stamp,
+              NaiveDateTime.add(parsed_start_stamp, 24, :hour)
+            )} do
       changeset
     else
       {:empty_start_stamp, false} ->
@@ -138,6 +149,9 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       {:chronological_order, false} ->
         add_error(changeset, :end_stamp, "The end time must follow the start time")
+
+      {:duration_check, false} ->
+        add_error(changeset, :end_stamp, "The timed activity cannot be longer than one day")
 
       _ ->
         add_error(changeset, :end_stamp, message)
