@@ -33,7 +33,7 @@ defmodule Klepsidra.TimeTrackingTest do
     test "create_timer/1 with valid data creates a timer" do
       valid_attrs = %{
         description: "some description",
-        start_stamp: "some start_stamp",
+        start_stamp: "2024-12-09 12:30",
         end_stamp: "2024-12-09 12:34:56",
         duration: 42,
         duration_time_unit: "some duration_time_unit",
@@ -43,7 +43,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
       assert {:ok, %Timer{} = timer} = TimeTracking.create_timer(valid_attrs)
       assert timer.description == "some description"
-      assert timer.start_stamp == "some start_stamp"
+      assert timer.start_stamp == "2024-12-09 12:30"
       assert timer.end_stamp == "2024-12-09 12:34:56"
       assert timer.duration == 42
       assert timer.duration_time_unit == "some duration_time_unit"
@@ -60,7 +60,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
       update_attrs = %{
         description: "some updated description",
-        start_stamp: "some updated start_stamp",
+        start_stamp: "2024-12-09 12:30",
         end_stamp: "2024-12-09 12:34:56",
         duration: 43,
         duration_time_unit: "some updated duration_time_unit",
@@ -70,7 +70,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
       assert {:ok, %Timer{} = timer} = TimeTracking.update_timer(timer, update_attrs)
       assert timer.description == "some updated description"
-      assert timer.start_stamp == "some updated start_stamp"
+      assert timer.start_stamp == "2024-12-09 12:30"
       assert timer.end_stamp == "2024-12-09 12:34:56"
       assert timer.duration == 43
       assert timer.duration_time_unit == "some updated duration_time_unit"

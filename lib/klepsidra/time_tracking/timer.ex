@@ -61,10 +61,56 @@ defmodule Klepsidra.TimeTracking.Timer do
       :reported_duration_time_unit
     ])
     |> validate_required([:start_stamp])
-    |> validate_format(:end_stamp, ~r/^$|^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$/,
-      message: "Please enter a valid ending date and time"
-    )
+    |> validate_timestamp(:start_stamp)
+    |> validate_timestamp(:end_stamp)
     |> unique_constraint(:project)
+  end
+
+  @doc """
+  Validates timestamp fields, ensuring that they conform to valid `NaiveDateTime`
+  parseable values. This ensures not only that the timestamp is a correctly
+  formated string, but also that the representation is a valid date and time, i.e.
+  a 13th month, or 32nd day will be considered invalid.
+  """
+  @spec validate_timestamp(t, atom, Keyword.t()) :: t
+  def validate_timestamp(changeset, field, opts \\ [])
+
+  def validate_timestamp(changeset, :start_stamp, opts) do
+    message = Keyword.get(opts, :message, "Enter a valid starting date and time")
+    start_stamp = get_change(changeset, :start_stamp)
+
+    case start_stamp do
+      nil ->
+        changeset
+
+      "" ->
+        changeset
+
+      _ ->
+        case parse_html_datetime(start_stamp) do
+          {:ok, _datetime_stamp} -> changeset
+          _ -> add_error(changeset, :start_stamp, message)
+        end
+    end
+  end
+
+  def validate_timestamp(changeset, :end_stamp, opts) do
+    message = Keyword.get(opts, :message, "Enter a valid starting date and time")
+    end_stamp = get_change(changeset, :end_stamp)
+
+    case end_stamp do
+      nil ->
+        changeset
+
+      "" ->
+        changeset
+
+      _ ->
+        case parse_html_datetime(end_stamp) do
+          {:ok, _datetime_stamp} -> changeset
+          _ -> add_error(changeset, :end_stamp, message)
+        end
+    end
   end
 
   @doc """
@@ -274,8 +320,8 @@ defmodule Klepsidra.TimeTracking.Timer do
   Parses HTML `datetime-local` strings into `NativeDateTime` structure.
 
   Works just like `parse_html_datetime\1`, but instead of returning an {:ok, _} or
-  {:error, reason} tuple, returns the `NaiveDateTime` struct on success, otherwise
-  raises an error.
+  {:error, reason} tuple, returns the `NaiveDateTime` struct on success, raising
+  an error otherwise.
 
   ## Examples
 
