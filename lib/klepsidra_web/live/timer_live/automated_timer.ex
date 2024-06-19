@@ -5,8 +5,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
+  # alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Projects
   alias Klepsidra.BusinessPartners
 
@@ -35,7 +35,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         </div>
 
         <div :if={@invocation_context == :stop}>
-          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" readonly />
+          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" disabled />
 
           <.input
             field={@form[:end_stamp]}
@@ -249,13 +249,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
-    timer_params =
-      Map.merge(timer_params, %{
-        "start_stamp" =>
-          Timer.get_current_timestamp()
-          |> Timer.convert_naivedatetime_to_html!()
-      })
-
     save_timer(socket, socket.assigns.action, timer_params)
   end
 
@@ -275,6 +268,13 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   defp save_timer(socket, :start, timer_params) do
+    timer_params =
+      Map.merge(timer_params, %{
+        "start_stamp" =>
+          Timer.get_current_timestamp()
+          |> Timer.convert_naivedatetime_to_html!()
+      })
+
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})
@@ -290,13 +290,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    if Ecto.Changeset.get_field(changeset, :timer_tags) == [] do
-      timer_tags = %TimerTags{}
-      changeset = Ecto.Changeset.put_change(changeset, :timer_tags, [timer_tags])
-      assign(socket, :form, to_form(changeset))
-    else
-      assign(socket, :form, to_form(changeset))
-    end
+    assign(socket, :form, to_form(changeset))
   end
 
   @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()

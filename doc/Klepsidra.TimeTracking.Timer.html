@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-F3101FD7.js"></script>
+    <script src="dist/sidebar_items-8528A16A.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -250,6 +250,16 @@ a 13th month, or 32nd day will be considered invalid.</p></div>
 
     </div>
 
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#validate_timestamp_chronology/4" translate="no">validate_timestamp_chronology(changeset, start_timestamp, end_timestamp, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Validate that the <code class="inline">end_timestamp</code> is chronologically after the <code class="inline">start_timestamp</code>.</p></div>
+
+    </div>
+
 </div>
 
   </section>
@@ -351,34 +361,34 @@ and immediately stopped, it would still register the use of one unit of time.</p
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-1">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p" data-group-id="5449326765-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-1">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p" data-group-id="5727212060-1">)</span><span class="w">
 </span><span class="mi">72</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-2">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5449326765-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-2">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5727212060-2">)</span><span class="w">
 </span><span class="mi">72</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-3">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="5449326765-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-3">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="5727212060-3">)</span><span class="w">
 </span><span class="mi">4261</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-4">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5449326765-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-4">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:45&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5727212060-4">)</span><span class="w">
 </span><span class="mi">2</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-5">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5449326765-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-5">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5727212060-5">)</span><span class="w">
 </span><span class="mi">2</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-6">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:33&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5449326765-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-6">(</span><span class="s">&quot;2024-02-28 12:34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-02-28 13:33&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5727212060-6">)</span><span class="w">
 </span><span class="mi">1</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-7">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p" data-group-id="5449326765-7">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-7">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p" data-group-id="5727212060-7">)</span><span class="w">
 </span><span class="mi">104</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-8">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5449326765-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-8">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5727212060-8">)</span><span class="w">
 </span><span class="mi">104</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-9">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="5449326765-9">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-9">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="5727212060-9">)</span><span class="w">
 </span><span class="mi">6195</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5449326765-10">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5449326765-10">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">calculate_timer_duration</span><span class="p" data-group-id="5727212060-10">(</span><span class="ld">~N[2024-06-06 23:40:31]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2024-06-07 01:23:45]</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="5727212060-10">)</span><span class="w">
 </span><span class="mi">2</span></code></pre>
   </section>
 </section>
@@ -419,17 +429,17 @@ and immediately stopped, it would still register the use of one unit of time.</p
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="2826515763-1">(</span><span class="p" data-group-id="2826515763-1">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="2826515763-2">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="2826515763-2">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="2826515763-3">(</span><span class="p" data-group-id="2826515763-3">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">clock_out</span><span class="p" data-group-id="2826515763-4">(</span><span class="p" data-group-id="2826515763-4">)</span><span class="w">
-</span><span class="p" data-group-id="2826515763-5">%{</span><span class="ss">end_timestamp</span><span class="p">:</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="2826515763-6">(</span><span class="p" data-group-id="2826515763-6">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="2826515763-7">(</span><span class="p" data-group-id="2826515763-7">)</span><span class="p">,</span><span class="w"> </span><span class="ss">timer_duration</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p" data-group-id="2826515763-5">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="5352081393-1">(</span><span class="p" data-group-id="5352081393-1">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="5352081393-2">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5352081393-2">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="5352081393-3">(</span><span class="p" data-group-id="5352081393-3">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">clock_out</span><span class="p" data-group-id="5352081393-4">(</span><span class="p" data-group-id="5352081393-4">)</span><span class="w">
+</span><span class="p" data-group-id="5352081393-5">%{</span><span class="ss">end_timestamp</span><span class="p">:</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="5352081393-6">(</span><span class="p" data-group-id="5352081393-6">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="5352081393-7">(</span><span class="p" data-group-id="5352081393-7">)</span><span class="p">,</span><span class="w"> </span><span class="ss">timer_duration</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p" data-group-id="5352081393-5">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="2826515763-8">(</span><span class="p" data-group-id="2826515763-8">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="2826515763-9">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="2826515763-9">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="2826515763-10">(</span><span class="p" data-group-id="2826515763-10">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">clock_out</span><span class="p" data-group-id="2826515763-11">(</span><span class="ss">:hour</span><span class="p" data-group-id="2826515763-11">)</span><span class="w">
-</span><span class="p" data-group-id="2826515763-12">%{</span><span class="ss">end_timestamp</span><span class="p">:</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="2826515763-13">(</span><span class="p" data-group-id="2826515763-13">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="2826515763-14">(</span><span class="p" data-group-id="2826515763-14">)</span><span class="p">,</span><span class="w"> </span><span class="ss">timer_duration</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="2826515763-12">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="5352081393-8">(</span><span class="p" data-group-id="5352081393-8">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="5352081393-9">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="5352081393-9">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="5352081393-10">(</span><span class="p" data-group-id="5352081393-10">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">clock_out</span><span class="p" data-group-id="5352081393-11">(</span><span class="ss">:hour</span><span class="p" data-group-id="5352081393-11">)</span><span class="w">
+</span><span class="p" data-group-id="5352081393-12">%{</span><span class="ss">end_timestamp</span><span class="p">:</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="5352081393-13">(</span><span class="p" data-group-id="5352081393-13">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="5352081393-14">(</span><span class="p" data-group-id="5352081393-14">)</span><span class="p">,</span><span class="w"> </span><span class="ss">timer_duration</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5352081393-12">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="convert_naivedatetime_to_html/1">
@@ -463,8 +473,8 @@ slot.</p><h2 id="convert_naivedatetime_to_html/1-examples" class="section-headin
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html</span><span class="p" data-group-id="7609041380-1">(</span><span class="ld">~N[2024-04-07 22:12:32]</span><span class="p" data-group-id="7609041380-1">)</span><span class="w">
-</span><span class="p" data-group-id="7609041380-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-04-07T22:12:32&quot;</span><span class="p" data-group-id="7609041380-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html</span><span class="p" data-group-id="3657718110-1">(</span><span class="ld">~N[2024-04-07 22:12:32]</span><span class="p" data-group-id="3657718110-1">)</span><span class="w">
+</span><span class="p" data-group-id="3657718110-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2024-04-07T22:12:32&quot;</span><span class="p" data-group-id="3657718110-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="convert_naivedatetime_to_html!/1">
@@ -496,7 +506,7 @@ format &quot;YYYY-MM-DDThh:mm&quot;. This can directly be fed into an <code clas
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="7164649983-1">(</span><span class="ld">~N[2024-04-07 22:12:32]</span><span class="p" data-group-id="7164649983-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">convert_naivedatetime_to_html!</span><span class="p" data-group-id="3498540341-1">(</span><span class="ld">~N[2024-04-07 22:12:32]</span><span class="p" data-group-id="3498540341-1">)</span><span class="w">
 </span><span class="s">&quot;2024-04-07T22:12:32&quot;</span></code></pre>
   </section>
 </section>
@@ -528,17 +538,17 @@ pluralisation of the defined time unit as a string.</p><h2 id="duration_to_strin
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="4348821631-1">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="4348821631-1">)</span><span class="w">
-</span><span class="p" data-group-id="4348821631-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3 minutes&quot;</span><span class="p" data-group-id="4348821631-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="2776973508-1">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:minute</span><span class="p" data-group-id="2776973508-1">)</span><span class="w">
+</span><span class="p" data-group-id="2776973508-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3 minutes&quot;</span><span class="p" data-group-id="2776973508-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="4348821631-3">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">:six_minute_increment</span><span class="p" data-group-id="4348821631-3">)</span><span class="w">
-</span><span class="p" data-group-id="4348821631-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7 six minute increments&quot;</span><span class="p" data-group-id="4348821631-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="2776973508-3">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">:six_minute_increment</span><span class="p" data-group-id="2776973508-3">)</span><span class="w">
+</span><span class="p" data-group-id="2776973508-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7 six minute increments&quot;</span><span class="p" data-group-id="2776973508-4">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="4348821631-5">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="4348821631-5">)</span><span class="w">
-</span><span class="p" data-group-id="4348821631-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 hour&quot;</span><span class="p" data-group-id="4348821631-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="2776973508-5">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:hour</span><span class="p" data-group-id="2776973508-5">)</span><span class="w">
+</span><span class="p" data-group-id="2776973508-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 hour&quot;</span><span class="p" data-group-id="2776973508-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="4348821631-7">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="4348821631-7">)</span><span class="w">
-</span><span class="p" data-group-id="4348821631-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0 seconds&quot;</span><span class="p" data-group-id="4348821631-8">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">duration_to_string</span><span class="p" data-group-id="2776973508-7">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="2776973508-7">)</span><span class="w">
+</span><span class="p" data-group-id="2776973508-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0 seconds&quot;</span><span class="p" data-group-id="2776973508-8">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="get_current_timestamp/0">
@@ -571,7 +581,7 @@ critical.</p><p>Returns a <a href="https://hexdocs.pm/elixir/NaiveDateTime.html"
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">naivedatetime_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="0507258042-1">(</span><span class="p" data-group-id="0507258042-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">naivedatetime_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">get_current_timestamp</span><span class="p" data-group-id="1406400584-1">(</span><span class="p" data-group-id="1406400584-1">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">naivedatetime_stamp</span><span class="o">.</span><span class="n">year</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2024</span><span class="w">
 </span><span class="no">true</span></code></pre>
   </section>
@@ -604,26 +614,33 @@ passed without a seconds component. <code class="inline">NativeDateTime</code> c
 error.</p><p>Using the Timex library's <code class="inline">parse/2</code> function, parse datetime strings into an ISO
 conforming <code class="inline">NativeDateTime</code> structure, returning a result tuple:</p><p><code class="inline">{:ok, ~N[...]}</code> on success, or {:error, reason} upon failure.</p><p>It is possible to receive a datetime with date and time components separated by either
 a letter &quot;t&quot; or a single space (&quot; &quot;), binary pattern matching will determine which is
-received in the <code class="inline">datetime_string</code> argument.</p><h2 id="parse_html_datetime/1-examples" class="section-heading">
+received in the <code class="inline">datetime_string</code> argument.</p><p>An error is returned if the datetime string cannot be parsed as a valid date and time,
+and also if the string doesn't match the expected pattern.</p><h2 id="parse_html_datetime/1-examples" class="section-heading">
   <a href="#parse_html_datetime/1-examples" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="3391282022-1">(</span><span class="s">&quot;1970-01-01T11:15&quot;</span><span class="p" data-group-id="3391282022-1">)</span><span class="w">
-</span><span class="p" data-group-id="3391282022-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="p" data-group-id="3391282022-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-1">(</span><span class="s">&quot;1970-01-01T11:15&quot;</span><span class="p" data-group-id="7835142853-1">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="p" data-group-id="7835142853-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="3391282022-3">(</span><span class="s">&quot;1970-01-01T11:15:39&quot;</span><span class="p" data-group-id="3391282022-3">)</span><span class="w">
-</span><span class="p" data-group-id="3391282022-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:39]</span><span class="p" data-group-id="3391282022-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-3">(</span><span class="s">&quot;1970-01-01T11:15:39&quot;</span><span class="p" data-group-id="7835142853-3">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:39]</span><span class="p" data-group-id="7835142853-4">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="3391282022-5">(</span><span class="s">&quot;1970-01-01 11:15&quot;</span><span class="p" data-group-id="3391282022-5">)</span><span class="w">
-</span><span class="p" data-group-id="3391282022-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="p" data-group-id="3391282022-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-5">(</span><span class="s">&quot;1970-01-01 11:15&quot;</span><span class="p" data-group-id="7835142853-5">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="p" data-group-id="7835142853-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="3391282022-7">(</span><span class="s">&quot;1970-01-01 11:15:59&quot;</span><span class="p" data-group-id="3391282022-7">)</span><span class="w">
-</span><span class="p" data-group-id="3391282022-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:59]</span><span class="p" data-group-id="3391282022-8">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-7">(</span><span class="s">&quot;1970-01-01 11:15:59&quot;</span><span class="p" data-group-id="7835142853-7">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1970-01-01 11:15:59]</span><span class="p" data-group-id="7835142853-8">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="3391282022-9">(</span><span class="s">&quot;1970-02-29T11:15&quot;</span><span class="p" data-group-id="3391282022-9">)</span><span class="w">
-</span><span class="p" data-group-id="3391282022-10">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_date</span><span class="p" data-group-id="3391282022-10">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-9">(</span><span class="s">&quot;1970-02-29T11:15&quot;</span><span class="p" data-group-id="7835142853-9">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-10">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_date</span><span class="p" data-group-id="7835142853-10">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-11">(</span><span class="s">&quot;&quot;</span><span class="p" data-group-id="7835142853-11">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-12">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Invalid argument passed as timestamp&quot;</span><span class="p" data-group-id="7835142853-12">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime</span><span class="p" data-group-id="7835142853-13">(</span><span class="no">nil</span><span class="p" data-group-id="7835142853-13">)</span><span class="w">
+</span><span class="p" data-group-id="7835142853-14">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Invalid argument passed as timestamp&quot;</span><span class="p" data-group-id="7835142853-14">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="parse_html_datetime!/1">
@@ -654,16 +671,16 @@ an error otherwise.</p><h2 id="parse_html_datetime!/1-examples" class="section-h
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="7678561019-1">(</span><span class="s">&quot;1970-01-01T11:15&quot;</span><span class="p" data-group-id="7678561019-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="0998265091-1">(</span><span class="s">&quot;1970-01-01T11:15&quot;</span><span class="p" data-group-id="0998265091-1">)</span><span class="w">
 </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="7678561019-2">(</span><span class="s">&quot;1970-01-01T11:15:39&quot;</span><span class="p" data-group-id="7678561019-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="0998265091-2">(</span><span class="s">&quot;1970-01-01T11:15:39&quot;</span><span class="p" data-group-id="0998265091-2">)</span><span class="w">
 </span><span class="ld">~N[1970-01-01 11:15:39]</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="7678561019-3">(</span><span class="s">&quot;1970-01-01 11:15&quot;</span><span class="p" data-group-id="7678561019-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="0998265091-3">(</span><span class="s">&quot;1970-01-01 11:15&quot;</span><span class="p" data-group-id="0998265091-3">)</span><span class="w">
 </span><span class="ld">~N[1970-01-01 11:15:00]</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="7678561019-4">(</span><span class="s">&quot;1970-01-01 11:15:59&quot;</span><span class="p" data-group-id="7678561019-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.Timer</span><span class="o">.</span><span class="n">parse_html_datetime!</span><span class="p" data-group-id="0998265091-4">(</span><span class="s">&quot;1970-01-01 11:15:59&quot;</span><span class="p" data-group-id="0998265091-4">)</span><span class="w">
 </span><span class="ld">~N[1970-01-01 11:15:59]</span></code></pre>
   </section>
 </section>
@@ -693,6 +710,37 @@ an error otherwise.</p><h2 id="parse_html_datetime!/1-examples" class="section-h
 parseable values. This ensures not only that the timestamp is a correctly
 formated string, but also that the representation is a valid date and time, i.e.
 a 13th month, or 32nd day will be considered invalid.</p>
+  </section>
+</section>
+<section class="detail" id="validate_timestamp_chronology/4">
+
+    <span id="validate_timestamp_chronology/3"></span>
+
+  <div class="detail-header">
+    <a href="#validate_timestamp_chronology/4" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">validate_timestamp_chronology(changeset, start_timestamp, end_timestamp, opts \\ [])</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> validate_timestamp_chronology(<a href="#t:t/0">t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="#t:t/0">t</a>()</pre>
+
+      </div>
+
+<p>Validate that the <code class="inline">end_timestamp</code> is chronologically after the <code class="inline">start_timestamp</code>.</p><h2 id="validate_timestamp_chronology/4-options" class="section-heading">
+  <a href="#validate_timestamp_chronology/4-options" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Options</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="o">*</span><span class="w"> </span><span class="err">`</span><span class="ss">:message</span><span class="err">`</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">failure</span><span class="p">,</span><span class="w"> </span><span class="n">defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;Timestamps are not in valid order&quot;</span></code></pre>
   </section>
 </section>
 

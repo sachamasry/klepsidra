@@ -60,9 +60,10 @@ defmodule Klepsidra.TimeTracking.Timer do
       :reported_duration,
       :reported_duration_time_unit
     ])
-    |> validate_required([:start_stamp])
+    |> validate_required(:start_stamp, message: "You must enter a start date and time")
     |> validate_timestamp(:start_stamp)
     |> validate_timestamp(:end_stamp)
+    |> validate_timestamp_chronology(:start_stamp, :end_stamp)
     |> unique_constraint(:project)
   end
 
@@ -73,13 +74,12 @@ defmodule Klepsidra.TimeTracking.Timer do
   a 13th month, or 32nd day will be considered invalid.
   """
   @spec validate_timestamp(t, atom, Keyword.t()) :: t
-  def validate_timestamp(changeset, field, opts \\ [])
+  def validate_timestamp(changeset, field, opts \\ []) do
+    message = Keyword.get(opts, :message, "Enter a valid date and time")
 
-  def validate_timestamp(changeset, :start_stamp, opts) do
-    message = Keyword.get(opts, :message, "Enter a valid starting date and time")
-    start_stamp = get_change(changeset, :start_stamp)
+    date_time_stamp = get_change(changeset, field)
 
-    case start_stamp do
+    case date_time_stamp do
       nil ->
         changeset
 
@@ -87,29 +87,60 @@ defmodule Klepsidra.TimeTracking.Timer do
         changeset
 
       _ ->
-        case parse_html_datetime(start_stamp) do
+        case parse_html_datetime(date_time_stamp) do
           {:ok, _datetime_stamp} -> changeset
-          _ -> add_error(changeset, :start_stamp, message)
+          _ -> add_error(changeset, field, message)
         end
     end
   end
 
-  def validate_timestamp(changeset, :end_stamp, opts) do
-    message = Keyword.get(opts, :message, "Enter a valid starting date and time")
-    end_stamp = get_change(changeset, :end_stamp)
+  @doc """
+  Validate that the `end_timestamp` is chronologically after the `start_timestamp`.
 
-    case end_stamp do
-      nil ->
+  ## Options
+
+      * `:message` - the message on failure, defaults to "Timestamps are not in valid order"
+
+  """
+  @spec validate_timestamp_chronology(t, atom, atom, Keyword.t()) :: t
+  def validate_timestamp_chronology(changeset, start_timestamp, end_timestamp, opts \\ []) do
+    message = Keyword.get(opts, :message, "Timestamps are not in valid order")
+    start_stamp = get_field(changeset, start_timestamp, "")
+
+    parsed_start_stamp =
+      case parse_html_datetime(start_stamp) do
+        {:ok, start_date_time_stamp} -> start_date_time_stamp
+        _ -> nil
+      end
+
+    end_stamp = get_field(changeset, end_timestamp, "")
+
+    parsed_end_stamp =
+      case parse_html_datetime(end_stamp) do
+        {:ok, end_date_time_stamp} -> end_date_time_stamp
+        _ -> nil
+      end
+
+    with {:empty_start_stamp, true} <-
+           {:empty_start_stamp, start_stamp != ""},
+         true <- is_struct(parsed_start_stamp, NaiveDateTime),
+         {:empty_end_stamp, true} <- {:empty_end_stamp, end_stamp != ""},
+         true <- is_struct(parsed_end_stamp, NaiveDateTime),
+         {:chronological_order, true} <-
+           {:chronological_order, NaiveDateTime.before?(parsed_start_stamp, parsed_end_stamp)} do
+      changeset
+    else
+      {:empty_start_stamp, false} ->
         changeset
 
-      "" ->
+      {:empty_end_stamp, false} ->
         changeset
+
+      {:chronological_order, false} ->
+        add_error(changeset, :end_stamp, "The end time must follow the start time")
 
       _ ->
-        case parse_html_datetime(end_stamp) do
-          {:ok, _datetime_stamp} -> changeset
-          _ -> add_error(changeset, :end_stamp, message)
-        end
+        add_error(changeset, :end_stamp, message)
     end
   end
 
@@ -264,6 +295,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   a letter "t" or a single space (" "), binary pattern matching will determine which is
   received in the `datetime_string` argument.
 
+  An error is returned if the datetime string cannot be parsed as a valid date and time,
+  and also if the string doesn't match the expected pattern.
+
   ## Examples
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-01-01T11:15")
@@ -280,6 +314,12 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("1970-02-29T11:15")
       {:error, :invalid_date}
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime("")
+      {:error, "Invalid argument passed as timestamp"}
+
+      iex> Klepsidra.TimeTracking.Timer.parse_html_datetime(nil)
+      {:error, "Invalid argument passed as timestamp"}
   """
   @spec parse_html_datetime(String.t()) :: {:ok, NaiveDateTime.t()} | {:error, String.t()}
   def parse_html_datetime(
@@ -315,6 +355,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       when is_bitstring(datetime_string) do
     Timex.parse(datetime_string, "{YYYY}-{0M}-{0D} {0h24}:{0m}:{0s}")
   end
+
+  def parse_html_datetime(_), do: {:error, "Invalid argument passed as timestamp"}
 
   @doc """
   Parses HTML `datetime-local` strings into `NativeDateTime` structure.
