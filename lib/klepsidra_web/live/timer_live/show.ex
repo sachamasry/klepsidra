@@ -45,7 +45,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   defp page_title(:show), do: "Show Timer"
-  defp page_title(:edit), do: "Edit Timer"
+  defp page_title(:edit_timer), do: "Edit Timer"
   defp page_title(:new_note), do: "New note"
   defp page_title(:edit_note), do: "Edit note"
 

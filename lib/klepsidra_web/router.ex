@@ -36,16 +36,16 @@ defmodule KlepsidraWeb.Router do
     live "/tags/:id/show/edit", TagLive.Show, :edit
 
     live "/timers", TimerLive.Index, :index
-    live "/timers/new", TimerLive.Index, :new
-    live "/timers/start", TimerLive.Index, :start
-    live "/timers/:id/edit", TimerLive.Index, :edit
-    live "/timers/:id/stop", TimerLive.Index, :stop
+    live "/timers/new", TimerLive.Index, :new_timer
+    live "/timers/start", TimerLive.Index, :start_timer
+    live "/timers/:id/edit", TimerLive.Index, :edit_timer
+    live "/timers/:id/stop", TimerLive.Index, :stop_timer
     live "/timers/:id/notes/new", TimerLive.Index, :new_note
 
     live "/timers/:id", TimerLive.Show, :show
     live "/timers/:id/new-note", TimerLive.Show, :new_note
     live "/timers/:id/notes/:note_id/edit", TimerLive.Show, :edit_note
-    live "/timers/:id/show/edit", TimerLive.Show, :edit
+    live "/timers/:id/show/edit", TimerLive.Show, :edit_timer
 
     live "/notes", NoteLive.Index, :index
     live "/notes/new", NoteLive.Index, :new

@@ -25,16 +25,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         phx-change="validate"
         phx-submit="save"
       >
-        <div :if={@invocation_context == :start}>
+        <div :if={@invocation_context == :start_timer}>
           <.input
             field={@form[:description]}
             type="text"
             label="Description"
             placeholder="What are you working on?"
+            autocomplete="off"
           />
         </div>
 
-        <div :if={@invocation_context == :stop}>
+        <div :if={@invocation_context == :stop_timer}>
           <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" disabled />
 
           <.input
@@ -57,7 +58,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             field={@form[:duration_time_unit]}
             phx-change="duration_unit_change"
             type="select"
-            label="Duration time unit"
+            label="Duration time increment"
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
             value={@duration_unit}
           />
@@ -69,11 +70,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             value={@billing_duration || @duration || 0}
             readonly
           />
+
           <.input
             field={@form[:billing_duration_time_unit]}
             phx-change="billing_duration_unit_change"
             type="select"
-            label="Billable duration time unit"
+            label="Billable time increment"
             options={Units.construct_duration_unit_options_list()}
             value={Units.get_default_billing_increment()}
           />
@@ -112,8 +114,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         />
 
         <:actions>
-          <.button :if={@invocation_context == :start} phx-disable-with="Saving...">Start</.button>
-          <.button :if={@invocation_context == :stop} phx-disable-with="Saving...">Stop</.button>
+          <.button :if={@invocation_context == :start_timer} phx-disable-with="Saving...">
+            Start
+          </.button>
+          <.button :if={@invocation_context == :stop_timer} phx-disable-with="Saving...">
+            Stop
+          </.button>
         </:actions>
       </.simple_form>
     </div>
@@ -252,7 +258,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     save_timer(socket, socket.assigns.action, timer_params)
   end
 
-  defp save_timer(socket, :stop, timer_params) do
+  defp save_timer(socket, :stop_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})
@@ -267,7 +273,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     end
   end
 
-  defp save_timer(socket, :start, timer_params) do
+  defp save_timer(socket, :start_timer, timer_params) do
     timer_params =
       Map.merge(timer_params, %{
         "start_stamp" =>

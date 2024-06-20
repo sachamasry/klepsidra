@@ -22,13 +22,31 @@ defmodule KlepsidraWeb.TimerLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :new_timer, _params) do
+    billing_duration_unit = Units.get_default_billing_increment()
+
     socket
-    |> assign(:page_title, "Edit")
+    |> assign(:page_title, "Manual Timer")
+    |> assign(
+      duration_unit: "minute",
+      billing_duration_unit: billing_duration_unit
+    )
+    |> assign(:timer, %Timer{})
+  end
+
+  defp apply_action(socket, :edit_timer, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Timer")
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 
-  defp apply_action(socket, :stop, %{"id" => id}) do
+  defp apply_action(socket, :start_timer, _params) do
+    socket
+    |> assign(:page_title, "Starting Timer")
+    |> assign(:timer, %Timer{})
+  end
+
+  defp apply_action(socket, :stop_timer, %{"id" => id}) do
     start_timestamp = TimeTracking.get_timer!(id).start_stamp
     clocked_out = Timer.clock_out(start_timestamp, :minute)
     billing_duration_unit = Units.get_default_billing_increment()
@@ -51,28 +69,16 @@ defmodule KlepsidraWeb.TimerLive.Index do
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Manual Timer")
-    |> assign(:timer, %Timer{})
+    |> assign(:page_title, "Activity Timers")
+    |> assign(:timer, nil)
   end
 
   defp apply_action(socket, :new_note, %{"id" => id} = _params) do
     socket
     |> assign(:page_title, "New note")
     |> assign(:timer_id, id)
-  end
-
-  defp apply_action(socket, :start, _params) do
-    socket
-    |> assign(:page_title, "Starting Timer")
-    |> assign(:timer, %Timer{})
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Activity Timers")
-    |> assign(:timer, nil)
   end
 
   @impl true

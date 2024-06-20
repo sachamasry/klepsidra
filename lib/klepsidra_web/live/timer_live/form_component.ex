@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias Klepsidra.Projects
   alias Klepsidra.BusinessPartners
 
@@ -26,22 +27,27 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       >
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
-        <.input field={@form[:duration]} type="number" label="Duration" />
+
+        <.input field={@form[:duration]} type="text" label="Duration" readonly />
+
         <.input
           field={@form[:duration_time_unit]}
+          phx-change="duration_unit_change"
           type="select"
-          label="Duration time unit"
-          options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
-          value="minute"
+          label="Duration time increment"
+          options={Units.construct_duration_unit_options_list(use_primitives?: true)}
         />
-        <.input field={@form[:billing_duration]} type="number" label="Billable duration" />
+
+        <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
+
         <.input
           field={@form[:billing_duration_time_unit]}
+          phx-change="billing_duration_unit_change"
           type="select"
-          label="Billable duration time unit"
-          options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
-          value="minute"
+          label="Billable time increment"
+          options={Units.construct_duration_unit_options_list()}
         />
+
         <.input field={@form[:description]} type="textarea" label="Description" />
 
         <.input
@@ -136,7 +142,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     save_timer(socket, socket.assigns.action, timer_params)
   end
 
-  defp save_timer(socket, :edit, timer_params) do
+  defp save_timer(socket, :edit_timer, timer_params) do
     end_stamp = timer_params["end_stamp"]
 
     validated_end_stamp =
@@ -172,7 +178,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     end
   end
 
-  defp save_timer(socket, :new, timer_params) do
+  defp save_timer(socket, :new_timer, timer_params) do
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})

@@ -54,7 +54,7 @@
 </.table>
 
 <.modal
-  :if={@live_action in [:new, :edit]}
+  :if={@live_action in [:new_timer, :edit_timer]}
   id="timer-modal"
   show
   on_cancel={JS.patch(~p"/timers")}
@@ -69,15 +69,20 @@
   />
 </.modal>
 
-<.modal :if={@live_action in [:start]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal
+  :if={@live_action in [:start_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
   <.live_component
     module={KlepsidraWeb.TimerLive.AutomatedTimer}
-    id={:start}
+    id={:start_timer}
     title="Starting timer"
     action={@live_action}
     timer={@timer}
     patch={~p"/timers"}
-    invocation_context={:start}
+    invocation_context={:start_timer}
     end_timestamp=""
     duration="0"
     duration_unit=""
@@ -86,7 +91,12 @@
   />
 </.modal>
 
-<.modal :if={@live_action in [:stop]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal
+  :if={@live_action in [:stop_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
   <.live_component
     module={KlepsidraWeb.TimerLive.AutomatedTimer}
     id={@timer.id}
@@ -94,7 +104,7 @@
     action={@live_action}
     timer={@timer}
     patch={~p"/timers"}
-    invocation_context={:stop}
+    invocation_context={:stop_timer}
     end_timestamp={to_string(@clocked_out.end_timestamp)}
     duration={@clocked_out.timer_duration}
     duration_unit={@duration_unit}
