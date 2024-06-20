@@ -30,9 +30,9 @@
   <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
   <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
   <:col :let={{_id, timer}} label="Duration time unit"><%= timer.duration_time_unit %></:col>
-  <:col :let={{_id, timer}} label="Reported duration"><%= timer.reported_duration %></:col>
-  <:col :let={{_id, timer}} label="Reported duration time unit">
-    <%= timer.reported_duration_time_unit %>
+  <:col :let={{_id, timer}} label="Billable duration"><%= timer.billing_duration %></:col>
+  <:col :let={{_id, timer}} label="Billable duration time unit">
+    <%= timer.billing_duration_time_unit %>
   </:col>
   <:col :let={{_id, timer}} label="Description"><%= timer.description %></:col>
   <:action :let={{_id, timer}}>
@@ -81,7 +81,8 @@
     end_timestamp=""
     duration="0"
     duration_unit=""
-    reported_duration="0"
+    billing_duration="0"
+    billing_duration_unit=""
   />
 </.modal>
 
@@ -97,8 +98,8 @@
     end_timestamp={to_string(@clocked_out.end_timestamp)}
     duration={@clocked_out.timer_duration}
     duration_unit={@duration_unit}
-    reported_duration={@billing_duration}
-    reported_duration_unit={@billing_duration_unit}
+    billing_duration={@billing_duration}
+    billing_duration_unit={@billing_duration_unit}
   />
 </.modal>
 

@@ -15,8 +15,8 @@ defmodule Klepsidra.TimeTrackingFixtures do
         duration: 42,
         duration_time_unit: "some duration_time_unit",
         end_stamp: "2024-12-09 12:34:56",
-        reported_duration: 42,
-        reported_duration_time_unit: "some reported_duration_time_unit",
+        billing_duration: 42,
+        billing_duration_time_unit: "some billing_duration_time_unit",
         start_stamp: "2024-12-09 12:30"
       })
       |> Klepsidra.TimeTracking.create_timer()

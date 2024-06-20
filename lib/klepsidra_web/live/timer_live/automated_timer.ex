@@ -63,17 +63,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           />
 
           <.input
-            field={@form[:reported_duration]}
+            field={@form[:billing_duration]}
             type="text"
-            label="Reported duration"
-            value={@reported_duration || @duration || 0}
+            label="Billable duration"
+            value={@billing_duration || @duration || 0}
             readonly
           />
           <.input
-            field={@form[:reported_duration_time_unit]}
-            phx-change="reported_duration_unit_change"
+            field={@form[:billing_duration_time_unit]}
+            phx-change="billing_duration_unit_change"
             type="select"
-            label="Reported duration time unit"
+            label="Billable duration time unit"
             options={Units.construct_duration_unit_options_list()}
             value={Units.get_default_billing_increment()}
           />
@@ -173,8 +173,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     {:noreply, socket}
   end
 
-  def handle_event("reported_duration_unit_change", params, socket) do
-    %{"timer" => %{"reported_duration_time_unit" => reported_duration_time_unit}} = params
+  def handle_event("billing_duration_unit_change", params, socket) do
+    %{"timer" => %{"billing_duration_time_unit" => billing_duration_time_unit}} = params
 
     start_timestamp =
       Map.get(socket.assigns.form.params, "start_stamp", nil) || socket.assigns.timer.start_stamp
@@ -186,14 +186,14 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
-        String.to_atom(reported_duration_time_unit)
+        String.to_atom(billing_duration_time_unit)
       )
       |> to_string()
 
     socket =
       assign(socket,
-        reported_duration: duration,
-        reported_duration_time_unit: reported_duration_time_unit
+        billing_duration: duration,
+        billing_duration_time_unit: billing_duration_time_unit
       )
 
     {:noreply, socket}
@@ -207,9 +207,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     duration_time_unit = socket.assigns.duration_unit
 
-    reported_duration_time_unit =
-      Map.get(socket.assigns, :reported_duration_time_unit, nil) ||
-        socket.assigns.reported_duration_unit
+    billing_duration_time_unit =
+      Map.get(socket.assigns, :billing_duration_time_unit, nil) ||
+        socket.assigns.billing_duration_unit
 
     duration =
       Timer.calculate_timer_duration(
@@ -219,11 +219,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       )
       |> to_string()
 
-    reported_duration =
+    billing_duration =
       Timer.calculate_timer_duration(
         start_timestamp,
         end_timestamp,
-        String.to_atom(reported_duration_time_unit)
+        String.to_atom(billing_duration_time_unit)
       )
       |> to_string()
 
@@ -232,8 +232,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
        end_stamp: end_timestamp,
        duration: duration,
        duration_time_unit: duration_time_unit,
-       reported_duration: reported_duration,
-       reported_duration_time_unit: reported_duration_time_unit
+       billing_duration: billing_duration,
+       billing_duration_time_unit: billing_duration_time_unit
      )}
   end
 

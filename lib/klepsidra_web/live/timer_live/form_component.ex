@@ -25,7 +25,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
-        <.input field={@form[:end_stamp]} type="datetime-local" label="End imestamp" />
+        <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
         <.input field={@form[:duration]} type="number" label="Duration" />
         <.input
           field={@form[:duration_time_unit]}
@@ -34,11 +34,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
           value="minute"
         />
-        <.input field={@form[:reported_duration]} type="number" label="Reported duration" />
+        <.input field={@form[:billing_duration]} type="number" label="Billable duration" />
         <.input
-          field={@form[:reported_duration_time_unit]}
+          field={@form[:billing_duration_time_unit]}
           type="select"
-          label="Reported duration time unit"
+          label="Billable duration time unit"
           options={[{"Hours", "hour"}, {"Minutes", "minute"}, {"Seconds", "second"}]}
           value="minute"
         />

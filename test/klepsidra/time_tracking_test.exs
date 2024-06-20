@@ -16,8 +16,8 @@ defmodule Klepsidra.TimeTrackingTest do
       end_stamp: nil,
       duration: nil,
       duration_time_unit: nil,
-      reported_duration: nil,
-      reported_duration_time_unit: nil
+      billing_duration: nil,
+      billing_duration_time_unit: nil
     }
 
     test "list_timers/0 returns all timers" do
@@ -37,8 +37,8 @@ defmodule Klepsidra.TimeTrackingTest do
         end_stamp: "2024-12-09 12:34:56",
         duration: 42,
         duration_time_unit: "some duration_time_unit",
-        reported_duration: 42,
-        reported_duration_time_unit: "some reported_duration_time_unit"
+        billing_duration: 42,
+        billing_duration_time_unit: "some billing_duration_time_unit"
       }
 
       assert {:ok, %Timer{} = timer} = TimeTracking.create_timer(valid_attrs)
@@ -47,8 +47,8 @@ defmodule Klepsidra.TimeTrackingTest do
       assert timer.end_stamp == "2024-12-09 12:34:56"
       assert timer.duration == 42
       assert timer.duration_time_unit == "some duration_time_unit"
-      assert timer.reported_duration == 42
-      assert timer.reported_duration_time_unit == "some reported_duration_time_unit"
+      assert timer.billing_duration == 42
+      assert timer.billing_duration_time_unit == "some billing_duration_time_unit"
     end
 
     test "create_timer/1 with invalid data returns error changeset" do
@@ -64,8 +64,8 @@ defmodule Klepsidra.TimeTrackingTest do
         end_stamp: "2024-12-09 12:34:56",
         duration: 43,
         duration_time_unit: "some updated duration_time_unit",
-        reported_duration: 43,
-        reported_duration_time_unit: "some updated reported_duration_time_unit"
+        billing_duration: 43,
+        billing_duration_time_unit: "some updated billing_duration_time_unit"
       }
 
       assert {:ok, %Timer{} = timer} = TimeTracking.update_timer(timer, update_attrs)
@@ -74,8 +74,8 @@ defmodule Klepsidra.TimeTrackingTest do
       assert timer.end_stamp == "2024-12-09 12:34:56"
       assert timer.duration == 43
       assert timer.duration_time_unit == "some updated duration_time_unit"
-      assert timer.reported_duration == 43
-      assert timer.reported_duration_time_unit == "some updated reported_duration_time_unit"
+      assert timer.billing_duration == 43
+      assert timer.billing_duration_time_unit == "some updated billing_duration_time_unit"
     end
 
     test "update_timer/2 with invalid data returns error changeset" do

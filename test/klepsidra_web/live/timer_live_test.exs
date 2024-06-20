@@ -9,21 +9,21 @@ defmodule KlepsidraWeb.TimerLiveTest do
     start_stamp: "2024-01-01 12:34",
     end_stamp: "2024-01-01 13:34",
     duration: 42,
-    reported_duration: 42
+    billing_duration: 42
   }
   @update_attrs %{
     description: "some updated description",
     start_stamp: "2024-06-12T01:39",
     end_stamp: "2024-06-12T01:47",
     duration: 43,
-    reported_duration: 43
+    billing_duration: 43
   }
   @invalid_attrs %{
     description: nil,
     start_stamp: nil,
     end_stamp: nil,
     duration: nil,
-    reported_duration: nil
+    billing_duration: nil
   }
 
   defp create_timer(_) do

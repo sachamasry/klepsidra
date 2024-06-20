@@ -37,8 +37,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Create a many-to-many projects to tags table
   - Create a business partners `notes` table
   - Create a projects `notes` table
-- Tagging UX improvements
-  - Make it possible to drill into the tag from the live component
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
@@ -47,7 +45,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### Future
 
+- UI improvements
+  - Resize datetime, duration and duration unit controls to more efficiently use space
+  - Start implementing colour palette
 - Tagging UX improvements
+  - Make it possible to drill into the tag from the live component
   - Provide ability to set new tag colour when creating freeform tag in live component
   - Document tag selector live component
   - Improve search functionality to perform fuzzy query directly in the database
@@ -59,10 +61,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Begin adding keyboard shortcuts for an improved user interface
   - Enable SQLite notes field full-text search
   - Start enabling full-text search on other relevant database fields
-- Make form dynamic: changing start or end times must recalculate durations
-- Rename 'reporting duration' and 'reporting duration time unit' fields to 'invoicing'?
-- Resize datetime, duration and duration unit controls to more efficiently use space
-- Start implementing colour palette
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
 - Change data defaults for duration to nil, and no duration time units until clocking out
 

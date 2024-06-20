@@ -9,8 +9,8 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
       add :duration_time_unit, :string
       add :billable, :boolean, default: false, null: false
       add :business_partner_id, references(:business_partners, on_delete: :nothing)
-      add :reported_duration, :integer
-      add :reported_duration_time_unit, :string
+      add :billing_duration, :integer
+      add :billing_duration_time_unit, :string
       add :description, :string
       add :project_id, references(:projects, on_delete: :nothing)
 

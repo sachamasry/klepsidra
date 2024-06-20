@@ -19,8 +19,8 @@ defmodule Klepsidra.TimeTracking.Timer do
           billable: boolean,
           business_partner_id: integer,
           project_id: integer,
-          reported_duration: integer,
-          reported_duration_time_unit: String.t()
+          billing_duration: integer,
+          billing_duration_time_unit: String.t()
         }
   schema "timers" do
     field :start_stamp, :string
@@ -33,8 +33,8 @@ defmodule Klepsidra.TimeTracking.Timer do
     belongs_to :business_partner, BusinessPartner
     belongs_to :project, Project
 
-    field :reported_duration, :integer
-    field :reported_duration_time_unit, :string
+    field :billing_duration, :integer
+    field :billing_duration_time_unit, :string
 
     has_many :timer_tags, TimerTags,
       preload_order: [asc: :tag_id],
@@ -57,8 +57,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       :billable,
       :business_partner_id,
       :project_id,
-      :reported_duration,
-      :reported_duration_time_unit
+      :billing_duration,
+      :billing_duration_time_unit
     ])
     |> validate_required(:start_stamp, message: "You must enter a start date and time")
     |> validate_timestamp(:start_stamp)
@@ -118,7 +118,7 @@ defmodule Klepsidra.TimeTracking.Timer do
         _ -> nil
       end
 
-    end_stamp = get_field(changeset, end_timestamp, "")
+    end_stamp = get_field(changeset, end_timestamp, "") || ""
 
     parsed_end_stamp =
       case parse_html_datetime(end_stamp) do
@@ -128,9 +128,11 @@ defmodule Klepsidra.TimeTracking.Timer do
 
     with {:empty_start_stamp, true} <-
            {:empty_start_stamp, start_stamp != ""},
-         true <- is_struct(parsed_start_stamp, NaiveDateTime),
+         {:valid_start_stamp, true} <-
+           {:valid_start_stamp, is_struct(parsed_start_stamp, NaiveDateTime)},
          {:empty_end_stamp, true} <- {:empty_end_stamp, end_stamp != ""},
-         true <- is_struct(parsed_end_stamp, NaiveDateTime),
+         {:valid_end_stamp, true} <-
+           {:valid_end_stamp, is_struct(parsed_end_stamp, NaiveDateTime)},
          {:chronological_order, true} <-
            {:chronological_order, NaiveDateTime.before?(parsed_start_stamp, parsed_end_stamp)},
          {:duration_check, true} <-
@@ -144,8 +146,14 @@ defmodule Klepsidra.TimeTracking.Timer do
       {:empty_start_stamp, false} ->
         changeset
 
+      {:valid_start_stamp, false} ->
+        add_error(changeset, :end_stamp, "The start time stamp is not valid")
+
       {:empty_end_stamp, false} ->
         changeset
+
+      {:valid_end_stamp, false} ->
+        add_error(changeset, :end_stamp, "The end time stamp is not valid")
 
       {:chronological_order, false} ->
         add_error(changeset, :end_stamp, "The end time must follow the start time")
