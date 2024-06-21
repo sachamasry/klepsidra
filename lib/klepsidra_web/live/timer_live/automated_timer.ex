@@ -318,7 +318,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       case socket.assigns.billable_activity? do
         true ->
           [
-            {"", ""}
+            {"-- Select Customer --", ""}
             | BusinessPartners.list_business_partners()
               |> Enum.map(fn bp -> {bp.name, bp.id} end)
           ]

@@ -28,25 +28,59 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
 
-        <.input field={@form[:duration]} type="text" label="Duration" readonly />
+        <div :if={@invocation_context == :new_timer}>
+          <.input
+            field={@form[:duration]}
+            type="text"
+            label="Duration"
+            value={@duration || 0}
+            readonly
+          />
 
-        <.input
-          field={@form[:duration_time_unit]}
-          phx-change="duration_unit_change"
-          type="select"
-          label="Duration time increment"
-          options={Units.construct_duration_unit_options_list(use_primitives?: true)}
-        />
+          <.input
+            field={@form[:duration_time_unit]}
+            type="select"
+            label="Duration time increment"
+            options={Units.construct_duration_unit_options_list(use_primitives?: true)}
+            value={@duration_unit}
+          />
 
-        <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
+          <.input
+            field={@form[:billing_duration]}
+            type="text"
+            label="Billable duration"
+            value={@billing_duration || @duration || 0}
+            readonly
+          />
 
-        <.input
-          field={@form[:billing_duration_time_unit]}
-          phx-change="billing_duration_unit_change"
-          type="select"
-          label="Billable time increment"
-          options={Units.construct_duration_unit_options_list()}
-        />
+          <.input
+            field={@form[:billing_duration_time_unit]}
+            type="select"
+            label="Billable time increment"
+            options={Units.construct_duration_unit_options_list()}
+            value={Units.get_default_billing_increment()}
+          />
+        </div>
+
+        <div :if={@invocation_context == :edit_timer}>
+          <.input field={@form[:duration]} type="text" label="Duration" readonly />
+
+          <.input
+            field={@form[:duration_time_unit]}
+            type="select"
+            label="Duration time increment"
+            options={Units.construct_duration_unit_options_list(use_primitives?: true)}
+          />
+
+          <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
+
+          <.input
+            field={@form[:billing_duration_time_unit]}
+            type="select"
+            label="Billable time increment"
+            options={Units.construct_duration_unit_options_list()}
+          />
+        </div>
 
         <.input field={@form[:description]} type="textarea" label="Description" />
 
@@ -93,14 +127,81 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:ok, socket}
   end
 
-  # @impl true
-  # def handle_event("validate", %{"timer" => %{"tag_id" => "new"} = _timer_params}, socket) do
-  #   # Launch new tag modal
+  @impl true
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "start_stamp"], "timer" => timer_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "duration" => assign_timer_duration(timer_params, "duration_time_unit"),
+          "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+      })
+      |> Map.put(:action, :validate)
 
-  #   # Refresh list
+    {:noreply, assign_form(socket, changeset)}
+  end
 
-  #   {:noreply, socket}
-  # end
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "end_stamp"], "timer" => timer_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "duration" => assign_timer_duration(timer_params, "duration_time_unit"),
+          "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+      })
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "duration_time_unit"], "timer" => timer_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "duration" => assign_timer_duration(timer_params, "duration_time_unit")
+      })
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "billing_duration_time_unit"], "timer" => timer_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+      })
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event("validate", %{"timer" => timer_params}, socket) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(timer_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
 
   def handle_event("toggle-billable", _params, socket) do
     billable_activity = !socket.assigns.billable_activity?
@@ -126,16 +227,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       |> assign_form(changeset)
 
     {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("validate", %{"timer" => timer_params}, socket) do
-    changeset =
-      socket.assigns.timer
-      |> TimeTracking.change_timer(timer_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign_form(socket, changeset)}
   end
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
@@ -197,6 +288,28 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
+  @spec assign_timer_duration(%{optional(any) => any}, String.t()) :: integer()
+  def assign_timer_duration(timer_params, duration_field) do
+    start_stamp = timer_params["start_stamp"]
+    end_stamp = timer_params["end_stamp"]
+    duration_time_unit = timer_params[duration_field]
+
+    duration =
+      with true <- start_stamp != "",
+           true <- end_stamp != "",
+           true <- duration_time_unit != "" do
+        Timer.calculate_timer_duration(
+          start_stamp,
+          end_stamp,
+          String.to_atom(duration_time_unit)
+        )
+      else
+        _ -> 0
+      end
+
+    duration
+  end
+
   @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
   defp assign_project(socket) do
     projects =
@@ -214,7 +327,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       case socket.assigns.billable_activity? do
         true ->
           [
-            {"", ""}
+            {"-- Select Customer --", ""}
             | BusinessPartners.list_business_partners()
               |> Enum.map(fn bp -> {bp.name, bp.id} end)
           ]

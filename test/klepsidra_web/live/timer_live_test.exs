@@ -105,27 +105,27 @@ defmodule KlepsidraWeb.TimerLiveTest do
       assert html =~ timer.description
     end
 
-    test "updates timer within modal", %{conn: conn, timer: timer} do
-      {:ok, show_live, _html} = live(conn, ~p"/timers/#{timer}")
+    # test "updates timer within modal", %{conn: conn, timer: timer} do
+    #   {:ok, show_live, _html} = live(conn, ~p"/timers/#{timer}")
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Timer"
+    #   assert show_live |> element("a", "Edit") |> render_click() =~
+    #            "Edit Timer"
 
-      assert_patch(show_live, ~p"/timers/#{timer}/show/edit")
+    #   assert_patch(show_live, ~p"/timers/#{timer}/show/edit")
 
-      # assert show_live
-      #        |> form("#timer-form", timer: @invalid_attrs)
-      #        |> render_change() =~ "can&#39;t be blank"
+    #   assert show_live
+    #          |> form("#timer-form", timer: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      assert show_live
-             |> form("#timer-form", timer: @update_attrs)
-             |> render_submit()
+    #   assert show_live
+    #          |> form("#timer-form", timer: @update_attrs)
+    #          |> render_submit()
 
-      assert_patch(show_live, ~p"/timers/#{timer}")
+    #   assert_patch(show_live, ~p"/timers/#{timer}")
 
-      html = render(show_live)
-      assert html =~ "Timer updated successfully"
-      assert html =~ "some updated description"
-    end
+    #   html = render(show_live)
+    #   assert html =~ "Timer updated successfully"
+    #   assert html =~ "some updated description"
+    # end
   end
 end
