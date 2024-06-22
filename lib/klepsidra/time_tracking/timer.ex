@@ -61,42 +61,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       :billing_duration_time_unit
     ])
     |> validate_required(:start_stamp, message: "You must enter a start date and time")
-    |> validate_timestamp(:start_stamp)
-    |> validate_timestamp(:end_stamp)
-    |> validate_timestamp_chronology(:start_stamp, :end_stamp)
+    |> validate_timestamps_and_chronology(:start_stamp, :end_stamp)
     |> unique_constraint(:project)
-  end
-
-  @doc """
-  Validates timestamp fields, ensuring that they conform to valid `NaiveDateTime`
-  parseable values. This ensures not only that the timestamp is a correctly
-  formated string, but also that the representation is a valid date and time, i.e.
-  a 13th month, or 32nd day will be considered invalid.
-
-  ## Options
-
-      * `:message` - the message on failure, defaults to "Enter a valid date and time"
-
-  """
-  @spec validate_timestamp(t, atom, Keyword.t()) :: t
-  def validate_timestamp(changeset, field, opts \\ []) do
-    message = Keyword.get(opts, :message, "Enter a valid date and time")
-
-    date_time_stamp = get_change(changeset, field)
-
-    case date_time_stamp do
-      nil ->
-        changeset
-
-      "" ->
-        changeset
-
-      _ ->
-        case parse_html_datetime(date_time_stamp) do
-          {:ok, _datetime_stamp} -> changeset
-          _ -> add_error(changeset, field, message)
-        end
-    end
   end
 
   @doc """
@@ -107,14 +73,14 @@ defmodule Klepsidra.TimeTracking.Timer do
       * `:message` - the message on failure, defaults to "Timestamps are not in valid order"
 
   """
-  @spec validate_timestamp_chronology(t, atom, atom, Keyword.t()) :: t
-  def validate_timestamp_chronology(changeset, start_timestamp, end_timestamp, opts \\ []) do
+  @spec validate_timestamps_and_chronology(t, atom, atom, Keyword.t()) :: t
+  def validate_timestamps_and_chronology(changeset, start_timestamp, end_timestamp, opts \\ []) do
     message = Keyword.get(opts, :message, "Timestamps are not in valid order")
     start_stamp = get_field(changeset, start_timestamp, "")
 
     parsed_start_stamp =
       case parse_html_datetime(start_stamp) do
-        {:ok, start_date_time_stamp} -> start_date_time_stamp
+        {:ok, start_datetime_stamp} -> start_datetime_stamp
         _ -> nil
       end
 
@@ -122,43 +88,43 @@ defmodule Klepsidra.TimeTracking.Timer do
 
     parsed_end_stamp =
       case parse_html_datetime(end_stamp) do
-        {:ok, end_date_time_stamp} -> end_date_time_stamp
+        {:ok, end_datetime_stamp} -> end_datetime_stamp
         _ -> nil
       end
 
-    with {:empty_start_stamp, true} <-
-           {:empty_start_stamp, start_stamp != ""},
+    with {:nonempty_start_stamp, true} <-
+           {:nonempty_start_stamp, start_stamp != ""},
          {:valid_start_stamp, true} <-
            {:valid_start_stamp, is_struct(parsed_start_stamp, NaiveDateTime)},
-         {:empty_end_stamp, true} <- {:empty_end_stamp, end_stamp != ""},
+         {:nonempty_end_stamp, true} <- {:nonempty_end_stamp, end_stamp != ""},
          {:valid_end_stamp, true} <-
            {:valid_end_stamp, is_struct(parsed_end_stamp, NaiveDateTime)},
          {:chronological_order, true} <-
            {:chronological_order, NaiveDateTime.before?(parsed_start_stamp, parsed_end_stamp)},
-         {:duration_check, true} <-
-           {:duration_check,
+         {:reasonable_duration_check, true} <-
+           {:reasonable_duration_check,
             NaiveDateTime.before?(
               parsed_end_stamp,
               NaiveDateTime.add(parsed_start_stamp, 24, :hour)
             )} do
       changeset
     else
-      {:empty_start_stamp, false} ->
-        changeset
+      {:nonempty_start_stamp, false} ->
+        add_error(changeset, :end_stamp, "You must provide a start time and date")
 
       {:valid_start_stamp, false} ->
-        add_error(changeset, :end_stamp, "The start time stamp is not valid")
+        add_error(changeset, :end_stamp, "The start time and date is not valid")
 
-      {:empty_end_stamp, false} ->
+      {:nonempty_end_stamp, false} ->
         changeset
 
       {:valid_end_stamp, false} ->
-        add_error(changeset, :end_stamp, "The end time stamp is not valid")
+        add_error(changeset, :end_stamp, "The end time and date is not valid")
 
       {:chronological_order, false} ->
         add_error(changeset, :end_stamp, "The end time must follow the start time")
 
-      {:duration_check, false} ->
+      {:reasonable_duration_check, false} ->
         add_error(changeset, :end_stamp, "The timed activity cannot be longer than one day")
 
       _ ->
@@ -251,14 +217,25 @@ defmodule Klepsidra.TimeTracking.Timer do
                end_timestamp,
                NaiveDateTime
              ) and is_atom(unit) do
-    if unit in [:second, :minute, :hour, :day] do
+    with {:end_follows_start, true} <-
+           {:end_follows_start, NaiveDateTime.after?(end_timestamp, start_timestamp)},
+         {:uses_time_unit_primitive, true} <-
+           {:uses_time_unit_primitive, unit in [:second, :minute, :hour, :day]} do
       NaiveDateTime.diff(end_timestamp, start_timestamp, unit) + 1
     else
-      (NaiveDateTime.diff(end_timestamp, start_timestamp, :minute) + 1)
-      |> Cldr.Unit.new!(:minute)
-      |> Klepsidra.Cldr.Unit.convert!(unit)
-      |> Map.get(:value)
-      |> Decimal.round(0, :up)
+      {:end_follows_start, false} ->
+        0
+
+      {:uses_time_unit_primitive, false} ->
+        (NaiveDateTime.diff(end_timestamp, start_timestamp, :minute) + 1)
+        |> Cldr.Unit.new!(:minute)
+        |> Klepsidra.Cldr.Unit.convert!(unit)
+        |> Map.get(:value)
+        |> Decimal.round(0, :up)
+        |> Decimal.to_integer()
+
+      _ ->
+        0
     end
   end
 
@@ -503,5 +480,38 @@ defmodule Klepsidra.TimeTracking.Timer do
   @spec duration_to_string(integer(), atom()) :: []
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
     Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration), Klepsidra.Cldr)
+  end
+
+  @doc """
+  Used across `timer` live components to calculate timer durations.
+  """
+  @spec assign_timer_duration(%{optional(any) => any}) :: %{optional(any) => any}
+  def assign_timer_duration(timer_params) do
+    start_stamp = timer_params["start_stamp"]
+    end_stamp = timer_params["end_stamp"]
+    _billable = timer_params["billable"]
+    duration_time_unit = timer_params["duration_time_unit"]
+    billing_duration_time_unit = timer_params["billing_duration_time_unit"]
+
+    with true <- start_stamp != "",
+         true <- end_stamp != "",
+         true <- duration_time_unit != "" do
+      %{
+        duration:
+          calculate_timer_duration(
+            start_stamp,
+            end_stamp,
+            String.to_atom(duration_time_unit)
+          ),
+        billing_duration:
+          calculate_timer_duration(
+            start_stamp,
+            end_stamp,
+            String.to_atom(billing_duration_time_unit)
+          )
+      }
+    else
+      _ -> %{duration: 0, billing_duration: 0}
+    end
   end
 end

@@ -133,12 +133,14 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "start_stamp"], "timer" => timer_params},
         socket
       ) do
+    durations = Timer.assign_timer_duration(timer_params)
+
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => assign_timer_duration(timer_params, "duration_time_unit"),
-          "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+        | "duration" => durations.duration,
+          "billing_duration" => durations.billing_duration
       })
       |> Map.put(:action, :validate)
 
@@ -150,12 +152,14 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "end_stamp"], "timer" => timer_params},
         socket
       ) do
+    durations = Timer.assign_timer_duration(timer_params)
+
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => assign_timer_duration(timer_params, "duration_time_unit"),
-          "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+        | "duration" => durations.duration,
+          "billing_duration" => durations.billing_duration
       })
       |> Map.put(:action, :validate)
 
@@ -167,11 +171,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "duration_time_unit"], "timer" => timer_params},
         socket
       ) do
+    durations = Timer.assign_timer_duration(timer_params)
+
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => assign_timer_duration(timer_params, "duration_time_unit")
+        | "duration" => durations.duration
       })
       |> Map.put(:action, :validate)
 
@@ -183,11 +189,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "billing_duration_time_unit"], "timer" => timer_params},
         socket
       ) do
+    durations = Timer.assign_timer_duration(timer_params)
+
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "billing_duration" => assign_timer_duration(timer_params, "billing_duration_time_unit")
+        | "billing_duration" => durations.billing_duration
       })
       |> Map.put(:action, :validate)
 
@@ -234,27 +242,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   defp save_timer(socket, :edit_timer, timer_params) do
-    end_stamp = timer_params["end_stamp"]
-
-    validated_end_stamp =
-      case end_stamp do
-        "" ->
-          ""
-
-        _ ->
-          case Timer.parse_html_datetime(end_stamp) do
-            {:ok, timestamp} -> Timer.convert_naivedatetime_to_html!(timestamp)
-            _ -> ""
-          end
-      end
-
-    # end_timer =
-    #   Timer.parse_html_datetime!(timer_params["end_stamp"])
-    #   |> Timer.convert_naivedatetime_to_html!()
-
-    timer_params =
-      Map.put(timer_params, "end_stamp", validated_end_stamp)
-
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
         notify_parent({:saved, timer})
@@ -286,28 +273,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset))
-  end
-
-  @spec assign_timer_duration(%{optional(any) => any}, String.t()) :: integer()
-  def assign_timer_duration(timer_params, duration_field) do
-    start_stamp = timer_params["start_stamp"]
-    end_stamp = timer_params["end_stamp"]
-    duration_time_unit = timer_params[duration_field]
-
-    duration =
-      with true <- start_stamp != "",
-           true <- end_stamp != "",
-           true <- duration_time_unit != "" do
-        Timer.calculate_timer_duration(
-          start_stamp,
-          end_stamp,
-          String.to_atom(duration_time_unit)
-        )
-      else
-        _ -> 0
-      end
-
-    duration
   end
 
   @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
