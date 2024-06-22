@@ -36,4 +36,16 @@ defmodule Klepsidra.Projects.Project do
     |> validate_required([:name])
     |> unique_constraint(:name, name: :projects_name_index)
   end
+
+  @doc """
+  Used across live components to populate select options with projects.
+  """
+  @spec populate_projects_list() :: [Klepsidra.Projects.Project.t(), ...]
+  def populate_projects_list() do
+    [
+      {"", ""}
+      | Klepsidra.Projects.list_projects()
+        |> Enum.map(fn project -> {project.name, project.id} end)
+    ]
+  end
 end

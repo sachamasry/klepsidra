@@ -6,8 +6,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
-  alias Klepsidra.Projects
-  alias Klepsidra.BusinessPartners
+  alias Klepsidra.Projects.Project
+  alias Klepsidra.BusinessPartners.BusinessPartner
 
   @impl true
   def render(assigns) do
@@ -92,7 +92,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           label="Billable?"
         />
 
-        <div class={if !@billable_activity?, do: "hidden"}>
+        <div class={if !Timer.read_checkbox(@form.params["billable"]), do: "hidden"}>
           <.input
             field={@form[:business_partner_id]}
             type="select"
@@ -277,12 +277,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
   defp assign_project(socket) do
-    projects =
-      [
-        {"", ""}
-        | Projects.list_projects()
-          |> Enum.map(fn project -> {project.name, project.id} end)
-      ]
+    projects = Project.populate_projects_list()
 
     assign(socket, projects: projects)
   end
@@ -291,11 +286,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     business_partners =
       case socket.assigns.billable_activity? do
         true ->
-          [
-            {"-- Select Customer --", ""}
-            | BusinessPartners.list_business_partners()
-              |> Enum.map(fn bp -> {bp.name, bp.id} end)
-          ]
+          BusinessPartner.populate_customers_list()
 
         _ ->
           [{"", ""}]

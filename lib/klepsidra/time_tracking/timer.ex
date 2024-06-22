@@ -484,12 +484,16 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @doc """
   Used across `timer` live components to calculate timer durations.
+
+  The function takes the `timer_params` parameters passed to the validation function,
+  extracts the start and end datetime stamps, returning a map with the two
+  calculated durations: `%{duration: 0, billing_duration: 0}`
   """
   @spec assign_timer_duration(%{optional(any) => any}) :: %{optional(any) => any}
   def assign_timer_duration(timer_params) do
     start_stamp = timer_params["start_stamp"]
     end_stamp = timer_params["end_stamp"]
-    _billable = timer_params["billable"]
+    billable = Phoenix.HTML.Form.normalize_value("checkbox", timer_params["billable"])
     duration_time_unit = timer_params["duration_time_unit"]
     billing_duration_time_unit = timer_params["billing_duration_time_unit"]
 
@@ -504,14 +508,24 @@ defmodule Klepsidra.TimeTracking.Timer do
             String.to_atom(duration_time_unit)
           ),
         billing_duration:
-          calculate_timer_duration(
-            start_stamp,
-            end_stamp,
-            String.to_atom(billing_duration_time_unit)
-          )
+          case billable do
+            true ->
+              calculate_timer_duration(
+                start_stamp,
+                end_stamp,
+                String.to_atom(billing_duration_time_unit)
+              )
+
+            false ->
+              0
+          end
       }
     else
       _ -> %{duration: 0, billing_duration: 0}
     end
+  end
+
+  def read_checkbox(field) do
+    Phoenix.HTML.Form.normalize_value("checkbox", field)
   end
 end
