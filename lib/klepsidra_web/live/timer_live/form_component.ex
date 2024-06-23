@@ -29,20 +29,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
 
         <div :if={@invocation_context == :new_timer}>
-          <.input
-            field={@form[:duration]}
-            type="text"
-            label="Duration"
-            value={@duration || 0}
-            readonly
-          />
+          <.input field={@form[:duration]} type="text" label="Duration" readonly />
 
           <.input
             field={@form[:duration_time_unit]}
             type="select"
             label="Duration time increment"
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
-            value={@duration_unit}
           />
         </div>
 
@@ -91,8 +84,23 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   @impl true
+  @spec update(map(), Phoenix.LiveView.Socket.t()) :: {:ok, Phoenix.LiveView.Socket.t()}
   def update(%{timer: timer} = assigns, socket) do
-    changeset = TimeTracking.change_timer(timer)
+    timer_changes =
+      case assigns.invocation_context do
+        :new_timer ->
+          %{
+            "duration" => "0",
+            "duration_time_unit" => "minute",
+            "billing_duration" => "0",
+            "billing_duration_time_unit" => Units.get_default_billing_increment()
+          }
+
+        _ ->
+          %{}
+      end
+
+    changeset = TimeTracking.change_timer(timer, timer_changes)
 
     socket =
       socket
@@ -286,13 +294,14 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
-  @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
+  # @spec assign_project(Phoenix.LiveView.Socket.t()) :: [Klepsidra.Projects.Project.t(), ...]
   defp assign_project(socket) do
     projects = Project.populate_projects_list()
 
     assign(socket, projects: projects)
   end
 
+  # @spec assign_business_partner(Phoenix.LiveView.Socket.t()) :: [Klepsidra.Projects.Project.t(), ...]
   defp assign_business_partner(socket) do
     business_partners =
       case socket.assigns.billable_activity? do

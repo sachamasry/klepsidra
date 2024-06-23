@@ -53,7 +53,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new_timer]} id="timer-modal" show on_cancel={JS.patch(~p"/timers")}>
+<.modal
+  :if={@live_action in [:new_timer, :edit_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
   <.live_component
     module={KlepsidraWeb.TimerLive.FormComponent}
     id={:new_timer}
@@ -61,28 +66,7 @@
     action={@live_action}
     timer={@timer}
     patch={~p"/timers"}
-    invocation_context={:new_timer}
-    duration="0"
-    duration_unit={@duration_unit}
-    billing_duration="0"
-    billing_duration_unit={@billing_duration_unit}
-  />
-</.modal>
-
-<.modal
-  :if={@live_action in [:edit_timer]}
-  id="timer-modal"
-  show
-  on_cancel={JS.patch(~p"/timers")}
->
-  <.live_component
-    module={KlepsidraWeb.TimerLive.FormComponent}
-    id={@timer.id}
-    title={@page_title}
-    action={@live_action}
-    timer={@timer}
-    patch={~p"/timers"}
-    invocation_context={:edit_timer}
+    invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
   />
 </.modal>
 
@@ -100,10 +84,6 @@
     timer={@timer}
     patch={~p"/timers"}
     invocation_context={:start_timer}
-    duration="0"
-    duration_unit={@duration_unit}
-    billing_duration="0"
-    billing_duration_unit={@billing_duration_unit}
   />
 </.modal>
 
@@ -121,11 +101,6 @@
     timer={@timer}
     patch={~p"/timers"}
     invocation_context={:stop_timer}
-    end_timestamp={to_string(@clocked_out.end_timestamp)}
-    duration={@clocked_out.timer_duration}
-    duration_unit={@duration_unit}
-    billing_duration={@billing_duration}
-    billing_duration_unit={@billing_duration_unit}
   />
 </.modal>
 

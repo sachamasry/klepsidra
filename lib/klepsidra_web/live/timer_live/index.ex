@@ -23,14 +23,8 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   defp apply_action(socket, :new_timer, _params) do
-    billing_duration_unit = Units.get_default_billing_increment()
-
     socket
     |> assign(:page_title, "Manual Timer")
-    |> assign(
-      duration_unit: "minute",
-      billing_duration_unit: billing_duration_unit
-    )
     |> assign(:timer, %Timer{})
   end
 
@@ -41,8 +35,14 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   defp apply_action(socket, :start_timer, _params) do
+    billing_duration_unit = Units.get_default_billing_increment()
+
     socket
     |> assign(:page_title, "Starting Timer")
+    |> assign(
+      duration_unit: "minute",
+      billing_duration_unit: billing_duration_unit
+    )
     |> assign(:timer, %Timer{})
   end
 
