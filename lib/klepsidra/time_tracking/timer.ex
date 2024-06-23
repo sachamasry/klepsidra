@@ -73,7 +73,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       * `:message` - the message on failure, defaults to "Timestamps are not in valid order"
 
   """
-  @spec validate_timestamps_and_chronology(t, atom, atom, Keyword.t()) :: t
+  # @spec validate_timestamps_and_chronology(t, atom, atom, Keyword.t()) :: t
   def validate_timestamps_and_chronology(changeset, start_timestamp, end_timestamp, opts \\ []) do
     message = Keyword.get(opts, :message, "Timestamps are not in valid order")
     start_stamp = get_field(changeset, start_timestamp, "")
@@ -92,7 +92,8 @@ defmodule Klepsidra.TimeTracking.Timer do
         _ -> nil
       end
 
-    with {:nonempty_start_stamp, true} <-
+    with {:is_valid, true} <- {:is_valid, changeset.valid?},
+         {:nonempty_start_stamp, true} <-
            {:nonempty_start_stamp, start_stamp != ""},
          {:valid_start_stamp, true} <-
            {:valid_start_stamp, is_struct(parsed_start_stamp, NaiveDateTime)},
@@ -109,6 +110,9 @@ defmodule Klepsidra.TimeTracking.Timer do
             )} do
       changeset
     else
+      {:is_valid, false} ->
+        changeset
+
       {:nonempty_start_stamp, false} ->
         add_error(changeset, :end_stamp, "You must provide a start time and date")
 
