@@ -28,41 +28,28 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
 
-        <div :if={@invocation_context == :new_timer}>
-          <.input field={@form[:duration]} type="text" label="Duration" readonly />
+        <.input field={@form[:duration]} type="text" label="Duration" readonly />
 
-          <.input
-            field={@form[:duration_time_unit]}
-            type="select"
-            label="Duration time increment"
-            options={Units.construct_duration_unit_options_list(use_primitives?: true)}
-          />
-        </div>
-
-        <div :if={@invocation_context == :edit_timer}>
-          <.input field={@form[:duration]} type="text" label="Duration" readonly />
-
-          <.input
-            field={@form[:duration_time_unit]}
-            type="select"
-            label="Duration time increment"
-            options={Units.construct_duration_unit_options_list(use_primitives?: true)}
-          />
-        </div>
+        <.input
+          field={@form[:duration_time_unit]}
+          type="select"
+          label="Duration time increment"
+          options={Units.construct_duration_unit_options_list(use_primitives?: true)}
+        />
 
         <.input field={@form[:description]} type="textarea" label="Description" />
 
         <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
-        <.input field={@form[:billable]} type="checkbox" phx-target={@myself} label="Billable?" />
+        <.input field={@form[:billable]} type="checkbox" label="Billable?" />
 
         <div class={unless @billable_activity?, do: "hidden"}>
           <.input
             field={@form[:business_partner_id]}
             type="select"
-            required={@billable_activity?}
             label="Customer"
             options={@business_partners}
+            required={@billable_activity?}
           />
 
           <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />

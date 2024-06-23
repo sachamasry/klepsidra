@@ -35,9 +35,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         </div>
 
         <div :if={@invocation_context == :stop_timer}>
-          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" disabled />
+          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" readonly />
 
-          <.input field={@form[:end_stamp]} type="datetime-local" label="End time" disabled />
+          <.input field={@form[:end_stamp]} type="datetime-local" label="End time" readonly />
 
           <.input field={@form[:duration]} type="text" label="Duration" readonly />
 
@@ -48,15 +48,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
           />
 
-          <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
-
-          <.input
-            field={@form[:billing_duration_time_unit]}
-            type="select"
-            label="Billable time increment"
-            options={Units.construct_duration_unit_options_list()}
-          />
-
           <.input
             field={@form[:description]}
             type="textarea"
@@ -65,28 +56,33 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           />
         </div>
 
+        <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
+
         <.input field={@form[:billable]} type="checkbox" label="Billable?" />
 
-        <.input
-          :if={@billable_activity?}
-          field={@form[:business_partner_id]}
-          type="select"
-          label="Customer"
-          placeholder="Customer"
-          options={@business_partners}
-        />
+        <div class={unless @billable_activity?, do: "hidden"}>
+          <.input
+            field={@form[:business_partner_id]}
+            type="select"
+            label="Customer"
+            placeholder="Customer"
+            options={@business_partners}
+            required={@billable_activity?}
+          />
 
-        <.input
-          field={@form[:project_id]}
-          type="select"
-          label="Project"
-          placeholder="Project"
-          options={@projects}
-        />
+          <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
+
+          <.input
+            field={@form[:billing_duration_time_unit]}
+            type="select"
+            label="Billable time increment"
+            options={Units.construct_duration_unit_options_list()}
+          />
+        </div>
 
         <:actions>
           <.button phx-disable-with="Saving...">
-            <%= if @invocation_context == :start_timer, do: "Start", else: "Stop" %>
+            <%= if @invocation_context == :start_timer, do: "Start timer", else: "Save" %>
           </.button>
         </:actions>
       </.simple_form>
@@ -106,22 +102,41 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     timer_changes =
       case assigns.invocation_context do
         :stop_timer ->
+          start_stamp = timer.start_stamp
           end_stamp = Timer.get_current_timestamp() |> Timer.convert_naivedatetime_to_html!()
+          duration_time_unit = timer.duration_time_unit
+          billing_duration_time_unit = timer.billing_duration_time_unit
 
           duration =
             Timer.assign_timer_duration(
               %{
-                "start_stamp" => timer.start_stamp,
+                "start_stamp" => start_stamp,
                 "end_stamp" => end_stamp,
-                "duration_time_unit" => timer.duration_time_unit
+                "duration_time_unit" => duration_time_unit
               },
               "duration_time_unit"
             )
 
+          billable = Timer.read_checkbox(timer.billable)
+
+          billing_duration =
+            if billable do
+              Timer.assign_timer_duration(
+                %{
+                  "start_stamp" => start_stamp,
+                  "end_stamp" => end_stamp,
+                  "billing_duration_time_unit" => billing_duration_time_unit
+                },
+                "billing_duration_time_unit"
+              )
+            else
+              0
+            end
+
           %{
             "end_stamp" => end_stamp,
             "duration" => duration,
-            "billing_duration" => ""
+            "billing_duration" => billing_duration
           }
 
         _ ->
@@ -137,6 +152,87 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
      |> assign_business_partner()
      |> assign_project()
      |> assign(assigns)}
+  end
+
+  @impl true
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "duration_time_unit"], "timer" => timer_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "duration" => Timer.assign_timer_duration(timer_params, "duration_time_unit")
+      })
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  @impl true
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "billing_duration_time_unit"], "timer" => timer_params},
+        socket
+      ) do
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
+
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "billing_duration" => billing_duration
+      })
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  @impl true
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "billable"], "timer" => timer_params},
+        socket
+      ) do
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
+
+    business_partner_id =
+      case billable do
+        true -> socket.assigns.timer.business_partner_id
+        false -> ""
+      end
+
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "business_partner_id" => business_partner_id,
+          "billing_duration" => billing_duration
+      })
+      |> Map.put(:action, :validate)
+
+    socket =
+      socket
+      |> assign(billable_activity?: billable)
+      |> assign_business_partner()
+
+    {:noreply, assign_form(socket, changeset)}
   end
 
   @impl true

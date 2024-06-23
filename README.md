@@ -27,12 +27,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
-- Clean up timer render functions through less duplication
-- Fix 'reported duration' units
-  - Ensure that duration and billing duration fields are calculated from their time unit choice
-  - Changing either the start or end stamp must recalcualate both durations
-  - Ensure that if `billing` is false, that billing durations remain at zero
-  - Refactor code to reduce duplication
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table
   - Create a business partners `notes` table
