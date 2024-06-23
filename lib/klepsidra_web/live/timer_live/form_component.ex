@@ -44,22 +44,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
             value={@duration_unit}
           />
-
-          <.input
-            field={@form[:billing_duration]}
-            type="text"
-            label="Billable duration"
-            value={@billing_duration || @duration || 0}
-            readonly
-          />
-
-          <.input
-            field={@form[:billing_duration_time_unit]}
-            type="select"
-            label="Billable time increment"
-            options={Units.construct_duration_unit_options_list()}
-            value={Units.get_default_billing_increment()}
-          />
         </div>
 
         <div :if={@invocation_context == :edit_timer}>
@@ -71,6 +55,22 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             label="Duration time increment"
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
           />
+        </div>
+
+        <.input field={@form[:description]} type="textarea" label="Description" />
+
+        <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
+
+        <.input field={@form[:billable]} type="checkbox" phx-target={@myself} label="Billable?" />
+
+        <div class={unless @billable_activity?, do: "hidden"}>
+          <.input
+            field={@form[:business_partner_id]}
+            type="select"
+            required={@billable_activity?}
+            label="Customer"
+            options={@business_partners}
+          />
 
           <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
 
@@ -81,28 +81,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             options={Units.construct_duration_unit_options_list()}
           />
         </div>
-
-        <.input field={@form[:description]} type="textarea" label="Description" />
-
-        <.input
-          field={@form[:billable]}
-          type="checkbox"
-          phx-click="toggle-billable"
-          phx-target={@myself}
-          label="Billable?"
-        />
-
-        <div class={if !Timer.read_checkbox(@form.params["billable"]), do: "hidden"}>
-          <.input
-            field={@form[:business_partner_id]}
-            type="select"
-            required={@billable_activity?}
-            label="Customer"
-            options={@business_partners}
-          />
-        </div>
-
-        <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
@@ -133,14 +111,22 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "start_stamp"], "timer" => timer_params},
         socket
       ) do
-    durations = Timer.assign_timer_duration(timer_params)
+    duration = Timer.assign_timer_duration(timer_params, "duration_time_unit")
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
 
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => durations.duration,
-          "billing_duration" => durations.billing_duration
+        | "duration" => duration,
+          "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
 
@@ -152,14 +138,23 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "end_stamp"], "timer" => timer_params},
         socket
       ) do
-    durations = Timer.assign_timer_duration(timer_params)
+    duration = Timer.assign_timer_duration(timer_params, "duration_time_unit")
+
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
 
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => durations.duration,
-          "billing_duration" => durations.billing_duration
+        | "duration" => duration,
+          "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
 
@@ -171,13 +166,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "duration_time_unit"], "timer" => timer_params},
         socket
       ) do
-    durations = Timer.assign_timer_duration(timer_params)
-
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "duration" => durations.duration
+        | "duration" => Timer.assign_timer_duration(timer_params, "duration_time_unit")
       })
       |> Map.put(:action, :validate)
 
@@ -189,15 +182,59 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "billing_duration_time_unit"], "timer" => timer_params},
         socket
       ) do
-    durations = Timer.assign_timer_duration(timer_params)
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
 
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "billing_duration" => durations.billing_duration
+        | "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "billable"], "timer" => timer_params},
+        socket
+      ) do
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_duration =
+      if billable do
+        Timer.assign_timer_duration(timer_params, "billing_duration_time_unit")
+      else
+        0
+      end
+
+    business_partner_id =
+      case billable do
+        true -> socket.assigns.timer.business_partner_id
+        false -> ""
+      end
+
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "business_partner_id" => business_partner_id,
+          "billing_duration" => billing_duration
+      })
+      |> Map.put(:action, :validate)
+
+    socket =
+      socket
+      |> assign(billable_activity?: billable)
+      |> assign_business_partner()
 
     {:noreply, assign_form(socket, changeset)}
   end
@@ -211,34 +248,23 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:noreply, assign_form(socket, changeset)}
   end
 
-  def handle_event("toggle-billable", _params, socket) do
-    billable_activity = !socket.assigns.billable_activity?
-
-    business_partner_id =
-      case billable_activity do
-        true -> socket.assigns.timer.business_partner_id
-        false -> ""
-      end
-
-    changeset =
-      socket.assigns.form.data
-      |> TimeTracking.change_timer(%{
-        billable: billable_activity,
-        business_partner_id: business_partner_id
-      })
-      |> Map.put(:action, :update)
-
-    socket =
-      socket
-      |> assign(billable_activity?: billable_activity)
-      |> assign_business_partner()
-      |> assign_form(changeset)
-
-    {:noreply, socket}
-  end
-
   def handle_event("save", %{"timer" => timer_params}, socket) do
     save_timer(socket, socket.assigns.action, timer_params)
+  end
+
+  defp save_timer(socket, :new_timer, timer_params) do
+    case TimeTracking.create_timer(timer_params) do
+      {:ok, timer} ->
+        notify_parent({:saved, timer})
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "New timer recorded successfully")
+         |> push_patch(to: socket.assigns.patch)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign_form(socket, changeset)}
+    end
   end
 
   defp save_timer(socket, :edit_timer, timer_params) do
@@ -249,21 +275,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Timer updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
-    end
-  end
-
-  defp save_timer(socket, :new_timer, timer_params) do
-    case TimeTracking.create_timer(timer_params) do
-      {:ok, timer} ->
-        notify_parent({:saved, timer})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, "Timer created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

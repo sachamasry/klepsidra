@@ -489,39 +489,23 @@ defmodule Klepsidra.TimeTracking.Timer do
   extracts the start and end datetime stamps, returning a map with the two
   calculated durations: `%{duration: 0, billing_duration: 0}`
   """
-  @spec assign_timer_duration(%{optional(any) => any}) :: %{optional(any) => any}
-  def assign_timer_duration(timer_params) do
+  @spec assign_timer_duration(%{optional(any) => any}, String.t()) :: integer()
+  def assign_timer_duration(timer_params, duration_time_unit)
+      when is_map(timer_params) and is_bitstring(duration_time_unit) do
     start_stamp = timer_params["start_stamp"]
     end_stamp = timer_params["end_stamp"]
-    billable = Phoenix.HTML.Form.normalize_value("checkbox", timer_params["billable"])
-    duration_time_unit = timer_params["duration_time_unit"]
-    billing_duration_time_unit = timer_params["billing_duration_time_unit"]
+    duration_time_unit = timer_params[duration_time_unit]
 
     with true <- start_stamp != "",
          true <- end_stamp != "",
          true <- duration_time_unit != "" do
-      %{
-        duration:
-          calculate_timer_duration(
-            start_stamp,
-            end_stamp,
-            String.to_atom(duration_time_unit)
-          ),
-        billing_duration:
-          case billable do
-            true ->
-              calculate_timer_duration(
-                start_stamp,
-                end_stamp,
-                String.to_atom(billing_duration_time_unit)
-              )
-
-            false ->
-              0
-          end
-      }
+      calculate_timer_duration(
+        start_stamp,
+        end_stamp,
+        String.to_atom(duration_time_unit)
+      )
     else
-      _ -> %{duration: 0, billing_duration: 0}
+      _ -> 0
     end
   end
 
