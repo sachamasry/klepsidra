@@ -29,7 +29,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Complete all data structure, validations, defaults and indexes needed
   - Create a many-to-many projects to tags table
-  - Create a business partners `notes` table
   - Rename existing `notes` table to `timer_notes`
   - Create some kind of 'type of work' categorisation
 - Provide a 'today' view

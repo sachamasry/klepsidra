@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.0">
 
 
-    <title>Klepsidra.Cldr.Unit.Additional — klepsidra v0.1.0</title>
+    <title>Klepsidra.BusinessPartners.Note — klepsidra v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
@@ -117,11 +117,16 @@ Pages
 
 <h1>
 
-  <span translate="no">Klepsidra.Cldr.Unit.Additional</span> 
+  <span translate="no">Klepsidra.BusinessPartners.Note</span> 
   <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
 </h1>
 
+
+  <section id="moduledoc">
+<p>Defines the data schema for the business partners<code class="inline">Note</code> entity,
+annotations of business partners.</p>
+  </section>
 
 
   <section id="summary" class="details-list">
@@ -131,30 +136,14 @@ Pages
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-functions summary">
+<div class="summary-types summary">
   <h2>
-    <a href="#functions">Functions</a>
+    <a href="#types">Types</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#additional_units/0" translate="no">additional_units()</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#known_locale_names/0" translate="no">known_locale_names()</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#units_for/2" translate="no">units_for(locale, style)</a>
+        <a href="#t:t/0" translate="no">t()</a>
 
       </div>
 
@@ -165,61 +154,41 @@ Pages
   </section>
 
 
-  <section id="functions" class="details-list">
+  <section id="types" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
+      <a class="hover-link" href="#types">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Functions</span>
+      <span class="text">Types</span>
     </h1>
-    <div class="functions-list">
-<section class="detail" id="additional_units/0">
+    <div class="types-list">
+<section class="detail" id="t:t/0">
 
   <div class="detail-header">
-    <a href="#additional_units/0" class="detail-link" title="Link to this function">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this type</span>
     </a>
-    <h1 class="signature" translate="no">additional_units()</h1>
+    <h1 class="signature" translate="no">t()</h1>
 
 
   </div>
 
   <section class="docstring">
 
+      <div class="specs">
 
-  </section>
-</section>
-<section class="detail" id="known_locale_names/0">
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.BusinessPartners.Note{
+  __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  business_partner_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  note: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  user_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+}</pre>
 
-  <div class="detail-header">
-    <a href="#known_locale_names/0" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">known_locale_names()</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
-<section class="detail" id="units_for/2">
-
-  <div class="detail-header">
-    <a href="#units_for/2" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">units_for(locale, style)</h1>
-
-
-  </div>
-
-  <section class="docstring">
+      </div>
 
 
   </section>

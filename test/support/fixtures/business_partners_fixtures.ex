@@ -21,4 +21,20 @@ defmodule Klepsidra.BusinessPartnersFixtures do
 
     business_partner
   end
+
+  @doc """
+  Generate a note.
+  """
+  def note_fixture(attrs \\ %{}) do
+    {:ok, note} =
+      attrs
+      |> Enum.into(%{
+        business_partner_id: 42,
+        note: "some note",
+        user_id: 42
+      })
+      |> Klepsidra.BusinessPartners.create_note()
+
+    note
+  end
 end
