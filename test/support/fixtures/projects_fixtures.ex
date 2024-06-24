@@ -19,4 +19,20 @@ defmodule Klepsidra.ProjectsFixtures do
 
     project
   end
+
+  @doc """
+  Generate a note.
+  """
+  def note_fixture(attrs \\ %{}) do
+    {:ok, note} =
+      attrs
+      |> Enum.into(%{
+        note: "some note",
+        project_id: 42,
+        user_id: 42
+      })
+      |> Klepsidra.Projects.create_note()
+
+    note
+  end
 end
