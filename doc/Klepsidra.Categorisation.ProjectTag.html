@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.0">
 
 
-    <title>Klepsidra.BusinessPartners.Note — klepsidra v0.1.0</title>
+    <title>Klepsidra.Categorisation.ProjectTag — klepsidra v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
@@ -117,15 +117,15 @@ Pages
 
 <h1>
 
-  <span translate="no">Klepsidra.BusinessPartners.Note</span> 
+  <span translate="no">Klepsidra.Categorisation.ProjectTag</span> 
   <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Defines the data schema for the business partners<code class="inline">Note</code> entity,
-annotations of business partners.</p>
+<p>Defines a schema for the <code class="inline">ProjectTags</code> entity, used to create a many-to-many
+relationship between projects and tags.</p>
   </section>
 
 
@@ -178,14 +178,15 @@ annotations of business partners.</p>
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.BusinessPartners.Note{
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.Categorisation.ProjectTag{
   __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  business_partner_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
   id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
   inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  note: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  user_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+  project: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  project_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  tag: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  tag_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>

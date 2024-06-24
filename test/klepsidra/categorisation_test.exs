@@ -65,4 +65,60 @@ defmodule Klepsidra.CategorisationTest do
       assert %Ecto.Changeset{} = Categorisation.change_tag(tag)
     end
   end
+
+  describe "project_tags" do
+    alias Klepsidra.Categorisation.ProjectTag
+
+    import Klepsidra.CategorisationFixtures
+
+    @invalid_attrs %{tag_id: nil, project_id: nil}
+
+    # test "list_project_tags/0 returns all project_tags" do
+    #   project_tag = project_tag_fixture()
+    #   assert Categorisation.list_project_tags() == [project_tag]
+    # end
+
+    # test "get_project_tag!/1 returns the project_tag with given id" do
+    #   project_tag = project_tag_fixture()
+    #   assert Categorisation.get_project_tag!(project_tag.id) == project_tag
+    # end
+
+    # test "create_project_tag/1 with valid data creates a project_tag" do
+    #   valid_attrs = %{tag_id: 42, project_id: 42}
+
+    #   assert {:ok, %ProjectTag{} = project_tag} = Categorisation.create_project_tag(valid_attrs)
+    #   assert project_tag.tag_id == 42
+    #   assert project_tag.project_id == 42
+    # end
+
+    # test "create_project_tag/1 with invalid data returns error changeset" do
+    #   assert {:error, %Ecto.Changeset{}} = Categorisation.create_project_tag(@invalid_attrs)
+    # end
+
+    # test "update_project_tag/2 with valid data updates the project_tag" do
+    #   project_tag = project_tag_fixture()
+    #   update_attrs = %{tag_id: 43, project_id: 43}
+
+    #   assert {:ok, %ProjectTag{} = project_tag} = Categorisation.update_project_tag(project_tag, update_attrs)
+    #   assert project_tag.tag_id == 43
+    #   assert project_tag.project_id == 43
+    # end
+
+    # test "update_project_tag/2 with invalid data returns error changeset" do
+    #   project_tag = project_tag_fixture()
+    #   assert {:error, %Ecto.Changeset{}} = Categorisation.update_project_tag(project_tag, @invalid_attrs)
+    #   assert project_tag == Categorisation.get_project_tag!(project_tag.id)
+    # end
+
+    # test "delete_project_tag/1 deletes the project_tag" do
+    #   project_tag = project_tag_fixture()
+    #   assert {:ok, %ProjectTag{}} = Categorisation.delete_project_tag(project_tag)
+    #   assert_raise Ecto.NoResultsError, fn -> Categorisation.get_project_tag!(project_tag.id) end
+    # end
+
+    # test "change_project_tag/1 returns a project_tag changeset" do
+    #   project_tag = project_tag_fixture()
+    #   assert %Ecto.Changeset{} = Categorisation.change_project_tag(project_tag)
+    # end
+  end
 end

@@ -28,7 +28,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Complete all data structure, validations, defaults and indexes needed
-  - Create a many-to-many projects to tags table
   - Create some kind of 'type of work' categorisation
 - Provide a 'today' view
   - Timers recorded today

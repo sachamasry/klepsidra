@@ -191,4 +191,100 @@ defmodule Klepsidra.Categorisation do
       String.starts_with?(String.downcase(name), search_phrase)
     end)
   end
+
+  alias Klepsidra.Categorisation.ProjectTag
+
+  @doc """
+  Returns the list of project_tags.
+
+  ## Examples
+
+      iex> list_project_tags()
+      [%ProjectTag{}, ...]
+
+  """
+  def list_project_tags do
+    Repo.all(ProjectTag)
+  end
+
+  @doc """
+  Gets a single project_tag.
+
+  Raises `Ecto.NoResultsError` if the Project tag does not exist.
+
+  ## Examples
+
+      iex> get_project_tag!(123)
+      %ProjectTag{}
+
+      iex> get_project_tag!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_project_tag!(id), do: Repo.get!(ProjectTag, id)
+
+  @doc """
+  Creates a project_tag.
+
+  ## Examples
+
+      iex> create_project_tag(%{field: value})
+      {:ok, %ProjectTag{}}
+
+      iex> create_project_tag(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_project_tag(attrs \\ %{}) do
+    %ProjectTag{}
+    |> ProjectTag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a project_tag.
+
+  ## Examples
+
+      iex> update_project_tag(project_tag, %{field: new_value})
+      {:ok, %ProjectTag{}}
+
+      iex> update_project_tag(project_tag, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_project_tag(%ProjectTag{} = project_tag, attrs) do
+    project_tag
+    |> ProjectTag.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a project_tag.
+
+  ## Examples
+
+      iex> delete_project_tag(project_tag)
+      {:ok, %ProjectTag{}}
+
+      iex> delete_project_tag(project_tag)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_project_tag(%ProjectTag{} = project_tag) do
+    Repo.delete(project_tag)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking project_tag changes.
+
+  ## Examples
+
+      iex> change_project_tag(project_tag)
+      %Ecto.Changeset{data: %ProjectTag{}}
+
+  """
+  def change_project_tag(%ProjectTag{} = project_tag, attrs \\ %{}) do
+    ProjectTag.changeset(project_tag, attrs)
+  end
 end
