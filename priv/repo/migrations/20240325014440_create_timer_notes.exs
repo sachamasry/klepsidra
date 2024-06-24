@@ -2,7 +2,7 @@ defmodule Klepsidra.Repo.Migrations.CreateNotes do
   use Ecto.Migration
 
   def change do
-    create table(:notes) do
+    create table(:timer_notes) do
       add :note, :string
       add :user_id, :integer
       add :timer_id, references(:timers, on_delete: :nothing)
@@ -10,6 +10,6 @@ defmodule Klepsidra.Repo.Migrations.CreateNotes do
       timestamps()
     end
 
-    create index(:notes, [:timer_id])
+    create index(:timer_notes, [:timer_id])
   end
 end

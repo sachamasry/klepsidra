@@ -11,7 +11,7 @@ defmodule Klepsidra.TimeTracking.Note do
           user_id: integer,
           timer_id: integer
         }
-  schema "notes" do
+  schema "timer_notes" do
     field :note, :string
     field :user_id, :integer, default: nil
     field :timer_id, :id
