@@ -18,6 +18,8 @@ defmodule Klepsidra.TimeTracking.Timer do
           description: String.t(),
           billable: boolean,
           business_partner_id: integer,
+          activity_type_id: integer,
+          billing_rate: number(),
           project_id: integer,
           billing_duration: integer,
           billing_duration_time_unit: String.t()
@@ -31,8 +33,10 @@ defmodule Klepsidra.TimeTracking.Timer do
     field :billable, :boolean, default: false
 
     belongs_to :business_partner, BusinessPartner
+    belongs_to :activity_type, ActivityType
     belongs_to :project, Project
 
+    field :billing_rate, :decimal
     field :billing_duration, :integer
     field :billing_duration_time_unit, :string
 
