@@ -29,7 +29,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Complete all data structure, validations, defaults and indexes needed
   - Document the use of all data structures: document tables and fields
-  - Integrate use of data structure viewer, such as SchemaSpy
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
