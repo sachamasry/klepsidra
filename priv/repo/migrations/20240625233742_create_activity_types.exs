@@ -4,7 +4,7 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
   def change do
     create table(:activity_types,
              comment:
-               "Activity types is a table improving the application UX by storing default billing rates, for use in timed activities"
+               "Activity types improves the application UX by storing default billing rates, which speeds up use of activity timers"
            ) do
       add :activity_type, :string,
         comment: "Human-readable activity type, e.g. 'planning', 'research', 'execution', etc."
@@ -19,7 +19,7 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
         comment:
           "Is this activity type still active? Provides an easy way to 'retire' old activity types, where deletion may have unintended consequences"
 
-      timestampk()
+      timestamps()
     end
   end
 end

@@ -28,7 +28,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Complete all data structure, validations, defaults and indexes needed
-  - Document the use of all data structures: document tables and fields
+  - Update all table primary and foreign keys to UUID format, in preparation for local-first,
+  distributed use
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
