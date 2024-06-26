@@ -38,4 +38,20 @@ defmodule Klepsidra.TimeTrackingFixtures do
 
     note
   end
+
+  @doc """
+  Generate a activity_type.
+  """
+  def activity_type_fixture(attrs \\ %{}) do
+    {:ok, activity_type} =
+      attrs
+      |> Enum.into(%{
+        active: true,
+        activity_type: "some activity_type",
+        billing_rate: "120.5"
+      })
+      |> Klepsidra.TimeTracking.create_activity_type()
+
+    activity_type
+  end
 end

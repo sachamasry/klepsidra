@@ -8,13 +8,13 @@
     <meta name="project" content="klepsidra v0.1.0">
 
 
-    <title>Klepsidra.BusinessPartners.Note — klepsidra v0.1.0</title>
+    <title>Klepsidra.TimeTracking.ActivityType — klepsidra v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-1BB594B4.js"></script>
+    <script src="dist/sidebar_items-BC0782B5.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -117,15 +117,15 @@ Pages
 
 <h1>
 
-  <span translate="no">Klepsidra.BusinessPartners.Note</span> 
+  <span translate="no">Klepsidra.TimeTracking.ActivityType</span> 
   <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Defines the data schema for the business partners<code class="inline">Note</code> entity,
-annotations of business partners.</p>
+<p>Defines a schema for the <code class="inline">ActivityType</code> entity, used to set activity types on timers.</p><p>Activity types are a way to preload billing defaults, to help calculate
+billing amounts at time of invoicing.</p>
   </section>
 
 
@@ -178,14 +178,14 @@ annotations of business partners.</p>
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.BusinessPartners.Note{
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.TimeTracking.ActivityType{
   __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  business_partner_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  active: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  activity_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  billing_rate: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
   id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
   inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  note: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  user_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>

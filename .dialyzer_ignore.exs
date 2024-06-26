@@ -35,6 +35,7 @@
   {"lib/klepsidra/categorisation/project_tag.ex", :unknown_function},
   {"lib/klepsidra/repo.ex", :callback_info_missing},
   {"lib/klepsidra/repo.ex", :unknown_function},
+  {"lib/klepsidra/time_tracking/activity_type.ex", :unknown_function},
   {"lib/klepsidra/time_tracking/timer.ex", :unknown_function},
   {"lib/klepsidra/time_tracking/note.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},

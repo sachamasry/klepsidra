@@ -28,7 +28,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Complete all data structure, validations, defaults and indexes needed
-  - Create some kind of 'type of work' categorisation
+  - Create some kind of 'type of work' categorisation: products and product categories
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
