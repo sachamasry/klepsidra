@@ -26,7 +26,7 @@ defmodule KlepsidraWeb.Router do
   scope "/", KlepsidraWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", StartPageLive
 
     live "/tags", TagLive.Index, :index
     live "/tags/new", TagLive.Index, :new
