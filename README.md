@@ -30,6 +30,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Complete all data structure, validations, defaults and indexes needed
   - Update all table primary and foreign keys to UUID format, in preparation for local-first,
   distributed use
+  - Add SchemaSpy documentation to repository
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
@@ -41,6 +42,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - UI improvements
   - Resize datetime, duration and duration unit controls to more efficiently use space
   - Start implementing colour palette
+  - Improve presentation of currency fields; at present they use an input control of type 'number' which is unintuitive UX
 - Tagging UX improvements
   - Make it possible to drill into the tag from the live component
   - Provide ability to set new tag colour when creating freeform tag in live component

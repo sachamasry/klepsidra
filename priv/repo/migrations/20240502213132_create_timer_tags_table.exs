@@ -3,10 +3,16 @@ defmodule Klepsidra.Repo.Migrations.CreateTimerTags do
 
   def change do
     create table(:timer_tags,
+             primary_key: false,
              comment:
                "Activity timer tags table, helping categorise timers with tags in a many-to-many relationship"
            ) do
-      add :tag_id, references(:tags, on_delete: :delete_all, on_replace: :delete),
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based timer tags primary key"
+
+      add :tag_id, references(:tags, on_delete: :delete_all, on_replace: :delete, type: :uuid),
         comment: "Foreign key referencing tags"
 
       add :timer_id, references(:timers, on_delete: :delete_all, on_replace: :delete),

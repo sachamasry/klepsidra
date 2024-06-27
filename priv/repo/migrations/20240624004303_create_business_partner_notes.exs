@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartnerNotes do
 
   def change do
     create table(:business_partner_notes,
+             primary_key: false,
              comment: "Table to store business partner annotations and running comments"
            ) do
-      add :note, :string, comment: "Note or commentary on the business partner"
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based business partner notes primary key"
+
+      add :note, :text, comment: "Note or commentary on the business partner"
 
       add :user_id, :integer,
         comment: "Unique identifier of the system user annotating the business partner"

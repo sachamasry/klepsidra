@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectNotes do
 
   def change do
     create table(:project_notes,
+             primary_key: false,
              comment: "Table to store project annotations and running comments"
            ) do
-      add :note, :string, comment: "Note or commentary on the project"
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based project notes primary key"
+
+      add :note, :text, comment: "Note or commentary on the project"
 
       add :user_id, :integer,
         comment: "Unique identifier of the system user annotating the project"

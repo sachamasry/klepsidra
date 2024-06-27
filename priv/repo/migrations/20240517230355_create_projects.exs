@@ -10,7 +10,7 @@ defmodule Klepsidra.Repo.Migrations.CreateProjects do
         null: false,
         comment: "Human-readable project name"
 
-      add :description, :string,
+      add :description, :text,
         comment: "Any other project details, which may be useful in the future"
 
       add :status, :string,

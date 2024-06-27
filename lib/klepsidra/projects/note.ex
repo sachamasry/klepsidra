@@ -7,6 +7,8 @@ defmodule Klepsidra.Projects.Note do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   @type t :: %__MODULE__{
           note: String.t(),
           user_id: integer,

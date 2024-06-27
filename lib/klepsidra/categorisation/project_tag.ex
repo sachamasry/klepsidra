@@ -10,6 +10,8 @@ defmodule Klepsidra.Categorisation.ProjectTag do
   alias Klepsidra.Projects.Project
   alias Klepsidra.Categorisation.Tag
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   @type t :: %__MODULE__{
           tag_id: integer(),
           project_id: integer()

@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
 
   def change do
     create table(:tags,
+             primary_key: false,
              comment:
                "Freeform tags table, helping categorise timed activities, projects and other entities. Useful in searching for and filtering projects and activities in lists, and in future data mining and analysis"
            ) do
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based tags primary key"
+
       add :name, :string,
         null: false,
         comment:
@@ -19,7 +25,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
         comment:
           "Some background colours which can be defined in the `colour` field may become illegible, owing to poor contrast. Define an appropriate text foreground colour in this field"
 
-      add :description, :string,
+      add :description, :text,
         comment: "Human readable description of the intended purpose and use of this tag"
 
       timestamps()

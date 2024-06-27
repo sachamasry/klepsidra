@@ -10,7 +10,7 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
         commment:
           "Legal business partner's name, for use on invoices, timesheets and other legal documents"
 
-      add :description, :string,
+      add :description, :text,
         comment: "Any other business partner details, which may be useful in the future"
 
       add :default_currency, :string,

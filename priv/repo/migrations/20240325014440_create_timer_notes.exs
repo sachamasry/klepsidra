@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateNotes do
 
   def change do
     create table(:timer_notes,
+             primary_key: false,
              comment: "Table to store activity timer annotations and running comments"
            ) do
-      add :note, :string, comment: "Note or commentary on the activity timer"
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based timer notes primary key"
+
+      add :note, :text, comment: "Note or commentary on the activity timer"
 
       add :user_id, :integer,
         comment: "Unique identifier of the system user annotating the activity timer"

@@ -45,7 +45,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
       add :billing_duration_time_unit, :string,
         comment: "Duration time increment, used to denominate `duration` timer duration"
 
-      add :description, :string,
+      add :description, :text,
         comment:
           "Official descriptio of work caried out. This description will be used in timesheets, invoices and any other legal documents and reports"
 
