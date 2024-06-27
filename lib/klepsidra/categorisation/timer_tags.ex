@@ -11,6 +11,7 @@ defmodule Klepsidra.Categorisation.TimerTags do
   alias Klepsidra.Categorisation.Tag
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           tag_id: integer(),

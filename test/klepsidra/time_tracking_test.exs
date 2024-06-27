@@ -101,7 +101,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
     import Klepsidra.TimeTrackingFixtures
 
-    @invalid_attrs %{note: nil, user_id: nil}
+    @invalid_attrs %{note: nil}
 
     test "list_notes/0 returns all notes" do
       note = note_fixture()
@@ -114,11 +114,10 @@ defmodule Klepsidra.TimeTrackingTest do
     end
 
     test "create_note/1 with valid data creates a note" do
-      valid_attrs = %{note: "some note", user_id: 42}
+      valid_attrs = %{note: "some note"}
 
       assert {:ok, %Note{} = note} = TimeTracking.create_note(valid_attrs)
       assert note.note == "some note"
-      assert note.user_id == 42
     end
 
     test "create_note/1 with invalid data returns error changeset" do
@@ -127,11 +126,10 @@ defmodule Klepsidra.TimeTrackingTest do
 
     test "update_note/2 with valid data updates the note" do
       note = note_fixture()
-      update_attrs = %{note: "some updated note", user_id: 43}
+      update_attrs = %{note: "some updated note"}
 
       assert {:ok, %Note{} = note} = TimeTracking.update_note(note, update_attrs)
       assert note.note == "some updated note"
-      assert note.user_id == 43
     end
 
     test "update_note/2 with invalid data returns error changeset" do

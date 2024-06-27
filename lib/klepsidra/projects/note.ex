@@ -11,12 +11,10 @@ defmodule Klepsidra.Projects.Note do
 
   @type t :: %__MODULE__{
           note: String.t(),
-          user_id: integer,
           project_id: integer
         }
   schema "project_notes" do
     field :note, :string
-    field :user_id, :integer, default: nil
     field :project_id, :id
 
     timestamps()
@@ -25,7 +23,7 @@ defmodule Klepsidra.Projects.Note do
   @doc false
   def changeset(note, attrs) do
     note
-    |> cast(attrs, [:note, :user_id, :project_id])
+    |> cast(attrs, [:note, :project_id])
     |> validate_required([:note])
   end
 end

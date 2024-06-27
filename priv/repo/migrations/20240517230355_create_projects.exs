@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateProjects do
 
   def change do
     create table(:projects,
+             primary_key: false,
              comment:
                "Projects are a complex collection of tasks, which are expected to take a non-trivial amount of time to complete"
            ) do
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based project primary key"
+
       add :name, :string,
         null: false,
         comment: "Human-readable project name"
@@ -25,7 +31,7 @@ defmodule Klepsidra.Repo.Migrations.CreateProjects do
         comment:
           "Indicates overall project priority, with respect to other projects. Can be one of 'Low', 'Medium', and 'High'"
 
-      add :business_partner_id, references(:business_partners, on_delete: :nothing),
+      add :business_partner_id, references(:business_partners, on_delete: :nothing, type: :uuid),
         comment: "Foreign key linking the project to a customer"
 
       add :expected_start_date, :date,

@@ -17,6 +17,9 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
         comment:
           "Human readable tag name, e.g. 'research', 'learning', 'testing', 'exercise', etc. For faceted search and filtering, and future reporting, colon-delimited namespacing can be used, i.e. 'development:web applications"
 
+      add :description, :text,
+        comment: "Human readable description of the intended purpose and use of this tag"
+
       add :colour, :string,
         comment:
           "Tags may have colours applied to them, helping to quickly visually distinguish amongst different categories"
@@ -24,9 +27,6 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
       add :fg_colour, :string,
         comment:
           "Some background colours which can be defined in the `colour` field may become illegible, owing to poor contrast. Define an appropriate text foreground colour in this field"
-
-      add :description, :text,
-        comment: "Human readable description of the intended purpose and use of this tag"
 
       timestamps()
     end

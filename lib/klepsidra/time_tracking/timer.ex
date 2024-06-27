@@ -10,6 +10,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
+
   @type t :: %__MODULE__{
           start_stamp: String.t(),
           end_stamp: String.t(),

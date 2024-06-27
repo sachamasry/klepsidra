@@ -15,8 +15,9 @@ defmodule Klepsidra.Repo.Migrations.CreateTimerTags do
       add :tag_id, references(:tags, on_delete: :delete_all, on_replace: :delete, type: :uuid),
         comment: "Foreign key referencing tags"
 
-      add :timer_id, references(:timers, on_delete: :delete_all, on_replace: :delete),
-        comment: "Foreign key referencing activity timers"
+      add :timer_id,
+          references(:timers, on_delete: :delete_all, on_replace: :delete, type: :uuid),
+          comment: "Foreign key referencing activity timers"
 
       timestamps()
     end

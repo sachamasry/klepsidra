@@ -7,6 +7,8 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   @type t :: %__MODULE__{
           name: String.t(),
           description: String.t(),

@@ -13,10 +13,7 @@ defmodule Klepsidra.Repo.Migrations.CreateNotes do
 
       add :note, :text, comment: "Note or commentary on the activity timer"
 
-      add :user_id, :integer,
-        comment: "Unique identifier of the system user annotating the activity timer"
-
-      add :timer_id, references(:timers, on_delete: :nothing),
+      add :timer_id, references(:timers, on_delete: :nothing, type: :uuid),
         comment: "Foreign key referencing the activity timer"
 
       timestamps()

@@ -15,8 +15,9 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectTags do
       add :tag_id, references(:tags, on_delete: :delete_all, on_replace: :delete, type: :uuid),
         comment: "Foreign key referencing tags"
 
-      add :project_id, references(:projects, on_delete: :delete_all, on_replace: :delete),
-        comment: "Foreign key referencing projects"
+      add :project_id,
+          references(:projects, on_delete: :delete_all, on_replace: :delete, type: :uuid),
+          comment: "Foreign key referencing projects"
 
       timestamps()
     end

@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
 
   def change do
     create table(:timers,
+             primary_key: false,
              comment:
                "Activity timers record all relevant information about the time taken working on an activity. Activities can be closed-ended, such as timing of project tasks, or can be open-ended for regular and indefinite activities, aiding time tracking and analysis"
            ) do
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based activity timer primary key"
+
       add :start_stamp, :string,
         comment:
           "ISO 8601 Extended-formatted datetime stamp (YYYY-MM-DD HH:mm:ss) indicating activity start time"
@@ -26,7 +32,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
         null: false,
         comment: "Is this activity billable to the customer?"
 
-      add :business_partner_id, references(:business_partners, on_delete: :nothing),
+      add :business_partner_id, references(:business_partners, on_delete: :nothing, type: :uuid),
         comment:
           "Foreign key pointing at the customer (business partner) to be billed for this activity"
 
@@ -49,7 +55,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
         comment:
           "Official descriptio of work caried out. This description will be used in timesheets, invoices and any other legal documents and reports"
 
-      add :project_id, references(:projects, on_delete: :nothing),
+      add :project_id, references(:projects, on_delete: :nothing, type: :uuid),
         comment: "Foreign key linking the activity to a project"
 
       timestamps()

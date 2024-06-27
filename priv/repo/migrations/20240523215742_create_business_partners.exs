@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
 
   def change do
     create table(:business_partners,
+             primary_key: false,
              comment:
                "Business partners are any entity the organisation has financial dealings with, such as customers and suppliers, but also internal staff"
            ) do
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based business partner primary key"
+
       add :name, :string,
         commment:
           "Legal business partner's name, for use on invoices, timesheets and other legal documents"

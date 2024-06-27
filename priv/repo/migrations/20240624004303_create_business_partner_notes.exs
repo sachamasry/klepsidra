@@ -13,10 +13,7 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartnerNotes do
 
       add :note, :text, comment: "Note or commentary on the business partner"
 
-      add :user_id, :integer,
-        comment: "Unique identifier of the system user annotating the business partner"
-
-      add :business_partner_id, references(:business_partners, on_delete: :nothing),
+      add :business_partner_id, references(:business_partners, on_delete: :nothing, type: :uuid),
         comment: "Foreign key referencing the business partner"
 
       timestamps()

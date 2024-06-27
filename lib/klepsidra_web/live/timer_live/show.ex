@@ -12,7 +12,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
 
-    notes = TimeTracking.get_note_by_timer_id!(String.to_integer(timer_id))
+    notes = TimeTracking.get_note_by_timer_id!(timer_id)
 
     note_metadata = title_notes_section(length(notes))
 

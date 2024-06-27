@@ -13,10 +13,7 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectNotes do
 
       add :note, :text, comment: "Note or commentary on the project"
 
-      add :user_id, :integer,
-        comment: "Unique identifier of the system user annotating the project"
-
-      add :project_id, references(:projects, on_delete: :nothing),
+      add :project_id, references(:projects, on_delete: :nothing, type: :uuid),
         comment: "Foreign key referencing the project"
 
       timestamps()

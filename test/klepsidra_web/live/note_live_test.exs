@@ -4,11 +4,11 @@ defmodule KlepsidraWeb.NoteLiveTest do
   import Phoenix.LiveViewTest
   import Klepsidra.TimeTrackingFixtures
 
-  # @create_attrs %{note: "some note", user_id: 42}
+  # @create_attrs %{note: "some note"}
   @create_attrs %{note: "some note"}
-  # @update_attrs %{note: "some updated note", user_id: 43}
+  # @update_attrs %{note: "some updated note"}
   @update_attrs %{note: "some updated note"}
-  # @invalid_attrs %{note: nil, user_id: nil}
+  # @invalid_attrs %{note: nil}
   @invalid_attrs %{note: nil}
 
   defp create_note(_) do

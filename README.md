@@ -28,8 +28,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Complete all data structure, validations, defaults and indexes needed
-  - Update all table primary and foreign keys to UUID format, in preparation for local-first,
-  distributed use
+  - Create all potentially necessary unique indexes
+  - Exclude `schema_migrations` table from Schemaspy documentation
   - Add SchemaSpy documentation to repository
 - Provide a 'today' view
   - Timers recorded today
