@@ -1,20 +1,21 @@
 <.header>
-  Activity type <%= @activity_type.id %>
-  <:subtitle>This is a activity_type record from your database.</:subtitle>
+  <%= @activity_type.activity_type %>
   <:actions>
     <.link patch={~p"/activity_types/#{@activity_type}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit activity_type</.button>
+      <.button>Edit activity type</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Activity type"><%= @activity_type.activity_type %></:item>
   <:item title="Billing rate"><%= @activity_type.billing_rate %></:item>
-  <:item title="Active"><%= @activity_type.active %></:item>
+  <:item title="Active?">
+    <div class={"rounded-full h-full aspect-square #{if @activity_type.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:item>
 </.list>
 
-<.back navigate={~p"/activity_types"}>Back to activity_types</.back>
+<.back navigate={~p"/activity_types"}>Back to activity types</.back>
 
 <.modal
   :if={@live_action == :edit}

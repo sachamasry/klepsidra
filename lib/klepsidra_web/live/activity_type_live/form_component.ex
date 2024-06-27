@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage activity_type records in your database.</:subtitle>
+        <:subtitle>Use this form to manage activity type records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -22,7 +22,9 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:activity_type]} type="text" label="Activity type" />
-        <.input field={@form[:billing_rate]} type="number" label="Billing rate" step="any" />
+
+        <.input field={@form[:billing_rate]} type="number" label="Billing rate" min="0" step="0.01" />
+
         <.input field={@form[:active]} type="checkbox" label="Active" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Activity type</.button>

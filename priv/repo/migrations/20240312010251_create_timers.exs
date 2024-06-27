@@ -30,7 +30,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
         comment:
           "Foreign key pointing at the customer (business partner) to be billed for this activity"
 
-      add :activity_type_id, references(:activity_types, on_delete: :nothing),
+      add :activity_type_id, references(:activity_types, on_delete: :nothing, type: :uuid),
         comment:
           "Foreign key pointing at `activity_types`, where default billing rates have been defined for different types of activities"
 

@@ -16,7 +16,10 @@
     <%= activity_type.activity_type %>
   </:col>
   <:col :let={{_id, activity_type}} label="Billing rate"><%= activity_type.billing_rate %></:col>
-  <:col :let={{_id, activity_type}} label="Active"><%= activity_type.active %></:col>
+  <:col :let={{_id, activity_type}} label="Active?">
+    <div class={"rounded-full h-full aspect-square w-5 #{if activity_type.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:col>
   <:action :let={{_id, activity_type}}>
     <div class="sr-only">
       <.link navigate={~p"/activity_types/#{activity_type}"}>Show</.link>

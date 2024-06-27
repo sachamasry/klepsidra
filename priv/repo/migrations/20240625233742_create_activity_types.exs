@@ -3,9 +3,15 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
 
   def change do
     create table(:activity_types,
+             primary_key: false,
              comment:
                "Activity types improves the application UX by storing default billing rates, which speeds up use of activity timers"
            ) do
+      add :id, :uuid,
+        primary_key: true,
+        null: false,
+        comment: "UUID-based activity types primary key"
+
       add :activity_type, :string,
         comment: "Human-readable activity type, e.g. 'planning', 'research', 'execution', etc."
 

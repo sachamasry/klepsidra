@@ -70,6 +70,7 @@
     title={@page_title}
     action={@live_action}
     timer={@timer}
+    invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
     patch={~p"/timers/#{@timer}"}
   />
 </.modal>

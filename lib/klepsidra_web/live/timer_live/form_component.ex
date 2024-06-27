@@ -8,6 +8,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
+  alias Klepsidra.TimeTracking.ActivityType
 
   @impl true
   def render(assigns) do
@@ -60,6 +61,21 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             label="Billable time increment"
             options={Units.construct_duration_unit_options_list()}
           />
+
+          <.input
+            field={@form[:activity_type_id]}
+            type="select"
+            label="Activity type"
+            options={@activity_types}
+          />
+
+          <.input
+            field={@form[:billing_rate]}
+            type="number"
+            label="Hourly billing rate"
+            min="0"
+            step="0.01"
+          />
         </div>
 
         <:actions>
@@ -93,8 +109,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       socket
       |> assign(assigns)
       |> assign(billable_activity?: assigns.timer.billable)
-      |> assign_business_partner()
       |> assign_project()
+      |> assign_business_partner()
+      |> assign_activity_type()
       |> assign_form(changeset)
 
     {:ok, socket}
@@ -217,11 +234,18 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         false -> ""
       end
 
+    activity_type_id =
+      case billable do
+        true -> socket.assigns.timer.activity_type_id
+        false -> ""
+      end
+
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
         | "business_partner_id" => business_partner_id,
+          "activity_type_id" => activity_type_id,
           "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
@@ -230,6 +254,34 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       socket
       |> assign(billable_activity?: billable)
       |> assign_business_partner()
+      |> assign_activity_type()
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "activity_type_id"], "timer" => timer_params},
+        socket
+      ) do
+    billable = Timer.read_checkbox(timer_params["billable"])
+
+    billing_rate =
+      if billable do
+        activity_type_id = timer_params["activity_type_id"]
+
+        Klepsidra.TimeTracking.get_activity_type!(activity_type_id).billing_rate
+      else
+        0
+      end
+
+    changeset =
+      socket.assigns.timer
+      |> TimeTracking.change_timer(%{
+        timer_params
+        | "billing_rate" => billing_rate
+      })
+      |> Map.put(:action, :validate)
 
     {:noreply, assign_form(socket, changeset)}
   end
@@ -300,6 +352,19 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       end
 
     assign(socket, business_partners: business_partners)
+  end
+
+  defp assign_activity_type(socket) do
+    activity_types =
+      case socket.assigns.billable_activity? do
+        true ->
+          ActivityType.populate_activity_types_list()
+
+        _ ->
+          [{"", ""}]
+      end
+
+    assign(socket, activity_types: activity_types)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
