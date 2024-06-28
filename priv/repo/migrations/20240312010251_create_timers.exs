@@ -61,8 +61,23 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
       timestamps()
     end
 
-    create unique_index(:timers, [:start_stamp],
-             comment: "Index with the project `start_stamp` as the main indexed key"
+    create index(:timers, [:start_stamp, :end_stamp],
+             comment: "Composite index of activity timer `start_stamp` and `end_stamp` fields"
+           )
+
+    create index(:timers, [:billable, :business_partner_id],
+             comment:
+               "Secondary index of the activity timer `billable` and `business_partner_id` fields, the customer the activity is carried out for "
+           )
+
+    create index(:timers, [:project_id],
+             comment:
+               "Secondary index of the activity timer `project_id` field, the project the activity is carried out for "
+           )
+
+    create index(:timers, [:inserted_at],
+             comment:
+               "Secondary index of the activity timer `inserted_at` field, for chronological ordering"
            )
   end
 end

@@ -13,6 +13,7 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
         comment: "UUID-based business partner primary key"
 
       add :name, :string,
+        null: false,
         commment:
           "Legal business partner's name, for use on invoices, timesheets and other legal documents"
 
@@ -47,6 +48,9 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
       timestamps()
     end
 
-    create unique_index(:business_partners, [:name])
+    create unique_index(:business_partners, [:name],
+             unique: true,
+             comment: "Index on business partner names"
+           )
   end
 end
