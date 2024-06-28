@@ -29,7 +29,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Complete all data structure, validations, defaults and indexes needed
   - Create all potentially necessary unique indexes
-  - Exclude `schema_migrations` table from Schemaspy documentation
   - Add SchemaSpy documentation to repository
 - Provide a 'today' view
   - Timers recorded today
