@@ -14,12 +14,12 @@ defmodule Klepsidra.Categorisation.TimerTags do
   @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
-          tag_id: integer(),
-          timer_id: integer()
+          tag_id: binary(),
+          timer_id: binary()
         }
   schema "timer_tags" do
-    belongs_to :tag, Tag, primary_key: true
-    belongs_to :timer, Timer, primary_key: true
+    belongs_to :tag, Tag, primary_key: true, type: Ecto.UUID
+    belongs_to :timer, Timer, primary_key: true, type: Ecto.UUID
 
     timestamps()
   end

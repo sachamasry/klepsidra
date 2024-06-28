@@ -34,12 +34,12 @@ defmodule Klepsidra.TimeTracking.Timer do
     field :duration_time_unit, :string
     field :description, :string
 
-    belongs_to :project, Project
+    belongs_to :project, Project, type: Ecto.UUID
 
     field :billable, :boolean, default: false
 
-    belongs_to :business_partner, BusinessPartner
-    belongs_to :activity_type, ActivityType, type: :binary_id
+    belongs_to :business_partner, BusinessPartner, type: Ecto.UUID
+    belongs_to :activity_type, ActivityType, type: Ecto.UUID
 
     field :billing_rate, :decimal
     field :billing_duration, :integer

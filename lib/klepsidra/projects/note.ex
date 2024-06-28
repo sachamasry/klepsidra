@@ -8,14 +8,15 @@ defmodule Klepsidra.Projects.Note do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           note: String.t(),
-          project_id: integer
+          project_id: binary()
         }
   schema "project_notes" do
     field :note, :string
-    field :project_id, :id
+    belongs_to :project, Project, type: Ecto.UUID
 
     timestamps()
   end

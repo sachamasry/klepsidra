@@ -11,14 +11,15 @@ defmodule Klepsidra.Categorisation.ProjectTag do
   alias Klepsidra.Categorisation.Tag
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
-          tag_id: integer(),
-          project_id: integer()
+          tag_id: binary(),
+          project_id: binary()
         }
   schema "project_tags" do
-    belongs_to :tag, Tag, primary_key: true
-    belongs_to :project, Project, primary_key: true
+    belongs_to :tag, Tag, primary_key: true, type: Ecto.UUID
+    belongs_to :project, Project, primary_key: true, type: Ecto.UUID
 
     timestamps()
   end

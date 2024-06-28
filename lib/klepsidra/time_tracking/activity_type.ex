@@ -10,6 +10,7 @@ defmodule Klepsidra.TimeTracking.ActivityType do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           activity_type: String.t(),

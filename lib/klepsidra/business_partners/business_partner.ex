@@ -8,6 +8,7 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           name: String.t(),

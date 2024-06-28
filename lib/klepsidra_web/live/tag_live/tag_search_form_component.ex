@@ -198,7 +198,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
 
     timer_tags =
       socket.assigns.timer_tags
-      |> Enum.reject(fn i -> i.id == String.to_integer(timer_tag_id) end)
+      |> Enum.reject(fn i -> i.id == timer_tag_id end)
 
     assigns = [
       timer_tags: timer_tags,

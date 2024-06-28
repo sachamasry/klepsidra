@@ -13,6 +13,7 @@ defmodule Klepsidra.Categorisation.Tag do
   alias Klepsidra.Categorisation.TimerTags
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           name: String.t(),
@@ -34,7 +35,7 @@ defmodule Klepsidra.Categorisation.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:name, :colour, :fg_colour, :description])
+    |> cast(attrs, [:name, :description, :colour, :fg_colour])
     |> validate_required([:name])
     |> unique_constraint(:name, name: :tags_name_index)
   end

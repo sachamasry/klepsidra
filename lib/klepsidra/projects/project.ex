@@ -14,11 +14,12 @@ defmodule Klepsidra.Projects.Project do
   alias Klepsidra.BusinessPartners.BusinessPartner
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
           name: String.t(),
           description: String.t(),
-          business_partner_id: integer,
+          business_partner_id: binary(),
           active: boolean()
         }
   schema "projects" do
@@ -26,7 +27,7 @@ defmodule Klepsidra.Projects.Project do
     field :description, :string
     field :active, :boolean, default: true
 
-    belongs_to :business_partner, BusinessPartner
+    belongs_to :business_partner, BusinessPartner, type: Ecto.UUID
 
     timestamps()
   end

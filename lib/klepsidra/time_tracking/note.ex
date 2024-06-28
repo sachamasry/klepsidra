@@ -15,7 +15,7 @@ defmodule Klepsidra.TimeTracking.Note do
         }
   schema "timer_notes" do
     field :note, :string
-    field :timer_id, Ecto.UUID
+    belongs_to :timer, Timer, type: Ecto.UUID
 
     timestamps()
   end
