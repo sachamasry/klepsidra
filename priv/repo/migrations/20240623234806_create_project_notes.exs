@@ -22,5 +22,10 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectNotes do
     create index(:project_notes, [:project_id],
              comment: "Index with the `project_id` as the main indexed key"
            )
+
+    create index(:project_notes, [:inserted_at, :updated_at],
+             comment:
+               "Composite Index of `inserted_at` and `updated_at` fields, for chronological ordering"
+           )
   end
 end

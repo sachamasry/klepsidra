@@ -1,5 +1,5 @@
 <.header>
-  <%= @activity_type.activity_type %>
+  <%= @activity_type.name %>
   <:actions>
     <.link patch={~p"/activity_types/#{@activity_type}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit activity type</.button>

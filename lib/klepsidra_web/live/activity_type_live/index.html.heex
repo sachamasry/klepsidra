@@ -13,7 +13,7 @@
   row_click={fn {_id, activity_type} -> JS.navigate(~p"/activity_types/#{activity_type}") end}
 >
   <:col :let={{_id, activity_type}} label="Activity type">
-    <%= activity_type.activity_type %>
+    <%= activity_type.name %>
   </:col>
   <:col :let={{_id, activity_type}} label="Billing rate"><%= activity_type.billing_rate %></:col>
   <:col :let={{_id, activity_type}} label="Active?">

@@ -31,6 +31,8 @@ defmodule Klepsidra.Repo.Migrations.CreateTags do
       timestamps()
     end
 
-    create unique_index(:tags, [:name], comment: "Index with the name as the main indexed key")
+    create unique_index(:tags, [:name],
+             comment: "Unique index with tag name as the main indexed key"
+           )
   end
 end

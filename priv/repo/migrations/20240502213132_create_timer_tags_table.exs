@@ -22,15 +22,8 @@ defmodule Klepsidra.Repo.Migrations.CreateTimerTags do
       timestamps()
     end
 
-    create index(:timer_tags, [:tag_id], comment: "Index with the `tag_id` as an indexed key")
-
-    create index(:timer_tags, [:timer_id],
-             comment: "Index with the activity timer `timer_id` as an indexed key"
-           )
-
-    create unique_index(:timer_tags, [:tag_id, :timer_id],
-             comment:
-               "Index with the activity timer `timer_id` and `tag_id` as a composite indexed key"
+    create index(:timer_tags, [:tag_id, :timer_id],
+             comment: "Composite index of `tag_id` and `timer_id` fields"
            )
   end
 end

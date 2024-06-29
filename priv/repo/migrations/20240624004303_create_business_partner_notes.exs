@@ -22,5 +22,10 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartnerNotes do
     create index(:business_partner_notes, [:business_partner_id],
              comment: "Index with the `business_partner_id` as the main indexed key"
            )
+
+    create index(:business_partner_notes, [:inserted_at, :updated_at],
+             comment:
+               "Composite Index of `inserted_at` and `updated_at` fields, for chronological ordering"
+           )
   end
 end

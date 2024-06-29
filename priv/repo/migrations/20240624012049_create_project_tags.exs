@@ -22,15 +22,8 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectTags do
       timestamps()
     end
 
-    create index(:project_tags, [:tag_id], comment: "Index with the `tag_id` as an indexed key")
-
-    create index(:project_tags, [:project_id],
-             comment: "Index with the project `project_id` as an indexed key"
-           )
-
-    create unique_index(:project_tags, [:tag_id, :project_id],
-             comment:
-               "Index with the project `project_id` and `tag_id` as a composite indexed key"
+    create index(:project_tags, [:tag_id, :project_id],
+             comment: "Composite index of `tag_id` and `project_id` fields"
            )
   end
 end

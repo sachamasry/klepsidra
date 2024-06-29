@@ -22,5 +22,10 @@ defmodule Klepsidra.Repo.Migrations.CreateNotes do
     create index(:timer_notes, [:timer_id],
              comment: "Index with the `timer_id` as the main indexed key"
            )
+
+    create index(:timer_notes, [:inserted_at, :updated_at],
+             comment:
+               "Composite Index of `inserted_at` and `updated_at` fields, for chronological ordering"
+           )
   end
 end

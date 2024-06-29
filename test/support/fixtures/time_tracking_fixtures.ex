@@ -47,7 +47,7 @@ defmodule Klepsidra.TimeTrackingFixtures do
       attrs
       |> Enum.into(%{
         active: true,
-        activity_type: "some activity_type",
+        name: "some activity_type",
         billing_rate: "120.5"
       })
       |> Klepsidra.TimeTracking.create_activity_type()

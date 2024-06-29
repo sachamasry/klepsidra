@@ -50,7 +50,23 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
 
     create unique_index(:business_partners, [:name],
              unique: true,
-             comment: "Index on business partner names"
+             comment: "Unique index on business partner names"
+           )
+
+    create index(:business_partners, [:customer],
+             comment: "Index of business partner `customer` flag field"
+           )
+
+    create index(:business_partners, [:supplier],
+             comment: "Index of business partner `supplier` flag field"
+           )
+
+    create index(:business_partners, [:frozen],
+             comment: "Index of business partner `frozen` flag field"
+           )
+
+    create index(:business_partners, [:active],
+             comment: "Index of business partner `active` flag field"
            )
   end
 end

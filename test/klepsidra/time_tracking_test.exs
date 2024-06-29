@@ -155,7 +155,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
     import Klepsidra.TimeTrackingFixtures
 
-    @invalid_attrs %{active: nil, activity_type: nil, billing_rate: nil}
+    @invalid_attrs %{active: nil, name: nil, billing_rate: nil}
 
     test "list_activity_types/0 returns all activity_types" do
       activity_type = activity_type_fixture()
@@ -168,13 +168,13 @@ defmodule Klepsidra.TimeTrackingTest do
     end
 
     test "create_activity_type/1 with valid data creates a activity_type" do
-      valid_attrs = %{active: true, activity_type: "some activity_type", billing_rate: "120.5"}
+      valid_attrs = %{active: true, name: "some activity_type", billing_rate: "120.5"}
 
       assert {:ok, %ActivityType{} = activity_type} =
                TimeTracking.create_activity_type(valid_attrs)
 
       assert activity_type.active == true
-      assert activity_type.activity_type == "some activity_type"
+      assert activity_type.name == "some activity_type"
       assert activity_type.billing_rate == Decimal.new("120.5")
     end
 
@@ -187,7 +187,7 @@ defmodule Klepsidra.TimeTrackingTest do
 
       update_attrs = %{
         active: false,
-        activity_type: "some updated activity_type",
+        name: "some updated activity_type",
         billing_rate: "456.7"
       }
 
@@ -195,7 +195,7 @@ defmodule Klepsidra.TimeTrackingTest do
                TimeTracking.update_activity_type(activity_type, update_attrs)
 
       assert activity_type.active == false
-      assert activity_type.activity_type == "some updated activity_type"
+      assert activity_type.name == "some updated activity_type"
       assert activity_type.billing_rate == Decimal.new("456.7")
     end
 

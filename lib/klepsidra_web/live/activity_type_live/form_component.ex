@@ -21,7 +21,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:activity_type]} type="text" label="Activity type" />
+        <.input field={@form[:name]} type="text" label="Activity type" />
 
         <.input field={@form[:billing_rate]} type="number" label="Billing rate" min="0" step="0.01" />
 

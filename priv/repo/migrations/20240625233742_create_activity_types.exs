@@ -12,7 +12,7 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
         null: false,
         comment: "UUID-based activity types primary key"
 
-      add :activity_type, :string,
+      add :name, :string,
         comment: "Human-readable activity type, e.g. 'planning', 'research', 'execution', etc."
 
       add :billing_rate, :decimal,
@@ -27,5 +27,13 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
 
       timestamps()
     end
+
+    create unique_index(:activity_types, [:name],
+             comment: "Unique index on the activity types `name` field"
+           )
+
+    create index(:activity_types, [:active],
+             comment: "Unique index on the activity types `active` field"
+           )
   end
 end

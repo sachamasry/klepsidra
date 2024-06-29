@@ -74,8 +74,25 @@ defmodule Klepsidra.Repo.Migrations.CreateProjects do
       timestamps()
     end
 
-    create unique_index(:projects, [:name],
-             comment: "Index with the project `name` as the main indexed key"
+    create unique_index(:projects, [:name], comment: "Unique index on the project `name` field")
+
+    create index(:projects, [:status], comment: "Index on the project `status` field")
+
+    create index(:projects, [:project_type], comment: "Index on the project `project_type` field")
+
+    create index(:projects, [:priority], comment: "Index on the project `priority` field")
+
+    create index(:projects, [:business_partner_id],
+             comment: "Index on the project `business_partner_id` field"
+           )
+
+    create index(:projects, [:billable], comment: "Index on the project `billable` field")
+
+    create index(:projects, [:active], comment: "Index on the project `active` field")
+
+    create index(:projects, [:inserted_at],
+             comment:
+               "Secondary index of the project `inserted_at` field, for chronological ordering"
            )
   end
 end

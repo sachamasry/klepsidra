@@ -13,12 +13,12 @@ defmodule Klepsidra.TimeTracking.ActivityType do
   @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
-          activity_type: String.t(),
+          name: String.t(),
           billing_rate: number(),
           active: boolean()
         }
   schema "activity_types" do
-    field :activity_type, :string
+    field :name, :string
     field :billing_rate, :decimal
     field :active, :boolean, default: true
 
@@ -28,8 +28,9 @@ defmodule Klepsidra.TimeTracking.ActivityType do
   @doc false
   def changeset(activity_type, attrs) do
     activity_type
-    |> cast(attrs, [:activity_type, :billing_rate, :active])
-    |> validate_required([:activity_type])
+    |> cast(attrs, [:name, :billing_rate, :active])
+    |> unique_constraint(:name)
+    |> validate_required([:name])
     |> validate_required([:billing_rate])
     |> validate_number(:billing_rate, greater_than_or_equal_to: 0)
   end
@@ -42,7 +43,7 @@ defmodule Klepsidra.TimeTracking.ActivityType do
     [
       {"", ""}
       | Klepsidra.TimeTracking.list_activity_types()
-        |> Enum.map(fn type -> {type.activity_type, type.id} end)
+        |> Enum.map(fn type -> {type.name, type.id} end)
     ]
   end
 end
