@@ -27,9 +27,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Select a UI component framework, to aid in the building of a modern web app
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
+- Notes must be enterable in a textarea, not merely a text box, to permit a comfortable size of text to be used
 - Provide reporting
   - Filter: by customer; tags; date range
 
