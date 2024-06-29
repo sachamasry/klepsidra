@@ -41,6 +41,7 @@ defmodule Klepsidra.Repo.Migrations.CreateTimers do
           "Foreign key pointing at `activity_types`, where default billing rates have been defined for different types of activities"
 
       add :billing_rate, :decimal,
+        default: 0.00,
         comment:
           "Billing rate for the timed activity, defined per complete hour of time taken. Assumed to be in the organisation's default currency. By default, fed from the choice of `activity_type_id`, manually overridable for each timed activity"
 

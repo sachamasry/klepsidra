@@ -13,9 +13,11 @@ defmodule Klepsidra.Repo.Migrations.CreateActivityTypes do
         comment: "UUID-based activity types primary key"
 
       add :name, :string,
+        null: false,
         comment: "Human-readable activity type, e.g. 'planning', 'research', 'execution', etc."
 
       add :billing_rate, :decimal,
+        default: 0.00,
         comment:
           "Billing rate, assumed to be per hour (a common billing time increment), in the default currency"
 

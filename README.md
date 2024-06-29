@@ -27,8 +27,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
-- Complete all data structure, validations, defaults and indexes needed
-  - Add SchemaSpy documentation to repository
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
