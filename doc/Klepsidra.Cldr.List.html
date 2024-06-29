@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.31.2">
+    <meta name="generator" content="ExDoc v0.34.1">
     <meta name="project" content="klepsidra v0.1.0">
 
 
     <title>Klepsidra.Cldr.List — klepsidra v0.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-VEFCVPF3.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
-
-      <script src="docs_config.js"></script>
-
-    <script async src="dist/html-JRPQ5PR6.js"></script>
-
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-DC694A73.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-7XSQ4GTY.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -37,13 +34,11 @@
       } catch (error) { }
     </script>
 
-<div class="main">
+<div class="body-wrapper">
 
 <button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
-
-<div class="background-layer"></div>
 
 <nav id="sidebar" class="sidebar">
 
@@ -89,46 +84,47 @@ Pages
 
 <main class="content">
   <output role="status" id="toast"></output>
-  <div class="content-outer">
-    <div id="content" class="content-inner">
-      <div class="top-search">
-        <div class="search-settings">
-          <form class="search-bar" action="search.html">
-            <label class="search-label">
-              <span class="sr-only">Search documentation of klepsidra</span>
-              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            </label>
-            <button type="submit" class="search-button" aria-label="Submit Search">
-              <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
-            </button>
-            <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-              <i class="ri-close-line ri-lg" title="Cancel search"></i>
-            </button>
-          </form>
-          <div class="autocomplete">
-          </div>
-          <button class="icon-settings display-settings">
-            <i class="ri-settings-3-line"></i>
-            <span class="sr-only">Settings</span>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
           </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
         </div>
-
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
       </div>
+    </div>
 
-<h1>
+<div id="top-content">
+  <h1>
 
-  <span translate="no">Klepsidra.Cldr.List</span> 
-  <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
+    <span translate="no">Klepsidra.Cldr.List</span> 
+    <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
-</h1>
+  </h1>
 
 
-  <section id="moduledoc">
+    <section id="moduledoc">
 <p>Cldr backend module that formats lists.</p><p>If we have a list of days like <code class="inline">[&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;]</code>
-then we can format that list for a given locale by:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4779993328-1">(</span><span class="p" data-group-id="4779993328-2">[</span><span class="s">&quot;Monday&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tuesday&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wednesday&quot;</span><span class="p" data-group-id="4779993328-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="4779993328-1">)</span><span class="w">
-</span><span class="p" data-group-id="4779993328-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Monday, Tuesday, and Wednesday&quot;</span><span class="p" data-group-id="4779993328-3">}</span></code></pre>
-  </section>
+then we can format that list for a given locale by:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5691092747-1">(</span><span class="p" data-group-id="5691092747-2">[</span><span class="s">&quot;Monday&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tuesday&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wednesday&quot;</span><span class="p" data-group-id="5691092747-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="5691092747-1">)</span><span class="w">
+</span><span class="p" data-group-id="5691092747-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Monday, Tuesday, and Wednesday&quot;</span><span class="p" data-group-id="5691092747-3">}</span></code></pre>
+    </section>
 
+</div>
 
   <section id="summary" class="details-list">
     <h1 class="section-heading">
@@ -144,7 +140,7 @@ then we can format that list for a given locale by:</p><pre><code class="makeup 
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#intersperse/2" translate="no">intersperse(list, options \\ [])</a>
+        <a href="#intersperse/2" data-no-tooltip translate="no">intersperse(list, options \\ [])</a>
 
       </div>
 
@@ -155,7 +151,7 @@ pattern rules for a locale.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#intersperse/3" translate="no">intersperse(list, locale, pattern_type)</a>
+        <a href="#intersperse/3" data-no-tooltip translate="no">intersperse(list, locale, pattern)</a>
 
       </div>
 
@@ -163,7 +159,7 @@ pattern rules for a locale.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#intersperse!/2" translate="no">intersperse!(list, options \\ [])</a>
+        <a href="#intersperse!/2" data-no-tooltip translate="no">intersperse!(list, options \\ [])</a>
 
       </div>
 
@@ -174,7 +170,7 @@ an error.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#list_formats_for/1" translate="no">list_formats_for(locale_name)</a>
+        <a href="#list_formats_for/1" data-no-tooltip translate="no">list_formats_for(locale_name)</a>
 
       </div>
 
@@ -184,7 +180,7 @@ an error.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#list_patterns_for/1" translate="no">list_patterns_for(locale_name)</a>
+        <a href="#list_patterns_for/1" data-no-tooltip translate="no">list_patterns_for(locale_name)</a>
 
       </div>
 
@@ -194,7 +190,7 @@ an error.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string/2" translate="no">to_string(list, options \\ [])</a>
+        <a href="#to_string/2" data-no-tooltip translate="no">to_string(list, options \\ [])</a>
 
       </div>
 
@@ -204,7 +200,7 @@ an error.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string!/2" translate="no">to_string!(list, options \\ [])</a>
+        <a href="#to_string!/2" data-no-tooltip translate="no">to_string!(list, options \\ [])</a>
 
       </div>
 
@@ -231,7 +227,7 @@ an error.</p></div>
     <span id="intersperse/1"></span>
 
   <div class="detail-header">
-    <a href="#intersperse/2" class="detail-link" title="Link to this function">
+    <a href="#intersperse/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -250,7 +246,7 @@ an error.</p></div>
       </div>
 
 <p>Intersperces a list elements into a list format according to the list
-pattern rules for a locale.</p><p>This function can be helpful when creating a list from <a href="https://hexdocs.pm/phoenix/1.7.11/Phoenix.html"><code class="inline">Phoenix</code></a>
+pattern rules for a locale.</p><p>This function can be helpful when creating a list from <a href="https://hexdocs.pm/phoenix/1.7.14/Phoenix.html"><code class="inline">Phoenix</code></a>
 safe strings which are of the format <code class="inline">{:safe, &quot;some string&quot;}</code></p><h2 id="intersperse/2-arguments" class="section-heading">
   <a href="#intersperse/2-arguments" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -264,40 +260,41 @@ safe strings which are of the format <code class="inline">{:safe, &quot;some str
   <span class="text">Options</span>
 </h2>
 <ul><li><p><code class="inline">:locale</code> is any configured locale. See . The default
-is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Klepsidra.Cldr.known_locale_names/0</code></a>.</p></li><li><p><code class="inline">:format</code> is one of those returned by
-<a href="https://hexdocs.pm/ex_cldr_lists/2.10.2/Cldr.List.html#known_list_formats/0"><code class="inline">Cldr.List.known_list_formats/0</code></a>. The default is <code class="inline">format: :standard</code></p></li></ul><h2 id="intersperse/2-examples" class="section-heading">
+is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Klepsidra.Cldr.known_locale_names/0</code></a>.</p></li><li><p><code class="inline">:format</code> is any of those returned by
+<a href="https://hexdocs.pm/ex_cldr_lists/2.11.0/Cldr.List.html#known_list_formats/0"><code class="inline">Cldr.List.known_list_formats/0</code></a> or by <a href="https://hexdocs.pm/ex_cldr_lists/2.11.0/Cldr.List.Pattern.html#new/1"><code class="inline">Cldr.List.Pattern.new/1</code></a>.
+The default is <code class="inline">format: :standard</code>.</p></li></ul><h2 id="intersperse/2-examples" class="section-heading">
   <a href="#intersperse/2-examples" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-1">(</span><span class="p" data-group-id="9490717572-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="9490717572-1">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-4">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-4">]</span><span class="p" data-group-id="9490717572-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-1">(</span><span class="p" data-group-id="4318928043-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="4318928043-1">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-4">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-4">]</span><span class="p" data-group-id="4318928043-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-5">(</span><span class="p" data-group-id="9490717572-6">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="9490717572-5">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-8">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-8">]</span><span class="p" data-group-id="9490717572-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-5">(</span><span class="p" data-group-id="4318928043-6">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="4318928043-5">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-8">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-8">]</span><span class="p" data-group-id="4318928043-7">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-9">(</span><span class="p" data-group-id="9490717572-10">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="9490717572-9">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-11">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-12">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; et &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9490717572-12">]</span><span class="p" data-group-id="9490717572-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-9">(</span><span class="p" data-group-id="4318928043-10">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="4318928043-9">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-11">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-12">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; et &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4318928043-12">]</span><span class="p" data-group-id="4318928043-11">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-13">(</span><span class="p" data-group-id="9490717572-14">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p" data-group-id="9490717572-14">]</span><span class="p" data-group-id="9490717572-13">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-15">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-16">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="9490717572-16">]</span><span class="p" data-group-id="9490717572-15">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-13">(</span><span class="p" data-group-id="4318928043-14">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p" data-group-id="4318928043-14">]</span><span class="p" data-group-id="4318928043-13">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-15">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-16">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="4318928043-16">]</span><span class="p" data-group-id="4318928043-15">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-17">(</span><span class="p" data-group-id="9490717572-18">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="9490717572-18">]</span><span class="p" data-group-id="9490717572-17">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-19">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-20">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="9490717572-20">]</span><span class="p" data-group-id="9490717572-19">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-17">(</span><span class="p" data-group-id="4318928043-18">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="4318928043-18">]</span><span class="p" data-group-id="4318928043-17">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-19">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-20">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="4318928043-20">]</span><span class="p" data-group-id="4318928043-19">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="9490717572-21">(</span><span class="p" data-group-id="9490717572-22">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p" data-group-id="9490717572-22">]</span><span class="p" data-group-id="9490717572-21">)</span><span class="w">
-</span><span class="p" data-group-id="9490717572-23">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9490717572-24">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9490717572-24">]</span><span class="p" data-group-id="9490717572-23">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="4318928043-21">(</span><span class="p" data-group-id="4318928043-22">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p" data-group-id="4318928043-22">]</span><span class="p" data-group-id="4318928043-21">)</span><span class="w">
+</span><span class="p" data-group-id="4318928043-23">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4318928043-24">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4318928043-24">]</span><span class="p" data-group-id="4318928043-23">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="intersperse/3">
 
   <div class="detail-header">
-    <a href="#intersperse/3" class="detail-link" title="Link to this function">
+    <a href="#intersperse/3" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">intersperse(list, locale, pattern_type)</h1>
+    <h1 class="signature" translate="no">intersperse(list, locale, pattern)</h1>
 
 
   </div>
@@ -312,7 +309,7 @@ is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Kleps
     <span id="intersperse!/1"></span>
 
   <div class="detail-header">
-    <a href="#intersperse!/2" class="detail-link" title="Link to this function">
+    <a href="#intersperse!/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -336,17 +333,17 @@ an error.</p><h2 id="intersperse!/2-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse!</span><span class="p" data-group-id="4424580119-1">(</span><span class="p" data-group-id="4424580119-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4424580119-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="4424580119-1">)</span><span class="w">
-</span><span class="p" data-group-id="4424580119-3">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4424580119-3">]</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse!</span><span class="p" data-group-id="6741535140-1">(</span><span class="p" data-group-id="6741535140-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="6741535140-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="6741535140-1">)</span><span class="w">
+</span><span class="p" data-group-id="6741535140-3">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="6741535140-3">]</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse!</span><span class="p" data-group-id="4424580119-4">(</span><span class="p" data-group-id="4424580119-5">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4424580119-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="4424580119-4">)</span><span class="w">
-</span><span class="p" data-group-id="4424580119-6">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4424580119-6">]</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">intersperse!</span><span class="p" data-group-id="6741535140-4">(</span><span class="p" data-group-id="6741535140-5">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="6741535140-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="6741535140-4">)</span><span class="w">
+</span><span class="p" data-group-id="6741535140-6">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="6741535140-6">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_formats_for/1">
 
   <div class="detail-header">
-    <a href="#list_formats_for/1" class="detail-link" title="Link to this function">
+    <a href="#list_formats_for/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -359,7 +356,7 @@ an error.</p><h2 id="intersperse!/2-examples" class="section-heading">
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> list_formats_for(<a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.Locale.html#t:locale_name/0">Cldr.Locale.locale_name</a>()) :: [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()]</pre>
+          <pre translate="no"><span class="attribute">@spec</span> list_formats_for(<a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.Locale.html#t:locale_name/0">Cldr.Locale.locale_name</a>()) :: [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()]</pre>
 
       </div>
 
@@ -370,15 +367,15 @@ available in CLDR for a locale.</p><h2 id="list_formats_for/1-example" class="se
   </a>
   <span class="text">Example</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">list_formats_for</span><span class="p" data-group-id="9826811035-1">(</span><span class="ss">:en</span><span class="p" data-group-id="9826811035-1">)</span><span class="w">
-</span><span class="p" data-group-id="9826811035-2">[</span><span class="ss">:or</span><span class="p">,</span><span class="w"> </span><span class="ss">:or_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:or_short</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard_short</span><span class="p">,</span><span class="w">
- </span><span class="ss">:unit</span><span class="p">,</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:unit_short</span><span class="p" data-group-id="9826811035-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">list_formats_for</span><span class="p" data-group-id="4983106812-1">(</span><span class="ss">:en</span><span class="p" data-group-id="4983106812-1">)</span><span class="w">
+</span><span class="p" data-group-id="4983106812-2">[</span><span class="ss">:or</span><span class="p">,</span><span class="w"> </span><span class="ss">:or_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:or_short</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:standard_short</span><span class="p">,</span><span class="w">
+ </span><span class="ss">:unit</span><span class="p">,</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">:unit_short</span><span class="p" data-group-id="4983106812-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_patterns_for/1">
 
   <div class="detail-header">
-    <a href="#list_patterns_for/1" class="detail-link" title="Link to this function">
+    <a href="#list_patterns_for/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -391,7 +388,7 @@ available in CLDR for a locale.</p><h2 id="list_formats_for/1-example" class="se
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> list_patterns_for(<a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.Locale.html#t:locale_name/0">Cldr.Locale.locale_name</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> list_patterns_for(<a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.Locale.html#t:locale_name/0">Cldr.Locale.locale_name</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()</pre>
 
       </div>
 
@@ -402,63 +399,63 @@ items into a language format appropriate for a locale.</p><h2 id="list_patterns_
   </a>
   <span class="text">Example</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">list_patterns_for</span><span class="p" data-group-id="6384135478-1">(</span><span class="ss">:en</span><span class="p" data-group-id="6384135478-1">)</span><span class="w">
-</span><span class="p" data-group-id="6384135478-2">%{</span><span class="w">
-  </span><span class="ss">or</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-3">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-4">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-4">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-5">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-5">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-6">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-6">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-7">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-7">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-3">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">or_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-8">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-9">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-9">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-10">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-10">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-11">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-11">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-12">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-12">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-8">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">or_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-13">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-14">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-14">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-15">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-15">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-16">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-16">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-17">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-17">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-13">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">standard</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-18">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-19">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-19">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-20">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-20">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-21">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-21">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-22">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-22">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-18">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">standard_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-23">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-24">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-24">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-25">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-25">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-26">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-26">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-27">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-27">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-23">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">standard_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-28">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-29">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &amp; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-29">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-30">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &amp; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-30">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-31">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-31">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-32">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-32">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-28">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-33">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-34">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-34">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-35">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-35">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-36">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-36">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-37">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-37">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-33">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">unit_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-38">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-39">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-39">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-40">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-40">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-41">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-41">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-42">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-42">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-38">}</span><span class="p">,</span><span class="w">
-  </span><span class="ss">unit_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-43">%{</span><span class="w">
-    </span><span class="mi">2</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="6384135478-44">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-44">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-45">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-45">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-46">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-46">]</span><span class="p">,</span><span class="w">
-    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6384135478-47">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6384135478-47">]</span><span class="w">
-  </span><span class="p" data-group-id="6384135478-43">}</span><span class="w">
-</span><span class="p" data-group-id="6384135478-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">list_patterns_for</span><span class="p" data-group-id="3134743967-1">(</span><span class="ss">:en</span><span class="p" data-group-id="3134743967-1">)</span><span class="w">
+</span><span class="p" data-group-id="3134743967-2">%{</span><span class="w">
+  </span><span class="ss">or</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-3">%</span><span class="nc" data-group-id="3134743967-3">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-3">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-4">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-4">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-5">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-5">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-6">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-6">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-7">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-7">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-3">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">or_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-8">%</span><span class="nc" data-group-id="3134743967-8">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-8">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-9">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-9">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-10">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-10">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-11">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-11">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-12">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-12">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-8">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">or_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-13">%</span><span class="nc" data-group-id="3134743967-13">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-13">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-14">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-14">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-15">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, or &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-15">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-16">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-16">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-17">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-17">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-13">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">standard</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-18">%</span><span class="nc" data-group-id="3134743967-18">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-18">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-19">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-19">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-20">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, and &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-20">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-21">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-21">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-22">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-22">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-18">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">standard_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-23">%</span><span class="nc" data-group-id="3134743967-23">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-23">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-24">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-24">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-25">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-25">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-26">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-26">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-27">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-27">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-23">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">standard_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-28">%</span><span class="nc" data-group-id="3134743967-28">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-28">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-29">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &amp; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-29">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-30">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &amp; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-30">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-31">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-31">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-32">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-32">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-28">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-33">%</span><span class="nc" data-group-id="3134743967-33">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-33">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-34">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-34">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-35">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-35">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-36">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-36">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-37">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-37">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-33">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">unit_narrow</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-38">%</span><span class="nc" data-group-id="3134743967-38">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-38">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-39">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-39">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-40">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-40">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-41">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-41">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-42">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-42">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-38">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">unit_short</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-43">%</span><span class="nc" data-group-id="3134743967-43">Cldr.List.Pattern</span><span class="p" data-group-id="3134743967-43">{</span><span class="w">
+    </span><span class="ss">two</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-44">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-44">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">end</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-45">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-45">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">middle</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-46">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-46">]</span><span class="p">,</span><span class="w">
+    </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3134743967-47">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3134743967-47">]</span><span class="w">
+  </span><span class="p" data-group-id="3134743967-43">}</span><span class="w">
+</span><span class="p" data-group-id="3134743967-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string/2">
@@ -466,7 +463,7 @@ items into a language format appropriate for a locale.</p><h2 id="list_patterns_
     <span id="to_string/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string/2" class="detail-link" title="Link to this function">
+    <a href="#to_string/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -497,30 +494,31 @@ items into a language format appropriate for a locale.</p><h2 id="list_patterns_
   <span class="text">Options</span>
 </h2>
 <ul><li><p><code class="inline">:locale</code> is any configured locale. See . The default
-is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Klepsidra.Cldr.known_locale_names/0</code></a>.</p></li><li><p><code class="inline">:format</code> is one of those returned by
-<a href="https://hexdocs.pm/ex_cldr_lists/2.10.2/Cldr.List.html#known_list_formats/0"><code class="inline">Cldr.List.known_list_formats/0</code></a>. The default is <code class="inline">format: :standard</code></p></li></ul><h2 id="to_string/2-examples" class="section-heading">
+is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Klepsidra.Cldr.known_locale_names/0</code></a>.</p></li><li><p><code class="inline">:format</code> is any of those returned by
+<a href="https://hexdocs.pm/ex_cldr_lists/2.11.0/Cldr.List.html#known_list_formats/0"><code class="inline">Cldr.List.known_list_formats/0</code></a> or by <a href="https://hexdocs.pm/ex_cldr_lists/2.11.0/Cldr.List.Pattern.html#new/1"><code class="inline">Cldr.List.Pattern.new/1</code></a>.
+The default is <code class="inline">format: :standard</code>.</p></li></ul><h2 id="to_string/2-examples" class="section-heading">
   <a href="#to_string/2-examples" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-1">(</span><span class="p" data-group-id="2865725893-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2865725893-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="2865725893-1">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a, b, and c&quot;</span><span class="p" data-group-id="2865725893-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-1">(</span><span class="p" data-group-id="2038044316-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2038044316-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="2038044316-1">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a, b, and c&quot;</span><span class="p" data-group-id="2038044316-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-4">(</span><span class="p" data-group-id="2865725893-5">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2865725893-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="2865725893-4">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a b c&quot;</span><span class="p" data-group-id="2865725893-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-4">(</span><span class="p" data-group-id="2038044316-5">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2038044316-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="2038044316-4">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a b c&quot;</span><span class="p" data-group-id="2038044316-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-7">(</span><span class="p" data-group-id="2865725893-8">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2865725893-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2865725893-7">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-9">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a, b et c&quot;</span><span class="p" data-group-id="2865725893-9">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-7">(</span><span class="p" data-group-id="2038044316-8">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="2038044316-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2038044316-7">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-9">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a, b et c&quot;</span><span class="p" data-group-id="2038044316-9">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-10">(</span><span class="p" data-group-id="2865725893-11">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p" data-group-id="2865725893-11">]</span><span class="p" data-group-id="2865725893-10">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1, 2, 3, 4, 5, and 6&quot;</span><span class="p" data-group-id="2865725893-12">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-10">(</span><span class="p" data-group-id="2038044316-11">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p" data-group-id="2038044316-11">]</span><span class="p" data-group-id="2038044316-10">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1, 2, 3, 4, 5, and 6&quot;</span><span class="p" data-group-id="2038044316-12">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-13">(</span><span class="p" data-group-id="2865725893-14">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="2865725893-14">]</span><span class="p" data-group-id="2865725893-13">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-15">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="2865725893-15">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-13">(</span><span class="p" data-group-id="2038044316-14">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="2038044316-14">]</span><span class="p" data-group-id="2038044316-13">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-15">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="2038044316-15">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2865725893-16">(</span><span class="p" data-group-id="2865725893-17">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p" data-group-id="2865725893-17">]</span><span class="p" data-group-id="2865725893-16">)</span><span class="w">
-</span><span class="p" data-group-id="2865725893-18">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 and 2&quot;</span><span class="p" data-group-id="2865725893-18">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2038044316-16">(</span><span class="p" data-group-id="2038044316-17">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p" data-group-id="2038044316-17">]</span><span class="p" data-group-id="2038044316-16">)</span><span class="w">
+</span><span class="p" data-group-id="2038044316-18">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 and 2&quot;</span><span class="p" data-group-id="2038044316-18">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string!/2">
@@ -528,7 +526,7 @@ is <a href="Klepsidra.Cldr.html#known_locale_names/0"><code class="inline">Kleps
     <span id="to_string!/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string!/2" class="detail-link" title="Link to this function">
+    <a href="#to_string!/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -552,10 +550,10 @@ an error.</p><h2 id="to_string!/2-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4806644548-1">(</span><span class="p" data-group-id="4806644548-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4806644548-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="4806644548-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="8239252261-1">(</span><span class="p" data-group-id="8239252261-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="8239252261-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p" data-group-id="8239252261-1">)</span><span class="w">
 </span><span class="s">&quot;a, b, and c&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4806644548-3">(</span><span class="p" data-group-id="4806644548-4">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="4806644548-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="4806644548-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.List</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="8239252261-3">(</span><span class="p" data-group-id="8239252261-4">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="8239252261-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:unit_narrow</span><span class="p" data-group-id="8239252261-3">)</span><span class="w">
 </span><span class="s">&quot;a b c&quot;</span></code></pre>
   </section>
 </section>
@@ -563,35 +561,33 @@ an error.</p><h2 id="to_string!/2-examples" class="section-heading">
     </div>
   </section>
 
-      <footer class="footer">
-        <p>
+    <footer class="footer">
+      <p>
 
-          <span class="line">
-            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-              Search HexDocs
-            </button>
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
 
-              <a href="klepsidra.epub" title="ePub version">
-                Download ePub version
-              </a>
+            <a href="klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
 
-          </span>
-        </p>
+        </span>
+      </p>
 
-        <p class="built-using">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.31.2) for the
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
 
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
-        </p>
+      </p>
 
-      </footer>
-    </div>
+    </footer>
   </div>
 </main>
 </div>
-
 
   </body>
 </html>

@@ -11,6 +11,21 @@ defmodule KlepsidraWeb.StartPageLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    formatted_current_date =
+      Klepsidra.Cldr.DateTime.to_string(Klepsidra.TimeTracking.Timer.get_current_timestamp(),
+        format: "EEEE, dd MMM YYYY"
+      )
+
+    today =
+      case formatted_current_date do
+        {:ok, today} -> today
+        _ -> ""
+      end
+
+    socket =
+      socket
+      |> assign(today: today)
+
     {:ok, socket}
   end
 end

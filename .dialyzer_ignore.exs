@@ -28,7 +28,6 @@
   {"lib/klepsidra/business_partners/note.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_type},
-  {"lib/klepsidra/ex_cldr.ex", :contract_supertype},
   {"lib/klepsidra/mailer.ex", :unknown_function},
   {"lib/klepsidra/projects/note.ex", :unknown_function},
   {"lib/klepsidra/projects/project.ex", :unknown_function},

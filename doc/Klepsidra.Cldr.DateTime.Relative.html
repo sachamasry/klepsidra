@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.31.2">
+    <meta name="generator" content="ExDoc v0.34.1">
     <meta name="project" content="klepsidra v0.1.0">
 
 
     <title>Klepsidra.Cldr.DateTime.Relative — klepsidra v0.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-VEFCVPF3.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
-
-      <script src="docs_config.js"></script>
-
-    <script async src="dist/html-JRPQ5PR6.js"></script>
-
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-DC694A73.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-7XSQ4GTY.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -37,13 +34,11 @@
       } catch (error) { }
     </script>
 
-<div class="main">
+<div class="body-wrapper">
 
 <button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
-
-<div class="background-layer"></div>
 
 <nav id="sidebar" class="sidebar">
 
@@ -89,40 +84,41 @@ Pages
 
 <main class="content">
   <output role="status" id="toast"></output>
-  <div class="content-outer">
-    <div id="content" class="content-inner">
-      <div class="top-search">
-        <div class="search-settings">
-          <form class="search-bar" action="search.html">
-            <label class="search-label">
-              <span class="sr-only">Search documentation of klepsidra</span>
-              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            </label>
-            <button type="submit" class="search-button" aria-label="Submit Search">
-              <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
-            </button>
-            <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-              <i class="ri-close-line ri-lg" title="Cancel search"></i>
-            </button>
-          </form>
-          <div class="autocomplete">
-          </div>
-          <button class="icon-settings display-settings">
-            <i class="ri-settings-3-line"></i>
-            <span class="sr-only">Settings</span>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
           </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
         </div>
-
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
       </div>
+    </div>
 
-<h1>
+<div id="top-content">
+  <h1>
 
-  <span translate="no">Klepsidra.Cldr.DateTime.Relative</span> 
-  <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
+    <span translate="no">Klepsidra.Cldr.DateTime.Relative</span> 
+    <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
-</h1>
+  </h1>
 
 
+</div>
 
   <section id="summary" class="details-list">
     <h1 class="section-heading">
@@ -138,7 +134,7 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string/2" translate="no">to_string(time, options \\ [])</a>
+        <a href="#to_string/2" data-no-tooltip translate="no">to_string(time, options \\ [])</a>
 
       </div>
 
@@ -149,7 +145,7 @@ number, Date or Datetime.  Returns <code class="inline">{:error, reason}</code> 
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string!/2" translate="no">to_string!(time, options \\ [])</a>
+        <a href="#to_string!/2" data-no-tooltip translate="no">to_string!(time, options \\ [])</a>
 
       </div>
 
@@ -176,7 +172,7 @@ number, Date or Datetime or raises an exception on error.</p></div>
     <span id="to_string/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string/2" class="detail-link" title="Link to this function">
+    <a href="#to_string/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -189,7 +185,7 @@ number, Date or Datetime or raises an exception on error.</p></div>
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/Date.html#t:t/0">Date.t</a>() | <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0">DateTime.t</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
   {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}}</pre>
 
       </div>
@@ -203,7 +199,7 @@ options[:relative_to]</p></li><li><p><code class="inline">options</code> is a <a
   <span class="text">Options</span>
 </h2>
 <ul><li><p><code class="inline">:locale</code> is the locale in which the binary is formatted.
-The default is <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:style</code> is the style of the binary.  Style may be <code class="inline">:default</code>, <code class="inline">:narrow</code> or <code class="inline">:short</code></p></li><li><p><code class="inline">:unit</code> is the time unit for the formatting.  The allowable units are <code class="inline">:second</code>, <code class="inline">:minute</code>,
+The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:style</code> is the style of the binary.  Style may be <code class="inline">:default</code>, <code class="inline">:narrow</code> or <code class="inline">:short</code></p></li><li><p><code class="inline">:unit</code> is the time unit for the formatting.  The allowable units are <code class="inline">:second</code>, <code class="inline">:minute</code>,
 <code class="inline">:hour</code>, <code class="inline">:day</code>, <code class="inline">:week</code>, <code class="inline">:month</code>, <code class="inline">:year</code>, <code class="inline">:mon</code>, <code class="inline">:tue</code>, <code class="inline">:wed</code>, <code class="inline">:thu</code>, <code class="inline">:fri</code>, <code class="inline">:sat</code>,
 <code class="inline">:sun</code>, <code class="inline">:quarter</code></p></li><li><p><code class="inline">:relative_to</code> is the baseline Date or Datetime from which the difference from <code class="inline">relative</code> is
 calculated when <code class="inline">relative</code> is a Date or a DateTime. The default for a Date is <code class="inline">Date.utc_today</code>,
@@ -222,60 +218,60 @@ assume <code class="inline">:seconds</code> as the unit.  See <code class="inlin
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-1">(</span><span class="o">-</span><span class="mi">1</span><span class="p" data-group-id="2818942513-1">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 second ago&quot;</span><span class="p" data-group-id="2818942513-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-1">(</span><span class="o">-</span><span class="mi">1</span><span class="p" data-group-id="4873340053-1">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1 second ago&quot;</span><span class="p" data-group-id="4873340053-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-3">(</span><span class="mi">1</span><span class="p" data-group-id="2818942513-3">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 1 second&quot;</span><span class="p" data-group-id="2818942513-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-3">(</span><span class="mi">1</span><span class="p" data-group-id="4873340053-3">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 1 second&quot;</span><span class="p" data-group-id="4873340053-4">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-5">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p" data-group-id="2818942513-5">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tomorrow&quot;</span><span class="p" data-group-id="2818942513-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-5">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p" data-group-id="4873340053-5">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tomorrow&quot;</span><span class="p" data-group-id="4873340053-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-7">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2818942513-7">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;demain&quot;</span><span class="p" data-group-id="2818942513-8">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-7">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="4873340053-7">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;demain&quot;</span><span class="p" data-group-id="4873340053-8">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-9">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:narrow</span><span class="p" data-group-id="2818942513-9">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tomorrow&quot;</span><span class="p" data-group-id="2818942513-10">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-9">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:day</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:narrow</span><span class="p" data-group-id="4873340053-9">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tomorrow&quot;</span><span class="p" data-group-id="4873340053-10">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-11">(</span><span class="mi">1234</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:year</span><span class="p" data-group-id="2818942513-11">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 1,234 years&quot;</span><span class="p" data-group-id="2818942513-12">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-11">(</span><span class="mi">1234</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:year</span><span class="p" data-group-id="4873340053-11">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 1,234 years&quot;</span><span class="p" data-group-id="4873340053-12">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-13">(</span><span class="mi">1234</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:year</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2818942513-13">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-14">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dans 1 234 ans&quot;</span><span class="p" data-group-id="2818942513-14">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-13">(</span><span class="mi">1234</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:year</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="4873340053-13">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-14">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dans 1 234 ans&quot;</span><span class="p" data-group-id="4873340053-14">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-15">(</span><span class="mi">31</span><span class="p" data-group-id="2818942513-15">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-16">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 31 seconds&quot;</span><span class="p" data-group-id="2818942513-16">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-15">(</span><span class="mi">31</span><span class="p" data-group-id="4873340053-15">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-16">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 31 seconds&quot;</span><span class="p" data-group-id="4873340053-16">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-17">(</span><span class="ld">~D[2017-04-29]</span><span class="p">,</span><span class="w"> </span><span class="ss">relative_to</span><span class="p">:</span><span class="w"> </span><span class="ld">~D[2017-04-26]</span><span class="p" data-group-id="2818942513-17">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-18">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 3 days&quot;</span><span class="p" data-group-id="2818942513-18">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-17">(</span><span class="ld">~D[2017-04-29]</span><span class="p">,</span><span class="w"> </span><span class="ss">relative_to</span><span class="p">:</span><span class="w"> </span><span class="ld">~D[2017-04-26]</span><span class="p" data-group-id="4873340053-17">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-18">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 3 days&quot;</span><span class="p" data-group-id="4873340053-18">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-19">(</span><span class="mi">310</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2818942513-19">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-20">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dans 5 min&quot;</span><span class="p" data-group-id="2818942513-20">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-19">(</span><span class="mi">310</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="4873340053-19">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-20">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dans 5 min&quot;</span><span class="p" data-group-id="4873340053-20">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-21">(</span><span class="mi">310</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="2818942513-21">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-22">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+5 min&quot;</span><span class="p" data-group-id="2818942513-22">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-21">(</span><span class="mi">310</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:narrow</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="4873340053-21">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-22">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+5 min&quot;</span><span class="p" data-group-id="4873340053-22">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:wed</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
-</span><span class="p" data-group-id="2818942513-23">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 2 Wed.&quot;</span><span class="p" data-group-id="2818942513-23">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-23">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;in 2 Wed.&quot;</span><span class="p" data-group-id="4873340053-23">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:wed</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="w">
-</span><span class="p" data-group-id="2818942513-24">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;next Wed.&quot;</span><span class="p" data-group-id="2818942513-24">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-24">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;next Wed.&quot;</span><span class="p" data-group-id="4873340053-24">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:wed</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="w">
-</span><span class="p" data-group-id="2818942513-25">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last Wed.&quot;</span><span class="p" data-group-id="2818942513-25">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-25">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last Wed.&quot;</span><span class="p" data-group-id="4873340053-25">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:wed</span><span class="w">
-</span><span class="p" data-group-id="2818942513-26">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last Wednesday&quot;</span><span class="p" data-group-id="2818942513-26">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-26">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last Wednesday&quot;</span><span class="p" data-group-id="4873340053-26">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:quarter</span><span class="w">
-</span><span class="p" data-group-id="2818942513-27">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last quarter&quot;</span><span class="p" data-group-id="2818942513-27">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-27">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last quarter&quot;</span><span class="p" data-group-id="4873340053-27">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:mon</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="w">
-</span><span class="p" data-group-id="2818942513-28">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lundi dernier&quot;</span><span class="p" data-group-id="2818942513-28">}</span><span class="w">
+</span><span class="p" data-group-id="4873340053-28">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lundi dernier&quot;</span><span class="p" data-group-id="4873340053-28">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2818942513-29">(</span><span class="ld">~D[2017-04-29]</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:ziggeraut</span><span class="p" data-group-id="2818942513-29">)</span><span class="w">
-</span><span class="p" data-group-id="2818942513-30">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2818942513-31">{</span><span class="nc">Cldr.UnknownTimeUnit</span><span class="p">,</span><span class="w">
- </span><span class="s">&quot;Unknown time unit :ziggeraut.  Valid time units are [:day, :fri, :hour, :minute, :mon, :month, :quarter, :sat, :second, :sun, :thu, :tue, :wed, :week, :year]&quot;</span><span class="p" data-group-id="2818942513-31">}</span><span class="p" data-group-id="2818942513-30">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Relative</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4873340053-29">(</span><span class="ld">~D[2017-04-29]</span><span class="p">,</span><span class="w"> </span><span class="ss">unit</span><span class="p">:</span><span class="w"> </span><span class="ss">:ziggeraut</span><span class="p" data-group-id="4873340053-29">)</span><span class="w">
+</span><span class="p" data-group-id="4873340053-30">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4873340053-31">{</span><span class="nc">Cldr.UnknownTimeUnit</span><span class="p">,</span><span class="w">
+ </span><span class="s">&quot;Unknown time unit :ziggeraut.  Valid time units are [:day, :fri, :hour, :minute, :mon, :month, :quarter, :sat, :second, :sun, :thu, :tue, :wed, :week, :year]&quot;</span><span class="p" data-group-id="4873340053-31">}</span><span class="p" data-group-id="4873340053-30">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string!/2">
@@ -283,7 +279,7 @@ assume <code class="inline">:seconds</code> as the unit.  See <code class="inlin
     <span id="to_string!/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string!/2" class="detail-link" title="Link to this function">
+    <a href="#to_string!/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -296,7 +292,7 @@ assume <code class="inline">:seconds</code> as the unit.  See <code class="inlin
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/Date.html#t:t/0">Date.t</a>() | <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0">DateTime.t</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()</pre>
 
       </div>
 
@@ -315,7 +311,7 @@ options[:relative_to].</p></li><li><p><code class="inline">options</code> is a <
   <span class="text">Options</span>
 </h2>
 <ul><li><p><code class="inline">:locale</code> is the locale in which the binary is formatted.
-The default is <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:style</code> is the format of the binary.  Style may be <code class="inline">:default</code>, <code class="inline">:narrow</code> or <code class="inline">:short</code>.
+The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:style</code> is the format of the binary.  Style may be <code class="inline">:default</code>, <code class="inline">:narrow</code> or <code class="inline">:short</code>.
 The default is <code class="inline">:default</code></p></li><li><p><code class="inline">:unit</code> is the time unit for the formatting.  The allowable units are <code class="inline">:second</code>, <code class="inline">:minute</code>,
 <code class="inline">:hour</code>, <code class="inline">:day</code>, <code class="inline">:week</code>, <code class="inline">:month</code>, <code class="inline">:year</code>, <code class="inline">:mon</code>, <code class="inline">:tue</code>, <code class="inline">:wed</code>, <code class="inline">:thu</code>, <code class="inline">:fri</code>, <code class="inline">:sat</code>,
 <code class="inline">:sun</code>, <code class="inline">:quarter</code></p></li><li><p><code class="inline">:relative_to</code> is the baseline Date or Datetime from which the difference from <code class="inline">relative</code> is
@@ -327,35 +323,33 @@ for a DateTime it is <code class="inline">DateTime.utc_now</code></p></li></ul><
     </div>
   </section>
 
-      <footer class="footer">
-        <p>
+    <footer class="footer">
+      <p>
 
-          <span class="line">
-            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-              Search HexDocs
-            </button>
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
 
-              <a href="klepsidra.epub" title="ePub version">
-                Download ePub version
-              </a>
+            <a href="klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
 
-          </span>
-        </p>
+        </span>
+      </p>
 
-        <p class="built-using">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.31.2) for the
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
 
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
-        </p>
+      </p>
 
-      </footer>
-    </div>
+    </footer>
   </div>
 </main>
 </div>
-
 
   </body>
 </html>

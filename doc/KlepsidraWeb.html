@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.31.2">
+    <meta name="generator" content="ExDoc v0.34.1">
     <meta name="project" content="klepsidra v0.1.0">
 
 
     <title>KlepsidraWeb — klepsidra v0.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-VEFCVPF3.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
-
-      <script src="docs_config.js"></script>
-
-    <script async src="dist/html-JRPQ5PR6.js"></script>
-
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-DC694A73.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-7XSQ4GTY.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -37,13 +34,11 @@
       } catch (error) { }
     </script>
 
-<div class="main">
+<div class="body-wrapper">
 
 <button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
-
-<div class="background-layer"></div>
 
 <nav id="sidebar" class="sidebar">
 
@@ -89,41 +84,41 @@ Pages
 
 <main class="content">
   <output role="status" id="toast"></output>
-  <div class="content-outer">
-    <div id="content" class="content-inner">
-      <div class="top-search">
-        <div class="search-settings">
-          <form class="search-bar" action="search.html">
-            <label class="search-label">
-              <span class="sr-only">Search documentation of klepsidra</span>
-              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            </label>
-            <button type="submit" class="search-button" aria-label="Submit Search">
-              <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
-            </button>
-            <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-              <i class="ri-close-line ri-lg" title="Cancel search"></i>
-            </button>
-          </form>
-          <div class="autocomplete">
-          </div>
-          <button class="icon-settings display-settings">
-            <i class="ri-settings-3-line"></i>
-            <span class="sr-only">Settings</span>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
           </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
         </div>
-
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
       </div>
+    </div>
 
-<h1>
+<div id="top-content">
+  <h1>
 
-  <span translate="no">KlepsidraWeb</span> 
-  <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
+    <span translate="no">KlepsidraWeb</span> 
+    <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
-</h1>
+  </h1>
 
 
-  <section id="moduledoc">
+    <section id="moduledoc">
 <p>The entrypoint for defining your web interface, such
 as controllers, components, channels, and so on.</p><p>This can be used in your application as:</p><pre><code class="makeup elixir" translate="no"><span class="kn">use</span><span class="w"> </span><span class="nc">KlepsidraWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:controller</span><span class="w">
 </span><span class="kn">use</span><span class="w"> </span><span class="nc">KlepsidraWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:html</span></code></pre><p>The definitions below will be executed for every controller,
@@ -131,8 +126,9 @@ component, etc, so keep them short and clean, focused
 on imports, uses and aliases.</p><p>Do NOT define functions inside the quoted expressions
 below. Instead, define additional modules and import
 those modules here.</p>
-  </section>
+    </section>
 
+</div>
 
   <section id="summary" class="details-list">
     <h1 class="section-heading">
@@ -148,7 +144,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#__using__/1" translate="no">__using__(which)</a>
+        <a href="#__using__/1" data-no-tooltip translate="no">__using__(which)</a>
 
       </div>
 
@@ -158,7 +154,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#channel/0" translate="no">channel()</a>
+        <a href="#channel/0" data-no-tooltip translate="no">channel()</a>
 
       </div>
 
@@ -166,7 +162,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#controller/0" translate="no">controller()</a>
+        <a href="#controller/0" data-no-tooltip translate="no">controller()</a>
 
       </div>
 
@@ -174,7 +170,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#html/0" translate="no">html()</a>
+        <a href="#html/0" data-no-tooltip translate="no">html()</a>
 
       </div>
 
@@ -182,7 +178,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#live_component/0" translate="no">live_component()</a>
+        <a href="#live_component/0" data-no-tooltip translate="no">live_component()</a>
 
       </div>
 
@@ -190,7 +186,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#live_view/0" translate="no">live_view()</a>
+        <a href="#live_view/0" data-no-tooltip translate="no">live_view()</a>
 
       </div>
 
@@ -198,7 +194,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#router/0" translate="no">router()</a>
+        <a href="#router/0" data-no-tooltip translate="no">router()</a>
 
       </div>
 
@@ -206,7 +202,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#static_paths/0" translate="no">static_paths()</a>
+        <a href="#static_paths/0" data-no-tooltip translate="no">static_paths()</a>
 
       </div>
 
@@ -214,7 +210,7 @@ those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#verified_routes/0" translate="no">verified_routes()</a>
+        <a href="#verified_routes/0" data-no-tooltip translate="no">verified_routes()</a>
 
       </div>
 
@@ -236,7 +232,7 @@ those modules here.</p>
 <section class="detail" id="__using__/1">
 
   <div class="detail-header">
-    <a href="#__using__/1" class="detail-link" title="Link to this macro">
+    <a href="#__using__/1" class="detail-link" data-no-tooltip title="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this macro</span>
     </a>
@@ -255,7 +251,7 @@ those modules here.</p>
 <section class="detail" id="channel/0">
 
   <div class="detail-header">
-    <a href="#channel/0" class="detail-link" title="Link to this function">
+    <a href="#channel/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -272,7 +268,7 @@ those modules here.</p>
 <section class="detail" id="controller/0">
 
   <div class="detail-header">
-    <a href="#controller/0" class="detail-link" title="Link to this function">
+    <a href="#controller/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -289,7 +285,7 @@ those modules here.</p>
 <section class="detail" id="html/0">
 
   <div class="detail-header">
-    <a href="#html/0" class="detail-link" title="Link to this function">
+    <a href="#html/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -306,7 +302,7 @@ those modules here.</p>
 <section class="detail" id="live_component/0">
 
   <div class="detail-header">
-    <a href="#live_component/0" class="detail-link" title="Link to this function">
+    <a href="#live_component/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -323,7 +319,7 @@ those modules here.</p>
 <section class="detail" id="live_view/0">
 
   <div class="detail-header">
-    <a href="#live_view/0" class="detail-link" title="Link to this function">
+    <a href="#live_view/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -340,7 +336,7 @@ those modules here.</p>
 <section class="detail" id="router/0">
 
   <div class="detail-header">
-    <a href="#router/0" class="detail-link" title="Link to this function">
+    <a href="#router/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -357,7 +353,7 @@ those modules here.</p>
 <section class="detail" id="static_paths/0">
 
   <div class="detail-header">
-    <a href="#static_paths/0" class="detail-link" title="Link to this function">
+    <a href="#static_paths/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -374,7 +370,7 @@ those modules here.</p>
 <section class="detail" id="verified_routes/0">
 
   <div class="detail-header">
-    <a href="#verified_routes/0" class="detail-link" title="Link to this function">
+    <a href="#verified_routes/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -392,35 +388,33 @@ those modules here.</p>
     </div>
   </section>
 
-      <footer class="footer">
-        <p>
+    <footer class="footer">
+      <p>
 
-          <span class="line">
-            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-              Search HexDocs
-            </button>
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
 
-              <a href="klepsidra.epub" title="ePub version">
-                Download ePub version
-              </a>
+            <a href="klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
 
-          </span>
-        </p>
+        </span>
+      </p>
 
-        <p class="built-using">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.31.2) for the
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
 
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
-        </p>
+      </p>
 
-      </footer>
-    </div>
+    </footer>
   </div>
 </main>
 </div>
-
 
   </body>
 </html>

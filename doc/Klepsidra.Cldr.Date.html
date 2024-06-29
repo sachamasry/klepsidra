@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.31.2">
+    <meta name="generator" content="ExDoc v0.34.1">
     <meta name="project" content="klepsidra v0.1.0">
 
 
     <title>Klepsidra.Cldr.Date — klepsidra v0.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-VEFCVPF3.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
-
-      <script src="docs_config.js"></script>
-
-    <script async src="dist/html-JRPQ5PR6.js"></script>
-
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-DC694A73.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-7XSQ4GTY.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -37,13 +34,11 @@
       } catch (error) { }
     </script>
 
-<div class="main">
+<div class="body-wrapper">
 
 <button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
-
-<div class="background-layer"></div>
 
 <nav id="sidebar" class="sidebar">
 
@@ -89,40 +84,41 @@ Pages
 
 <main class="content">
   <output role="status" id="toast"></output>
-  <div class="content-outer">
-    <div id="content" class="content-inner">
-      <div class="top-search">
-        <div class="search-settings">
-          <form class="search-bar" action="search.html">
-            <label class="search-label">
-              <span class="sr-only">Search documentation of klepsidra</span>
-              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            </label>
-            <button type="submit" class="search-button" aria-label="Submit Search">
-              <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
-            </button>
-            <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-              <i class="ri-close-line ri-lg" title="Cancel search"></i>
-            </button>
-          </form>
-          <div class="autocomplete">
-          </div>
-          <button class="icon-settings display-settings">
-            <i class="ri-settings-3-line"></i>
-            <span class="sr-only">Settings</span>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
           </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
         </div>
-
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
       </div>
+    </div>
 
-<h1>
+<div id="top-content">
+  <h1>
 
-  <span translate="no">Klepsidra.Cldr.Date</span> 
-  <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
+    <span translate="no">Klepsidra.Cldr.Date</span> 
+    <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
 
-</h1>
+  </h1>
 
 
+</div>
 
   <section id="summary" class="details-list">
     <h1 class="section-heading">
@@ -138,7 +134,7 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string/2" translate="no">to_string(date, options \\ [])</a>
+        <a href="#to_string/2" data-no-tooltip translate="no">to_string(date, options \\ [])</a>
 
       </div>
 
@@ -149,7 +145,7 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_string!/2" translate="no">to_string!(date, options \\ [])</a>
+        <a href="#to_string!/2" data-no-tooltip translate="no">to_string!(date, options \\ [])</a>
 
       </div>
 
@@ -176,7 +172,7 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
     <span id="to_string/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string/2" class="detail-link" title="Link to this function">
+    <a href="#to_string/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -201,17 +197,17 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
   </a>
   <span class="text">Arguments</span>
 </h2>
-<ul><li><p><code class="inline">date</code> is a <code class="inline">%Date{}</code> struct or any map that contains the keys
-<code class="inline">year</code>, <code class="inline">month</code>, <code class="inline">day</code> and <code class="inline">calendar</code></p></li><li><p><code class="inline">options</code> is a keyword list of options for formatting.  The valid options are:</p></li></ul><h2 id="to_string/2-options" class="section-heading">
+<ul><li><p><code class="inline">date</code> is a <a href="https://hexdocs.pm/elixir/Date.html#t:t/0"><code class="inline">Date.t/0</code></a> or any map that contains the keys
+<code class="inline">year</code>, <code class="inline">month</code>, <code class="inline">day</code> and <code class="inline">calendar</code></p></li><li><p><code class="inline">options</code> is a keyword list of options for formatting.</p></li></ul><h2 id="to_string/2-options" class="section-heading">
   <a href="#to_string/2-options" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Options</span>
 </h2>
-<ul><li><p><code class="inline">format:</code> <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
-The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale:</code> any locale returned by <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#known_locale_names/1"><code class="inline">Cldr.known_locale_names/1</code></a>.
-The default is <code class="inline">Cldr.get_locale()</code>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits
-should be transliterated.</p></li></ul><h2 id="to_string/2-returns" class="section-heading">
+<ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
+ The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">:locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:number_system</code> a number system into which the formatted date digits should
+be transliterated.</p></li></ul><h2 id="to_string/2-returns" class="section-heading">
   <a href="#to_string/2-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -223,23 +219,23 @@ should be transliterated.</p></li></ul><h2 id="to_string/2-returns" class="secti
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="p" data-group-id="6519397767-1">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-1">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="2762743172-1">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="p" data-group-id="2762743172-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="p" data-group-id="6519397767-2">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-3">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="2762743172-3">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="p" data-group-id="2762743172-4">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:full</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Monday, July 10, 2017&quot;</span><span class="p" data-group-id="6519397767-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-5">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:full</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="2762743172-5">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Monday, July 10, 2017&quot;</span><span class="p" data-group-id="2762743172-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7/10/17&quot;</span><span class="p" data-group-id="6519397767-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-7">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="2762743172-7">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7/10/17&quot;</span><span class="p" data-group-id="2762743172-8">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-5">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10/07/2017&quot;</span><span class="p" data-group-id="6519397767-5">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-9">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:fr</span><span class="p" data-group-id="2762743172-9">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10/07/2017&quot;</span><span class="p" data-group-id="2762743172-10">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;af&quot;</span><span class="w">
-</span><span class="p" data-group-id="6519397767-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10 Julie 2017&quot;</span><span class="p" data-group-id="6519397767-6">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="2762743172-11">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:af</span><span class="p" data-group-id="2762743172-11">)</span><span class="w">
+</span><span class="p" data-group-id="2762743172-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10 Julie 2017&quot;</span><span class="p" data-group-id="2762743172-12">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string!/2">
@@ -247,7 +243,7 @@ should be transliterated.</p></li></ul><h2 id="to_string/2-returns" class="secti
     <span id="to_string!/1"></span>
 
   <div class="detail-header">
-    <a href="#to_string!/2" class="detail-link" title="Link to this function">
+    <a href="#to_string!/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
@@ -271,16 +267,16 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
   </a>
   <span class="text">Arguments</span>
 </h2>
-<ul><li><p><code class="inline">date</code> is a <code class="inline">%Date{}</code> struct or any map that contains the keys
+<ul><li><p><code class="inline">date</code> is a <a href="https://hexdocs.pm/elixir/Date.html#t:t/0"><code class="inline">Date.t/0</code></a> or any map that contains the keys
 <code class="inline">year</code>, <code class="inline">month</code>, <code class="inline">day</code> and <code class="inline">calendar</code>.</p></li><li><p><code class="inline">options</code> is a keyword list of options for formatting.</p></li></ul><h2 id="to_string!/2-options" class="section-heading">
   <a href="#to_string!/2-options" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Options</span>
 </h2>
-<ul><li><p><code class="inline">format:</code> <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
-The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.LanguageTag.html"><code class="inline">Cldr.LanguageTag</code></a> struct.  The default is <a href="https://hexdocs.pm/ex_cldr/2.37.5/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+<ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
+ The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">:locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:number_system</code> a number system into which the formatted date digits should
 be transliterated.</p></li></ul><h2 id="to_string!/2-returns" class="section-heading">
   <a href="#to_string!/2-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -293,22 +289,22 @@ be transliterated.</p></li></ul><h2 id="to_string!/2-returns" class="section-hea
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-1">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="9583307564-1">)</span><span class="w">
 </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-2">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="9583307564-2">)</span><span class="w">
 </span><span class="s">&quot;Jul 10, 2017&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:full</span><span class="p">,</span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-3">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:full</span><span class="p">,</span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="9583307564-3">)</span><span class="w">
 </span><span class="s">&quot;Monday, July 10, 2017&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-4">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="9583307564-4">)</span><span class="w">
 </span><span class="s">&quot;7/10/17&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-5">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:fr</span><span class="p" data-group-id="9583307564-5">)</span><span class="w">
 </span><span class="s">&quot;10/07/2017&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;af&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Date</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="9583307564-6">(</span><span class="ld">~D[2017-07-10]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;af&quot;</span><span class="p" data-group-id="9583307564-6">)</span><span class="w">
 </span><span class="s">&quot;10 Julie 2017&quot;</span></code></pre>
   </section>
 </section>
@@ -316,35 +312,33 @@ be transliterated.</p></li></ul><h2 id="to_string!/2-returns" class="section-hea
     </div>
   </section>
 
-      <footer class="footer">
-        <p>
+    <footer class="footer">
+      <p>
 
-          <span class="line">
-            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-              Search HexDocs
-            </button>
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
 
-              <a href="klepsidra.epub" title="ePub version">
-                Download ePub version
-              </a>
+            <a href="klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
 
-          </span>
-        </p>
+        </span>
+      </p>
 
-        <p class="built-using">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.31.2) for the
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
 
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
-        </p>
+      </p>
 
-      </footer>
-    </div>
+    </footer>
   </div>
 </main>
 </div>
-
 
   </body>
 </html>
