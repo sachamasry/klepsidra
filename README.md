@@ -23,14 +23,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## To do
 
-- Decide on critical functionality needed for MVP, or first release; document requirements
-
 ### MVP: Make application self-hosting
 
-- Select a UI component framework, to aid in the building of a modern web app
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing
+- Select a UI component framework, to aid in the building of a modern web app
 - Notes must be enterable in a textarea, not merely a text box, to permit a comfortable size of text to be used
 - Provide reporting
   - Filter: by customer; tags; date range
@@ -38,6 +36,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### Future
 
 - UI improvements
+  - Improve on cryptic or incomplete UI error messages
   - Resize datetime, duration and duration unit controls to more efficiently use space
   - Start implementing colour palette
   - Improve presentation of currency fields; at present they use an input control of type 'number' which is unintuitive UX
@@ -56,6 +55,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Start enabling full-text search on other relevant database fields
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
 - Change data defaults for duration to nil, and no duration time units until clocking out
+
+### One day
+
+- Break down and list all ultimate desiderata for an activity timer
 
 ### Tests
 
