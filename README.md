@@ -28,8 +28,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Debugging
   - Fix problem in automated timer 'start', clicking the 'billing' option
 - Provide a 'today' view
+  - Calculate total time tracked today
   - Timers recorded today
   - Open timers needing closing
+  - Widen app width from `max-w-2xl` to full width
 - Select a UI component framework, to aid in the building of a modern web app
 - Notes must be enterable in a textarea, not merely a text box, to permit a comfortable size of text to be used
 - Provide reporting

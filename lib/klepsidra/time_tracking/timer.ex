@@ -9,6 +9,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
+  alias Klepsidra.Cldr.Unit
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -526,5 +527,29 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   def read_checkbox(field) do
     Phoenix.HTML.Form.normalize_value("checkbox", field)
+  end
+
+  @doc """
+  Calculates the total timed duration, based on the list of timers passed in.
+  """
+  def get_aggregate_duration(timer_list, output_duration_unit \\ :hour)
+      when is_list(timer_list) and is_atom(output_duration_unit) do
+    timer_list
+    |> convert_items_to_output_time_unit(output_duration_unit)
+    |> sum_timer_durations()
+  end
+
+  defp convert_items_to_output_time_unit(timer_list, output_duration_unit)
+       when is_list(timer_list) do
+    Enum.map(timer_list, fn timer ->
+      Unit.new!(timer.duration, timer.duration_time_unit)
+      |> Unit.convert!(output_duration_unit)
+      |> Unit.value()
+    end)
+  end
+
+  defp sum_timer_durations(timer_durations_list) when is_list(timer_durations_list) do
+    Enum.reduce(timer_durations_list, 0, fn i, acc -> Decimal.add(i, acc) end)
+    |> Decimal.to_string()
   end
 end

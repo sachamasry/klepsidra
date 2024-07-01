@@ -52,6 +52,7 @@ defmodule Klepsidra.TimeTracking do
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
           description: at.description,
           inserted_at: at.inserted_at
         },

@@ -26,9 +26,14 @@ defmodule KlepsidraWeb.StartPageLive do
         _ -> ""
       end
 
+    aggregate_duration =
+      TimeTracking.get_timers_for_date(current_datetime_stamp)
+      |> Timer.get_aggregate_duration(:sixty_minute_increment)
+
     socket =
       socket
       |> assign(today: today)
+      |> assign(aggregate_duration: aggregate_duration)
       |> stream(:timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
 
     {:ok, socket}
