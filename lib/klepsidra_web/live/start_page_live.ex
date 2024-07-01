@@ -8,13 +8,17 @@ defmodule KlepsidraWeb.StartPageLive do
   """
 
   use KlepsidraWeb, :live_view
+  alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.Timer
 
   @impl true
   def mount(_params, _session, socket) do
+    current_datetime_stamp =
+      Timer.get_current_timestamp()
+      |> NaiveDateTime.beginning_of_day()
+
     formatted_current_date =
-      Klepsidra.Cldr.DateTime.to_string(Klepsidra.TimeTracking.Timer.get_current_timestamp(),
-        format: "EEEE, dd MMM YYYY"
-      )
+      Klepsidra.Cldr.DateTime.to_string(current_datetime_stamp, format: "EEEE, dd MMM YYYY")
 
     today =
       case formatted_current_date do
@@ -25,6 +29,7 @@ defmodule KlepsidraWeb.StartPageLive do
     socket =
       socket
       |> assign(today: today)
+      |> stream(:timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
 
     {:ok, socket}
   end

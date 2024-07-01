@@ -25,6 +25,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Debugging
+  - Fix problem in automated timer 'start', clicking the 'billing' option
 - Provide a 'today' view
   - Timers recorded today
   - Open timers needing closing

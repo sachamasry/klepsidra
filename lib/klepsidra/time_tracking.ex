@@ -38,15 +38,26 @@ defmodule Klepsidra.TimeTracking do
   def get_timer!(id), do: Repo.get!(Timer, id)
 
   @doc """
-  Gets a list of timers related started on the specified date.
+  Gets a list of timers started on the specified date.
   """
-  def get_timer_for_date(date) when is_struct(date, NaiveDateTime) do
-    date_limit = NaiveDateTime.add(date, 24, :hour)
+  def get_timers_for_date(date) when is_struct(date, NaiveDateTime) do
+    start_of_day = NaiveDateTime.beginning_of_day(date)
+    end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
 
     query =
-      from at in "timers",
-        where: at.start_stamp >= ^date and at.start_stamp <= ^date_limit,
-        select: %{id: at.id, start_stamp: at.start_stamp}
+      from(
+        at in "timers",
+        select: %Timer{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          description: at.description,
+          inserted_at: at.inserted_at
+        },
+        where: at.start_stamp >= ^start_of_day and at.start_stamp <= ^end_of_day,
+        order_by: [desc: at.inserted_at, asc: at.id]
+      )
 
     Repo.all(query)
   end
