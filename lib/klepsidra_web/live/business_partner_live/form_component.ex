@@ -22,7 +22,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Business partner</.button>
         </:actions>

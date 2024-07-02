@@ -25,20 +25,26 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Review aggregate duration query and code, for refactoring opportunities, possible error conditions which need to be handled, code documentation and typing
 - Debugging
   - Fix problem in automated timer 'start', clicking the 'billing' option
+  - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
+  - Implement list sorting on entities: projects, business partners, activity types, etc.
+- UI improvements
+  - Correct all entity view titles
+  - Correct all entity button labels
+  - Correct business partner titles and labels to 'Customers'
 - Business partner should be visible and accessible even when `billing` is false
 - Provide a 'today' view
   - Open timers needing closing
   - Widen app width from `max-w-2xl` to full width
-- Select a UI component framework, to aid in the building of a modern web app
-- Notes must be enterable in a textarea, not merely a text box, to permit a comfortable size of text to be used
 - Provide reporting
   - Filter: by customer; tags; date range
 
 ### Future
 
 - UI improvements
+  - Select a UI component framework, to aid in the building of a modern web app
   - Improve on cryptic or incomplete UI error messages
   - Resize datetime, duration and duration unit controls to more efficiently use space
   - Start implementing colour palette

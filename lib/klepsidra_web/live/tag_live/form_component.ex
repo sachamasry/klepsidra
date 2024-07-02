@@ -24,7 +24,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:colour]} type="color" label="Colour" />
         <.input field={@form[:fg_colour]} type="color" label="Text colour" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Tag</.button>
         </:actions>

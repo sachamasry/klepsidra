@@ -22,7 +22,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <.input :if={@action == :edit} field={@form[:active]} type="checkbox" label="Active?" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Project</.button>

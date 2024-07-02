@@ -28,7 +28,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
       >
         <.input
           field={@note_form[:note]}
-          type="text"
+          type="textarea"
           placeholder="Type a new note here"
           autocomplete="off"
         />
