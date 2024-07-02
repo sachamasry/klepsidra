@@ -532,11 +532,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   @doc """
   Calculates the total timed duration, based on the list of timers passed in.
   """
-  def get_aggregate_duration(timer_list, output_duration_unit \\ :hour)
+  def get_aggregate_duration(timer_list, output_duration_unit \\ :sixty_minute_increment)
       when is_list(timer_list) and is_atom(output_duration_unit) do
     timer_list
     |> convert_items_to_output_time_unit(output_duration_unit)
-    |> sum_timer_durations()
+    |> sum_timer_durations(output_duration_unit)
   end
 
   defp convert_items_to_output_time_unit(timer_list, output_duration_unit)
@@ -544,12 +544,16 @@ defmodule Klepsidra.TimeTracking.Timer do
     Enum.map(timer_list, fn timer ->
       Unit.new!(timer.duration, timer.duration_time_unit)
       |> Unit.convert!(output_duration_unit)
-      |> Unit.value()
+      |> Unit.round(2)
     end)
   end
 
-  defp sum_timer_durations(timer_durations_list) when is_list(timer_durations_list) do
-    Enum.reduce(timer_durations_list, 0, fn i, acc -> Decimal.add(i, acc) end)
-    |> Decimal.to_string()
+  defp sum_timer_durations(timer_durations_list, output_duration_unit)
+       when is_list(timer_durations_list) do
+    Enum.reduce(timer_durations_list, Unit.new!(output_duration_unit, 0), fn i, acc ->
+      Unit.add(i, acc)
+    end)
+    |> Unit.round(2)
+    |> Unit.to_string()
   end
 end

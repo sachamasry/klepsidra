@@ -298,8 +298,8 @@ defmodule Klepsidra.Cldr do
   # 60 minute increment
   unit_localization(:sixty_minute_increment, "en", :long,
     nominative: %{
-      one: "{0} sixty minute increment",
-      other: "{0} sixty minute increments"
+      one: "{0} hour",
+      other: "{0} hours"
     },
     display_name: "60 minute increment"
   )
@@ -318,6 +318,31 @@ defmodule Klepsidra.Cldr do
       other: "{0} sixty min"
     },
     display_name: "60 min"
+  )
+
+  # hour increment
+  unit_localization(:hour_increment, "en", :long,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en", :short,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en", :narrow,
+    nominative: %{
+      one: "hr",
+      other: "hrs"
+    },
+    display_name: "hour"
   )
 
   # 90 minute increment
@@ -649,8 +674,8 @@ defmodule Klepsidra.Cldr do
   # 60 minute increment
   unit_localization(:sixty_minute_increment, "en-AU", :long,
     nominative: %{
-      one: "{0} sixty minute increment",
-      other: "{0} sixty minute increments"
+      one: "{0} hour",
+      other: "{0} hours"
     },
     display_name: "60 minute increment"
   )
@@ -669,6 +694,31 @@ defmodule Klepsidra.Cldr do
       other: "{0} sixty min"
     },
     display_name: "60 min"
+  )
+
+  # hour increment
+  unit_localization(:hour_increment, "en-AU", :long,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-AU", :short,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-AU", :narrow,
+    nominative: %{
+      one: "hr",
+      other: "hrs"
+    },
+    display_name: "hour"
   )
 
   # 90 minute increment
@@ -1000,8 +1050,8 @@ defmodule Klepsidra.Cldr do
   # 60 minute increment
   unit_localization(:sixty_minute_increment, "en-CA", :long,
     nominative: %{
-      one: "{0} sixty minute increment",
-      other: "{0} sixty minute increments"
+      one: "{0} hour",
+      other: "{0} hours"
     },
     display_name: "60 minute increment"
   )
@@ -1020,6 +1070,31 @@ defmodule Klepsidra.Cldr do
       other: "{0} sixty min"
     },
     display_name: "60 min"
+  )
+
+  # hour increment
+  unit_localization(:hour_increment, "en-CA", :long,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-CA", :short,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-CA", :narrow,
+    nominative: %{
+      one: "hr",
+      other: "hrs"
+    },
+    display_name: "hour"
   )
 
   # 90 minute increment
@@ -1351,8 +1426,8 @@ defmodule Klepsidra.Cldr do
   # 60 minute increment
   unit_localization(:sixty_minute_increment, "en-GB", :long,
     nominative: %{
-      one: "{0} sixty minute increment",
-      other: "{0} sixty minute increments"
+      one: "{0} hour",
+      other: "{0} hours"
     },
     display_name: "60 minute increment"
   )
@@ -1371,6 +1446,31 @@ defmodule Klepsidra.Cldr do
       other: "{0} sixty min"
     },
     display_name: "60 min"
+  )
+
+  # hour increment
+  unit_localization(:hour_increment, "en-GB", :long,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-GB", :short,
+    nominative: %{
+      one: "hour",
+      other: "hours"
+    },
+    display_name: "hour"
+  )
+
+  unit_localization(:hour_increment, "en-GB", :narrow,
+    nominative: %{
+      one: "hr",
+      other: "hrs"
+    },
+    display_name: "hour"
   )
 
   # 90 minute increment

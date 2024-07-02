@@ -27,9 +27,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Debugging
   - Fix problem in automated timer 'start', clicking the 'billing' option
+- Business partner should be visible and accessible even when `billing` is false
 - Provide a 'today' view
-  - Calculate total time tracked today
-  - Timers recorded today
   - Open timers needing closing
   - Widen app width from `max-w-2xl` to full width
 - Select a UI component framework, to aid in the building of a modern web app
