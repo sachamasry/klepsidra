@@ -182,6 +182,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   always incremented by one. This ensures that if the timer were simply started
   and immediately stopped, it would still register the use of one unit of time.
 
+  If the start and end `datetime` stamps are empty strings, or nil values, returns
+  zero duration to reduce the number of error conditions.
+
   ## Examples
 
       iex> Klepsidra.TimeTracking.Timer.calculate_timer_duration("2024-02-28 12:34", "2024-02-28 13:45")
@@ -217,6 +220,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   @spec calculate_timer_duration(String.t(), String.t(), atom()) :: integer()
   @spec calculate_timer_duration(NaiveDateTime.t(), NaiveDateTime.t(), atom()) :: integer()
   def calculate_timer_duration(start_timestamp, end_timestamp, unit \\ :minute)
+
+  def calculate_timer_duration("", "", _unit), do: 0
+  def calculate_timer_duration(nil, nil, _unit), do: 0
 
   def calculate_timer_duration(start_timestamp, end_timestamp, unit)
       when is_bitstring(start_timestamp) and is_bitstring(end_timestamp) and is_atom(unit) do
