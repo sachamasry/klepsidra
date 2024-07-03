@@ -17,7 +17,6 @@
   {"deps/ex_cldr_dates_times/lib/cldr/backend/format.ex", :unknown_function},
   {"deps/ex_cldr_dates_times/lib/cldr/backend/formatter.ex", :unknown_function},
   {"deps/ex_cldr_dates_times/lib/cldr/backend/relative.ex", :unknown_function},
-  {"deps/live_view_native/lib/live_view_native/extensions/render_macro.ex", :unknown_function},
   {"deps/phoenix/lib/phoenix/endpoint.ex", :callback_info_missing},
   {"deps/phoenix/lib/phoenix/router.ex", :callback_info_missing},
   {"deps/plug/lib/plug/debugger.ex", :unknown_function},
@@ -40,7 +39,6 @@
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
-  {"lib/klepsidra_web/live/hello_styles.ex", :unknown_function},
   {"lib/klepsidra_web/router.ex", :unknown_function},
   {"lib/klepsidra/time_tracking.ex", :unknown_function}
 ]
