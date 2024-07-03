@@ -1,10 +1,10 @@
 <.header>
   <%= @today %>
   <:actions>
-    <.link phx-keyup="start_timer" patch={~p"/timers/start"}>
+    <.link phx-keyup="start_timer" patch={~p"/start_timer"}>
       <.button>Start Timer</.button>
     </.link>
-    <.link patch={~p"/timers/new"}>
+    <.link patch={~p"/new_timer"}>
       <.button>Manual Timer</.button>
     </.link>
   </:actions>
@@ -15,7 +15,7 @@
 <.table
   id="timers"
   rows={@streams.timers}
-  row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer}") end}
+  row_click={fn {_id, timer} -> JS.navigate(~p"/edit_timer/#{timer}") end}
 >
   <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
   <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
@@ -26,10 +26,10 @@
       <.link navigate={~p"/timers/#{timer}"}>Show</.link>
     </div>
     <.link patch={~p"/timers/#{timer}/notes/new"} phx-click={JS.push_focus()}>+ Note</.link>
-    <.link patch={~p"/timers/#{timer}/edit"}>Edit</.link>
+    <.link patch={~p"/edit_timer/#{timer}"}>Edit</.link>
   </:action>
   <:action :let={{id, timer}}>
-    <.link :if={is_nil(timer.end_stamp)} patch={~p"/timers/#{timer}/stop"}>Stop</.link>
+    <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer}"}>Stop</.link>
     <.link
       phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
@@ -38,3 +38,42 @@
     </.link>
   </:action>
 </.table>
+
+<.modal :if={@live_action in [:start_timer]} id="timer-modal" show on_cancel={JS.patch(~p"/")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={:start_timer}
+    title="Starting timer"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/"}
+    invocation_context={:start_timer}
+  />
+</.modal>
+
+<.modal :if={@live_action in [:stop_timer]} id="timer-modal" show on_cancel={JS.patch(~p"/")}>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={@timer.id}
+    title="Stopping timer"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/"}
+    invocation_context={:stop_timer}
+  />
+</.modal>
+
+<.modal :if={@live_action == :new_note} id="note-modal" show on_cancel={JS.patch(~p"/")}>
+  <.header>
+    <%= @page_title %>
+  </.header>
+
+  <.live_component
+    module={NoteFormComponent}
+    id={:new}
+    action={@live_action}
+    title={@page_title}
+    timer_id={@timer_id}
+    patch={~p"/"}
+  />
+</.modal>

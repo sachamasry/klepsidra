@@ -27,6 +27,10 @@ defmodule KlepsidraWeb.Router do
     pipe_through :browser
 
     live "/", StartPageLive
+    live "/start_timer", StartPageLive, :start_timer
+    live "/stop_timer/:id", StartPageLive, :stop_timer
+    live "/new_timer", StartPageLive, :new_timer
+    live "/edit_timer/:id", StartPageLive, :edit_timer
 
     live "/tags", TagLive.Index, :index
     live "/tags/new", TagLive.Index, :new

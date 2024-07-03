@@ -56,7 +56,9 @@ defmodule Klepsidra.TimeTracking do
           description: at.description,
           inserted_at: at.inserted_at
         },
-        where: at.start_stamp >= ^start_of_day and at.start_stamp <= ^end_of_day,
+        where:
+          at.start_stamp >= type(^start_of_day, :naive_datetime) and
+            at.start_stamp <= type(^end_of_day, :naive_datetime),
         order_by: [desc: at.inserted_at, asc: at.id]
       )
 

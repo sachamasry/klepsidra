@@ -27,13 +27,14 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Review aggregate duration query and code, for refactoring opportunities, possible error conditions which need to be handled, code documentation and typing
 - Debugging
-  - Fix problem in automated timer 'start', clicking the 'billing' option
   - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
-  - Implement list sorting on entities: projects, business partners, activity types, etc.
+  - Fix problem in automated timer 'start', clicking the 'billing' option
 - UI improvements
   - Correct all entity view titles
   - Correct all entity button labels
   - Correct business partner titles and labels to 'Customers'
+  - Update tag list sorting to case-insensitive alphabetical
+  - Implement list sorting on entities: projects, business partners, activity types, etc.
 - Business partner should be visible and accessible even when `billing` is false
 - Provide a 'today' view
   - Open timers needing closing
