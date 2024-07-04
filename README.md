@@ -28,7 +28,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Review aggregate duration query and code, for refactoring opportunities, possible error conditions which need to be handled, code documentation and typing
 - Debugging
   - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
-  - When starting an automated timer and `billable` has been selected, do not show the billing duration or time increment
 - UI improvements
   - Add number of timers tracked on 'today' view in home screen
   - When starting/stopping/adding/modifying timer on home screen, live update number of timers and total time tracked

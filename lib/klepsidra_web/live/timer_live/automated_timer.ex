@@ -58,18 +58,18 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
         <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
+        <.input
+          field={@form[:business_partner_id]}
+          type="select"
+          label="Customer"
+          placeholder="Customer"
+          options={@business_partners}
+          required={@billable_activity?}
+        />
+
         <.input field={@form[:billable]} type="checkbox" label="Billable?" />
 
-        <div class={unless @billable_activity?, do: "hidden"}>
-          <.input
-            field={@form[:business_partner_id]}
-            type="select"
-            label="Customer"
-            placeholder="Customer"
-            options={@business_partners}
-            required={@billable_activity?}
-          />
-
+        <div class={unless @billable_activity? && @invocation_context == :stop_timer, do: "hidden"}>
           <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
 
           <.input
