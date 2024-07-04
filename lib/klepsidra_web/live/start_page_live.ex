@@ -40,7 +40,8 @@ defmodule KlepsidraWeb.StartPageLive do
       socket
       |> assign(today: today)
       |> assign(aggregate_duration: aggregate_duration)
-      |> stream(:timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
+      |> stream(:open_timers, TimeTracking.get_all_open_timers())
+      |> stream(:closed_timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
 
     {:ok, socket}
   end
@@ -49,8 +50,6 @@ defmodule KlepsidraWeb.StartPageLive do
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
-
-  defp apply_action(socket, nil, _params), do: socket
 
   defp apply_action(socket, :new_timer, _params) do
     socket
@@ -111,14 +110,18 @@ defmodule KlepsidraWeb.StartPageLive do
     |> assign(:timer_id, id)
   end
 
+  defp apply_action(socket, nil, _params), do: socket
+
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, stream_insert(socket, :open_timers, timer)}
+    # {:noreply, socket}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:saved, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, stream_insert(socket, :open_timers, timer)}
+    # {:noreply, socket}
   end
 
   @impl true
@@ -131,6 +134,7 @@ defmodule KlepsidraWeb.StartPageLive do
     timer = TimeTracking.get_timer!(id)
     {:ok, _} = TimeTracking.delete_timer(timer)
 
-    {:noreply, stream_delete(socket, :timers, timer)}
+    # {:noreply, stream_delete(socket, :open_timers, timer)}
+    {:noreply, socket}
   end
 end

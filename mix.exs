@@ -4,7 +4,7 @@ defmodule Klepsidra.MixProject do
   def project do
     [
       app: :klepsidra,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -64,8 +64,6 @@ defmodule Klepsidra.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:live_view_native, "~> 0.2"},
-      {:live_view_native_swiftui, "~> 0.2"},
       {:ex_cldr_units, "~> 3.17"},
       {:ex_cldr_dates_times, "~> 2.0"},
       {:timex, "~> 3.7"},

@@ -55,9 +55,6 @@ defmodule KlepsidraWeb do
         layout: {KlepsidraWeb.Layouts, :app}
 
       unquote(html_helpers())
-
-      # LiveView Native support
-      use LiveViewNative.LiveView
     end
   end
 
@@ -66,9 +63,6 @@ defmodule KlepsidraWeb do
       use Phoenix.LiveComponent
 
       unquote(html_helpers())
-
-      # LiveView Native support
-      use LiveViewNative.LiveComponent
     end
   end
 

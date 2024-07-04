@@ -5,16 +5,16 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.34.1">
-    <meta name="project" content="klepsidra v0.1.0">
+    <meta name="project" content="klepsidra v0.1.1">
 
 
-    <title>Klepsidra.TimeTracking.TimeUnits — klepsidra v0.1.0</title>
+    <title>Klepsidra.TimeTracking.TimeUnits — klepsidra v0.1.1</title>
     <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
+    <script src="dist/sidebar_items-0F74C8FF.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-7XSQ4GTY.js"></script>
 
@@ -50,7 +50,7 @@
 klepsidra
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.1.0
+          v0.1.1
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@ Pages
   <h1>
 
     <span translate="no">Klepsidra.TimeTracking.TimeUnits</span> 
-    <small class="app-vsn" translate="no">(klepsidra v0.1.0)</small>
+    <small class="app-vsn" translate="no">(klepsidra v0.1.1)</small>
 
   </h1>
 
@@ -195,27 +195,27 @@ is the string version of the time unit atom name.</p><p>For example, weeks would
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.TimeUnits</span><span class="o">.</span><span class="n">construct_duration_unit_options_list</span><span class="p" data-group-id="9901302817-1">(</span><span class="p" data-group-id="9901302817-1">)</span><span class="w">
-</span><span class="p" data-group-id="9901302817-2">[</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-3">{</span><span class="s">&quot;Minutes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minute&quot;</span><span class="p" data-group-id="9901302817-3">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-4">{</span><span class="s">&quot;5 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;five_minute_increment&quot;</span><span class="p" data-group-id="9901302817-4">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-5">{</span><span class="s">&quot;6 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;six_minute_increment&quot;</span><span class="p" data-group-id="9901302817-5">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-6">{</span><span class="s">&quot;10 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ten_minute_increment&quot;</span><span class="p" data-group-id="9901302817-6">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-7">{</span><span class="s">&quot;12 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twelve_minute_increment&quot;</span><span class="p" data-group-id="9901302817-7">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-8">{</span><span class="s">&quot;15 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fifteen_minute_increment&quot;</span><span class="p" data-group-id="9901302817-8">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-9">{</span><span class="s">&quot;18 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;eighteen_minute_increment&quot;</span><span class="p" data-group-id="9901302817-9">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-10">{</span><span class="s">&quot;20 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twenty_minute_increment&quot;</span><span class="p" data-group-id="9901302817-10">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-11">{</span><span class="s">&quot;24 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twenty_four_minute_increment&quot;</span><span class="p" data-group-id="9901302817-11">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-12">{</span><span class="s">&quot;30 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;thirty_minute_increment&quot;</span><span class="p" data-group-id="9901302817-12">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-13">{</span><span class="s">&quot;36 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;thirty_six_minute_increment&quot;</span><span class="p" data-group-id="9901302817-13">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-14">{</span><span class="s">&quot;45 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fourty_five_minute_increment&quot;</span><span class="p" data-group-id="9901302817-14">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-15">{</span><span class="s">&quot;60 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sixty_minute_increment&quot;</span><span class="p" data-group-id="9901302817-15">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-16">{</span><span class="s">&quot;90 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ninety_minute_increment&quot;</span><span class="p" data-group-id="9901302817-16">}</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="9901302817-17">{</span><span class="s">&quot;2 hour increment&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;one_hundred_twenty_minute_increment&quot;</span><span class="p" data-group-id="9901302817-17">}</span><span class="w">
-</span><span class="p" data-group-id="9901302817-2">]</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.TimeUnits</span><span class="o">.</span><span class="n">construct_duration_unit_options_list</span><span class="p" data-group-id="6523450638-1">(</span><span class="p" data-group-id="6523450638-1">)</span><span class="w">
+</span><span class="p" data-group-id="6523450638-2">[</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-3">{</span><span class="s">&quot;Minutes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minute&quot;</span><span class="p" data-group-id="6523450638-3">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-4">{</span><span class="s">&quot;5 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;five_minute_increment&quot;</span><span class="p" data-group-id="6523450638-4">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-5">{</span><span class="s">&quot;6 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;six_minute_increment&quot;</span><span class="p" data-group-id="6523450638-5">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-6">{</span><span class="s">&quot;10 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ten_minute_increment&quot;</span><span class="p" data-group-id="6523450638-6">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-7">{</span><span class="s">&quot;12 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twelve_minute_increment&quot;</span><span class="p" data-group-id="6523450638-7">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-8">{</span><span class="s">&quot;15 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fifteen_minute_increment&quot;</span><span class="p" data-group-id="6523450638-8">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-9">{</span><span class="s">&quot;18 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;eighteen_minute_increment&quot;</span><span class="p" data-group-id="6523450638-9">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-10">{</span><span class="s">&quot;20 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twenty_minute_increment&quot;</span><span class="p" data-group-id="6523450638-10">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-11">{</span><span class="s">&quot;24 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;twenty_four_minute_increment&quot;</span><span class="p" data-group-id="6523450638-11">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-12">{</span><span class="s">&quot;30 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;thirty_minute_increment&quot;</span><span class="p" data-group-id="6523450638-12">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-13">{</span><span class="s">&quot;36 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;thirty_six_minute_increment&quot;</span><span class="p" data-group-id="6523450638-13">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-14">{</span><span class="s">&quot;45 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fourty_five_minute_increment&quot;</span><span class="p" data-group-id="6523450638-14">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-15">{</span><span class="s">&quot;60 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sixty_minute_increment&quot;</span><span class="p" data-group-id="6523450638-15">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-16">{</span><span class="s">&quot;90 min&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ninety_minute_increment&quot;</span><span class="p" data-group-id="6523450638-16">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6523450638-17">{</span><span class="s">&quot;2 hour increment&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;one_hundred_twenty_minute_increment&quot;</span><span class="p" data-group-id="6523450638-17">}</span><span class="w">
+</span><span class="p" data-group-id="6523450638-2">]</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.TimeUnits</span><span class="o">.</span><span class="n">construct_duration_unit_options_list</span><span class="p" data-group-id="9901302817-18">(</span><span class="ss">use_primitives?</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="9901302817-18">)</span><span class="w">
-</span><span class="p" data-group-id="9901302817-19">[</span><span class="p" data-group-id="9901302817-20">{</span><span class="s">&quot;Seconds&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;second&quot;</span><span class="p" data-group-id="9901302817-20">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9901302817-21">{</span><span class="s">&quot;Minutes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minute&quot;</span><span class="p" data-group-id="9901302817-21">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9901302817-22">{</span><span class="s">&quot;Hours&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hour&quot;</span><span class="p" data-group-id="9901302817-22">}</span><span class="p" data-group-id="9901302817-19">]</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.TimeTracking.TimeUnits</span><span class="o">.</span><span class="n">construct_duration_unit_options_list</span><span class="p" data-group-id="6523450638-18">(</span><span class="ss">use_primitives?</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="6523450638-18">)</span><span class="w">
+</span><span class="p" data-group-id="6523450638-19">[</span><span class="p" data-group-id="6523450638-20">{</span><span class="s">&quot;Seconds&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;second&quot;</span><span class="p" data-group-id="6523450638-20">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6523450638-21">{</span><span class="s">&quot;Minutes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minute&quot;</span><span class="p" data-group-id="6523450638-21">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6523450638-22">{</span><span class="s">&quot;Hours&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hour&quot;</span><span class="p" data-group-id="6523450638-22">}</span><span class="p" data-group-id="6523450638-19">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="get_default_billing_increment/0">

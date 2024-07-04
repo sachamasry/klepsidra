@@ -30,6 +30,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
   - When starting an automated timer and `billable` has been selected, do not show the billing duration or time increment
 - UI improvements
+  - Add number of timers tracked on 'today' view in home screen
+  - When starting/stopping/adding/modifying timer on home screen, live update number of timers and total time tracked
   - Correct all entity view titles
   - Correct all entity button labels
   - Correct business partner titles and labels to 'Customers'

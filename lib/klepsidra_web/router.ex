@@ -9,14 +9,10 @@ defmodule KlepsidraWeb.Router do
     plug :fetch_live_flash
 
     plug :put_root_layout,
-      html: {KlepsidraWeb.Layouts, :root},
-      swiftui: {KlepsidraWeb.Layouts.SwiftUI, :root}
+      html: {KlepsidraWeb.Layouts, :root}
 
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-
-    # LiveView Native support
-    plug LiveViewNative.SessionPlug
   end
 
   pipeline :api do

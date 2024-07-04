@@ -58,8 +58,38 @@ defmodule Klepsidra.TimeTracking do
         },
         where:
           at.start_stamp >= type(^start_of_day, :naive_datetime) and
-            at.start_stamp <= type(^end_of_day, :naive_datetime),
+            at.start_stamp <= type(^end_of_day, :naive_datetime) and
+            not is_nil(at.end_stamp),
         order_by: [desc: at.inserted_at, asc: at.id]
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
+  Gets a list of all open timers.
+
+  A timer is considered open if it has no `end_stamp`.
+  """
+  def get_all_open_timers() do
+    # now = Timer.get_current_timestamp()
+
+    query =
+      from(
+        at in "timers",
+        select: %Timer{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          description: at.description,
+          inserted_at: at.inserted_at
+        },
+        where:
+          not is_nil(at.start_stamp) and
+            is_nil(at.end_stamp),
+        order_by: [desc: at.start_stamp, desc: at.inserted_at, asc: at.id]
       )
 
     Repo.all(query)
