@@ -36,7 +36,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Correct business partner titles and labels to 'Customers'
   - Update tag list sorting to case-insensitive alphabetical
   - Implement list sorting on entities: projects, business partners, activity types, etc.
-- Business partner should be visible and accessible even when `billing` is false
 - Provide a 'today' view
   - Open timers needing closing
   - Widen app width from `max-w-2xl` to full width

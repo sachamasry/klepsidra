@@ -212,25 +212,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         0
       end
 
-    business_partner_id =
-      case billable do
-        true -> socket.assigns.timer.business_partner_id
-        false -> ""
-      end
-
     changeset =
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "business_partner_id" => business_partner_id,
-          "billing_duration" => billing_duration
+        | "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
 
     socket =
       socket
       |> assign(billable_activity?: billable)
-      |> assign_business_partner()
 
     {:noreply, assign_form(socket, changeset)}
   end
@@ -304,14 +296,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   # @spec assign_business_partner(Phoenix.LiveView.Socket.t()) ::
   #         Klepsidra.BusinessPartners.BusinessPartner.t()
   defp assign_business_partner(socket) do
-    business_partners =
-      case socket.assigns.billable_activity? do
-        true ->
-          BusinessPartner.populate_customers_list()
-
-        _ ->
-          [{"", ""}]
-      end
+    business_partners = BusinessPartner.populate_customers_list()
 
     assign(socket, business_partners: business_partners)
   end

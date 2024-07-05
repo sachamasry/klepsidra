@@ -42,17 +42,17 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
         <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
+        <.input
+          field={@form[:business_partner_id]}
+          type="select"
+          label="Customer"
+          options={@business_partners}
+          required={@billable_activity?}
+        />
+
         <.input field={@form[:billable]} type="checkbox" label="Billable?" />
 
         <div class={unless @billable_activity?, do: "hidden"}>
-          <.input
-            field={@form[:business_partner_id]}
-            type="select"
-            label="Customer"
-            options={@business_partners}
-            required={@billable_activity?}
-          />
-
           <.input field={@form[:billing_duration]} type="text" label="Billable duration" readonly />
 
           <.input
@@ -228,12 +228,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         0
       end
 
-    business_partner_id =
-      case billable do
-        true -> socket.assigns.timer.business_partner_id
-        false -> ""
-      end
-
     activity_type_id =
       case billable do
         true -> socket.assigns.timer.activity_type_id
@@ -244,8 +238,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       socket.assigns.timer
       |> TimeTracking.change_timer(%{
         timer_params
-        | "business_partner_id" => business_partner_id,
-          "activity_type_id" => activity_type_id,
+        | "activity_type_id" => activity_type_id,
           "billing_duration" => billing_duration
       })
       |> Map.put(:action, :validate)
@@ -253,7 +246,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     socket =
       socket
       |> assign(billable_activity?: billable)
-      |> assign_business_partner()
       |> assign_activity_type()
 
     {:noreply, assign_form(socket, changeset)}
@@ -342,14 +334,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   # @spec assign_business_partner(Phoenix.LiveView.Socket.t()) :: [Klepsidra.Projects.Project.t(), ...]
   defp assign_business_partner(socket) do
-    business_partners =
-      case socket.assigns.billable_activity? do
-        true ->
-          BusinessPartner.populate_customers_list()
-
-        _ ->
-          [{"", ""}]
-      end
+    business_partners = BusinessPartner.populate_customers_list()
 
     assign(socket, business_partners: business_partners)
   end
