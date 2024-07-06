@@ -559,7 +559,8 @@ defmodule Klepsidra.TimeTracking.Timer do
     Enum.reduce(timer_durations_list, Unit.new!(output_duration_unit, 0), fn i, acc ->
       Unit.add(i, acc)
     end)
-    |> Unit.round(2)
+    |> Unit.decompose([:sixty_minute_increment, :minute])
+    |> Enum.map(fn i -> Unit.round(i, 0) end)
     |> Unit.to_string()
   end
 end
