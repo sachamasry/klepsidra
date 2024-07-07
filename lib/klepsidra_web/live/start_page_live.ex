@@ -115,18 +115,37 @@ defmodule KlepsidraWeb.StartPageLive do
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, timer}}, socket) do
     {:noreply, stream_insert(socket, :open_timers, timer)}
-    # {:noreply, socket}
   end
 
   @impl true
-  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:saved, timer}}, socket) do
-    {:noreply, stream_insert(socket, :open_timers, timer)}
-    # {:noreply, socket}
+  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, timer}}, socket) do
+    {:noreply, handle_stopped_timer(socket, timer)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, _note}}, socket) do
     {:noreply, socket}
+  end
+
+  defp handle_stopped_timer(socket, timer) do
+    current_datetime_stamp =
+      Timer.get_current_timestamp()
+      |> NaiveDateTime.beginning_of_day()
+
+    aggregate_duration =
+      case Timer.get_aggregate_duration(
+             TimeTracking.get_timers_for_date(current_datetime_stamp),
+             :sixty_minute_increment
+           ) do
+        {:ok, duration} -> duration
+        _ -> ""
+      end
+
+    socket
+    |> assign(aggregate_duration: aggregate_duration)
+    |> put_flash(:info, "Timer stopped successfully")
+    |> stream_delete(:open_timers, timer)
+    |> stream_insert(:closed_timers, timer, at: 0)
   end
 
   @impl true

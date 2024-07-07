@@ -28,9 +28,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Review aggregate duration query and code, for refactoring opportunities, possible error conditions which need to be handled, code documentation and typing
 - Debugging
   - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
+  - Timer duration is too high, likely rounded up too many times
 - UI improvements
   - Add number of timers tracked on 'today' view in home screen
-  - When starting/stopping/adding/modifying timer on home screen, live update number of timers and total time tracked
+  - Keep running total of total time tracked in memory, to be able to add on individual timers incrementally, instead of rerunning entire query on server
   - Correct all entity view titles
   - Correct all entity button labels
   - Correct business partner titles and labels to 'Customers'

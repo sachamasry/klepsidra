@@ -255,11 +255,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
-        notify_parent({:saved, timer})
+        notify_parent({:timer_started, timer})
 
         {:noreply,
          socket
-         |> put_flash(:info, "Timer started successfully")
+         #  |> put_flash(:info, "Timer started successfully")
          |> push_navigate(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -270,11 +270,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   defp save_timer(socket, :stop_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
-        notify_parent({:saved, timer})
+        notify_parent({:timer_stopped, timer})
 
         {:noreply,
          socket
-         |> put_flash(:info, "Timer updated successfully")
+         #  |> put_flash(:info, "Timer stopped successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
