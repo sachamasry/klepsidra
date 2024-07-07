@@ -536,17 +536,27 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
+  Takes in a single duration tuple, shaped as `{duration, string_duration_time_unit}`,
+  converting it to a duration in seconds, the base time unit.
+  """
+  @spec convert_duration_to_base_time_unit({integer, bitstring()}) :: Cldr.Unit
+  def convert_duration_to_base_time_unit(duration_tuple)
+      when is_tuple(duration_tuple) and tuple_size(duration_tuple) == 2 do
+    {duration, duration_time_unit} = duration_tuple
+
+    Unit.new!(duration, convert_string_to_time_unit_atom(duration_time_unit))
+    |> Unit.convert!(:second)
+  end
+
+  @doc """
   Takes in a list of duration tuples, shaped as `{duration, string_duration_time_unit}`,
-  converting them all to durations in the base time unit, seconds.
+  converting them all to durations in seconds, the base time unit.
   """
   @spec convert_durations_to_base_time_unit([{integer, bitstring()}, ...]) :: [Cldr.Unit, ...]
   def convert_durations_to_base_time_unit(durations_list)
       when is_list(durations_list) do
     durations_list
-    |> Enum.map(fn {duration, duration_time_unit} ->
-      Unit.new!(duration, convert_string_to_time_unit_atom(duration_time_unit))
-      |> Unit.convert!(:second)
-    end)
+    |> Enum.map(fn duration_tuple -> convert_duration_to_base_time_unit(duration_tuple) end)
   end
 
   @spec convert_string_to_time_unit_atom(String.t()) :: atom()
@@ -569,6 +579,16 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> Enum.reduce(Unit.new!(:second, 0), fn i, acc ->
       Unit.add(i, acc)
     end)
+  end
+
+  @doc """
+  Takes two `Cldr.Unit` structures, the aggregate time and the latest deleted timer,
+  timed in, seconds, the base unit of time, returning the result of their difference.
+  """
+  @spec subtract_base_unit_durations(map(), map()) :: Cldr.Unit
+  def subtract_base_unit_durations(duration_1, duration_2)
+      when is_struct(duration_1, Cldr.Unit) and is_struct(duration_2, Cldr.Unit) do
+    Unit.sub!(duration_1, duration_2)
   end
 
   @doc """

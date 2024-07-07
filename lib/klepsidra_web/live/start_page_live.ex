@@ -133,23 +133,18 @@ defmodule KlepsidraWeb.StartPageLive do
   end
 
   defp handle_stopped_timer(socket, timer) do
-    current_datetime_stamp =
-      Timer.get_current_timestamp()
-      |> NaiveDateTime.beginning_of_day()
-
-    aggregate_duration =
-      current_datetime_stamp
-      |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
-      |> Timer.convert_durations_to_base_time_unit()
-      |> Timer.sum_base_unit_durations()
-
-    human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
+    closed_timer_duration = {timer.duration, timer.duration_time_unit}
 
     socket
-    |> assign(
-      aggregate_duration: aggregate_duration,
-      human_readable_duration: human_readable_duration
+    |> update(
+      :aggregate_duration,
+      fn aggregate_duration ->
+        update_aggregate_duration(:summation, aggregate_duration, closed_timer_duration)
+      end
     )
+    |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
+      update_human_readable_duration(assigns.aggregate_duration)
+    end)
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
     |> put_flash(:info, "Timer stopped successfully")
     |> stream_delete(:open_timers, timer)
@@ -167,12 +162,44 @@ defmodule KlepsidraWeb.StartPageLive do
   @impl true
   def handle_event("delete-closed-timer", %{"id" => id}, socket) do
     timer = TimeTracking.get_timer!(id)
+    deleted_timer_duration = {timer.duration, timer.duration_time_unit}
     {:ok, _} = TimeTracking.delete_timer(timer)
 
     socket =
       socket
       |> update(:closed_timer_count, fn tc -> tc - 1 end)
+      |> update(
+        :aggregate_duration,
+        fn aggregate_duration ->
+          update_aggregate_duration(:subtraction, aggregate_duration, deleted_timer_duration)
+        end
+      )
+      |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
+        update_human_readable_duration(assigns.aggregate_duration)
+      end)
 
     {:noreply, stream_delete(socket, :closed_timers, timer)}
+  end
+
+  defp update_aggregate_duration(:summation, starting_aggregate_duration, new_timer_duration) do
+    durations_list =
+      [starting_aggregate_duration, Timer.convert_duration_to_base_time_unit(new_timer_duration)]
+
+    Timer.sum_base_unit_durations(durations_list)
+  end
+
+  defp update_aggregate_duration(
+         :subtraction,
+         starting_aggregate_duration,
+         deleted_timer_duration
+       ) do
+    Timer.subtract_base_unit_durations(
+      starting_aggregate_duration,
+      Timer.convert_duration_to_base_time_unit(deleted_timer_duration)
+    )
+  end
+
+  defp update_human_readable_duration(new_aggregate_duration) do
+    Timer.format_human_readable_duration(new_aggregate_duration)
   end
 end
