@@ -36,10 +36,15 @@ defmodule KlepsidraWeb.StartPageLive do
         _ -> ""
       end
 
+    closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
+
     socket =
       socket
       |> assign(today: today)
-      |> assign(aggregate_duration: aggregate_duration)
+      |> assign(
+        aggregate_duration: aggregate_duration,
+        closed_timer_count: closed_timer_count
+      )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
       |> stream(:closed_timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
 
@@ -143,17 +148,29 @@ defmodule KlepsidraWeb.StartPageLive do
 
     socket
     |> assign(aggregate_duration: aggregate_duration)
+    |> update(:closed_timer_count, fn tc -> tc + 1 end)
     |> put_flash(:info, "Timer stopped successfully")
     |> stream_delete(:open_timers, timer)
     |> stream_insert(:closed_timers, timer, at: 0)
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete-open-timer", %{"id" => id}, socket) do
     timer = TimeTracking.get_timer!(id)
     {:ok, _} = TimeTracking.delete_timer(timer)
 
-    # {:noreply, stream_delete(socket, :open_timers, timer)}
-    {:noreply, socket}
+    {:noreply, stream_delete(socket, :open_timers, timer)}
+  end
+
+  @impl true
+  def handle_event("delete-closed-timer", %{"id" => id}, socket) do
+    timer = TimeTracking.get_timer!(id)
+    {:ok, _} = TimeTracking.delete_timer(timer)
+
+    socket =
+      socket
+      |> update(:closed_timer_count, fn tc -> tc - 1 end)
+
+    {:noreply, stream_delete(socket, :closed_timers, timer)}
   end
 end

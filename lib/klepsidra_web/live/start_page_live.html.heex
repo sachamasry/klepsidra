@@ -32,7 +32,7 @@
     <:action :let={{id, timer}}>
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer}"}>Stop</.link>
       <.link
-        phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
+        phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
         data-confirm="Are you sure?"
       >
         Delete
@@ -42,8 +42,10 @@
 </div>
 
 <div class="closed-timers-list mt-7">
-  <h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">Closed timers<br />
-    <%= @aggregate_duration %> timed</h2>
+  <div class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">
+    <h2>Closed timers</h2>
+    <%= @aggregate_duration %> timed (<%= @closed_timer_count %> timers)
+  </div>
 
   <.table
     id="closed-timers"
@@ -64,7 +66,7 @@
     <:action :let={{id, timer}}>
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer}"}>Stop</.link>
       <.link
-        phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
+        phx-click={JS.push("delete-closed-timer", value: %{id: timer.id}) |> hide("##{id}")}
         data-confirm="Are you sure?"
       >
         Delete
