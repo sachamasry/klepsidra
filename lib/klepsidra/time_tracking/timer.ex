@@ -536,31 +536,59 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Calculates the total timed duration, based on the list of timers passed in.
+  Takes in a list of duration tuples, shaped as `{duration, string_duration_time_unit}`,
+  converting them all to durations in the base time unit, seconds.
   """
-  def get_aggregate_duration(timer_list, output_duration_unit \\ :sixty_minute_increment)
-      when is_list(timer_list) and is_atom(output_duration_unit) do
-    timer_list
-    |> convert_items_to_output_time_unit(output_duration_unit)
-    |> sum_timer_durations(output_duration_unit)
-  end
-
-  defp convert_items_to_output_time_unit(timer_list, output_duration_unit)
-       when is_list(timer_list) do
-    Enum.map(timer_list, fn timer ->
-      Unit.new!(timer.duration, timer.duration_time_unit)
-      |> Unit.convert!(output_duration_unit)
-      |> Unit.round(2)
+  @spec convert_durations_to_base_time_unit([{integer, bitstring()}, ...]) :: [Cldr.Unit, ...]
+  def convert_durations_to_base_time_unit(durations_list)
+      when is_list(durations_list) do
+    durations_list
+    |> Enum.map(fn {duration, duration_time_unit} ->
+      Unit.new!(duration, convert_string_to_time_unit_atom(duration_time_unit))
+      |> Unit.convert!(:second)
     end)
   end
 
-  defp sum_timer_durations(timer_durations_list, output_duration_unit)
-       when is_list(timer_durations_list) do
-    Enum.reduce(timer_durations_list, Unit.new!(output_duration_unit, 0), fn i, acc ->
+  @spec convert_string_to_time_unit_atom(String.t()) :: atom()
+  defp convert_string_to_time_unit_atom(time_unit) when is_bitstring(time_unit) do
+    cond do
+      time_unit == "minute" -> :minute_increment
+      time_unit == "hour" -> :hour_increment
+      true -> String.to_existing_atom(time_unit)
+    end
+  end
+
+  @doc """
+  Takes a list of `Cldr.Unit` structures, timed in the base unit for time,
+  seconds, summing them all to return a total duration in the same time unit.
+  """
+  @spec sum_base_unit_durations([Cldr.Unit, ...]) :: bitstring()
+  def sum_base_unit_durations(durations_list)
+      when is_list(durations_list) do
+    durations_list
+    |> Enum.reduce(Unit.new!(:second, 0), fn i, acc ->
       Unit.add(i, acc)
     end)
-    |> Unit.decompose([:sixty_minute_increment, :minute])
-    |> Enum.map(fn i -> Unit.round(i, 0) end)
-    |> Unit.to_string()
+  end
+
+  @doc """
+  Takes in a `Cldr.Unit` structure, denoting a duration, decomposing it into
+  human-intuitive hours and minutes, rounding it to the nearest of each unit and
+  formatting it all as an easy to read string.
+  """
+  # @spec format_human_readable_duration(map()) ::
+  #         {:error, {atom(), binary()}} | {:ok, binary()}
+  def format_human_readable_duration(base_unit_duration)
+      when is_struct(base_unit_duration, Cldr.Unit) do
+    human_readable_duration =
+      base_unit_duration
+      |> Unit.decompose([:hour_increment, :minute_increment])
+      |> Enum.map(fn i -> Unit.round(i, 0) end)
+      |> Unit.to_string()
+
+    case human_readable_duration do
+      {:ok, string} -> string
+      _ -> ""
+    end
   end
 end

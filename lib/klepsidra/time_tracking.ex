@@ -91,6 +91,31 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Gets a sum of timer durations for the specified date, by time unit.
+
+  A closed timer is one which has an end datetime stamp recorded, as well as
+  a starting one.
+  """
+  @spec get_closed_timer_durations_for_date(NaiveDateTime.t()) :: [{integer, bitstring()}, ...]
+  def get_closed_timer_durations_for_date(date) when is_struct(date, NaiveDateTime) do
+    start_of_day = NaiveDateTime.beginning_of_day(date)
+    end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
+
+    query =
+      from(
+        at in "timers",
+        select: {sum(at.duration), at.duration_time_unit},
+        group_by: at.duration_time_unit,
+        where:
+          at.start_stamp >= type(^start_of_day, :naive_datetime) and
+            at.start_stamp <= type(^end_of_day, :naive_datetime) and
+            not is_nil(at.end_stamp)
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a list of all open timers.
 
   A timer is considered open if it has no `end_stamp`.

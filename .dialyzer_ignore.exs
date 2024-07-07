@@ -40,5 +40,7 @@
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
   {"lib/klepsidra_web/router.ex", :unknown_function},
-  {"lib/klepsidra/time_tracking.ex", :unknown_function}
+  {"lib/klepsidra/time_tracking.ex", :unknown_function},
+  {"lib/klepsidra_web/live/start_page_live.ex", :call},
+  {"lib/klepsidra_web/live/start_page_live.ex", :no_return}
 ]

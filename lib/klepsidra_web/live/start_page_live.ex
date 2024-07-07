@@ -28,13 +28,12 @@ defmodule KlepsidraWeb.StartPageLive do
       end
 
     aggregate_duration =
-      case Timer.get_aggregate_duration(
-             TimeTracking.get_timers_for_date(current_datetime_stamp),
-             :sixty_minute_increment
-           ) do
-        {:ok, duration} -> duration
-        _ -> ""
-      end
+      current_datetime_stamp
+      |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
+      |> Timer.convert_durations_to_base_time_unit()
+      |> Timer.sum_base_unit_durations()
+
+    human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
 
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
 
@@ -43,6 +42,7 @@ defmodule KlepsidraWeb.StartPageLive do
       |> assign(today: today)
       |> assign(
         aggregate_duration: aggregate_duration,
+        human_readable_duration: human_readable_duration,
         closed_timer_count: closed_timer_count
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
@@ -138,16 +138,18 @@ defmodule KlepsidraWeb.StartPageLive do
       |> NaiveDateTime.beginning_of_day()
 
     aggregate_duration =
-      case Timer.get_aggregate_duration(
-             TimeTracking.get_timers_for_date(current_datetime_stamp),
-             :sixty_minute_increment
-           ) do
-        {:ok, duration} -> duration
-        _ -> ""
-      end
+      current_datetime_stamp
+      |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
+      |> Timer.convert_durations_to_base_time_unit()
+      |> Timer.sum_base_unit_durations()
+
+    human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
 
     socket
-    |> assign(aggregate_duration: aggregate_duration)
+    |> assign(
+      aggregate_duration: aggregate_duration,
+      human_readable_duration: human_readable_duration
+    )
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
     |> put_flash(:info, "Timer stopped successfully")
     |> stream_delete(:open_timers, timer)
