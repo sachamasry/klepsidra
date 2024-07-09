@@ -14,33 +14,15 @@ defmodule KlepsidraWeb.StartPageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    current_datetime_stamp =
-      Timer.get_current_timestamp()
-      |> NaiveDateTime.beginning_of_day()
-
-    formatted_current_date =
-      Klepsidra.Cldr.DateTime.to_string(current_datetime_stamp, format: "EEEE, dd MMM YYYY")
-
-    today =
-      case formatted_current_date do
-        {:ok, today} -> today
-        _ -> ""
-      end
-
-    aggregate_duration =
-      current_datetime_stamp
-      |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
-      |> Timer.convert_durations_to_base_time_unit()
-      |> Timer.sum_base_unit_durations()
-
+    current_datetime_stamp = get_current_datetime_stamp()
+    aggregate_duration = get_aggregate_duration_for_date(current_datetime_stamp)
     human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
-
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
 
     socket =
       socket
-      |> assign(today: today)
       |> assign(
+        today: format_date(current_datetime_stamp),
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
         closed_timer_count: closed_timer_count
@@ -167,7 +149,6 @@ defmodule KlepsidraWeb.StartPageLive do
 
     socket =
       socket
-      |> update(:closed_timer_count, fn tc -> tc - 1 end)
       |> update(
         :aggregate_duration,
         fn aggregate_duration ->
@@ -177,8 +158,14 @@ defmodule KlepsidraWeb.StartPageLive do
       |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
         update_human_readable_duration(assigns.aggregate_duration)
       end)
+      |> update(:closed_timer_count, fn tc -> tc - 1 end)
 
     {:noreply, stream_delete(socket, :closed_timers, timer)}
+  end
+
+  defp get_current_datetime_stamp() do
+    Timer.get_current_timestamp()
+    |> NaiveDateTime.beginning_of_day()
   end
 
   defp update_aggregate_duration(:summation, starting_aggregate_duration, new_timer_duration) do
@@ -201,5 +188,19 @@ defmodule KlepsidraWeb.StartPageLive do
 
   defp update_human_readable_duration(new_aggregate_duration) do
     Timer.format_human_readable_duration(new_aggregate_duration)
+  end
+
+  defp format_date(datetime_stamp) do
+    case Timer.format_human_readable_date(datetime_stamp) do
+      {:ok, formatted_date} -> formatted_date
+      _ -> ""
+    end
+  end
+
+  defp get_aggregate_duration_for_date(datetime_stamp) do
+    datetime_stamp
+    |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
+    |> Timer.convert_durations_to_base_time_unit()
+    |> Timer.sum_base_unit_durations()
   end
 end

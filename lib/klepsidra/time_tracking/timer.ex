@@ -77,6 +77,8 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> unique_constraint(:project)
   end
 
+  @default_date_format "EEEE, dd MMM YYYY"
+
   @doc """
   Validate that the `end_timestamp` is chronologically after the `start_timestamp`.
 
@@ -596,8 +598,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   human-intuitive hours and minutes, rounding it to the nearest of each unit and
   formatting it all as an easy to read string.
   """
-  # @spec format_human_readable_duration(map()) ::
-  #         {:error, {atom(), binary()}} | {:ok, binary()}
+  @spec format_human_readable_duration(map()) :: binary()
   def format_human_readable_duration(base_unit_duration)
       when is_struct(base_unit_duration, Cldr.Unit) do
     human_readable_duration =
@@ -610,5 +611,20 @@ defmodule Klepsidra.TimeTracking.Timer do
       {:ok, string} -> string
       _ -> ""
     end
+  end
+
+  @doc """
+  Format a `NaiveDateTime` into human readable date.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.format_human_readable_date(~N[2024-01-23 12:34:56])
+      {:ok, "Tuesday, 23 Jan 2024"}
+  """
+  @spec format_human_readable_date(NaiveDateTime.t()) ::
+          {:ok, bitstring()} | {:error, {atom(), binary()}}
+  def format_human_readable_date(datetime, format \\ @default_date_format)
+      when is_struct(datetime, NaiveDateTime) do
+    Klepsidra.Cldr.DateTime.to_string(datetime, format: format)
   end
 end

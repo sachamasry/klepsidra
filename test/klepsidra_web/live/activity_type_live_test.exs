@@ -51,7 +51,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
 
       # assert_patch(index_live, ~p"/activity_types")
 
-      html = render(index_live)
+      # html = render(index_live)
       # assert html =~ "Activity type created successfully"
       # assert html =~ "some activity_type"
     end
