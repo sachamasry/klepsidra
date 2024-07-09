@@ -38,9 +38,14 @@ defmodule Klepsidra.TimeTracking do
   def get_timer!(id), do: Repo.get!(Timer, id)
 
   @doc """
-  Gets a list of timers started on the specified date.
+  Gets a list of closed timers started on the specified date.
+
+  A closed timer is one which has an end datetime stamp recorded, as well as
+  a starting one.
   """
-  def get_timers_for_date(date) when is_struct(date, NaiveDateTime) do
+  @spec get_closed_timers_for_date(NaiveDateTime.t()) ::
+          [Klepsidra.TimeTracking.Timer.t(), ...] | []
+  def get_closed_timers_for_date(date) when is_struct(date, NaiveDateTime) do
     start_of_day = NaiveDateTime.beginning_of_day(date)
     end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
 
@@ -67,7 +72,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Gets a count of closed timers started for the specified date.
+  Gets a count of closed timers started on the specified date.
 
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
@@ -96,7 +101,8 @@ defmodule Klepsidra.TimeTracking do
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
   """
-  @spec get_closed_timer_durations_for_date(NaiveDateTime.t()) :: [{integer, bitstring()}, ...]
+  @spec get_closed_timer_durations_for_date(NaiveDateTime.t()) ::
+          [{integer, bitstring()}, ...] | []
   def get_closed_timer_durations_for_date(date) when is_struct(date, NaiveDateTime) do
     start_of_day = NaiveDateTime.beginning_of_day(date)
     end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
@@ -120,9 +126,8 @@ defmodule Klepsidra.TimeTracking do
 
   A timer is considered open if it has no `end_stamp`.
   """
+  @spec get_all_open_timers() :: [Klepsidra.TimeTracking.Timer.t(), ...] | []
   def get_all_open_timers() do
-    # now = Timer.get_current_timestamp()
-
     query =
       from(
         at in "timers",
@@ -138,7 +143,7 @@ defmodule Klepsidra.TimeTracking do
         where:
           not is_nil(at.start_stamp) and
             is_nil(at.end_stamp),
-        order_by: [desc: at.start_stamp, desc: at.inserted_at, asc: at.id]
+        order_by: [desc: at.start_stamp, desc: at.inserted_at]
       )
 
     Repo.all(query)

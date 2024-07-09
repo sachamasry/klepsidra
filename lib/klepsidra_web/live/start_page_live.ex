@@ -46,7 +46,7 @@ defmodule KlepsidraWeb.StartPageLive do
         closed_timer_count: closed_timer_count
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
-      |> stream(:closed_timers, TimeTracking.get_timers_for_date(current_datetime_stamp))
+      |> stream(:closed_timers, TimeTracking.get_closed_timers_for_date(current_datetime_stamp))
 
     {:ok, socket}
   end
