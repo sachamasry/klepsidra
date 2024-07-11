@@ -1,9 +1,8 @@
 <.header>
-  Business partner <%= @business_partner.id %>
-  <:subtitle>This is a business_partner record from your database.</:subtitle>
+  <%= @business_partner.name %>
   <:actions>
     <.link patch={~p"/customers/#{@business_partner}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit business_partner</.button>
+      <.button>Edit customer</.button>
     </.link>
   </:actions>
 </.header>
@@ -16,7 +15,7 @@
   <:item title="Active"><%= @business_partner.active %></:item>
 </.list>
 
-<.back navigate={~p"/customers"}>Back to business_partners</.back>
+<.back navigate={~p"/customers"}>Back to customers</.back>
 
 <.modal
   :if={@live_action == :edit}

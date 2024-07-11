@@ -18,19 +18,19 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Business partner")
+    |> assign(:page_title, "Edit customer")
     |> assign(:business_partner, BusinessPartners.get_business_partner!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Business partner")
+    |> assign(:page_title, "New customer")
     |> assign(:business_partner, %BusinessPartner{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Business partners")
+    |> assign(:page_title, "Listing customers")
     |> assign(:business_partner, nil)
   end
 

@@ -32,7 +32,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - UI improvements
   - Correct all entity view titles
   - Correct all entity button labels
-  - Correct business partner titles and labels to 'Customers'
   - Update tag list sorting to case-insensitive alphabetical
   - Implement list sorting on entities: projects, business partners, activity types, etc.
 - Provide a 'today' view

@@ -18,6 +18,6 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Show do
      |> assign(:business_partner, BusinessPartners.get_business_partner!(id))}
   end
 
-  defp page_title(:show), do: "Show Business partner"
-  defp page_title(:edit), do: "Edit Business partner"
+  defp page_title(:show), do: "Show customer"
+  defp page_title(:edit), do: "Edit customer"
 end

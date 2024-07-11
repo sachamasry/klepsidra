@@ -11,7 +11,6 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage business_partner records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -24,7 +23,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Business partner</.button>
+          <.button phx-disable-with="Saving...">Save customer</.button>
         </:actions>
       </.simple_form>
     </div>

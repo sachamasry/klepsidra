@@ -25,15 +25,15 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
     test "lists all business_partners", %{conn: conn, business_partner: business_partner} do
       {:ok, _index_live, html} = live(conn, ~p"/customers")
 
-      assert html =~ "Listing Business partners"
+      assert html =~ "Listing customers"
       assert html =~ business_partner.name
     end
 
     test "saves new business_partner", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/customers")
 
-      assert index_live |> element("a", "New Business partner") |> render_click() =~
-               "New Business partner"
+      assert index_live |> element("a", "New customer") |> render_click() =~
+               "New customer"
 
       # assert_patch(index_live, ~p"/customers/new")
 
@@ -58,7 +58,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
       assert index_live
              |> element("#business_partners-#{business_partner.id} a", "Edit")
              |> render_click() =~
-               "Edit Business partner"
+               "Edit customer"
 
       assert_patch(index_live, ~p"/customers/#{business_partner}/edit")
 
@@ -94,7 +94,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
     test "displays business_partner", %{conn: conn, business_partner: business_partner} do
       {:ok, _show_live, html} = live(conn, ~p"/customers/#{business_partner}")
 
-      assert html =~ "Show Business partner"
+      assert html =~ "Show customer"
       assert html =~ business_partner.name
     end
 
@@ -105,7 +105,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
       {:ok, show_live, _html} = live(conn, ~p"/customers/#{business_partner}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Business partner"
+               "Edit customer"
 
       assert_patch(show_live, ~p"/customers/#{business_partner}/show/edit")
 
