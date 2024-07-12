@@ -294,7 +294,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   defp save_timer(socket, :new_timer, timer_params) do
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
-        notify_parent({:saved, timer})
+        if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
+          notify_parent({:saved_closed_timer, timer})
+        else
+          notify_parent({:saved_open_timer, timer})
+        end
 
         {:noreply,
          socket
@@ -309,7 +313,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   defp save_timer(socket, :edit_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
-        notify_parent({:saved, timer})
+        if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
+          notify_parent({:saved_closed_timer, timer})
+        else
+          notify_parent({:saved_open_timer, timer})
+        end
 
         {:noreply,
          socket

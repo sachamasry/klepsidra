@@ -44,7 +44,12 @@
 <div class="closed-timers-list mt-7">
   <div class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">
     <h2>Closed timers</h2>
-    <%= @human_readable_duration %> timed (<%= @closed_timer_count %> activities timed today)
+    <p>
+      <%= @human_readable_duration %> timed (<%= @closed_timer_count %> <%= if @closed_timer_count >
+                                                                                 1,
+                                                                               do: "activities",
+                                                                               else: "activity" %> timed today)
+    </p>
   </div>
 
   <.table
@@ -74,6 +79,23 @@
     </:action>
   </.table>
 </div>
+
+<.modal
+  :if={@live_action in [:new_timer, :edit_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/")}
+>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.FormComponent}
+    id={:new_timer}
+    title={@page_title}
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/"}
+    invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
+  />
+</.modal>
 
 <.modal :if={@live_action in [:start_timer]} id="timer-modal" show on_cancel={JS.patch(~p"/")}>
   <.live_component

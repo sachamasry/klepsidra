@@ -82,7 +82,12 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   @impl true
-  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, timer}}, socket) do
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_open_timer, timer}}, socket) do
+    {:noreply, stream_insert(socket, :timers, timer)}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_closed_timer, timer}}, socket) do
     {:noreply, stream_insert(socket, :timers, timer)}
   end
 

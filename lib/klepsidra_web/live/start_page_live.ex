@@ -100,13 +100,19 @@ defmodule KlepsidraWeb.StartPageLive do
   defp apply_action(socket, nil, _params), do: socket
 
   @impl true
-  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, timer}}, socket) do
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_open_timer, timer}}, socket) do
     {:noreply, stream_insert(socket, :open_timers, timer)}
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_closed_timer, timer}}, socket) do
+    # {:noreply, stream_insert(socket, :closed_timers, timer)}
+    {:noreply, handle_closed_timer(socket, timer)}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, timer}}, socket) do
-    {:noreply, handle_stopped_timer(socket, timer)}
+    {:noreply, handle_closed_timer(socket, timer)}
   end
 
   @impl true
@@ -114,7 +120,7 @@ defmodule KlepsidraWeb.StartPageLive do
     {:noreply, socket}
   end
 
-  defp handle_stopped_timer(socket, timer) do
+  defp handle_closed_timer(socket, timer) do
     closed_timer_duration = {timer.duration, timer.duration_time_unit}
 
     socket
