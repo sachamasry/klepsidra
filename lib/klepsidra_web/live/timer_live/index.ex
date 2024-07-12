@@ -92,6 +92,16 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_open_timer, timer}}, socket) do
+    {:noreply, stream_insert(socket, :timers, timer)}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_closed_timer, timer}}, socket) do
+    {:noreply, stream_insert(socket, :timers, timer)}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_started, timer}}, socket) do
     {:noreply, stream_insert(socket, :timers, timer)}
   end

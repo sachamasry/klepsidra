@@ -314,9 +314,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
-          notify_parent({:saved_closed_timer, timer})
+          notify_parent({:updated_closed_timer, timer})
         else
-          notify_parent({:saved_open_timer, timer})
+          notify_parent({:updated_open_timer, timer})
         end
 
         {:noreply,

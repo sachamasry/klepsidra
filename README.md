@@ -54,6 +54,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Document tag selector live component
   - Improve search functionality to perform fuzzy query directly in the database
   - Develop ability to cope with temporary data structures, before a timer has been created?
+- General UX inmprovements
+  - Permit pausing and resuming timers; add forward-pointing field to next timer, like a linked list
 - Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
   - Specifically for timestamps recorded for notes
 - Full-text search

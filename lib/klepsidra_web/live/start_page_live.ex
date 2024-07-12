@@ -106,8 +106,17 @@ defmodule KlepsidraWeb.StartPageLive do
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_closed_timer, timer}}, socket) do
-    # {:noreply, stream_insert(socket, :closed_timers, timer)}
     {:noreply, handle_closed_timer(socket, timer)}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_open_timer, timer}}, socket) do
+    {:noreply, handle_updated_timer(socket, timer)}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_closed_timer, timer}}, socket) do
+    {:noreply, handle_updated_timer(socket, timer)}
   end
 
   @impl true
@@ -137,6 +146,97 @@ defmodule KlepsidraWeb.StartPageLive do
     |> put_flash(:info, "Timer stopped successfully")
     |> stream_delete(:open_timers, timer)
     |> stream_insert(:closed_timers, timer, at: 0)
+  end
+
+  defp handle_updated_timer(socket, timer) do
+    previous_start_stamp = socket.assigns.timer.start_stamp
+    previous_end_stamp = socket.assigns.timer.end_stamp
+    current_start_stamp = timer.start_stamp
+    current_end_stamp = timer.end_stamp
+
+    previous_timer_status =
+      if previous_start_stamp != "" && previous_end_stamp != "" && not is_nil(previous_end_stamp) do
+        :closed
+      else
+        :open
+      end
+
+    current_timer_status =
+      if current_start_stamp != "" && current_end_stamp != "" && not is_nil(current_end_stamp) do
+        :closed
+      else
+        :open
+      end
+
+    socket
+    |> handle_updated_timer_changes(timer, {previous_timer_status, current_timer_status})
+    |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
+      update_human_readable_duration(assigns.aggregate_duration)
+    end)
+    |> put_flash(:info, "Timer updated successfully")
+  end
+
+  defp handle_updated_timer_changes(socket, timer, {:open, :open}) do
+    socket
+    |> stream_delete(:open_timers, timer)
+    |> stream_insert(:open_timers, timer)
+  end
+
+  defp handle_updated_timer_changes(socket, timer, {:closed, :closed}) do
+    socket
+    |> stream_delete(:closed_timers, timer)
+    |> stream_insert(:closed_timers, timer)
+    |> update(
+      :aggregate_duration,
+      fn aggregate_duration ->
+        update_aggregate_duration(
+          :subtraction,
+          aggregate_duration,
+          {socket.assigns.timer.duration, socket.assigns.timer.duration_time_unit}
+        )
+      end
+    )
+    |> update(
+      :aggregate_duration,
+      fn aggregate_duration ->
+        update_aggregate_duration(
+          :summation,
+          aggregate_duration,
+          {timer.duration, timer.duration_time_unit}
+        )
+      end
+    )
+  end
+
+  defp handle_updated_timer_changes(socket, timer, {:open, :closed}) do
+    socket
+    |> stream_delete(:open_timers, timer)
+    |> stream_insert(:closed_timers, timer)
+    |> update(:closed_timer_count, fn tc -> tc + 1 end)
+    |> update(:aggregate_duration, fn aggregate_duration ->
+      update_aggregate_duration(
+        :summation,
+        aggregate_duration,
+        {timer.duration, timer.duration_time_unit}
+      )
+    end)
+  end
+
+  defp handle_updated_timer_changes(socket, timer, {:closed, :open}) do
+    socket
+    |> stream_delete(:closed_timers, timer)
+    |> stream_insert(:open_timers, timer)
+    |> update(:closed_timer_count, fn tc -> tc - 1 end)
+    |> update(
+      :aggregate_duration,
+      fn aggregate_duration ->
+        update_aggregate_duration(
+          :subtraction,
+          aggregate_duration,
+          {socket.assigns.timer.duration, socket.assigns.timer.duration_time_unit}
+        )
+      end
+    )
   end
 
   @impl true

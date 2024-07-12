@@ -45,10 +45,12 @@
   <div class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium">
     <h2>Closed timers</h2>
     <p>
-      <%= @human_readable_duration %> timed (<%= @closed_timer_count %> <%= if @closed_timer_count >
-                                                                                 1,
-                                                                               do: "activities",
-                                                                               else: "activity" %> timed today)
+      <%= @human_readable_duration %> <%= if @human_readable_duration != "", do: "timed", else: "" %> (<%= @closed_timer_count %> <%= if @closed_timer_count ==
+                                                                                                                                           1,
+                                                                                                                                         do:
+                                                                                                                                           "activity",
+                                                                                                                                         else:
+                                                                                                                                           "activities" %> timed today)
     </p>
   </div>
 
