@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @impl true
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
-    return_to = Map.get(params, "return-to", "/timers")
+    return_to = Map.get(params, "return_to", "/timers")
 
     notes = TimeTracking.get_note_by_timer_id!(timer_id)
 

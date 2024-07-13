@@ -40,6 +40,13 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### Future
 
+- Security improvements
+  - Improve handling of `return_to` functionality
+    - Ensure it is a validated route at point of sending
+    - Ensure the parameter is read at the `router.ex` level
+    - Send the information through to the target in an `on_mount` function
+    - Remove the parameter and clean up the URL, redirecting to it, before the user can see it, in case they want to bookmark the page (https://elixirforum.com/t/how-to-store-return-to-url-when-navigating-from-liveview-to-another-page-liveview-regular/55480/4)
+    - Insert it in the render code, as a verified route
 - UI improvements
   - Select a UI component framework, to aid in the building of a modern web app
   - Improve on cryptic or incomplete UI error messages

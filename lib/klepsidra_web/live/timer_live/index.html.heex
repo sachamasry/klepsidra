@@ -1,14 +1,3 @@
-<div phx-window-keyup="keyboard_event">
-  <.modal :if={@display_help} id="cheatsheet" show on_cancel={JS.patch(~p"/timers")}>
-    <h1 class="text-center mt-8">Keyboard Shortcuts</h1>
-    <p class="text-center mt-8">Klepsidra is designed to be usable with the
-      keyboard, so key actions can be operated with simple keyboard commands.</p>
-    <ul>
-      <li><span><kbd>s</kbd></span> Start timer</li>
-    </ul>
-  </.modal>
-</div>
-
 <.header>
   Listing Timers
   <:actions>
