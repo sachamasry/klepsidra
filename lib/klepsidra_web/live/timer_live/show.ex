@@ -87,6 +87,16 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_open_timer, _timer}}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_closed_timer, _timer}}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:updated_note, note}}, socket) do
     note_metadata = title_notes_section(socket.assigns.note_count + 1)
 
