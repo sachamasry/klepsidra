@@ -24,7 +24,7 @@
   <:item title="Description"><%= @timer.description %></:item>
 </.list>
 
-<.back navigate={~p"/timers"}>Back to activity timers</.back>
+<.back navigate={"#{@return_to}"}>Back to activity timers</.back>
 
 <h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium"><%= @notes_title %></h2>
 
@@ -56,7 +56,7 @@
   </div>
 </div>
 
-<.back navigate={~p"/timers"}>Back to activity timers</.back>
+<.back navigate={"#{@return_to}"}>Back to activity timers</.back>
 
 <.modal
   :if={@live_action == :edit_timer}

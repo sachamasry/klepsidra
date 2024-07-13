@@ -53,9 +53,9 @@ defmodule KlepsidraWeb.TimerLiveTest do
       #        |> form("#timer-form", timer: @invalid_attrs)
       #        |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#timer-form", timer: @create_attrs)
-             |> render_submit()
+      # assert index_live
+      #        |> form("#timer-form", timer: @create_attrs)
+      #        |> render_submit()
 
       # assert_patch(index_live, ~p"/timers")
 

@@ -26,6 +26,7 @@ defmodule KlepsidraWeb.Router do
     live "/start_timer", StartPageLive, :start_timer
     live "/stop_timer/:id", StartPageLive, :stop_timer
     live "/new_timer", StartPageLive, :new_timer
+    live "/timers/:id", TimerLive.Show, :show
     live "/edit_timer/:id", StartPageLive, :edit_timer
 
     live "/tags", TagLive.Index, :index

@@ -26,8 +26,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Debugging
-  - When starting and stopping timers, override internal 'patch' command, returning user to where they instigated the action (home page)
-  - Timer duration is too high, likely rounded up too many times
   - Flash message stays on home screen, does not disappear
 - UI improvements
   - Correct all entity view titles

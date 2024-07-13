@@ -11,6 +11,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @impl true
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
+    return_to = Map.get(params, "return-to", "/timers")
 
     notes = TimeTracking.get_note_by_timer_id!(timer_id)
 
@@ -22,6 +23,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
       |> assign(:note_count, note_metadata.note_count)
       |> assign(:notes_title, note_metadata.section_title)
       |> assign(:timer_id, timer_id)
+      |> assign(:return_to, return_to)
 
     {:ok, socket}
   end

@@ -44,6 +44,12 @@ defmodule KlepsidraWeb.StartPageLive do
     |> assign(:timer, %Timer{})
   end
 
+  defp apply_action(socket, :show_timer, _params) do
+    socket
+    |> assign(:page_title, "Manual Timer")
+    |> assign(:timer, %Timer{})
+  end
+
   defp apply_action(socket, :edit_timer, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Timer")

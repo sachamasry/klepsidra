@@ -16,7 +16,7 @@
   <.table
     id="open-timers"
     rows={@streams.open_timers}
-    row_click={fn {_id, timer} -> JS.navigate(~p"/edit_timer/#{timer}") end}
+    row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer}") end}
   >
     <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
     <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
@@ -24,7 +24,7 @@
     <:col :let={{_id, timer}} label="Description"><%= timer.description %></:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
-        <.link navigate={~p"/timers/#{timer}"}>Show</.link>
+        <.link navigate={~p"/timers/#{timer}?return-to=/"}>Show</.link>
       </div>
       <.link patch={~p"/timers/#{timer}/notes/new"} phx-click={JS.push_focus()}>+ Note</.link>
       <.link patch={~p"/edit_timer/#{timer}"}>Edit</.link>
@@ -57,7 +57,7 @@
   <.table
     id="closed-timers"
     rows={@streams.closed_timers}
-    row_click={fn {_id, timer} -> JS.navigate(~p"/edit_timer/#{timer}") end}
+    row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer}?return-to=/") end}
   >
     <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
     <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
