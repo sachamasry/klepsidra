@@ -25,9 +25,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
-- Debugging
-  - Flash message stays on home screen, does not disappear
 - UI improvements
+  - Upgrade all flash messaging, replacing `put_flash` with `put_toast`
   - Correct all entity view titles
   - Correct all entity button labels
   - Update tag list sorting to case-insensitive alphabetical
@@ -53,6 +52,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
     - Remove the parameter and clean up the URL, redirecting to it, before the user can see it, in case they want to bookmark the page (https://elixirforum.com/t/how-to-store-return-to-url-when-navigating-from-liveview-to-another-page-liveview-regular/55480/4)
     - Insert it in the render code, as a verified route
 - UI improvements
+  - Allow stopping a timer from timer 'show' view
   - Select a UI component framework, to aid in the building of a modern web app
   - Improve on cryptic or incomplete UI error messages
   - Resize datetime, duration and duration unit controls to more efficiently use space
@@ -75,7 +75,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Enable SQLite notes field full-text search
   - Start enabling full-text search on other relevant database fields
 - Reformat listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
-- Change data defaults for duration to nil, and no duration time units until clocking out
 
 ### One day
 

@@ -67,6 +67,7 @@ defmodule Klepsidra.MixProject do
       {:ex_cldr_units, "~> 3.17"},
       {:ex_cldr_dates_times, "~> 2.0"},
       {:timex, "~> 3.7"},
+      {:live_toast, "~> 0.6.4"},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},

@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
 
   use KlepsidraWeb, :live_component
 
+  import LiveToast
   alias Klepsidra.Projects
 
   @impl true
@@ -78,7 +79,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Project created successfully")
+         |> put_toast(:info, "Project created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
