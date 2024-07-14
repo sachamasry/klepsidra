@@ -104,6 +104,27 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           socket
           |> assign_form(changeset)
           |> put_flash(:info, "Note created successfully")
+          |> push_patch(to: socket.assigns.patch)
+        }
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign_form(socket, changeset)}
+    end
+  end
+
+  defp save_note(socket, :new_embedded_note, note_params) do
+    case TimeTracking.create_note(note_params) do
+      {:ok, note} ->
+        notify_parent({:saved_note, note})
+
+        changeset =
+          TimeTracking.change_note(%Note{})
+
+        {
+          :noreply,
+          socket
+          |> assign_form(changeset)
+          |> put_flash(:info, "Note created successfully")
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->

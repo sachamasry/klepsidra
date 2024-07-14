@@ -58,6 +58,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Resize datetime, duration and duration unit controls to more efficiently use space
   - Start implementing colour palette
   - Improve presentation of currency fields; at present they use an input control of type 'number' which is unintuitive UX
+  - On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
 - Tagging UX improvements
   - Make it possible to drill into the tag from the live component
   - Provide ability to set new tag colour when creating freeform tag in live component
