@@ -32,14 +32,19 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Correct all entity button labels
   - Update tag list sorting to case-insensitive alphabetical
   - Implement list sorting on entities: projects, business partners, activity types, etc.
+  - On stopping an automated timer, there is no need to see start and end times
 - Provide a 'today' view
-  - Open timers needing closing
+  - Update timer listings
+    - Add customer
+    - Add timer tags
   - Widen app width from `max-w-2xl` to full width
 - Provide reporting
   - Filter: by customer; tags; date range
 
 ### Future
 
+- Expand role of activity types beyond the hour rate, to act as a rigid categorisation for major types of activities, which cannot be entrusted to tags only, e.g. exercise, learning, professional development
+  - Automate `billable`, duration unit measurements, and tags within it; selecting this on an activity should automatically adjust these attributes on a timer
 - Security improvements
   - Improve handling of `return_to` functionality
     - Ensure it is a validated route at point of sending

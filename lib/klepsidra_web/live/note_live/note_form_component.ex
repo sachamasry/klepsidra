@@ -104,7 +104,6 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           socket
           |> assign_form(changeset)
           |> put_flash(:info, "Note created successfully")
-          |> push_patch(to: socket.assigns.patch)
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->
