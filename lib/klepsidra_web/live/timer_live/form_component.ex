@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
@@ -302,7 +303,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "New timer recorded successfully")
+         |> put_toast(:info, "New timer recorded successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -321,7 +322,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Timer updated successfully")
+         |> put_toast(:info, "Timer updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

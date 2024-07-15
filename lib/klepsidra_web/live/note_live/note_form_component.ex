@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Note
@@ -83,7 +84,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Note updated successfully")
+         |> put_toast(:info, "Note updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -103,7 +104,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           :noreply,
           socket
           |> assign_form(changeset)
-          |> put_flash(:info, "Note created successfully")
+          |> put_toast(:info, "Note created successfully")
           |> push_patch(to: socket.assigns.patch)
         }
 
@@ -124,7 +125,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           :noreply,
           socket
           |> assign_form(changeset)
-          |> put_flash(:info, "Note created successfully")
+          |> put_toast(:info, "Note created successfully")
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->

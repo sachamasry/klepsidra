@@ -32,10 +32,13 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Update tag list sorting to case-insensitive alphabetical
   - Implement list sorting on entities: projects, business partners, activity types, etc.
   - On stopping an automated timer, there is no need to see start and end times
-- Provide a 'today' view
+  - Check all form control validation messages, replacing them with better-formed, gramatically complete sentences
+- Implement a 'today' view
   - Update timer listings
     - Add customer
     - Add timer tags
+    - Change start and end stamps to 24-hour clock times only
+    - Update duration to include human-readable time unit
   - Widen app width from `max-w-2xl` to full width
 - Provide reporting
   - Filter: by customer; tags; date range

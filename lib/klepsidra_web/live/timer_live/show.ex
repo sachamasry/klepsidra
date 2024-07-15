@@ -2,9 +2,9 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  # import LiveToast
 
   alias Klepsidra.TimeTracking
-  # alias Klepsidra.TimeTracking.Note
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
   alias KlepsidraWeb.Live.TagLive.SearchFormComponent
 

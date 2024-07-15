@@ -8,6 +8,7 @@ defmodule KlepsidraWeb.StartPageLive do
   """
 
   use KlepsidraWeb, :live_view
+  import LiveToast
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
@@ -107,7 +108,7 @@ defmodule KlepsidraWeb.StartPageLive do
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_open_timer, timer}}, socket) do
-    {:noreply, stream_insert(socket, :open_timers, timer)}
+    {:noreply, handle_open_timer(socket, timer)}
   end
 
   @impl true
@@ -135,6 +136,11 @@ defmodule KlepsidraWeb.StartPageLive do
     {:noreply, socket}
   end
 
+  defp handle_open_timer(socket, timer) do
+    socket
+    |> stream_insert(:open_timers, timer)
+  end
+
   defp handle_closed_timer(socket, timer) do
     closed_timer_duration = {timer.duration, timer.duration_time_unit}
 
@@ -149,7 +155,7 @@ defmodule KlepsidraWeb.StartPageLive do
       update_human_readable_duration(assigns.aggregate_duration)
     end)
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
-    |> put_flash(:info, "Timer stopped successfully")
+    |> put_toast(:info, "Timer stopped successfully")
     |> stream_delete(:open_timers, timer)
     |> stream_insert(:closed_timers, timer, at: 0)
   end
@@ -179,7 +185,7 @@ defmodule KlepsidraWeb.StartPageLive do
     |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
       update_human_readable_duration(assigns.aggregate_duration)
     end)
-    |> put_flash(:info, "Timer updated successfully")
+    |> put_toast(:info, "Timer updated successfully")
   end
 
   defp handle_updated_timer_changes(socket, timer, {:open, :open}) do

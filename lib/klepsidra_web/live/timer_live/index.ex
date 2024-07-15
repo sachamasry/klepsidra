@@ -4,7 +4,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking
-  # alias Klepsidra.TimeTracking.Note
+  # import LiveToast
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent

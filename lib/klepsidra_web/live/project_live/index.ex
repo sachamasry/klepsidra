@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.ProjectLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  # import LiveToast
 
   alias Klepsidra.Projects
   alias Klepsidra.Projects.Project
