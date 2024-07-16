@@ -40,8 +40,14 @@
     <div class="timer-notes__datetime mt-6 text-violet-800 font-medium">
       <%= note.inserted_at |> Cldr.DateTime.to_string!() %>
     </div>
-    <div class="timer-notes__note my-6">
-      <%= Earmark.as_html!(note.note) |> HtmlSanitizeEx.html5() |> Phoenix.HTML.raw() %>
+    <div class="timer-notes__note markdown-content my-6">
+      <%= Earmark.as_html!(note.note,
+        compact_output: true,
+        code_class_prefix: "lang-",
+        smartypants: true
+      )
+      |> HtmlSanitizeEx.html5()
+      |> Phoenix.HTML.raw() %>
     </div>
 
     <.link patch={~p"/timers/#{@timer}/notes/#{note.id}/edit"} phx-click={JS.push_focus()}>
