@@ -127,6 +127,11 @@ defmodule KlepsidraWeb.StartPageLive do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_started, timer}}, socket) do
+    {:noreply, handle_started_timer(socket, timer)}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, timer}}, socket) do
     {:noreply, handle_closed_timer(socket, timer)}
   end
@@ -136,9 +141,16 @@ defmodule KlepsidraWeb.StartPageLive do
     {:noreply, socket}
   end
 
+  defp handle_started_timer(socket, timer) do
+    socket
+    |> stream_insert(:open_timers, timer)
+    |> put_toast(:info, "Timer started")
+  end
+
   defp handle_open_timer(socket, timer) do
     socket
     |> stream_insert(:open_timers, timer)
+    |> put_toast(:info, "Timer started")
   end
 
   defp handle_closed_timer(socket, timer) do
@@ -155,7 +167,7 @@ defmodule KlepsidraWeb.StartPageLive do
       update_human_readable_duration(assigns.aggregate_duration)
     end)
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
-    |> put_toast(:info, "Timer stopped successfully")
+    |> put_toast(:info, "Timer stopped")
     |> stream_delete(:open_timers, timer)
     |> stream_insert(:closed_timers, timer, at: 0)
   end

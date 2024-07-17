@@ -25,8 +25,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MVP: Make application self-hosting
 
+- Debugging
+  - Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
 - UI improvements
   - Upgrade all flash messaging, replacing `put_flash` with `put_toast`
+  - Ensure there is user messaging, confirming entity deletions
   - Correct all entity view titles
   - Correct all entity button labels
   - Update tag list sorting to case-insensitive alphabetical

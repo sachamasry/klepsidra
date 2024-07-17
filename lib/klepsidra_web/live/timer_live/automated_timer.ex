@@ -259,8 +259,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
         {:noreply,
          socket
-         #  |> put_flash(:info, "Timer started successfully")
-         |> push_navigate(to: socket.assigns.patch)}
+         |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}
@@ -274,7 +273,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
         {:noreply,
          socket
-         #  |> put_flash(:info, "Timer stopped successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
