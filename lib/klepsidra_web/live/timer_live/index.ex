@@ -4,7 +4,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking
-  # import LiveToast
+  import LiveToast
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
@@ -83,32 +83,32 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_open_timer, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, handle_open_timer(socket, timer)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_closed_timer, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, handle_closed_timer(socket, timer)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_open_timer, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, handle_updated_timer(socket, timer)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_closed_timer, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, handle_updated_timer(socket, timer)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_started, timer}}, socket) do
-    {:noreply, stream_insert(socket, :timers, timer)}
+    {:noreply, handle_started_timer(socket, timer)}
   end
 
   @impl true
-  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, _timer}}, socket) do
-    {:noreply, socket}
+  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, timer}}, socket) do
+    {:noreply, handle_closed_timer(socket, timer)}
   end
 
   @impl true
@@ -121,7 +121,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
     timer = TimeTracking.get_timer!(id)
     {:ok, _} = TimeTracking.delete_timer(timer)
 
-    {:noreply, stream_delete(socket, :timers, timer)}
+    {:noreply, handle_deleted_timer(socket, timer, :timers)}
   end
 
   @impl true
@@ -146,5 +146,34 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   def handle_event("keyboard_event", _params, socket) do
     {:noreply, socket}
+  end
+
+  defp handle_started_timer(socket, timer) do
+    socket
+    |> stream_insert(:open_timers, timer, at: 0)
+    |> put_toast(:info, "Timer started")
+  end
+
+  defp handle_open_timer(socket, timer) do
+    socket
+    |> stream_insert(:open_timers, timer)
+    |> put_toast(:info, "Timer created successfully")
+  end
+
+  defp handle_closed_timer(socket, timer) do
+    socket
+    |> put_toast(:info, "Timer stopped")
+    |> stream_insert(:timers, timer)
+  end
+
+  defp handle_updated_timer(socket, _timer) do
+    socket
+    |> put_toast(:info, "Timer updated successfully")
+  end
+
+  defp handle_deleted_timer(socket, timer, source_stream) do
+    socket
+    |> stream_delete(source_stream, timer)
+    |> put_toast(:info, "Timer deleted successfully")
   end
 end

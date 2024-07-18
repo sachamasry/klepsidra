@@ -141,16 +141,46 @@ defmodule KlepsidraWeb.StartPageLive do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_event("delete-open-timer", %{"id" => id}, socket) do
+    timer = TimeTracking.get_timer!(id)
+    {:ok, _} = TimeTracking.delete_timer(timer)
+
+    {:noreply, handle_deleted_timer(socket, timer, :open_timers)}
+  end
+
+  @impl true
+  def handle_event("delete-closed-timer", %{"id" => id}, socket) do
+    timer = TimeTracking.get_timer!(id)
+    deleted_timer_duration = {timer.duration, timer.duration_time_unit}
+    {:ok, _} = TimeTracking.delete_timer(timer)
+
+    socket =
+      socket
+      |> update(
+        :aggregate_duration,
+        fn aggregate_duration ->
+          update_aggregate_duration(:subtraction, aggregate_duration, deleted_timer_duration)
+        end
+      )
+      |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
+        update_human_readable_duration(assigns.aggregate_duration)
+      end)
+      |> update(:closed_timer_count, fn tc -> tc - 1 end)
+
+    {:noreply, handle_deleted_timer(socket, timer, :closed_timers)}
+  end
+
   defp handle_started_timer(socket, timer) do
     socket
-    |> stream_insert(:open_timers, timer)
+    |> stream_insert(:open_timers, timer, at: 0)
     |> put_toast(:info, "Timer started")
   end
 
   defp handle_open_timer(socket, timer) do
     socket
     |> stream_insert(:open_timers, timer)
-    |> put_toast(:info, "Timer started")
+    |> put_toast(:info, "Timer created successfully")
   end
 
   defp handle_closed_timer(socket, timer) do
@@ -263,34 +293,10 @@ defmodule KlepsidraWeb.StartPageLive do
     )
   end
 
-  @impl true
-  def handle_event("delete-open-timer", %{"id" => id}, socket) do
-    timer = TimeTracking.get_timer!(id)
-    {:ok, _} = TimeTracking.delete_timer(timer)
-
-    {:noreply, stream_delete(socket, :open_timers, timer)}
-  end
-
-  @impl true
-  def handle_event("delete-closed-timer", %{"id" => id}, socket) do
-    timer = TimeTracking.get_timer!(id)
-    deleted_timer_duration = {timer.duration, timer.duration_time_unit}
-    {:ok, _} = TimeTracking.delete_timer(timer)
-
-    socket =
-      socket
-      |> update(
-        :aggregate_duration,
-        fn aggregate_duration ->
-          update_aggregate_duration(:subtraction, aggregate_duration, deleted_timer_duration)
-        end
-      )
-      |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
-        update_human_readable_duration(assigns.aggregate_duration)
-      end)
-      |> update(:closed_timer_count, fn tc -> tc - 1 end)
-
-    {:noreply, stream_delete(socket, :closed_timers, timer)}
+  defp handle_deleted_timer(socket, timer, source_stream) do
+    socket
+    |> stream_delete(source_stream, timer)
+    |> put_toast(:info, "Timer deleted successfully")
   end
 
   defp get_current_datetime_stamp() do

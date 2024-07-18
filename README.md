@@ -27,6 +27,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - Debugging
   - Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
+  - Ensure the system-generated timer view functions similarly to the 'start page' daily timer view
 - UI improvements
   - Upgrade all flash messaging, replacing `put_flash` with `put_toast`
   - Ensure there is user messaging, confirming entity deletions
