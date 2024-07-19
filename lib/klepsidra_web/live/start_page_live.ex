@@ -232,13 +232,11 @@ defmodule KlepsidraWeb.StartPageLive do
 
   defp handle_updated_timer_changes(socket, timer, {:open, :open}) do
     socket
-    |> stream_delete(:open_timers, timer)
     |> stream_insert(:open_timers, timer)
   end
 
   defp handle_updated_timer_changes(socket, timer, {:closed, :closed}) do
     socket
-    |> stream_delete(:closed_timers, timer)
     |> stream_insert(:closed_timers, timer)
     |> update(
       :aggregate_duration,

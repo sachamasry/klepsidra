@@ -26,12 +26,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Debugging
-  - On regular timer page, ensure that editing a timer actually updates the record in the stream
   - Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
   - Ensure the system-generated timer view functions similarly to the 'start page' daily timer view
 - UI improvements
   - Upgrade all flash messaging, replacing `put_flash` with `put_toast`
   - Ensure there is user messaging, confirming entity deletions
+  - Interpret timer descriptions as Markdown formatted text
   - Correct all entity view titles
   - Correct all entity button labels
   - Update tag list sorting to case-insensitive alphabetical

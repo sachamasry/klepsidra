@@ -166,8 +166,9 @@ defmodule KlepsidraWeb.TimerLive.Index do
     |> put_toast(:info, "Timer stopped")
   end
 
-  defp handle_updated_timer(socket, _timer) do
+  defp handle_updated_timer(socket, timer) do
     socket
+    |> stream_insert(:timers, timer)
     |> put_toast(:info, "Timer updated successfully")
   end
 
