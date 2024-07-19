@@ -150,20 +150,20 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   defp handle_started_timer(socket, timer) do
     socket
-    |> stream_insert(:open_timers, timer, at: 0)
+    |> stream_insert(:timers, timer, at: 0)
     |> put_toast(:info, "Timer started")
   end
 
   defp handle_open_timer(socket, timer) do
     socket
-    |> stream_insert(:open_timers, timer)
+    |> stream_insert(:timers, timer)
     |> put_toast(:info, "Timer created successfully")
   end
 
   defp handle_closed_timer(socket, timer) do
     socket
-    |> put_toast(:info, "Timer stopped")
     |> stream_insert(:timers, timer)
+    |> put_toast(:info, "Timer stopped")
   end
 
   defp handle_updated_timer(socket, _timer) do

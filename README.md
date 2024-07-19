@@ -26,6 +26,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 - Debugging
+  - On regular timer page, ensure that editing a timer actually updates the record in the stream
   - Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
   - Ensure the system-generated timer view functions similarly to the 'start page' daily timer view
 - UI improvements
