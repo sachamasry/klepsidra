@@ -112,8 +112,8 @@ defmodule KlepsidraWeb.TimerLive.Index do
   end
 
   @impl true
-  def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, _note}}, socket) do
-    {:noreply, socket}
+  def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, note}}, socket) do
+    {:noreply, handle_saved_note(socket, note)}
   end
 
   @impl true
@@ -176,5 +176,10 @@ defmodule KlepsidraWeb.TimerLive.Index do
     socket
     |> stream_delete(source_stream, timer)
     |> put_toast(:info, "Timer deleted successfully")
+  end
+
+  defp handle_saved_note(socket, _note) do
+    socket
+    |> put_toast(:info, "Note created successfully")
   end
 end

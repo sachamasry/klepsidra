@@ -2,7 +2,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
-  # import LiveToast
+  import LiveToast
 
   alias Klepsidra.TimeTracking
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
@@ -98,24 +98,32 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:updated_note, note}}, socket) do
-    note_metadata = title_notes_section(socket.assigns.note_count + 1)
-
-    {:noreply,
-     socket
-     |> assign(:note_count, note_metadata.note_count)
-     |> assign(:notes_title, note_metadata.section_title)
-     |> stream_insert(:notes, note)}
+    {:noreply, handle_updated_note(socket, note)}
   end
 
   @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, note}}, socket) do
+    {:noreply, handle_saved_note(socket, note)}
+  end
+
+  defp handle_saved_note(socket, note) do
     note_metadata = title_notes_section(socket.assigns.note_count + 1)
 
-    {:noreply,
-     socket
-     |> assign(:note_count, note_metadata.note_count)
-     |> assign(:notes_title, note_metadata.section_title)
-     |> stream_insert(:notes, note, at: 0)}
+    socket
+    |> assign(:note_count, note_metadata.note_count)
+    |> assign(:notes_title, note_metadata.section_title)
+    |> stream_insert(:notes, note, at: 0)
+    |> put_toast(:info, "Note created successfully")
+  end
+
+  defp handle_updated_note(socket, note) do
+    note_metadata = title_notes_section(socket.assigns.note_count + 1)
+
+    socket
+    |> assign(:note_count, note_metadata.note_count)
+    |> assign(:notes_title, note_metadata.section_title)
+    |> stream_insert(:notes, note)
+    |> put_toast(:info, "Note updated successfully")
   end
 
   defp title_notes_section(note_count) when is_integer(note_count) do
