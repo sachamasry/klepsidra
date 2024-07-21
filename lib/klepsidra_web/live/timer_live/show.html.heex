@@ -54,7 +54,7 @@
       <.button>Edit note</.button>
     </.link>
     <.button
-      phx-click={JS.push("delete", value: %{id: note.id})}
+      phx-click={JS.push("delete_note", value: %{id: note.id})}
       data-confirm="Are you sure you want to delete this note?"
     >
       Delete

@@ -52,18 +52,8 @@ defmodule KlepsidraWeb.TimerLive.Show do
   defp page_title(:edit_note), do: "Edit note"
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    note = TimeTracking.get_note!(id)
-
-    {:ok, _} = TimeTracking.delete_note(note)
-
-    note_metadata = title_notes_section(socket.assigns.note_count - 1)
-
-    {:noreply,
-     socket
-     |> assign(:note_count, note_metadata.note_count)
-     |> assign(:notes_title, note_metadata.section_title)
-     |> stream_delete(:notes, note)}
+  def handle_event("delete_note", %{"id" => id}, socket) do
+    {:noreply, handle_deleted_note(socket, TimeTracking.get_note!(id))}
   end
 
   # @impl true
@@ -124,6 +114,18 @@ defmodule KlepsidraWeb.TimerLive.Show do
     |> assign(:notes_title, note_metadata.section_title)
     |> stream_insert(:notes, note)
     |> put_toast(:info, "Note updated successfully")
+  end
+
+  defp handle_deleted_note(socket, note) do
+    {:ok, _} = TimeTracking.delete_note(note)
+
+    note_metadata = title_notes_section(socket.assigns.note_count - 1)
+
+    socket
+    |> assign(:note_count, note_metadata.note_count)
+    |> assign(:notes_title, note_metadata.section_title)
+    |> stream_delete(:notes, note)
+    |> put_toast(:info, "Note deleted successfully")
   end
 
   defp title_notes_section(note_count) when is_integer(note_count) do
