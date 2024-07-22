@@ -2,7 +2,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
-
+  import LiveToast
   alias Klepsidra.TimeTracking
 
   @impl true
@@ -65,7 +65,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Activity type updated successfully")
+         |> put_toast(:info, "Activity type updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -80,7 +80,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Activity type created successfully")
+         |> put_toast(:info, "Activity type created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

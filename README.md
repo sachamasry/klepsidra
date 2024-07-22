@@ -49,6 +49,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### Future
 
+- Audit other timers for strengths and weaknesses
 - Expand role of activity types beyond the hour rate, to act as a rigid categorisation for major types of activities, which cannot be entrusted to tags only, e.g. exercise, learning, professional development
   - Automate `billable`, duration unit measurements, and tags within it; selecting this on an activity should automatically adjust these attributes on a timer
 - Security improvements

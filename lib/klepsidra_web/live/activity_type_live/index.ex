@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.ActivityType
@@ -44,6 +45,12 @@ defmodule KlepsidraWeb.ActivityTypeLive.Index do
     activity_type = TimeTracking.get_activity_type!(id)
     {:ok, _} = TimeTracking.delete_activity_type(activity_type)
 
-    {:noreply, stream_delete(socket, :activity_types, activity_type)}
+    {:noreply, handle_deleted_activity_type(socket, activity_type, :activity_types)}
+  end
+
+  defp handle_deleted_activity_type(socket, activity_type, source_stream) do
+    socket
+    |> stream_delete(source_stream, activity_type)
+    |> put_toast(:info, "Activity type deleted successfully")
   end
 end
