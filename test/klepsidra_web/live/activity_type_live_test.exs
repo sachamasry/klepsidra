@@ -29,21 +29,21 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
     test "lists all activity_types", %{conn: conn, activity_type: activity_type} do
       {:ok, _index_live, html} = live(conn, ~p"/activity_types")
 
-      assert html =~ "Listing Activity types"
+      assert html =~ "Listing activity types"
       assert html =~ activity_type.name
     end
 
     test "saves new activity_type", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/activity_types")
 
-      assert index_live |> element("a", "New Activity type") |> render_click() =~
-               "New Activity type"
+      assert index_live |> element("a", "New activity type") |> render_click() =~
+               "New activity type"
 
       assert_patch(index_live, ~p"/activity_types/new")
 
       assert index_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "You must enter a name for this activity type"
 
       assert index_live
              |> form("#activity_type-form", activity_type: @create_attrs)
@@ -62,13 +62,13 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
       assert index_live
              |> element("#activity_types-#{activity_type.id} a", "Edit")
              |> render_click() =~
-               "Edit Activity type"
+               "Edit activity type"
 
       assert_patch(index_live, ~p"/activity_types/#{activity_type}/edit")
 
       assert index_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "You must enter a name for this activity type"
 
       assert index_live
              |> form("#activity_type-form", activity_type: @update_attrs)
@@ -112,7 +112,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
 
       assert show_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "You must enter a name for this activity type"
 
       assert show_live
              |> form("#activity_type-form", activity_type: @update_attrs)

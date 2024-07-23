@@ -30,9 +30,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - UI improvements
   - Upgrade all flash messaging, replacing `put_flash` with `put_toast`
   - Ensure there is user messaging, confirming entity deletions
-  - Interpret timer descriptions as Markdown formatted text
   - Correct all entity view titles
   - Correct all entity button labels
+  - Interpret timer descriptions as Markdown formatted text
   - Update tag list sorting to case-insensitive alphabetical
   - Implement list sorting on entities: projects, business partners, activity types, etc.
   - On stopping an automated timer, there is no need to see start and end times

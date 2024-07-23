@@ -19,19 +19,19 @@ defmodule KlepsidraWeb.ActivityTypeLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Activity type")
+    |> assign(:page_title, "Edit activity type")
     |> assign(:activity_type, TimeTracking.get_activity_type!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Activity type")
+    |> assign(:page_title, "New activity type")
     |> assign(:activity_type, %ActivityType{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Activity types")
+    |> assign(:page_title, "Listing activity types")
     |> assign(:activity_type, nil)
   end
 
