@@ -31,8 +31,11 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   def changeset(business_partner, attrs) do
     business_partner
     |> cast(attrs, [:name, :description, :customer, :supplier, :active])
-    |> validate_required([:name])
-    |> unique_constraint(:name, name: :business_partners_name_index)
+    |> validate_required([:name], message: "Enter a customer name")
+    |> unique_constraint(:name,
+      name: :business_partners_name_index,
+      message: "A customer with this name already exists"
+    )
   end
 
   @doc """

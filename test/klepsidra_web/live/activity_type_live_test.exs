@@ -43,7 +43,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
 
       assert index_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "You must enter a name for this activity type"
+             |> render_change() =~ "Enter an activity type name"
 
       assert index_live
              |> form("#activity_type-form", activity_type: @create_attrs)
@@ -68,7 +68,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
 
       assert index_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "You must enter a name for this activity type"
+             |> render_change() =~ "Enter an activity type name"
 
       assert index_live
              |> form("#activity_type-form", activity_type: @update_attrs)
@@ -112,7 +112,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
 
       assert show_live
              |> form("#activity_type-form", activity_type: @invalid_attrs)
-             |> render_change() =~ "You must enter a name for this activity type"
+             |> render_change() =~ "Enter an activity type name"
 
       assert show_live
              |> form("#activity_type-form", activity_type: @update_attrs)

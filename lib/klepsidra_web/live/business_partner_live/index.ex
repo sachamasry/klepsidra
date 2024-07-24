@@ -2,13 +2,19 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.BusinessPartners
   alias Klepsidra.BusinessPartners.BusinessPartner
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :business_partners, BusinessPartners.list_business_partners())}
+    socket =
+      socket
+      |> assign(:business_partner_type, :customer)
+      |> stream(:business_partners, BusinessPartners.list_business_partners())
+
+    {:ok, socket}
   end
 
   @impl true
@@ -18,7 +24,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit customer")
+    |> assign(:page_title, "Edit customer details")
     |> assign(:business_partner, BusinessPartners.get_business_partner!(id))
   end
 
@@ -30,7 +36,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing customers")
+    |> assign(:page_title, "Customers")
     |> assign(:business_partner, nil)
   end
 
@@ -47,6 +53,12 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
     business_partner = BusinessPartners.get_business_partner!(id)
     {:ok, _} = BusinessPartners.delete_business_partner(business_partner)
 
-    {:noreply, stream_delete(socket, :business_partners, business_partner)}
+    {:noreply, handle_deleted_customer(socket, business_partner, :business_partners)}
+  end
+
+  defp handle_deleted_customer(socket, customer, source_stream) do
+    socket
+    |> stream_delete(source_stream, customer)
+    |> put_toast(:info, "Customer deleted successfully")
   end
 end

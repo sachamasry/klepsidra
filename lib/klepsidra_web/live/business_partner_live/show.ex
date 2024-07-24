@@ -7,7 +7,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :business_partner_type, :customer)}
   end
 
   @impl true

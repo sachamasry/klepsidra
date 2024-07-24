@@ -8,7 +8,6 @@
 </.header>
 
 <.list>
-  <:item title="Name"><%= @business_partner.name %></:item>
   <:item title="Description"><%= @business_partner.description %></:item>
   <:item title="Customer"><%= @business_partner.customer %></:item>
   <:item title="Supplier"><%= @business_partner.supplier %></:item>
@@ -29,6 +28,7 @@
     title={@page_title}
     action={@live_action}
     business_partner={@business_partner}
+    business_partner_type={@business_partner_type}
     patch={~p"/customers/#{@business_partner}"}
   />
 </.modal>

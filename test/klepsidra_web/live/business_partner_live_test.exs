@@ -25,7 +25,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
     test "lists all business_partners", %{conn: conn, business_partner: business_partner} do
       {:ok, _index_live, html} = live(conn, ~p"/customers")
 
-      assert html =~ "Listing customers"
+      assert html =~ "Customers"
       assert html =~ business_partner.name
     end
 
@@ -39,7 +39,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
 
       assert index_live
              |> form("#business_partner-form", business_partner: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a customer name"
 
       assert index_live
              |> form("#business_partner-form", business_partner: @create_attrs)
@@ -64,7 +64,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
 
       assert index_live
              |> form("#business_partner-form", business_partner: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a customer name"
 
       assert index_live
              |> form("#business_partner-form", business_partner: @update_attrs)
@@ -73,7 +73,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
       assert_patch(index_live, ~p"/customers")
 
       html = render(index_live)
-      assert html =~ "Business partner updated successfully"
+      assert html =~ "Customer updated successfully"
       assert html =~ "some updated name"
     end
 
@@ -111,7 +111,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
 
       assert show_live
              |> form("#business_partner-form", business_partner: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a customer name"
 
       assert show_live
              |> form("#business_partner-form", business_partner: @update_attrs)
@@ -120,7 +120,7 @@ defmodule KlepsidraWeb.BusinessPartnerLiveTest do
       assert_patch(show_live, ~p"/customers/#{business_partner}")
 
       html = render(show_live)
-      assert html =~ "Business partner updated successfully"
+      assert html =~ "Customer updated successfully"
       assert html =~ "some updated name"
     end
   end

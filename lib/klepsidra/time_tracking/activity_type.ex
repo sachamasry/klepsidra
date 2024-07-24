@@ -29,12 +29,12 @@ defmodule Klepsidra.TimeTracking.ActivityType do
   def changeset(activity_type, attrs) do
     activity_type
     |> cast(attrs, [:name, :billing_rate, :active])
-    |> unique_constraint(:name, message: "You can't create duplicate activity types")
-    |> validate_required([:name], message: "You must enter a name for this activity type")
-    |> validate_required([:billing_rate], message: "You must provide a billing rate")
+    |> validate_required([:name], message: "Enter an activity type name")
+    |> unique_constraint(:name, message: "An activity type with this name already exists")
+    |> validate_required([:billing_rate], message: "The hourly billing rate must be a number")
     |> validate_number(:billing_rate,
       greater_than_or_equal_to: 0,
-      message: "The billing rate can't be negative"
+      message: "The billing rate must be zero or greater"
     )
   end
 

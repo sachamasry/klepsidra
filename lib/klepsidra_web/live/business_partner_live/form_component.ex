@@ -2,7 +2,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
-
+  import LiveToast
   alias Klepsidra.BusinessPartners
 
   @impl true
@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save customer</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -57,6 +57,9 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
   end
 
   defp save_business_partner(socket, :edit, business_partner_params) do
+    business_partner_type =
+      if socket.assigns.business_partner_type == :customer, do: "Customer", else: "Supplier"
+
     case BusinessPartners.update_business_partner(
            socket.assigns.business_partner,
            business_partner_params
@@ -66,7 +69,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Business partner updated successfully")
+         |> put_toast(:info, "#{business_partner_type} updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -75,13 +78,16 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
   end
 
   defp save_business_partner(socket, :new, business_partner_params) do
+    business_partner_type =
+      if socket.assigns.business_partner_type == :customer, do: "Customer", else: "Supplier"
+
     case BusinessPartners.create_business_partner(business_partner_params) do
       {:ok, business_partner} ->
         notify_parent({:saved, business_partner})
 
         {:noreply,
          socket
-         |> put_flash(:info, "Business partner created successfully")
+         |> put_flash(:info, "#{business_partner_type} created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
