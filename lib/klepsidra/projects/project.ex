@@ -36,8 +36,11 @@ defmodule Klepsidra.Projects.Project do
   def changeset(project, attrs) do
     project
     |> cast(attrs, [:name, :description, :active])
-    |> validate_required([:name])
-    |> unique_constraint(:name, name: :projects_name_index)
+    |> validate_required([:name], message: "Enter the project name")
+    |> unique_constraint(:name,
+      name: :projects_name_index,
+      message: "A project with this name already exists"
+    )
   end
 
   @doc """

@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.ProjectLiveTest do
     test "lists all projects", %{conn: conn, project: project} do
       {:ok, _index_live, html} = live(conn, ~p"/projects")
 
-      assert html =~ "Listing Projects"
+      assert html =~ "Projects"
       assert html =~ project.name
     end
 
@@ -37,7 +37,7 @@ defmodule KlepsidraWeb.ProjectLiveTest do
 
       assert index_live
              |> form("#project-form", project: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter the project name"
 
       assert index_live
              |> form("#project-form", project: @create_attrs)
@@ -60,7 +60,7 @@ defmodule KlepsidraWeb.ProjectLiveTest do
 
       assert index_live
              |> form("#project-form", project: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter the project name"
 
       assert index_live
              |> form("#project-form", project: @update_attrs)
@@ -101,7 +101,7 @@ defmodule KlepsidraWeb.ProjectLiveTest do
 
       assert show_live
              |> form("#project-form", project: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter the project name"
 
       assert show_live
              |> form("#project-form", project: @update_attrs)

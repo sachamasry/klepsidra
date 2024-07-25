@@ -257,9 +257,6 @@ defmodule Klepsidra.TimeTracking.Timer do
         |> Map.get(:value)
         |> Decimal.round(0, :up)
         |> Decimal.to_integer()
-
-      _ ->
-        0
     end
   end
 

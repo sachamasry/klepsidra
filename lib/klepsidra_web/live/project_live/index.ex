@@ -2,7 +2,7 @@ defmodule KlepsidraWeb.ProjectLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
-  # import LiveToast
+  import LiveToast
 
   alias Klepsidra.Projects
   alias Klepsidra.Projects.Project
@@ -31,7 +31,7 @@ defmodule KlepsidraWeb.ProjectLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Projects")
+    |> assign(:page_title, "Projects")
     |> assign(:project, nil)
   end
 
@@ -45,6 +45,12 @@ defmodule KlepsidraWeb.ProjectLive.Index do
     project = Projects.get_project!(id)
     {:ok, _} = Projects.delete_project(project)
 
-    {:noreply, stream_delete(socket, :projects, project)}
+    {:noreply, handle_deleted_project(socket, project, :projects)}
+  end
+
+  defp handle_deleted_project(socket, proiect, source_stream) do
+    socket
+    |> stream_delete(source_stream, proiect)
+    |> put_toast(:info, "Project deleted successfully")
   end
 end

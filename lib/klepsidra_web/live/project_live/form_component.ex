@@ -2,7 +2,6 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
-
   import LiveToast
   alias Klepsidra.Projects
 
@@ -12,7 +11,6 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Manage projects you're involved in</:subtitle>
       </.header>
 
       <.simple_form
@@ -26,7 +24,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         <.input field={@form[:description]} type="textarea" label="Description" />
         <.input :if={@action == :edit} field={@form[:active]} type="checkbox" label="Active?" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Project</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -64,7 +62,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Project updated successfully")
+         |> put_toast(:info, "Project updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

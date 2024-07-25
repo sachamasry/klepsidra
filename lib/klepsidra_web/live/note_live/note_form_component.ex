@@ -5,14 +5,6 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Note
 
-  # @impl true
-  # def mount(socket) do
-  #   changeset =
-  #     TimeTracking.change_note(%Note{})
-
-  #   {:ok, assign(socket, :note_form, to_form(changeset))}
-  # end
-
   @impl true
   def render(assigns) do
     ~H"""
