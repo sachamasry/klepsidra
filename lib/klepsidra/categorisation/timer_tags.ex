@@ -28,7 +28,10 @@ defmodule Klepsidra.Categorisation.TimerTags do
   def changeset(timer_tags, attrs) do
     timer_tags
     |> cast(attrs, [:tag_id, :timer_id])
-    |> unique_constraint([:tag, :timer], name: "timer_tags_tag_id_timer_id_index")
+    |> unique_constraint([:tag, :timer],
+      name: "timer_tags_tag_id_timer_id_index",
+      message: "This tag has already been added to the timer"
+    )
     |> cast_assoc(:tag)
   end
 end

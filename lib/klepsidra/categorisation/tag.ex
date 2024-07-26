@@ -36,7 +36,10 @@ defmodule Klepsidra.Categorisation.Tag do
   def changeset(tag, attrs) do
     tag
     |> cast(attrs, [:name, :description, :colour, :fg_colour])
-    |> validate_required([:name])
-    |> unique_constraint(:name, name: :tags_name_index)
+    |> validate_required([:name], message: "Enter a tag name")
+    |> unique_constraint(:name,
+      name: :tags_name_index,
+      message: "A tag with this name already exists"
+    )
   end
 end

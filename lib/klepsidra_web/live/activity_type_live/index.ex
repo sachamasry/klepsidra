@@ -31,7 +31,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing activity types")
+    |> assign(:page_title, "Activity types")
     |> assign(:activity_type, nil)
   end
 

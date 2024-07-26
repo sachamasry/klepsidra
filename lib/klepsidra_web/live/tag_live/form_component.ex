@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Categorisation
 
@@ -11,7 +12,6 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage tag records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -26,7 +26,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
         <.input field={@form[:fg_colour]} type="color" label="Text colour" />
         <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Tag</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -64,7 +64,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Tag updated successfully")
+         |> put_toast(:info, "Tag updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -79,7 +79,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Tag created successfully")
+         |> put_toast(:info, "Tag created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

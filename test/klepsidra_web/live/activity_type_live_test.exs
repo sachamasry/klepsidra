@@ -29,7 +29,7 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
     test "lists all activity_types", %{conn: conn, activity_type: activity_type} do
       {:ok, _index_live, html} = live(conn, ~p"/activity_types")
 
-      assert html =~ "Listing activity types"
+      assert html =~ "Activity types"
       assert html =~ activity_type.name
     end
 

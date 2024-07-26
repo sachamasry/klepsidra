@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.TagLiveTest do
     test "lists all tags", %{conn: conn, tag: tag} do
       {:ok, _index_live, html} = live(conn, ~p"/tags")
 
-      assert html =~ "Listing Tags"
+      assert html =~ "Tags"
       assert html =~ tag.name
     end
 
@@ -37,7 +37,7 @@ defmodule KlepsidraWeb.TagLiveTest do
 
       assert index_live
              |> form("#tag-form", tag: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a tag name"
 
       assert index_live
              |> form("#tag-form", tag: @create_attrs)
@@ -56,13 +56,13 @@ defmodule KlepsidraWeb.TagLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/tags")
 
       assert index_live |> element("#tags-#{tag.id} a", "Edit") |> render_click() =~
-               "Edit Tag"
+               "Edit tag"
 
       assert_patch(index_live, ~p"/tags/#{tag}/edit")
 
       assert index_live
              |> form("#tag-form", tag: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a tag name"
 
       assert index_live
              |> form("#tag-form", tag: @update_attrs)
@@ -103,7 +103,7 @@ defmodule KlepsidraWeb.TagLiveTest do
 
       assert show_live
              |> form("#tag-form", tag: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a tag name"
 
       assert show_live
              |> form("#tag-form", tag: @update_attrs)
