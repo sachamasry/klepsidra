@@ -72,7 +72,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       :billing_duration,
       :billing_duration_time_unit
     ])
-    |> validate_required(:start_stamp, message: "You must enter a start date and time")
+    |> validate_required(:start_stamp, message: "Enter a start date and time")
     |> validate_timestamps_and_chronology(:start_stamp, :end_stamp)
     |> unique_constraint(:project)
   end

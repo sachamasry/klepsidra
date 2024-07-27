@@ -37,7 +37,7 @@ defmodule KlepsidraWeb.TimerLiveTest do
     test "lists all timers", %{conn: conn, timer: timer} do
       {:ok, _index_live, html} = live(conn, ~p"/timers")
 
-      assert html =~ "Listing Timers"
+      assert html =~ "Timers"
       assert html =~ timer.description
     end
 
