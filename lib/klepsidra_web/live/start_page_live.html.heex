@@ -21,7 +21,21 @@
     <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
     <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
     <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
-    <:col :let={{_id, timer}} label="Description"><%= timer.description %></:col>
+    <:col :let={{_id, timer}} label="Description">
+      <%= case timer.description do
+        nil ->
+          ""
+
+        _ ->
+          Earmark.as_html!(timer.description,
+            compact_output: true,
+            code_class_prefix: "lang-",
+            smartypants: true
+          )
+          |> HtmlSanitizeEx.html5()
+          |> Phoenix.HTML.raw()
+      end %>
+    </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer}?return_to=/"}>Show</.link>

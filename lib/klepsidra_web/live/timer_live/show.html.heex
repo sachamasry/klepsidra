@@ -21,7 +21,21 @@
   <:item title="Duration time unit"><%= @timer.duration_time_unit %></:item>
   <:item title="Billable duration"><%= @timer.billing_duration %></:item>
   <:item title="Billable duration time unit"><%= @timer.billing_duration_time_unit %></:item>
-  <:item title="Description"><%= @timer.description %></:item>
+  <:item title="Description">
+    <%= case @timer.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(@timer.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
+  </:item>
 </.list>
 
 <.back navigate={"#{@return_to}"}>Back to activity timers</.back>

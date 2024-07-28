@@ -28,7 +28,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 * Debugging
   * Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
 * UI improvements
-  * Interpret timer descriptions as Markdown formatted text
+  * Interpret all descriptionss as Markdown formatted text
   * Update tag list sorting to case-insensitive alphabetical
   * Implement list sorting on entities: projects, business partners, activity types, etc.
   * On stopping an automated timer, there is no need to see start and end times
@@ -45,6 +45,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### Future
 
 * Audit other timers for strengths and weaknesses
+* Refactor conversion of plain text to Markdown everywhere; should interpretation happen at table layout level, or earlier at query level?
 * Expand role of activity types beyond the hour rate, to act as a rigid categorisation for major types of activities, which cannot be entrusted to tags only, e.g. exercise, learning, professional development
   * Automate `billable`, duration unit measurements, and tags within it; selecting this on an activity should automatically adjust these attributes on a timer
 * Security improvements
