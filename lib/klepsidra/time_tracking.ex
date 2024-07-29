@@ -52,13 +52,26 @@ defmodule Klepsidra.TimeTracking do
     query =
       from(
         at in "timers",
-        select: %Timer{
+        join: bp in "business_partners",
+        on: at.business_partner_id == bp.id,
+        # select: %Timer{
+        #   id: at.id,
+        #   start_stamp: at.start_stamp,
+        #   end_stamp: at.end_stamp,
+        #   duration: at.duration,
+        #   duration_time_unit: at.duration_time_unit,
+        #   description: at.description,
+        #   name: bp.name,
+        #   inserted_at: at.inserted_at
+        # },
+        select: %{
           id: at.id,
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
           description: at.description,
+          customer: bp.name,
           inserted_at: at.inserted_at
         },
         where:
