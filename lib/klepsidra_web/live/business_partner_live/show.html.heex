@@ -8,7 +8,21 @@
 </.header>
 
 <.list>
-  <:item title="Description"><%= @business_partner.description %></:item>
+  <:item title="Description">
+    <%= case @business_partner.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(@business_partner.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
+  </:item>
   <:item title="Customer"><%= @business_partner.customer %></:item>
   <:item title="Supplier"><%= @business_partner.supplier %></:item>
   <:item title="Active"><%= @business_partner.active %></:item>

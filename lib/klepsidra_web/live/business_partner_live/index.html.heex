@@ -14,7 +14,19 @@
 >
   <:col :let={{_id, business_partner}} label="Name"><%= business_partner.name %></:col>
   <:col :let={{_id, business_partner}} label="Description">
-    <%= business_partner.description %>
+    <%= case business_partner.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(business_partner.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
   </:col>
   <:col :let={{_id, business_partner}} label="Active?">
     <div class={"rounded-full h-full aspect-square w-5 #{if business_partner.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
