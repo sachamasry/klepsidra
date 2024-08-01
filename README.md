@@ -33,7 +33,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * On stopping an automated timer, there is no need to see start _and_ end times
 * Implement a 'today' view
   * Update timer listings
-    * Add customer
+    * Add project column
     * Add timer tags
     * Change start and end stamps to 24-hour clock times only
     * Update duration to include human-readable time unit
