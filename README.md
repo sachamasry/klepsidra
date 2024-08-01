@@ -28,10 +28,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 * Debugging
   * Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
 * UI improvements
-  * Interpret all descriptionss as Markdown formatted text
   * Update tag list sorting to case-insensitive alphabetical
   * Implement list sorting on entities: projects, business partners, activity types, etc.
-  * On stopping an automated timer, there is no need to see start and end times
+  * On stopping an automated timer, there is no need to see start _and_ end times
 * Implement a 'today' view
   * Update timer listings
     * Add customer

@@ -14,7 +14,21 @@
 >
   <:col :let={{_id, tag}} label="Name"><%= tag.name %></:col>
   <:col :let={{_id, tag}} label="Colour"><%= tag.colour %></:col>
-  <:col :let={{_id, tag}} label="Description"><%= tag.description %></:col>
+  <:col :let={{_id, tag}} label="Description">
+    <%= case tag.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(tag.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
+  </:col>
   <:action :let={{_id, tag}}>
     <div class="sr-only">
       <.link navigate={~p"/tags/#{tag}"}>Show</.link>

@@ -8,7 +8,21 @@
 </.header>
 
 <.list>
-  <:item title="Description"><%= @tag.description %></:item>
+  <:item title="Description">
+    <%= case @tag.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(@tag.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
+  </:item>
   <:item title="Tag colour"><%= @tag.colour %></:item>
   <:item title="Foreground colour"><%= @tag.fg_colour %></:item>
 </.list>
