@@ -38,6 +38,24 @@ defmodule Klepsidra.TimeTracking do
   def get_timer!(id), do: Repo.get!(Timer, id)
 
   @doc """
+  Gets a single timer, with its `business_partner` association preloaded.
+
+  Raises `Ecto.NoResultsError` if the Timer does not exist.
+
+  ## Examples
+
+      iex> get_timer!(123)
+      %Timer{}
+
+      iex> get_timer!(456)
+      ** (Ecto.NoResultsError)
+  """
+  def get_timer_and_business_partner!(id) do
+    Repo.get!(Timer, id)
+    |> Repo.preload(:business_partner)
+  end
+
+  @doc """
   Gets a list of closed timers started on the specified date.
 
   A closed timer is one which has an end datetime stamp recorded, as well as
@@ -51,19 +69,20 @@ defmodule Klepsidra.TimeTracking do
 
     query =
       from(
-        at in "timers",
-        left_join: bp in "business_partners",
-        on: at.business_partner_id == bp.id,
-        select: %Timer{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          business_partner: bp.name,
-          description: at.description,
-          inserted_at: at.inserted_at
-        },
+        at in Timer,
+        left_join: bp in assoc(at, :business_partner),
+        preload: :business_partner,
+        # select: %Timer{
+        #   id: at.id,
+        #   start_stamp: at.start_stamp,
+        #   end_stamp: at.end_stamp,
+        #   duration: at.duration,
+        #   duration_time_unit: at.duration_time_unit,
+        #   # business_partner: bp.name,
+        #   # business_partner: %BusinessPartner{name: bp.name},
+        #   description: at.description,
+        #   inserted_at: at.inserted_at
+        # },
         where:
           at.start_stamp >= type(^start_of_day, :naive_datetime) and
             at.start_stamp <= type(^end_of_day, :naive_datetime) and
@@ -71,7 +90,8 @@ defmodule Klepsidra.TimeTracking do
         order_by: [desc: at.inserted_at, asc: at.id]
       )
 
-    Repo.all(query)
+    query
+    |> Repo.all()
   end
 
   @doc """
@@ -134,15 +154,15 @@ defmodule Klepsidra.TimeTracking do
     query =
       from(
         at in "timers",
-        left_join: bp in "business_partners",
-        on: at.business_partner_id == bp.id,
+        # left_join: bp in "business_partners",
+        # on: at.business_partner_id == bp.id,
         select: %Timer{
           id: at.id,
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          business_partner: bp.name,
+          # business_partner: bp.name,
           description: at.description,
           inserted_at: at.inserted_at
         },
@@ -152,7 +172,9 @@ defmodule Klepsidra.TimeTracking do
         order_by: [desc: at.start_stamp, desc: at.inserted_at]
       )
 
-    Repo.all(query)
+    query
+    |> Repo.all()
+    |> Repo.preload(:business_partner)
   end
 
   @doc """

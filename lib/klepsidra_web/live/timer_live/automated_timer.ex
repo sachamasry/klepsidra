@@ -255,6 +255,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
+        timer = TimeTracking.get_timer_and_business_partner!(timer.id)
         notify_parent({:timer_started, timer})
 
         {:noreply,
@@ -269,6 +270,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   defp save_timer(socket, :stop_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
+        timer = TimeTracking.get_timer_and_business_partner!(timer.id)
         notify_parent({:timer_stopped, timer})
 
         {:noreply,
