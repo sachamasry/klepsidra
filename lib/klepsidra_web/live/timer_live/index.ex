@@ -14,7 +14,7 @@ defmodule KlepsidraWeb.TimerLive.Index do
     {:ok,
      socket
      |> assign(display_help: false)
-     |> stream(:timers, TimeTracking.list_timers())}
+     |> stream(:timers, TimeTracking.list_timers_with_customers())}
   end
 
   @impl true

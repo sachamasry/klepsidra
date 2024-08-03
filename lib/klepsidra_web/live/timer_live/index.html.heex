@@ -38,6 +38,9 @@
         |> Phoenix.HTML.raw()
     end %>
   </:col>
+  <:col :let={{_id, timer}} label="Customer">
+    <%= if is_nil(timer.business_partner), do: "", else: timer.business_partner.name %>
+  </:col>
   <:action :let={{_id, timer}}>
     <div class="sr-only">
       <.link navigate={~p"/timers/#{timer}"}>Show</.link>

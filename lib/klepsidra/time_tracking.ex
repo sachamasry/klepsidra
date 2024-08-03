@@ -22,6 +22,20 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Returns the list of timers, with `business_partner` association preloaded.
+
+  ## Examples
+
+      iex> list_timers()
+      [%Timer{}, ...]
+
+  """
+  def list_timers_with_customers do
+    Repo.all(Timer)
+    |> Repo.preload(:business_partner)
+  end
+
+  @doc """
   Gets a single timer.
 
   Raises `Ecto.NoResultsError` if the Timer does not exist.

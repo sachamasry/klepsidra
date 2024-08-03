@@ -26,7 +26,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 * Debugging
-  * Error in LiveView when closing a timer with BusinessPartners association not being loaded (in progress)
   * Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
