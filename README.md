@@ -26,6 +26,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ### MVP: Make application self-hosting
 
 * Debugging
+  * Reformat timer records on stream insertion
   * Deleting timers with attached notes fails due to constraints. Either catch error and issue user error message, or delete recursively
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
@@ -35,7 +36,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Update timer listings
     * Add project column
     * Add timer tags
-    * Change start and end stamps to 24-hour clock times only
     * Update duration to include human-readable time unit
   * Widen app width from `max-w-2xl` to full width
 * Provide reporting

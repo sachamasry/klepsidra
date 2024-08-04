@@ -624,4 +624,18 @@ defmodule Klepsidra.TimeTracking.Timer do
       when is_struct(datetime, NaiveDateTime) do
     Klepsidra.Cldr.DateTime.to_string(datetime, format: format)
   end
+
+  @doc """
+  Format a `NaiveDateTime` into a human readable time, displaying hours and minutes only.
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.format_human_readable_time!(~N[2024-01-23 12:34:56])
+      "12:34"
+  """
+  @spec format_human_readable_time!(NaiveDateTime.t()) :: bitstring()
+  def format_human_readable_time!(datetime, format \\ "{h24}:{m}")
+      when is_struct(datetime, NaiveDateTime) do
+    Timex.format!(datetime, format)
+  end
 end

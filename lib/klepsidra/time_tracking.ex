@@ -106,6 +106,12 @@ defmodule Klepsidra.TimeTracking do
 
     query
     |> Repo.all()
+    |> Enum.map(fn %Timer{start_stamp: start_stamp, end_stamp: end_stamp} = rec ->
+      Map.merge(rec, %{
+        start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
+        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp))
+      })
+    end)
   end
 
   @doc """
@@ -168,15 +174,12 @@ defmodule Klepsidra.TimeTracking do
     query =
       from(
         at in "timers",
-        # left_join: bp in "business_partners",
-        # on: at.business_partner_id == bp.id,
         select: %Timer{
           id: at.id,
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          # business_partner: bp.name,
           description: at.description,
           inserted_at: at.inserted_at
         },
@@ -189,6 +192,15 @@ defmodule Klepsidra.TimeTracking do
     query
     |> Repo.all()
     |> Repo.preload(:business_partner)
+    |> Enum.map(fn %Timer{start_stamp: start_stamp, end_stamp: end_stamp} = rec ->
+      Map.merge(rec, %{
+        start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
+        end_stamp:
+          unless(is_nil(end_stamp),
+            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp))
+          )
+      })
+    end)
   end
 
   @doc """
