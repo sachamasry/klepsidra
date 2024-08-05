@@ -86,17 +86,16 @@ defmodule Klepsidra.TimeTracking do
         at in Timer,
         left_join: bp in assoc(at, :business_partner),
         preload: :business_partner,
-        # select: %Timer{
-        #   id: at.id,
-        #   start_stamp: at.start_stamp,
-        #   end_stamp: at.end_stamp,
-        #   duration: at.duration,
-        #   duration_time_unit: at.duration_time_unit,
-        #   # business_partner: bp.name,
-        #   # business_partner: %BusinessPartner{name: bp.name},
-        #   description: at.description,
-        #   inserted_at: at.inserted_at
-        # },
+        select: [
+          :id,
+          :start_stamp,
+          :end_stamp,
+          :duration,
+          :duration_time_unit,
+          :description,
+          :business_partner_id,
+          :inserted_at
+        ],
         where:
           at.start_stamp >= type(^start_of_day, :naive_datetime) and
             at.start_stamp <= type(^end_of_day, :naive_datetime) and
@@ -173,16 +172,19 @@ defmodule Klepsidra.TimeTracking do
   def get_all_open_timers() do
     query =
       from(
-        at in "timers",
-        select: %Timer{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          description: at.description,
-          inserted_at: at.inserted_at
-        },
+        at in Timer,
+        left_join: bp in assoc(at, :business_partner),
+        preload: :business_partner,
+        select: [
+          :id,
+          :start_stamp,
+          :end_stamp,
+          :duration,
+          :duration_time_unit,
+          :description,
+          :business_partner_id,
+          :inserted_at
+        ],
         where:
           not is_nil(at.start_stamp) and
             is_nil(at.end_stamp),
@@ -191,7 +193,6 @@ defmodule Klepsidra.TimeTracking do
 
     query
     |> Repo.all()
-    |> Repo.preload(:business_partner)
     |> Enum.map(fn %Timer{start_stamp: start_stamp, end_stamp: end_stamp} = rec ->
       Map.merge(rec, %{
         start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
