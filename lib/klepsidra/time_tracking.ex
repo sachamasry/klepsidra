@@ -97,18 +97,27 @@ defmodule Klepsidra.TimeTracking do
           :inserted_at
         ],
         where:
-          at.start_stamp >= type(^start_of_day, :naive_datetime) and
-            at.start_stamp <= type(^end_of_day, :naive_datetime) and
+          at.start_stamp <= type(^end_of_day, :naive_datetime) and
+            at.end_stamp >= type(^start_of_day, :naive_datetime) and
             not is_nil(at.end_stamp),
         order_by: [desc: at.inserted_at, asc: at.id]
       )
 
     query
     |> Repo.all()
-    |> Enum.map(fn %Timer{start_stamp: start_stamp, end_stamp: end_stamp} = rec ->
+    |> Enum.map(fn %Timer{
+                     start_stamp: start_stamp,
+                     end_stamp: end_stamp,
+                     duration: duration,
+                     duration_time_unit: duration_time_unit
+                   } = rec ->
       Map.merge(rec, %{
         start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
-        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp))
+        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp)),
+        duration:
+          {duration, duration_time_unit}
+          |> Timer.convert_duration_to_base_time_unit()
+          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
       })
     end)
   end

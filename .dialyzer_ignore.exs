@@ -41,6 +41,8 @@
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
   {"lib/klepsidra_web/router.ex", :unknown_function},
   {"lib/klepsidra/time_tracking.ex", :unknown_function},
+  {"lib/klepsidra/time_tracking.ex", :no_return},
+  {"lib/klepsidra/time_tracking.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
   {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun}
