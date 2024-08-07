@@ -105,21 +105,39 @@ defmodule Klepsidra.TimeTracking do
 
     query
     |> Repo.all()
-    |> Enum.map(fn %{
-                     start_stamp: start_stamp,
-                     end_stamp: end_stamp,
-                     duration: duration,
-                     duration_time_unit: duration_time_unit
-                   } = rec ->
+    |> Enum.map(fn rec ->
       Map.merge(rec, %{
-        start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
-        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp)),
+        start_stamp:
+          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
+        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp)),
+        summary:
+          rec.description
+          |> to_string()
+          |> truncate(max_length: 79),
         formatted_duration:
-          {duration, duration_time_unit}
+          {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
           |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
       })
     end)
+  end
+
+  def truncate(text, opts) do
+    max_length = opts[:max_length] || 59
+    omission = opts[:omission] || "..."
+
+    cond do
+      not String.valid?(text) ->
+        text
+
+      String.length(text) < max_length ->
+        text
+
+      true ->
+        length_with_omission = max_length - String.length(omission)
+
+        "#{String.slice(text, 0, length_with_omission)}#{omission}"
+    end
   end
 
   @doc """

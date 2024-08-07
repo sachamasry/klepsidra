@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.34.1">
+    <meta name="generator" content="ExDoc v0.34.2">
     <meta name="project" content="klepsidra v0.1.1">
 
 
     <title>Klepsidra.Cldr.DateTime.Interval — klepsidra v0.1.1</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
     <script src="dist/sidebar_items-4650626B.js"></script>
     <script src="docs_config.js"></script>
-    <script async src="dist/html-7XSQ4GTY.js"></script>
+    <script async src="dist/html-JRPQ5PR6.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -122,7 +122,7 @@ Pages
 <p>Interval formats allow for software to format intervals like &quot;Jan 10-12, 2008&quot; as a
 shorter and more natural format than &quot;Jan 10, 2008 - Jan 12, 2008&quot;. They are designed
 to take a start and end date, time or datetime plus a formatting pattern
-and use that information to produce a localized format.</p><p>See <a href="https://hexdocs.pm/ex_cldr_dates_times/2.18.1/Cldr.Interval.html#to_string/3"><code class="inline">Cldr.Interval.to_string/3</code></a> and <a href="https://hexdocs.pm/ex_cldr_dates_times/2.18.1/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a></p>
+and use that information to produce a localized format.</p><p>See <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#to_string/3"><code class="inline">Cldr.Interval.to_string/3</code></a> and <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a></p>
     </section>
 
 </div>
@@ -273,8 +273,8 @@ as a standalone datetime.</p><h2 id="to_string/3-options" class="section-heading
 </h2>
 <ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code>, <code class="inline">:medium</code> or <code class="inline">:long</code> or a
 specific format type or a string representing of an interval
-format. The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html"><code class="inline">Cldr.LanguageTag</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+format. The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated</p></li></ul><h2 id="to_string/3-returns" class="section-heading">
   <a href="#to_string/3-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -290,7 +290,7 @@ be transliterated</p></li></ul><h2 id="to_string/3-returns" class="section-headi
 <ul><li><p><code class="inline">CalendarInterval</code> support requires adding the
 dependency <a href="https://hex.pm/packages/calendar_interval">calendar_interval</a>
 to the <code class="inline">deps</code> configuration in <code class="inline">mix.exs</code>.</p></li><li><p>For more information on interval format string
-see the <a href="https://hexdocs.pm/ex_cldr_dates_times/2.18.1/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see the <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -302,10 +302,10 @@ date is formatted instead of an interval</p></li></ul><h2 id="to_string/3-exampl
 </h2>
 <pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w">
 </span><span class="gp unselectable">...&gt; </span><span class="ld">~U[2020-12-31 10:00:00.0Z]</span><span class="w">
-</span><span class="p" data-group-id="2293994467-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1, 2020, 12:00:00 AM – Dec 31, 2020, 10:00:00 AM&quot;</span><span class="p" data-group-id="2293994467-1">}</span><span class="w">
+</span><span class="p" data-group-id="9365598423-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1, 2020, 12:00:00 AM – Dec 31, 2020, 10:00:00 AM&quot;</span><span class="p" data-group-id="9365598423-1">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.DateTime.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="no">nil</span><span class="w">
-</span><span class="p" data-group-id="2293994467-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1, 2020, 12:00:00 AM –&quot;</span><span class="p" data-group-id="2293994467-2">}</span></code></pre>
+</span><span class="p" data-group-id="9365598423-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1, 2020, 12:00:00 AM –&quot;</span><span class="p" data-group-id="9365598423-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string!/3">
@@ -357,8 +357,8 @@ as a standalone datetime.</p><h2 id="to_string!/3-options" class="section-headin
 </h2>
 <ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code>, <code class="inline">:medium</code> or <code class="inline">:long</code> or a
 specific format type or a string representing of an interval
-format. The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html"><code class="inline">Cldr.LanguageTag</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+format. The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated.</p></li></ul><h2 id="to_string!/3-returns" class="section-heading">
   <a href="#to_string!/3-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -372,7 +372,7 @@ be transliterated.</p></li></ul><h2 id="to_string!/3-returns" class="section-hea
   <span class="text">Notes</span>
 </h2>
 <ul><li><p>For more information on interval format string
-see the <a href="https://hexdocs.pm/ex_cldr_dates_times/2.18.1/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see the <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -408,7 +408,7 @@ date is formatted instead of an interval.</p></li></ul><h2 id="to_string!/3-exam
 
       <p class="built-using">
         Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.2) for the
 
           <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 

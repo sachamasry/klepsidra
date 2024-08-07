@@ -88,19 +88,15 @@
       </span>
     </:col>
     <:col :let={{_id, timer}} label="Description">
-      <%= case timer.description do
-        nil ->
-          ""
-
-        _ ->
-          Earmark.as_html!(timer.description,
-            compact_output: true,
-            code_class_prefix: "lang-",
-            smartypants: true
-          )
-          |> HtmlSanitizeEx.html5()
-          |> Phoenix.HTML.raw()
-      end %>
+      <span title={timer.description |> to_string()}>
+        <%= Earmark.as_html!(timer.summary,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw() %>
+      </span>
     </:col>
     <:col :let={{_id, timer}} label="Customer">
       <%= if is_nil(timer.business_partner_name), do: "", else: timer.business_partner_name %>

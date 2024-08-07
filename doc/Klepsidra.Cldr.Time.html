@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.34.1">
+    <meta name="generator" content="ExDoc v0.34.2">
     <meta name="project" content="klepsidra v0.1.1">
 
 
     <title>Klepsidra.Cldr.Time — klepsidra v0.1.1</title>
-    <link rel="stylesheet" href="dist/html-elixir-JKHCEBPC.css" />
+    <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
     <script src="dist/sidebar_items-4650626B.js"></script>
     <script src="docs_config.js"></script>
-    <script async src="dist/html-7XSQ4GTY.js"></script>
+    <script async src="dist/html-JRPQ5PR6.js"></script>
 
   </head>
   <body data-type="modules" class="page-module">
@@ -150,7 +150,8 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
       </div>
 
         <div class="summary-synopsis"><p>Formats a time according to a format string
-as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr35-dates.html">TR35</a>.</p></div>
+as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr35-dates.html">TR35</a>
+or raises an exception.</p></div>
 
     </div>
 
@@ -185,7 +186,7 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/ex_cldr_calendars/1.26.0/Cldr.Calendar.html#t:any_date_time/0">Cldr.Calendar.any_date_time</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
   {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}}</pre>
 
       </div>
@@ -203,40 +204,41 @@ as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr3
   </a>
   <span class="text">Arguments</span>
 </h2>
-<ul><li><p><code class="inline">time</code> is a <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0"><code class="inline">DateTime.t/0</code></a> or <a href="https://hexdocs.pm/elixir/NaiveDateTime.html#t:t/0"><code class="inline">NaiveDateTime.t/0</code></a> struct or any map that
- contains the keys <code class="inline">hour</code>, <code class="inline">minute</code>, <code class="inline">second</code> and optionally <code class="inline">calendar</code> and <code class="inline">microsecond</code>.</p></li><li><p><code class="inline">options</code> is a keyword list of options for formatting.</p></li></ul><h2 id="to_string/2-options" class="section-heading">
-  <a href="#to_string/2-options" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Options</span>
-</h2>
-<ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
- The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">:locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:number_system</code> a number system into which the formatted date digits should
-be transliterated.</p></li><li><p><code class="inline">era: :variant</code> will use a variant for the era is one is available in the locale.
-In the &quot;en&quot; locale, for example, <code class="inline">era: :variant</code> will return &quot;BCE&quot; instead of &quot;BC&quot;.</p></li><li><p><code class="inline">period: :variant</code> will use a variant for the time period and flexible time period if
-one is available in the locale.  For example, in the &quot;en&quot; locale <code class="inline">period: :variant</code> will
-return &quot;pm&quot; instead of &quot;PM&quot;.</p></li></ul><h2 id="to_string/2-examples" class="section-heading">
-  <a href="#to_string/2-examples" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Examples</span>
-</h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="7005627530-1">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p" data-group-id="7005627530-1">)</span><span class="w">
-</span><span class="p" data-group-id="7005627530-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7:35:13 AM&quot;</span><span class="p" data-group-id="7005627530-2">}</span><span class="w">
+<ul><li><code class="inline">time</code> is a <a href="https://hexdocs.pm/elixir/Time.html#t:t/0"><code class="inline">Time.t/0</code></a> struct or any map that contains
+one or more of the keys <code class="inline">:hour</code>, <code class="inline">:minute</code>, <code class="inline">:second</code> and optionally <code class="inline">:microsecond</code>,
+<code class="inline">:time_zone</code>, <code class="inline">:zone_abbr</code>, <code class="inline">:utc_offset</code> and <code class="inline">:std_offset. *</code>options<code class="inline">is a keyword list of options for formatting. ## Options *</code>:format<code class="inline">is one of</code>:short<code class="inline">,</code>:medium<code class="inline">,</code>:long<code class="inline">,</code>:full<code class="inline">, or a format id or a format string. The default is</code>:medium<code class="inline">for full times (that is, times having</code>:hour<code class="inline">,</code>:minute<code class="inline">and</code>:second<code class="inline">fields). The default for partial times is to derive a candidate format from the time and find the best match from the formats returned by</code>Cldr.Time.available_formats/2<code class="inline">. See [here](README.md#date-time-and-datetime-localization-formats) for more information about specifying formats. *</code>:locale<code class="inline">any locale returned by</code>Cldr.known_locale_names/1<code class="inline">. The default is</code>Cldr.get_locale/0<code class="inline">. *</code>:number_system<code class="inline">a number system into which the formatted date digits should be transliterated. *</code>:prefer<code class="inline">is either</code>:unicode<code class="inline">(the default) or</code>:ascii<code class="inline">. A small number of formats have two variants - one using Unicode spaces (typically non-breaking space) and another using only ASCII whitespace. The</code>:ascii<code class="inline">format is primarily to support legacy use cases and is not recommended. See</code>Cldr.Time.available_formats/3<code class="inline">to see which formats have these variants. *</code>period: :variant<code class="inline">will use a variant for the time period and flexible time period if one is available in the locale. For example, in the</code>:en<code class="inline">locale</code>period: :variant` will
+return &quot;pm&quot; instead of &quot;PM&quot;.
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="7005627530-3">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p" data-group-id="7005627530-3">)</span><span class="w">
-</span><span class="p" data-group-id="7005627530-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7:35 AM&quot;</span><span class="p" data-group-id="7005627530-4">}</span><span class="w">
+## Examples
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="7005627530-5">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:fr</span><span class="p" data-group-id="7005627530-5">)</span><span class="w">
-</span><span class="p" data-group-id="7005627530-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;07:35:13&quot;</span><span class="p" data-group-id="7005627530-6">}</span><span class="w">
+  iex&gt; Klepsidra.Cldr.Time.to_string(~T[07:35:13.215217])
+  {:ok, &quot;7:35:13 AM&quot;}
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="7005627530-7">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p" data-group-id="7005627530-7">)</span><span class="w">
-</span><span class="p" data-group-id="7005627530-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7:35:13 AM&quot;</span><span class="p" data-group-id="7005627530-8">}</span><span class="w">
+  iex&gt; Klepsidra.Cldr.Time.to_string(~T[07:35:13.215217], format: :short)
+  {:ok, &quot;7:35 AM&quot;}
 
-</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7005627530-9">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">date_time</span><span class="p" data-group-id="7005627530-9">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive</span><span class="p" data-group-id="7005627530-10">(</span><span class="ld">~N[2000-01-01 23:59:59.0]</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="7005627530-10">)</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="7005627530-11">(</span><span class="n">date_time</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="7005627530-11">)</span><span class="w">
-</span><span class="p" data-group-id="7005627530-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;11:59:59 PM UTC&quot;</span><span class="p" data-group-id="7005627530-12">}</span></code></pre>
+  iex&gt; Klepsidra.Cldr.Time.to_string(~T[07:35:13.215217], format: :short, period: :variant)
+  {:ok, &quot;7:35 am&quot;}
+
+  iex&gt; Klepsidra.Cldr.Time.to_string(~T[07:35:13.215217], format: :medium, locale: :fr)
+  {:ok, &quot;07:35:13&quot;}
+
+  iex&gt; Klepsidra.Cldr.Time.to_string(~T[07:35:13.215217], format: :medium)
+  {:ok, &quot;7:35:13 AM&quot;}
+
+  iex&gt; {:ok, date_time} = DateTime.from_naive(~N[2000-01-01 23:59:59.0], &quot;Etc/UTC&quot;)
+  iex&gt; Klepsidra.Cldr.Time.to_string(date_time, format: :long)
+  {:ok, &quot;11:59:59 PM UTC&quot;}
+
+  # A partial time with a best match CLDR-defined format
+  iex&gt; Klepsidra.Cldr.Time.to_string(%{hour: 23, minute: 11})
+  {:ok, &quot;11:11 PM&quot;}
+
+  # Sometimes the available time fields can't be mapped to an available
+  # CLDR defined format.
+  iex&gt; Klepsidra.Cldr.Time.to_string(%{minute: 11})
+  {:error,
+   {Cldr.DateTime.UnresolvedFormat, &quot;No available format resolved for :m&quot;}}</li></ul>
   </section>
 </section>
 <section class="detail" id="to_string!/2">
@@ -257,60 +259,49 @@ return &quot;pm&quot; instead of &quot;PM&quot;.</p></li></ul><h2 id="to_string/
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/ex_cldr_calendars/1.26.0/Cldr.Calendar.html#t:any_date_time/0">Cldr.Calendar.any_date_time</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
 
       </div>
 
 <p>Formats a time according to a format string
-as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr35-dates.html">TR35</a>.</p><h2 id="to_string!/2-arguments" class="section-heading">
+as defined in CLDR and described in <a href="http://unicode.org/reports/tr35/tr35-dates.html">TR35</a>
+or raises an exception.</p><h2 id="to_string!/2-arguments" class="section-heading">
   <a href="#to_string!/2-arguments" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Arguments</span>
 </h2>
-<ul><li><p><code class="inline">time</code> is a <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0"><code class="inline">DateTime.t/0</code></a> or <a href="https://hexdocs.pm/elixir/NaiveDateTime.html#t:t/0"><code class="inline">NaiveDateTime.t/0</code></a> struct or any map that
- contains the keys <code class="inline">hour</code>, <code class="inline">minute</code>, <code class="inline">second</code> and optionally <code class="inline">calendar</code> and <code class="inline">microsecond</code>.</p></li><li><p><code class="inline">options</code> is a keyword list of options for formatting.</p></li></ul><h2 id="to_string!/2-options" class="section-heading">
-  <a href="#to_string!/2-options" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Options</span>
-</h2>
-<ul><li><p><code class="inline">:format</code> is one of <code class="inline">:short</code> | <code class="inline">:medium</code> | <code class="inline">:long</code> | <code class="inline">:full</code> or a format string.
- The default is <code class="inline">:medium</code>.</p></li><li><p><code class="inline">:locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="https://hexdocs.pm/ex_cldr/2.39.2/Cldr.html#get_locale/0"><code class="inline">Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">:number_system</code> a number system into which the formatted date digits should
-be transliterated.</p></li><li><p><code class="inline">era: :variant</code> will use a variant for the era is one is available in the locale.
-In the &quot;en&quot; locale, for example, <code class="inline">era: :variant</code> will return &quot;BCE&quot; instead of &quot;BC&quot;.</p></li><li><p><code class="inline">period: :variant</code> will use a variant for the time period and flexible time period if
-one is available in the locale.  For example, in the <code class="inline">:en</code> locale <code class="inline">period: :variant</code> will
-return &quot;pm&quot; instead of &quot;PM&quot;.</p></li></ul><h2 id="to_string!/2-returns" class="section-heading">
-  <a href="#to_string!/2-returns" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Returns</span>
-</h2>
-<ul><li><p><code class="inline">formatted_time_string</code> or</p></li><li><p>raises an exception.</p></li></ul><h2 id="to_string!/2-examples" class="section-heading">
-  <a href="#to_string!/2-examples" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Examples</span>
-</h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="3778651166-1">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p" data-group-id="3778651166-1">)</span><span class="w">
-</span><span class="s">&quot;7:35:13 AM&quot;</span><span class="w">
+<ul><li><code class="inline">time</code> is a <a href="https://hexdocs.pm/elixir/Time.html#t:t/0"><code class="inline">Time.t/0</code></a> struct or any map that contains
+one or more of the keys <code class="inline">:hour</code>, <code class="inline">:minute</code>, <code class="inline">:second</code> and optionally <code class="inline">:microsecond</code>,
+<code class="inline">:time_zone</code>, <code class="inline">:zone_abbr</code>, <code class="inline">:utc_offset</code> and <code class="inline">:std_offset. *</code>options<code class="inline">is a keyword list of options for formatting. ## Options *</code>:format<code class="inline">is one of</code>:short<code class="inline">,</code>:medium<code class="inline">,</code>:long<code class="inline">,</code>:full<code class="inline">, or a format id or a format string. The default is</code>:medium<code class="inline">for full times (that is, times having</code>:hour<code class="inline">,</code>:minute<code class="inline">and</code>:second<code class="inline">fields). The default for partial times is to derive a candidate format from the time and find the best match from the formats returned by</code>Cldr.Time.available_formats/2<code class="inline">. See [here](README.md#date-time-and-datetime-localization-formats) for more information about specifying formats. *</code>:locale<code class="inline">any locale returned by</code>Cldr.known_locale_names/1<code class="inline">. The default is</code>Cldr.get_locale/0<code class="inline">. *</code>:number_system<code class="inline">a number system into which the formatted date digits should be transliterated. *</code>:prefer<code class="inline">is either</code>:unicode<code class="inline">(the default) or</code>:ascii<code class="inline">. A small number of formats have two variants - one using Unicode spaces (typically non-breaking space) and another using only ASCII whitespace. The</code>:ascii<code class="inline">format is primarily to support legacy use cases and is not recommended. See</code>Cldr.Time.available_formats/3<code class="inline">to see which formats have these variants. *</code>period: :variant<code class="inline">will use a variant for the time period and flexible time period if one is available in the locale. For example, in the</code>:en<code class="inline">locale</code>period: :variant<code class="inline">will return &quot;pm&quot; instead of &quot;PM&quot;. ## Returns *</code>formatted_time_string` or
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="3778651166-2">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p" data-group-id="3778651166-2">)</span><span class="w">
-</span><span class="s">&quot;7:35 AM&quot;</span><span class="w">
+* raises an exception.
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3778651166-3">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:short</span><span class="p">,</span><span class="w"> </span><span class="ss">period</span><span class="p">:</span><span class="w"> </span><span class="ss">:variant</span><span class="p" data-group-id="3778651166-3">)</span><span class="w">
-</span><span class="p" data-group-id="3778651166-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;7:35 AM&quot;</span><span class="p" data-group-id="3778651166-4">}</span><span class="w">
+## Examples
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="3778651166-5">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p">,</span><span class="w"> </span><span class="ss">locale</span><span class="p">:</span><span class="w"> </span><span class="ss">:fr</span><span class="p" data-group-id="3778651166-5">)</span><span class="w">
-</span><span class="s">&quot;07:35:13&quot;</span><span class="w">
+  iex&gt; Klepsidra.Cldr.Time.to_string!(~T[07:35:13.215217])
+  &quot;7:35:13 AM&quot;
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="3778651166-6">(</span><span class="ld">~T[07:35:13.215217]</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:medium</span><span class="p" data-group-id="3778651166-6">)</span><span class="w">
-</span><span class="s">&quot;7:35:13 AM&quot;</span><span class="w">
+  iex&gt; Klepsidra.Cldr.Time.to_string!(~T[07:35:13.215217], format: :short)
+  &quot;7:35 AM&quot;
 
-</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3778651166-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p" data-group-id="3778651166-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive</span><span class="p" data-group-id="3778651166-8">(</span><span class="ld">~N[2000-01-01 23:59:59.0]</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="3778651166-8">)</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Time</span><span class="o">.</span><span class="n">to_string!</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="w">
-</span><span class="s">&quot;11:59:59 PM UTC&quot;</span></code></pre>
+  iex&gt; Klepsidra.Cldr.Time.to_string!(~T[07:35:13.215217], format: :short, period: :variant)
+  &quot;7:35 am&quot;
+
+  iex&gt; Klepsidra.Cldr.Time.to_string!(~T[07:35:13.215217], format: :medium, locale: :fr)
+  &quot;07:35:13&quot;
+
+  iex&gt; Klepsidra.Cldr.Time.to_string!(~T[07:35:13.215217], format: :medium)
+  &quot;7:35:13 AM&quot;
+
+  iex&gt; {:ok, datetime} = DateTime.from_naive(~N[2000-01-01 23:59:59.0], &quot;Etc/UTC&quot;)
+  iex&gt; Klepsidra.Cldr.Time.to_string! datetime, format: :long
+  &quot;11:59:59 PM UTC&quot;
+
+  # A partial time with a best match CLDR-defined format
+  iex&gt; Klepsidra.Cldr.Time.to_string!(%{hour: 23, minute: 11})
+  &quot;11:11 PM&quot;</li></ul>
   </section>
 </section>
 
@@ -334,7 +325,7 @@ return &quot;pm&quot; instead of &quot;PM&quot;.</p></li></ul><h2 id="to_string!
 
       <p class="built-using">
         Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.1) for the
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.2) for the
 
           <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
