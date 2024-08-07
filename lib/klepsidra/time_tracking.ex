@@ -113,7 +113,9 @@ defmodule Klepsidra.TimeTracking do
         summary:
           rec.description
           |> to_string()
-          |> truncate(max_length: 79),
+          |> markdown_to_html()
+          |> truncate(max_length: 79)
+          |> Phoenix.HTML.raw(),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
@@ -122,6 +124,8 @@ defmodule Klepsidra.TimeTracking do
     end)
   end
 
+  @doc """
+  """
   def truncate(text, opts) do
     max_length = opts[:max_length] || 59
     omission = opts[:omission] || "..."
@@ -138,6 +142,20 @@ defmodule Klepsidra.TimeTracking do
 
         "#{String.slice(text, 0, length_with_omission)}#{omission}"
     end
+  end
+
+  @doc """
+  """
+  def markdown_to_html(markdown, _options \\ []) do
+    markdown
+    |> Earmark.as_html!(
+      compact_output: true,
+      code_class_prefix: "lang-",
+      smartypants: true
+    )
+    |> HtmlSanitizeEx.html5()
+
+    # |> Phoenix.HTML.raw()
   end
 
   @doc """
@@ -201,17 +219,17 @@ defmodule Klepsidra.TimeTracking do
       from(
         at in Timer,
         left_join: bp in assoc(at, :business_partner),
-        preload: :business_partner,
-        select: [
-          :id,
-          :start_stamp,
-          :end_stamp,
-          :duration,
-          :duration_time_unit,
-          :description,
-          :business_partner_id,
-          :inserted_at
-        ],
+        select: %{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          description: at.description,
+          business_partner_id: at.business_partner_id,
+          business_partner_name: bp.name,
+          inserted_at: at.inserted_at
+        },
         where:
           not is_nil(at.start_stamp) and
             is_nil(at.end_stamp),
@@ -220,13 +238,20 @@ defmodule Klepsidra.TimeTracking do
 
     query
     |> Repo.all()
-    |> Enum.map(fn %Timer{start_stamp: start_stamp, end_stamp: end_stamp} = rec ->
+    |> Enum.map(fn rec ->
       Map.merge(rec, %{
-        start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
+        start_stamp:
+          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
         end_stamp:
-          unless(is_nil(end_stamp),
-            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp))
-          )
+          unless(is_nil(rec.end_stamp),
+            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
+          ),
+        summary:
+          rec.description
+          |> to_string()
+          |> markdown_to_html()
+          |> truncate(max_length: 79)
+          |> Phoenix.HTML.raw()
       })
     end)
   end
