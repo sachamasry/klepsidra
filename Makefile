@@ -7,5 +7,8 @@ all:
 	@echo "\nThe following targets are available:\n"
 	@echo "	db-doc 					Generate database schema documentation"
 
+compile-assets:
+	MIX_ENV=prod mix assets.deploy
+
 db-doc:
 	java -jar $(SCHEMASPY_BASE_DIR)/$(SCHEMASPY_JAR) -dp $(SCHEMASPY_BASE_DIR)/ -configFile $(SCHEMASPY_CONFIG_FILE) 

@@ -114,7 +114,7 @@ defmodule Klepsidra.TimeTracking do
       Map.merge(rec, %{
         start_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(start_stamp)),
         end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(end_stamp)),
-        duration:
+        formatted_duration:
           {duration, duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
           |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
