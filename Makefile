@@ -5,6 +5,7 @@ SCHEMASPY_CONFIG_FILE 		= ./config/schemaspy.properties
 
 all:
 	@echo "\nThe following targets are available:\n"
+	@echo "	compile-asset			Compile static application assets"
 	@echo "	db-doc 					Generate database schema documentation"
 
 compile-assets:
