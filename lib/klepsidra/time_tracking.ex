@@ -85,27 +85,27 @@ defmodule Klepsidra.TimeTracking do
       from(
         at in Timer,
         left_join: bp in assoc(at, :business_partner),
-        preload: :business_partner,
-        select: [
-          :id,
-          :start_stamp,
-          :end_stamp,
-          :duration,
-          :duration_time_unit,
-          :description,
-          :business_partner_id,
-          :inserted_at
-        ],
         where:
           at.start_stamp <= type(^end_of_day, :naive_datetime) and
             at.end_stamp >= type(^start_of_day, :naive_datetime) and
             not is_nil(at.end_stamp),
-        order_by: [desc: at.inserted_at, asc: at.id]
+        order_by: [desc: at.inserted_at, asc: at.id],
+        select: %{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          description: at.description,
+          business_partner_id: at.business_partner_id,
+          business_partner_name: bp.name,
+          inserted_at: at.inserted_at
+        }
       )
 
     query
     |> Repo.all()
-    |> Enum.map(fn %Timer{
+    |> Enum.map(fn %{
                      start_stamp: start_stamp,
                      end_stamp: end_stamp,
                      duration: duration,

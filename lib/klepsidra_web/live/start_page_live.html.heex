@@ -76,7 +76,7 @@
   <.table
     id="closed-timers"
     rows={@streams.closed_timers}
-    row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer}?return_to=/") end}
+    row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
     <:col :let={{_id, timer}} label="Started">
       <span class="inline-block w-[13ex]">
@@ -103,16 +103,16 @@
       end %>
     </:col>
     <:col :let={{_id, timer}} label="Customer">
-      <%= if is_nil(timer.business_partner), do: "", else: timer.business_partner.name %>
+      <%= if is_nil(timer.business_partner_name), do: "", else: timer.business_partner_name %>
     </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
-        <.link navigate={~p"/timers/#{timer}?return_to=/"}>Show</.link>
+        <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
       </div>
-      <.link patch={~p"/timer_notes/#{timer}/notes/new"} phx-click={JS.push_focus()}>
+      <.link patch={~p"/timer_notes/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>
         + Note
       </.link>
-      <.link patch={~p"/edit_timer/#{timer}"}>Edit</.link>
+      <.link patch={~p"/edit_timer/#{timer.id}"}>Edit</.link>
     </:action>
     <:action :let={{id, timer}}>
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer}"}>Stop</.link>
