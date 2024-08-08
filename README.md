@@ -33,7 +33,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Deleting timers with attached notes fails due to constraints. Either catch
     error and issue user error message, or delete recursively
 
-
 * UI improvements
   * Calculate duration of open timers, updating regularly?
   * Update tag list sorting to case-insensitive alphabetical
@@ -42,16 +41,19 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * On stopping an automated timer, there is no need to see start _and_ end
     times
 
-
 * Implement a 'today' view
   * Update timer listings
-    * Add project column
     * Add timer tags
   * Widen app width from `max-w-2xl` to full width
 
-
 * Provide reporting
-  * Filter: by customer; tags; date range
+  * Count of timers
+  * Aggregate time timed
+  * Billable time timed
+  * Filter
+    * by customer
+    * tags
+    * date range
 
 
 ### Future

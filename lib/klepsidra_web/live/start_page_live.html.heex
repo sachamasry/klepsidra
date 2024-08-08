@@ -20,15 +20,14 @@
     rows={@streams.open_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Started"><%= timer.start_stamp %></:col>
+    <:col :let={{_id, timer}} label="Timings"><%= timer.start_stamp %></:col>
     <:col :let={{_id, timer}} label="Description">
       <span title={timer.description |> to_string()}>
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Customer">
-      <%= if is_nil(timer.business_partner_name), do: "", else: timer.business_partner_name %>
-    </:col>
+    <:col :let={{_id, timer}} label="Project"><%= timer.project_name %></:col>
+    <:col :let={{_id, timer}} label="Customer"><%= timer.business_partner_name %></:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
@@ -68,7 +67,7 @@
     rows={@streams.closed_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Started">
+    <:col :let={{_id, timer}} label="Timings">
       <span class="inline-block w-[13ex]">
         <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
       </span>
@@ -82,9 +81,8 @@
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Customer">
-      <%= if is_nil(timer.business_partner_name), do: "", else: timer.business_partner_name %>
-    </:col>
+    <:col :let={{_id, timer}} label="Project"><%= timer.project_name %></:col>
+    <:col :let={{_id, timer}} label="Customer"><%= timer.business_partner_name %></:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>

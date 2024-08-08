@@ -85,6 +85,7 @@ defmodule Klepsidra.TimeTracking do
       from(
         at in Timer,
         left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
         where:
           at.start_stamp <= type(^end_of_day, :naive_datetime) and
             at.end_stamp >= type(^start_of_day, :naive_datetime) and
@@ -96,9 +97,10 @@ defmodule Klepsidra.TimeTracking do
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          description: at.description,
+          description: at.description |> coalesce(""),
+          project_name: p.name |> coalesce(""),
           business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name,
+          business_partner_name: bp.name |> coalesce(""),
           inserted_at: at.inserted_at
         }
       )
@@ -112,7 +114,6 @@ defmodule Klepsidra.TimeTracking do
         end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp)),
         summary:
           rec.description
-          |> to_string()
           |> markdown_to_html()
           |> truncate(max_length: 79)
           |> Phoenix.HTML.raw(),
@@ -219,15 +220,17 @@ defmodule Klepsidra.TimeTracking do
       from(
         at in Timer,
         left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
         select: %{
           id: at.id,
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          description: at.description,
+          description: at.description |> coalesce(""),
+          project_name: p.name |> coalesce(""),
           business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name,
+          business_partner_name: bp.name |> coalesce(""),
           inserted_at: at.inserted_at
         },
         where:
