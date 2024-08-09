@@ -35,9 +35,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         </div>
 
         <div :if={@invocation_context == :stop_timer}>
-          <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" readonly />
+          <div class="hidden">
+            <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" readonly />
 
-          <.input field={@form[:end_stamp]} type="datetime-local" label="End time" readonly />
+            <.input field={@form[:end_stamp]} type="datetime-local" label="End time" readonly />
+          </div>
 
           <.input field={@form[:duration]} type="text" label="Duration" readonly />
 

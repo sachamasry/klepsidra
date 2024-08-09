@@ -38,13 +38,13 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Update tag list sorting to case-insensitive alphabetical
   * Implement list sorting on entities: projects, business partners, activity
     types, etc.
-  * On stopping an automated timer, there is no need to see start _and_ end
-    times
 
 * Implement a 'today' view
   * Update timer listings
     * Add timer tags
-  * Widen app width from `max-w-2xl` to full width
+  * Widen app width from `max-w-2xl` to full width. Perhaps this isn't such a
+    good idea, as it doesn't add much in the way of quality; it's better to
+    concentrate on better fitting records through improved formatting.
 
 * Provide reporting
   * Count of timers
