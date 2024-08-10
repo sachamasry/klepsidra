@@ -28,12 +28,15 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * Debugging
+  * Use HTML/CSS line overflowing for eliding description content, instead of
+    truncating at source and fighting broken HTML tags?
   * Reformat timer records on stream insertion
   * Fix LiveView crash upon timer record update on StartPage
   * Deleting timers with attached notes fails due to constraints. Either catch
     error and issue user error message, or delete recursively
 
 * UI improvements
+  * Align all rows of timers' listing table to the top of the table cell
   * Calculate duration of open timers, updating regularly?
   * Update tag list sorting to case-insensitive alphabetical
   * Implement list sorting on entities: projects, business partners, activity

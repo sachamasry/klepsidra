@@ -20,9 +20,17 @@
     rows={@streams.open_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Timings"><%= timer.start_stamp %></:col>
+    <:col :let={{_id, timer}} label="Timings">
+      <span class="inline-block w-[13ex]">
+        <%= timer.start_stamp %>
+      </span>
+      <br />
+      <span class="font-extrabold text-xs text-slate-400 inline-block max-w-[13ex]">
+        &nbsp;
+      </span>
+    </:col>
     <:col :let={{_id, timer}} label="Description">
-      <span title={timer.description |> to_string()}>
+      <span class="inline-block w-[37ex]" title={timer.description |> to_string()}>
         <%= timer.summary %>
       </span>
     </:col>
@@ -77,7 +85,7 @@
       </span>
     </:col>
     <:col :let={{_id, timer}} label="Description">
-      <span title={timer.description |> to_string()}>
+      <span class="inline-block w-[37ex]" title={timer.description |> to_string()}>
         <%= timer.summary %>
       </span>
     </:col>
