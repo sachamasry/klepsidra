@@ -20,7 +20,7 @@
     rows={@streams.open_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Timings">
+    <:col :let={{_id, timer}} label="Timings" class="align-top">
       <span class="inline-block w-[13ex]">
         <%= timer.start_stamp %>
       </span>
@@ -29,13 +29,15 @@
         &nbsp;
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Description">
+    <:col :let={{_id, timer}} label="Description" class="align-top">
       <span class="inline-block w-[37ex]" title={timer.description |> to_string()}>
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project"><%= timer.project_name %></:col>
-    <:col :let={{_id, timer}} label="Customer"><%= timer.business_partner_name %></:col>
+    <:col :let={{_id, timer}} label="Project" class="align-top"><%= timer.project_name %></:col>
+    <:col :let={{_id, timer}} label="Customer" class="align-top">
+      <%= timer.business_partner_name %>
+    </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
@@ -75,22 +77,28 @@
     rows={@streams.closed_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Timings">
-      <span class="inline-block w-[13ex]">
+    <:col :let={{_id, timer}} label="Timings" class="align-top">
+      <span class="inline-block align-top w-[13ex]">
         <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
       </span>
       <br />
-      <span class="font-extrabold text-xs text-slate-400 inline-block max-w-[13ex]">
+      <span class="inline-block font-extrabold text-xs text-slate-400 inline-block max-w-[13ex]">
         <%= timer.formatted_duration %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Description">
-      <span class="inline-block w-[37ex]" title={timer.description |> to_string()}>
+    <:col :let={{_id, timer}} label="Description" class="align-top">
+      <span class="inline-block align-top w-[37ex]" title={timer.description |> to_string()}>
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project"><%= timer.project_name %></:col>
-    <:col :let={{_id, timer}} label="Customer"><%= timer.business_partner_name %></:col>
+    <:col :let={{_id, timer}} label="Project" class="align-top">
+      <span class="inline-block align-top w-[10ex]">
+        <%= timer.project_name %>
+      </span>
+    </:col>
+    <:col :let={{_id, timer}} label="Customer" class="align-top">
+      <%= timer.business_partner_name %>
+    </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
