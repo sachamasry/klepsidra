@@ -31,8 +31,49 @@ defmodule Klepsidra.TimeTracking do
 
   """
   def list_timers_with_customers do
-    Repo.all(Timer)
-    |> Repo.preload(:business_partner)
+    query =
+      from(
+        at in Timer,
+        left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
+        order_by: [desc: at.inserted_at, asc: at.id],
+        select: %{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          billing_duration: at.billing_duration,
+          billing_duration_time_unit: at.billing_duration_time_unit,
+          description: at.description |> coalesce(""),
+          project_name: p.name |> coalesce(""),
+          business_partner_id: at.business_partner_id,
+          business_partner_name: bp.name |> coalesce(""),
+          inserted_at: at.inserted_at
+        }
+      )
+
+    query
+    |> Repo.all()
+    |> Enum.map(fn rec ->
+      Map.merge(rec, %{
+        start_stamp:
+          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
+        end_stamp:
+          if(rec.end_stamp,
+            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
+          ),
+        summary:
+          rec.description
+          |> markdown_to_html()
+          |> truncate(max_length: 79)
+          |> Phoenix.HTML.raw(),
+        formatted_duration:
+          {rec.duration, rec.duration_time_unit}
+          |> Timer.convert_duration_to_base_time_unit()
+          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      })
+    end)
   end
 
   @doc """
@@ -64,9 +105,50 @@ defmodule Klepsidra.TimeTracking do
       iex> get_timer!(456)
       ** (Ecto.NoResultsError)
   """
-  def get_timer_and_business_partner!(id) do
-    Repo.get!(Timer, id)
-    |> Repo.preload(:business_partner)
+  def get_formatted_timer_record!(id) do
+    query =
+      from(at in Timer,
+        where: at.id == ^id,
+        left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
+        select: %{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          billing_duration: at.billing_duration,
+          billing_duration_time_unit: at.billing_duration_time_unit,
+          description: at.description |> coalesce(""),
+          project_name: p.name |> coalesce(""),
+          business_partner_id: at.business_partner_id,
+          business_partner_name: bp.name |> coalesce(""),
+          inserted_at: at.inserted_at
+        }
+      )
+
+    query
+    |> Repo.all()
+    |> Enum.map(fn rec ->
+      Map.merge(rec, %{
+        start_stamp:
+          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
+        end_stamp:
+          if(rec.end_stamp,
+            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
+          ),
+        summary:
+          rec.description
+          |> markdown_to_html()
+          |> truncate(max_length: 79)
+          |> Phoenix.HTML.raw(),
+        formatted_duration:
+          {rec.duration, rec.duration_time_unit}
+          |> Timer.convert_duration_to_base_time_unit()
+          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      })
+    end)
+    |> List.first()
   end
 
   @doc """
@@ -155,8 +237,6 @@ defmodule Klepsidra.TimeTracking do
       smartypants: true
     )
     |> HtmlSanitizeEx.html5()
-
-    # |> Phoenix.HTML.raw()
   end
 
   @doc """
