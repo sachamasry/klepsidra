@@ -28,12 +28,10 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * Debugging
-    truncating at source and fighting broken HTML tags?
   * Deleting timers with attached notes fails due to constraints. Either catch
     error and issue user error message, or delete recursively
 
 * UI improvements
-  * Use HTML/CSS line overflowing for eliding description content, instead of
   * Update tag list sorting to case-insensitive alphabetical
   * Implement list sorting on entities: projects, business partners, activity
   * Calculate duration of open timers, updating regularly?

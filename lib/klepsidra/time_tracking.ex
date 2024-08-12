@@ -66,7 +66,6 @@ defmodule Klepsidra.TimeTracking do
         summary:
           rec.description
           |> markdown_to_html()
-          |> truncate(max_length: 79)
           |> Phoenix.HTML.raw(),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
@@ -140,7 +139,6 @@ defmodule Klepsidra.TimeTracking do
         summary:
           rec.description
           |> markdown_to_html()
-          |> truncate(max_length: 79)
           |> Phoenix.HTML.raw(),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
@@ -197,7 +195,6 @@ defmodule Klepsidra.TimeTracking do
         summary:
           rec.description
           |> markdown_to_html()
-          |> truncate(max_length: 79)
           |> Phoenix.HTML.raw(),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
@@ -333,7 +330,6 @@ defmodule Klepsidra.TimeTracking do
           rec.description
           |> to_string()
           |> markdown_to_html()
-          |> truncate(max_length: 79)
           |> Phoenix.HTML.raw()
       })
     end)
