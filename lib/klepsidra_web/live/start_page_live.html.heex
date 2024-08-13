@@ -15,7 +15,12 @@
     <h2>Open timers</h2>
   </div>
 
+  <div class="my-6 text-center">
+    <p :if={@open_timer_count == 0}>No running timers.</p>
+  </div>
+
   <.table
+    :if={@open_timer_count > 0}
     id="open-timers"
     rows={@streams.open_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
@@ -73,7 +78,12 @@
     </p>
   </div>
 
+  <div class="my-6 text-center">
+    <p :if={@closed_timer_count == 0}>Let's time something today!</p>
+  </div>
+
   <.table
+    :if={@closed_timer_count > 0}
     id="closed-timers"
     rows={@streams.closed_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}

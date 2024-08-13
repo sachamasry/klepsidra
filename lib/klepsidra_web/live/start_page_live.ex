@@ -18,6 +18,7 @@ defmodule KlepsidraWeb.StartPageLive do
     current_datetime_stamp = get_current_datetime_stamp()
     aggregate_duration = get_aggregate_duration_for_date(current_datetime_stamp)
     human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
+    open_timer_count = TimeTracking.get_open_timer_count()
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
 
     socket =
@@ -26,6 +27,7 @@ defmodule KlepsidraWeb.StartPageLive do
         today: format_date(current_datetime_stamp),
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
+        open_timer_count: open_timer_count,
         closed_timer_count: closed_timer_count
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
@@ -146,6 +148,10 @@ defmodule KlepsidraWeb.StartPageLive do
     timer = TimeTracking.get_timer!(id)
     {:ok, _} = TimeTracking.delete_timer(timer)
 
+    socket =
+      socket
+      |> update(:open_timer_count, fn tc -> tc - 1 end)
+
     {:noreply, handle_deleted_timer(socket, timer, :open_timers)}
   end
 
@@ -174,12 +180,14 @@ defmodule KlepsidraWeb.StartPageLive do
   defp handle_started_timer(socket, timer) do
     socket
     |> stream_insert(:open_timers, timer, at: 0)
+    |> update(:open_timer_count, fn tc -> tc + 1 end)
     |> put_toast(:info, "Timer started")
   end
 
   defp handle_open_timer(socket, timer) do
     socket
     |> stream_insert(:open_timers, timer)
+    |> update(:open_timer_count, fn tc -> tc + 1 end)
     |> put_toast(:info, "Timer created successfully")
   end
 
@@ -196,10 +204,11 @@ defmodule KlepsidraWeb.StartPageLive do
     |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
       update_human_readable_duration(assigns.aggregate_duration)
     end)
+    |> stream_delete(:open_timers, timer)
+    |> update(:open_timer_count, fn tc -> tc - 1 end)
+    |> stream_insert(:closed_timers, timer, at: 0)
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
     |> put_toast(:info, "Timer stopped")
-    |> stream_delete(:open_timers, timer)
-    |> stream_insert(:closed_timers, timer, at: 0)
   end
 
   defp handle_updated_timer(socket, timer) do
@@ -233,6 +242,7 @@ defmodule KlepsidraWeb.StartPageLive do
   defp handle_updated_timer_changes(socket, timer, {:open, :open}) do
     socket
     |> stream_insert(:open_timers, timer)
+    |> update(:open_timer_count, fn tc -> tc + 1 end)
   end
 
   defp handle_updated_timer_changes(socket, timer, {:closed, :closed}) do
@@ -263,6 +273,7 @@ defmodule KlepsidraWeb.StartPageLive do
   defp handle_updated_timer_changes(socket, timer, {:open, :closed}) do
     socket
     |> stream_delete(:open_timers, timer)
+    |> update(:open_timer_count, fn tc -> tc - 1 end)
     |> stream_insert(:closed_timers, timer)
     |> update(:closed_timer_count, fn tc -> tc + 1 end)
     |> update(:aggregate_duration, fn aggregate_duration ->
@@ -277,8 +288,9 @@ defmodule KlepsidraWeb.StartPageLive do
   defp handle_updated_timer_changes(socket, timer, {:closed, :open}) do
     socket
     |> stream_delete(:closed_timers, timer)
-    |> stream_insert(:open_timers, timer)
     |> update(:closed_timer_count, fn tc -> tc - 1 end)
+    |> stream_insert(:open_timers, timer)
+    |> update(:open_timer_count, fn tc -> tc + 1 end)
     |> update(
       :aggregate_duration,
       fn aggregate_duration ->

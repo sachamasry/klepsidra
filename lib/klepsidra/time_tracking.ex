@@ -252,9 +252,29 @@ defmodule Klepsidra.TimeTracking do
         at in "timers",
         select: count(at.id),
         where:
-          at.start_stamp >= type(^start_of_day, :naive_datetime) and
-            at.start_stamp <= type(^end_of_day, :naive_datetime) and
+          at.start_stamp <= type(^end_of_day, :naive_datetime) and
+            at.end_stamp >= type(^start_of_day, :naive_datetime) and
             not is_nil(at.end_stamp)
+      )
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Gets a count of all open timers.
+
+  An open timer is one without an end datetime stamp recorded, as well as
+  a starting one.
+  """
+  @spec get_open_timer_count() :: integer()
+  def get_open_timer_count() do
+    query =
+      from(
+        at in "timers",
+        select: count(at.id),
+        where:
+          not is_nil(at.start_stamp) and
+            is_nil(at.end_stamp)
       )
 
     Repo.one(query)
@@ -278,8 +298,8 @@ defmodule Klepsidra.TimeTracking do
         select: {sum(at.duration), at.duration_time_unit},
         group_by: at.duration_time_unit,
         where:
-          at.start_stamp >= type(^start_of_day, :naive_datetime) and
-            at.start_stamp <= type(^end_of_day, :naive_datetime) and
+          at.start_stamp <= type(^end_of_day, :naive_datetime) and
+            at.end_stamp >= type(^start_of_day, :naive_datetime) and
             not is_nil(at.end_stamp)
       )
 
