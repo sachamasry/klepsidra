@@ -30,6 +30,14 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 * Debugging
   * Deleting timers with attached notes fails due to constraints. Either catch
     error and issue user error message, or delete recursively
+        * Make changes in db migration files, with :belongs_to on the notes
+          schema, and a :has_many on the timers schema, with a
+          `references(:parent_id, on_delete: :delete_all)` to ensure all notes
+          are deleted
+        * Ensure a second warning message is displayed to the user, ensuring
+          they truly understand the impact of deleting the timer
+              * Is there a LiveView component anywhere that could be used to
+                replace the current browser-default message
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
@@ -53,7 +61,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     * tags
     * date range
 
-
+    
 ### Future
 
 * Document truncate and markdown_to_html functions
