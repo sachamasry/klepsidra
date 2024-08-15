@@ -34,6 +34,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
           schema, and a :has_many on the timers schema, with a
           `references(:parent_id, on_delete: :delete_all)` to ensure all notes
           are deleted
+              * Perhaps it's sufficient to make the change on the schema only?
         * Ensure a second warning message is displayed to the user, ensuring
           they truly understand the impact of deleting the timer
               * Is there a LiveView component anywhere that could be used to
