@@ -30,26 +30,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 * Debugging
   * Deleting timers with attached notes fails due to constraints. Either catch
     error and issue user error message, or delete recursively
-        * Make changes in db migration files, with :belongs_to on the notes
-          schema, and a :has_many on the timers schema, with a
-          `references(:parent_id, on_delete: :delete_all)` to ensure all notes
-          are deleted
-              * Perhaps it's sufficient to make the change on the schema only?
-              * Trying to delete the timer record in the app raises an error at
-                the changeset level: 
-                
-```
-                 ** (Ecto.ConstraintError) constraint error when attempting to delete struct:
-                                                                                                                            * nil (foreign_key_constraint)                                                                                      
-                                                                                                                        
-If you would like to stop this constraint violation from raising an
-exception and instead add it as an error to your changeset, please                                                      call `foreign_key_constraint/3` on your changeset with the constraint                                                   `:name` as an option. 
-```
-
-    Deleting the timer record directly in the database raises no error or
-          exception, hence the on_delete change has to be made at the
-          schema-definition level.
-          
         * Ensure a second warning message is displayed to the user, ensuring
           they truly understand the impact of deleting the timer
               * Is there a LiveView component anywhere that could be used to

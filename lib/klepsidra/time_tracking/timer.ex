@@ -52,6 +52,8 @@ defmodule Klepsidra.TimeTracking.Timer do
 
     has_many :tags, through: [:timer_tags, :tag]
 
+    has_many :notes, Klepsidra.TimeTracking.Note, on_delete: :delete_all
+
     timestamps()
   end
 

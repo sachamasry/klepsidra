@@ -15,7 +15,7 @@ defmodule Klepsidra.TimeTracking.Note do
         }
   schema "timer_notes" do
     field :note, :string
-    belongs_to :timer, Timer, type: Ecto.UUID
+    belongs_to :timer, Klepsidra.TimeTracking.Timer, type: Ecto.UUID
 
     timestamps()
   end
@@ -25,5 +25,6 @@ defmodule Klepsidra.TimeTracking.Note do
     note
     |> cast(attrs, [:note, :timer_id])
     |> validate_required([:note])
+    |> assoc_constraint(:timer)
   end
 end
