@@ -32,8 +32,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     error and issue user error message, or delete recursively
         * Ensure a second warning message is displayed to the user, ensuring
           they truly understand the impact of deleting the timer
-              * Is there a LiveView component anywhere that could be used to
-                replace the current browser-default message
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
