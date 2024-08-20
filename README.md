@@ -32,6 +32,8 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     error and issue user error message, or delete recursively
         * Ensure a second warning message is displayed to the user, ensuring
           they truly understand the impact of deleting the timer
+          * Look for good UX examples, as this is likely to become a UX
+            annoyance, more than a saviour of data loss
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
