@@ -57,7 +57,7 @@
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer.id}"}>Stop</.link>
       <.link
         phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
-        data-confirm="Are you sure you want to delete this activity timer?"
+        data-confirm="Delete activity timer?"
       >
         Delete
       </.link>
