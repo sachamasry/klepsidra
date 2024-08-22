@@ -60,6 +60,11 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     
 ### Future
 
+* Start creating an undo feature, reducing reliance on confirmation dialogs,
+  particularly for deletions
+      * Build an audit trail-like functionality, to be able to undo any deletion
+        or modification, at any time, as well as to see a history of actions
+        taken 
 * Document truncate and markdown_to_html functions
 * Audit other timers for strengths and weaknesses
 * Markdown
