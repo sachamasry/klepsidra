@@ -89,11 +89,11 @@
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top">
-      <div class="inline-block align-top w-[13ex]">
-        <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
-      </div>
       <div class="inline-block font-extrabold text-xs text-slate-400 inline-block max-w-[13ex]">
         <%= timer.formatted_duration %>
+      </div>
+      <div class="inline-block align-top w-[13ex]">
+        <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
       </div>
     </:col>
     <:col
