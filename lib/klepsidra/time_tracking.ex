@@ -189,6 +189,7 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.all()
     |> Enum.map(fn rec ->
       Map.merge(rec, %{
+        start_date: rec.start_stamp |> NaiveDateTime.from_iso8601!() |> NaiveDateTime.to_date(),
         start_stamp:
           Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
         end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp)),
