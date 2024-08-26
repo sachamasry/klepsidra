@@ -37,11 +37,15 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
+    * Hide open timers on non-today dates
   * Implement list sorting on entities: projects, business partners, activity
   * Calculate duration of open timers, updating regularly?
     types, etc.
+    * Remove non-active entities-projects, customers, activity types-from
+      relevant lists and select controls
 
 * Implement a 'today' view
+  * Provide daily navigation facility: back, forward and today
   * Update timer listings
     * Add timer tags
   * Widen app width from `max-w-2xl` to full width. Perhaps this isn't such a

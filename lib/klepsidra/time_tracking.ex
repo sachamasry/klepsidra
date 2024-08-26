@@ -5,7 +5,8 @@ defmodule Klepsidra.TimeTracking do
 
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
-
+  alias Klepsidra.TimeTracking.ActivityType
+  alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
 
   @doc """
@@ -67,6 +68,7 @@ defmodule Klepsidra.TimeTracking do
           rec.description
           |> markdown_to_html()
           |> Phoenix.HTML.raw(),
+        formatted_start_date: nil,
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
@@ -140,6 +142,7 @@ defmodule Klepsidra.TimeTracking do
           rec.description
           |> markdown_to_html()
           |> Phoenix.HTML.raw(),
+        formatted_start_date: nil,
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
@@ -189,7 +192,6 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.all()
     |> Enum.map(fn rec ->
       Map.merge(rec, %{
-        start_date: rec.start_stamp |> NaiveDateTime.from_iso8601!() |> NaiveDateTime.to_date(),
         start_stamp:
           Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
         end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp)),
@@ -197,6 +199,13 @@ defmodule Klepsidra.TimeTracking do
           rec.description
           |> markdown_to_html()
           |> Phoenix.HTML.raw(),
+        formatted_start_date:
+          if(
+            NaiveDateTime.compare(Timer.parse_html_datetime!(rec.start_stamp), start_of_day) ==
+              :lt,
+            do: "Started yesterday",
+            else: nil
+          ),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
@@ -421,8 +430,6 @@ defmodule Klepsidra.TimeTracking do
     Timer.changeset(timer, attrs)
   end
 
-  alias Klepsidra.TimeTracking.Note
-
   @doc """
   Returns the list of notes.
 
@@ -537,8 +544,6 @@ defmodule Klepsidra.TimeTracking do
   def change_note(%Note{} = note, attrs \\ %{}) do
     Note.changeset(note, attrs)
   end
-
-  alias Klepsidra.TimeTracking.ActivityType
 
   @doc """
   Returns the list of activity_types.
