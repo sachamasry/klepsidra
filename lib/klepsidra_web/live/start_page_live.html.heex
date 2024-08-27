@@ -29,7 +29,12 @@
       <div class="inline-block w-[13ex]">
         <%= timer.start_stamp %>
       </div>
-      <div class="font-extrabold text-xs text-slate-400 inline-block"></div>
+      <div
+        :if={timer.formatted_start_date}
+        class="inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
+      >
+        <%= timer.formatted_start_date %>
+      </div>
     </:col>
     <:col
       :let={{_id, timer}}

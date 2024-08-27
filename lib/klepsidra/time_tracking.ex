@@ -356,6 +356,11 @@ defmodule Klepsidra.TimeTracking do
           unless(is_nil(rec.end_stamp),
             do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
           ),
+        formatted_start_date:
+          Timex.from_now(
+            Timer.parse_html_datetime!(rec.start_stamp),
+            NaiveDateTime.local_now()
+          ),
         summary:
           rec.description
           |> to_string()
