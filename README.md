@@ -28,12 +28,13 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * Debugging
-  * Deleting timers with attached notes fails due to constraints. Either catch
-    error and issue user error message, or delete recursively
-        * Ensure a second warning message is displayed to the user, ensuring
-          they truly understand the impact of deleting the timer
-          * Look for good UX examples, as this is likely to become a UX
-            annoyance, more than a saviour of data loss
+  * Debug LiveView crash when returning timers from closed to open status
+  * The timer description column blocks the onClick timer show action
+
+* Ensure a second warning message is displayed to the user, ensuring
+  they truly understand the impact of deleting the timer
+  * Look for good UX examples, as this is likely to become a UX
+    annoyance, more than a saviour of data loss
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
@@ -48,9 +49,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Provide daily navigation facility: back, forward and today
   * Update timer listings
     * Add timer tags
-  * Widen app width from `max-w-2xl` to full width. Perhaps this isn't such a
-    good idea, as it doesn't add much in the way of quality; it's better to
-    concentrate on better fitting records through improved formatting.
 
 * Provide reporting
   * Count of timers

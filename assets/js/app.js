@@ -89,20 +89,22 @@ document.body.addEventListener('phoenix.link.click', function (event) {
     return true;
   }
 
-  // We do this since `window.confirm` prevents all execution by default.
-  // To recreate this behaviour we `preventDefault` 
-  // Then add an attribute which will allow us to re-trigger the click event while skipping the dialog
+  // We do this since `window.confirm` prevents all execution by default. To
+  // recreate this behaviour we `preventDefault` Then add an attribute which
+  // will allow us to re-trigger the click event while skipping the dialog
   event.preventDefault();
   targetButton.setAttribute(CONFIRM_ATTRIBUTE, "")
 
-  // Reset the `returnValue` as otherwise on keyboard `Esc` it will simply take the most recent `returnValue`, causing all sorts of issues :D
+  // Reset the `returnValue` as otherwise on keyboard `Esc` it will simply take
+  // the most recent `returnValue`, causing all sorts of issues :D
   DANGER_DIALOG.returnValue = "cancel";
 
   // We use the title, which is nice we can have translated titles
   DANGER_DIALOG.querySelector("[data-ref='title']").innerText = title;
 
 
-  // <dialog> is a very cool element and provides a lot of cool things out of the box, like showing the modal in the #top-layer
+  // <dialog> is a very cool element and provides a lot of cool things out of
+  // the box, like showing the modal in the #top-layer
   DANGER_DIALOG.showModal();
 
   // Re-triggering logic
@@ -112,7 +114,8 @@ document.body.addEventListener('phoenix.link.click', function (event) {
       // since we have the attribute set. This will just execute the click event
       targetButton.click();
     } else {
-      // Remove the attribute on cancel as otherwise the next click would execute the click event without the dialog
+      // Remove the attribute on cancel as otherwise the next click would
+      // execute the click event without the dialog
       targetButton.removeAttribute(CONFIRM_ATTRIBUTE);
     }
   // once: true, automatically remove the listener after first execution

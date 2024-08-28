@@ -53,13 +53,19 @@
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
       </div>
+    </:action>
+    <:action :let={{_id, timer}}>
       <.link patch={~p"/timer_notes/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>
         + Note
       </.link>
+    </:action>
+    <:action :let={{_id, timer}}>
       <.link patch={~p"/edit_timer/#{timer.id}"}>Edit</.link>
     </:action>
-    <:action :let={{id, timer}}>
+    <:action :let={{_id, timer}}>
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer.id}"}>Stop</.link>
+    </:action>
+    <:action :let={{id, timer}}>
       <.link
         phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
         data-confirm="Delete activity timer?"
@@ -93,8 +99,8 @@
     rows={@streams.closed_timers}
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
-    <:col :let={{_id, timer}} label="Timings" class="align-top">
-      <div class="inline-block font-extrabold text-xs text-slate-400 inline-block max-w-[13ex]">
+    <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[13ex]">
+      <div class="inline-block font-extrabold text-xs text-slate-400 inline-block">
         <%= timer.formatted_duration %>
       </div>
       <div class="inline-block align-top w-[13ex]">
@@ -128,16 +134,19 @@
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
       </div>
+    </:action>
+    <:action :let={{_id, timer}}>
       <.link patch={~p"/timer_notes/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>
         + Note
       </.link>
+    </:action>
+    <:action :let={{_id, timer}}>
       <.link patch={~p"/edit_timer/#{timer.id}"}>Edit</.link>
     </:action>
     <:action :let={{id, timer}}>
-      <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer}"}>Stop</.link>
       <.link
-        phx-click={JS.push("delete-closed-timer", value: %{id: timer.id}) |> hide("##{id}")}
-        data-confirm="Are you sure?"
+        phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
+        data-confirm="Delete activity timer?"
       >
         Delete
       </.link>
