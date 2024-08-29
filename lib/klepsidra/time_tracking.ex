@@ -142,7 +142,7 @@ defmodule Klepsidra.TimeTracking do
           rec.description
           |> markdown_to_html()
           |> Phoenix.HTML.raw(),
-        formatted_start_date: nil,
+        formatted_start_date: "",
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
           |> Timer.convert_duration_to_base_time_unit()
@@ -204,7 +204,7 @@ defmodule Klepsidra.TimeTracking do
             NaiveDateTime.compare(Timer.parse_html_datetime!(rec.start_stamp), start_of_day) ==
               :lt,
             do: "Started yesterday",
-            else: nil
+            else: ""
           ),
         formatted_duration:
           {rec.duration, rec.duration_time_unit}
@@ -352,10 +352,7 @@ defmodule Klepsidra.TimeTracking do
       Map.merge(rec, %{
         start_stamp:
           Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp:
-          unless(is_nil(rec.end_stamp),
-            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
-          ),
+        end_stamp: nil,
         formatted_start_date:
           Timex.from_now(
             Timer.parse_html_datetime!(rec.start_stamp),

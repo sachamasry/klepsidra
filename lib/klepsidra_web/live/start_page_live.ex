@@ -233,7 +233,6 @@ defmodule KlepsidraWeb.StartPageLive do
 
     socket
     |> handle_updated_timer_changes(timer, {previous_timer_status, current_timer_status})
-    |> update(:formatted_start_date, nil)
     |> update(:human_readable_duration, fn _human_readable_duration, assigns ->
       update_human_readable_duration(assigns.aggregate_duration)
     end)

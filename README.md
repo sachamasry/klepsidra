@@ -28,7 +28,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * Debugging
-  * Debug LiveView crash when returning timers from closed to open status
   * The timer description column blocks the onClick timer show action
 
 * Ensure a second warning message is displayed to the user, ensuring
