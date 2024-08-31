@@ -36,12 +36,11 @@
         <%= timer.formatted_start_date %>
       </div>
     </:col>
-    <:col
-      :let={{_id, timer}}
-      label="Description"
-      class="align-top w-[37ex] overflow-hidden	inline-block max-h-[4rem]"
-    >
-      <span title={timer.description |> to_string()}>
+    <:col :let={{_id, timer}} label="Description" class="align-top">
+      <span
+        class="inline-block overflow-hidden w-[37ex] max-h-[3rem]"
+        title={timer.description |> to_string()}
+      >
         <%= timer.summary %>
       </span>
     </:col>
@@ -113,12 +112,11 @@
         <%= timer.formatted_start_date %>
       </div>
     </:col>
-    <:col
-      :let={{_id, timer}}
-      label="Description"
-      class="align-top w-[37ex] overflow-hidden	inline-block max-h-[4rem]"
-    >
-      <span title={timer.description |> to_string()}>
+    <:col :let={{_id, timer}} label="Description" class="align-top">
+      <span
+        class="inline-block overflow-hidden w-[37ex] max-h-[3rem]"
+        title={timer.description |> to_string()}
+      >
         <%= timer.summary %>
       </span>
     </:col>

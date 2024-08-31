@@ -28,7 +28,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * Debugging
-  * The timer description column blocks the onClick timer show action
 
 * Ensure a second warning message is displayed to the user, ensuring
   they truly understand the impact of deleting the timer
@@ -36,6 +35,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     annoyance, more than a saviour of data loss
 
 * UI improvements
+  * Improve multi-line baseline alignment in timer listing table columns
   * Update tag list sorting to case-insensitive alphabetical
     * Hide open timers on non-today dates
   * Implement list sorting on entities: projects, business partners, activity
