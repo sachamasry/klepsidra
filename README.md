@@ -35,9 +35,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     annoyance, more than a saviour of data loss
 
 * UI improvements
-  * Improve multi-line baseline alignment in timer listing table columns
   * Update tag list sorting to case-insensitive alphabetical
-    * Hide open timers on non-today dates
   * Implement list sorting on entities: projects, business partners, activity
   * Calculate duration of open timers, updating regularly?
     types, etc.

@@ -26,26 +26,30 @@
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[13ex]">
-      <div class="inline-block w-[13ex]">
-        <%= timer.start_stamp %>
-      </div>
-      <div
-        :if={timer.formatted_start_date}
-        class="inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
-      >
-        <%= timer.formatted_start_date %>
+      <div class="leading-snug inline-block">
+        <div class="w-[13ex]">
+          <%= timer.start_stamp %>
+        </div>
+        <div
+          :if={timer.formatted_start_date}
+          class="leading-[1.4rem] inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
+        >
+          <%= timer.formatted_start_date %>
+        </div>
       </div>
     </:col>
     <:col :let={{_id, timer}} label="Description" class="align-top">
       <span
-        class="inline-block overflow-hidden w-[37ex] max-h-[3rem]"
+        class="leading-snug inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project" class="align-top"><%= timer.project_name %></:col>
-    <:col :let={{_id, timer}} label="Customer" class="align-top">
+    <:col :let={{_id, timer}} label="Project" class="align-top leading-snug">
+      <%= timer.project_name %>
+    </:col>
+    <:col :let={{_id, timer}} label="Customer" class="align-top leading-snug">
       <%= timer.business_partner_name %>
     </:col>
     <:action :let={{_id, timer}}>
@@ -99,33 +103,35 @@
     row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}?return_to=/") end}
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[13ex]">
-      <div class="inline-block font-extrabold text-xs text-slate-400 inline-block">
-        <%= timer.formatted_duration %>
-      </div>
-      <div class="inline-block align-top w-[13ex]">
-        <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
-      </div>
-      <div
-        :if={timer.formatted_start_date}
-        class="inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
-      >
-        <%= timer.formatted_start_date %>
+      <div class="leading-snug inline-block">
+        <div class="inline-block font-extrabold text-xs leading-[1.7] text-slate-400 inline-block">
+          <%= timer.formatted_duration %>
+        </div>
+        <div class="inline-block leading-[1] align-top w-[13ex]">
+          <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
+        </div>
+        <div
+          :if={timer.formatted_start_date}
+          class="inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
+        >
+          <%= timer.formatted_start_date %>
+        </div>
       </div>
     </:col>
     <:col :let={{_id, timer}} label="Description" class="align-top">
       <span
-        class="inline-block overflow-hidden w-[37ex] max-h-[3rem]"
+        class="leading-snug inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project" class="align-top">
+    <:col :let={{_id, timer}} label="Project" class="align-top leading-snug">
       <span class="inline-block align-top w-[10ex]">
         <%= timer.project_name %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Customer" class="align-top">
+    <:col :let={{_id, timer}} label="Customer" class="align-top leading-snug">
       <%= timer.business_partner_name %>
     </:col>
     <:action :let={{_id, timer}}>
