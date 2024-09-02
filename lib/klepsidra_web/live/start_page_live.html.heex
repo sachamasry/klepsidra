@@ -46,11 +46,13 @@
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project" class="align-top leading-snug">
-      <%= timer.project_name %>
-    </:col>
-    <:col :let={{_id, timer}} label="Customer" class="align-top leading-snug">
-      <%= timer.business_partner_name %>
+    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-snug">
+      <div class="">
+        <%= timer.project_name %>
+      </div>
+      <div class="uppercase text-violet-700 font-medium">
+        <%= timer.business_partner_name %>
+      </div>
     </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
@@ -126,13 +128,13 @@
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project" class="align-top leading-snug">
-      <span class="inline-block align-top w-[10ex]">
+    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-snug">
+      <div class="">
         <%= timer.project_name %>
-      </span>
-    </:col>
-    <:col :let={{_id, timer}} label="Customer" class="align-top leading-snug">
-      <%= timer.business_partner_name %>
+      </div>
+      <div class="uppercase text-violet-700 font-medium">
+        <%= timer.business_partner_name %>
+      </div>
     </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
