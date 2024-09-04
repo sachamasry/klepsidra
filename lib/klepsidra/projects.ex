@@ -18,7 +18,7 @@ defmodule Klepsidra.Projects do
 
   """
   def list_projects do
-    Repo.all(Project)
+    Project |> order_by(asc: :name) |> Repo.all()
   end
 
   @doc """

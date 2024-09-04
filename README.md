@@ -36,7 +36,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
-  * Implement list sorting on entities: projects, business partners, activity
   * Calculate duration of open timers, updating regularly?
     types, etc.
     * Remove non-active entities-projects, customers, activity types-from

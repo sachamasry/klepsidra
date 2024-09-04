@@ -19,7 +19,7 @@ defmodule Klepsidra.TimeTracking do
 
   """
   def list_timers do
-    Repo.all(Timer)
+    Timer |> order_by(desc: :start_stamp) |> Repo.all()
   end
 
   @doc """
@@ -557,7 +557,7 @@ defmodule Klepsidra.TimeTracking do
 
   """
   def list_activity_types do
-    Repo.all(ActivityType)
+    ActivityType |> order_by(asc: :name) |> Repo.all()
   end
 
   @doc """

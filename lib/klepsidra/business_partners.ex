@@ -18,7 +18,7 @@ defmodule Klepsidra.BusinessPartners do
 
   """
   def list_business_partners do
-    Repo.all(BusinessPartner)
+    BusinessPartner |> order_by(asc: :name) |> Repo.all()
   end
 
   @doc """
