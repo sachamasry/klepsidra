@@ -36,6 +36,8 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 
 * UI improvements
   * Update tag list sorting to case-insensitive alphabetical
+    * Need to use following call in queries: `ORDER BY name COLLATE NOCASE ASC`
+      to get case-insensitivity for the column
   * Calculate duration of open timers, updating regularly?
     types, etc.
     * Remove non-active entities-projects, customers, activity types-from
