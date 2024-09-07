@@ -18,7 +18,7 @@ defmodule Klepsidra.Projects do
 
   """
   def list_projects do
-    Project |> order_by(asc: :name) |> Repo.all()
+    Project |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """

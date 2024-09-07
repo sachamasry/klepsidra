@@ -28,7 +28,7 @@ defmodule Klepsidra.Categorisation do
 
   """
   def list_tags do
-    Tag |> order_by(asc: :name) |> Repo.all()
+    Tag |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """
@@ -204,7 +204,7 @@ defmodule Klepsidra.Categorisation do
 
   """
   def list_project_tags do
-    ProjectTag |> order_by(asc: :name) |> Repo.all()
+    ProjectTag |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """

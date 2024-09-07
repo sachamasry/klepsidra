@@ -557,7 +557,7 @@ defmodule Klepsidra.TimeTracking do
 
   """
   def list_activity_types do
-    ActivityType |> order_by(asc: :name) |> Repo.all()
+    ActivityType |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """

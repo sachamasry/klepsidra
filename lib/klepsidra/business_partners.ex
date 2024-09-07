@@ -18,7 +18,7 @@ defmodule Klepsidra.BusinessPartners do
 
   """
   def list_business_partners do
-    BusinessPartner |> order_by(asc: :name) |> Repo.all()
+    BusinessPartner |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """
