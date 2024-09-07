@@ -186,7 +186,6 @@ defmodule Klepsidra.Categorisation do
     search_phrase = String.downcase(search_phrase)
 
     Klepsidra.Categorisation.list_tags()
-    |> Enum.sort_by(fn tag -> tag.name end)
     |> Enum.filter(fn %{name: name} ->
       String.starts_with?(String.downcase(name), search_phrase)
     end)
