@@ -22,6 +22,22 @@ defmodule Klepsidra.BusinessPartners do
   end
 
   @doc """
+  Returns the list of 'active' business_partners.
+
+  ## Examples
+
+      iex> list_active_business_partners()
+      [%BusinessPartner{}, ...]
+
+  """
+  def list_active_business_partners do
+    BusinessPartner
+    |> where(active: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single business_partner.
 
   Raises `Ecto.NoResultsError` if the Business partner does not exist.

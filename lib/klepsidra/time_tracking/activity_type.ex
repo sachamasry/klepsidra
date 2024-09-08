@@ -45,7 +45,7 @@ defmodule Klepsidra.TimeTracking.ActivityType do
   def populate_activity_types_list() do
     [
       {"", ""}
-      | Klepsidra.TimeTracking.list_activity_types()
+      | Klepsidra.TimeTracking.list_active_activity_types()
         |> Enum.map(fn type -> {type.name, type.id} end)
     ]
   end

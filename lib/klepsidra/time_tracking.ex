@@ -561,6 +561,22 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Returns the list of active activity_types.
+
+  ## Examples
+
+      iex> list_active_activity_types()
+      [%ActivityType{}, ...]
+
+  """
+  def list_active_activity_types do
+    ActivityType
+    |> where(active: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single activity_type.
 
   Raises `Ecto.NoResultsError` if the Activity type does not exist.

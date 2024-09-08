@@ -37,8 +37,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 * UI improvements
   * Calculate duration of open timers, updating regularly?
     types, etc.
-    * Remove non-active entities-projects, customers, activity types-from
-      relevant lists and select controls
 
 * Implement a 'today' view
   * Provide daily navigation facility: back, forward and today
@@ -54,14 +52,15 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     * tags
     * date range
 
-    
+
 ### Future
 
+* Provide way to 'deactivate' old tags
 * Start creating an undo feature, reducing reliance on confirmation dialogs,
   particularly for deletions
       * Build an audit trail-like functionality, to be able to undo any deletion
         or modification, at any time, as well as to see a history of actions
-        taken 
+        taken
 * Document truncate and markdown_to_html functions
 * Audit other timers for strengths and weaknesses
 * Markdown

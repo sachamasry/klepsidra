@@ -22,6 +22,22 @@ defmodule Klepsidra.Projects do
   end
 
   @doc """
+  Returns the list of active projects.
+
+  ## Examples
+
+      iex> list_active_projects()
+      [%Project{}, ...]
+
+  """
+  def list_active_projects do
+    Project
+    |> where(active: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single project.
 
   Raises `Ecto.NoResultsError` if the Project does not exist.

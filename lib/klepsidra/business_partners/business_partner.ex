@@ -45,7 +45,7 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   def populate_customers_list() do
     [
       {"", ""}
-      | Klepsidra.BusinessPartners.list_business_partners()
+      | Klepsidra.BusinessPartners.list_active_business_partners()
         |> Enum.map(fn bp -> {bp.name, bp.id} end)
     ]
   end

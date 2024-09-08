@@ -50,7 +50,7 @@ defmodule Klepsidra.Projects.Project do
   def populate_projects_list() do
     [
       {"", ""}
-      | Klepsidra.Projects.list_projects()
+      | Klepsidra.Projects.list_active_projects()
         |> Enum.map(fn project -> {project.name, project.id} end)
     ]
   end
