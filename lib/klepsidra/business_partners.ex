@@ -22,6 +22,22 @@ defmodule Klepsidra.BusinessPartners do
   end
 
   @doc """
+  Returns the list of customers
+
+  ## Examples
+
+      iex> list_customers()
+      [%BusinessPartner{}, ...]
+
+  """
+  def list_customers do
+    BusinessPartner
+    |> where(customer: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
   Returns the list of 'active' business_partners.
 
   ## Examples
@@ -33,6 +49,23 @@ defmodule Klepsidra.BusinessPartners do
   def list_active_business_partners do
     BusinessPartner
     |> where(active: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of customers who are active, and whose account is not
+  frozen.
+
+  ## Examples
+
+      iex> list_active_customers()
+      [%BusinessPartner{}, ...]
+
+  """
+  def list_active_customers do
+    BusinessPartner
+    |> where(customer: true, frozen: false, active: true)
     |> order_by(asc: fragment("name COLLATE NOCASE"))
     |> Repo.all()
   end

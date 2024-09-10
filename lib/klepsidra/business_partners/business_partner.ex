@@ -20,8 +20,10 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   schema "business_partners" do
     field :name, :string
     field :description, :string
+    field :default_currency, :string
     field :customer, :boolean, default: false
     field :supplier, :boolean, default: false
+    field :frozen, :boolean, default: false
     field :active, :boolean, default: true
 
     timestamps()
@@ -45,7 +47,7 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   def populate_customers_list() do
     [
       {"", ""}
-      | Klepsidra.BusinessPartners.list_active_business_partners()
+      | Klepsidra.BusinessPartners.list_active_customers()
         |> Enum.map(fn bp -> {bp.name, bp.id} end)
     ]
   end
