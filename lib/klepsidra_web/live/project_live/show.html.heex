@@ -29,6 +29,11 @@
   </:item>
 </.list>
 
+<div>
+  <%= @duration_in_hours %> timed
+  <span :if={@human_readable_duration}>(<%= @human_readable_duration %>)</span>
+</div>
+
 <.back navigate={~p"/projects"}>Back to projects</.back>
 
 <.modal

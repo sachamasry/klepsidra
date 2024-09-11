@@ -31,6 +31,7 @@
   {"lib/klepsidra/projects.ex", :unknown_function},
   {"lib/klepsidra/projects/note.ex", :unknown_function},
   {"lib/klepsidra/projects/project.ex", :unknown_function},
+  {"lib/klepsidra_web/live/project_live/show.ex", :unknown_function},
   {"lib/klepsidra/categorisation/project_tag.ex", :unknown_function},
   {"lib/klepsidra/repo.ex", :callback_info_missing},
   {"lib/klepsidra/repo.ex", :unknown_function},

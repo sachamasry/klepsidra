@@ -317,6 +317,30 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Gets a sum of timer durations for the specified project, by time unit.
+
+  A closed timer is one which has an end datetime stamp recorded, as well as
+  a starting one.
+  """
+  # @spec get_closed_timer_durations_for_project(bitstring()) ::
+  #         [{integer, bitstring()}, ...] | []
+  def get_closed_timer_durations_for_project(project_id)
+      when is_bitstring(project_id) do
+    query =
+      from(
+        at in "timers",
+        select: {sum(at.duration), at.duration_time_unit},
+        group_by: at.duration_time_unit,
+        where:
+          not is_nil(at.start_stamp) and
+            not is_nil(at.end_stamp) and
+            at.project_id == ^project_id
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a list of all open timers.
 
   A timer is considered open if it has no `end_stamp`.
