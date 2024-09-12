@@ -29,30 +29,31 @@ defmodule Klepsidra.TimeTracking.Timer do
           billing_duration_time_unit: String.t()
         }
   schema "timers" do
-    field :start_stamp, :string
-    field :end_stamp, :string
-    field :duration, :integer, default: nil
-    field :duration_time_unit, :string
-    field :description, :string
+    field(:start_stamp, :string)
+    field(:end_stamp, :string)
+    field(:duration, :integer, default: nil)
+    field(:duration_time_unit, :string)
+    field(:description, :string)
 
-    belongs_to :project, Project, type: Ecto.UUID
+    belongs_to(:project, Project, type: Ecto.UUID)
 
-    field :billable, :boolean, default: false
+    field(:billable, :boolean, default: false)
 
-    belongs_to :business_partner, BusinessPartner, type: Ecto.UUID
-    belongs_to :activity_type, ActivityType, type: Ecto.UUID
+    belongs_to(:business_partner, BusinessPartner, type: Ecto.UUID)
+    belongs_to(:activity_type, ActivityType, type: Ecto.UUID)
 
-    field :billing_rate, :decimal
-    field :billing_duration, :integer
-    field :billing_duration_time_unit, :string
+    field(:billing_rate, :decimal)
+    field(:billing_duration, :integer)
+    field(:billing_duration_time_unit, :string)
 
-    has_many :timer_tags, TimerTags,
+    has_many(:timer_tags, TimerTags,
       preload_order: [asc: :tag_id],
       on_replace: :delete
+    )
 
-    has_many :tags, through: [:timer_tags, :tag]
+    has_many(:tags, through: [:timer_tags, :tag])
 
-    has_many :notes, Klepsidra.TimeTracking.Note, on_delete: :delete_all
+    has_many(:notes, Klepsidra.TimeTracking.Note, on_delete: :delete_all)
 
     timestamps()
   end
@@ -594,22 +595,44 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @doc """
   Takes in a `Cldr.Unit` structure, denoting a duration, decomposing it into
-  human-intuitive hours and minutes, rounding it to the nearest of each unit and
+  human-intuitive time increments, rounding it to the nearest of each unit,
   formatting it all as an easy to read string.
-  """
-  @spec format_human_readable_duration(map()) :: binary()
-  def format_human_readable_duration(base_unit_duration)
-      when is_struct(base_unit_duration, Cldr.Unit) do
-    human_readable_duration =
-      base_unit_duration
-      |> Unit.decompose([:hour_increment, :minute_increment])
-      |> Enum.map(fn i -> Unit.round(i, 0) end)
-      |> Unit.to_string()
 
-    case human_readable_duration do
-      {:ok, string} -> string
-      _ -> ""
-    end
+  By default, the decomposition will be into hours and minutes, but a list
+  consisting of any time increment can be used here, e.g.:
+  `[:day, :hour_increment, :minute_increment]`.
+
+  ## Examples
+
+      iex> 3600 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      "1 hour"
+      iex> 0 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      nil
+      iex> 5000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      "1 hour and 23 minutes"
+      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration([:hour_increment, :minute_increment])
+      "26 hours and 23 minutes"
+      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration([:day, :hour_increment, :minute_increment])
+      "1 day, 2 hours and 23 minutes"
+      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration([:day, :hour_increment])
+      "1 day and 2 hours"
+  """
+  # @spec format_human_readable_duration(
+  #         Cldr.Unit.t(),
+  #         nonempty_list(atom())
+  #       ) :: nil | binary()
+  def format_human_readable_duration(
+        base_unit_duration,
+        time_unit_composition_list \\ [:hour_increment, :minute_increment]
+      )
+      when is_struct(base_unit_duration, Cldr.Unit) and is_list(time_unit_composition_list) do
+    base_unit_duration
+    |> Unit.decompose(time_unit_composition_list)
+    |> Enum.map(fn i -> Unit.round(i, 0) end)
+    |> then(fn
+      [] -> nil
+      list -> Unit.to_string!(list)
+    end)
   end
 
   @doc """

@@ -17,7 +17,13 @@ defmodule KlepsidraWeb.StartPageLive do
   def mount(_params, _session, socket) do
     current_datetime_stamp = get_current_datetime_stamp()
     aggregate_duration = get_aggregate_duration_for_date(current_datetime_stamp)
-    human_readable_duration = Timer.format_human_readable_duration(aggregate_duration)
+
+    human_readable_duration =
+      Timer.format_human_readable_duration(aggregate_duration, [
+        :hour_increment,
+        :minute_increment
+      ])
+
     open_timer_count = TimeTracking.get_open_timer_count()
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
 

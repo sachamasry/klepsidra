@@ -47,5 +47,8 @@
   {"lib/klepsidra/time_tracking.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
-  {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun}
+  {"lib/klepsidra_web/live/start_page_live.ex", :improper_list_constr},
+  {"lib/klepsidra_web/live/project_live/show.ex", :no_return},
+  {"lib/klepsidra_web/live/project_live/show.ex", :call},
+  {"lib/klepsidra_web/live/project_live/show.ex", :unused_fun}
 ]
