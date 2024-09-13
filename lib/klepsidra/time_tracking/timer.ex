@@ -602,6 +602,8 @@ defmodule Klepsidra.TimeTracking.Timer do
   consisting of any time increment can be used here, e.g.:
   `[:day, :hour_increment, :minute_increment]`.
 
+  A zero time value will return a nil result.
+
   ## Examples
 
       iex> 3600 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
@@ -617,10 +619,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration([:day, :hour_increment])
       "1 day and 2 hours"
   """
-  # @spec format_human_readable_duration(
-  #         Cldr.Unit.t(),
-  #         nonempty_list(atom())
-  #       ) :: nil | binary()
+  @spec format_human_readable_duration(%{unit: atom(), value: integer()}, nonempty_list(atom())) ::
+          nil | binary()
   def format_human_readable_duration(
         base_unit_duration,
         time_unit_composition_list \\ [:hour_increment, :minute_increment]

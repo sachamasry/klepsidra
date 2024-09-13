@@ -34,10 +34,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Look for good UX examples, as this is likely to become a UX
     annoyance, more than a saviour of data loss
 
-* UI improvements
-  * Calculate duration of open timers, updating regularly?
-    types, etc.
-
 * Implement a 'today' view
   * Provide daily navigation facility: back, forward and today
   * Update timer listings
@@ -55,6 +51,9 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ### Future
 
+* Create new feature, recording time spent in economic territories/countries,
+  for nomads, showing how close to limit they are, according to the prevailing
+  legislation
 * Provide way to 'deactivate' old tags
 * Start creating an undo feature, reducing reliance on confirmation dialogs,
   particularly for deletions
@@ -84,6 +83,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
       (https://elixirforum.com/t/how-to-store-return-to-url-when-navigating-from-liveview-to-another-page-liveview-regular/55480/4)
     * Insert it in the render code, as a verified route
 * UI improvements
+  * Calculate duration of open timers, updating regularly?
   * Replace timer listing description pop-up (title attribute), with a proper
     HTML-formatted popover component
   * Incorporate Gov.uk Design System (https://design-system.service.gov.uk/)

@@ -322,8 +322,8 @@ defmodule Klepsidra.TimeTracking do
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
   """
-  # @spec get_closed_timer_durations_for_project(bitstring()) ::
-  #         [{integer, bitstring()}, ...] | []
+  @spec get_closed_timer_durations_for_project(bitstring()) ::
+          [{integer, bitstring()}, ...] | []
   def get_closed_timer_durations_for_project(project_id)
       when is_bitstring(project_id) do
     query =
