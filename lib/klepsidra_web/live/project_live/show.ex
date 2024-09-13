@@ -52,8 +52,7 @@ defmodule KlepsidraWeb.ProjectLive.Show do
       human_readable_duration:
         Timer.format_human_readable_duration(base_unit_duration, [
           :day,
-          :hour_increment,
-          :minute_increment
+          :hour_increment
         ])
     }
   end
