@@ -27,6 +27,8 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Display tags for open and closed timers
   * Report on aggregate time spent, or timed, by tag, reporting on tag _show_
     page
+  * Restyle timer listings, giving more visual value to the time recorded,
+    rather than the times the timer was started and stopped
 
 * Ensure a second warning message is displayed to the user, ensuring
   they truly understand the impact of deleting the timer

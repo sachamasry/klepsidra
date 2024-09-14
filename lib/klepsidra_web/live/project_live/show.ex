@@ -47,7 +47,7 @@ defmodule KlepsidraWeb.ProjectLive.Show do
       duration_in_hours:
         base_unit_duration
         |> Unit.convert!(:hour)
-        |> then(fn i -> Cldr.Unit.round(i, 2) end)
+        |> then(fn i -> Cldr.Unit.round(i, 1) end)
         |> Unit.to_string!(),
       human_readable_duration:
         Timer.format_human_readable_duration(base_unit_duration, [
