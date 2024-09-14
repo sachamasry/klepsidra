@@ -23,6 +23,26 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Returns the list of timers, along with the associated tags.
+
+  ## Examples
+
+      iex> list_timers_with_tags()
+      [%Timer{}, ...]
+
+  """
+  def list_timers_with_tags do
+    query =
+      from(
+        at in Timer,
+        order_by: [desc: :start_stamp],
+        preload: :tags
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
   Returns the list of timers, with `business_partner` association preloaded.
 
   ## Examples

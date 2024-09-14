@@ -295,7 +295,7 @@ defmodule KlepsidraWeb.StartPageLive do
     socket
     |> stream_delete(:closed_timers, timer)
     |> update(:closed_timer_count, fn tc -> tc - 1 end)
-    |> stream_insert(:open_timers, timer)
+    |> stream_insert(:open_timers, timer, at: 0)
     |> update(:open_timer_count, fn tc -> tc + 1 end)
     |> update(
       :aggregate_duration,

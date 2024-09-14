@@ -14,11 +14,7 @@ Install Elixir, clone this repository, then change into its directory.
 
 To start your Phoenix server:
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix
-  phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+* Run `mix setup` to installalhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment
 guides](https://hexdocs.pm/phoenix/deployment.html).
@@ -27,7 +23,10 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ### MVP: Make application self-hosting
 
-* Debugging
+* UI/UX
+  * Display tags for open and closed timers
+  * Report on aggregate time spent, or timed, by tag, reporting on tag _show_
+    page
 
 * Ensure a second warning message is displayed to the user, ensuring
   they truly understand the impact of deleting the timer
