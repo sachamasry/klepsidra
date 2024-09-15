@@ -27,6 +27,9 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Display tags for open and closed timers
   * Report on aggregate time spent, or timed, by tag, reporting on tag _show_
     page
+  * Report on aggregate time spent by activity type, reporting on activity_type
+    show page
+  * Report on aggregate time spent by tag, reporting on tag show page
   * Restyle timer listings, giving more visual value to the time recorded,
     rather than the times the timer was started and stopped
 
@@ -46,6 +49,7 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Billable time timed
   * Filter
     * by customer
+    * by project
     * tags
     * date range
 

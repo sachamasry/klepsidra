@@ -50,10 +50,13 @@ defmodule KlepsidraWeb.ProjectLive.Show do
         |> then(fn i -> Cldr.Unit.round(i, 1) end)
         |> Unit.to_string!(),
       human_readable_duration:
-        Timer.format_human_readable_duration(base_unit_duration, [
-          :day,
-          :hour_increment
-        ])
+        Timer.format_human_readable_duration(base_unit_duration,
+          unit_list: [
+            :day,
+            :hour_increment
+          ],
+          return_if_short_duration: false
+        )
     }
   end
 end
