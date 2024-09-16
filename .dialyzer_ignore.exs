@@ -37,6 +37,7 @@
   {"lib/klepsidra/repo.ex", :unknown_function},
   {"lib/klepsidra/time_tracking/activity_type.ex", :unknown_function},
   {"lib/klepsidra/time_tracking/timer.ex", :unknown_function},
+  {"lib/klepsidra/time_tracking/timer.ex", :no_return},
   {"lib/klepsidra/time_tracking/note.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
@@ -44,11 +45,9 @@
   {"lib/klepsidra_web/router.ex", :unknown_function},
   {"lib/klepsidra/time_tracking.ex", :unknown_function},
   {"lib/klepsidra/time_tracking.ex", :no_return},
-  {"lib/klepsidra/time_tracking.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
   {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun},
   {"lib/klepsidra_web/live/project_live/show.ex", :no_return},
-  {"lib/klepsidra_web/live/project_live/show.ex", :call},
   {"lib/klepsidra_web/live/project_live/show.ex", :unused_fun}
 ]

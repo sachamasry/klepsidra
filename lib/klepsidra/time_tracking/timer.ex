@@ -619,8 +619,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment])
       "1 day and 2 hours"
   """
-  @spec format_human_readable_duration(%{unit: atom(), value: integer()}, list()) ::
-          nil | binary()
+  # @spec format_human_readable_duration(%{unit: atom(), value: integer()}, list()) ::
+  #         nil | bitstring()
   def format_human_readable_duration(duration, options \\ [])
       when is_struct(duration, Cldr.Unit) do
     unit_list =
@@ -684,6 +684,10 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> 21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit_into_subunits("")
       {:error, "Invalid unit or subunit_list supplied"}
   """
+  @spec decompose_unit_into_subunits(%{unit: atom(), value: integer()}, list()) :: %{
+          unit_count: integer(),
+          unit_composition: list()
+        }
   def decompose_unit_into_subunits(unit, subunit_list)
       when is_struct(unit, Cldr.Unit) and is_list(subunit_list) do
     unit_composition =
