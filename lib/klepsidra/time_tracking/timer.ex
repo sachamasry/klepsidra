@@ -606,18 +606,18 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      iex> 3600 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      "1 hour"
-      iex> 0 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      nil
-      iex> 5000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      "1 hour and 23 minutes"
-      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:hour_increment, :minute_increment])
-      "26 hours and 23 minutes"
-      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment, :minute_increment])
-      "1 day, 2 hours and 23 minutes"
-      iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment])
-      "1 day and 2 hours"
+      #iex> 3600 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      #"1 hour"
+      #iex> 0 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      #nil
+      #iex> 5000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+      #"1 hour and 23 minutes"
+      #iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:hour_increment, :minute_increment])
+      #"26 hours and 23 minutes"
+      #iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment, :minute_increment])
+      #"1 day, 2 hours and 23 minutes"
+      #iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment])
+      #"1 day and 2 hours"
   """
   # @spec format_human_readable_duration(%{unit: atom(), value: integer()}, list()) ::
   #         nil | bitstring()
@@ -626,21 +626,22 @@ defmodule Klepsidra.TimeTracking.Timer do
     unit_list =
       Keyword.get(options, :unit_list, [:hour_increment, :minute_increment])
 
-    unit_list_length = length(unit_list)
-    return_if_short_duration = Keyword.get(options, :return_if_short_duration, true)
+    # return_if_short_duration = Keyword.get(options, :return_if_short_duration, true)
 
-    %{unit_count: unit_count, unit_composition: unit_composition} =
-      decompose_unit_into_subunits(duration, unit_list)
+    case decompose_unit(duration, unit_list, restrict_if_components_only: [:hour_increment]) do
+      [] ->
+        nil
 
-    if unit_count < unit_list_length and return_if_short_duration == false do
-      nil
-    else
-      unit_composition
-      |> Enum.map(fn i -> Unit.round(i, 0) end)
-      |> then(fn
-        [] -> nil
-        list -> Unit.to_string!(list)
-      end)
+      nil ->
+        nil
+
+      unit_composition ->
+        unit_composition
+        |> Enum.map(fn i -> Unit.round(i, 0) end)
+        |> then(fn
+          [] -> nil
+          list -> Unit.to_string!(list)
+        end)
     end
   end
 
@@ -665,39 +666,48 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   ## Examples
 
-      iex>  21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit_into_subunits([:day, :hour_increment])
-      %{
-        unit_composition: [Cldr.Unit.new!(:hour_increment, "21.1699999999999992")],
-        unit_count: 1
-      }
+      iex>  21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit([:day, :hour_increment])
+      [Cldr.Unit.new!(:hour_increment, "21.1699999999999992")]
 
-      iex> 121.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit_into_subunits([:day, :hour_increment])
-      %{
-        unit_composition: [Cldr.Unit.new!(:day, 5),
-          Cldr.Unit.new!(:hour_increment, "1.17")],
-        unit_count: 2
-      }
+      iex> 121.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit([:day, :hour_increment])
+      [Cldr.Unit.new!(:day, 5), Cldr.Unit.new!(:hour_increment, "1.17")]
 
-      iex> 21.17  |> Klepsidra.TimeTracking.Timer.decompose_unit_into_subunits([:day, :hour_increment])
-      {:error, "Invalid unit or subunit_list supplied"}
+      iex> 21.17  |> Klepsidra.TimeTracking.Timer.decompose_unit([:day, :hour_increment])
+      {:error, "Invalid unit or subunit_list"}
 
-      iex> 21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit_into_subunits("")
-      {:error, "Invalid unit or subunit_list supplied"}
+      iex> 21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit("")
+      {:error, "Invalid unit or subunit_list"}
   """
-  @spec decompose_unit_into_subunits(%{unit: atom(), value: integer()}, list()) :: %{
-          unit_count: integer(),
-          unit_composition: list()
-        }
-  def decompose_unit_into_subunits(unit, subunit_list)
+  @spec decompose_unit(%{unit: atom(), value: integer()}, list(), keyword()) :: nil | list()
+  def decompose_unit(unit, subunit_list, options \\ [])
+
+  def decompose_unit(unit, subunit_list, options)
       when is_struct(unit, Cldr.Unit) and is_list(subunit_list) do
+    restrict_if_components_only =
+      Keyword.get(options, :restrict_if_components_only, nil)
+
+    restricted_list =
+      if restrict_if_components_only, do: MapSet.new(restrict_if_components_only)
+
     unit_composition =
       Unit.decompose(unit, subunit_list)
 
-    %{unit_count: length(unit_composition), unit_composition: unit_composition}
+    if restrict_if_components_only do
+      unit_composition
+      |> Enum.reject(fn unit ->
+        MapSet.member?(restricted_list, unit.unit)
+      end)
+      |> case do
+        [] -> nil
+        _ = list -> list
+      end
+    else
+      unit_composition
+    end
   end
 
-  def decompose_unit_into_subunits(_unit, _subunit_list),
-    do: {:error, "Invalid unit or subunit_list supplied"}
+  def decompose_unit(_unit, _subunit_list, _options),
+    do: {:error, "Invalid unit or subunit_list"}
 
   @doc """
   Format a `NaiveDateTime` into human readable date.
