@@ -678,7 +678,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> 21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit("")
       {:error, "Invalid unit or subunit_list"}
   """
-  @spec decompose_unit(%{unit: atom(), value: integer()}, list(), keyword()) :: nil | list()
+  @spec decompose_unit(%{unit: atom(), value: integer()}, list(), keyword()) ::
+          nil | list()
   def decompose_unit(unit, subunit_list, options \\ [])
 
   def decompose_unit(unit, subunit_list, options)
@@ -699,7 +700,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       end)
       |> case do
         [] -> nil
-        _ = list -> list
+        _ -> unit_composition
       end
     else
       unit_composition
