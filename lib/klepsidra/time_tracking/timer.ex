@@ -682,9 +682,11 @@ defmodule Klepsidra.TimeTracking.Timer do
   def decompose_unit(unit, subunit_list, options)
       when is_struct(unit, Cldr.Unit) and is_list(subunit_list) do
     restrict_if_components_only = Keyword.get(options, :restrict_if_components_only, nil)
-    unit_composition = Unit.decompose(unit, subunit_list)
 
-    adjust_for_restricted_subunits(unit_composition, restrict_if_components_only)
+    adjust_for_restricted_subunits(
+      Unit.decompose(unit, subunit_list),
+      restrict_if_components_only
+    )
   end
 
   def decompose_unit(_unit, _subunit_list, _options),
