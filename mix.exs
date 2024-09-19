@@ -22,7 +22,14 @@ defmodule Klepsidra.MixProject do
         ],
         list_unused_filters: true,
         flags: ["-Wunmatched_returns", :error_handling, :underspecs, :unknown, :unmatched_returns]
-        # flags: ["-Wunmatched_returns"]
+      ],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.cobertura": :test
       ]
     ]
   end
@@ -75,6 +82,7 @@ defmodule Klepsidra.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
       {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.18", only: :test},
       {:mix_audit, ">= 0.0.0"},
       {:paraxial, "~> 2.7.3"}
     ]

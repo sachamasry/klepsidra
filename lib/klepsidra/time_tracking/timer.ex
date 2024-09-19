@@ -707,9 +707,9 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   defp adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
 
-  @spec non_empty_list?(nonempty_list()) :: nil | nonempty_list()
-  defp non_empty_list?([]), do: nil
-  defp non_empty_list?(list) when is_list(list), do: list
+  @spec non_empty_list?(nonempty_list()) :: as_boolean(term)
+  def non_empty_list?([]), do: nil
+  def non_empty_list?(list) when is_list(list), do: list
 
   @doc """
   Format a `NaiveDateTime` into human readable date.
