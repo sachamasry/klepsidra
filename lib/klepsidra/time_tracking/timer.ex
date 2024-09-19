@@ -629,9 +629,6 @@ defmodule Klepsidra.TimeTracking.Timer do
     # return_if_short_duration = Keyword.get(options, :return_if_short_duration, true)
 
     case decompose_unit(duration, unit_list, restrict_if_components_only: [:hour_increment]) do
-      [] ->
-        nil
-
       nil ->
         nil
 
@@ -684,31 +681,33 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   def decompose_unit(unit, subunit_list, options)
       when is_struct(unit, Cldr.Unit) and is_list(subunit_list) do
-    restrict_if_components_only =
-      Keyword.get(options, :restrict_if_components_only, nil)
+    restrict_if_components_only = Keyword.get(options, :restrict_if_components_only, nil)
+    unit_composition = Unit.decompose(unit, subunit_list)
 
-    restricted_list =
-      if restrict_if_components_only, do: MapSet.new(restrict_if_components_only)
-
-    unit_composition =
-      Unit.decompose(unit, subunit_list)
-
-    if restrict_if_components_only do
-      unit_composition
-      |> Enum.reject(fn unit ->
-        MapSet.member?(restricted_list, unit.unit)
-      end)
-      |> case do
-        [] -> nil
-        _ -> unit_composition
-      end
-    else
-      unit_composition
-    end
+    adjust_for_restricted_subunits(unit_composition, restrict_if_components_only)
   end
 
   def decompose_unit(_unit, _subunit_list, _options),
     do: {:error, "Invalid unit or subunit_list"}
+
+  @spec adjust_for_restricted_subunits([atom(), ...], list()) ::
+          nil | [%{unit: atom(), value: non_neg_integer() | float()}]
+  defp adjust_for_restricted_subunits(unit_composition, [_ | _] = restricted_subunits)
+       when is_list(unit_composition) do
+    restricted_list = MapSet.new(restricted_subunits)
+
+    unit_composition
+    |> Enum.reject(fn unit ->
+      MapSet.member?(restricted_list, unit.unit)
+    end)
+    |> non_empty_list?()
+  end
+
+  defp adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
+
+  @spec non_empty_list?(nonempty_list()) :: nil | nonempty_list()
+  defp non_empty_list?([]), do: nil
+  defp non_empty_list?(list) when is_list(list), do: list
 
   @doc """
   Format a `NaiveDateTime` into human readable date.

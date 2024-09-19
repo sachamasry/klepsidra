@@ -24,6 +24,10 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
 ### MVP: Make application self-hosting
 
 * UI/UX
+  * Develop aggregate time display function component, to pleasingly display
+    * aggregate time recorded, in hours
+    * human-formatted days/hours/minutes
+    * number of timers recorded
   * Display tags for open and closed timers
   * Report on aggregate time spent, or timed, by tag, reporting on tag _show_
     page
