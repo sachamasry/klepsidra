@@ -3,6 +3,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   Defines the `timers` schema and functions needed to clock in, out and parse datetimes.
   """
 
+  use Private
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -707,9 +708,11 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   defp adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
 
-  @spec non_empty_list?(nonempty_list()) :: as_boolean(term)
-  def non_empty_list?([]), do: nil
-  def non_empty_list?(list) when is_list(list), do: list
+  private do
+    @spec non_empty_list?(nonempty_list()) :: as_boolean(term)
+    def non_empty_list?([]), do: nil
+    def non_empty_list?(list) when is_list(list), do: list
+  end
 
   @doc """
   Format a `NaiveDateTime` into human readable date.
