@@ -85,7 +85,8 @@ defmodule Klepsidra.MixProject do
       {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:mix_audit, ">= 0.0.0"},
-      {:paraxial, "~> 2.7.3"}
+      {:paraxial, "~> 2.7.3"},
+      {:stream_data, "~> 1.0", only: [:dev, :test]}
     ]
   end
 

@@ -693,20 +693,22 @@ defmodule Klepsidra.TimeTracking.Timer do
   def decompose_unit(_unit, _subunit_list, _options),
     do: {:error, "Invalid unit or subunit_list"}
 
-  @spec adjust_for_restricted_subunits([atom(), ...], list()) ::
-          nil | [%{unit: atom(), value: non_neg_integer() | float()}]
-  defp adjust_for_restricted_subunits(unit_composition, [_ | _] = restricted_subunits)
-       when is_list(unit_composition) do
-    restricted_list = MapSet.new(restricted_subunits)
+  private do
+    @spec adjust_for_restricted_subunits([atom(), ...], list()) ::
+            nil | [%{unit: atom(), value: non_neg_integer() | float()}]
+    def adjust_for_restricted_subunits(unit_composition, [_ | _] = restricted_subunits)
+        when is_list(unit_composition) do
+      restricted_list = MapSet.new(restricted_subunits)
 
-    unit_composition
-    |> Enum.reject(fn unit ->
-      MapSet.member?(restricted_list, unit.unit)
-    end)
-    |> non_empty_list?()
+      unit_composition
+      |> Enum.reject(fn unit ->
+        MapSet.member?(restricted_list, unit.unit)
+      end)
+      |> non_empty_list?()
+    end
+
+    def adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
   end
-
-  defp adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
 
   private do
     @spec non_empty_list?(nonempty_list()) :: as_boolean(term)
