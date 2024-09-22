@@ -74,35 +74,61 @@ defmodule Klepsidra.TimeTracking.TimerTest do
         format_human_readable_time!(~N[2024-01-01T11:34:56], "")
       end
 
+      # Test with illegal datetime argument
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time("")
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time!("")
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time(nil)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time!(nil)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time(false)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time!(false)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time([])
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time!([])
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time(%{})
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time!(%{})
+                   end
+
       # Test with empty format_string
       assert format_human_readable_time(~N[2024-01-01T11:34:56], "xyz") ==
                {:error, {:format, "Invalid format string, must contain at least one directive."}}
 
-      # Test with nil format_string
-      assert_raise FunctionClauseError,
-                   fn ->
-                     format_human_readable_time(~N[2024-01-01T11:34:56], nil)
-                   end
-
-      # Test with atom format_string
-      assert_raise FunctionClauseError,
-                   fn ->
-                     format_human_readable_time(~N[2024-01-01T11:34:56], false)
-                   end
-
-      # Test with atom format_string
-      assert_raise FunctionClauseError,
-                   fn ->
-                     format_human_readable_time(~N[2024-01-01T11:34:56], :atom)
-                   end
-
-      # Test with list format_string
-      assert_raise FunctionClauseError,
-                   fn ->
-                     format_human_readable_time(~N[2024-01-01T11:34:56], [])
-                   end
-
-      # Test with empty format_string
       assert_raise Timex.Format.FormatError,
                    "Invalid format string, must contain at least one directive.",
                    fn ->
@@ -112,22 +138,41 @@ defmodule Klepsidra.TimeTracking.TimerTest do
       # Test with nil format_string
       assert_raise FunctionClauseError,
                    fn ->
+                     format_human_readable_time(~N[2024-01-01T11:34:56], nil)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
                      format_human_readable_time!(~N[2024-01-01T11:34:56], nil)
                    end
 
       # Test with atom format_string
       assert_raise FunctionClauseError,
                    fn ->
+                     format_human_readable_time(~N[2024-01-01T11:34:56], false)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time(~N[2024-01-01T11:34:56], :atom)
+                   end
+
+      assert_raise FunctionClauseError,
+                   fn ->
                      format_human_readable_time!(~N[2024-01-01T11:34:56], false)
                    end
 
-      # Test with atom format_string
       assert_raise FunctionClauseError,
                    fn ->
                      format_human_readable_time!(~N[2024-01-01T11:34:56], :atom)
                    end
 
       # Test with list format_string
+      assert_raise FunctionClauseError,
+                   fn ->
+                     format_human_readable_time(~N[2024-01-01T11:34:56], [])
+                   end
+
       assert_raise FunctionClauseError,
                    fn ->
                      format_human_readable_time!(~N[2024-01-01T11:34:56], [])
