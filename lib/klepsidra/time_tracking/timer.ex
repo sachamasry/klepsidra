@@ -82,6 +82,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @default_date_format "EEEE, dd MMM YYYY"
+  @default_time_format "{h24}:{m}"
 
   @doc """
   Validate that the `end_timestamp` is chronologically after the `start_timestamp`.
@@ -701,9 +702,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       restricted_list = MapSet.new(restricted_subunits)
 
       unit_composition
-      |> Enum.reject(fn unit ->
-        MapSet.member?(restricted_list, unit.unit)
-      end)
+      |> Enum.reject(fn %{unit: unit} -> MapSet.member?(restricted_list, unit) end)
       |> non_empty_list?()
     end
 
@@ -732,7 +731,45 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   @doc """
-  Format a `NaiveDateTime` into a human readable time, displaying hours and minutes only.
+  Format a `NaiveDateTime` into a human-readable time, displaying hours and minutes by default, in 24-hour time, returning a tuple with the return status and the formatted time string.
+
+  ## Arguments
+
+  * `datetime`, a valid `NaiveDateTime` structure
+  * `format`, an optional format string, in `Timex` default formatting language.
+
+  ## Returns
+
+  A tuple with return status and a string, either
+
+  * {:ok, formatted time string}
+
+  or
+
+  * {:error, error message}
+
+  ## Examples
+
+      iex> Klepsidra.TimeTracking.Timer.format_human_readable_time(~N[2024-01-23 12:34:56])
+      {:ok, "12:34"}
+  """
+  @spec format_human_readable_time(NaiveDateTime.t()) :: {:ok | :error, bitstring()}
+  def format_human_readable_time(datetime, format \\ @default_time_format)
+      when is_struct(datetime, NaiveDateTime) do
+    Timex.format(datetime, format)
+  end
+
+  @doc """
+  Format a `NaiveDateTime` into a human-readable time, displaying hours and minutes by default, in 24-hour time.
+
+  ## Arguments
+
+  * `datetime`, a valid `NaiveDateTime` structure
+  * `format`, an optional format string, in `Timex` default formatting language.
+
+  ## Returns
+
+  * formatted time string, or an exception on error
 
   ## Examples
 
@@ -740,7 +777,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       "12:34"
   """
   @spec format_human_readable_time!(NaiveDateTime.t()) :: bitstring()
-  def format_human_readable_time!(datetime, format \\ "{h24}:{m}")
+  def format_human_readable_time!(datetime, format \\ @default_time_format)
       when is_struct(datetime, NaiveDateTime) do
     Timex.format!(datetime, format)
   end
