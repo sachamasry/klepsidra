@@ -81,7 +81,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> unique_constraint(:project)
   end
 
-  @default_date_format "EEEE, dd MMM YYYY"
+  @default_date_format "{WDfull}, {D} {Mshort} {YYYY}"
   @default_time_format "{h24}:{m}"
 
   @doc """
@@ -725,9 +725,9 @@ defmodule Klepsidra.TimeTracking.Timer do
   """
   @spec format_human_readable_date(NaiveDateTime.t()) ::
           {:ok, bitstring()} | {:error, {atom(), binary()}}
-  def format_human_readable_date(datetime, format \\ @default_date_format)
-      when is_struct(datetime, NaiveDateTime) do
-    Klepsidra.Cldr.DateTime.to_string(datetime, format: format)
+  def format_human_readable_date(datetime, format_string \\ @default_date_format)
+      when is_struct(datetime, NaiveDateTime) and is_bitstring(format_string) do
+    Timex.format(datetime, format_string)
   end
 
   @doc """
@@ -736,7 +736,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   ## Arguments
 
   * `datetime`, a valid `NaiveDateTime` structure
-  * `format`, an optional format string, in `Timex` default formatting language.
+  * `format_string`, an optional format string, in `Timex` default formatting language.
 
   ## Returns
 
@@ -754,9 +754,9 @@ defmodule Klepsidra.TimeTracking.Timer do
       {:ok, "12:34"}
   """
   @spec format_human_readable_time(NaiveDateTime.t()) :: {:ok | :error, bitstring()}
-  def format_human_readable_time(datetime, format \\ @default_time_format)
-      when is_struct(datetime, NaiveDateTime) do
-    Timex.format(datetime, format)
+  def format_human_readable_time(datetime, format_string \\ @default_time_format)
+      when is_struct(datetime, NaiveDateTime) and is_bitstring(format_string) do
+    Timex.format(datetime, format_string)
   end
 
   @doc """
@@ -765,7 +765,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   ## Arguments
 
   * `datetime`, a valid `NaiveDateTime` structure
-  * `format`, an optional format string, in `Timex` default formatting language.
+  * `format_string`, an optional format string, in `Timex` default formatting language.
 
   ## Returns
 
@@ -777,8 +777,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       "12:34"
   """
   @spec format_human_readable_time!(NaiveDateTime.t()) :: bitstring()
-  def format_human_readable_time!(datetime, format \\ @default_time_format)
-      when is_struct(datetime, NaiveDateTime) do
-    Timex.format!(datetime, format)
+  def format_human_readable_time!(datetime, format_string \\ @default_time_format)
+      when is_struct(datetime, NaiveDateTime) and is_bitstring(format_string) do
+    Timex.format!(datetime, format_string)
   end
 end
