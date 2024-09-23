@@ -1,10 +1,8 @@
 defmodule Klepsidra.TimeTracking.TimerTest do
-  use ExUnit.Case
-  # use Klepsidra.DataCase
+  use ExUnit.Case, async: true
+  import Klepsidra.TimeTracking.Timer
 
   describe "Timers" do
-    import Klepsidra.TimeTracking.Timer
-
     test "test removal of restricted units from decomposed unit" do
       assert adjust_for_restricted_subunits(
                (24 * 60 * 60 + 1.75 * 60 * 60)
@@ -47,7 +45,9 @@ defmodule Klepsidra.TimeTracking.TimerTest do
       assert non_empty_list?([Cldr.Unit.new!(:day, 1)]) == [Cldr.Unit.new!(:day, 1)]
       assert non_empty_list?([0, 1, 2]) == [0, 1, 2]
     end
+  end
 
+  describe "Test date and time formatting functions" do
     test "returns human-readable date from valid NaiveDateTime" do
       assert format_human_readable_date(~N[2024-01-01T12:34:56]) ==
                {:ok, "Monday, 1 Jan 2024"}

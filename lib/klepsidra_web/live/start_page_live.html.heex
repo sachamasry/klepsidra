@@ -27,7 +27,7 @@
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[13ex]">
       <div class="leading-snug inline-block">
-        <div class="w-[13ex]">
+        <div>
           <%= timer.start_stamp %>
         </div>
         <div
@@ -109,7 +109,7 @@
         <div class="inline-block font-extrabold text-xs leading-[1.7] text-slate-400 inline-block">
           <%= timer.formatted_duration %>
         </div>
-        <div class="inline-block leading-[1] align-top w-[13ex]">
+        <div class="inline-block leading-[1] align-top">
           <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
         </div>
         <div
