@@ -81,8 +81,8 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> unique_constraint(:project)
   end
 
-  @default_date_format "{WDfull}, {D} {Mshort} {YYYY}"
-  @default_time_format "{h24}:{m}"
+  @default_date_format Application.compile_env(:klepsidra, [__MODULE__, :default_date_format])
+  @default_time_format Application.compile_env(:klepsidra, [__MODULE__, :default_time_format])
 
   @doc """
   Validate that the `end_timestamp` is chronologically after the `start_timestamp`.
@@ -685,10 +685,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       when is_struct(unit, Cldr.Unit) and is_list(subunit_list) do
     restrict_if_components_only = Keyword.get(options, :restrict_if_components_only, nil)
 
-    adjust_for_restricted_subunits(
-      Unit.decompose(unit, subunit_list),
-      restrict_if_components_only
-    )
+    Unit.decompose(unit, subunit_list)
+    |> adjust_for_restricted_subunits(restrict_if_components_only)
   end
 
   def decompose_unit(_unit, _subunit_list, _options),
@@ -703,16 +701,17 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       unit_composition
       |> Enum.reject(fn %{unit: unit} -> MapSet.member?(restricted_list, unit) end)
-      |> non_empty_list?()
+      |> non_empty_list?(unit_composition)
     end
 
     def adjust_for_restricted_subunits(unit_composition, _), do: unit_composition
   end
 
   private do
-    @spec non_empty_list?(nonempty_list()) :: as_boolean(term)
-    def non_empty_list?([]), do: nil
-    def non_empty_list?(list) when is_list(list), do: list
+    @spec non_empty_list?(nonempty_list(), list()) :: as_boolean(term)
+    def non_empty_list?([], _), do: nil
+    def non_empty_list?(list, []) when is_list(list), do: list
+    def non_empty_list?(_list, return) when is_list(return), do: return
   end
 
   @doc """

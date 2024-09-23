@@ -10,6 +10,10 @@ import Config
 config :klepsidra,
   ecto_repos: [Klepsidra.Repo]
 
+config :klepsidra, Klepsidra.TimeTracking.Timer,
+  default_date_format: "{WDfull}, {D} {Mshort} {YYYY}",
+  default_time_format: "{h24}:{m}"
+
 # Configures the endpoint
 config :klepsidra, KlepsidraWeb.Endpoint,
   url: [host: "localhost"],
