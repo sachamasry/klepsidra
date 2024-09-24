@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>timers</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>timers</h1><p><span id="recordNumber">65</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -120,7 +120,7 @@
                                             <tr>
                                                 <td title="timer_notes.timer_id references timers.id via "><a href='timer_notes.html'>timer_notes</a><span class='relatedKey'>.timer_id</span></td>
                                                 <td class="constraint detail"></td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                                <td class="constraint detail"><span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
                                             </tr>
                                             <tr>
                                                 <td title="timer_tags.[tag_id, timer_id] references timers.[id, id] via "><a href='timer_tags.html'>timer_tags</a><span class='relatedKey'>.timer_id</span></td>

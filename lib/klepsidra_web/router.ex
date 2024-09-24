@@ -29,6 +29,13 @@ defmodule KlepsidraWeb.Router do
     live "/timer_notes/:id/notes/new", StartPageLive, :new_note
     live "/edit_timer/:id", StartPageLive, :edit_timer
 
+    live "/users", UserLive.Index, :index
+    live "/users/new", UserLive.Index, :new
+    live "/users/:id/edit", UserLive.Index, :edit
+
+    live "/users/:id", UserLive.Show, :show
+    live "/users/:id/show/edit", UserLive.Show, :edit
+
     live "/tags", TagLive.Index, :index
     live "/tags/new", TagLive.Index, :new
     live "/tags/:id/edit", TagLive.Index, :edit

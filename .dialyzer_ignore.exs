@@ -19,6 +19,7 @@
   {"deps/phoenix/lib/phoenix/endpoint.ex", :callback_info_missing},
   {"deps/phoenix/lib/phoenix/router.ex", :callback_info_missing},
   {"deps/plug/lib/plug/debugger.ex", :unknown_function},
+  {"lib/klepsidra/accounts/user.ex", :unknown_function},
   {"lib/klepsidra/categorisation.ex", :unknown_function},
   {"lib/klepsidra/categorisation/tag.ex", :unknown_function},
   {"lib/klepsidra/categorisation/timer_tags.ex", :unknown_function},

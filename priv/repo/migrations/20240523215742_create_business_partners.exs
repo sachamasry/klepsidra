@@ -43,7 +43,7 @@ defmodule Klepsidra.Repo.Migrations.CreateBusinessPartners do
         default: true,
         null: false,
         comment:
-          "Is thiis business partner still active and current with the organisation? Legacy business partners can be made inactive, and will not show on lists and select controls"
+          "Is this business partner still active and current with the organisation? Legacy business partners can be made inactive, and will not show on lists and select controls"
 
       timestamps()
     end

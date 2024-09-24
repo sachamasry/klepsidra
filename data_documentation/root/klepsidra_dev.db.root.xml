@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database name="klepsidra_dev.db" schema="root" type="SQLite - 3.46.0">
    <tables>
-      <table name="activity_types" numRows="0" remarks="" type="TABLE">
+      <table name="activity_types" numRows="5" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="activity_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="timers"/>
          </column>
@@ -46,7 +46,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="business_partners" numRows="0" remarks="" type="TABLE">
+      <table name="business_partners" numRows="4" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="business_partner_id" foreignKey="" implied="false" onDeleteCascade="false" table="business_partner_notes"/>
             <child column="business_partner_id" foreignKey="" implied="false" onDeleteCascade="false" table="projects"/>
@@ -129,7 +129,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="projects" numRows="0" remarks="" type="TABLE">
+      <table name="projects" numRows="5" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="project_id" foreignKey="" implied="false" onDeleteCascade="false" table="project_notes"/>
             <child column="project_id" foreignKey="" implied="false" onDeleteCascade="true" table="project_tags"/>
@@ -186,7 +186,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="tags" numRows="0" remarks="" type="TABLE">
+      <table name="tags" numRows="5" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="true" table="project_tags"/>
             <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_tags"/>
@@ -208,11 +208,11 @@
             <column ascending="true" name="name"/>
          </index>
       </table>
-      <table name="timer_notes" numRows="0" remarks="" type="TABLE">
+      <table name="timer_notes" numRows="29" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="note" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="timer_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
-            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="timers"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="note" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="timer_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="timers"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
@@ -223,15 +223,8 @@
          <index name="sqlite_autoindex_timer_notes_1" unique="true">
             <column ascending="true" name="id"/>
          </index>
-         <index name="timer_notes_inserted_at_updated_at_index" unique="false">
-            <column ascending="true" name="inserted_at"/>
-            <column ascending="true" name="updated_at"/>
-         </index>
-         <index name="timer_notes_timer_id_index" unique="false">
-            <column ascending="true" name="timer_id"/>
-         </index>
       </table>
-      <table name="timer_tags" numRows="0" remarks="" type="TABLE">
+      <table name="timer_tags" numRows="2" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
@@ -253,9 +246,9 @@
             <column ascending="true" name="timer_id"/>
          </index>
       </table>
-      <table name="timers" numRows="0" remarks="" type="TABLE">
+      <table name="timers" numRows="65" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
-            <child column="timer_id" foreignKey="" implied="false" onDeleteCascade="false" table="timer_notes"/>
+            <child column="timer_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_notes"/>
             <child column="timer_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_tags"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="start_stamp" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
@@ -298,6 +291,36 @@
          <index name="timers_start_stamp_end_stamp_index" unique="false">
             <column ascending="true" name="start_stamp"/>
             <column ascending="true" name="end_stamp"/>
+         </index>
+      </table>
+      <table name="users" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="login_email" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="password_hash" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="5" name="frozen" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="6" name="active" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="users_s_pk" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="sqlite_autoindex_users_1" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="users_active_index" unique="false">
+            <column ascending="true" name="active"/>
+         </index>
+         <index name="users_frozen_index" unique="false">
+            <column ascending="true" name="frozen"/>
+         </index>
+         <index name="users_login_email_index" unique="true">
+            <column ascending="true" name="login_email"/>
+         </index>
+         <index name="users_user_name_index" unique="true">
+            <column ascending="true" name="user_name"/>
          </index>
       </table>
    </tables>
