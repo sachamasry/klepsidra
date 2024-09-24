@@ -82,6 +82,20 @@ defmodule KlepsidraWeb.Router do
 
     live "/customers/:id", BusinessPartnerLive.Show, :show
     live "/customers/:id/show/edit", BusinessPartnerLive.Show, :edit
+
+    live "/categories", CategoryLive.Index, :index
+    live "/categories/new", CategoryLive.Index, :new
+    live "/categories/:id/edit", CategoryLive.Index, :edit
+
+    live "/categories/:id", CategoryLive.Show, :show
+    live "/categories/:id/show/edit", CategoryLive.Show, :edit
+
+    live "/journal_entries", JournalEntryLive.Index, :index
+    live "/journal_entries/new", JournalEntryLive.Index, :new
+    live "/journal_entries/:id/edit", JournalEntryLive.Index, :edit
+
+    live "/journal_entries/:id", JournalEntryLive.Show, :show
+    live "/journal_entries/:id/show/edit", JournalEntryLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
