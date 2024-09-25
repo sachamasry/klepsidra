@@ -1,0 +1,35 @@
+<.header>
+  Journal entry types <%= @journal_entry_types.id %>
+  <:subtitle>This is a journal_entry_types record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={~p"/journal_entry_types/#{@journal_entry_types}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit journal_entry_types</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @journal_entry_types.name %></:item>
+  <:item title="Description"><%= @journal_entry_types.description %></:item>
+</.list>
+
+<.back navigate={~p"/journal_entry_types"}>Back to journal_entry_types</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="journal_entry_types-modal"
+  show
+  on_cancel={JS.patch(~p"/journal_entry_types/#{@journal_entry_types}")}
+>
+  <.live_component
+    module={KlepsidraWeb.JournalEntryTypesLive.FormComponent}
+    id={@journal_entry_types.id}
+    title={@page_title}
+    action={@live_action}
+    journal_entry_types={@journal_entry_types}
+    patch={~p"/journal_entry_types/#{@journal_entry_types}"}
+  />
+</.modal>

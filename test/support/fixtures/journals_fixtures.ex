@@ -5,20 +5,6 @@ defmodule Klepsidra.JournalsFixtures do
   """
 
   @doc """
-  Generate a category.
-  """
-  def category_fixture(attrs \\ %{}) do
-    {:ok, category} =
-      attrs
-      |> Enum.into(%{
-        name: "some name"
-      })
-      |> Klepsidra.Journals.create_category()
-
-    category
-  end
-
-  @doc """
   Generate a journal_entry.
   """
   def journal_entry_fixture(attrs \\ %{}) do
@@ -35,5 +21,20 @@ defmodule Klepsidra.JournalsFixtures do
       |> Klepsidra.Journals.create_journal_entry()
 
     journal_entry
+  end
+
+  @doc """
+  Generate a journal_entry_types.
+  """
+  def journal_entry_types_fixture(attrs \\ %{}) do
+    {:ok, journal_entry_types} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> Klepsidra.Journals.create_journal_entry_types()
+
+    journal_entry_types
   end
 end

@@ -1,6 +1,7 @@
 defmodule Klepsidra.TimeTracking.Timer do
   @moduledoc """
-  Defines the `timers` schema and functions needed to clock in, out and parse datetimes.
+  Defines the `timers` schema and functions needed to clock in, out and
+  parse datetimes.
   """
 
   use Private

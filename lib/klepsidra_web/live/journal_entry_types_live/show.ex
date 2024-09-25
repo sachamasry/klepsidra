@@ -1,4 +1,4 @@
-defmodule KlepsidraWeb.CategoryLive.Show do
+defmodule KlepsidraWeb.JournalEntryTypesLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
@@ -15,9 +15,9 @@ defmodule KlepsidraWeb.CategoryLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:category, Journals.get_category!(id))}
+     |> assign(:journal_entry_types, Journals.get_journal_entry_types!(id))}
   end
 
-  defp page_title(:show), do: "Show Category"
-  defp page_title(:edit), do: "Edit Category"
+  defp page_title(:show), do: "Show Journal entry types"
+  defp page_title(:edit), do: "Edit Journal entry types"
 end

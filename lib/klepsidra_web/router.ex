@@ -83,12 +83,12 @@ defmodule KlepsidraWeb.Router do
     live "/customers/:id", BusinessPartnerLive.Show, :show
     live "/customers/:id/show/edit", BusinessPartnerLive.Show, :edit
 
-    live "/categories", CategoryLive.Index, :index
-    live "/categories/new", CategoryLive.Index, :new
-    live "/categories/:id/edit", CategoryLive.Index, :edit
+    live "/journal_entry_types", JournalEntryTypesLive.Index, :index
+    live "/journal_entry_types/new", JournalEntryTypesLive.Index, :new
+    live "/journal_entry_types/:id/edit", JournalEntryTypesLive.Index, :edit
 
-    live "/categories/:id", CategoryLive.Show, :show
-    live "/categories/:id/show/edit", CategoryLive.Show, :edit
+    live "/journal_entry_types/:id", JournalEntryTypesLive.Show, :show
+    live "/journal_entry_types/:id/show/edit", JournalEntryTypesLive.Show, :edit
 
     live "/journal_entries", JournalEntryLive.Index, :index
     live "/journal_entries/new", JournalEntryLive.Index, :new

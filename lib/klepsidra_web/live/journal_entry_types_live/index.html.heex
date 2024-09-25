@@ -1,0 +1,53 @@
+<.header>
+  Listing Journal entry types
+  <:actions>
+    <.link patch={~p"/journal_entry_types/new"}>
+      <.button>New Journal entry types</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="journal_entry_types"
+  rows={@streams.journal_entry_types_collection}
+  row_click={
+    fn {_id, journal_entry_types} ->
+      JS.navigate(~p"/journal_entry_types/#{journal_entry_types}")
+    end
+  }
+>
+  <:col :let={{_id, journal_entry_types}} label="Name"><%= journal_entry_types.name %></:col>
+  <:col :let={{_id, journal_entry_types}} label="Description">
+    <%= journal_entry_types.description %>
+  </:col>
+  <:action :let={{_id, journal_entry_types}}>
+    <div class="sr-only">
+      <.link navigate={~p"/journal_entry_types/#{journal_entry_types}"}>Show</.link>
+    </div>
+    <.link patch={~p"/journal_entry_types/#{journal_entry_types}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, journal_entry_types}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: journal_entry_types.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="journal_entry_types-modal"
+  show
+  on_cancel={JS.patch(~p"/journal_entry_types")}
+>
+  <.live_component
+    module={KlepsidraWeb.JournalEntryTypesLive.FormComponent}
+    id={@journal_entry_types.id || :new}
+    title={@page_title}
+    action={@live_action}
+    journal_entry_types={@journal_entry_types}
+    patch={~p"/journal_entry_types"}
+  />
+</.modal>

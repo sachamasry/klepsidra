@@ -27,6 +27,9 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntries do
         default: false,
         comment: "Summary of key takeaways or highlights from the entry"
 
+      add :entry_type_id, references(:journal_entry_types, on_delete: :nothing, type: :uuid),
+        null: false
+
       add :location, :string,
         default: false,
         comment: "Where was the user when they recorded the entry?"
@@ -56,8 +59,6 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntries do
 
       add :user_id, references(:users, on_delete: :nothing, type: :uuid)
 
-      add :category_id, references(:categories, on_delete: :nothing, type: :uuid)
-
       timestamps()
     end
 
@@ -71,9 +72,19 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntries do
                "Secondary index of the journal entry's `user_id` field, signifying the user the entry belongs to"
            )
 
-    create index(:journal_entries, [:category_id],
+    create index(:journal_entries, [:entry_type_id],
              comment:
-               "Secondary index of the journal entry's `category_id`, categorising the journal entry as a particular type"
+               "Secondary index of the journal entry's `entry_type_id`, flagging the journal entry as being of a particular type"
+           )
+
+    create index(:journal_entries, [:is_private],
+             comment:
+               "Index on the `is_private` flag, allowing easy sorting and filtering on the field"
+           )
+
+    create index(:journal_entries, [:inserted_at],
+             comment:
+               "Index on the `inserted_at` field, allowing easy sorting and filtering by the date the entry was actually recorded"
            )
   end
 end
