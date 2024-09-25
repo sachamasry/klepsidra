@@ -32,8 +32,7 @@ defmodule Klepsidra.TimeTrackingFixtures do
     {:ok, note} =
       attrs
       |> Enum.into(%{
-        note: "some note",
-        user_id: 42
+        note: "some note"
       })
       |> Klepsidra.TimeTracking.create_note()
 
