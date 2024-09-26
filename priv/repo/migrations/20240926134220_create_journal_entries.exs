@@ -22,16 +22,12 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntries do
         null: false,
         comment: "The journal entry, formatted in ready to render HTML"
 
-      add :highlights, :text,
-        default: false,
-        comment: "Summary of key takeaways or highlights from the entry"
+      add :highlights, :text, comment: "Summary of key takeaways or highlights from the entry"
 
       add :entry_type_id, references(:journal_entry_types, on_delete: :nothing, type: :uuid),
         null: false
 
-      add :location, :string,
-        default: false,
-        comment: "Where was the user when they recorded the entry?"
+      add :location, :string, comment: "Where was the user when they recorded the entry?"
 
       add :latitude, :float, comment: "User's GPS latitude at time of entry"
 

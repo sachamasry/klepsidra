@@ -27,7 +27,7 @@
   <:action :let={{id, journal_entry}}>
     <.link
       phx-click={JS.push("delete", value: %{id: journal_entry.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
+      data-confirm="Delete this journal entry?"
     >
       Delete
     </.link>

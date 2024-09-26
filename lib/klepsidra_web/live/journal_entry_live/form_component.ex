@@ -32,9 +32,12 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         <.input :if={@action == :edit} field={@form[:journal_for]} type="date" label="Journal for" />
         <.input field={@form[:entry_type_id]} type="select" label="Entry type" options={@entry_types} />
         <.input field={@form[:entry_text_markdown]} type="textarea" label="Journal entry" />
+        <.input field={@form[:highlights]} type="text" label="Key takeaways or highlights" />
+        <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
+        <.input field={@form[:location]} type="text" label="Where are you?" />
         <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Journal entry</.button>
+          <.button phx-disable-with="Saving...">Save journal entry</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -89,7 +92,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Journal entry created successfully")
+         |> put_flash(:info, "Journal entry logged successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

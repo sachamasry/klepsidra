@@ -62,11 +62,11 @@ defmodule Klepsidra.Journals.JournalEntry do
       :user_id
     ])
     |> generate_html_entry()
-    |> validate_required([
-      :journal_for,
-      :entry_text_html,
-      :entry_type_id
-    ])
+    |> validate_required(:journal_for, message: "Enter the date this journal is for")
+    |> validate_required(:entry_text_html, message: "You must write your journal entry")
+    |> validate_required(:entry_type_id,
+      message: "Please select what type of journal entry you're logging"
+    )
     |> assoc_constraint(:entry_type)
   end
 

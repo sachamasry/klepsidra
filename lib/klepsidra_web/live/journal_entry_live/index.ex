@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntry
+  import LiveToast
 
   @impl true
   def mount(_params, _session, socket) do
@@ -49,6 +50,11 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
     journal_entry = Journals.get_journal_entry!(id)
     {:ok, _} = Journals.delete_journal_entry(journal_entry)
 
-    {:noreply, stream_delete(socket, :journal_entries, journal_entry)}
+    socket =
+      socket
+      |> stream_delete(:journal_entries, journal_entry)
+      |> put_toast(:info, "Journal entry deleted succesfully")
+
+    {:noreply, socket}
   end
 end
