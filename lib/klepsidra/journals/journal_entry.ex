@@ -50,24 +50,48 @@ defmodule Klepsidra.Journals.JournalEntry do
       :journal_for,
       :entry_text_markdown,
       :entry_text_html,
-      :entry_type_id
-      # :highlights,
-      # :entry_type_id,
-      # :location,
-      # :latitude,
-      # :longitude,
-      # :mood,
-      # :is_private,
-      # :is_short_entry,
-      # :is_scheduled,
-      # :user_id
+      :entry_type_id,
+      :highlights,
+      :location,
+      :latitude,
+      :longitude,
+      :mood,
+      :is_private,
+      :is_short_entry,
+      :is_scheduled,
+      :user_id
     ])
+    |> generate_html_entry()
     |> validate_required([
       :journal_for,
-      :entry_text_markdown,
       :entry_text_html,
       :entry_type_id
     ])
     |> assoc_constraint(:entry_type)
+  end
+
+  @doc """
+  Early in the validation chain, ensuring that validity of all necessary fields
+  hasn't been checked yet, convert all text written in the markdown field to clean
+  HTML.
+  """
+  def generate_html_entry(
+        %{valid?: true, changes: %{entry_text_markdown: entry_text_markdown}} = changeset
+      ) do
+    put_change(changeset, :entry_text_html, convert_markdown_to_html(entry_text_markdown))
+  end
+
+  def generate_html_entry(changeset), do: changeset
+
+  @doc """
+  Take in markdown-formatted text, converting it to HTML.
+  """
+  def convert_markdown_to_html(markdown_string) when is_bitstring(markdown_string) do
+    Earmark.as_html!(markdown_string,
+      compact_output: true,
+      code_class_prefix: "lang-",
+      smartypants: true
+    )
+    |> HtmlSanitizeEx.html5()
   end
 end

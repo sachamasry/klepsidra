@@ -1,22 +1,22 @@
 <.header>
-  Journal entry <%= @journal_entry.id %>
-  <:subtitle>This is a journal_entry record from your database.</:subtitle>
+  Journal entry for <%= @journal_entry.journal_for %>
+  <:subtitle>
+    <%= @journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+  </:subtitle>
   <:actions>
     <.link patch={~p"/journal_entries/#{@journal_entry}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit journal_entry</.button>
+      <.button>Edit journal entry</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Entry text markdown"><%= @journal_entry.entry_text_markdown %></:item>
-  <:item title="Entry text html"><%= @journal_entry.entry_text_html %></:item>
   <:item title="Mood"><%= @journal_entry.mood %></:item>
   <:item title="Is private"><%= @journal_entry.is_private %></:item>
   <:item title="Is short entry"><%= @journal_entry.is_short_entry %></:item>
 </.list>
 
-<.back navigate={~p"/journal_entries"}>Back to journal_entries</.back>
+<.back navigate={~p"/journal_entries"}>Back to journal entries</.back>
 
 <.modal
   :if={@live_action == :edit}

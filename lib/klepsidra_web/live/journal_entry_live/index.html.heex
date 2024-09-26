@@ -1,8 +1,8 @@
 <.header>
-  Listing Journal entries
+  Journal entries
   <:actions>
     <.link patch={~p"/journal_entries/new"}>
-      <.button>New Journal entry</.button>
+      <.button>New journal entry</.button>
     </.link>
   </:actions>
 </.header>
@@ -12,11 +12,11 @@
   rows={@streams.journal_entries}
   row_click={fn {_id, journal_entry} -> JS.navigate(~p"/journal_entries/#{journal_entry}") end}
 >
-  <:col :let={{_id, journal_entry}} label="Entry text markdown">
-    <%= journal_entry.entry_text_markdown %>
+  <:col :let={{_id, journal_entry}} label="Entry for">
+    <%= journal_entry.journal_for %>
   </:col>
-  <:col :let={{_id, journal_entry}} label="Entry text html">
-    <%= journal_entry.entry_text_html %>
+  <:col :let={{_id, journal_entry}} label="Journal entry">
+    <%= journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
   </:col>
   <:action :let={{_id, journal_entry}}>
     <div class="sr-only">
@@ -47,5 +47,6 @@
     action={@live_action}
     journal_entry={@journal_entry}
     patch={~p"/journal_entries"}
+    datestamp={@datestamp}
   />
 </.modal>

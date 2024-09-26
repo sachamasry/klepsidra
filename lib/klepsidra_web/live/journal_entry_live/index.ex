@@ -23,19 +23,19 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Journal entry")
+    |> assign(:page_title, "Edit journal entry")
     |> assign(:journal_entry, Journals.get_journal_entry!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Journal entry")
+    |> assign(:page_title, "New journal entry")
     |> assign(:journal_entry, %JournalEntry{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Journal entries")
+    |> assign(:page_title, "Journal entries")
     |> assign(:journal_entry, nil)
   end
 

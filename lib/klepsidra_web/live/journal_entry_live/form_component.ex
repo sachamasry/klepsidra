@@ -12,7 +12,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage journal_entry records in your database.</:subtitle>
+        <:subtitle :if={@action == :new}>What did you do today?</:subtitle>
       </.header>
 
       <.simple_form
@@ -23,17 +23,16 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         phx-submit="save"
       >
         <.input
+          :if={@action == :new}
           field={@form[:journal_for]}
           type="date"
-          label="Date the journal is for"
+          label="Journal for"
           value={@datestamp}
         />
-        <.input field={@form[:entry_text_markdown]} type="text" label="Entry text markdown" />
-        <.input field={@form[:entry_text_html]} type="text" label="Entry text html" />
-        <.input field={@form[:mood]} type="text" label="Mood" />
-        <.input field={@form[:is_private]} type="checkbox" label="Is private" />
-        <.input field={@form[:is_short_entry]} type="checkbox" label="Is short entry" />
+        <.input :if={@action == :edit} field={@form[:journal_for]} type="date" label="Journal for" />
         <.input field={@form[:entry_type_id]} type="select" label="Entry type" options={@entry_types} />
+        <.input field={@form[:entry_text_markdown]} type="textarea" label="Journal entry" />
+        <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Journal entry</.button>
         </:actions>
@@ -57,7 +56,10 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"journal_entry" => journal_entry_params}, socket) do
-    changeset = Journals.change_journal_entry(socket.assigns.journal_entry, journal_entry_params)
+    changeset =
+      socket.assigns.journal_entry
+      |> Journals.change_journal_entry(journal_entry_params)
+
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

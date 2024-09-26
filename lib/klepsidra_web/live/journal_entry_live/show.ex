@@ -18,6 +18,6 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
      |> assign(:journal_entry, Journals.get_journal_entry!(id))}
   end
 
-  defp page_title(:show), do: "Show Journal entry"
-  defp page_title(:edit), do: "Edit Journal entry"
+  defp page_title(:show), do: "Show journal entry"
+  defp page_title(:edit), do: "Edit journal entry"
 end

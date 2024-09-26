@@ -16,12 +16,11 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntries do
         comment: "What period is this entry for? This is an ISO 8601 date stamp"
 
       add :entry_text_markdown, :text,
-        null: false,
-        comment: "This is the journal entry, in Markdown"
+        comment: "The journal entry, in Markdown or plain text format"
 
       add :entry_text_html, :text,
         null: false,
-        comment: "This is the journal entry, in ready to render HTML"
+        comment: "The journal entry, formatted in ready to render HTML"
 
       add :highlights, :text,
         default: false,
