@@ -12,11 +12,13 @@ defmodule Klepsidra.Journals.JournalEntryTypes do
 
   @type t :: %__MODULE__{
           name: String.t(),
-          description: String.t()
+          description: String.t(),
+          active: boolean()
         }
   schema "journal_entry_types" do
     field :name, :string
     field :description, :string
+    field :active, :boolean, default: true
 
     timestamps()
   end
@@ -24,8 +26,22 @@ defmodule Klepsidra.Journals.JournalEntryTypes do
   @doc false
   def changeset(journal_entry_types, attrs) do
     journal_entry_types
-    |> cast(attrs, [:name, :description])
+    |> cast(attrs, [:name, :description, :active])
     |> validate_required(:name, message: "Enter a journal entry type")
-    |> unique_constraint(:name, message: "A journal entry type with that name already exists")
+    |> unique_constraint(:name,
+      message: "A journal entry type with this name already exists"
+    )
+  end
+
+  @doc """
+  Used across live components to populate select options with journal entry types.
+  """
+  @spec populate_entry_types_list() :: [Klepsidra.Journals.JournalEntryTypes.t(), ...]
+  def populate_entry_types_list() do
+    [
+      {"", ""}
+      | Klepsidra.Journals.list_journal_entry_types()
+        |> Enum.map(fn entry_type -> {entry_type.name, entry_type.id} end)
+    ]
   end
 end

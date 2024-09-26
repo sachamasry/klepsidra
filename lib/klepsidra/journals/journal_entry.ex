@@ -31,10 +31,10 @@ defmodule Klepsidra.Journals.JournalEntry do
     field :entry_text_html, :string
     field :highlights, :string
     belongs_to :entry_type, Klepsidra.Journals.JournalEntryTypes
-    field :location, :string
-    field :latitude, :float
-    field :longitude, :float
-    field :mood, :string
+    field :location, :string, default: ""
+    field :latitude, :float, default: nil
+    field :longitude, :float, default: nil
+    field :mood, :string, default: ""
     field :is_private, :boolean, default: false
     field :is_short_entry, :boolean, default: false
     field :is_scheduled, :boolean, default: false
@@ -50,16 +50,17 @@ defmodule Klepsidra.Journals.JournalEntry do
       :journal_for,
       :entry_text_markdown,
       :entry_text_html,
-      :highlights,
-      :entry_type_id,
-      :location,
-      :latitude,
-      :longitude,
-      :mood,
-      :is_private,
-      :is_short_entry,
-      :is_scheduled,
-      :user_id
+      :entry_type_id
+      # :highlights,
+      # :entry_type_id,
+      # :location,
+      # :latitude,
+      # :longitude,
+      # :mood,
+      # :is_private,
+      # :is_short_entry,
+      # :is_scheduled,
+      # :user_id
     ])
     |> validate_required([
       :journal_for,

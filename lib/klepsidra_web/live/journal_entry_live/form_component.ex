@@ -4,6 +4,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.Journals
+  alias Klepsidra.Journals.JournalEntryTypes
 
   @impl true
   def render(assigns) do
@@ -21,11 +22,18 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input
+          field={@form[:journal_for]}
+          type="date"
+          label="Date the journal is for"
+          value={@datestamp}
+        />
         <.input field={@form[:entry_text_markdown]} type="text" label="Entry text markdown" />
         <.input field={@form[:entry_text_html]} type="text" label="Entry text html" />
         <.input field={@form[:mood]} type="text" label="Mood" />
         <.input field={@form[:is_private]} type="checkbox" label="Is private" />
         <.input field={@form[:is_short_entry]} type="checkbox" label="Is short entry" />
+        <.input field={@form[:entry_type_id]} type="select" label="Entry type" options={@entry_types} />
         <:actions>
           <.button phx-disable-with="Saving...">Save Journal entry</.button>
         </:actions>
@@ -36,12 +44,15 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
   @impl true
   def update(%{journal_entry: journal_entry} = assigns, socket) do
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign_new(:form, fn ->
-       to_form(Journals.change_journal_entry(journal_entry))
-     end)}
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign_new(:form, fn ->
+        to_form(Journals.change_journal_entry(journal_entry))
+      end)
+      |> assign_entry_type()
+
+    {:ok, socket}
   end
 
   @impl true
@@ -82,6 +93,13 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  # @spec assign_project(Phoenix.LiveView.Socket.t()) :: [Klepsidra.Projects.Project.t(), ...]
+  defp assign_entry_type(socket) do
+    entry_types = JournalEntryTypes.populate_entry_types_list()
+
+    assign(socket, entry_types: entry_types)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

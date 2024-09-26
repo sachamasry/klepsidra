@@ -19,12 +19,22 @@ defmodule Klepsidra.Repo.Migrations.CreateJournalEntryTypes do
       add :description, :text,
         comment: "Any other journal entry type details which may be useful in the future."
 
+      add :active, :boolean,
+        default: true,
+        null: false,
+        comment:
+          "Is this journal entry type considered active? An inactive entry type will not show up in lists and select controls"
+
       timestamps()
     end
 
     create unique_index(:journal_entry_types, [:name],
              unique: true,
              comment: "Unique index on journal entry type"
+           )
+
+    create index(:journal_entry_types, [:active],
+             comment: "Index on the journal entry type `active` field"
            )
   end
 end
