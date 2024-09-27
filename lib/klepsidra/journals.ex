@@ -22,6 +22,24 @@ defmodule Klepsidra.Journals do
   end
 
   @doc """
+  Given a result of a `journal_entries` query, additionally preload the
+  `entry_type` association.
+
+  ## Examples
+
+      iex> list_journal_entries() |> preload_journal_entry_type()
+      [%JournalEntry{%Klepsidra.Journals.JournalEntryTypes{}}, ...]
+
+  """
+  @spec preload_journal_entry_type([Klepsidra.Journals.JournalEntry.t(), ...]) :: [
+          Klepsidra.Journals.JournalEntry.t(),
+          ...
+        ]
+  def preload_journal_entry_type(journal_entries) when is_list(journal_entries) do
+    Repo.preload(journal_entries, :entry_type)
+  end
+
+  @doc """
   Gets a single journal_entry.
 
   Raises `Ecto.NoResultsError` if the Journal entry does not exist.

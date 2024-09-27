@@ -1,8 +1,6 @@
 <.header>
-  Journal entry for <%= @journal_entry.journal_for %>
-  <:subtitle>
-    <%= @journal_entry.highlights %>
-  </:subtitle>
+  <%= @journal_entry_type %>: <%= @journal_entry.journal_for %>
+  <:subtitle></:subtitle>
   <:actions>
     <.link patch={~p"/journal_entries/#{@journal_entry}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit journal entry</.button>
@@ -11,9 +9,13 @@
 </.header>
 
 <article class="mt-5">
-  <%= @journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+  <header class="font-semibold"><%= @journal_entry.highlights %></header>
 
-  <footer class="mt-5">
+  <section class="mt-5">
+    <%= @journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+  </section>
+
+  <footer class="text-sm text-violet-400 mt-5">
     Reflection recorded on <time><%= @journal_entry.inserted_at %></time>. Last edited on
     <time><%= @journal_entry.updated_at %></time>
   </footer>

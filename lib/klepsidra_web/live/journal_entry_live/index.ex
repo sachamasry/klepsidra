@@ -11,10 +11,14 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
   def mount(_params, _session, socket) do
     datestamp = Date.utc_today() |> Date.to_string()
 
+    journal_entries =
+      Journals.list_journal_entries()
+      |> Journals.preload_journal_entry_type()
+
     {:ok,
      socket
      |> assign(:datestamp, datestamp)
-     |> stream(:journal_entries, Journals.list_journal_entries())}
+     |> stream(:journal_entries, journal_entries)}
   end
 
   @impl true
