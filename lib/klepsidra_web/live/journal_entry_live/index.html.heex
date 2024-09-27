@@ -16,7 +16,7 @@
     <%= journal_entry.journal_for %>
   </:col>
   <:col :let={{_id, journal_entry}} label="Journal entry">
-    <%= journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+    <%= journal_entry.highlights || journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
   </:col>
   <:action :let={{_id, journal_entry}}>
     <div class="sr-only">
