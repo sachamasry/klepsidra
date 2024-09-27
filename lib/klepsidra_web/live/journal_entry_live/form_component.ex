@@ -31,7 +31,12 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         />
         <.input :if={@action == :edit} field={@form[:journal_for]} type="date" label="Journal for" />
         <.input field={@form[:entry_type_id]} type="select" label="Entry type" options={@entry_types} />
-        <.input field={@form[:entry_text_markdown]} type="textarea" label="Journal entry" />
+        <.input
+          field={@form[:entry_text_markdown]}
+          type="textarea"
+          label="Journal entry"
+          phx-debounce="1500"
+        />
         <.input
           field={@form[:highlights]}
           type="text"
@@ -78,6 +83,11 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   defp save_journal_entry(socket, :edit, journal_entry_params) do
     case Journals.update_journal_entry(socket.assigns.journal_entry, journal_entry_params) do
       {:ok, journal_entry} ->
+        journal_entry =
+          [journal_entry | []]
+          |> Klepsidra.Journals.preload_journal_entry_type()
+          |> List.first()
+
         notify_parent({:saved, journal_entry})
 
         {:noreply,
@@ -93,6 +103,11 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   defp save_journal_entry(socket, :new, journal_entry_params) do
     case Journals.create_journal_entry(journal_entry_params) do
       {:ok, journal_entry} ->
+        journal_entry =
+          [journal_entry | []]
+          |> Klepsidra.Journals.preload_journal_entry_type()
+          |> List.first()
+
         notify_parent({:saved, journal_entry})
 
         {:noreply,
@@ -105,7 +120,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
     end
   end
 
-  # @spec assign_project(Phoenix.LiveView.Socket.t()) :: [Klepsidra.Projects.Project.t(), ...]
+  @spec assign_entry_type(Phoenix.LiveView.Socket.t()) :: Phoenix.LiveView.Socket.t()
   defp assign_entry_type(socket) do
     entry_types = JournalEntryTypes.populate_entry_types_list()
 
