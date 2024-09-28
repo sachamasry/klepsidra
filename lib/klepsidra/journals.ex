@@ -17,8 +17,9 @@ defmodule Klepsidra.Journals do
       [%JournalEntry{}, ...]
 
   """
+  @spec list_journal_entries() :: [JournalEntry.t(), ...]
   def list_journal_entries do
-    Repo.all(JournalEntry)
+    JournalEntry |> order_by(asc: :journal_for, asc: :inserted_at) |> Repo.all()
   end
 
   @doc """
@@ -31,10 +32,11 @@ defmodule Klepsidra.Journals do
       [%JournalEntry{%Klepsidra.Journals.JournalEntryTypes{}}, ...]
 
   """
-  @spec preload_journal_entry_type([Klepsidra.Journals.JournalEntry.t(), ...]) :: [
-          Klepsidra.Journals.JournalEntry.t(),
-          ...
-        ]
+  @spec preload_journal_entry_type(journal_entries :: [JournalEntry.t(), ...]) ::
+          [
+            Klepsidra.Journals.JournalEntry.t(),
+            ...
+          ]
   def preload_journal_entry_type(journal_entries) when is_list(journal_entries) do
     Repo.preload(journal_entries, :entry_type)
   end
@@ -53,6 +55,8 @@ defmodule Klepsidra.Journals do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_journal_entry!(id :: bitstring()) ::
+          JournalEntry.t() | struct()
   def get_journal_entry!(id), do: Repo.get!(JournalEntry, id)
 
   @doc """
@@ -64,9 +68,11 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntry{}}
 
       iex> create_journal_entry(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec create_journal_entry(attrs :: map()) ::
+          {:ok, JournalEntry.t()} | {:error, struct()}
   def create_journal_entry(attrs \\ %{}) do
     %JournalEntry{}
     |> JournalEntry.changeset(attrs)
@@ -82,9 +88,14 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntry{}}
 
       iex> update_journal_entry(journal_entry, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec update_journal_entry(
+          journal_entry :: JournalEntry.t(),
+          attrs :: map()
+        ) ::
+          {:ok, JournalEntry.t()} | {:error, struct()}
   def update_journal_entry(%JournalEntry{} = journal_entry, attrs) do
     journal_entry
     |> JournalEntry.changeset(attrs)
@@ -100,15 +111,17 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntry{}}
 
       iex> delete_journal_entry(journal_entry)
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec delete_journal_entry(journal_entry :: JournalEntry.t()) ::
+          {:ok, JournalEntry.t()} | {:error, struct()}
   def delete_journal_entry(%JournalEntry{} = journal_entry) do
     Repo.delete(journal_entry)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking journal_entry changes.
+  Returns an `Ecto.Changeset.t()` for tracking journal_entry changes.
 
   ## Examples
 
@@ -116,6 +129,8 @@ defmodule Klepsidra.Journals do
       %Ecto.Changeset{data: %JournalEntry{}}
 
   """
+  @spec change_journal_entry(journal_entry :: JournalEntry.t(), attrs :: map()) ::
+          struct()
   def change_journal_entry(%JournalEntry{} = journal_entry, attrs \\ %{}) do
     JournalEntry.changeset(journal_entry, attrs)
   end
@@ -131,6 +146,7 @@ defmodule Klepsidra.Journals do
       [%JournalEntryTypes{}, ...]
 
   """
+  @spec list_journal_entries() :: [JournalEntryTypes.t(), ...]
   def list_journal_entry_types do
     Repo.all(JournalEntryTypes)
   end
@@ -149,6 +165,7 @@ defmodule Klepsidra.Journals do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_journal_entry_types!(id :: bitstring()) :: JournalEntryTypes.t() | no_return()
   def get_journal_entry_types!(id), do: Repo.get!(JournalEntryTypes, id)
 
   @doc """
@@ -160,9 +177,11 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntryTypes{}}
 
       iex> create_journal_entry_types(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec create_journal_entry_types(attrs :: map()) ::
+          {:ok, JournalEntryTypes.t()} | {:error, struct()}
   def create_journal_entry_types(attrs \\ %{}) do
     %JournalEntryTypes{}
     |> JournalEntryTypes.changeset(attrs)
@@ -178,9 +197,14 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntryTypes{}}
 
       iex> update_journal_entry_types(journal_entry_types, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec update_journal_entry_types(
+          journal_entry_types :: JournalEntryTypes.t(),
+          attrs :: map()
+        ) ::
+          {:ok, JournalEntryTypes.t()} | {:error, struct()}
   def update_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs) do
     journal_entry_types
     |> JournalEntryTypes.changeset(attrs)
@@ -196,15 +220,17 @@ defmodule Klepsidra.Journals do
       {:ok, %JournalEntryTypes{}}
 
       iex> delete_journal_entry_types(journal_entry_types)
-      {:error, %Ecto.Changeset{}}
+      {:error, Ecto.Changeset.t()}
 
   """
+  @spec delete_journal_entry_types(journal_entry_types :: JournalEntryTypes.t()) ::
+          {:ok, JournalEntryTypes.t()} | {:error, struct()}
   def delete_journal_entry_types(%JournalEntryTypes{} = journal_entry_types) do
     Repo.delete(journal_entry_types)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking journal_entry_types changes.
+  Returns an `Ecto.Changeset.t()` for tracking journal_entry_types changes.
 
   ## Examples
 
@@ -212,6 +238,8 @@ defmodule Klepsidra.Journals do
       %Ecto.Changeset{data: %JournalEntryTypes{}}
 
   """
+  @spec change_journal_entry_types(journal_entry_types :: JournalEntryTypes.t(), attrs :: map()) ::
+          struct()
   def change_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs \\ %{}) do
     JournalEntryTypes.changeset(journal_entry_types, attrs)
   end
