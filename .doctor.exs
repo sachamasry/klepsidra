@@ -8,6 +8,7 @@
     Klepsidra.Cldr.Number.Formatter.Decimal,
     Klepsidra.Cldr.Number.Symbol,
     Klepsidra.Cldr.Number.System,
+    Klepsidra.Cldr.Territory,
     Klepsidra.Cldr.Unit.Additional,
     KlepsidraWeb,
     KlepsidraWeb.ErrorHTML,

@@ -34,7 +34,7 @@ defmodule Klepsidra.Journals do
   """
   @spec preload_journal_entry_type(journal_entries :: [JournalEntry.t(), ...]) ::
           [
-            Klepsidra.Journals.JournalEntry.t(),
+            JournalEntry.t(),
             ...
           ]
   def preload_journal_entry_type(journal_entries) when is_list(journal_entries) do
