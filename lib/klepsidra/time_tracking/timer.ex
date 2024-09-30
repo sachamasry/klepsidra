@@ -93,9 +93,14 @@ defmodule Klepsidra.TimeTracking.Timer do
       * `:message` - the message on failure, defaults to "Timestamps are not in valid order"
 
   """
-  # @spec validate_timestamps_and_chronology(t, atom, atom, Keyword.t()) :: t
+  @spec validate_timestamps_and_chronology(
+          changeset :: Ecto.Changeset.t(),
+          start_timestamp :: atom,
+          end_timestamp :: atom,
+          opts :: Keyword.t()
+        ) :: Ecto.Changeset.t()
   def validate_timestamps_and_chronology(changeset, start_timestamp, end_timestamp, opts \\ []) do
-    message = Keyword.get(opts, :message, "Timestamps are not in valid order")
+    _message = Keyword.get(opts, :message, "Timestamps are not in valid order")
     start_stamp = get_field(changeset, start_timestamp, "")
 
     parsed_start_stamp =
@@ -150,9 +155,6 @@ defmodule Klepsidra.TimeTracking.Timer do
 
       {:reasonable_duration_check, false} ->
         add_error(changeset, :end_stamp, "The timed activity cannot be longer than one day")
-
-      _ ->
-        add_error(changeset, :end_stamp, message)
     end
   end
 

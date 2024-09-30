@@ -3,7 +3,8 @@ defmodule Klepsidra.Journals do
   The Journals context.
   """
 
-  import Ecto.Query, warn: false
+  # import Ecto.Query, warn: false
+  import Ecto.Query
   alias Klepsidra.Repo
 
   alias Klepsidra.Journals.JournalEntry
@@ -33,10 +34,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec preload_journal_entry_type(journal_entries :: [JournalEntry.t(), ...]) ::
-          [
-            JournalEntry.t(),
-            ...
-          ]
+          [JournalEntry.t(), ...]
   def preload_journal_entry_type(journal_entries) when is_list(journal_entries) do
     Repo.preload(journal_entries, :entry_type)
   end
@@ -55,8 +53,8 @@ defmodule Klepsidra.Journals do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_journal_entry!(id :: bitstring()) ::
-          JournalEntry.t() | struct()
+  @spec get_journal_entry!(id :: Ecto.UUID.t()) ::
+          JournalEntry.t()
   def get_journal_entry!(id), do: Repo.get!(JournalEntry, id)
 
   @doc """
@@ -72,7 +70,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec create_journal_entry(attrs :: map()) ::
-          {:ok, JournalEntry.t()} | {:error, struct()}
+          {:ok, JournalEntry.t()} | {:error, Ecto.Changeset.t()}
   def create_journal_entry(attrs \\ %{}) do
     %JournalEntry{}
     |> JournalEntry.changeset(attrs)
@@ -95,7 +93,7 @@ defmodule Klepsidra.Journals do
           journal_entry :: JournalEntry.t(),
           attrs :: map()
         ) ::
-          {:ok, JournalEntry.t()} | {:error, struct()}
+          {:ok, JournalEntry.t()} | {:error, Ecto.Changeset.t()}
   def update_journal_entry(%JournalEntry{} = journal_entry, attrs) do
     journal_entry
     |> JournalEntry.changeset(attrs)
@@ -115,7 +113,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec delete_journal_entry(journal_entry :: JournalEntry.t()) ::
-          {:ok, JournalEntry.t()} | {:error, struct()}
+          {:ok, JournalEntry.t()} | {:error, Ecto.Changeset.t()}
   def delete_journal_entry(%JournalEntry{} = journal_entry) do
     Repo.delete(journal_entry)
   end
@@ -130,7 +128,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec change_journal_entry(journal_entry :: JournalEntry.t(), attrs :: map()) ::
-          struct()
+          Ecto.Changeset.t()
   def change_journal_entry(%JournalEntry{} = journal_entry, attrs \\ %{}) do
     JournalEntry.changeset(journal_entry, attrs)
   end
@@ -165,7 +163,7 @@ defmodule Klepsidra.Journals do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_journal_entry_types!(id :: bitstring()) :: JournalEntryTypes.t() | no_return()
+  @spec get_journal_entry_types!(id :: Ecto.UUID.t()) :: JournalEntryTypes.t()
   def get_journal_entry_types!(id), do: Repo.get!(JournalEntryTypes, id)
 
   @doc """
@@ -181,7 +179,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec create_journal_entry_types(attrs :: map()) ::
-          {:ok, JournalEntryTypes.t()} | {:error, struct()}
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
   def create_journal_entry_types(attrs \\ %{}) do
     %JournalEntryTypes{}
     |> JournalEntryTypes.changeset(attrs)
@@ -204,7 +202,7 @@ defmodule Klepsidra.Journals do
           journal_entry_types :: JournalEntryTypes.t(),
           attrs :: map()
         ) ::
-          {:ok, JournalEntryTypes.t()} | {:error, struct()}
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
   def update_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs) do
     journal_entry_types
     |> JournalEntryTypes.changeset(attrs)
@@ -224,7 +222,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec delete_journal_entry_types(journal_entry_types :: JournalEntryTypes.t()) ::
-          {:ok, JournalEntryTypes.t()} | {:error, struct()}
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
   def delete_journal_entry_types(%JournalEntryTypes{} = journal_entry_types) do
     Repo.delete(journal_entry_types)
   end
@@ -239,7 +237,7 @@ defmodule Klepsidra.Journals do
 
   """
   @spec change_journal_entry_types(journal_entry_types :: JournalEntryTypes.t(), attrs :: map()) ::
-          struct()
+          Ecto.Changeset.t()
   def change_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs \\ %{}) do
     JournalEntryTypes.changeset(journal_entry_types, attrs)
   end

@@ -4,6 +4,8 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.Journals
+  alias Klepsidra.Journals.JournalEntry
+  alias Klepsidra.Journals.JournalEntryTypes
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,12 +14,9 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    journal_entry = Journals.get_journal_entry!(id)
+    journal_entry = get_journal(id)
 
-    journal_entry_type =
-      journal_entry.entry_type_id
-      |> Journals.get_journal_entry_types!()
-      |> Map.get(:name)
+    journal_entry_type = get_journal_entry_type(id)
 
     {:noreply,
      socket
@@ -28,4 +27,15 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
 
   defp page_title(:show), do: "Show journal entry"
   defp page_title(:edit), do: "Edit journal entry"
+
+  @spec get_journal(id :: Ecto.UUID.t()) :: JournalEntry.t()
+  defp get_journal(id), do: Journals.get_journal_entry!(id)
+
+  @spec get_journal_entry_type(journal_entry_id :: Ecto.UUID.t()) ::
+          JournalEntryTypes.t()
+  defp get_journal_entry_type(journal_entry_id) do
+    journal_entry_id
+    |> Journals.get_journal_entry_types!()
+    |> Map.get(:name)
+  end
 end

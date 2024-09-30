@@ -12,7 +12,7 @@ defmodule Klepsidra.MixProject do
       deps: deps(),
       dialyzer: [
         plt_add_deps: :apps_direct,
-        plt_add_apps: [],
+        plt_add_apps: [:ecto],
         plt_ignore_apps: [
           :ex_cldr,
           :ex_cldr_numbers,
