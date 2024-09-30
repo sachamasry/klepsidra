@@ -5,7 +5,6 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntry
-  alias Klepsidra.Journals.JournalEntryTypes
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,7 +15,7 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     journal_entry = get_journal(id)
 
-    journal_entry_type = get_journal_entry_type(id)
+    journal_entry_type = get_journal_entry_type(journal_entry.entry_type_id |> to_string())
 
     {:noreply,
      socket
@@ -31,10 +30,10 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
   @spec get_journal(id :: Ecto.UUID.t()) :: JournalEntry.t()
   defp get_journal(id), do: Journals.get_journal_entry!(id)
 
-  @spec get_journal_entry_type(journal_entry_id :: Ecto.UUID.t()) ::
-          JournalEntryTypes.t()
-  defp get_journal_entry_type(journal_entry_id) do
-    journal_entry_id
+  @spec get_journal_entry_type(journal_entry_type_id :: Ecto.UUID.t()) ::
+          String.t()
+  defp get_journal_entry_type(journal_entry_type_id) when is_bitstring(journal_entry_type_id) do
+    journal_entry_type_id
     |> Journals.get_journal_entry_types!()
     |> Map.get(:name)
   end

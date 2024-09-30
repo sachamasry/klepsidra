@@ -163,7 +163,7 @@ defmodule Klepsidra.Journals do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_journal_entry_types!(id :: Ecto.UUID.t()) :: JournalEntryTypes.t()
+  @spec get_journal_entry_types!(id :: Ecto.UUID.t()) :: JournalEntryTypes.t() | no_return()
   def get_journal_entry_types!(id), do: Repo.get!(JournalEntryTypes, id)
 
   @doc """
