@@ -43,7 +43,7 @@ defmodule KlepsidraWeb do
         layouts: [html: KlepsidraWeb.Layouts]
 
       import Plug.Conn
-      import KlepsidraWeb.Gettext
+      use Gettext, backend: KlepsidraWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule KlepsidraWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import KlepsidraWeb.CoreComponents
-      import KlepsidraWeb.Gettext
+      use Gettext, backend: KlepsidraWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

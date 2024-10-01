@@ -5,7 +5,6 @@
   {"deps/ex_cldr/lib/cldr/plural_rules/plural_rule.ex", :unknown_function},
   {"deps/ex_cldr_currencies/lib/cldr/backend.ex", :unknown_function},
   {"deps/ex_cldr_lists/lib/cldr/list/backend.ex", :unknown_function},
-  {"deps/ex_cldr_numbers/lib/cldr/number/backend/decimal_formatter.ex", :unknown_function},
   {"deps/ex_cldr_numbers/lib/cldr/number/backend/format.ex", :unknown_function},
   {"deps/ex_cldr_numbers/lib/cldr/number/backend/number.ex", :unknown_function},
   {"deps/ex_cldr_numbers/lib/cldr/number/backend/symbol.ex", :unknown_function},

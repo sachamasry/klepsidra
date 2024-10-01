@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-4650626B.js"></script>
+    <script src="dist/sidebar_items-1D3BC8F2.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-JRPQ5PR6.js"></script>
 
@@ -126,7 +126,7 @@ and use that information to produce a localized format.</p><p>The interval funct
 field with the greatest difference between the two datetimes before using the
 format pattern.</p><p>For example, the greatest difference in &quot;Jan 10-12, 2008&quot; is the day field, while
 the greatest difference in &quot;Jan 10 - Feb 12, 2008&quot; is the month field. This is used to
-pick the exact pattern to be used.</p><p>See <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a> for further detail.</p>
+pick the exact pattern to be used.</p><p>See <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a> for further detail.</p>
     </section>
 
 </div>
@@ -217,7 +217,7 @@ exception.</p></div>
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:range/0">Cldr.Interval.range</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:range/0">Cldr.Interval.range</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
   {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}}</pre>
 
       </div>
@@ -244,12 +244,12 @@ styles depends on whether formatting is for a date, time or datetime.
 Since the functions in this module will make a determination as
 to which formatter to be used based upon the data passed to them
 it is recommended the style option be omitted. If a style is important
-then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
-or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
+then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
+or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
 and <code class="inline">:year_and_month</code>. The default is <code class="inline">:date</code>.</p></li><li><p>For a time the alternatives are <code class="inline">:time</code>, <code class="inline">:zone</code> and
 <code class="inline">:flex</code>. The default is <code class="inline">:time</code></p></li><li><p>For a datetime there are no style options, the default
-for each of the date and time part is used</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+for each of the date and time part is used</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated</p></li></ul><h2 id="to_string/2-returns" class="section-heading">
   <a href="#to_string/2-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -263,15 +263,15 @@ be transliterated</p></li></ul><h2 id="to_string/2-returns" class="section-headi
   <span class="text">Notes</span>
 </h2>
 <ul><li><p><a href="#to_string/2"><code class="inline">to_string/2</code></a> will decide which formatter to call based upon
-the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
+the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
 if its <code class="inline">:precision</code> is <code class="inline">:year</code>, <code class="inline">:month</code> or <code class="inline">:day</code>. Othersie
-it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
+it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
 dependency <a href="https://hex.pm/packages/calendar_interval">calendar_interval</a>
 to the <code class="inline">deps</code> configuration in <code class="inline">mix.exs</code>.</p></li><li><p>For more information on interval format string
-see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -284,11 +284,11 @@ date, time or datetime is formatted instead of an interval</p></li></ul><h2 id="
 <pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="kn">use</span><span class="w"> </span><span class="nc">CalendarInterval</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
 </span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="w">
-</span><span class="p" data-group-id="6547425229-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="6547425229-1">}</span><span class="w">
+</span><span class="p" data-group-id="5381704303-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="5381704303-1">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="nc">Date</span><span class="o">.</span><span class="n">range</span><span class="p" data-group-id="6547425229-2">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="6547425229-2">)</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="w"> </span><span class="nc">Date</span><span class="o">.</span><span class="n">range</span><span class="p" data-group-id="5381704303-2">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="5381704303-2">)</span><span class="p">,</span><span class="w">
 </span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="w">
-</span><span class="p" data-group-id="6547425229-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Thu, Dec 31, 2020&quot;</span><span class="p" data-group-id="6547425229-3">}</span></code></pre>
+</span><span class="p" data-group-id="5381704303-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Thu, Dec 31, 2020&quot;</span><span class="p" data-group-id="5381704303-3">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string/3">
@@ -307,7 +307,7 @@ date, time or datetime is formatted instead of an interval</p></li></ul><h2 id="
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_string(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
   {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}}</pre>
 
       </div>
@@ -336,12 +336,12 @@ styles depends on whether formatting is for a date, time or datetime.
 Since the functions in this module will make a determination as
 to which formatter to be used based upon the data passed to them
 it is recommended the style option be omitted. If styling is important
-then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
-or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
+then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
+or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
 and <code class="inline">:year_and_month</code>. The default is <code class="inline">:date</code>.</p></li><li><p>For a time the alternatives are <code class="inline">:time</code>, <code class="inline">:zone</code> and
 <code class="inline">:flex</code>. The default is <code class="inline">:time</code></p></li><li><p>For a datetime there are no style options, the default
-for each of the date and time part is used</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+for each of the date and time part is used</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a></p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated.</p></li></ul><h2 id="to_string/3-returns" class="section-heading">
   <a href="#to_string/3-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -355,15 +355,15 @@ be transliterated.</p></li></ul><h2 id="to_string/3-returns" class="section-head
   <span class="text">Notes</span>
 </h2>
 <ul><li><p><a href="#to_string/2"><code class="inline">to_string/2</code></a> will decide which formatter to call based upon
-the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
+the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
 if its <code class="inline">:precision</code> is <code class="inline">:year</code>, <code class="inline">:month</code> or <code class="inline">:day</code>. Othersie
-it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
+it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
 dependency <a href="https://hex.pm/packages/calendar_interval">calendar_interval</a>
 to the <code class="inline">deps</code> configuration in <code class="inline">mix.exs</code>.</p></li><li><p>For more information on interval format string
-see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -373,32 +373,32 @@ date, time or datetime is formatted instead of an interval.</p></li></ul><h2 id=
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-1">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="4931366667-1">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1 – Dec 31, 2020&quot;</span><span class="p" data-group-id="4931366667-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-1">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="5581998554-1">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1 – Dec 31, 2020&quot;</span><span class="p" data-group-id="5581998554-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p" data-group-id="4931366667-3">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1 – 12, 2020&quot;</span><span class="p" data-group-id="4931366667-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p" data-group-id="5581998554-3">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jan 1 – 12, 2020&quot;</span><span class="p" data-group-id="5581998554-4">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-5">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4931366667-5">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="4931366667-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-5">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="5581998554-5">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="5581998554-6">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-7">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-01]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:year_and_month</span><span class="p" data-group-id="4931366667-7">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January – December 2020&quot;</span><span class="p" data-group-id="4931366667-8">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-7">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-01]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:year_and_month</span><span class="p" data-group-id="5581998554-7">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January – December 2020&quot;</span><span class="p" data-group-id="5581998554-8">}</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="kn">use</span><span class="w"> </span><span class="nc">CalendarInterval</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-9">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4931366667-9">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="4931366667-10">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-9">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="5581998554-9">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="p" data-group-id="5581998554-10">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-11">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-12-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4931366667-11">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – December 1, 2020, 10:05:00 AM UTC&quot;</span><span class="p" data-group-id="4931366667-12">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-11">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-12-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="5581998554-11">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – December 1, 2020, 10:05:00 AM UTC&quot;</span><span class="p" data-group-id="5581998554-12">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="4931366667-13">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-01-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4931366667-13">)</span><span class="w">
-</span><span class="p" data-group-id="4931366667-14">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – 10:05:00 AM UTC&quot;</span><span class="p" data-group-id="4931366667-14">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5581998554-13">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-01-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="5581998554-13">)</span><span class="w">
+</span><span class="p" data-group-id="5581998554-14">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – 10:05:00 AM UTC&quot;</span><span class="p" data-group-id="5581998554-14">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="to_string!/2">
@@ -417,7 +417,7 @@ date, time or datetime is formatted instead of an interval.</p></li></ul><h2 id=
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:range/0">Cldr.Interval.range</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:range/0">Cldr.Interval.range</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
 
       </div>
 
@@ -443,12 +443,12 @@ styles depends on whether formatting is for a date, time or datetime.
 Since the functions in this module will make a determination as
 to which formatter to be used based upon the data passed to them
 it is recommended the style option be omitted. If a style is important
-then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
-or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
+then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
+or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
 and <code class="inline">:year_and_month</code>. The default is <code class="inline">:date</code>.</p></li><li><p>For a time the alternatives are <code class="inline">:time</code>, <code class="inline">:zone</code> and
 <code class="inline">:flex</code>. The default is <code class="inline">:time</code>.</p></li><li><p>For a datetime there are no style options, the default
-for each of the date and time part is used.</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+for each of the date and time part is used.</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated.</p></li></ul><h2 id="to_string!/2-returns" class="section-heading">
   <a href="#to_string!/2-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -462,15 +462,15 @@ be transliterated.</p></li></ul><h2 id="to_string!/2-returns" class="section-hea
   <span class="text">Notes</span>
 </h2>
 <ul><li><p><a href="#to_string/3"><code class="inline">to_string/3</code></a> will decide which formatter to call based upon
-the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
+the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
 if its <code class="inline">:precision</code> is <code class="inline">:year</code>, <code class="inline">:month</code> or <code class="inline">:day</code>. Otherwise
-it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
+it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
 dependency <a href="https://hex.pm/packages/calendar_interval">calendar_interval</a>
 to the <code class="inline">deps</code> configuration in <code class="inline">mix.exs</code>.</p></li><li><p>For more information on interval format string
-see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -481,12 +481,12 @@ date, time or datetime is formatted instead of an interval</p></li></ul><h2 id="
   <span class="text">Examples</span>
 </h2>
 <pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="kn">use</span><span class="w"> </span><span class="nc">CalendarInterval</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1505689986-1">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1505689986-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="8412089391-1">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="8412089391-1">)</span><span class="w">
 </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1505689986-2">(</span><span class="nc">Date</span><span class="o">.</span><span class="n">range</span><span class="p" data-group-id="1505689986-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="1505689986-3">)</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1505689986-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="8412089391-2">(</span><span class="nc">Date</span><span class="o">.</span><span class="n">range</span><span class="p" data-group-id="8412089391-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="8412089391-3">)</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="8412089391-2">)</span><span class="w">
 </span><span class="s">&quot;Wed, Jan 1 – Thu, Dec 31, 2020&quot;</span></code></pre>
   </section>
 </section>
@@ -506,7 +506,7 @@ date, time or datetime is formatted instead of an interval</p></li></ul><h2 id="
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_string!(<a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html#t:datetime/0">Cldr.Interval.datetime</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
   <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
 
       </div>
@@ -536,12 +536,12 @@ styles depends on whether formatting is for a date, time or datetime.
 Since the functions in this module will make a determination as
 to which formatter to be used based upon the data passed to them
 it is recommended the style option be omitted. If styling is important
-then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
-or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
+then call <a href="#to_string/3"><code class="inline">to_string/3</code></a> directly on <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html"><code class="inline">Cldr.Date.Interval</code></a>, <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html"><code class="inline">Cldr.Time.Interval</code></a>
+or <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html"><code class="inline">Cldr.DateTime.Interval</code></a>.</p><ul><li><p>For a date the alternatives are <code class="inline">:date</code>, <code class="inline">:month_and_day</code>, <code class="inline">:month</code>
 and <code class="inline">:year_and_month</code>. The default is <code class="inline">:date</code>.</p></li><li><p>For a time the alternatives are <code class="inline">:time</code>, <code class="inline">:zone</code> and
 <code class="inline">:flex</code>. The default is <code class="inline">:time</code>.</p></li><li><p>For a datetime there are no style options, the default
-for each of the date and time part is used.</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
-or a <a href="https://hexdocs.pm/ex_cldr/2.40.0/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
+for each of the date and time part is used.</p></li></ul></li><li><p><code class="inline">locale</code> is any valid locale name returned by <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.html#known_locale_names/0"><code class="inline">Cldr.known_locale_names/0</code></a>
+or a <a href="https://hexdocs.pm/ex_cldr/2.40.1/Cldr.LanguageTag.html#t:t/0"><code class="inline">Cldr.LanguageTag.t/0</code></a> struct.  The default is <a href="Klepsidra.Cldr.html#get_locale/0"><code class="inline">Elixir.Klepsidra.Cldr.get_locale/0</code></a>.</p></li><li><p><code class="inline">number_system:</code> a number system into which the formatted date digits should
 be transliterated.</p></li></ul><h2 id="to_string!/3-returns" class="section-heading">
   <a href="#to_string!/3-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
@@ -555,15 +555,15 @@ be transliterated.</p></li></ul><h2 id="to_string!/3-returns" class="section-hea
   <span class="text">Notes</span>
 </h2>
 <ul><li><p><a href="#to_string/3"><code class="inline">to_string/3</code></a> will decide which formatter to call based upon
-the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
+the arguments provided to it.</p><ul><li><p>A <code class="inline">Date.Range.t</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a></p></li><li><p>A <code class="inline">CalendarInterval</code> will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a>
 if its <code class="inline">:precision</code> is <code class="inline">:year</code>, <code class="inline">:month</code> or <code class="inline">:day</code>. Othersie
-it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
-type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
+it will call <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a></p></li><li><p>If <code class="inline">from</code> and <code class="inline">to</code> both conform to the <code class="inline">Calendar.datetime()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.DateTime.Interval.html#to_string/3"><code class="inline">Cldr.DateTime.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.date()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Date.Interval.html#to_string/3"><code class="inline">Cldr.Date.Interval.to_string/3</code></a> is called</p></li><li><p>Otherwise if <code class="inline">from</code> and <code class="inline">to</code> conform to the <code class="inline">Calendar.time()</code>
+type then <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Time.Interval.html#to_string/3"><code class="inline">Cldr.Time.Interval.to_string/3</code></a> is called</p></li></ul></li><li><p><code class="inline">CalendarInterval</code> support requires adding the
 dependency <a href="https://hex.pm/packages/calendar_interval">calendar_interval</a>
 to the <code class="inline">deps</code> configuration in <code class="inline">mix.exs</code>.</p></li><li><p>For more information on interval format string
-see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.2/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
+see <a href="https://hexdocs.pm/ex_cldr_dates_times/2.20.3/Cldr.Interval.html"><code class="inline">Cldr.Interval</code></a>.</p></li><li><p>The available predefined formats that can be applied are the
 keys of the map returned by <code class="inline">Cldr.DateTime.Format.interval_formats(&quot;en&quot;, :gregorian)</code>
 where <code class="inline">&quot;en&quot;</code> can be replaced by any configuration locale name and <code class="inline">:gregorian</code>
 is the underlying CLDR calendar type.</p></li><li><p>In the case where <code class="inline">from</code> and <code class="inline">to</code> are equal, a single
@@ -573,31 +573,31 @@ date, time or datetime is formatted instead of an interval.</p></li></ul><h2 id=
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-1">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="1370185348-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-1">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-31]</span><span class="p" data-group-id="4198950313-1">)</span><span class="w">
 </span><span class="s">&quot;Jan 1 – Dec 31, 2020&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-2">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p" data-group-id="1370185348-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-2">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p" data-group-id="4198950313-2">)</span><span class="w">
 </span><span class="s">&quot;Jan 1 – 12, 2020&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1370185348-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-3">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-01-12]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4198950313-3">)</span><span class="w">
 </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-4">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-01]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:year_and_month</span><span class="p" data-group-id="1370185348-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-4">(</span><span class="ld">~D[2020-01-01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-12-01]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p">,</span><span class="w"> </span><span class="ss">style</span><span class="p">:</span><span class="w"> </span><span class="ss">:year_and_month</span><span class="p" data-group-id="4198950313-4">)</span><span class="w">
 </span><span class="s">&quot;January – December 2020&quot;</span><span class="w">
 
 </span><span class="gp unselectable">iex&gt; </span><span class="kn">use</span><span class="w"> </span><span class="nc">CalendarInterval</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-5">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1370185348-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-5">(</span><span class="sx">~I&quot;2020-01-01/12&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4198950313-5">)</span><span class="w">
 </span><span class="s">&quot;Wed, Jan 1 – Sun, Jan 12, 2020&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-6">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-12-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1370185348-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-6">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-12-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4198950313-6">)</span><span class="w">
 </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – December 1, 2020, 10:05:00 AM UTC&quot;</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="1370185348-7">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-01-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="1370185348-7">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Interval</span><span class="o">.</span><span class="n">to_string!</span><span class="p" data-group-id="4198950313-7">(</span><span class="ld">~U[2020-01-01 00:00:00.0Z]</span><span class="p">,</span><span class="w"> </span><span class="ld">~U[2020-01-01 10:05:00.0Z]</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:long</span><span class="p" data-group-id="4198950313-7">)</span><span class="w">
 </span><span class="s">&quot;January 1, 2020, 12:00:00 AM UTC – 10:05:00 AM UTC&quot;</span></code></pre>
   </section>
 </section>

@@ -17,7 +17,7 @@ defmodule KlepsidraWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KlepsidraWeb.Gettext
+  use Gettext, backend: KlepsidraWeb.Gettext
 
   @doc """
   Renders a modal.
