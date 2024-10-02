@@ -22,14 +22,16 @@ defmodule Klepsidra.TimeTracking do
     Timer |> order_by(desc: :start_stamp) |> Repo.all()
   end
 
-  @spec list_timers(filter :: map()) :: map()
+  @spec list_timers(filter :: map()) :: {non_neg_integer(), map()}
   def list_timers(
         %{
           from: from,
           to: to,
           project_id: project_id,
           business_partner_id: business_partner_id,
-          billable: billable
+          activity_type_id: activity_type_id,
+          billable: billable,
+          modified: modified
         } =
           filter
       )
@@ -39,8 +41,9 @@ defmodule Klepsidra.TimeTracking do
     query =
       from(
         at in Timer,
-        left_join: bp in assoc(at, :business_partner),
         left_join: p in assoc(at, :project),
+        left_join: bp in assoc(at, :business_partner),
+        left_join: act in assoc(at, :activity_type),
         where: not is_nil(at.end_stamp),
         order_by: ^order_by,
         select: %{
@@ -49,53 +52,46 @@ defmodule Klepsidra.TimeTracking do
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          billable: at.billable,
-          billing_duration: at.billing_duration,
-          billing_duration_time_unit: at.billing_duration_time_unit,
-          billing_rate: at.billing_rate,
-          description: at.description |> coalesce(""),
           project_id: p.id,
           project_name: p.name |> coalesce(""),
           business_partner_id: at.business_partner_id,
           business_partner_name: bp.name |> coalesce(""),
-          inserted_at: at.inserted_at
+          billable: at.billable,
+          billing_duration: at.billing_duration,
+          billing_duration_time_unit: at.billing_duration_time_unit,
+          billing_rate: at.billing_rate,
+          activity_type_id: act.id,
+          activity_type: act.name |> coalesce(""),
+          description: at.description |> coalesce(""),
+          inserted_at: at.inserted_at,
+          updated_at: at.updated_at,
+          modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
         }
       )
 
-    query
-    |> filter_by_date(%{from: from, to: to})
-    |> filter_by_project_id(%{project_id: project_id})
-    |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
-    |> filter_by_billable(%{billable: billable})
-    |> Repo.all()
-  end
+    inner_query =
+      query
+      |> filter_by_date(%{from: from, to: to})
+      |> filter_by_project_id(%{project_id: project_id})
+      |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
+      |> filter_by_activity_type_id(%{activity_type_id: activity_type_id})
+      |> filter_by_billable(%{billable: billable})
 
-  def count_timers(
-        %{
-          from: from,
-          to: to,
-          project_id: project_id,
-          business_partner_id: business_partner_id,
-          billable: billable
-        } =
-          filter
-      )
-      when is_map(filter) do
-    query =
-      from(
-        at in Timer,
-        left_join: bp in assoc(at, :business_partner),
-        left_join: p in assoc(at, :project),
-        where: not is_nil(at.end_stamp)
-      )
+    list_query =
+      from(at in subquery(inner_query))
 
-    query
-    |> filter_by_date(%{from: from, to: to})
-    |> filter_by_project_id(%{project_id: project_id})
-    |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
-    |> filter_by_billable(%{billable: billable})
-    |> select([at], count(at.id))
-    |> Repo.one()
+    timer_list =
+      list_query
+      |> filter_by_modification_status(%{modified: modified})
+      |> Repo.all()
+
+    result_count =
+      list_query
+      |> filter_by_modification_status(%{modified: modified})
+      |> select([at], count(at.id))
+      |> Repo.one()
+
+    {result_count, timer_list}
   end
 
   defp filter_by_date(query, %{from: "", to: ""}), do: query
@@ -128,11 +124,30 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.business_partner_id == ^business_partner_id)
   end
 
+  defp filter_by_activity_type_id(query, %{activity_type_id: ""}), do: query
+
+  defp filter_by_activity_type_id(query, %{activity_type_id: activity_type_id}) do
+    query
+    |> where([at], at.activity_type_id == ^activity_type_id)
+  end
+
   defp filter_by_billable(query, %{billable: ""}), do: query
 
   defp filter_by_billable(query, %{billable: billable}) do
     query
     |> where([at], at.billable == ^billable)
+  end
+
+  defp filter_by_modification_status(query, %{modified: ""}), do: query
+
+  defp filter_by_modification_status(query, %{modified: modified}) when is_bitstring(modified) do
+    query
+    |> where([at], at.modified == ^String.to_integer(modified))
+  end
+
+  defp filter_by_modification_status(query, %{modified: modified}) when is_integer(modified) do
+    query
+    |> where([at], at.modified == ^modified)
   end
 
   @doc """
@@ -243,21 +258,26 @@ defmodule Klepsidra.TimeTracking do
     query =
       from(at in Timer,
         where: at.id == ^id,
-        left_join: bp in assoc(at, :business_partner),
         left_join: p in assoc(at, :project),
+        left_join: bp in assoc(at, :business_partner),
+        left_join: act in assoc(at, :activity_type),
         select: %{
           id: at.id,
           start_stamp: at.start_stamp,
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
-          billing_rate: at.billing_rate,
-          billing_duration: at.billing_duration,
-          billing_duration_time_unit: at.billing_duration_time_unit,
-          description: at.description |> coalesce(""),
+          project_id: p.id,
           project_name: p.name |> coalesce(""),
           business_partner_id: at.business_partner_id,
           business_partner_name: bp.name |> coalesce(""),
+          billable: at.billable,
+          billing_duration: at.billing_duration,
+          billing_duration_time_unit: at.billing_duration_time_unit,
+          billing_rate: at.billing_rate,
+          activity_type_id: act.id,
+          activity_type: act.name |> coalesce(""),
+          description: at.description |> coalesce(""),
           inserted_at: at.inserted_at
         }
       )

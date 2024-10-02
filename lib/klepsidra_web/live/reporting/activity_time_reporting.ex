@@ -8,9 +8,20 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
 
   @impl true
   def mount(_params, _session, socket) do
-    filter = %{from: "", to: "", project_id: "", business_partner_id: "", billable: ""}
+    filter = %{
+      from: "",
+      to: "",
+      project_id: "",
+      business_partner_id: "",
+      activity_type_id: "",
+      billable: "",
+      modified: ""
+    }
+
     projects = Klepsidra.Projects.list_active_projects()
     customers = Klepsidra.BusinessPartners.list_active_customers()
+    activity_types = Klepsidra.TimeTracking.list_active_activity_types()
+    {timer_count, timer_list} = TimeTracking.list_timers(filter)
 
     {:ok,
      socket
@@ -19,9 +30,10 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
        filter: filter,
        projects: projects,
        customers: customers,
-       timer_count: TimeTracking.count_timers(filter)
+       activity_types: activity_types,
+       timer_count: timer_count
      )
-     |> stream(:timers, TimeTracking.list_timers(filter))}
+     |> stream(:timers, timer_list)}
   end
 
   @impl true
@@ -98,25 +110,26 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
           "to" => to,
           "project_id" => project_id,
           "business_partner_id" => business_partner_id,
-          "billable" => billable
+          "activity_type_id" => activity_type_id,
+          "billable" => billable,
+          "modified" => modified
         },
         socket
       ) do
     from = parse_date(from)
     to = parse_date(to)
-    project_id = project_id
-    business_partner_id = business_partner_id
 
     filter = %{
       from: from,
       to: to,
       project_id: project_id,
       business_partner_id: business_partner_id,
-      billable: billable
+      activity_type_id: activity_type_id,
+      billable: billable,
+      modified: modified
     }
 
-    timers = TimeTracking.list_timers(filter)
-    timer_count = TimeTracking.count_timers(filter)
+    {timer_count, timer_list} = TimeTracking.list_timers(filter)
 
     socket =
       socket
@@ -124,7 +137,7 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
         filter: filter,
         timer_count: timer_count
       )
-      |> stream(:timers, timers, reset: true)
+      |> stream(:timers, timer_list, reset: true)
 
     {:noreply, socket}
   end

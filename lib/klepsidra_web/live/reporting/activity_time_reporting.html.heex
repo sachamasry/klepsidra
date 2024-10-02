@@ -28,10 +28,27 @@
     value=""
   />
   <.input
+    name="activity_type_id"
+    type="select"
+    label="Activity type"
+    options={[
+      {"", ""}
+      | Enum.map(@activity_types, fn activity_type -> {activity_type.name, activity_type.id} end)
+    ]}
+    value=""
+  />
+  <.input
     name="billable"
     type="select"
     label="Billable activities?"
     options={[{"Billable and non-billable", ""}, {"Billable", "true"}, {"Non-billable", "false"}]}
+    value=""
+  />
+  <.input
+    name="modified"
+    type="select"
+    label="Edited status"
+    options={[{"Edited and unedited", ""}, {"Edited only", "1"}, {"Unedited only", "0"}]}
     value=""
   />
 </form>

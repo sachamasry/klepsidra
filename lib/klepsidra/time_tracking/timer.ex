@@ -18,18 +18,21 @@ defmodule Klepsidra.TimeTracking.Timer do
   @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
+          id: Ecto.UUID.t(),
           start_stamp: String.t(),
           end_stamp: String.t(),
           duration: integer,
           duration_time_unit: String.t(),
           description: String.t(),
+          project_id: integer,
           billable: boolean,
           business_partner_id: integer,
           activity_type_id: binary(),
           billing_rate: number(),
-          project_id: integer,
           billing_duration: integer,
-          billing_duration_time_unit: String.t()
+          billing_duration_time_unit: String.t(),
+          inserted_at: String.t(),
+          updated_at: String.t()
         }
   schema "timers" do
     field(:start_stamp, :string)

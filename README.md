@@ -51,8 +51,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Report on billable time, converting billable units into base, hours
   * Aggregate time timed
   * Billable time timed
-  * Filter
-    * tags
 
 
 ### Future
