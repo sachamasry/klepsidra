@@ -1,0 +1,157 @@
+<.header>
+  Timers
+  <:actions>
+    <.link phx-keyup="start_timer" patch={~p"/timers/start"}>
+      <.button>Start Timer</.button>
+    </.link>
+    <.link patch={~p"/timers/new"}>
+      <.button>Manual Timer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<form phx-change="filter">
+  <.input name="from" type="date" label="Start date" value="" />
+  <.input name="to" type="date" label="End date" value="" />
+  <.input
+    name="project_id"
+    type="select"
+    label="Project"
+    options={[{"", ""} | Enum.map(@projects, fn project -> {project.name, project.id} end)]}
+    value=""
+  />
+  <.input
+    name="business_partner_id"
+    type="select"
+    label="Customer"
+    options={[{"", ""} | Enum.map(@customers, fn customer -> {customer.name, customer.id} end)]}
+    value=""
+  />
+  <.input
+    name="billable"
+    type="select"
+    label="Billable activities?"
+    options={[{"Either", ""}, {"Billable", "true"}, {"Not billable", "false"}]}
+    value=""
+  />
+</form>
+
+<div class="border-2 inline-block m-3 p-5">
+  <span>Timer count:</span> <%= @timer_count %>
+</div>
+
+<.table
+  id="timers"
+  rows={@streams.timers}
+  row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}") end}
+>
+  <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
+  <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
+  <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
+  <:col :let={{_id, timer}} label="Duration time unit"><%= timer.duration_time_unit %></:col>
+  <:col :let={{_id, timer}} label="Billable duration"><%= timer.billing_duration %></:col>
+  <:col :let={{_id, timer}} label="Billable duration time unit">
+    <%= timer.billing_duration_time_unit %>
+  </:col>
+  <:col :let={{_id, timer}} label="Rate"><%= timer.billing_rate %></:col>
+  <:col :let={{_id, timer}} label="Description">
+    <%= case timer.description do
+      nil ->
+        ""
+
+      _ ->
+        Earmark.as_html!(timer.description,
+          compact_output: true,
+          code_class_prefix: "lang-",
+          smartypants: true
+        )
+        |> HtmlSanitizeEx.html5()
+        |> Phoenix.HTML.raw()
+    end %>
+  </:col>
+  <:col :let={{_id, timer}} label="Customer">
+    <%= timer.business_partner_name %>
+  </:col>
+  <:action :let={{_id, timer}}>
+    <div class="sr-only">
+      <.link navigate={~p"/timers/#{timer.id}"}>Show</.link>
+    </div>
+    <.link patch={~p"/timers/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>+ Note</.link>
+    <.link patch={~p"/timers/#{timer.id}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, timer}}>
+    <.link :if={is_nil(timer.end_stamp)} patch={~p"/timers/#{timer.id}/stop"}>Stop</.link>
+    <.link
+      phx-click={JS.push("delete", value: %{id: timer.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new_timer, :edit_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.FormComponent}
+    id={:new_timer}
+    title={@page_title}
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+    invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:start_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={:start_timer}
+    title="Starting timer"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+    invocation_context={:start_timer}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:stop_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers")}
+>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={@timer.id}
+    title="Stopping timer"
+    action={@live_action}
+    timer={@timer}
+    patch={~p"/timers"}
+    invocation_context={:stop_timer}
+  />
+</.modal>
+
+<.modal :if={@live_action == :new_note} id="note-modal" show on_cancel={JS.patch(~p"/timers")}>
+  <.header>
+    <%= @page_title %>
+  </.header>
+
+  <.live_component
+    module={NoteFormComponent}
+    id={:new}
+    action={@live_action}
+    title={@page_title}
+    timer_id={@timer_id}
+    patch={~p"/timers"}
+  />
+</.modal>

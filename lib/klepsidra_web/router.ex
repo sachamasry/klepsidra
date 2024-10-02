@@ -97,7 +97,7 @@ defmodule KlepsidraWeb.Router do
     live "/journal_entries/:id", JournalEntryLive.Show, :show
     live "/journal_entries/:id/show/edit", JournalEntryLive.Show, :edit
 
-    live "/reporting/activities_timed", TimerLive.TimerReporting, :index
+    live "/reporting/activities_timed", TimerLive.ActivityTimeReporting, :index
   end
 
   # Other scopes may use custom stacks.
