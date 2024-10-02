@@ -21,7 +21,13 @@ defmodule Klepsidra.MixProject do
           :ex_cldr_units
         ],
         list_unused_filters: true,
-        flags: ["-Wunmatched_returns", :error_handling, :underspecs, :unknown, :unmatched_returns]
+        flags: [
+          "-Wunmatched_returns",
+          :error_handling,
+          :underspecs,
+          :unknown,
+          :unmatched_returns
+        ]
       ],
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [

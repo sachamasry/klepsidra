@@ -48,14 +48,11 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
     * Add timer tags
 
 * Provide reporting
-  * Count of timers
+  * Report on billable time, converting billable units into base, hours
   * Aggregate time timed
   * Billable time timed
   * Filter
-    * by customer
-    * by project
     * tags
-    * date range
 
 
 ### Future

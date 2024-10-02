@@ -9,6 +9,7 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   import Ecto.Changeset
   alias Klepsidra.Categorisation.TimerTags
+  alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
   alias Klepsidra.Cldr.Unit

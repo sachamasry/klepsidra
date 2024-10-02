@@ -22,6 +22,119 @@ defmodule Klepsidra.TimeTracking do
     Timer |> order_by(desc: :start_stamp) |> Repo.all()
   end
 
+  @spec list_timers(filter :: map()) :: map()
+  def list_timers(
+        %{
+          from: from,
+          to: to,
+          project_id: project_id,
+          business_partner_id: business_partner_id,
+          billable: billable
+        } =
+          filter
+      )
+      when is_map(filter) do
+    order_by = [asc: :inserted_at]
+
+    query =
+      from(
+        at in Timer,
+        left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
+        where: not is_nil(at.end_stamp),
+        order_by: ^order_by,
+        select: %{
+          id: at.id,
+          start_stamp: at.start_stamp,
+          end_stamp: at.end_stamp,
+          duration: at.duration,
+          duration_time_unit: at.duration_time_unit,
+          billable: at.billable,
+          billing_duration: at.billing_duration,
+          billing_duration_time_unit: at.billing_duration_time_unit,
+          billing_rate: at.billing_rate,
+          description: at.description |> coalesce(""),
+          project_id: p.id,
+          project_name: p.name |> coalesce(""),
+          business_partner_id: at.business_partner_id,
+          business_partner_name: bp.name |> coalesce(""),
+          inserted_at: at.inserted_at
+        }
+      )
+
+    query
+    |> filter_by_date(%{from: from, to: to})
+    |> filter_by_project_id(%{project_id: project_id})
+    |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
+    |> filter_by_billable(%{billable: billable})
+    |> Repo.all()
+  end
+
+  def count_timers(
+        %{
+          from: from,
+          to: to,
+          project_id: project_id,
+          business_partner_id: business_partner_id,
+          billable: billable
+        } =
+          filter
+      )
+      when is_map(filter) do
+    query =
+      from(
+        at in Timer,
+        left_join: bp in assoc(at, :business_partner),
+        left_join: p in assoc(at, :project),
+        where: not is_nil(at.end_stamp)
+      )
+
+    query
+    |> filter_by_date(%{from: from, to: to})
+    |> filter_by_project_id(%{project_id: project_id})
+    |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
+    |> filter_by_billable(%{billable: billable})
+    |> select([at], count(at.id))
+    |> Repo.one()
+  end
+
+  defp filter_by_date(query, %{from: "", to: ""}), do: query
+
+  defp filter_by_date(query, %{from: from, to: ""}) do
+    where(query, [at], at.start_stamp >= ^from)
+  end
+
+  defp filter_by_date(query, %{from: "", to: to}) do
+    where(query, [at], at.end_stamp <= ^to)
+  end
+
+  defp filter_by_date(query, %{from: from, to: to}) do
+    query
+    |> where([at], at.start_stamp >= ^from)
+    |> where([at], at.end_stamp <= ^to)
+  end
+
+  defp filter_by_project_id(query, %{project_id: ""}), do: query
+
+  defp filter_by_project_id(query, %{project_id: project_id}) do
+    query
+    |> where([at], at.project_id == ^project_id)
+  end
+
+  defp filter_by_business_partner_id(query, %{business_partner_id: ""}), do: query
+
+  defp filter_by_business_partner_id(query, %{business_partner_id: business_partner_id}) do
+    query
+    |> where([at], at.business_partner_id == ^business_partner_id)
+  end
+
+  defp filter_by_billable(query, %{billable: ""}), do: query
+
+  defp filter_by_billable(query, %{billable: billable}) do
+    query
+    |> where([at], at.billable == ^billable)
+  end
+
   @doc """
   Returns the list of timers, along with the associated tags.
 

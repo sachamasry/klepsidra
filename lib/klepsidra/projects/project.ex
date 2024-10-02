@@ -54,4 +54,12 @@ defmodule Klepsidra.Projects.Project do
         |> Enum.map(fn project -> {project.name, project.id} end)
     ]
   end
+
+  def projects_list() do
+    [
+      {"", ""}
+      | Klepsidra.Projects.list_active_projects()
+        |> Enum.map(fn project -> {to_string(project.name), to_string(project.id)} end)
+    ]
+  end
 end

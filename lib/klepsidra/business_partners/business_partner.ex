@@ -13,8 +13,10 @@ defmodule Klepsidra.BusinessPartners.BusinessPartner do
   @type t :: %__MODULE__{
           name: String.t(),
           description: String.t(),
+          default_currency: String.t(),
           customer: boolean(),
           supplier: boolean(),
+          frozen: boolean(),
           active: boolean()
         }
   schema "business_partners" do
