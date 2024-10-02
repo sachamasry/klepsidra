@@ -251,6 +251,7 @@ defmodule Klepsidra.TimeTracking do
           end_stamp: at.end_stamp,
           duration: at.duration,
           duration_time_unit: at.duration_time_unit,
+          billing_rate: at.billing_rate,
           billing_duration: at.billing_duration,
           billing_duration_time_unit: at.billing_duration_time_unit,
           description: at.description |> coalesce(""),

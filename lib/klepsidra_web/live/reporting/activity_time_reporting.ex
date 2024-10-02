@@ -5,8 +5,6 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
 
   alias Klepsidra.TimeTracking
   import LiveToast
-  alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
   def mount(_params, _session, socket) do
@@ -31,50 +29,9 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :new_timer, _params) do
-    socket
-    |> assign(:page_title, "Manual Timer")
-    |> assign(:timer, %Timer{})
-  end
-
   defp apply_action(socket, :edit_timer, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Timer")
-    |> assign(:timer, TimeTracking.get_timer!(id))
-  end
-
-  defp apply_action(socket, :start_timer, _params) do
-    billing_duration_unit = Units.get_default_billing_increment()
-
-    socket
-    |> assign(:page_title, "Starting Timer")
-    |> assign(
-      duration_unit: "minute",
-      billing_duration_unit: billing_duration_unit
-    )
-    |> assign(:timer, %Timer{})
-  end
-
-  defp apply_action(socket, :stop_timer, %{"id" => id}) do
-    start_timestamp = TimeTracking.get_timer!(id).start_stamp
-    clocked_out = Timer.clock_out(start_timestamp, :minute)
-    billing_duration_unit = Units.get_default_billing_increment()
-
-    billing_duration =
-      Timer.calculate_timer_duration(
-        start_timestamp,
-        clocked_out.end_timestamp,
-        String.to_atom(billing_duration_unit)
-      )
-
-    socket
-    |> assign(:page_title, "Clock out")
-    |> assign(
-      clocked_out: clocked_out,
-      duration_unit: "minute",
-      billing_duration: billing_duration,
-      billing_duration_unit: billing_duration_unit
-    )
     |> assign(:timer, TimeTracking.get_timer!(id))
   end
 
@@ -169,10 +126,6 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
       )
       |> stream(:timers, timers, reset: true)
 
-    {:noreply, socket}
-  end
-
-  def handle_event("keyboard_event", _params, socket) do
     {:noreply, socket}
   end
 

@@ -31,7 +31,7 @@
     name="billable"
     type="select"
     label="Billable activities?"
-    options={[{"Either", ""}, {"Billable", "true"}, {"Not billable", "false"}]}
+    options={[{"Billable and non-billable", ""}, {"Billable", "true"}, {"Non-billable", "false"}]}
     value=""
   />
 </form>
@@ -77,7 +77,7 @@
       <.link navigate={~p"/timers/#{timer.id}"}>Show</.link>
     </div>
     <.link patch={~p"/timers/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>+ Note</.link>
-    <.link patch={~p"/timers/#{timer.id}/edit"}>Edit</.link>
+    <.link patch={~p"/reporting/activities_timed/timers/#{timer.id}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, timer}}>
     <.link :if={is_nil(timer.end_stamp)} patch={~p"/timers/#{timer.id}/stop"}>Stop</.link>
@@ -91,53 +91,19 @@
 </.table>
 
 <.modal
-  :if={@live_action in [:new_timer, :edit_timer]}
+  :if={@live_action in [:edit_timer]}
   id="timer-modal"
   show
-  on_cancel={JS.patch(~p"/timers")}
+  on_cancel={JS.patch(~p"/reporting/activities_timed")}
 >
   <.live_component
     module={KlepsidraWeb.TimerLive.FormComponent}
-    id={:new_timer}
+    id={:edit_timer}
     title={@page_title}
     action={@live_action}
     timer={@timer}
-    patch={~p"/timers"}
-    invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
-  />
-</.modal>
-
-<.modal
-  :if={@live_action in [:start_timer]}
-  id="timer-modal"
-  show
-  on_cancel={JS.patch(~p"/timers")}
->
-  <.live_component
-    module={KlepsidraWeb.TimerLive.AutomatedTimer}
-    id={:start_timer}
-    title="Starting timer"
-    action={@live_action}
-    timer={@timer}
-    patch={~p"/timers"}
-    invocation_context={:start_timer}
-  />
-</.modal>
-
-<.modal
-  :if={@live_action in [:stop_timer]}
-  id="timer-modal"
-  show
-  on_cancel={JS.patch(~p"/timers")}
->
-  <.live_component
-    module={KlepsidraWeb.TimerLive.AutomatedTimer}
-    id={@timer.id}
-    title="Stopping timer"
-    action={@live_action}
-    timer={@timer}
-    patch={~p"/timers"}
-    invocation_context={:stop_timer}
+    patch={~p"/reporting/activities_timed"}
+    invocation_context={:edit_timer}
   />
 </.modal>
 
