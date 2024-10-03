@@ -86,7 +86,7 @@ defmodule KlepsidraWeb.StartPageLive do
       Timer.calculate_timer_duration(
         start_timestamp,
         clocked_out.end_timestamp,
-        String.to_atom(billing_duration_unit)
+        String.to_existing_atom(billing_duration_unit)
       )
 
     socket

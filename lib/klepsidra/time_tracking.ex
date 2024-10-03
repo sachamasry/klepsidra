@@ -22,20 +22,58 @@ defmodule Klepsidra.TimeTracking do
     Timer |> order_by(desc: :start_stamp) |> Repo.all()
   end
 
-  @spec list_timers(filter :: map()) :: {non_neg_integer(), map()}
-  def list_timers(
-        %{
-          from: from,
-          to: to,
-          project_id: project_id,
-          business_partner_id: business_partner_id,
-          activity_type_id: activity_type_id,
-          billable: billable,
-          modified: modified
-        } =
-          filter
-      )
-      when is_map(filter) do
+  @spec list_timers(filter :: map()) :: map()
+  def list_timers(%{modified: modified} = filter) when is_map(filter) do
+    list_timers_query(filter)
+    |> filter_by_modification_status(%{modified: modified})
+    |> Repo.all()
+  end
+
+  def list_timers_with_statistics(filter) when is_map(filter) do
+    %{
+      timer_list: list_timers(filter),
+      meta: %{
+        timer_count: list_timers_count(filter),
+        aggregate_duration: list_timers_aggregate_duration(filter),
+        aggregate_billing_duration: list_timers_aggregate_billing_duration(filter)
+      }
+    }
+  end
+
+  def list_timers_count(%{modified: modified} = filter) when is_map(filter) do
+    list_timers_query(filter)
+    |> filter_by_modification_status(%{modified: modified})
+    |> select([at], count(at.id))
+    |> Repo.one()
+  end
+
+  def list_timers_aggregate_duration(filter) when is_map(filter) do
+    list_timers_query(filter)
+    |> select([at], {sum(at.duration), at.duration_time_unit})
+    |> group_by([at], at.duration_time_unit)
+    |> Repo.all()
+    |> Timer.calculate_aggregate_duration_for_timers()
+  end
+
+  def list_timers_aggregate_billing_duration(filter) when is_map(filter) do
+    list_timers_query(filter)
+    |> select([at], {sum(at.billing_duration), at.billing_duration_time_unit})
+    |> group_by([at], at.billing_duration_time_unit)
+    |> Repo.all()
+    |> Timer.calculate_aggregate_duration_for_timers()
+  end
+
+  defp list_timers_query(filter) when is_map(filter) do
+    %{
+      from: from,
+      to: to,
+      project_id: project_id,
+      business_partner_id: business_partner_id,
+      activity_type_id: activity_type_id,
+      billable: billable
+    } =
+      filter
+
     order_by = [asc: :inserted_at]
 
     query =
@@ -69,7 +107,7 @@ defmodule Klepsidra.TimeTracking do
         }
       )
 
-    inner_query =
+    timer_subquery =
       query
       |> filter_by_date(%{from: from, to: to})
       |> filter_by_project_id(%{project_id: project_id})
@@ -77,21 +115,7 @@ defmodule Klepsidra.TimeTracking do
       |> filter_by_activity_type_id(%{activity_type_id: activity_type_id})
       |> filter_by_billable(%{billable: billable})
 
-    list_query =
-      from(at in subquery(inner_query))
-
-    timer_list =
-      list_query
-      |> filter_by_modification_status(%{modified: modified})
-      |> Repo.all()
-
-    result_count =
-      list_query
-      |> filter_by_modification_status(%{modified: modified})
-      |> select([at], count(at.id))
-      |> Repo.one()
-
-    {result_count, timer_list}
+    from(at in subquery(timer_subquery))
   end
 
   defp filter_by_date(query, %{from: "", to: ""}), do: query

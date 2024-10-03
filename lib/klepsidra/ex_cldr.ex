@@ -17,7 +17,7 @@ defmodule Klepsidra.Cldr do
   use Cldr,
     locales: ["en", "en_AU", "en_CA", "en_GB"],
     default_locale: "en_GB",
-    providers: [Cldr.Number, Cldr.Calendar, Cldr.DateTime, Cldr.Unit, Cldr.List, Cldr.Territory]
+    providers: [Cldr.Number, Cldr.Calendar, Cldr.DateTime, Cldr.Unit, Cldr.List]
 
   # "en" locale
   # minute increment

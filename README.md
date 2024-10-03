@@ -47,11 +47,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Update timer listings
     * Add timer tags
 
-* Provide reporting
-  * Report on billable time, converting billable units into base, hours
-  * Aggregate time timed
-  * Billable time timed
-
 
 ### Future
 
@@ -104,6 +99,8 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * On timer note timeline, next to the `created_on` date, display the
     `updated_on` date in a visually highlighted way, showing that a note was
     edited and when
+  * Advanced timer reports filters:
+    * tags
 * Tagging UX improvements
   * Make it possible to drill into the tag from the live component
   * Provide ability to set new tag colour when creating freeform tag in live

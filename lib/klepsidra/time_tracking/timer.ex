@@ -787,4 +787,35 @@ defmodule Klepsidra.TimeTracking.Timer do
       when is_struct(datetime, NaiveDateTime) and is_bitstring(format_string) do
     Timex.format!(datetime, format_string)
   end
+
+  def calculate_aggregate_duration_for_timers(timers) when is_list(timers) do
+    timers
+    |> convert_durations_to_base_time_unit()
+    |> sum_base_unit_durations()
+    |> format_aggregate_duration_for_project()
+  end
+
+  def format_aggregate_duration_for_project(base_unit_duration)
+      when is_struct(base_unit_duration, Cldr.Unit) do
+    duration_in_hours =
+      base_unit_duration
+      |> Unit.convert!(:hour_increment)
+      |> then(fn i -> Cldr.Unit.round(i, 1) end)
+      |> Unit.to_string!()
+
+    duration_in_dhm_format =
+      format_human_readable_duration(base_unit_duration,
+        unit_list: [
+          :day,
+          :hour_increment
+        ],
+        return_if_short_duration: false
+      )
+
+    %{
+      base_unit_duration: base_unit_duration,
+      duration_in_hours: duration_in_hours,
+      human_readable_duration: duration_in_dhm_format
+    }
+  end
 end

@@ -54,9 +54,19 @@
 </form>
 
 <div class="border-2 inline-block m-3 p-5">
-  <span>Timer count:</span> <%= @timer_count %>
+  <h4>Timer count</h4>
+  <p><%= @timer_count %></p>
 </div>
 
+<div class="border-2 inline-block m-3 p-5">
+  <h4>Total duration</h4>
+  <p><%= @aggregate_duration.duration_in_hours %></p>
+</div>
+
+<div class="border-2 inline-block m-3 p-5">
+  <h4>Billing duration</h4>
+  <p><%= @aggregate_billing_duration.duration_in_hours %></p>
+</div>
 <.table
   id="timers"
   rows={@streams.timers}

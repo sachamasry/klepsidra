@@ -18,10 +18,10 @@
   {"deps/phoenix/lib/phoenix/endpoint.ex", :callback_info_missing},
   {"deps/phoenix/lib/phoenix/router.ex", :callback_info_missing},
   {"deps/plug/lib/plug/debugger.ex", :unknown_function},
-  {"deps/ex_cldr_territories/lib/cldr/backend.ex", :unknown_function},
+  # {"deps/ex_cldr_territories/lib/cldr/backend.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_type},
-  {"lib/klepsidra/ex_cldr.ex", :contract_supertype},
+  # {"lib/klepsidra/ex_cldr.ex", :contract_supertype},
   {"lib/klepsidra/mailer.ex", :unknown_function},
   {"lib/klepsidra_web/live/project_live/show.ex", :unknown_function},
   {"lib/klepsidra/time_tracking.ex", :no_return},
@@ -35,5 +35,6 @@
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
   {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun},
   {"lib/klepsidra_web/live/project_live/show.ex", :no_return},
-  {"lib/klepsidra_web/live/project_live/show.ex", :unused_fun}
+  {"lib/klepsidra_web/live/project_live/show.ex", :unused_fun},
+  {"lib/klepsidra_web/live/reporting/activity_time_reporting.ex", :no_return}
 ]
