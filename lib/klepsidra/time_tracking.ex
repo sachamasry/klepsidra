@@ -22,13 +22,39 @@ defmodule Klepsidra.TimeTracking do
     Timer |> order_by(desc: :start_stamp) |> Repo.all()
   end
 
-  @spec list_timers(filter :: map()) :: map()
+  @spec list_timers(filter :: map()) :: [map(), ...]
+  @doc """
+  Returns a list of timers, filtered by criteria in the `filter`
+  parameter.
+
+  ## Examples
+
+      iex> list_timers(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      [%{...}]
+  """
   def list_timers(%{modified: modified} = filter) when is_map(filter) do
     list_timers_query(filter)
     |> filter_by_modification_status(%{modified: modified})
     |> Repo.all()
   end
 
+  @spec list_timers_with_statistics(filter :: map()) :: none()
+  @doc """
+
+  ## Examples
+
+      iex> list_timers_with_statistics(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      %{meta: %{
+          aggregate_duration: %{
+            duration_in_hours: "4.2 hours",
+            base_unit_duration: Cldr.Unit.new!(:second, 15120),
+            human_readable_duration: nil},
+          aggregate_billing_duration: %{
+            duration_in_hours: "5.3 hours",
+            base_unit_duration: Cldr.Unit.new!(:second, 18900),
+            human_readable_duration: nil}},
+          timer_list: [%{...}, ...]}
+  """
   def list_timers_with_statistics(filter) when is_map(filter) do
     %{
       timer_list: list_timers(filter),
@@ -40,6 +66,14 @@ defmodule Klepsidra.TimeTracking do
     }
   end
 
+  @spec list_timers_count(filter :: map()) :: non_neg_integer()
+  @doc """
+
+  ## Examples
+
+      iex> list_timers_count(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      9
+  """
   def list_timers_count(%{modified: modified} = filter) when is_map(filter) do
     list_timers_query(filter)
     |> filter_by_modification_status(%{modified: modified})
@@ -47,6 +81,18 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.one()
   end
 
+  @spec list_timers_aggregate_duration(filter :: map()) :: none()
+  @doc """
+
+  ## Examples
+
+      iex> list_timers_aggregate_duration(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      %{
+        duration_in_hours: "4.2 hours",
+        base_unit_duration: Cldr.Unit.new!(:second, 15120),
+        human_readable_duration: nil
+      }
+  """
   def list_timers_aggregate_duration(filter) when is_map(filter) do
     list_timers_query(filter)
     |> select([at], {sum(at.duration), at.duration_time_unit})
@@ -55,6 +101,18 @@ defmodule Klepsidra.TimeTracking do
     |> Timer.calculate_aggregate_duration_for_timers()
   end
 
+  @spec list_timers_aggregate_billing_duration(filter :: map()) :: none()
+  @doc """
+
+  ## Examples
+
+      iex> list_timers_aggregate_billing_duration(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      %{
+        duration_in_hours: "5.3 hours",
+        base_unit_duration: Cldr.Unit.new!(:second, 18900),
+        human_readable_duration: nil
+      }
+  """
   def list_timers_aggregate_billing_duration(filter) when is_map(filter) do
     list_timers_query(filter)
     |> select([at], {sum(at.billing_duration), at.billing_duration_time_unit})
