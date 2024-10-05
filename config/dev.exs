@@ -17,6 +17,12 @@ config :klepsidra, KlepsidraWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    keyfile: "priv/cert/selfsigned_key.pem",
+    certfile: "priv/cert/selfsigned.pem"
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -78,4 +84,5 @@ config :swoosh, :api_client, false
 # Configure Paraxial security checker
 config :paraxial,
   paraxial_api_key: System.get_env("PARAXIAL_API_KEY"),
-  paraxial_url: "https://app.paraxial.io"
+  paraxial_url: "https://app.paraxial.io",
+  exploit_guard: :monitor

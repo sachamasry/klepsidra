@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.2">
 
 
-    <title>Klepsidra.Accounts.User — klepsidra v0.1.2</title>
+    <title>Klepsidra.Journals.JournalEntryTypes — klepsidra v0.1.2</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -112,15 +112,15 @@ Pages
 <div id="top-content">
   <h1>
 
-    <span translate="no">Klepsidra.Accounts.User</span> 
+    <span translate="no">Klepsidra.Journals.JournalEntryTypes</span> 
     <small class="app-vsn" translate="no">(klepsidra v0.1.2)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Define a schema for the <code class="inline">User</code> entity, recording authorised system users,
-for authorisation, ownership, auditing and logging purposes.</p>
+<p>Defines the <code class="inline">JournalEntryTypes</code> schema and functions needed to categorise the
+type of journal entries recorded.</p>
     </section>
 
 </div>
@@ -142,6 +142,22 @@ for authorisation, ownership, auditing and logging purposes.</p>
         <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
 
       </div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#populate_entry_types_list/0" data-no-tooltip translate="no">populate_entry_types_list()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Used across live components to populate select options with journal entry types.</p></div>
 
     </div>
 
@@ -174,22 +190,54 @@ for authorisation, ownership, auditing and logging purposes.</p>
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.Accounts.User{
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.Journals.JournalEntryTypes{
   __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
   active: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
   description: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  frozen: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
   id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
   inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  login_email: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  password_hash: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  user_name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>
 
 
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="populate_entry_types_list/0">
+
+  <div class="detail-header">
+    <a href="#populate_entry_types_list/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">populate_entry_types_list()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> populate_entry_types_list() :: [<a href="#t:t/0">t</a>(), ...]</pre>
+
+      </div>
+
+<p>Used across live components to populate select options with journal entry types.</p>
   </section>
 </section>
 

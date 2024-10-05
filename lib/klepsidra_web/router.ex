@@ -12,6 +12,11 @@ defmodule KlepsidraWeb.Router do
       html: {KlepsidraWeb.Layouts, :root}
 
     plug :protect_from_forgery
+
+    plug :put_content_security_policy,
+      img_src: "'self' data:",
+      style_src: "'self' 'nonce'"
+
     plug :put_secure_browser_headers
   end
 

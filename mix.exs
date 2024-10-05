@@ -60,6 +60,17 @@ defmodule Klepsidra.MixProject do
   defp deps do
     [
       {:private, "> 0.0.0"},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:stream_data, "~> 1.0", only: [:dev, :test]},
+      {:credo, ">= 0.0.0", only: [:dev], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
+      {:mix_audit, ">= 0.0.0"},
+      {:sobelow, ">= 0.0.0"},
+      {:gettext, "~> 0.26.1"},
+      {:paraxial, "~> 2.7.7"},
+      {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
+      {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.18", only: :test},
       {:phoenix, "~> 1.7.10"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
@@ -75,7 +86,6 @@ defmodule Klepsidra.MixProject do
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.26.1"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ex_cldr, "~> 2.37"},
@@ -85,16 +95,7 @@ defmodule Klepsidra.MixProject do
       {:timex, "~> 3.7"},
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
-      {:live_toast, "~> 0.6.4"},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
-      {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.18", only: :test},
-      {:mix_audit, ">= 0.0.0"},
-      {:paraxial, "~> 2.7.3"},
-      {:stream_data, "~> 1.0", only: [:dev, :test]}
+      {:live_toast, "~> 0.6.4"}
     ]
   end
 

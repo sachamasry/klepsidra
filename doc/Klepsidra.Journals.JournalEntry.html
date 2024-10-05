@@ -8,7 +8,7 @@
     <meta name="project" content="klepsidra v0.1.2">
 
 
-    <title>Klepsidra.Cldr.Rbnf.Ordinal — klepsidra v0.1.2</title>
+    <title>Klepsidra.Journals.JournalEntry — klepsidra v0.1.2</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -112,29 +112,15 @@ Pages
 <div id="top-content">
   <h1>
 
-    <span translate="no">Klepsidra.Cldr.Rbnf.Ordinal</span> 
+    <span translate="no">Klepsidra.Journals.JournalEntry</span> 
     <small class="app-vsn" translate="no">(klepsidra v0.1.2)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Functions to implement the ordinal rule-based-number-format rules of CLDR.</p><p>As CLDR notes, the data is incomplete or non-existent for many languages.  It
-is considered complete for English however.</p><p>The standard public API for RBNF is via the <a href="https://hexdocs.pm/ex_cldr_numbers/2.33.3/Cldr.Number.html#to_string/2"><code class="inline">Cldr.Number.to_string/2</code></a> function.</p><p>The functions on this module are defined at compile time based upon the RBNF rules
-defined in the Unicode CLDR data repository.  Available rules are identified by:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">rule_sets</span><span class="p" data-group-id="1461267371-1">(</span><span class="ss">:en</span><span class="p" data-group-id="1461267371-1">)</span><span class="w">
-</span><span class="p" data-group-id="1461267371-2">[</span><span class="ss">:digits_ordinal</span><span class="p" data-group-id="1461267371-2">]</span><span class="w">
-
-</span><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">rule_sets</span><span class="p" data-group-id="1461267371-3">(</span><span class="s">&quot;fr&quot;</span><span class="p" data-group-id="1461267371-3">)</span><span class="w">
-</span><span class="gp unselectable">...&gt; </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">sort</span><span class="p" data-group-id="1461267371-4">(</span><span class="p" data-group-id="1461267371-4">)</span><span class="w">
-</span><span class="p" data-group-id="1461267371-5">[</span><span class="w">
-  </span><span class="ss">:digits_ordinal</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_feminine</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_feminine_plural</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_masculine</span><span class="p">,</span><span class="w">
-  </span><span class="ss">:digits_ordinal_masculine_plural</span><span class="w">
-</span><span class="p" data-group-id="1461267371-5">]</span></code></pre><p>A rule can then be invoked on an available rule_set.  For example</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Rbnf.Ordinal</span><span class="o">.</span><span class="n">digits_ordinal</span><span class="p" data-group-id="7285460790-1">(</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="ss">:en</span><span class="p" data-group-id="7285460790-1">)</span><span class="w">
-</span><span class="s">&quot;123rd&quot;</span></code></pre><p>This call is equivalent to the call through the public API of:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Klepsidra.Cldr.Number</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3863604127-1">(</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="ss">format</span><span class="p">:</span><span class="w"> </span><span class="ss">:ordinal</span><span class="p" data-group-id="3863604127-1">)</span><span class="w">
-</span><span class="p" data-group-id="3863604127-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123rd&quot;</span><span class="p" data-group-id="3863604127-2">}</span></code></pre>
+<p>Defines the <code class="inline">journal_entries</code> schema needed to record a generic set of journaling
+needs, from the deeply personal, to commercial.</p>
     </section>
 
 </div>
@@ -146,6 +132,20 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -153,33 +153,23 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#all_rule_sets/0" data-no-tooltip translate="no">all_rule_sets()</a>
+        <a href="#convert_markdown_to_html/1" data-no-tooltip translate="no">convert_markdown_to_html(markdown_string)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Take in markdown-formatted text, converting it to HTML.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#digits_ordinal/2" data-no-tooltip translate="no">digits_ordinal(number, locale)</a>
+        <a href="#generate_html_entry/1" data-no-tooltip translate="no">generate_html_entry(changeset)</a>
 
       </div>
 
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#rule_sets/0" data-no-tooltip translate="no">rule_sets()</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#rule_sets/1" data-no-tooltip translate="no">rule_sets(rbnf_locale_name)</a>
-
-      </div>
+        <div class="summary-synopsis"><p>Early in the validation chain, ensuring that validity of all necessary fields
+hasn't been checked yet, convert all text written in the markdown field to clean
+HTML.</p></div>
 
     </div>
 
@@ -187,6 +177,61 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
 
   </section>
 
+
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+    <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">t()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Klepsidra.Journals.JournalEntry{
+  __meta__: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  entry_text_html: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  entry_text_markdown: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  entry_type: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  entry_type_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  highlights: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  inserted_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  is_private: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  is_scheduled: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  is_short_entry: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  journal_for: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  latitude: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>(),
+  location: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  longitude: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>(),
+  mood: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  user: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  user_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
 
   <section id="functions" class="details-list">
     <h1 class="section-heading">
@@ -196,72 +241,40 @@ defined in the Unicode CLDR data repository.  Available rules are identified by:
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="all_rule_sets/0">
+<section class="detail" id="convert_markdown_to_html/1">
 
   <div class="detail-header">
-    <a href="#all_rule_sets/0" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#convert_markdown_to_html/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">all_rule_sets()</h1>
+    <h1 class="signature" translate="no">convert_markdown_to_html(markdown_string)</h1>
 
 
   </div>
 
   <section class="docstring">
 
-
+<p>Take in markdown-formatted text, converting it to HTML.</p>
   </section>
 </section>
-<section class="detail" id="digits_ordinal/2">
+<section class="detail" id="generate_html_entry/1">
 
   <div class="detail-header">
-    <a href="#digits_ordinal/2" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#generate_html_entry/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">digits_ordinal(number, locale)</h1>
+    <h1 class="signature" translate="no">generate_html_entry(changeset)</h1>
 
 
   </div>
 
   <section class="docstring">
 
-
-  </section>
-</section>
-<section class="detail" id="rule_sets/0">
-
-  <div class="detail-header">
-    <a href="#rule_sets/0" class="detail-link" data-no-tooltip title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">rule_sets()</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
-<section class="detail" id="rule_sets/1">
-
-  <div class="detail-header">
-    <a href="#rule_sets/1" class="detail-link" data-no-tooltip title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">rule_sets(rbnf_locale_name)</h1>
-
-
-  </div>
-
-  <section class="docstring">
-
-
+<p>Early in the validation chain, ensuring that validity of all necessary fields
+hasn't been checked yet, convert all text written in the markdown field to clean
+HTML.</p>
   </section>
 </section>
 

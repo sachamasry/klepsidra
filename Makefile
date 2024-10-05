@@ -6,12 +6,16 @@ SCHEMASPY_CONFIG_FILE 		= ./config/schemaspy.properties
 all:
 	@echo "\nThe following targets are available:\n"
 	@echo 
+	@echo "	check				Run all code analysis and testing tools"
+	@echo 
 	@echo "	coverage			Produce detailed test coverage report, in ./cover/excoveralls.html"
 	@echo "	coverage-console		Print test coverage report to console"
 	@echo "	coverage-console-detailed"
 	@echo "					Print detailed test coverage report to console"
 	@echo 
 	@echo "	dependency-graph		Produce detailed code dependency graph"
+	@echo 
+	@echo "	security-scan			Run code and license scans"
 	@echo 
 	@echo "	deploy				Complete application production deployment"
 	@echo "	get-dependencies 		Download project dependencies"
@@ -48,8 +52,10 @@ db-doc:
 	java -jar $(SCHEMASPY_BASE_DIR)/$(SCHEMASPY_JAR) -dp $(SCHEMASPY_BASE_DIR)/ -configFile $(SCHEMASPY_CONFIG_FILE) 
 	@echo ""
 
-# Test coverage
+check:
+	mix check --config .check.exs
 
+# Test coverage
 coverage:
 	@echo "==> Generating test coverage report"
 	MIX_ENV=test mix coveralls.html
@@ -72,3 +78,9 @@ dependency-graph:
 	mix xref graph --format dot --output code_analysis/xref_graph.dot
 	dot -Grankdir=LR -Epenwidth=2 -Ecolor=#a0a0a0 -Tpng ./code_analysis/xref_graph.dot -o ./code_analysis/xref_graph.png
 	@echo "==> Detailed code dependency graph generated, in ./code_analysis/xref_graph.png"
+
+# Site and code vulnerability scan
+security-scan:
+	@echo "==> Generating detailed Paraxial codebase scan"
+	source ./.env && mix paraxial.scan
+	@echo "==> Detailed Paraxial codebase scan complete. Run the application server to upload scan results"
