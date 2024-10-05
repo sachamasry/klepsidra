@@ -45,28 +45,28 @@ if config_env() == :prod do
       """
 
   host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  port = String.to_integer(System.get_env("PORT") || "4443")
+  keyfile = System.get_env("KLEPSIDRA_SSL_KEY_PATH") || "priv/cert/selfsigned.pem"
+  certfile = System.get_env("KLEPSIDRA_SSL_CERT_PATH") || "priv/cert/selfsigned.key.pem"
 
   config :klepsidra, KlepsidraWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
-    http: [
-      # Enable IPv6 and bind on all interfaces.
-      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
-      # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
-      # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
-    ],
-    secret_key_base: secret_key_base
-
-  config :klepsidra, KlepsidraWeb.Endpoint,
+    # http: [
+    # Enable IPv6 and bind on all interfaces.
+    # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+    # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
+    # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+    #   ip: {0, 0, 0, 0, 0, 0, 0, 0},
+    #   port: port
+    # ],
     https: [
       ip: {127, 0, 0, 1},
-      port: 443,
+      port: port,
       cipher_suite: :strong,
-      keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-      certfile: System.get_env("SOME_APP_SSL_CERT_PATH")
-    ]
+      keyfile: keyfile,
+      certfile: certfile
+    ],
+    secret_key_base: secret_key_base
 
   # ## SSL Support
   #
