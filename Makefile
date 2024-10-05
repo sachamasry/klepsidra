@@ -61,7 +61,7 @@ get-production-dependencies:
 	mix deps.get --only prod
 	@echo "--> Successfully downloaded all dependencies"
 
-update-dependencies: update-project-dependencies
+update-dependencies: update-production-dependencies
 
 update-production-dependencies:
 	@echo "==> Updating dependencies"
