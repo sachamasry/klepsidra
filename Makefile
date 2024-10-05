@@ -38,14 +38,18 @@ deploy: update-production-dependencies compile-project db-migration compile-asse
 
 clean: clean-app clean-dependencies
 
-run:
-	@echo "==> Starting application"
-	source .env && PORT=4003 MIX_ENV=prod mix phx.server
-
 clean-app:
 	@echo "==> Cleaning generated application files"
 	mix clean
 	@echo "--> Successfully cleaned generated application files"
+
+
+# Run the application
+start: run
+
+run:
+	@echo "==> Starting application"
+	source .env && PORT=4003 MIX_ENV=prod mix phx.server
 
 
 # SSL/TLS certificates
