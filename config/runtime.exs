@@ -59,6 +59,15 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :klepsidra, KlepsidraWeb.Endpoint,
+    https: [
+      ip: {127, 0, 0, 1},
+      port: 443,
+      cipher_suite: :strong,
+      keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
+      certfile: System.get_env("SOME_APP_SSL_CERT_PATH")
+    ]
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

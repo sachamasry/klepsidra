@@ -47,6 +47,9 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Update timer listings
     * Add timer tags
 
+* UI improvements
+  * Calculate average time spent across timed sessions
+
 
 ### Future
 
