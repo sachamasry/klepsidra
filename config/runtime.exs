@@ -46,8 +46,8 @@ if config_env() == :prod do
 
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4443")
-  keyfile = System.get_env("KLEPSIDRA_SSL_KEY_PATH") || "priv/cert/selfsigned.pem"
-  certfile = System.get_env("KLEPSIDRA_SSL_CERT_PATH") || "priv/cert/selfsigned.key.pem"
+  keyfile = System.get_env("KLEPSIDRA_SSL_KEY_PATH") || "priv/cert/selfsigned.key.pem"
+  certfile = System.get_env("KLEPSIDRA_SSL_CERT_PATH") || "priv/cert/selfsigned.pem"
 
   config :klepsidra, KlepsidraWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
