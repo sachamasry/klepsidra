@@ -25,6 +25,7 @@ defmodule Klepsidra.Projects.Note do
   def changeset(note, attrs) do
     note
     |> cast(attrs, [:note, :project_id])
-    |> validate_required([:note])
+    |> validate_required([:note], message: "The message can't be empty")
+    |> assoc_constraint(:project)
   end
 end

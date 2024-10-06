@@ -25,6 +25,7 @@ defmodule Klepsidra.BusinessPartners.Note do
   def changeset(note, attrs) do
     note
     |> cast(attrs, [:note, :business_partner_id])
-    |> validate_required([:note])
+    |> validate_required([:note], message: "The message can't be empty")
+    |> assoc_constraint(:business_partner)
   end
 end

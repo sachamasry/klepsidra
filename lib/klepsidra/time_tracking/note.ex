@@ -24,7 +24,7 @@ defmodule Klepsidra.TimeTracking.Note do
   def changeset(note, attrs) do
     note
     |> cast(attrs, [:note, :timer_id])
-    |> validate_required([:note])
+    |> validate_required([:note], message: "The message can't be empty")
     |> assoc_constraint(:timer)
   end
 end
