@@ -33,7 +33,7 @@ defmodule Klepsidra.TimeTracking.Timer do
           project_id: integer,
           billable: boolean,
           business_partner_id: integer,
-          activity_type_id: binary(),
+          activity_type_id: String.t(),
           billing_rate: number(),
           billing_duration: integer,
           billing_duration_time_unit: String.t(),
@@ -517,7 +517,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       {:ok, "0 seconds"}
   """
   @spec duration_to_string(duration :: integer(), time_unit :: atom()) ::
-          {:ok, binary()} | {:error, {atom(), binary()}}
+          {:ok, String.t()} | {:error, {atom(), String.t()}}
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
     Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration))
   end
@@ -698,7 +698,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   @spec decompose_unit(unit :: Cldr.Unit.t(), subunit_list :: list(), options :: keyword()) ::
           nil | list(any())
   @spec decompose_unit(unit :: any(), subunit_list :: any(), options :: keyword()) ::
-          {:error, binary()}
+          {:error, String.t()}
   def decompose_unit(unit, subunit_list, options \\ [])
 
   def decompose_unit(unit, subunit_list, options)
@@ -746,7 +746,7 @@ defmodule Klepsidra.TimeTracking.Timer do
       {:ok, "Tuesday, 23 Jan 2024"}
   """
   @spec format_human_readable_date(NaiveDateTime.t()) ::
-          {:ok, bitstring()} | {:error, {atom(), binary()}}
+          {:ok, String.t()} | {:error, {atom(), String.t()}}
   def format_human_readable_date(datetime, format_string \\ @default_date_format)
       when is_struct(datetime, NaiveDateTime) and is_bitstring(format_string) do
     Timex.format(datetime, format_string)
@@ -818,16 +818,16 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @spec format_aggregate_duration_for_project(base_unit_duration :: Cldr.Unit.t()) :: %{
           base_unit_duration: Cldr.Unit.t(),
-          duration_in_hours: bitstring(),
-          human_readable_duration: bitstring() | nil
+          duration_in_hours: String.t(),
+          human_readable_duration: String.t() | nil
         }
   def format_aggregate_duration_for_project(base_unit_duration)
       when is_struct(base_unit_duration, Cldr.Unit) do
     duration_in_hours =
       base_unit_duration
-      |> Unit.convert!(:hour_increment)
+      |> Klepsidra.Cldr.Unit.convert!(:hour_increment)
       |> then(fn i -> Cldr.Unit.round(i, 1) end)
-      |> Unit.to_string!()
+      |> Klepsidra.Cldr.Unit.to_string!()
 
     duration_in_dhm_format =
       format_human_readable_duration(base_unit_duration,
