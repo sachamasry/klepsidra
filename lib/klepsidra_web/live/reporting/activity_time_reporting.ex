@@ -33,6 +33,7 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
        activity_types: activity_types,
        timer_count: filtered_timers.meta.timer_count,
        aggregate_duration: filtered_timers.meta.aggregate_duration,
+       average_duration: filtered_timers.meta.average_timer_duration,
        aggregate_billing_duration: filtered_timers.meta.aggregate_billing_duration
      )
      |> stream(:timers, filtered_timers.timer_list)}
@@ -139,6 +140,7 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
         filter: filter,
         timer_count: filtered_timers.meta.timer_count,
         aggregate_duration: filtered_timers.meta.aggregate_duration,
+        average_duration: filtered_timers.meta.average_timer_duration,
         aggregate_billing_duration: filtered_timers.meta.aggregate_billing_duration
       )
       |> stream(:timers, filtered_timers.timer_list, reset: true)

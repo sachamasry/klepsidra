@@ -8,14 +8,20 @@ defmodule Klepsidra.TimeTracking.Timer do
   use Ecto.Schema
 
   import Ecto.Changeset
-  alias Klepsidra.Categorisation.TimerTags
-  alias Klepsidra.TimeTracking.ActivityType
-  alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
+  alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Cldr.Unit
+  alias Klepsidra.Projects.Project
+  alias Klepsidra.TimeTracking.ActivityType
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
+
+  @typedoc """
+  A duration tuple carries the integer magnitude of the time duration as the first item,
+  and a string encoding of the time increment atom recognised by the system.
+  """
+  @type duration_tuple :: {integer(), bitstring()}
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -510,9 +516,10 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> Klepsidra.TimeTracking.Timer.duration_to_string(0, :second)
       {:ok, "0 seconds"}
   """
-  @spec duration_to_string(integer(), atom()) :: []
+  @spec duration_to_string(duration :: integer(), time_unit :: atom()) ::
+          {:ok, binary()} | {:error, {atom(), binary()}}
   def duration_to_string(duration, time_unit) when is_integer(duration) and is_atom(time_unit) do
-    Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration), Klepsidra.Cldr)
+    Cldr.Unit.to_string(Cldr.Unit.new!(time_unit, duration))
   end
 
   @doc """
@@ -550,7 +557,8 @@ defmodule Klepsidra.TimeTracking.Timer do
   Takes in a single duration tuple, shaped as `{duration, string_duration_time_unit}`,
   converting it to a duration in seconds, the base time unit.
   """
-  @spec convert_duration_to_base_time_unit({integer, bitstring()}) :: Cldr.Unit
+  @spec convert_duration_to_base_time_unit(duration_tuple :: duration_tuple()) ::
+          Cldr.Unit.t()
   def convert_duration_to_base_time_unit(duration_tuple)
       when is_tuple(duration_tuple) and tuple_size(duration_tuple) == 2 do
     {duration, duration_time_unit} = duration_tuple
@@ -563,7 +571,12 @@ defmodule Klepsidra.TimeTracking.Timer do
   Takes in a list of duration tuples, shaped as `{duration, string_duration_time_unit}`,
   converting them all to durations in seconds, the base time unit.
   """
-  @spec convert_durations_to_base_time_unit([{integer, bitstring()}, ...]) :: [Cldr.Unit, ...]
+  @spec convert_durations_to_base_time_unit(durations_list :: [duration_tuple(), ...]) :: [
+          Cldr.Unit.t(),
+          ...
+        ]
+  def convert_durations_to_base_time_unit([]), do: []
+
   def convert_durations_to_base_time_unit(durations_list)
       when is_list(durations_list) do
     durations_list
@@ -583,7 +596,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   Takes a list of `Cldr.Unit` structures, timed in the base unit for time,
   seconds, summing them all to return a total duration in the same time unit.
   """
-  @spec sum_base_unit_durations([Cldr.Unit, ...]) :: bitstring()
+  @spec sum_base_unit_durations(durations_list :: [Cldr.Unit.t(), ...]) :: Cldr.Unit.t()
   def sum_base_unit_durations(durations_list)
       when is_list(durations_list) do
     durations_list
@@ -596,7 +609,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   Takes two `Cldr.Unit` structures, the aggregate time and the latest deleted timer,
   timed in, seconds, the base unit of time, returning the result of their difference.
   """
-  @spec subtract_base_unit_durations(map(), map()) :: Cldr.Unit
+  @spec subtract_base_unit_durations(duration_1 :: map(), duration_2 :: map()) :: Cldr.Unit.t()
   def subtract_base_unit_durations(duration_1, duration_2)
       when is_struct(duration_1, Cldr.Unit) and is_struct(duration_2, Cldr.Unit) do
     Unit.sub!(duration_1, duration_2)
@@ -628,14 +641,12 @@ defmodule Klepsidra.TimeTracking.Timer do
       #iex> 95000 |> Cldr.Unit.new!(:second) |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(unit_list: [:day, :hour_increment])
       #"1 day and 2 hours"
   """
-  # @spec format_human_readable_duration(%{unit: atom(), value: integer()}, list()) ::
-  #         nil | bitstring()
+  @spec format_human_readable_duration(duration :: Cldr.Unit.t(), options :: keyword()) ::
+          nil | bitstring()
   def format_human_readable_duration(duration, options \\ [])
       when is_struct(duration, Cldr.Unit) do
     unit_list =
       Keyword.get(options, :unit_list, [:hour_increment, :minute_increment])
-
-    # return_if_short_duration = Keyword.get(options, :return_if_short_duration, true)
 
     case decompose_unit(duration, unit_list, restrict_if_components_only: [:hour_increment]) do
       nil ->
@@ -684,8 +695,10 @@ defmodule Klepsidra.TimeTracking.Timer do
       iex> 21.17 |> Cldr.Unit.new!(:hour_increment) |> Klepsidra.TimeTracking.Timer.decompose_unit("")
       {:error, "Invalid unit or subunit_list"}
   """
-  @spec decompose_unit(%{unit: atom(), value: integer()}, list(), keyword()) ::
-          nil | list()
+  @spec decompose_unit(unit :: Cldr.Unit.t(), subunit_list :: list(), options :: keyword()) ::
+          nil | list(any())
+  @spec decompose_unit(unit :: any(), subunit_list :: any(), options :: keyword()) ::
+          {:error, binary()}
   def decompose_unit(unit, subunit_list, options \\ [])
 
   def decompose_unit(unit, subunit_list, options)
@@ -700,8 +713,11 @@ defmodule Klepsidra.TimeTracking.Timer do
     do: {:error, "Invalid unit or subunit_list"}
 
   private do
-    @spec adjust_for_restricted_subunits([atom(), ...], list()) ::
-            nil | [%{unit: atom(), value: non_neg_integer() | float()}]
+    @spec adjust_for_restricted_subunits(
+            unit_composition :: [Cldr.Unit.t(), ...],
+            restricted_subunits :: list()
+          ) ::
+            nil | list()
     def adjust_for_restricted_subunits(unit_composition, [_ | _] = restricted_subunits)
         when is_list(unit_composition) do
       restricted_list = MapSet.new(restricted_subunits)
@@ -715,7 +731,7 @@ defmodule Klepsidra.TimeTracking.Timer do
   end
 
   private do
-    @spec non_empty_list?(nonempty_list(), list()) :: as_boolean(term)
+    @spec non_empty_list?(list :: nonempty_list(), return :: list()) :: as_boolean(term)
     def non_empty_list?([], _), do: nil
     def non_empty_list?(list, []) when is_list(list), do: list
     def non_empty_list?(_list, return) when is_list(return), do: return
@@ -788,6 +804,11 @@ defmodule Klepsidra.TimeTracking.Timer do
     Timex.format!(datetime, format_string)
   end
 
+  @spec calculate_aggregate_duration_for_timers(timers :: [duration_tuple(), ...]) :: %{
+          base_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: bitstring(),
+          human_readable_duration: bitstring() | nil
+        }
   def calculate_aggregate_duration_for_timers(timers) when is_list(timers) do
     timers
     |> convert_durations_to_base_time_unit()
@@ -795,6 +816,11 @@ defmodule Klepsidra.TimeTracking.Timer do
     |> format_aggregate_duration_for_project()
   end
 
+  @spec format_aggregate_duration_for_project(base_unit_duration :: Cldr.Unit.t()) :: %{
+          base_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: bitstring(),
+          human_readable_duration: bitstring() | nil
+        }
   def format_aggregate_duration_for_project(base_unit_duration)
       when is_struct(base_unit_duration, Cldr.Unit) do
     duration_in_hours =
@@ -807,7 +833,8 @@ defmodule Klepsidra.TimeTracking.Timer do
       format_human_readable_duration(base_unit_duration,
         unit_list: [
           :day,
-          :hour_increment
+          :hour_increment,
+          :minute_increment
         ],
         return_if_short_duration: false
       )
@@ -818,4 +845,36 @@ defmodule Klepsidra.TimeTracking.Timer do
       human_readable_duration: duration_in_dhm_format
     }
   end
+
+  # def format_aggregate_duration_for_project(base_unit_duration)
+
+  @doc """
+  Calculate average timer duration, given a timer count and the total duration of the
+  timers.
+
+  ## Examples
+
+      iex> 
+  """
+  @spec calculate_average_timer_duration(
+          timer_count :: integer(),
+          aggregate_duration :: Cldr.Unit.t()
+        ) :: number()
+  @spec calculate_average_timer_duration(
+          timer_count :: any(),
+          aggregate_duration :: any()
+        ) :: number()
+  def calculate_average_timer_duration(timer_count, aggregate_duration)
+      when is_integer(timer_count) and is_struct(aggregate_duration, Cldr.Unit) do
+    if aggregate_duration == Cldr.Unit.new!(:second, 0) do
+      aggregate_duration
+    else
+      aggregate_duration
+      |> Cldr.Unit.value()
+      |> Kernel.div(timer_count)
+      |> Cldr.Unit.new!(aggregate_duration.unit)
+    end
+  end
+
+  def calculate_average_timer_duration(_timer_count, _aggregate_duration), do: 0
 end

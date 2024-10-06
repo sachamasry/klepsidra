@@ -9,6 +9,58 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
 
+  @typedoc """
+  The `timer_record.t()` type is a list of the fields and data types returned in
+  timer record queries.
+  """
+  @type timer_record :: %{
+          id: binary(),
+          start_stamp: binary(),
+          end_stamp: binary(),
+          duration: integer(),
+          duration_time_unit: binary(),
+          project_id: nil | binary(),
+          project_name: binary(),
+          business_partner_id: nil | binary(),
+          business_partner_name: binary(),
+          billable: boolean(),
+          billing_duration: integer(),
+          billing_duration_time_unit: binary(),
+          billing_rate: Decimal.t(),
+          activity_type_id: nil | binary(),
+          activity_type: binary(),
+          description: binary(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t(),
+          modified: integer()
+        }
+  @typedoc """
+  The `duration.t()` type is a map containing a time duration in several formats:
+
+  * The duration as a `Cldr.Unit.t()` type, denominated in the base time increment, `:second`
+  * The duration in hours, a basic major unit of the day
+  * A human-readable string representing the time converted to days, hours and minutes,
+    or nil
+  """
+  @type duration :: %{
+          base_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: bitstring(),
+          human_readable_duration: bitstring() | nil
+        }
+  @typedoc """
+  When filtering timer queries, a `timer_filter.t()` filter structure will be passed
+  with criteria to filter by. The type specifies those fields and their types.
+  """
+  @type timer_filter :: %{
+          from: bitstring(),
+          to: bitstring(),
+          project_id: bitstring(),
+          business_partner_id: bitstring(),
+          activity_type_id: bitstring(),
+          billable: bitstring(),
+          modified: binary() | integer()
+        }
+
   @doc """
   Returns the list of timers.
 
@@ -38,7 +90,6 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.all()
   end
 
-  @spec list_timers_with_statistics(filter :: map()) :: none()
   @doc """
 
   ## Examples
@@ -55,18 +106,34 @@ defmodule Klepsidra.TimeTracking do
             human_readable_duration: nil}},
           timer_list: [%{...}, ...]}
   """
+  @spec list_timers_with_statistics(filter :: timer_filter()) :: %{
+          timer_list: any(),
+          meta: %{
+            timer_count: any(),
+            aggregate_duration: any(),
+            average_timer_duration: any(),
+            aggregate_billing_duration: any()
+          }
+        }
   def list_timers_with_statistics(filter) when is_map(filter) do
+    timer_count = list_timers_count(filter)
+    timer_duration = list_timers_aggregate_duration(filter)
+
+    average_timer_duration =
+      Timer.calculate_average_timer_duration(timer_count, timer_duration.base_unit_duration)
+      |> Timer.format_aggregate_duration_for_project()
+
     %{
       timer_list: list_timers(filter),
       meta: %{
-        timer_count: list_timers_count(filter),
-        aggregate_duration: list_timers_aggregate_duration(filter),
+        timer_count: timer_count,
+        aggregate_duration: timer_duration,
+        average_timer_duration: average_timer_duration,
         aggregate_billing_duration: list_timers_aggregate_billing_duration(filter)
       }
     }
   end
 
-  @spec list_timers_count(filter :: map()) :: non_neg_integer()
   @doc """
 
   ## Examples
@@ -74,6 +141,7 @@ defmodule Klepsidra.TimeTracking do
       iex> list_timers_count(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
       9
   """
+  @spec list_timers_count(filter :: map()) :: non_neg_integer()
   def list_timers_count(%{modified: modified} = filter) when is_map(filter) do
     list_timers_query(filter)
     |> filter_by_modification_status(%{modified: modified})
@@ -81,7 +149,6 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.one()
   end
 
-  @spec list_timers_aggregate_duration(filter :: map()) :: none()
   @doc """
 
   ## Examples
@@ -93,6 +160,7 @@ defmodule Klepsidra.TimeTracking do
         human_readable_duration: nil
       }
   """
+  @spec list_timers_aggregate_duration(filter :: map()) :: duration()
   def list_timers_aggregate_duration(filter) when is_map(filter) do
     list_timers_query(filter)
     |> select([at], {sum(at.duration), at.duration_time_unit})
@@ -101,7 +169,6 @@ defmodule Klepsidra.TimeTracking do
     |> Timer.calculate_aggregate_duration_for_timers()
   end
 
-  @spec list_timers_aggregate_billing_duration(filter :: map()) :: none()
   @doc """
 
   ## Examples
@@ -113,6 +180,11 @@ defmodule Klepsidra.TimeTracking do
         human_readable_duration: nil
       }
   """
+  @spec list_timers_aggregate_billing_duration(filter :: map()) :: %{
+          base_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: bitstring(),
+          human_readable_duration: bitstring() | nil
+        }
   def list_timers_aggregate_billing_duration(filter) when is_map(filter) do
     list_timers_query(filter)
     |> select([at], {sum(at.billing_duration), at.billing_duration_time_unit})

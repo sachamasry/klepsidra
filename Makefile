@@ -125,7 +125,7 @@ db-doc:
 check:
 	@echo "==> Runs all code analysis & testing tools"
 	mix check --config .check.exs
-	@echo "--> Successfully run all code analysis & testing tools"
+	@echo "--> Successfully ran all code analysis & testing tools"
 
 
 # Test coverage

@@ -12,13 +12,12 @@ defmodule Klepsidra.MixProject do
       deps: deps(),
       dialyzer: [
         plt_add_deps: :apps_direct,
-        plt_add_apps: [:ecto],
+        plt_add_apps: [:ecto, :decimal],
         plt_ignore_apps: [
           :ex_cldr,
           :ex_cldr_numbers,
           :ex_cldr_currencies,
-          :ex_cldr_lists,
-          :ex_cldr_units
+          :ex_cldr_lists
         ],
         list_unused_filters: true,
         flags: [

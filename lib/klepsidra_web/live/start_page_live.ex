@@ -26,11 +26,12 @@ defmodule KlepsidraWeb.StartPageLive do
 
     open_timer_count = TimeTracking.get_open_timer_count()
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
+    today = format_date(current_datetime_stamp)
 
     socket =
       socket
+      |> assign(:today, today)
       |> assign(
-        today: format_date(current_datetime_stamp),
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
         open_timer_count: open_timer_count,
@@ -320,6 +321,7 @@ defmodule KlepsidraWeb.StartPageLive do
     |> put_toast(:info, "Note created successfully")
   end
 
+  @spec get_current_datetime_stamp() :: NaiveDateTime.t()
   defp get_current_datetime_stamp() do
     Timer.get_current_timestamp()
     |> NaiveDateTime.beginning_of_day()
@@ -347,6 +349,7 @@ defmodule KlepsidraWeb.StartPageLive do
     Timer.format_human_readable_duration(new_aggregate_duration)
   end
 
+  @spec format_date(datetime_stamp :: NaiveDateTime.t()) :: binary()
   defp format_date(datetime_stamp) do
     case Timer.format_human_readable_date(datetime_stamp) do
       {:ok, formatted_date} -> formatted_date

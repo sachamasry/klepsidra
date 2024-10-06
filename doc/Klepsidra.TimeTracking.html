@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-A7S2WMC7.js"></script>
-    <script src="dist/sidebar_items-1D515839.js"></script>
+    <script src="dist/sidebar_items-4650626B.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-JRPQ5PR6.js"></script>
 
@@ -131,6 +131,44 @@ Pages
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:duration/0" data-no-tooltip translate="no">duration()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>The <code class="inline">duration.t()</code> type is a map containing a time duration in several formats</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:timer_filter/0" data-no-tooltip translate="no">timer_filter()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>When filtering timer queries, a <code class="inline">timer_filter.t()</code> filter structure will be passed
+with criteria to filter by. The type specifies those fields and their types.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:timer_record/0" data-no-tooltip translate="no">timer_record()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>The <code class="inline">timer_record.t()</code> type is a list of the fields and data types returned in
+timer record queries.</p></div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -393,12 +431,12 @@ parameter.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_billing_duration</span><span class="p" data-group-id="6884507966-1">(</span><span class="p" data-group-id="6884507966-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="6884507966-2">}</span><span class="p" data-group-id="6884507966-1">)</span><span class="w">
-</span><span class="p" data-group-id="6884507966-3">%{</span><span class="w">
+        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_billing_duration</span><span class="p" data-group-id="9179430979-1">(</span><span class="p" data-group-id="9179430979-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="9179430979-2">}</span><span class="p" data-group-id="9179430979-1">)</span><span class="w">
+</span><span class="p" data-group-id="9179430979-3">%{</span><span class="w">
   </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5.3 hours&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="6884507966-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="6884507966-4">)</span><span class="p">,</span><span class="w">
+  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9179430979-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="9179430979-4">)</span><span class="p">,</span><span class="w">
   </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="w">
-</span><span class="p" data-group-id="6884507966-3">}</span></code></pre></div>
+</span><span class="p" data-group-id="9179430979-3">}</span></code></pre></div>
 
     </div>
 
@@ -408,12 +446,12 @@ parameter.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_duration</span><span class="p" data-group-id="8585547521-1">(</span><span class="p" data-group-id="8585547521-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="8585547521-2">}</span><span class="p" data-group-id="8585547521-1">)</span><span class="w">
-</span><span class="p" data-group-id="8585547521-3">%{</span><span class="w">
+        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_duration</span><span class="p" data-group-id="3309862284-1">(</span><span class="p" data-group-id="3309862284-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="3309862284-2">}</span><span class="p" data-group-id="3309862284-1">)</span><span class="w">
+</span><span class="p" data-group-id="3309862284-3">%{</span><span class="w">
   </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.2 hours&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="8585547521-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="8585547521-4">)</span><span class="p">,</span><span class="w">
+  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="3309862284-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="3309862284-4">)</span><span class="p">,</span><span class="w">
   </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="w">
-</span><span class="p" data-group-id="8585547521-3">}</span></code></pre></div>
+</span><span class="p" data-group-id="3309862284-3">}</span></code></pre></div>
 
     </div>
 
@@ -423,7 +461,7 @@ parameter.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_count</span><span class="p" data-group-id="3883489451-1">(</span><span class="p" data-group-id="3883489451-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="3883489451-2">}</span><span class="p" data-group-id="3883489451-1">)</span><span class="w">
+        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_count</span><span class="p" data-group-id="2864685820-1">(</span><span class="p" data-group-id="2864685820-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="2864685820-2">}</span><span class="p" data-group-id="2864685820-1">)</span><span class="w">
 </span><span class="mi">9</span></code></pre></div>
 
     </div>
@@ -444,17 +482,17 @@ parameter.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_statistics</span><span class="p" data-group-id="5846434453-1">(</span><span class="p" data-group-id="5846434453-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="5846434453-2">}</span><span class="p" data-group-id="5846434453-1">)</span><span class="w">
-</span><span class="p" data-group-id="5846434453-3">%{</span><span class="ss">meta</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-4">%{</span><span class="w">
-    </span><span class="ss">aggregate_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-5">%{</span><span class="w">
+        <div class="summary-synopsis"><h2>Examples</h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_statistics</span><span class="p" data-group-id="9730223999-1">(</span><span class="p" data-group-id="9730223999-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="9730223999-2">}</span><span class="p" data-group-id="9730223999-1">)</span><span class="w">
+</span><span class="p" data-group-id="9730223999-3">%{</span><span class="ss">meta</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-4">%{</span><span class="w">
+    </span><span class="ss">aggregate_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-5">%{</span><span class="w">
       </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.2 hours&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="5846434453-6">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="5846434453-6">)</span><span class="p">,</span><span class="w">
-      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="5846434453-5">}</span><span class="p">,</span><span class="w">
-    </span><span class="ss">aggregate_billing_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-7">%{</span><span class="w">
+      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9730223999-6">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="9730223999-6">)</span><span class="p">,</span><span class="w">
+      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="9730223999-5">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">aggregate_billing_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-7">%{</span><span class="w">
       </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5.3 hours&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="5846434453-8">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="5846434453-8">)</span><span class="p">,</span><span class="w">
-      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="5846434453-7">}</span><span class="p" data-group-id="5846434453-4">}</span><span class="p">,</span><span class="w">
-    </span><span class="ss">timer_list</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-9">[</span><span class="p" data-group-id="5846434453-10">%{</span><span class="n">...</span><span class="p" data-group-id="5846434453-10">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5846434453-9">]</span><span class="p" data-group-id="5846434453-3">}</span></code></pre></div>
+      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9730223999-8">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="9730223999-8">)</span><span class="p">,</span><span class="w">
+      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="9730223999-7">}</span><span class="p" data-group-id="9730223999-4">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">timer_list</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-9">[</span><span class="p" data-group-id="9730223999-10">%{</span><span class="n">...</span><span class="p" data-group-id="9730223999-10">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="9730223999-9">]</span><span class="p" data-group-id="9730223999-3">}</span></code></pre></div>
 
     </div>
 
@@ -523,6 +561,122 @@ parameter.</p></div>
   </section>
 
 
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+    <div class="types-list">
+<section class="detail" id="t:duration/0">
+
+  <div class="detail-header">
+    <a href="#t:duration/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">duration()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> duration() :: %{
+  base_unit_duration: <a href="https://hexdocs.pm/ex_cldr_units/3.17.2/Cldr.Unit.html#t:t/0">Cldr.Unit.t</a>(),
+  duration_in_hours: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  human_readable_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>() | nil
+}</pre>
+
+      </div>
+
+<p>The <code class="inline">duration.t()</code> type is a map containing a time duration in several formats:</p><ul><li>The duration as a <code class="inline">Cldr.Unit.t()</code> type, denominated in the base time increment, <code class="inline">:second</code></li><li>The duration in hours, a basic major unit of the day</li><li>A human-readable string representing the time converted to days, hours and minutes,
+or nil</li></ul>
+  </section>
+</section>
+<section class="detail" id="t:timer_filter/0">
+
+  <div class="detail-header">
+    <a href="#t:timer_filter/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">timer_filter()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> timer_filter() :: %{
+  from: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  to: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  project_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  business_partner_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  activity_type_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  billable: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  modified: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+}</pre>
+
+      </div>
+
+<p>When filtering timer queries, a <code class="inline">timer_filter.t()</code> filter structure will be passed
+with criteria to filter by. The type specifies those fields and their types.</p>
+  </section>
+</section>
+<section class="detail" id="t:timer_record/0">
+
+  <div class="detail-header">
+    <a href="#t:timer_record/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">timer_record()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> timer_record() :: %{
+  id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  start_stamp: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  end_stamp: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  duration: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  duration_time_unit: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  project_id: nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  project_name: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  business_partner_id: nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  business_partner_name: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  billable: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  billing_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  billing_duration_time_unit: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  billing_rate: <a href="https://hexdocs.pm/decimal/2.1.1/Decimal.html#t:t/0">Decimal.t</a>(),
+  activity_type_id: nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  activity_type: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  description: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  inserted_at: <a href="https://hexdocs.pm/elixir/NaiveDateTime.html#t:t/0">NaiveDateTime.t</a>(),
+  updated_at: <a href="https://hexdocs.pm/elixir/NaiveDateTime.html#t:t/0">NaiveDateTime.t</a>(),
+  modified: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+}</pre>
+
+      </div>
+
+<p>The <code class="inline">timer_record.t()</code> type is a list of the fields and data types returned in
+timer record queries.</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
   <section id="functions" class="details-list">
     <h1 class="section-heading">
       <a class="hover-link" href="#functions">
@@ -553,8 +707,8 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_activity_type</span><span class="p" data-group-id="8057270359-1">(</span><span class="n">activity_type</span><span class="p" data-group-id="8057270359-1">)</span><span class="w">
-</span><span class="p" data-group-id="8057270359-2">%</span><span class="nc" data-group-id="8057270359-2">Ecto.Changeset</span><span class="p" data-group-id="8057270359-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8057270359-3">%</span><span class="nc" data-group-id="8057270359-3">ActivityType</span><span class="p" data-group-id="8057270359-3">{</span><span class="p" data-group-id="8057270359-3">}</span><span class="p" data-group-id="8057270359-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_activity_type</span><span class="p" data-group-id="6004304364-1">(</span><span class="n">activity_type</span><span class="p" data-group-id="6004304364-1">)</span><span class="w">
+</span><span class="p" data-group-id="6004304364-2">%</span><span class="nc" data-group-id="6004304364-2">Ecto.Changeset</span><span class="p" data-group-id="6004304364-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6004304364-3">%</span><span class="nc" data-group-id="6004304364-3">ActivityType</span><span class="p" data-group-id="6004304364-3">{</span><span class="p" data-group-id="6004304364-3">}</span><span class="p" data-group-id="6004304364-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="change_note/2">
@@ -579,8 +733,8 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_note</span><span class="p" data-group-id="9315068797-1">(</span><span class="n">note</span><span class="p" data-group-id="9315068797-1">)</span><span class="w">
-</span><span class="p" data-group-id="9315068797-2">%</span><span class="nc" data-group-id="9315068797-2">Ecto.Changeset</span><span class="p" data-group-id="9315068797-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9315068797-3">%</span><span class="nc" data-group-id="9315068797-3">Note</span><span class="p" data-group-id="9315068797-3">{</span><span class="p" data-group-id="9315068797-3">}</span><span class="p" data-group-id="9315068797-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_note</span><span class="p" data-group-id="3143877360-1">(</span><span class="n">note</span><span class="p" data-group-id="3143877360-1">)</span><span class="w">
+</span><span class="p" data-group-id="3143877360-2">%</span><span class="nc" data-group-id="3143877360-2">Ecto.Changeset</span><span class="p" data-group-id="3143877360-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3143877360-3">%</span><span class="nc" data-group-id="3143877360-3">Note</span><span class="p" data-group-id="3143877360-3">{</span><span class="p" data-group-id="3143877360-3">}</span><span class="p" data-group-id="3143877360-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="change_timer/2">
@@ -605,8 +759,8 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_timer</span><span class="p" data-group-id="9859440740-1">(</span><span class="n">timer</span><span class="p" data-group-id="9859440740-1">)</span><span class="w">
-</span><span class="p" data-group-id="9859440740-2">%</span><span class="nc" data-group-id="9859440740-2">Ecto.Changeset</span><span class="p" data-group-id="9859440740-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9859440740-3">%</span><span class="nc" data-group-id="9859440740-3">Timer</span><span class="p" data-group-id="9859440740-3">{</span><span class="p" data-group-id="9859440740-3">}</span><span class="p" data-group-id="9859440740-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_timer</span><span class="p" data-group-id="3384212345-1">(</span><span class="n">timer</span><span class="p" data-group-id="3384212345-1">)</span><span class="w">
+</span><span class="p" data-group-id="3384212345-2">%</span><span class="nc" data-group-id="3384212345-2">Ecto.Changeset</span><span class="p" data-group-id="3384212345-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3384212345-3">%</span><span class="nc" data-group-id="3384212345-3">Timer</span><span class="p" data-group-id="3384212345-3">{</span><span class="p" data-group-id="3384212345-3">}</span><span class="p" data-group-id="3384212345-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="create_activity_type/1">
@@ -631,11 +785,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_activity_type</span><span class="p" data-group-id="1574180790-1">(</span><span class="p" data-group-id="1574180790-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="1574180790-2">}</span><span class="p" data-group-id="1574180790-1">)</span><span class="w">
-</span><span class="p" data-group-id="1574180790-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1574180790-4">%</span><span class="nc" data-group-id="1574180790-4">ActivityType</span><span class="p" data-group-id="1574180790-4">{</span><span class="p" data-group-id="1574180790-4">}</span><span class="p" data-group-id="1574180790-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_activity_type</span><span class="p" data-group-id="6845271248-1">(</span><span class="p" data-group-id="6845271248-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6845271248-2">}</span><span class="p" data-group-id="6845271248-1">)</span><span class="w">
+</span><span class="p" data-group-id="6845271248-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6845271248-4">%</span><span class="nc" data-group-id="6845271248-4">ActivityType</span><span class="p" data-group-id="6845271248-4">{</span><span class="p" data-group-id="6845271248-4">}</span><span class="p" data-group-id="6845271248-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_activity_type</span><span class="p" data-group-id="1574180790-5">(</span><span class="p" data-group-id="1574180790-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="1574180790-6">}</span><span class="p" data-group-id="1574180790-5">)</span><span class="w">
-</span><span class="p" data-group-id="1574180790-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1574180790-8">%</span><span class="nc" data-group-id="1574180790-8">Ecto.Changeset</span><span class="p" data-group-id="1574180790-8">{</span><span class="p" data-group-id="1574180790-8">}</span><span class="p" data-group-id="1574180790-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_activity_type</span><span class="p" data-group-id="6845271248-5">(</span><span class="p" data-group-id="6845271248-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6845271248-6">}</span><span class="p" data-group-id="6845271248-5">)</span><span class="w">
+</span><span class="p" data-group-id="6845271248-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6845271248-8">%</span><span class="nc" data-group-id="6845271248-8">Ecto.Changeset</span><span class="p" data-group-id="6845271248-8">{</span><span class="p" data-group-id="6845271248-8">}</span><span class="p" data-group-id="6845271248-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="create_note/1">
@@ -660,11 +814,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="5572400496-1">(</span><span class="p" data-group-id="5572400496-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="5572400496-2">}</span><span class="p" data-group-id="5572400496-1">)</span><span class="w">
-</span><span class="p" data-group-id="5572400496-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5572400496-4">%</span><span class="nc" data-group-id="5572400496-4">Note</span><span class="p" data-group-id="5572400496-4">{</span><span class="p" data-group-id="5572400496-4">}</span><span class="p" data-group-id="5572400496-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="0227146879-1">(</span><span class="p" data-group-id="0227146879-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="0227146879-2">}</span><span class="p" data-group-id="0227146879-1">)</span><span class="w">
+</span><span class="p" data-group-id="0227146879-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0227146879-4">%</span><span class="nc" data-group-id="0227146879-4">Note</span><span class="p" data-group-id="0227146879-4">{</span><span class="p" data-group-id="0227146879-4">}</span><span class="p" data-group-id="0227146879-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="5572400496-5">(</span><span class="p" data-group-id="5572400496-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5572400496-6">}</span><span class="p" data-group-id="5572400496-5">)</span><span class="w">
-</span><span class="p" data-group-id="5572400496-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5572400496-8">%</span><span class="nc" data-group-id="5572400496-8">Ecto.Changeset</span><span class="p" data-group-id="5572400496-8">{</span><span class="p" data-group-id="5572400496-8">}</span><span class="p" data-group-id="5572400496-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_note</span><span class="p" data-group-id="0227146879-5">(</span><span class="p" data-group-id="0227146879-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="0227146879-6">}</span><span class="p" data-group-id="0227146879-5">)</span><span class="w">
+</span><span class="p" data-group-id="0227146879-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0227146879-8">%</span><span class="nc" data-group-id="0227146879-8">Ecto.Changeset</span><span class="p" data-group-id="0227146879-8">{</span><span class="p" data-group-id="0227146879-8">}</span><span class="p" data-group-id="0227146879-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="create_timer/1">
@@ -689,11 +843,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="3689847775-1">(</span><span class="p" data-group-id="3689847775-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="3689847775-2">}</span><span class="p" data-group-id="3689847775-1">)</span><span class="w">
-</span><span class="p" data-group-id="3689847775-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3689847775-4">%</span><span class="nc" data-group-id="3689847775-4">Timer</span><span class="p" data-group-id="3689847775-4">{</span><span class="p" data-group-id="3689847775-4">}</span><span class="p" data-group-id="3689847775-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="3131051080-1">(</span><span class="p" data-group-id="3131051080-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="3131051080-2">}</span><span class="p" data-group-id="3131051080-1">)</span><span class="w">
+</span><span class="p" data-group-id="3131051080-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3131051080-4">%</span><span class="nc" data-group-id="3131051080-4">Timer</span><span class="p" data-group-id="3131051080-4">{</span><span class="p" data-group-id="3131051080-4">}</span><span class="p" data-group-id="3131051080-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="3689847775-5">(</span><span class="p" data-group-id="3689847775-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3689847775-6">}</span><span class="p" data-group-id="3689847775-5">)</span><span class="w">
-</span><span class="p" data-group-id="3689847775-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3689847775-8">%</span><span class="nc" data-group-id="3689847775-8">Ecto.Changeset</span><span class="p" data-group-id="3689847775-8">{</span><span class="p" data-group-id="3689847775-8">}</span><span class="p" data-group-id="3689847775-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_timer</span><span class="p" data-group-id="3131051080-5">(</span><span class="p" data-group-id="3131051080-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3131051080-6">}</span><span class="p" data-group-id="3131051080-5">)</span><span class="w">
+</span><span class="p" data-group-id="3131051080-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3131051080-8">%</span><span class="nc" data-group-id="3131051080-8">Ecto.Changeset</span><span class="p" data-group-id="3131051080-8">{</span><span class="p" data-group-id="3131051080-8">}</span><span class="p" data-group-id="3131051080-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="delete_activity_type/1">
@@ -716,11 +870,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_activity_type</span><span class="p" data-group-id="5927407813-1">(</span><span class="n">activity_type</span><span class="p" data-group-id="5927407813-1">)</span><span class="w">
-</span><span class="p" data-group-id="5927407813-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5927407813-3">%</span><span class="nc" data-group-id="5927407813-3">ActivityType</span><span class="p" data-group-id="5927407813-3">{</span><span class="p" data-group-id="5927407813-3">}</span><span class="p" data-group-id="5927407813-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_activity_type</span><span class="p" data-group-id="8577120146-1">(</span><span class="n">activity_type</span><span class="p" data-group-id="8577120146-1">)</span><span class="w">
+</span><span class="p" data-group-id="8577120146-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8577120146-3">%</span><span class="nc" data-group-id="8577120146-3">ActivityType</span><span class="p" data-group-id="8577120146-3">{</span><span class="p" data-group-id="8577120146-3">}</span><span class="p" data-group-id="8577120146-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_activity_type</span><span class="p" data-group-id="5927407813-4">(</span><span class="n">activity_type</span><span class="p" data-group-id="5927407813-4">)</span><span class="w">
-</span><span class="p" data-group-id="5927407813-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5927407813-6">%</span><span class="nc" data-group-id="5927407813-6">Ecto.Changeset</span><span class="p" data-group-id="5927407813-6">{</span><span class="p" data-group-id="5927407813-6">}</span><span class="p" data-group-id="5927407813-5">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_activity_type</span><span class="p" data-group-id="8577120146-4">(</span><span class="n">activity_type</span><span class="p" data-group-id="8577120146-4">)</span><span class="w">
+</span><span class="p" data-group-id="8577120146-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8577120146-6">%</span><span class="nc" data-group-id="8577120146-6">Ecto.Changeset</span><span class="p" data-group-id="8577120146-6">{</span><span class="p" data-group-id="8577120146-6">}</span><span class="p" data-group-id="8577120146-5">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="delete_note/1">
@@ -743,11 +897,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="5560255254-1">(</span><span class="n">note</span><span class="p" data-group-id="5560255254-1">)</span><span class="w">
-</span><span class="p" data-group-id="5560255254-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5560255254-3">%</span><span class="nc" data-group-id="5560255254-3">Note</span><span class="p" data-group-id="5560255254-3">{</span><span class="p" data-group-id="5560255254-3">}</span><span class="p" data-group-id="5560255254-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="4775712386-1">(</span><span class="n">note</span><span class="p" data-group-id="4775712386-1">)</span><span class="w">
+</span><span class="p" data-group-id="4775712386-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4775712386-3">%</span><span class="nc" data-group-id="4775712386-3">Note</span><span class="p" data-group-id="4775712386-3">{</span><span class="p" data-group-id="4775712386-3">}</span><span class="p" data-group-id="4775712386-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="5560255254-4">(</span><span class="n">note</span><span class="p" data-group-id="5560255254-4">)</span><span class="w">
-</span><span class="p" data-group-id="5560255254-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5560255254-6">%</span><span class="nc" data-group-id="5560255254-6">Ecto.Changeset</span><span class="p" data-group-id="5560255254-6">{</span><span class="p" data-group-id="5560255254-6">}</span><span class="p" data-group-id="5560255254-5">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_note</span><span class="p" data-group-id="4775712386-4">(</span><span class="n">note</span><span class="p" data-group-id="4775712386-4">)</span><span class="w">
+</span><span class="p" data-group-id="4775712386-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4775712386-6">%</span><span class="nc" data-group-id="4775712386-6">Ecto.Changeset</span><span class="p" data-group-id="4775712386-6">{</span><span class="p" data-group-id="4775712386-6">}</span><span class="p" data-group-id="4775712386-5">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="delete_timer/1">
@@ -770,11 +924,11 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="4335865695-1">(</span><span class="n">timer</span><span class="p" data-group-id="4335865695-1">)</span><span class="w">
-</span><span class="p" data-group-id="4335865695-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4335865695-3">%</span><span class="nc" data-group-id="4335865695-3">Timer</span><span class="p" data-group-id="4335865695-3">{</span><span class="p" data-group-id="4335865695-3">}</span><span class="p" data-group-id="4335865695-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="0230786172-1">(</span><span class="n">timer</span><span class="p" data-group-id="0230786172-1">)</span><span class="w">
+</span><span class="p" data-group-id="0230786172-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0230786172-3">%</span><span class="nc" data-group-id="0230786172-3">Timer</span><span class="p" data-group-id="0230786172-3">{</span><span class="p" data-group-id="0230786172-3">}</span><span class="p" data-group-id="0230786172-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="4335865695-4">(</span><span class="n">timer</span><span class="p" data-group-id="4335865695-4">)</span><span class="w">
-</span><span class="p" data-group-id="4335865695-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4335865695-6">%</span><span class="nc" data-group-id="4335865695-6">Ecto.Changeset</span><span class="p" data-group-id="4335865695-6">{</span><span class="p" data-group-id="4335865695-6">}</span><span class="p" data-group-id="4335865695-5">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_timer</span><span class="p" data-group-id="0230786172-4">(</span><span class="n">timer</span><span class="p" data-group-id="0230786172-4">)</span><span class="w">
+</span><span class="p" data-group-id="0230786172-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0230786172-6">%</span><span class="nc" data-group-id="0230786172-6">Ecto.Changeset</span><span class="p" data-group-id="0230786172-6">{</span><span class="p" data-group-id="0230786172-6">}</span><span class="p" data-group-id="0230786172-5">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="get_activity_type!/1">
@@ -797,10 +951,10 @@ parameter.</p></div>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_activity_type!</span><span class="p" data-group-id="8364041056-1">(</span><span class="mi">123</span><span class="p" data-group-id="8364041056-1">)</span><span class="w">
-</span><span class="p" data-group-id="8364041056-2">%</span><span class="nc" data-group-id="8364041056-2">ActivityType</span><span class="p" data-group-id="8364041056-2">{</span><span class="p" data-group-id="8364041056-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_activity_type!</span><span class="p" data-group-id="6800434809-1">(</span><span class="mi">123</span><span class="p" data-group-id="6800434809-1">)</span><span class="w">
+</span><span class="p" data-group-id="6800434809-2">%</span><span class="nc" data-group-id="6800434809-2">ActivityType</span><span class="p" data-group-id="6800434809-2">{</span><span class="p" data-group-id="6800434809-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_activity_type!</span><span class="p" data-group-id="8364041056-3">(</span><span class="mi">456</span><span class="p" data-group-id="8364041056-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_activity_type!</span><span class="p" data-group-id="6800434809-3">(</span><span class="mi">456</span><span class="p" data-group-id="6800434809-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
@@ -946,10 +1100,10 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0827251482-1">(</span><span class="mi">123</span><span class="p" data-group-id="0827251482-1">)</span><span class="w">
-</span><span class="p" data-group-id="0827251482-2">%</span><span class="nc" data-group-id="0827251482-2">Timer</span><span class="p" data-group-id="0827251482-2">{</span><span class="p" data-group-id="0827251482-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="6272624610-1">(</span><span class="mi">123</span><span class="p" data-group-id="6272624610-1">)</span><span class="w">
+</span><span class="p" data-group-id="6272624610-2">%</span><span class="nc" data-group-id="6272624610-2">Timer</span><span class="p" data-group-id="6272624610-2">{</span><span class="p" data-group-id="6272624610-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="0827251482-3">(</span><span class="mi">456</span><span class="p" data-group-id="0827251482-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="6272624610-3">(</span><span class="mi">456</span><span class="p" data-group-id="6272624610-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
@@ -973,10 +1127,10 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="4645467531-1">(</span><span class="mi">123</span><span class="p" data-group-id="4645467531-1">)</span><span class="w">
-</span><span class="p" data-group-id="4645467531-2">%</span><span class="nc" data-group-id="4645467531-2">Note</span><span class="p" data-group-id="4645467531-2">{</span><span class="p" data-group-id="4645467531-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="6931047736-1">(</span><span class="mi">123</span><span class="p" data-group-id="6931047736-1">)</span><span class="w">
+</span><span class="p" data-group-id="6931047736-2">%</span><span class="nc" data-group-id="6931047736-2">Note</span><span class="p" data-group-id="6931047736-2">{</span><span class="p" data-group-id="6931047736-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="4645467531-3">(</span><span class="mi">456</span><span class="p" data-group-id="4645467531-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_note!</span><span class="p" data-group-id="6931047736-3">(</span><span class="mi">456</span><span class="p" data-group-id="6931047736-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
@@ -1024,10 +1178,10 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="5639747954-1">(</span><span class="mi">123</span><span class="p" data-group-id="5639747954-1">)</span><span class="w">
-</span><span class="p" data-group-id="5639747954-2">%</span><span class="nc" data-group-id="5639747954-2">Timer</span><span class="p" data-group-id="5639747954-2">{</span><span class="p" data-group-id="5639747954-2">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="5752910882-1">(</span><span class="mi">123</span><span class="p" data-group-id="5752910882-1">)</span><span class="w">
+</span><span class="p" data-group-id="5752910882-2">%</span><span class="nc" data-group-id="5752910882-2">Timer</span><span class="p" data-group-id="5752910882-2">{</span><span class="p" data-group-id="5752910882-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="5639747954-3">(</span><span class="mi">456</span><span class="p" data-group-id="5639747954-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_timer!</span><span class="p" data-group-id="5752910882-3">(</span><span class="mi">456</span><span class="p" data-group-id="5752910882-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
@@ -1051,8 +1205,8 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_active_activity_types</span><span class="p" data-group-id="1825844053-1">(</span><span class="p" data-group-id="1825844053-1">)</span><span class="w">
-</span><span class="p" data-group-id="1825844053-2">[</span><span class="p" data-group-id="1825844053-3">%</span><span class="nc" data-group-id="1825844053-3">ActivityType</span><span class="p" data-group-id="1825844053-3">{</span><span class="p" data-group-id="1825844053-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1825844053-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_active_activity_types</span><span class="p" data-group-id="5360389854-1">(</span><span class="p" data-group-id="5360389854-1">)</span><span class="w">
+</span><span class="p" data-group-id="5360389854-2">[</span><span class="p" data-group-id="5360389854-3">%</span><span class="nc" data-group-id="5360389854-3">ActivityType</span><span class="p" data-group-id="5360389854-3">{</span><span class="p" data-group-id="5360389854-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5360389854-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_activity_types/0">
@@ -1075,8 +1229,8 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_activity_types</span><span class="p" data-group-id="5607174107-1">(</span><span class="p" data-group-id="5607174107-1">)</span><span class="w">
-</span><span class="p" data-group-id="5607174107-2">[</span><span class="p" data-group-id="5607174107-3">%</span><span class="nc" data-group-id="5607174107-3">ActivityType</span><span class="p" data-group-id="5607174107-3">{</span><span class="p" data-group-id="5607174107-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5607174107-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_activity_types</span><span class="p" data-group-id="1470376127-1">(</span><span class="p" data-group-id="1470376127-1">)</span><span class="w">
+</span><span class="p" data-group-id="1470376127-2">[</span><span class="p" data-group-id="1470376127-3">%</span><span class="nc" data-group-id="1470376127-3">ActivityType</span><span class="p" data-group-id="1470376127-3">{</span><span class="p" data-group-id="1470376127-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1470376127-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_notes/0">
@@ -1099,8 +1253,8 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_notes</span><span class="p" data-group-id="1375415163-1">(</span><span class="p" data-group-id="1375415163-1">)</span><span class="w">
-</span><span class="p" data-group-id="1375415163-2">[</span><span class="p" data-group-id="1375415163-3">%</span><span class="nc" data-group-id="1375415163-3">Note</span><span class="p" data-group-id="1375415163-3">{</span><span class="p" data-group-id="1375415163-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1375415163-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_notes</span><span class="p" data-group-id="8727838640-1">(</span><span class="p" data-group-id="8727838640-1">)</span><span class="w">
+</span><span class="p" data-group-id="8727838640-2">[</span><span class="p" data-group-id="8727838640-3">%</span><span class="nc" data-group-id="8727838640-3">Note</span><span class="p" data-group-id="8727838640-3">{</span><span class="p" data-group-id="8727838640-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="8727838640-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_notes/1">
@@ -1140,8 +1294,8 @@ a starting one.</p>
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="7600867858-1">(</span><span class="p" data-group-id="7600867858-1">)</span><span class="w">
-</span><span class="p" data-group-id="7600867858-2">[</span><span class="p" data-group-id="7600867858-3">%</span><span class="nc" data-group-id="7600867858-3">Timer</span><span class="p" data-group-id="7600867858-3">{</span><span class="p" data-group-id="7600867858-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="7600867858-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="1973724207-1">(</span><span class="p" data-group-id="1973724207-1">)</span><span class="w">
+</span><span class="p" data-group-id="1973724207-2">[</span><span class="p" data-group-id="1973724207-3">%</span><span class="nc" data-group-id="1973724207-3">Timer</span><span class="p" data-group-id="1973724207-3">{</span><span class="p" data-group-id="1973724207-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1973724207-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers/1">
@@ -1171,8 +1325,8 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="5423002047-1">(</span><span class="p" data-group-id="5423002047-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="5423002047-2">}</span><span class="p" data-group-id="5423002047-1">)</span><span class="w">
-</span><span class="p" data-group-id="5423002047-3">[</span><span class="p" data-group-id="5423002047-4">%{</span><span class="n">...</span><span class="p" data-group-id="5423002047-4">}</span><span class="p" data-group-id="5423002047-3">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="0823486392-1">(</span><span class="p" data-group-id="0823486392-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="0823486392-2">}</span><span class="p" data-group-id="0823486392-1">)</span><span class="w">
+</span><span class="p" data-group-id="0823486392-3">[</span><span class="p" data-group-id="0823486392-4">%{</span><span class="n">...</span><span class="p" data-group-id="0823486392-4">}</span><span class="p" data-group-id="0823486392-3">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers_aggregate_billing_duration/1">
@@ -1191,7 +1345,11 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> list_timers_aggregate_billing_duration(filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> list_timers_aggregate_billing_duration(filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: %{
+  base_unit_duration: <a href="https://hexdocs.pm/ex_cldr_units/3.17.2/Cldr.Unit.html#t:t/0">Cldr.Unit.t</a>(),
+  duration_in_hours: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(),
+  human_readable_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>() | nil
+}</pre>
 
       </div>
 
@@ -1201,12 +1359,12 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_billing_duration</span><span class="p" data-group-id="6884507966-1">(</span><span class="p" data-group-id="6884507966-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="6884507966-2">}</span><span class="p" data-group-id="6884507966-1">)</span><span class="w">
-</span><span class="p" data-group-id="6884507966-3">%{</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_billing_duration</span><span class="p" data-group-id="9179430979-1">(</span><span class="p" data-group-id="9179430979-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="9179430979-2">}</span><span class="p" data-group-id="9179430979-1">)</span><span class="w">
+</span><span class="p" data-group-id="9179430979-3">%{</span><span class="w">
   </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5.3 hours&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="6884507966-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="6884507966-4">)</span><span class="p">,</span><span class="w">
+  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9179430979-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="9179430979-4">)</span><span class="p">,</span><span class="w">
   </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="w">
-</span><span class="p" data-group-id="6884507966-3">}</span></code></pre>
+</span><span class="p" data-group-id="9179430979-3">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers_aggregate_duration/1">
@@ -1225,7 +1383,7 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> list_timers_aggregate_duration(filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> list_timers_aggregate_duration(filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="#t:duration/0">duration</a>()</pre>
 
       </div>
 
@@ -1235,12 +1393,12 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_duration</span><span class="p" data-group-id="8585547521-1">(</span><span class="p" data-group-id="8585547521-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="8585547521-2">}</span><span class="p" data-group-id="8585547521-1">)</span><span class="w">
-</span><span class="p" data-group-id="8585547521-3">%{</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_aggregate_duration</span><span class="p" data-group-id="3309862284-1">(</span><span class="p" data-group-id="3309862284-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="3309862284-2">}</span><span class="p" data-group-id="3309862284-1">)</span><span class="w">
+</span><span class="p" data-group-id="3309862284-3">%{</span><span class="w">
   </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.2 hours&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="8585547521-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="8585547521-4">)</span><span class="p">,</span><span class="w">
+  </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="3309862284-4">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="3309862284-4">)</span><span class="p">,</span><span class="w">
   </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="w">
-</span><span class="p" data-group-id="8585547521-3">}</span></code></pre>
+</span><span class="p" data-group-id="3309862284-3">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers_count/1">
@@ -1269,7 +1427,7 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_count</span><span class="p" data-group-id="3883489451-1">(</span><span class="p" data-group-id="3883489451-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="3883489451-2">}</span><span class="p" data-group-id="3883489451-1">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_count</span><span class="p" data-group-id="2864685820-1">(</span><span class="p" data-group-id="2864685820-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="2864685820-2">}</span><span class="p" data-group-id="2864685820-1">)</span><span class="w">
 </span><span class="mi">9</span></code></pre>
   </section>
 </section>
@@ -1293,8 +1451,8 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="7828876080-1">(</span><span class="p" data-group-id="7828876080-1">)</span><span class="w">
-</span><span class="p" data-group-id="7828876080-2">[</span><span class="p" data-group-id="7828876080-3">%</span><span class="nc" data-group-id="7828876080-3">Timer</span><span class="p" data-group-id="7828876080-3">{</span><span class="p" data-group-id="7828876080-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="7828876080-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers</span><span class="p" data-group-id="5523503957-1">(</span><span class="p" data-group-id="5523503957-1">)</span><span class="w">
+</span><span class="p" data-group-id="5523503957-2">[</span><span class="p" data-group-id="5523503957-3">%</span><span class="nc" data-group-id="5523503957-3">Timer</span><span class="p" data-group-id="5523503957-3">{</span><span class="p" data-group-id="5523503957-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5523503957-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers_with_statistics/1">
@@ -1313,7 +1471,15 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> list_timers_with_statistics(filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> list_timers_with_statistics(filter :: <a href="#t:timer_filter/0">timer_filter</a>()) :: %{
+  timer_list: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(),
+  meta: %{
+    timer_count: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(),
+    aggregate_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(),
+    average_timer_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(),
+    aggregate_billing_duration: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()
+  }
+}</pre>
 
       </div>
 
@@ -1323,17 +1489,17 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_statistics</span><span class="p" data-group-id="5846434453-1">(</span><span class="p" data-group-id="5846434453-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="5846434453-2">}</span><span class="p" data-group-id="5846434453-1">)</span><span class="w">
-</span><span class="p" data-group-id="5846434453-3">%{</span><span class="ss">meta</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-4">%{</span><span class="w">
-    </span><span class="ss">aggregate_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-5">%{</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_statistics</span><span class="p" data-group-id="9730223999-1">(</span><span class="p" data-group-id="9730223999-2">%{</span><span class="ss">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">project_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">business_partner_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90bc20d3-be65-46ea-a579-453d6ae3d378&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">activity_type_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">billable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="9730223999-2">}</span><span class="p" data-group-id="9730223999-1">)</span><span class="w">
+</span><span class="p" data-group-id="9730223999-3">%{</span><span class="ss">meta</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-4">%{</span><span class="w">
+    </span><span class="ss">aggregate_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-5">%{</span><span class="w">
       </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.2 hours&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="5846434453-6">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="5846434453-6">)</span><span class="p">,</span><span class="w">
-      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="5846434453-5">}</span><span class="p">,</span><span class="w">
-    </span><span class="ss">aggregate_billing_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-7">%{</span><span class="w">
+      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9730223999-6">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">15120</span><span class="p" data-group-id="9730223999-6">)</span><span class="p">,</span><span class="w">
+      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="9730223999-5">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">aggregate_billing_duration</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-7">%{</span><span class="w">
       </span><span class="ss">duration_in_hours</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5.3 hours&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="5846434453-8">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="5846434453-8">)</span><span class="p">,</span><span class="w">
-      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="5846434453-7">}</span><span class="p" data-group-id="5846434453-4">}</span><span class="p">,</span><span class="w">
-    </span><span class="ss">timer_list</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5846434453-9">[</span><span class="p" data-group-id="5846434453-10">%{</span><span class="n">...</span><span class="p" data-group-id="5846434453-10">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5846434453-9">]</span><span class="p" data-group-id="5846434453-3">}</span></code></pre>
+      </span><span class="ss">base_unit_duration</span><span class="p">:</span><span class="w"> </span><span class="nc">Cldr.Unit</span><span class="o">.</span><span class="n">new!</span><span class="p" data-group-id="9730223999-8">(</span><span class="ss">:second</span><span class="p">,</span><span class="w"> </span><span class="mi">18900</span><span class="p" data-group-id="9730223999-8">)</span><span class="p">,</span><span class="w">
+      </span><span class="ss">human_readable_duration</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p" data-group-id="9730223999-7">}</span><span class="p" data-group-id="9730223999-4">}</span><span class="p">,</span><span class="w">
+    </span><span class="ss">timer_list</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9730223999-9">[</span><span class="p" data-group-id="9730223999-10">%{</span><span class="n">...</span><span class="p" data-group-id="9730223999-10">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="9730223999-9">]</span><span class="p" data-group-id="9730223999-3">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="list_timers_with_tags/0">
@@ -1356,8 +1522,8 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_tags</span><span class="p" data-group-id="8926816935-1">(</span><span class="p" data-group-id="8926816935-1">)</span><span class="w">
-</span><span class="p" data-group-id="8926816935-2">[</span><span class="p" data-group-id="8926816935-3">%</span><span class="nc" data-group-id="8926816935-3">Timer</span><span class="p" data-group-id="8926816935-3">{</span><span class="p" data-group-id="8926816935-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="8926816935-2">]</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_timers_with_tags</span><span class="p" data-group-id="8841133908-1">(</span><span class="p" data-group-id="8841133908-1">)</span><span class="w">
+</span><span class="p" data-group-id="8841133908-2">[</span><span class="p" data-group-id="8841133908-3">%</span><span class="nc" data-group-id="8841133908-3">Timer</span><span class="p" data-group-id="8841133908-3">{</span><span class="p" data-group-id="8841133908-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="8841133908-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="markdown_to_html/2">
@@ -1416,11 +1582,11 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_activity_type</span><span class="p" data-group-id="0844151022-1">(</span><span class="n">activity_type</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0844151022-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="0844151022-2">}</span><span class="p" data-group-id="0844151022-1">)</span><span class="w">
-</span><span class="p" data-group-id="0844151022-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0844151022-4">%</span><span class="nc" data-group-id="0844151022-4">ActivityType</span><span class="p" data-group-id="0844151022-4">{</span><span class="p" data-group-id="0844151022-4">}</span><span class="p" data-group-id="0844151022-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_activity_type</span><span class="p" data-group-id="3915212081-1">(</span><span class="n">activity_type</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3915212081-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="3915212081-2">}</span><span class="p" data-group-id="3915212081-1">)</span><span class="w">
+</span><span class="p" data-group-id="3915212081-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3915212081-4">%</span><span class="nc" data-group-id="3915212081-4">ActivityType</span><span class="p" data-group-id="3915212081-4">{</span><span class="p" data-group-id="3915212081-4">}</span><span class="p" data-group-id="3915212081-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_activity_type</span><span class="p" data-group-id="0844151022-5">(</span><span class="n">activity_type</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0844151022-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="0844151022-6">}</span><span class="p" data-group-id="0844151022-5">)</span><span class="w">
-</span><span class="p" data-group-id="0844151022-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0844151022-8">%</span><span class="nc" data-group-id="0844151022-8">Ecto.Changeset</span><span class="p" data-group-id="0844151022-8">{</span><span class="p" data-group-id="0844151022-8">}</span><span class="p" data-group-id="0844151022-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_activity_type</span><span class="p" data-group-id="3915212081-5">(</span><span class="n">activity_type</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3915212081-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3915212081-6">}</span><span class="p" data-group-id="3915212081-5">)</span><span class="w">
+</span><span class="p" data-group-id="3915212081-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3915212081-8">%</span><span class="nc" data-group-id="3915212081-8">Ecto.Changeset</span><span class="p" data-group-id="3915212081-8">{</span><span class="p" data-group-id="3915212081-8">}</span><span class="p" data-group-id="3915212081-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="update_note/2">
@@ -1443,11 +1609,11 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="1361085357-1">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1361085357-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="1361085357-2">}</span><span class="p" data-group-id="1361085357-1">)</span><span class="w">
-</span><span class="p" data-group-id="1361085357-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1361085357-4">%</span><span class="nc" data-group-id="1361085357-4">Note</span><span class="p" data-group-id="1361085357-4">{</span><span class="p" data-group-id="1361085357-4">}</span><span class="p" data-group-id="1361085357-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="8405156476-1">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8405156476-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="8405156476-2">}</span><span class="p" data-group-id="8405156476-1">)</span><span class="w">
+</span><span class="p" data-group-id="8405156476-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8405156476-4">%</span><span class="nc" data-group-id="8405156476-4">Note</span><span class="p" data-group-id="8405156476-4">{</span><span class="p" data-group-id="8405156476-4">}</span><span class="p" data-group-id="8405156476-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="1361085357-5">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1361085357-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="1361085357-6">}</span><span class="p" data-group-id="1361085357-5">)</span><span class="w">
-</span><span class="p" data-group-id="1361085357-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1361085357-8">%</span><span class="nc" data-group-id="1361085357-8">Ecto.Changeset</span><span class="p" data-group-id="1361085357-8">{</span><span class="p" data-group-id="1361085357-8">}</span><span class="p" data-group-id="1361085357-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_note</span><span class="p" data-group-id="8405156476-5">(</span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8405156476-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="8405156476-6">}</span><span class="p" data-group-id="8405156476-5">)</span><span class="w">
+</span><span class="p" data-group-id="8405156476-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8405156476-8">%</span><span class="nc" data-group-id="8405156476-8">Ecto.Changeset</span><span class="p" data-group-id="8405156476-8">{</span><span class="p" data-group-id="8405156476-8">}</span><span class="p" data-group-id="8405156476-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="update_timer/2">
@@ -1470,11 +1636,11 @@ parameter.</p><h2 id="list_timers/1-examples" class="section-heading">
   </a>
   <span class="text">Examples</span>
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="7142497691-1">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7142497691-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="7142497691-2">}</span><span class="p" data-group-id="7142497691-1">)</span><span class="w">
-</span><span class="p" data-group-id="7142497691-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7142497691-4">%</span><span class="nc" data-group-id="7142497691-4">Timer</span><span class="p" data-group-id="7142497691-4">{</span><span class="p" data-group-id="7142497691-4">}</span><span class="p" data-group-id="7142497691-3">}</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="1340209118-1">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1340209118-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="1340209118-2">}</span><span class="p" data-group-id="1340209118-1">)</span><span class="w">
+</span><span class="p" data-group-id="1340209118-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1340209118-4">%</span><span class="nc" data-group-id="1340209118-4">Timer</span><span class="p" data-group-id="1340209118-4">{</span><span class="p" data-group-id="1340209118-4">}</span><span class="p" data-group-id="1340209118-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="7142497691-5">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7142497691-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="7142497691-6">}</span><span class="p" data-group-id="7142497691-5">)</span><span class="w">
-</span><span class="p" data-group-id="7142497691-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7142497691-8">%</span><span class="nc" data-group-id="7142497691-8">Ecto.Changeset</span><span class="p" data-group-id="7142497691-8">{</span><span class="p" data-group-id="7142497691-8">}</span><span class="p" data-group-id="7142497691-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_timer</span><span class="p" data-group-id="1340209118-5">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1340209118-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="1340209118-6">}</span><span class="p" data-group-id="1340209118-5">)</span><span class="w">
+</span><span class="p" data-group-id="1340209118-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1340209118-8">%</span><span class="nc" data-group-id="1340209118-8">Ecto.Changeset</span><span class="p" data-group-id="1340209118-8">{</span><span class="p" data-group-id="1340209118-8">}</span><span class="p" data-group-id="1340209118-7">}</span></code></pre>
   </section>
 </section>
 
