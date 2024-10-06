@@ -30,7 +30,7 @@ defmodule Klepsidra.Math do
       Cldr.Unit.new!(:second, "0.0")
 
       iex> Math.arithmetic_mean(Cldr.Unit.new!(7, :second), 0)
-      0
+      Cldr.Unit.new!(0, :second)
 
       iex> Math.arithmetic_mean(13, 2)
       6.5
@@ -46,6 +46,7 @@ defmodule Klepsidra.Math do
           sum :: number() | any(),
           count :: integer()
         ) :: number()
+  def arithmetic_mean(%Cldr.Unit{}, 0), do: Cldr.Unit.new!(0, :second)
   def arithmetic_mean(_sum, 0), do: 0
 
   def arithmetic_mean(%Cldr.Unit{} = sum, count)
@@ -55,7 +56,7 @@ defmodule Klepsidra.Math do
   end
 
   def arithmetic_mean(sum, count)
-      when is_number(count) and is_integer(sum) do
+      when is_number(sum) and is_integer(count) do
     multi_unit_div(sum, count)
   end
 
@@ -63,15 +64,27 @@ defmodule Klepsidra.Math do
           numerator :: number() | Decimal.t(),
           denominator :: number() | Decimal.t()
         ) :: float() | Decimal.t()
-  def multi_unit_div(_numerator, 0), do: 0
+  def multi_unit_div(%Decimal{} = _numerator, 0), do: Decimal.new(0)
+  def multi_unit_div(_numerator, %Decimal{coef: 0}), do: Decimal.new(0)
+  def multi_unit_div(_numerator, 0), do: 0.0
 
   def multi_unit_div(%Decimal{} = numerator, denominator)
-      when is_number(denominator) do
+      when is_float(denominator) do
+    Decimal.div(numerator, Decimal.from_float(denominator))
+  end
+
+  def multi_unit_div(%Decimal{} = numerator, denominator)
+      when is_integer(denominator) do
     Decimal.div(numerator, denominator)
   end
 
   def multi_unit_div(numerator, %Decimal{} = denominator)
-      when is_number(numerator) do
+      when is_float(numerator) do
+    Decimal.div(Decimal.from_float(numerator), denominator)
+  end
+
+  def multi_unit_div(numerator, %Decimal{} = denominator)
+      when is_integer(numerator) do
     Decimal.div(numerator, denominator)
   end
 
