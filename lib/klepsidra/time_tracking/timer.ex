@@ -845,36 +845,4 @@ defmodule Klepsidra.TimeTracking.Timer do
       human_readable_duration: duration_in_dhm_format
     }
   end
-
-  # def format_aggregate_duration_for_project(base_unit_duration)
-
-  @doc """
-  Calculate average timer duration, given a timer count and the total duration of the
-  timers.
-
-  ## Examples
-
-      iex> 
-  """
-  @spec calculate_average_timer_duration(
-          timer_count :: integer(),
-          aggregate_duration :: Cldr.Unit.t()
-        ) :: number()
-  @spec calculate_average_timer_duration(
-          timer_count :: any(),
-          aggregate_duration :: any()
-        ) :: number()
-  def calculate_average_timer_duration(timer_count, aggregate_duration)
-      when is_integer(timer_count) and is_struct(aggregate_duration, Cldr.Unit) do
-    if aggregate_duration == Cldr.Unit.new!(:second, 0) do
-      aggregate_duration
-    else
-      aggregate_duration
-      |> Cldr.Unit.value()
-      |> Kernel.div(timer_count)
-      |> Cldr.Unit.new!(aggregate_duration.unit)
-    end
-  end
-
-  def calculate_average_timer_duration(_timer_count, _aggregate_duration), do: 0
 end

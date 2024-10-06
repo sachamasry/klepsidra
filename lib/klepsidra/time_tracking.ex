@@ -8,6 +8,7 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.Utilities
 
   @typedoc """
   The `timer_record.t()` type is a list of the fields and data types returned in
@@ -120,7 +121,7 @@ defmodule Klepsidra.TimeTracking do
     timer_duration = list_timers_aggregate_duration(filter)
 
     average_timer_duration =
-      Timer.calculate_average_timer_duration(timer_count, timer_duration.base_unit_duration)
+      Utilities.calculate_average_duration(timer_count, timer_duration.base_unit_duration)
       |> Timer.format_aggregate_duration_for_project()
 
     %{
