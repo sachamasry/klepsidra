@@ -181,6 +181,7 @@ defmodule Klepsidra.MixProject do
       {:ex_cldr_units, "~> 3.0"},
       {:ex_cldr_dates_times, "~> 2.0"},
       {:all_the_cities, "~> 0.1.0"},
+      {:location, git: "https://github.com/plausible/location"},
       {:timex, "~> 3.7"},
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
