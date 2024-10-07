@@ -7,6 +7,8 @@ all:
 	@echo "\nThe following targets are available:\n"
 	@echo
 	@echo "	check				Run all code analysis and testing tools"
+	@echo "	test				Run all tests on codebase"
+	@echo "	stest				Run tests only on newly modified code"
 	@echo
 	@echo "	coverage-report			Produce detailed test coverage report, in ./cover/excoveralls.html"
 	@echo "	coverage-console		Print test coverage report to console"
@@ -71,9 +73,14 @@ get-production-dependencies:
 
 update-dependencies: update-production-dependencies
 
+update-development-dependencies:
+	@echo "==> Updating dependencies"
+	mix deps.update --all
+	@echo "--> Successfully updated all depedencies"
+
 update-production-dependencies:
 	@echo "==> Updating dependencies"
-	mix deps.update --only prod
+	mix deps.update --all --only prod
 	@echo "--> Successfully updated all depedencies"
 
 clean-dependencies:
@@ -122,10 +129,22 @@ db-doc:
 	java -jar $(SCHEMASPY_BASE_DIR)/$(SCHEMASPY_JAR) -dp $(SCHEMASPY_BASE_DIR)/ -configFile $(SCHEMASPY_CONFIG_FILE) 
 	@echo "--> Database successfully generated"
 
+
+# Quality control
 check:
-	@echo "==> Runs all code analysis & testing tools"
+	@echo "==> Running all code analysis & testing tools"
 	mix check --config .check.exs
 	@echo "--> Successfully ran all code analysis & testing tools"
+
+test:
+	@echo "==> Running all code tests"
+	mix test 
+	@echo "--> Successfully ran all code tests"
+
+stest:
+	@echo "==> Running tests on code updated since last full codebase test"
+	mix test --stale
+	@echo "--> Successfully ran code tests"
 
 
 # Test coverage

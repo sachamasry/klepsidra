@@ -1,0 +1,216 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# 1. Klepsidra timer: First steps and prototyping
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.12.3"},
+  {:kino_db, "~> 0.2.6"},
+  {:exqlite, "~> 0.19.0"}
+])
+```
+
+## Introduction
+
+Klepsidra is a simple task timer prototype, developed in Elixir initially deployed in a Livebook.
+
+The purpose of this program is to time business and personal activities, for commercial purposes, analytics, data collection and better time estimation, and personal development.
+
+## Inspiration
+
+The need to know where time goes has always been a driving force. Whether it's for personal tracking or professional billing needs, it has always been needed, and it's a need I filled with a range of historical tools. Of these, I have always found [Org-Mode](https://orgmode.org/) to be one of the most useful.
+
+Org Mode—just like a Livebook—is intended to be written in hiererarchical sections, and just as Livebook it is a plain text file. A clock can be started in any section the author is currently working in, and all the software does is add a metadata `:LOGBOOK:` block under the relevant section. As a plain text file, the _clocking in_ and _clocking out_ times are appended to that block, along with calculated durations, all in a specified, easily readable (by humans), and parseable (by software) text (Hinman, 2023).
+
+<!-- livebook:{"break_markdown":true} -->
+
+Being plain text makes it easy to work on and modify when needed—imagine all the times you've forgotten to start the clock on time, or worse, have left it running. And the beauty of all this is that a simple command can be run at any time to aggregate all the timers in a document—or even across Org Mode documents—constructing a timesheet with timing breakdowns.
+
+<!-- livebook:{"break_markdown":true} -->
+
+So, the system is simple, malleable, and very useful. Yet it has major shortcomings—which is not a flaw, but an artefact of the system—making it problematic.
+
+* It is Emacs software, so it isn't easily portable without _always_ using Emacs
+* It _is_ plain text, locating the data to that file, or a carefully listed set of files; it is not portable
+* The timers are limited to the purpose of that document and can be categorised according to any number of purposes, forcing the use of Org Mode, and therefore Emacs, for _absolutely everything_, which is not portable
+* For every timer, a duration is calculated and stored, there is no provision for any further metadata, such as a fine-grained description of what was done, categorisation of activity through tagging, calculation of _blocks of time_ spent and billable
+* Timers are weakly linked to the section, and strongly linked to the document
+
+The last point deserves a little explanation. Much of my writing and programming begins as an exploratory process. In the course of the exploration, I change section names by necessity, split sections into deeper subsections, combine smaller sections into a more encompassing one, and more. In doing that, I necessarily change the scope of the work within the section, which necessarily results in the particular attached timings becoming _untrue_. The absolute time spent is accurate, but it no longer accurately reflects the work within.
+
+Yes, timers (being plain text) can be copied and moved around, but without any further metadata attached to individual timings, they individually lose all meaning, and this undermines their purpose to a large degree.
+
+## Towards a more useful activity timer
+
+The conteders have been named, but have fallen short for me. What do I want?
+
+1. A system that is quick and easy to use
+2. Data which is forever portable, to any future system, process or analysis method
+3. Timers which are _decoupled_ from the activity and independent
+4. Data format must be durable and easy to analyse, manipulate and reuse
+5. Timers may be started and ended at random times due to user error and need to be easily modifiable; timing events can be missed altogether if a user isn't near any method of triggering timers, and needs to register events manually, post facto. Essentially, this must be easy to do
+6. Timers which can be annotated with details of the activity measured, and categorised across multiple categories
+7. An _open_ system which lends itself to endless UI paradigms: web, desktop, tablet, mobile, CLI facilities at the very least, with further possibilities as necessary: timers controlled by email, text message, Telegram messenger, dedicated custom hardware (embedded devices), digitised pens and any other form of interaction deemed to reduce friction or inertiaa impeding its regular use
+8. A system which provides deep and faceted insight into how time has been used, where analytics are not only possible but easy
+9. A system which doesn't only record the absolute duration of activities, but records blocks of time used—according to a range of possible time accounting regimes—for the purposes of commercial billing
+
+<!-- livebook:{"break_markdown":true} -->
+
+Beyond the clear requirements, there is a _would be nice to have_ feature: locality of data. It would be desirable that the data is local to the device on which it is being used, ensuring:
+
+* Data privacy
+* High performance due to data being on the same device as the UI, the front and back end
+* Low lag times, and no downtime associated with volatile network connections
+* Ease of data backup
+
+The entire concept is enshrined in an article, _Local-first software_ describing the concept and its benefits at the level of detail the topic deserves (Kleppmann et al., 2019).
+
+## Data representation
+
+Learning from Org Mode's example, only two timestamps are important: one at the instant the timer was started, and one at the end of the timing process. Together, they are one complete timed event; without both present, the timing is invalid. Besides this, any number of timing events can take place, though not overlapping.
+
+Records in a database table form the individual timers, each one with a start and end timestamp and additional metadata.
+
+<!-- livebook:{"break_markdown":true} -->
+
+The pair of timestamps forms the most crucial information about each timer, and that is where the focus goes. To make portability possible as in point 2 above, and user interaction and easy modification, as in point 5, efficient representations such as UNIX time or any other "number of seconds since epoch" variant are ruled unsuitable. These are inscrutable to regular users of the sytem, and can even hamper portability if that particular variant is not trivially supported by an analytics system.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Though it may be a more verbose format, more costly to index and process, the ISO 8601 standardisation is the way to go. It is easy to read, easy to modify, it is plain text and completely portable, and well-supported across systems and data stores (‘ISO 8601’, 2024). Timestamps will be encoded as `YYYY-MM-DDThh:mm:ss`, where `Y` stands for year, `M` for month, `D` for date, `h`, `m`, and `s` for hour, minute and second digits, respectively, and the `T` stands in as a delimiter between date and time components.
+
+The chosen format satisfies the most important criteria, though—as noted—at the cost of extra storage space for strings, and additional time needed for parsing and processing the string, however this is not expected to form a noticeable drag on performance until a truly large number of records exist in the database, if even then. Should this ever become a problem, there are strategies which may be employed to remedy data access and analysis.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Date format support
+
+Is this format widely used and supported in practice? Elixir's various time and date libraries support it. For example, `NaiveDateTime`—chosen over `DateTime` because it is timezone agnostic, a desirable quality for a timer—gets the current time, easily converting it to an ISO 8601 string, and vice versa as shown in the following examples (NaiveDateTime — Elixir v1.16.2, 2024).
+
+```elixir
+NaiveDateTime.local_now() |> to_string()
+```
+
+```elixir
+"2024-03-11T18:03:49" |> NaiveDateTime.from_iso8601!()
+```
+
+Presently, the only two other important tools are PostgreSQL and SQLite; how is their internal support? While there are always extensions and plugins, for development and sysadmin purposes it should be simple, not requiring further dependencies and complexity for such a simple project.
+
+PostgreSQL provides the `timestamp without time zone`, which is an 8601 date and time representation (8.5. Date/Time Types, 2024).
+
+SQLite does not provide a dedicated data type, but its date and time functions will store ISO 8601 strings as text, and are designed to convert between this format and representations in real and integer formats (Date And Time Functions, 2023).
+
+<!-- livebook:{"break_markdown":true} -->
+
+This is enough of a green light to this format in terms of portability and software support, to go forward to the next stage: implementation.
+
+## Primitive implementation
+
+To start off with, let's create a primitive version of the timer we want. Very simply, every timed activity needs to have a start timestamp—when the timer was started—an end timestamp—when it was stopped—a calculated duration in minutes (to avoid recalculation), a description of the activity timed, and a list of tags applied to the activity.
+
+<!-- livebook:{"break_markdown":true} -->
+
+In this primitive version, all the timestamps will be stored in a simple list structure, `activity_timers`.
+
+```elixir
+activity_timers = []
+```
+
+It is helpful to create a simple structure to store this information, ensuring a consistent and robust storage.
+
+```elixir
+defmodule Klepsidra.ActivityTimer do
+  @doc """
+  An activity timer structure. Ensures that `NaiveDateTime` stamps are stored in starting 
+  and ending pairs, making it easy to spot _dangling_ timers.
+
+  To avoid expensive duration recalculation, the duration integer and time unit will be 
+  stored for the calculated timer duration. There is a shadow pair of _reported_ duration 
+  and time units, used as the basis for future reporting needs. For example, some 
+  professionals bill in six-minute intervals, so any duration is automatically rounded up 
+  to the nearest six-minute multiple.
+  """
+  @enforce_keys [
+    :start_stamp
+    # :end_stamp,
+    # :duration,
+    # :duration_time_unit,
+    # :reported_duration,
+    # :reported_duration_time_unit
+  ]
+  defstruct start_stamp: nil,
+            end_stamp: nil,
+            duration: 0,
+            duration_time_unit: :minute,
+            reported_duration: 0,
+            reported_duration_time_unit: :minute,
+            description: "",
+            tags: []
+
+  @type t :: %__MODULE__{
+          start_stamp: NaiveDateTime.t(),
+          end_stamp: NaiveDateTime.t(),
+          duration: non_neg_integer,
+          reported_duration: non_neg_integer,
+          description: String.t(),
+          tags: List.t()
+        }
+
+  def start_new_timer(timers_list) when is_list(timers_list) do
+    [%Klepsidra.ActivityTimer{start_stamp: NaiveDateTime.local_now()} | timers_list]
+  end
+
+  def stop_timer(
+        [%Klepsidra.ActivityTimer{start_stamp: start_stamp, end_stamp: nil} = current_timer | _] =
+          _timers_list
+      ) do
+    end_stamp = NaiveDateTime.local_now()
+    duration = NaiveDateTime.diff(end_stamp, start_stamp, :minute) + 1
+
+    current_timer
+    |> Map.put(:end_stamp, end_stamp)
+    |> Map.put(:duration, duration)
+    |> Map.put(:duration_time_unit, :minute)
+    |> Map.put(:reported_duration, duration)
+    |> Map.put(:reported_duration_time_unit, :minute)
+  end
+end
+```
+
+Let's try to start a new timer:
+
+```elixir
+activity_timers
+|> Klepsidra.ActivityTimer.start_new_timer()
+|> tap(fn _ -> :timer.sleep(139_000) end)
+|> Klepsidra.ActivityTimer.stop_timer()
+```
+
+This little test demonstrates that the above structure is a sufficient starting point for satisying the desiderata laid out previously. The next step is to convert this into an SQLite table.
+
+## Choice of data store
+
+Elixir's Phoenix framework uses Ecto as its object-relational data mapping layer (ORM). Ecto prefers PostgreSQL as a data store, and for many reasons, this is an excellent choice. Klepsidra is a small and feature-limited system, at least at this point, when it is merely being built as a demonstration of its ability to fulfill specified needs. For the purposes of agile development, speed and overall ease of deployment, including the relevant consideration of a local-first application, this system will use SQLite as its data store.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Despite PostgreSQL being the preferred target database, SQLite is well-supported by Ecto, and that is the datebase which will be targeted throughout the prototype development phase, while always striving to keep compatibility with Postgres, preserving the option of future migration to that data store. What is really exciting is a new database replication system, Electric SQL, aiming to foster local-first experiences by synchronising a local-first SQLite database—with data translation—to a network- or cloud-available PostgreSQL, or even a local PostgreSQL to a cloud-hosted one (ElectricSQL - Sync for Modern Apps, n.d.).
+
+## References
+
+* ISO 8601. (2024). In Wikipedia. https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1211060072
+
+* Hinman, L. (2023, March 20). Clocking time with Org-mode. https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
+
+* Dominik, C., & Guerry, B. (2024, March 9). Org Mode. https://orgmode.org
+
+* Chapter 8. Data Types. (2024, February 8). PostgreSQL Documentation. https://www.postgresql.org/docs/16/datatype.html
+
+* 8.5. Date/Time Types. (2024, February 8). PostgreSQL Documentation. https://www.postgresql.org/docs/16/datatype-datetime.html
+
+* NaiveDateTime—Elixir v1.16.2. (2024, March 10). https://hexdocs.pm/elixir/1.16.2/NaiveDateTime.html#content
+
+* Kleppmann, M., Wiggins, A., Hardenberg, P. van, & McGranaghan, M. (2019, April 1). Local-first software: You own your data, in spite of the cloud. https://www.inkandswitch.com/local-first/
+
+* ElectricSQL - Sync for modern apps. (n.d.). Retrieved 12 March 2024, from https://electric-sql.com/

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.34.2">
+    <meta name="project" content="Klepsidra v0.1.2">
+
+      <meta name="author" content="Sacha El Masry">
+
+
+    <title>Klepsidra — Klepsidra v0.1.2</title>
+    <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-FDCCEA0F.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-YIPIRHGU.js"></script>
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="" class="sidebar-projectName" translate="no">
+Klepsidra
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.2
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+Pages
+        </button>
+      </li>
+
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
+
+
+    </ul>
+  </div>
+
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
+
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
+  <output role="status" id="toast"></output>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <h1>
+
+
+    <span>Klepsidra</span>
+  </h1>
+
+<p>Time your activities to bill clients, and understand where your time goes.</p><h2 id="overview" class="section-heading">
+  <a href="#overview" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Overview</span>
+</h2>
+<p>Klepsidra is an activity timer for freelance service providers, agencies,
+developers, and others providing services quoted and billed in time taken. Use
+it to time activities, for internal use and analysis, and for client billings.</p><h2 id="setup-installation" class="section-heading">
+  <a href="#setup-installation" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Setup &amp; Installation</span>
+</h2>
+<p>Install Elixir, clone this repository, then change into its directory.</p><p>To start your Phoenix server:</p><ul><li>Run <code class="inline">mix setup</code> to installalhost:4000<code class="inline">](http://localhost:4000) from your browser. Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html). ## To do ### MVP: Make application self-hosting * UI/UX * Develop aggregate time display function component, to pleasingly display * aggregate time recorded, in hours * human-formatted days/hours/minutes * number of timers recorded * Display tags for open and closed timers * Report on aggregate time spent, or timed, by tag, reporting on tag _show_ page * Report on aggregate time spent by activity type, reporting on activity_type show page * Report on aggregate time spent by tag, reporting on tag show page * Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped * Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting the timer * Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss * Implement a 'today' view * Provide daily navigation facility: back, forward and today * Update timer listings * Add timer tags ### Future * Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation * Provide way to 'deactivate' old tags * Start creating an undo feature, reducing reliance on confirmation dialogs, particularly for deletions * Build an audit trail-like functionality, to be able to undo any deletion or modification, at any time, as well as to see a history of actions taken * Document truncate and markdown_to_html functions * Audit other timers for strengths and weaknesses * Markdown * Refactor conversion of plain text to Markdown everywhere; should interpretation happen at table layout level, or earlier at query level? * Create a dedicated field to markdown text, and another for HTML, to improve performance, by not requiring just in time mardown interpretation * Expand role of activity types beyond the hour rate, to act as a rigid categorisation for major types of activities, which cannot be entrusted to tags only, e.g. exercise, learning, professional development * Automate</code>billable<code class="inline">, duration unit measurements, and tags within it; selecting this on an activity should automatically adjust these attributes on a timer * Security improvements * Improve handling of</code>return_to<code class="inline">functionality * Ensure it is a validated route at point of sending * Ensure the parameter is read at the</code>router.ex<code class="inline">level * Send the information through to the target in an</code>on_mount<code class="inline">function * Remove the parameter and clean up the URL, redirecting to it, before the user can see it, in case they want to bookmark the page (https://elixirforum.com/t/how-to-store-return-to-url-when-navigating-from-liveview-to-another-page-liveview-regular/55480/4) * Insert it in the render code, as a verified route * UI improvements * Calculate duration of open timers, updating regularly? * Replace timer listing description pop-up (title attribute), with a proper HTML-formatted popover component * Incorporate Gov.uk Design System (https://design-system.service.gov.uk/) accessibility and user interface/experience decisions, starting from input controls * Allow stopping a timer from timer 'show' view * Select a UI component framework, to aid in the building of a modern web app * Improve on cryptic or incomplete UI error messages * Resize datetime, duration and duration unit controls to more efficiently use space * Start implementing colour palette * Improve presentation of currency fields; at present they use an input control of type 'number' which is unintuitive UX * On timer note timeline, next to the</code>created_on<code class="inline">date, display the</code>updated_on<code class="inline">date in a visually highlighted way, showing that a note was edited and when * Advanced timer reports filters: * tags * Tagging UX improvements * Make it possible to drill into the tag from the live component * Provide ability to set new tag colour when creating freeform tag in live component * Document tag selector live component * Improve search functionality to perform fuzzy query directly in the database * Develop ability to cope with temporary data structures, before a timer has been created? * General UX inmprovements * Permit pausing and resuming timers; add forward-pointing field to next timer, like a linked list * Look into default</code>timestamps()` fields; it appears that datetime stamps are
+in UTC, where local timezone may be preferable
+<em> Specifically for timestamps recorded for notes
+</em> Full-text search
+<em> Create a full-text tag search
+</em> Begin adding keyboard shortcuts for an improved user interface
+<em> Enable SQLite notes field full-text search
+</em> Start enabling full-text search on other relevant database fields
+<em> Reformat listing display to a more useful format, removing description field
+to a popup box or tooltip; change date display to more informative format
+
+### One day
+
+</em> Break down and list all ultimate desiderata for an activity timer
+
+### Tests
+
+<em> Test on month-first locales
+</em> Test on 12-hour clock locales
+<em> Do all browsers return a 'T' delimited datetime-local stamp? Do both delimiters need to be handled? According to the standard, yes
+
+## Learn more
+
+</em> Official website: <a href="https://www.phoenixframework.org/">https://www.phoenixframework.org/</a>
+<em> Guides: <a href="https://hexdocs.pm/phoenix/overview.html">https://hexdocs.pm/phoenix/overview.html</a>
+</em> Docs: <a href="https://hexdocs.pm/phoenix">https://hexdocs.pm/phoenix</a>
+<em> Forum: <a href="https://elixirforum.com/c/phoenix-forum">https://elixirforum.com/c/phoenix-forum</a>
+</em> Source: <a href="https://github.com/phoenixframework/phoenix">https://github.com/phoenixframework/phoenix</a></li></ul>
+</div>
+
+<div class="bottom-actions" id="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="api-reference.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+API Reference
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="01-klepsidra_timer-motivation_and_prototype.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+1. Klepsidra timer: First steps and prototyping
+        </span>
+      </a>
+
+  </div>
+</div>
+    <footer class="footer">
+      <p>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="Klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.2) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

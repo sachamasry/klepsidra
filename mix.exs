@@ -4,12 +4,24 @@ defmodule Klepsidra.MixProject do
   def project do
     [
       app: :klepsidra,
+      name: "Klepsidra",
       version: "0.1.2",
+      source: "https://github.com/sachamasry/klepsidra-timer",
+      homepage_url: "",
       elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      docs: [
+        # The main page in the docs
+        main: "Klepsidra",
+        # logo: "",
+        authors: ["Sacha El Masry"],
+        extras: doc_extras(),
+        groups_for_modules: doc_groups_for_modules(),
+        language: "en-GB"
+      ],
       dialyzer: [
         plt_add_deps: :apps_direct,
         plt_add_apps: [:ecto, :decimal],
@@ -25,12 +37,93 @@ defmodule Klepsidra.MixProject do
       ],
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        "test.watch": :test,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test,
         "coveralls.cobertura": :test
       ]
+    ]
+  end
+
+  defp doc_groups_for_modules() do
+    [
+      Schemas: [
+        Klepsidra.Accounts.User,
+        Klepsidra.BusinessPartners.BusinessPartner,
+        Klepsidra.BusinessPartners.Note,
+        Klepsidra.Categorisation.ProjectTag,
+        Klepsidra.Categorisation.Tag,
+        Klepsidra.Categorisation.TimerTags,
+        Klepsidra.Journals.JournalEntry,
+        Klepsidra.Journals.JournalEntryTypes,
+        Klepsidra.Projects.Note,
+        Klepsidra.Projects.Project,
+        Klepsidra.TimeTracking.ActivityType,
+        Klepsidra.TimeTracking.Note,
+        Klepsidra.TimeTracking.Timer
+      ],
+      Contexts: [
+        Klepsidra.Accounts,
+        Klepsidra.BusinessPartners,
+        Klepsidra.Categorisation,
+        Klepsidra.Journals,
+        Klepsidra.Projects,
+        Klepsidra.TimeTracking
+      ],
+      Utilities: [
+        Klepsidra.Math,
+        Klepsidra.TimeTracking.TimeUnits
+      ],
+      Web: [
+        KlepsidraWeb,
+        KlepsidraWeb.CSP,
+        KlepsidraWeb.CoreComponents,
+        KlepsidraWeb.Gettext,
+        KlepsidraWeb.StartPageLive
+      ],
+      "Common Locale Data Repository (CLDR)": [
+        Klepsidra.Cldr,
+        Klepsidra.Cldr.AcceptLanguage,
+        Klepsidra.Cldr.Calendar,
+        Klepsidra.Cldr.Currency,
+        Klepsidra.Cldr.Date,
+        Klepsidra.Cldr.Date.Interval,
+        Klepsidra.Cldr.DateTime,
+        Klepsidra.Cldr.DateTime.Format,
+        Klepsidra.Cldr.DateTime.Formatter,
+        Klepsidra.Cldr.DateTime.Interval,
+        Klepsidra.Cldr.DateTime.Relative,
+        Klepsidra.Cldr.Interval,
+        Klepsidra.Cldr.List,
+        Klepsidra.Cldr.Locale,
+        Klepsidra.Cldr.Number,
+        Klepsidra.Cldr.Number.Cardinal,
+        Klepsidra.Cldr.Number.Format,
+        Klepsidra.Cldr.Number.Formatter.Decimal,
+        Klepsidra.Cldr.Number.Ordinal,
+        Klepsidra.Cldr.Number.PluralRule.Range,
+        Klepsidra.Cldr.Number.Symbol,
+        Klepsidra.Cldr.Number.System,
+        Klepsidra.Cldr.Number.Transliterate,
+        Klepsidra.Cldr.Rbnf.NumberSystem,
+        Klepsidra.Cldr.Rbnf.Ordinal,
+        Klepsidra.Cldr.Rbnf.Spellout,
+        Klepsidra.Cldr.Time,
+        Klepsidra.Cldr.Time.Interval,
+        Klepsidra.Cldr.Unit,
+        Klepsidra.Cldr.Unit.Additional
+      ]
+    ]
+  end
+
+  defp doc_extras() do
+    [
+      "README.md",
+      "notebooks/01-klepsidra_timer-motivation_and_prototype.livemd",
+      "notebooks/02-klepsidra-datetime-local_manipulations.livemd",
+      "notebooks/03-analytics_budgeting_billing.livemd"
     ]
   end
 
@@ -63,6 +156,7 @@ defmodule Klepsidra.MixProject do
       {:gettext, "~> 0.26.1"},
       {:paraxial, "~> 2.7.7"},
       {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:phoenix, "~> 1.7.10"},
