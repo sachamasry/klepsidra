@@ -12,11 +12,11 @@ defmodule Klepsidra.Repo.Migrations.CreateTimerTags do
         null: false,
         comment: "UUID-based timer tags primary key"
 
-      add :tag_id, references(:tags, on_delete: :delete_all, on_replace: :delete, type: :uuid),
+      add :tag_id, references(:tags, on_delete: :delete_all, on_update: :update_all, type: :uuid),
         comment: "Foreign key referencing tags"
 
       add :timer_id,
-          references(:timers, on_delete: :delete_all, on_replace: :delete, type: :uuid),
+          references(:timers, on_delete: :delete_all, on_update: :update_all, type: :uuid),
           comment: "Foreign key referencing activity timers"
 
       timestamps()

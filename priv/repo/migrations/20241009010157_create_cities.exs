@@ -14,18 +14,20 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
 
       add :geoname_id, :integer,
         null: false,
+        default: nil,
         comment: "Integer id of record in geonames database"
 
       add :name, :string,
         null: false,
+        default: "",
         comment: "Name of geographical point (utf8) varchar(200)"
 
       add :asciiname, :string,
-        null: false,
+        null: true,
         comment: "Name of geographical point in plain ascii characters, varchar(200)"
 
       add :alternatenames, :string,
-        null: false,
+        null: true,
         comment:
           "Alternatenames, comma separated, ascii names automatically transliterated, convenience attribute from alternatename table, varchar(10000)"
 
@@ -50,38 +52,46 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
         comment: "ISO-3166 2-letter country code, 2 characters"
 
       add :cc2, :string,
-        null: false,
+        null: true,
+        default: "",
         comment:
           "Alternate country codes, comma separated, ISO-3166 2-letter country code, 200 characters"
 
       add :admin1_code, :string,
-        null: false,
+        null: true,
+        default: "",
         comment:
           "Fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code; varchar(20)"
 
       add :admin2_code, :string,
-        null: false,
+        null: true,
+        default: "",
         comment:
           "Code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)"
 
       add :admin3_code, :string,
-        null: false,
+        null: true,
+        default: "",
         comment: "Code for third level administrative division, varchar(20)"
 
       add :admin4_code, :string,
-        null: false,
+        null: true,
+        default: "",
         comment: "Code for fourth level administrative division, varchar(20)"
 
       add :population, :integer,
         null: false,
+        default: nil,
         comment: "Bigint (8 byte int)"
 
       add :elevation, :integer,
-        null: false,
+        null: true,
+        default: nil,
         comment: "In meters, integer"
 
       add :dem, :integer,
-        null: false,
+        null: true,
+        default: nil,
         comment:
           "Digital elevation model, srtm3 or gtopo30, average elevation of 3''x3'' (ca 90mx90m) or 30''x30'' (ca 900mx900m) area in meters, integer. srtm processed by cgiar/ciat."
 
@@ -95,5 +105,18 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
 
       timestamps()
     end
+
+    create index(:cities, [:name, :country_code], comment: "Index on city name and country code")
+
+    create index(:cities, [:name, :feature_code, :population, :country_code],
+             comment:
+               "Index on city name, feature code, population and country code. Useful for sorting cities in order of importance and population"
+           )
+
+    create index(:cities, [:geoname_id], comment: "Index of GeoName primary ID")
+
+    create index(:cities, [:latitude, :longitude],
+             comment: "Index on city's latitude and longitude, for geospatial searches"
+           )
   end
 end
