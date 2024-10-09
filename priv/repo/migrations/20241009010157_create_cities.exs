@@ -106,14 +106,16 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
       timestamps()
     end
 
+    create unique_index(:cities, [:geoname_id],
+             comment: "Unique index on GeoNames' primary key, `geonames_id``"
+           )
+
     create index(:cities, [:name, :country_code], comment: "Index on city name and country code")
 
     create index(:cities, [:name, :feature_code, :population, :country_code],
              comment:
                "Index on city name, feature code, population and country code. Useful for sorting cities in order of importance and population"
            )
-
-    create index(:cities, [:geoname_id], comment: "Index of GeoName primary ID")
 
     create index(:cities, [:latitude, :longitude],
              comment: "Index on city's latitude and longitude, for geospatial searches"
