@@ -13,12 +13,47 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> list_cities()
-      [%City{}, ...]
+      iex> Utilities.list_cities()
+      [%Utilities.City{}, ...]
 
   """
   def list_cities do
     Repo.all(City)
+  end
+
+  @doc """
+  Returns a list of cities containing the name fragment, sorted by
+  descending population size, and by name in alphabetical order.
+
+  ## Examples
+
+      iex> Utilities.list_cities_by_name("")
+      []
+
+      iex> Utilities.list_cities_by_name("london")
+      [%{}, ...]
+  """
+  @spec list_cities_by_name(name_filter :: String.t()) :: [map(), ...]
+  def list_cities_by_name(""), do: []
+
+  def list_cities_by_name(name_filter) when is_bitstring(name_filter) do
+    like_name = "%#{name_filter}%"
+
+    query =
+      from(
+        c in City,
+        where: like(c.name, ^like_name),
+        order_by: [desc: c.population, asc: c.name],
+        select: %{
+          id: c.id,
+          name: c.name,
+          country_code: c.country_code,
+          feature_code: c.feature_code,
+          population: c.population
+        }
+      )
+
+    Repo.all(query)
   end
 
   @doc """
@@ -28,10 +63,10 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> get_city!(123)
-      %City{}
+      iex> Utilities.get_city!(123)
+      %Utilities.City{}
 
-      iex> get_city!(456)
+      iex> Utilities.get_city!(456)
       ** (Ecto.NoResultsError)
 
   """
@@ -42,10 +77,10 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> create_city(%{field: value})
-      {:ok, %City{}}
+      iex> Utilities.create_city(%{name: "Londinium"})
+      {:ok, %Utilities.City{}}
 
-      iex> create_city(%{field: bad_value})
+      iex> Utilities.create_city(%{name: 123_456})
       {:error, %Ecto.Changeset{}}
 
   """
@@ -60,10 +95,10 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> update_city(city, %{field: new_value})
-      {:ok, %City{}}
+      iex> Utilities.update_city(city, %{name: "Troy"})
+      {:ok, %Utilities.City{}}
 
-      iex> update_city(city, %{field: bad_value})
+      iex> Utilities.update_city(city, %{field: 300})
       {:error, %Ecto.Changeset{}}
 
   """
@@ -78,10 +113,10 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> delete_city(city)
-      {:ok, %City{}}
+      iex> Utilities.delete_city(city)
+      {:ok, %Utilities.City{}}
 
-      iex> delete_city(city)
+      iex> Utilities.delete_city(city)
       {:error, %Ecto.Changeset{}}
 
   """
@@ -94,8 +129,8 @@ defmodule Klepsidra.Utilities do
 
   ## Examples
 
-      iex> change_city(city)
-      %Ecto.Changeset{data: %City{}}
+      iex> Utilities.change_city(city)
+      %Ecto.Changeset{data: %Utilities.City{}}
 
   """
   def change_city(%City{} = city, attrs \\ %{}) do

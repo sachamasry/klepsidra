@@ -3,6 +3,8 @@ defmodule Klepsidra.UtilitiesTest do
 
   alias Klepsidra.Utilities
 
+  # doctest Klepsidra.Utilities
+
   describe "cities" do
     alias Klepsidra.Utilities.City
 
