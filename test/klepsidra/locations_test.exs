@@ -3,6 +3,8 @@ defmodule Klepsidra.LocationsTest do
 
   alias Klepsidra.Locations
 
+  # doctest Klepsidra.Locations
+
   describe "feature_classes" do
     alias Klepsidra.Locations.FeatureClass
 

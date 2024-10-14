@@ -10,10 +10,39 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+defmodule Klepsidra.Locations.FeatureClass.Seeds do
+  alias Klepsidra.Locations
+
+  @features_source_file "priv/data/featureCodes_en.csv"
+
+  NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser,
+    separator: "\,",
+    escape: "\"",
+    newlines: ["\r\n", "\n"]
+  )
+
+  @features_source_file
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.each(fn record ->
+    Locations.create_feature_class(record)
+  end)
+  |> Stream.run()
+end
+
 defmodule Klepsidra.Utilities.City.Seeds do
   @moduledoc false
 
-  alias NimbleCSV.RFC4180, as: CSV
   alias Klepsidra.Utilities
 
   @cities_source_file "priv/data/cities500.csv"
