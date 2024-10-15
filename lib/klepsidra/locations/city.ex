@@ -1,4 +1,4 @@
-defmodule Klepsidra.Utilities.City do
+defmodule Klepsidra.Locations.City do
   @moduledoc """
   Defines a schema for the `City` entity, used to select cities of the world.
 
@@ -35,7 +35,7 @@ defmodule Klepsidra.Utilities.City do
           timezone: String.t(),
           modification_date: Date.t()
         }
-  schema "cities" do
+  schema "locations_cities" do
     field :geoname_id, :integer
     field :name, :string
     field :asciiname, :string

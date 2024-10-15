@@ -13,7 +13,7 @@ defmodule Klepsidra.Locations.FeatureClass do
           note: String.t(),
           order: integer()
         }
-  schema "feature_classes" do
+  schema "locations_feature_classes" do
     field :feature_code, :string
     field :description, :string
     field :note, :string
