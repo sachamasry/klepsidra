@@ -53,4 +53,36 @@ defmodule Klepsidra.LocationsFixtures do
 
     city
   end
+
+  @doc """
+  Generate a country.
+  """
+  def country_fixture(attrs \\ %{}) do
+    {:ok, country} =
+      attrs
+      |> Enum.into(%{
+        area: 42,
+        capital: "some capital",
+        continent: "some continent",
+        country_name: "some country_name",
+        currency_code: "some currency_code",
+        currency_name: "some currency_name",
+        equivalent_fips_code: "some equivalent_fips_code",
+        fips: "some fips",
+        geoname_id: 42,
+        iso: "some iso",
+        iso_3: "some iso_3",
+        iso_numeric: 42,
+        languages: "some languages",
+        neighbours: "some neighbours",
+        phone: "some phone",
+        population: 42,
+        postal_code_format: "some postal_code_format",
+        postal_code_regex: "some postal_code_regex",
+        tld: "some tld"
+      })
+      |> Klepsidra.Locations.create_country()
+
+    country
+  end
 end

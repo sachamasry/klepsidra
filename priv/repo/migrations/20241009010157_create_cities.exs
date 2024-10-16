@@ -56,7 +56,8 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
           on_update: :nothing
         ),
         null: false,
-        comment: "See http://www.geonames.org/export/codes.html, char(1)"
+        comment:
+          "Foreign key to `locations_feature_codes`. See http://www.geonames.org/export/codes.html, char(1)"
       )
 
       add(:feature_code, :string,
@@ -64,9 +65,17 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
         comment: "See http://www.geonames.org/export/codes.html, varchar(10)"
       )
 
-      add(:country_code, :string,
+      add(
+        :country_code,
+        references(:locations_countries,
+          column: :iso,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
         null: false,
-        comment: "ISO-3166 2-letter country code, 2 characters"
+        comment:
+          "Foreign key to `locations_countries`. ISO-3166 2-letter country code, 2 characters"
       )
 
       add(:cc2, :string,

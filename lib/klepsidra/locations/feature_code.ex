@@ -1,5 +1,13 @@
 defmodule Klepsidra.Locations.FeatureCode do
-  @moduledoc false
+  @moduledoc """
+  Defines a schema for the `FeatureCode` entity, listing GeoNames'
+  feature classes and codes, categorising locations around the world. This
+  data is used in their cities database.
+
+  This is not meant to be a user-editable entity, imported on a periodic basis
+  from the [Geonames](https://geonames.org) project, specifically the `featureCodes.txt`
+  file, with column headers converted to lowercase, underscore-separated names.
+  """
 
   use Ecto.Schema
   import Ecto.Changeset
