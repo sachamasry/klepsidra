@@ -173,8 +173,11 @@ defmodule Klepsidra.Locations do
     query =
       from(
         c in City,
+        left_join: fc in FeatureCode,
+        on: c.feature_class == fc.feature_class,
+        on: c.feature_code == fc.feature_code,
         where: like(c.name, ^like_name),
-        order_by: [desc: c.population, asc: c.name],
+        order_by: [asc: fc.order, desc: c.population, asc: c.name],
         select: %{
           id: c.id,
           name: c.name,
