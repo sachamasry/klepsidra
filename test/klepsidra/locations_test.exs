@@ -5,97 +5,99 @@ defmodule Klepsidra.LocationsTest do
 
   # doctest Klepsidra.Locations
 
-  describe "feature_classes" do
-    alias Klepsidra.Locations.FeatureClass
+  describe "feature_codes" do
+    alias Klepsidra.Locations.FeatureCode
 
     import Klepsidra.LocationsFixtures
 
     @invalid_attrs %{
       order: nil,
       description: nil,
-      feature_code: nil,
       feature_class: nil,
+      feature_code: nil,
       note: nil
     }
 
-    test "list_feature_classes/0 returns all feature_classes" do
-      feature_class = feature_class_fixture()
-      assert Locations.list_feature_classes() == [feature_class]
+    test "list_feature_codes/0 returns all feature_codes" do
+      feature_code = feature_code_fixture()
+      assert Locations.list_feature_codes() == [feature_code]
     end
 
-    test "get_feature_class!/1 returns the feature_class with given `feature_class`" do
-      feature_class = feature_class_fixture()
-      assert Locations.get_feature_class!(feature_class.feature_class) == feature_class
+    test "get_feature_code!/2 returns the feature_code with given `feature_code`" do
+      feature_code = feature_code_fixture()
+
+      assert Locations.get_feature_code!(feature_code.feature_class, feature_code.feature_code) ==
+               feature_code
     end
 
-    test "create_feature_class/1 with valid data creates a feature_class" do
+    test "create_feature_code/1 with valid data creates a feature_code" do
       valid_attrs = %{
         order: 42,
         description: "some description",
-        feature_code: "P",
-        feature_class: "PPL",
+        feature_class: "P",
+        feature_code: "PPL",
         note: "some note"
       }
 
-      assert {:ok, %FeatureClass{} = feature_class} = Locations.create_feature_class(valid_attrs)
-      assert feature_class.order == 42
-      assert feature_class.description == "some description"
-      assert feature_class.feature_code == "P"
-      assert feature_class.feature_class == "PPL"
-      assert feature_class.note == "some note"
+      assert {:ok, %FeatureCode{} = feature_code} = Locations.create_feature_code(valid_attrs)
+      assert feature_code.order == 42
+      assert feature_code.description == "some description"
+      assert feature_code.feature_class == "P"
+      assert feature_code.feature_code == "PPL"
+      assert feature_code.note == "some note"
     end
 
-    test "create_feature_class/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Locations.create_feature_class(@invalid_attrs)
+    test "create_feature_code/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Locations.create_feature_code(@invalid_attrs)
     end
 
-    test "update_feature_class/2 with valid data updates the feature_class" do
-      feature_class = feature_class_fixture()
+    test "update_feature_code/2 with valid data updates the feature_code" do
+      feature_code = feature_code_fixture()
 
       update_attrs = %{
         order: 43,
         description: "some updated description",
-        feature_code: "P",
-        feature_class: "PPLA",
+        feature_class: "P",
+        feature_code: "PPLA",
         note: "some updated note"
       }
 
-      assert {:ok, %FeatureClass{} = feature_class} =
-               Locations.update_feature_class(feature_class, update_attrs)
+      assert {:ok, %FeatureCode{} = feature_code} =
+               Locations.update_feature_code(feature_code, update_attrs)
 
-      assert feature_class.order == 43
-      assert feature_class.description == "some updated description"
-      assert feature_class.feature_code == "P"
-      assert feature_class.feature_class == "PPLA"
-      assert feature_class.note == "some updated note"
+      assert feature_code.order == 43
+      assert feature_code.description == "some updated description"
+      assert feature_code.feature_class == "P"
+      assert feature_code.feature_code == "PPLA"
+      assert feature_code.note == "some updated note"
     end
 
-    test "update_feature_class/2 with invalid data returns error changeset" do
-      feature_class = feature_class_fixture()
+    test "update_feature_code/2 with invalid data returns error changeset" do
+      feature_code = feature_code_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
-               Locations.update_feature_class(feature_class, @invalid_attrs)
+               Locations.update_feature_code(feature_code, @invalid_attrs)
 
-      assert feature_class == Locations.get_feature_class!(feature_class.feature_class)
+      assert feature_code ==
+               Locations.get_feature_code!(feature_code.feature_class, feature_code.feature_code)
     end
 
-    test "delete_feature_class/1 deletes the feature_class" do
-      feature_class = feature_class_fixture()
-      assert {:ok, %FeatureClass{}} = Locations.delete_feature_class(feature_class)
+    test "delete_feature_code/1 deletes the feature_code" do
+      feature_code = feature_code_fixture()
+      assert {:ok, %FeatureCode{}} = Locations.delete_feature_code(feature_code)
 
-      assert_raise Ecto.NoResultsError, fn ->
-        Locations.get_feature_class!(feature_class.feature_class)
-      end
+      assert Locations.get_feature_code!(feature_code.feature_class, feature_code.feature_code) ==
+               nil
     end
 
-    test "change_feature_class/1 returns a feature_class changeset" do
-      feature_class = feature_class_fixture()
-      assert %Ecto.Changeset{} = Locations.change_feature_class(feature_class)
+    test "change_feature_code/1 returns a feature_code changeset" do
+      feature_code = feature_code_fixture()
+      assert %Ecto.Changeset{} = Locations.change_feature_code(feature_code)
     end
   end
 
   describe "cities" do
-    alias Klepsidra.Locations.FeatureClass
+    alias Klepsidra.Locations.FeatureCode
     alias Klepsidra.Locations.City
 
     import Klepsidra.LocationsFixtures
@@ -122,15 +124,16 @@ defmodule Klepsidra.LocationsTest do
       modification_date: nil
     }
 
-    @valid_feature_class_attrs %{
+    @valid_feature_code_attrs %{
       order: 42,
       description: "some description",
-      feature_code: "P",
-      feature_class: "PPLC",
+      feature_class: "P",
+      feature_code: "PPLC",
       note: "some note"
     }
 
     # test "list_cities/0 returns all cities" do
+    #   IO.inspect(Klepsidra.Locations.list_feature_codes())
     #   city = city_fixture()
     #   assert Locations.list_cities() == [city]
     # end
@@ -141,40 +144,40 @@ defmodule Klepsidra.LocationsTest do
     # end
 
     # test "create_city/1 with valid data creates a city" do
-    #   valid_attrs = %{
-    #     name: "some name",
-    #     geoname_id: 42,
-    #     asciiname: "some asciiname",
-    #     alternatenames: "some alternatenames",
-    #     latitude: 120.5,
-    #     longitude: 120.5,
-    #     feature_class: "P",
-    #     feature_code: "PPLC",
-    #     country_code: "some country_code",
-    #     cc2: "some cc2",
-    #     admin1_code: "some admin1_code",
-    #     admin2_code: "some admin2_code",
-    #     admin3_code: "some admin3_code",
-    #     admin4_code: "some admin4_code",
-    #     population: 42,
-    #     elevation: 42,
-    #     dem: 42,
-    #     timezone: "some timezone",
-    #     modification_date: ~D[2024-10-08]
-    #   }
+    valid_city_attrs = %{
+      name: "some name",
+      geoname_id: 42,
+      asciiname: "some asciiname",
+      alternatenames: "some alternatenames",
+      latitude: 120.5,
+      longitude: 120.5,
+      feature_class: "P",
+      feature_code: "PPLC",
+      country_code: "some country_code",
+      cc2: "some cc2",
+      admin1_code: "some admin1_code",
+      admin2_code: "some admin2_code",
+      admin3_code: "some admin3_code",
+      admin4_code: "some admin4_code",
+      population: 42,
+      elevation: 42,
+      dem: 42,
+      timezone: "some timezone",
+      modification_date: ~D[2024-10-08]
+    }
 
-    #   assert {:ok, %FeatureClass{} = feature_class} =
-    #          Locations.create_feature_class(@valid_feature_class_attrs)
+    #   assert {:ok, %FeatureCode{} = feature_code} =
+    #          Locations.create_feature_code(@valid_feature_code_attrs)
 
-    #   assert {:ok, %City{} = city} = Locations.create_city(valid_attrs)
+    #   assert {:ok, %City{} = city} = Locations.create_city(valid_city_attrs)
     #   assert city.name == "some name"
     #   assert city.geoname_id == 42
     #   assert city.asciiname == "some asciiname"
     #   assert city.alternatenames == "some alternatenames"
     #   assert city.latitude == 120.5
     #   assert city.longitude == 120.5
-    #   assert city.feature_class == "PPL"
-    #   assert city.feature_code == "P"
+    #   assert city.feature_class == "P"
+    #   assert city.feature_code == "PPL"
     #   assert city.country_code == "some country_code"
     #   assert city.cc2 == "some cc2"
     #   assert city.admin1_code == "some admin1_code"
@@ -224,8 +227,8 @@ defmodule Klepsidra.LocationsTest do
     #   assert city.alternatenames == "some updated alternatenames"
     #   assert city.latitude == 456.7
     #   assert city.longitude == 456.7
-    #   assert city.feature_class == "PPLA"
-    #   assert city.feature_code == "P"
+    #   assert city.feature_class == "P"
+    #   assert city.feature_code == "PPLA"
     #   assert city.country_code == "some updated country_code"
     #   assert city.cc2 == "some updated cc2"
     #   assert city.admin1_code == "some updated admin1_code"

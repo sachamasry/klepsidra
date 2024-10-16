@@ -5,21 +5,21 @@ defmodule Klepsidra.LocationsFixtures do
   """
 
   @doc """
-  Generate a feature_class.
+  Generate a feature_code.
   """
-  def feature_class_fixture(attrs \\ %{}) do
-    {:ok, feature_class} =
+  def feature_code_fixture(attrs \\ %{}) do
+    {:ok, feature_code} =
       attrs
       |> Enum.into(%{
         description: "some description",
-        feature_class: "PPL",
-        feature_code: "P",
+        feature_class: "P",
+        feature_code: "PPL",
         note: "some note",
         order: 42
       })
-      |> Klepsidra.Locations.create_feature_class()
+      |> Klepsidra.Locations.create_feature_code()
 
-    feature_class
+    feature_code
   end
 
   @doc """
@@ -39,8 +39,8 @@ defmodule Klepsidra.LocationsFixtures do
         country_code: "some country_code",
         dem: 42,
         elevation: 42,
-        feature_class: "PPLC",
-        feature_code: "P",
+        feature_class: "P",
+        feature_code: "PPL",
         geoname_id: 42,
         latitude: 120.5,
         longitude: 120.5,

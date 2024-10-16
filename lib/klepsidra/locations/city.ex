@@ -36,25 +36,29 @@ defmodule Klepsidra.Locations.City do
           modification_date: Date.t()
         }
   schema "locations_cities" do
-    field :geoname_id, :integer
-    field :name, :string
-    field :asciiname, :string
-    field :alternatenames, :string
-    field :latitude, :float
-    field :longitude, :float
-    field :feature_class, :string
-    field :feature_code, :string
-    field :country_code, :string
-    field :cc2, :string
-    field :admin1_code, :string
-    field :admin2_code, :string
-    field :admin3_code, :string
-    field :admin4_code, :string
-    field :population, :integer
-    field :elevation, :integer
-    field :dem, :integer
-    field :timezone, :string
-    field :modification_date, :date
+    field(:geoname_id, :integer)
+    field(:name, :string)
+    field(:asciiname, :string)
+    field(:alternatenames, :string)
+    field(:latitude, :float)
+    field(:longitude, :float)
+
+    field(:feature_class, :binary_id)
+    field(:feature_code, :binary_id)
+    # belongs_to(:feature_code, FeatureClass, references: :feature_code, type: :binary_id)
+
+    # belongs_to(:feature_class, FeatureClass, references: :feature_class, type: :binary_id)
+    field(:country_code, :string)
+    field(:cc2, :string)
+    field(:admin1_code, :string)
+    field(:admin2_code, :string)
+    field(:admin3_code, :string)
+    field(:admin4_code, :string)
+    field(:population, :integer)
+    field(:elevation, :integer)
+    field(:dem, :integer)
+    field(:timezone, :string)
+    field(:modification_date, :date)
 
     timestamps()
   end
@@ -83,6 +87,9 @@ defmodule Klepsidra.Locations.City do
       :timezone,
       :modification_date
     ])
+    |> unique_constraint([:feature_class, :feature_code],
+      name: :locations_feature_codes_feature_class_feature_code_index
+    )
     |> validate_required([
       :geoname_id,
       :name,

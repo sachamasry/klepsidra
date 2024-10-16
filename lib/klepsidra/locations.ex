@@ -9,101 +9,106 @@ defmodule Klepsidra.Locations do
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
-  alias Klepsidra.Locations.FeatureClass
+  alias Klepsidra.Locations.FeatureCode
   alias Klepsidra.Locations.City
 
   @doc """
-  Returns the list of feature_classes.
+  Returns the list of feature_codes.
 
   ## Examples
 
-      iex> list_feature_classes()
-      [%FeatureClass{}, ...]
+      iex> list_feature_codes()
+      [%FeatureCode{}, ...]
 
   """
-  def list_feature_classes do
-    Repo.all(FeatureClass)
+  def list_feature_codes do
+    Repo.all(FeatureCode)
   end
 
   @doc """
-  Gets a single feature_class.
+  Gets a single feature_code.
 
-  Raises `Ecto.NoResultsError` if the Feature class does not exist.
+  Raises `Ecto.NoResultsError` if the Feature code does not exist.
 
   ## Examples
 
-      iex> get_feature_class!(123)
-      %FeatureClass{}
+      iex> get_feature_code!("P", "PPL")
+      %FeatureCode{}
 
-      iex> get_feature_class!(456)
+      iex> get_feature_code!("X", "YYY")
       ** (Ecto.NoResultsError)
 
   """
-  def get_feature_class!(feature_class), do: Repo.get!(FeatureClass, feature_class)
+  def get_feature_code!(feature_class, feature_code) do
+    FeatureCode
+    |> where([fc], fc.feature_class == ^feature_class)
+    |> where([fc], fc.feature_code == ^feature_code)
+    |> Repo.one()
+  end
 
   @doc """
-  Creates a feature_class.
+  Creates a feature_code.
 
   ## Examples
 
-      iex> create_feature_class(%{field: value})
-      {:ok, %FeatureClass{}}
+      iex> create_feature_code(%{field: value})
+      {:ok, %FeatureCode{}}
 
-      iex> create_feature_class(%{field: bad_value})
+      iex> create_feature_code(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_feature_class(attrs \\ %{}) do
-    %FeatureClass{}
-    |> FeatureClass.changeset(attrs)
+  def create_feature_code(attrs \\ %{}) do
+    %FeatureCode{}
+    |> FeatureCode.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a feature_class.
+  Updates a feature_code.
 
   ## Examples
 
-      iex> update_feature_class(feature_class, %{field: new_value})
-      {:ok, %FeatureClass{}}
+      iex> update_feature_code(feature_code, %{field: new_value})
+      {:ok, %FeatureCode{}}
 
-      iex> update_feature_class(feature_class, %{field: bad_value})
+      iex> update_feature_code(feature_code, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_feature_class(%FeatureClass{} = feature_class, attrs) do
-    feature_class
-    |> FeatureClass.changeset(attrs)
+  def update_feature_code(%FeatureCode{} = feature_code, attrs) do
+    feature_code
+    |> FeatureCode.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a feature_class.
+  Deletes a feature_code.
 
   ## Examples
 
-      iex> delete_feature_class(feature_class)
-      {:ok, %FeatureClass{}}
+      iex> delete_feature_code(feature_code)
+      {:ok, %FeatureCode{}}
 
-      iex> delete_feature_class(feature_class)
+      iex> delete_feature_code(feature_code)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_feature_class(%FeatureClass{} = feature_class) do
-    Repo.delete(feature_class)
+  def delete_feature_code(%FeatureCode{} = feature_code) do
+    Repo.delete(feature_code)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking feature_class changes.
+  Returns an `%Ecto.Changeset{}` for tracking feature_code changes.
 
   ## Examples
 
-      iex> change_feature_class(feature_class)
-      %Ecto.Changeset{data: %FeatureClass{}}
+      iex> change_feature_code(feature_code)
+      %Ecto.Changeset{data: %FeatureCode{}}
 
   """
-  def change_feature_class(%FeatureClass{} = feature_class, attrs \\ %{}) do
-    FeatureClass.changeset(feature_class, attrs)
+  def change_feature_code(%FeatureCode{} = feature_code, attrs \\ %{}) do
+    FeatureCode.changeset(feature_code, attrs)
   end
 
   @ets_cities Location.City.ByLabel

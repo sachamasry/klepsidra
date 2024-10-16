@@ -48,8 +48,9 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
 
       add(
         :feature_class,
-        references(:locations_feature_classes,
+        references(:locations_feature_codes,
           column: :feature_class,
+          with: [feature_code: :feature_code],
           type: :binary_id,
           on_delete: :nothing,
           on_update: :nothing
@@ -146,9 +147,9 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
     )
 
     create(
-      index(:locations_cities, [:name, :feature_code, :population, :country_code],
+      index(:locations_cities, [:name, :feature_class, :feature_code, :population, :country_code],
         comment:
-          "Index on city name, feature code, population and country code. Useful for sorting cities in order of importance and population"
+          "Index on city name, feature class/code, population and country code. Useful for sorting cities in order of importance and population"
       )
     )
 
