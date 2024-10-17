@@ -32,7 +32,7 @@
         </div>
         <div
           :if={timer.formatted_start_date}
-          class="leading-[1.4rem] inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
+          class="leading-[1.4rem] block align-top uppercase text-xs text-pink-600/75 font-normal"
         >
           <%= timer.formatted_start_date %>
         </div>
@@ -106,15 +106,15 @@
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[16ex]">
       <div class="leading-snug inline-block">
-        <div class="font-extrabold text-xs leading-[1.7] text-slate-400 inline-block">
+        <div class="block font-extrabold text-xs leading-[1.7] text-slate-400 inline-block">
           <%= timer.formatted_duration %>
         </div>
-        <div class="inline-block leading-[1] align-top">
+        <div class="block leading-[1] align-top">
           <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
         </div>
         <div
           :if={timer.formatted_start_date}
-          class="inline-block align-top uppercase text-xs text-pink-600/75 font-normal"
+          class="block align-top uppercase text-xs text-pink-600/75 font-normal"
         >
           <%= timer.formatted_start_date %>
         </div>
