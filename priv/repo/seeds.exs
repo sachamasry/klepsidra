@@ -10,8 +10,14 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser,
+NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser.CommaDelimited,
   separator: "\,",
+  escape: "\"",
+  newlines: ["\r\n", "\n"]
+)
+
+NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser.TabDelimited,
+  separator: "\t",
   escape: "\"",
   newlines: ["\r\n", "\n"]
 )
@@ -23,7 +29,7 @@ defmodule Klepsidra.Locations.FeatureCode.Seeds do
 
   @features_source_file
   |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.parse_stream(skip_headers: false)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
     headers, nil ->
       {[], headers}
@@ -40,6 +46,28 @@ defmodule Klepsidra.Locations.FeatureCode.Seeds do
   |> Stream.run()
 end
 
+defmodule Klepsidra.Locations.Countries.Seeds do
+  alias Klepsidra.Locations
+
+  @countries_source_file "priv/data/countryInfo-cleansed.txt"
+
+  @countries_source_file
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.TabDelimited.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.each(fn record -> Locations.create_country(record) end)
+  |> Stream.run()
+end
+
 defmodule Klepsidra.Locations.City.Seeds do
   @moduledoc false
 
@@ -49,7 +77,7 @@ defmodule Klepsidra.Locations.City.Seeds do
 
   @cities_source_file
   |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.parse_stream(skip_headers: false)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
     headers, nil ->
       {[], headers}

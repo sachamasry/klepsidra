@@ -39,9 +39,9 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
         comment: "Country's capital city"
       )
 
-      add(:area, :integer,
+      add(:area, :float,
         null: false,
-        comment: "Country area, in square kilometres"
+        comment: "Country area, in square kilometres, floating point for small countries"
       )
 
       add(:population, :integer,
