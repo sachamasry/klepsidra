@@ -10,6 +10,7 @@ defmodule Klepsidra.Locations do
   alias Klepsidra.Repo
 
   alias Klepsidra.Locations.FeatureCode
+  alias Klepsidra.Locations.Country
   alias Klepsidra.Locations.City
 
   @doc """
@@ -176,14 +177,22 @@ defmodule Klepsidra.Locations do
         left_join: fc in FeatureCode,
         on: c.feature_class == fc.feature_class,
         on: c.feature_code == fc.feature_code,
+        left_join: co in Country,
+        on: c.country_code == co.iso,
         where: like(c.name, ^like_name),
-        order_by: [asc: fc.order, desc: c.population, asc: c.name],
+        order_by: [
+          asc: fc.order,
+          desc: c.population,
+          desc: co.population,
+          desc: co.area,
+          asc: c.name
+        ],
         select: %{
           id: c.id,
           name: c.name,
-          country_code: c.country_code,
-          feature_code: c.feature_code,
-          population: c.population
+          population: c.population,
+          country_name: co.country_name,
+          feature_description: fc.description
         }
       )
 
