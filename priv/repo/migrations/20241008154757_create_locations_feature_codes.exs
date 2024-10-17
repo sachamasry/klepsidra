@@ -13,7 +13,14 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
         comment: "GeoNames composite primary key: feature class"
       )
 
-      add(:feature_code, :string,
+      add(
+        :feature_code,
+        references(:locations_feature_classes,
+          column: :feature_class,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
         primary_key: true,
         null: false,
         comment: "GeoNames composite primary key: feature code"

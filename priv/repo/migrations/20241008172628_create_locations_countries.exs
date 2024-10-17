@@ -130,18 +130,16 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
     )
 
     create(
-      unique_index(:locations_countries, [:iso_numeric],
-        comment: "Unique numeric ISO country identification code"
-      )
-    )
-
-    create(
       unique_index(:locations_countries, [:geoname_id],
         comment: "Unique GeoNames' identifier (integer)"
       )
     )
 
-    create(index(:locations_countries, [:country_name], comment: "Index on country name"))
+    create(
+      unique_index(:locations_countries, [:iso_numeric],
+        comment: "Unique ISO numeric country code"
+      )
+    )
 
     create(
       index(:locations_countries, [:country_name, :population, :area],
@@ -157,8 +155,8 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
 
     create(index(:locations_countries, [:continent], comment: "Index on continent"))
 
-    create(index(:locations_countries, [:tld], comment: "Index on top-level domain"))
-
     create(index(:locations_countries, [:currency_code], comment: "Index on currency code"))
+
+    create(index(:locations_countries, [:tld], comment: "Index on top-level domain"))
   end
 end

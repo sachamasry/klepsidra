@@ -22,6 +22,30 @@ NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser.TabDelimited,
   newlines: ["\r\n", "\n"]
 )
 
+defmodule Klepsidra.Locations.FeatureClass.Seeds do
+  alias Klepsidra.Locations
+
+  @features_source_file "priv/data/feature_classes.csv"
+
+  @features_source_file
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.each(fn record ->
+    Locations.create_feature_class(record)
+  end)
+  |> Stream.run()
+end
+
 defmodule Klepsidra.Locations.FeatureCode.Seeds do
   alias Klepsidra.Locations
 

@@ -9,9 +9,106 @@ defmodule Klepsidra.Locations do
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
+  alias Klepsidra.Locations.FeatureClass
   alias Klepsidra.Locations.FeatureCode
   alias Klepsidra.Locations.Country
   alias Klepsidra.Locations.City
+
+  @doc """
+  Returns the list of locations_feature_classes.
+
+  ## Examples
+
+      iex> list_locations_feature_classes()
+      [%FeatureClass{}, ...]
+
+  """
+  def list_locations_feature_classes do
+    Repo.all(FeatureClass)
+  end
+
+  @doc """
+  Gets a single feature_class.
+
+  Raises `Ecto.NoResultsError` if the Feature class does not exist.
+
+  ## Examples
+
+      iex> get_feature_class!(123)
+      %FeatureClass{}
+
+      iex> get_feature_class!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_feature_class!(feature_class) do
+    FeatureClass |> where([fc], fc.feature_class == ^feature_class) |> Repo.one()
+  end
+
+  @doc """
+  Creates a feature_class.
+
+  ## Examples
+
+      iex> create_feature_class(%{field: value})
+      {:ok, %FeatureClass{}}
+
+      iex> create_feature_class(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_feature_class(attrs \\ %{}) do
+    %FeatureClass{}
+    |> FeatureClass.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a feature_class.
+
+  ## Examples
+
+      iex> update_feature_class(feature_class, %{field: new_value})
+      {:ok, %FeatureClass{}}
+
+      iex> update_feature_class(feature_class, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_feature_class(%FeatureClass{} = feature_class, attrs) do
+    feature_class
+    |> FeatureClass.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a feature_class.
+
+  ## Examples
+
+      iex> delete_feature_class(feature_class)
+      {:ok, %FeatureClass{}}
+
+      iex> delete_feature_class(feature_class)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_feature_class(%FeatureClass{} = feature_class) do
+    Repo.delete(feature_class)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking feature_class changes.
+
+  ## Examples
+
+      iex> change_feature_class(feature_class)
+      %Ecto.Changeset{data: %FeatureClass{}}
+
+  """
+  def change_feature_class(%FeatureClass{} = feature_class, attrs \\ %{}) do
+    FeatureClass.changeset(feature_class, attrs)
+  end
 
   @doc """
   Returns the list of feature_codes.
@@ -112,32 +209,98 @@ defmodule Klepsidra.Locations do
     FeatureCode.changeset(feature_code, attrs)
   end
 
-  @ets_cities Location.City.ByLabel
+  @doc """
+  Returns the list of countries.
 
-  @doc false
-  def search_city(search_phrase) do
-    search_phrase = String.downcase(search_phrase)
+  ## Examples
 
-    :ets.foldl(
-      fn
-        {{name, country_code}, _id}, acc ->
-          if String.contains?(String.downcase(name), search_phrase) do
-            country = Location.get_country(country_code)
-            [{name, country_code, country.name, country.flag} | acc]
-          else
-            acc
-          end
-      end,
-      [],
-      @ets_cities
-      # Location.City.ByLabel
-    )
-    |> Enum.sort_by(fn {city, _country_code, country_name, _flag} ->
-      {!String.starts_with?(city, search_phrase), byte_size(city), country_name}
-    end)
-    |> Enum.map(fn {city, _country_code, country_name, flag} ->
-      "#{city} - #{country_name}  #{flag}"
-    end)
+      iex> list_countries()
+      [%Country{}, ...]
+
+  """
+  def list_countries do
+    Repo.all(Country)
+  end
+
+  @doc """
+  Gets a single country.
+
+  Raises `Ecto.NoResultsError` if the Country does not exist.
+
+  ## Examples
+
+      iex> get_country!(123)
+      %Country{}
+
+      iex> get_country!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_country!(id), do: Repo.get!(Country, id)
+
+  @doc """
+  Creates a country.
+
+  ## Examples
+
+      iex> create_country(%{field: value})
+      {:ok, %Country{}}
+
+      iex> create_country(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_country(attrs \\ %{}) do
+    %Country{}
+    |> Country.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a country.
+
+  ## Examples
+
+      iex> update_country(country, %{field: new_value})
+      {:ok, %Country{}}
+
+      iex> update_country(country, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_country(%Country{} = country, attrs) do
+    country
+    |> Country.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a country.
+
+  ## Examples
+
+      iex> delete_country(country)
+      {:ok, %Country{}}
+
+      iex> delete_country(country)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_country(%Country{} = country) do
+    Repo.delete(country)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking country changes.
+
+  ## Examples
+
+      iex> change_country(country)
+      %Ecto.Changeset{data: %Country{}}
+
+  """
+  def change_country(%Country{} = country, attrs \\ %{}) do
+    Country.changeset(country, attrs)
   end
 
   @doc """
@@ -278,101 +441,5 @@ defmodule Klepsidra.Locations do
   """
   def change_city(%City{} = city, attrs \\ %{}) do
     City.changeset(city, attrs)
-  end
-
-  alias Klepsidra.Locations.Country
-
-  @doc """
-  Returns the list of countries.
-
-  ## Examples
-
-      iex> list_countries()
-      [%Country{}, ...]
-
-  """
-  def list_countries do
-    Repo.all(Country)
-  end
-
-  @doc """
-  Gets a single country.
-
-  Raises `Ecto.NoResultsError` if the Country does not exist.
-
-  ## Examples
-
-      iex> get_country!(123)
-      %Country{}
-
-      iex> get_country!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_country!(id), do: Repo.get!(Country, id)
-
-  @doc """
-  Creates a country.
-
-  ## Examples
-
-      iex> create_country(%{field: value})
-      {:ok, %Country{}}
-
-      iex> create_country(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_country(attrs \\ %{}) do
-    %Country{}
-    |> Country.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a country.
-
-  ## Examples
-
-      iex> update_country(country, %{field: new_value})
-      {:ok, %Country{}}
-
-      iex> update_country(country, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_country(%Country{} = country, attrs) do
-    country
-    |> Country.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a country.
-
-  ## Examples
-
-      iex> delete_country(country)
-      {:ok, %Country{}}
-
-      iex> delete_country(country)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_country(%Country{} = country) do
-    Repo.delete(country)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking country changes.
-
-  ## Examples
-
-      iex> change_country(country)
-      %Ecto.Changeset{data: %Country{}}
-
-  """
-  def change_country(%Country{} = country, attrs \\ %{}) do
-    Country.changeset(country, attrs)
   end
 end
