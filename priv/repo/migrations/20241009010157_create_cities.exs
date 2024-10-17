@@ -156,6 +156,12 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
     )
 
     create(
+      index(:locations_cities, [:latitude, :longitude],
+        comment: "Index on city's latitude and longitude, for geospatial searches"
+      )
+    )
+
+    create(
       index(:locations_cities, [:name, :feature_class, :feature_code, :population, :country_code],
         comment:
           "Index on city name, feature class/code, population and country code. Useful for sorting cities in order of importance and population"
@@ -163,9 +169,11 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
     )
 
     create(
-      index(:locations_cities, [:latitude, :longitude],
-        comment: "Index on city's latitude and longitude, for geospatial searches"
+      index(:locations_cities, [:country_code],
+        comment: "Index on ISO-3166 2-letter country code"
       )
     )
+
+    create(index(:locations_cities, [:timezone], comment: "Index on timezone string"))
   end
 end
