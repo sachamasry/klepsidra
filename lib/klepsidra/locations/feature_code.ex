@@ -37,6 +37,9 @@ defmodule Klepsidra.Locations.FeatureCode do
     |> unique_constraint([:feature_class, :feature_code],
       name: :locations_feature_codes_feature_class_feature_code_index
     )
+    |> foreign_key_constraint(:feature_class,
+      name: :FK_locations_feature_codes_locations_feature_classes
+    )
     |> validate_required([:feature_class, :feature_code, :order])
   end
 end
