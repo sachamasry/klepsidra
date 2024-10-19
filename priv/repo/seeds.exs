@@ -61,12 +61,37 @@ defmodule Klepsidra.Locations.FeatureCode.Seeds do
     row, headers ->
       {[
          Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+         |> Map.new(fn {k, v} ->
+           {String.to_atom(k), v}
+         end)
        ], headers}
   end)
+  |> Stream.map(fn record -> Map.merge(record, %{f_class: record.feature_class}) end)
   |> Stream.each(fn record ->
     Locations.create_feature_code(record)
   end)
+  |> Stream.run()
+end
+
+defmodule Klepsidra.Locations.Continents.Seeds do
+  alias Klepsidra.Locations
+
+  @continents_source_file "priv/data/continent_codes.csv"
+
+  @continents_source_file
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.each(fn record -> Locations.create_continent(record) end)
   |> Stream.run()
 end
 

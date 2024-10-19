@@ -49,9 +49,15 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
         comment: "Country population"
       )
 
-      add(:continent, :string,
+      add(
+        :continent_code,
+        references(:locations_continents,
+          column: :continent_code,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
         null: false,
-        default: "",
         comment: "Continent the country belongs to"
       )
 
@@ -153,7 +159,7 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
       )
     )
 
-    create(index(:locations_countries, [:continent], comment: "Index on continent"))
+    create(index(:locations_countries, [:continent_code], comment: "Index on continent"))
 
     create(index(:locations_countries, [:currency_code], comment: "Index on currency code"))
 

@@ -11,6 +11,7 @@ defmodule Klepsidra.Locations do
 
   alias Klepsidra.Locations.FeatureClass
   alias Klepsidra.Locations.FeatureCode
+  alias Klepsidra.Locations.Continent
   alias Klepsidra.Locations.Country
   alias Klepsidra.Locations.City
 
@@ -19,11 +20,11 @@ defmodule Klepsidra.Locations do
 
   ## Examples
 
-      iex> list_locations_feature_classes()
+      iex> list_feature_classes()
       [%FeatureClass{}, ...]
 
   """
-  def list_locations_feature_classes do
+  def list_feature_classes do
     Repo.all(FeatureClass)
   end
 
@@ -207,6 +208,102 @@ defmodule Klepsidra.Locations do
   """
   def change_feature_code(%FeatureCode{} = feature_code, attrs \\ %{}) do
     FeatureCode.changeset(feature_code, attrs)
+  end
+
+  @doc """
+  Returns the list of locations_continents.
+
+  ## Examples
+
+      iex> list_continents()
+      [%Continent{}, ...]
+
+  """
+  def list_continents do
+    Repo.all(Continent)
+  end
+
+  @doc """
+  Gets a single continent.
+
+  Raises `Ecto.NoResultsError` if the Continent does not exist.
+
+  ## Examples
+
+      iex> get_continent!(123)
+      %Continent{}
+
+      iex> get_continent!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_continent!(continent_code) do
+    Continent |> where([c], c.continent_code == ^continent_code) |> Repo.one()
+  end
+
+  @doc """
+  Creates a continent.
+
+  ## Examples
+
+      iex> create_continent(%{field: value})
+      {:ok, %Continent{}}
+
+      iex> create_continent(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_continent(attrs \\ %{}) do
+    %Continent{}
+    |> Continent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a continent.
+
+  ## Examples
+
+      iex> update_continent(continent, %{field: new_value})
+      {:ok, %Continent{}}
+
+      iex> update_continent(continent, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_continent(%Continent{} = continent, attrs) do
+    continent
+    |> Continent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a continent.
+
+  ## Examples
+
+      iex> delete_continent(continent)
+      {:ok, %Continent{}}
+
+      iex> delete_continent(continent)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_continent(%Continent{} = continent) do
+    Repo.delete(continent)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking continent changes.
+
+  ## Examples
+
+      iex> change_continent(continent)
+      %Ecto.Changeset{data: %Continent{}}
+
+  """
+  def change_continent(%Continent{} = continent, attrs \\ %{}) do
+    Continent.changeset(continent, attrs)
   end
 
   @doc """

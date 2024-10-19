@@ -38,6 +38,22 @@ defmodule Klepsidra.LocationsFixtures do
   end
 
   @doc """
+  Generate a continent.
+  """
+  def continent_fixture(attrs \\ %{}) do
+    {:ok, continent} =
+      attrs
+      |> Enum.into(%{
+        continent_code: "some continent_code",
+        continent_name: "some continent_name",
+        geoname_id: 42
+      })
+      |> Klepsidra.Locations.create_continent()
+
+    continent
+  end
+
+  @doc """
   Generate a country.
   """
   def country_fixture(attrs \\ %{}) do
@@ -46,7 +62,7 @@ defmodule Klepsidra.LocationsFixtures do
       |> Enum.into(%{
         area: 42,
         capital: "some capital",
-        continent: "some continent",
+        continent_code: "some continent",
         country_name: "some country_name",
         currency_code: "some currency_code",
         currency_name: "some currency_name",

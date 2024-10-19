@@ -21,7 +21,7 @@ defmodule Klepsidra.Locations.Country do
           capital: String.t(),
           area: float(),
           population: integer(),
-          continent: String.t(),
+          continent_code: String.t(),
           tld: String.t(),
           currency_code: String.t(),
           currency_name: String.t(),
@@ -42,7 +42,7 @@ defmodule Klepsidra.Locations.Country do
     field(:capital, :string)
     field(:area, :float)
     field(:population, :integer)
-    field(:continent, :string)
+    field(:continent_code, :string)
     field(:tld, :string)
     field(:currency_code, :string)
     field(:currency_name, :string)
@@ -69,7 +69,7 @@ defmodule Klepsidra.Locations.Country do
       :capital,
       :area,
       :population,
-      :continent,
+      :continent_code,
       :tld,
       :currency_code,
       :currency_name,
@@ -88,7 +88,7 @@ defmodule Klepsidra.Locations.Country do
       :country_name,
       :area,
       :population,
-      :continent,
+      :continent_code,
       :geoname_id
     ])
   end

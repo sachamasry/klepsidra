@@ -27,6 +27,18 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
         comment: "An integer-based ordering field for an improved sorting of features"
       )
 
+      add(
+        :f_class,
+        references(:locations_feature_classes,
+          column: :feature_class,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
+        null: false,
+        comment: "GeoNames composite primary key: feature class"
+      )
+
       add(:description, :string,
         null: true,
         default: "",
