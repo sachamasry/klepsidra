@@ -26,19 +26,19 @@ defmodule Klepsidra.Journals.JournalEntry do
           user_id: integer()
         }
   schema "journal_entries" do
-    field :journal_for, :string
-    field :entry_text_markdown, :string
-    field :entry_text_html, :string
-    field :highlights, :string
-    belongs_to :entry_type, Klepsidra.Journals.JournalEntryTypes
-    field :location, :string, default: ""
-    field :latitude, :float, default: nil
-    field :longitude, :float, default: nil
-    field :mood, :string, default: ""
-    field :is_private, :boolean, default: false
-    field :is_short_entry, :boolean, default: false
-    field :is_scheduled, :boolean, default: false
-    belongs_to :user, Klepsidra.Accounts.User
+    field(:journal_for, :string)
+    field(:entry_text_markdown, :string)
+    field(:entry_text_html, :string)
+    field(:highlights, :string)
+    belongs_to(:entry_type, Klepsidra.Journals.JournalEntryTypes)
+    field(:location, :string, default: "")
+    field(:latitude, :float, default: nil)
+    field(:longitude, :float, default: nil)
+    field(:mood, :string, default: "")
+    field(:is_private, :boolean, default: false)
+    field(:is_short_entry, :boolean, default: false)
+    field(:is_scheduled, :boolean, default: false)
+    belongs_to(:user, Klepsidra.Accounts.User)
 
     timestamps()
   end
@@ -88,9 +88,14 @@ defmodule Klepsidra.Journals.JournalEntry do
   """
   def convert_markdown_to_html(markdown_string) when is_bitstring(markdown_string) do
     Earmark.as_html!(markdown_string,
-      compact_output: true,
-      code_class_prefix: "lang-",
-      smartypants: true
+      breaks: true,
+      code_class_prefix: "lang- language-",
+      compact_output: false,
+      escape: false,
+      footnotes: true,
+      gfm_tables: true,
+      smartypants: true,
+      sub_sup: true
     )
     |> HtmlSanitizeEx.html5()
   end
