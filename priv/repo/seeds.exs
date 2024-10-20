@@ -25,9 +25,7 @@ NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser.TabDelimited,
 defmodule Klepsidra.Locations.FeatureClass.Seeds do
   alias Klepsidra.Locations
 
-  @features_source_file "priv/data/feature_classes.csv"
-
-  @features_source_file
+  "priv/data/feature_classes.csv"
   |> File.stream!(read_ahead: 100_000)
   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
@@ -49,9 +47,7 @@ end
 defmodule Klepsidra.Locations.FeatureCode.Seeds do
   alias Klepsidra.Locations
 
-  @features_source_file "priv/data/featureCodes_en.csv"
-
-  @features_source_file
+  "priv/data/featureCodes_en.csv"
   |> File.stream!(read_ahead: 100_000)
   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
@@ -73,12 +69,30 @@ defmodule Klepsidra.Locations.FeatureCode.Seeds do
   |> Stream.run()
 end
 
+defmodule Klepsidra.Localisation.Languages.Seeds do
+  alias Klepsidra.Localisation
+
+  "priv/data/iso-languagecodes-cleansed.csv"
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.each(fn record -> Localisation.create_language(record) end)
+  |> Stream.run()
+end
+
 defmodule Klepsidra.Locations.Continents.Seeds do
   alias Klepsidra.Locations
 
-  @continents_source_file "priv/data/continent_codes.csv"
-
-  @continents_source_file
+  "priv/data/continent_codes.csv"
   |> File.stream!(read_ahead: 100_000)
   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
@@ -98,9 +112,7 @@ end
 defmodule Klepsidra.Locations.Countries.Seeds do
   alias Klepsidra.Locations
 
-  @countries_source_file "priv/data/countryInfo-cleansed.txt"
-
-  @countries_source_file
+  "priv/data/countryInfo-cleansed.txt"
   |> File.stream!(read_ahead: 100_000)
   |> Klepsidra.Parsers.GeoNamesParser.TabDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
@@ -122,9 +134,7 @@ defmodule Klepsidra.Locations.City.Seeds do
 
   alias Klepsidra.Locations
 
-  @cities_source_file "priv/data/cities500.csv"
-
-  @cities_source_file
+  "priv/data/cities500.csv"
   |> File.stream!(read_ahead: 100_000)
   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
   |> Stream.transform(nil, fn
