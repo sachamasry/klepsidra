@@ -96,6 +96,7 @@ defmodule Klepsidra.LocationsFixtures do
         administrative_division_name: "some administrative_division_name",
         administrative_division_name_ascii: "some administrative_division_name_ascii",
         country_code: "GB",
+        c_code: "GB",
         geoname_id: 42
       })
       |> Klepsidra.Locations.create_administrative_division1()

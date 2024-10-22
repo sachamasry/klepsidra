@@ -19,6 +19,18 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsAdministrativeDivision1 do
           "Composite unique primary key: country_code.admin_division_code, administrative_division_code"
       )
 
+      add(
+        :c_code,
+        references(:locations_countries,
+          column: :iso,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
+        null: false,
+        comment: "Composite unique primary key: country_code.admin_division_code, country_code"
+      )
+
       add(:administrative_division_name, :string,
         null: false,
         default: "",

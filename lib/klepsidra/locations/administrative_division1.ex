@@ -16,6 +16,7 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
   @type t :: %__MODULE__{
           country_code: String.t(),
           administrative_division_code: String.t(),
+          c_code: String.t(),
           administrative_division_name: String.t(),
           administrative_division_name_ascii: String.t(),
           geoname_id: integer()
@@ -23,6 +24,7 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
   schema "locations_administrative_division1" do
     field(:country_code, :string, primary_key: true)
     field(:administrative_division_code, :string, primary_key: true)
+    field(:c_code, :string)
     field(:administrative_division_name, :string)
     field(:administrative_division_name_ascii, :string)
     field(:geoname_id, :integer)
@@ -36,13 +38,18 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
     |> cast(attrs, [
       :country_code,
       :administrative_division_code,
+      :c_code,
       :administrative_division_name,
       :administrative_division_name_ascii,
       :geoname_id
     ])
+    |> foreign_key_constraint(:c_code,
+      name: :FK_locations_administrative_division1_locations_countries
+    )
     |> validate_required([
       :country_code,
       :administrative_division_code,
+      :c_code,
       :administrative_division_name,
       :administrative_division_name_ascii,
       :geoname_id

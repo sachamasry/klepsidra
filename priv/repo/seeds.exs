@@ -129,6 +129,27 @@ defmodule Klepsidra.Locations.Countries.Seeds do
   |> Stream.run()
 end
 
+defmodule Klepsidra.Locations.AdministrativeDivisions1.Seeds do
+  alias Klepsidra.Locations
+
+  "priv/data/admin1CodesASCII.csv"
+  |> File.stream!(read_ahead: 100_000)
+  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+  |> Stream.transform(nil, fn
+    headers, nil ->
+      {[], headers}
+
+    row, headers ->
+      {[
+         Enum.zip(headers, row)
+         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+       ], headers}
+  end)
+  |> Stream.map(fn record -> Map.merge(record, %{c_code: record.country_code}) end)
+  |> Stream.each(fn record -> Locations.create_administrative_division1(record) end)
+  |> Stream.run()
+end
+
 defmodule Klepsidra.Locations.City.Seeds do
   @moduledoc false
 
