@@ -20,6 +20,7 @@ defmodule Klepsidra.Application do
       KlepsidraWeb.Endpoint
       # Start a worker by calling: Klepsidra.Worker.start_link(arg)
       # {Klepsidra.Worker, arg}
+      # Place
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

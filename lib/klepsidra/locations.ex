@@ -13,6 +13,7 @@ defmodule Klepsidra.Locations do
   alias Klepsidra.Locations.FeatureCode
   alias Klepsidra.Locations.Continent
   alias Klepsidra.Locations.Country
+  alias Klepsidra.Locations.AdministrativeDivision1
   alias Klepsidra.Locations.City
 
   @doc """
@@ -398,6 +399,111 @@ defmodule Klepsidra.Locations do
   """
   def change_country(%Country{} = country, attrs \\ %{}) do
     Country.changeset(country, attrs)
+  end
+
+  @doc """
+  Returns the list of locations_administrative_division1.
+
+  ## Examples
+
+      iex> list_locations_administrative_division1()
+      [%AdministrativeDivision1{}, ...]
+
+  """
+  def list_locations_administrative_division1 do
+    Repo.all(AdministrativeDivision1)
+  end
+
+  @doc """
+  Gets a single administrative_division1.
+
+  Raises `Ecto.NoResultsError` if the Administrative division1 does not exist.
+
+  ## Examples
+
+      iex> get_administrative_division1!(123)
+      %AdministrativeDivision1{}
+
+      iex> get_administrative_division1!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_administrative_division1!(country_code, administrative_division_code) do
+    AdministrativeDivision1
+    |> where([ad1], ad1.country_code == ^country_code)
+    |> where([ad1], ad1.administrative_division_code == ^administrative_division_code)
+    |> Repo.one()
+  end
+
+  @doc """
+  Creates a administrative_division1.
+
+  ## Examples
+
+      iex> create_administrative_division1(%{field: value})
+      {:ok, %AdministrativeDivision1{}}
+
+      iex> create_administrative_division1(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_administrative_division1(attrs \\ %{}) do
+    %AdministrativeDivision1{}
+    |> AdministrativeDivision1.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a administrative_division1.
+
+  ## Examples
+
+      iex> update_administrative_division1(administrative_division1, %{field: new_value})
+      {:ok, %AdministrativeDivision1{}}
+
+      iex> update_administrative_division1(administrative_division1, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_administrative_division1(
+        %AdministrativeDivision1{} = administrative_division1,
+        attrs
+      ) do
+    administrative_division1
+    |> AdministrativeDivision1.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a administrative_division1.
+
+  ## Examples
+
+      iex> delete_administrative_division1(administrative_division1)
+      {:ok, %AdministrativeDivision1{}}
+
+      iex> delete_administrative_division1(administrative_division1)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_administrative_division1(%AdministrativeDivision1{} = administrative_division1) do
+    Repo.delete(administrative_division1)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking administrative_division1 changes.
+
+  ## Examples
+
+      iex> change_administrative_division1(administrative_division1)
+      %Ecto.Changeset{data: %AdministrativeDivision1{}}
+
+  """
+  def change_administrative_division1(
+        %AdministrativeDivision1{} = administrative_division1,
+        attrs \\ %{}
+      ) do
+    AdministrativeDivision1.changeset(administrative_division1, attrs)
   end
 
   @doc """

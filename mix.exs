@@ -179,9 +179,14 @@ defmodule Klepsidra.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:nimble_csv, "~> 1.1"},
       {:ex_cldr, "~> 2.37"},
+      {:ex_cldr_currencies, "~> 2.13"},
+      {:ex_cldr_languages, "~> 0.3.3"},
       {:ex_cldr_units, "~> 3.0"},
       {:ex_cldr_dates_times, "~> 2.0"},
+      # Possibly deprecated :all_the_cities
       {:all_the_cities, "~> 0.1.0"},
+      # Possibly deprecated :place
+      {:place, "~> 0.1"},
       {:location, git: "https://github.com/plausible/location"},
       {:timex, "~> 3.7"},
       {:earmark, "~> 1.4"},

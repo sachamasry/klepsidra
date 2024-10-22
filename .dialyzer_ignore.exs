@@ -7,7 +7,6 @@
   {"deps/ex_cldr_numbers/lib/cldr/number/backend/transliterate.ex", :unknown_function},
   {"deps/ex_cldr_numbers/lib/cldr/number/rbnf/processor.ex", :unknown_function},
   {"deps/ex_cldr_calendars/lib/cldr/calendar/backend/calendar.ex", :unknown_function},
-  {"deps/ex_cldr_currencies/lib/cldr/backend.ex", :unknown_function},
   {"deps/ex_cldr_dates_times/lib/cldr/backend/format.ex", :unknown_function},
   {"deps/phoenix/lib/phoenix/endpoint.ex", :callback_info_missing},
   {"deps/phoenix/lib/phoenix/router.ex", :callback_info_missing},
