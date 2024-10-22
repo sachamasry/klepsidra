@@ -546,6 +546,9 @@ defmodule Klepsidra.Locations do
         left_join: co in Country,
         on: c.country_code == co.iso,
         where: like(c.name, ^like_name),
+        left_join: ad in AdministrativeDivision1,
+        on: c.country_code == ad.country_code,
+        on: c.admin1_code == ad.administrative_division_code,
         order_by: [
           asc: fc.order,
           desc: c.population,
@@ -557,6 +560,7 @@ defmodule Klepsidra.Locations do
           id: c.id,
           name: c.name,
           population: c.population,
+          state: ad.administrative_division_name |> coalesce(""),
           country_name: co.country_name,
           feature_description: fc.description
         }
