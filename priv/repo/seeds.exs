@@ -22,6 +22,17 @@ NimbleCSV.define(Klepsidra.Parsers.GeoNamesParser.TabDelimited,
   newlines: ["\r\n", "\n"]
 )
 
+defmodule Seeds.Utilities do
+  def split_last_component_from_key(composite_key, delimiter \\ ".") do
+    {_, component_list} =
+      composite_key
+      |> String.split(delimiter)
+      |> List.pop_at(1)
+
+    Enum.join(component_list, delimiter)
+  end
+end
+
 defmodule Klepsidra.Locations.FeatureClass.Seeds do
   alias Klepsidra.Locations
 
@@ -145,7 +156,12 @@ defmodule Klepsidra.Locations.AdministrativeDivisions1.Seeds do
          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
        ], headers}
   end)
-  |> Stream.map(fn record -> Map.merge(record, %{c_code: record.country_code}) end)
+  |> Stream.map(fn record ->
+    Map.merge(record, %{
+      country_code:
+        Seeds.Utilities.split_last_component_from_key(record.administrative_division1_code, ".")
+    })
+  end)
   |> Stream.each(fn record -> Locations.create_administrative_division1(record) end)
   |> Stream.run()
 end

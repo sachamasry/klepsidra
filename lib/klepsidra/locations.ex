@@ -428,10 +428,9 @@ defmodule Klepsidra.Locations do
       ** (Ecto.NoResultsError)
 
   """
-  def get_administrative_division1!(country_code, administrative_division_code) do
+  def get_administrative_division1!(administrative_division1_code) do
     AdministrativeDivision1
-    |> where([ad1], ad1.country_code == ^country_code)
-    |> where([ad1], ad1.administrative_division_code == ^administrative_division_code)
+    |> where([ad1], ad1.administrative_division1_code == ^administrative_division1_code)
     |> Repo.one()
   end
 

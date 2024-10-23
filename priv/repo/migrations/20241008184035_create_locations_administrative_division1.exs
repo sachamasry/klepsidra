@@ -6,21 +6,14 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsAdministrativeDivision1 do
              primary_key: false,
              comment: "GeoNames administrative division 1 information table"
            ) do
-      add(:country_code, :string,
+      add(:administrative_division1_code, :string,
         primary_key: true,
         null: false,
-        comment: "Composite unique primary key: country_code.admin_division_code, country_code"
-      )
-
-      add(:administrative_division_code, :string,
-        primary_key: true,
-        null: false,
-        comment:
-          "Composite unique primary key: country_code.admin_division_code, administrative_division_code"
+        comment: "Unique primary key containing: `country_code.admin_division_code`"
       )
 
       add(
-        :c_code,
+        :country_code,
         references(:locations_countries,
           column: :iso,
           type: :binary_id,
@@ -28,7 +21,7 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsAdministrativeDivision1 do
           on_update: :nothing
         ),
         null: false,
-        comment: "Composite unique primary key: country_code.admin_division_code, country_code"
+        comment: "Foreign key referencing country the administrative zone belongs to"
       )
 
       add(:administrative_division_name, :string,
@@ -54,9 +47,15 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsAdministrativeDivision1 do
     create(
       unique_index(
         :locations_administrative_division1,
-        [:country_code, :administrative_division_code],
+        [:administrative_division1_code],
         comment:
           "Unique index on GeoNames' composite primary key, `country_code.admin_division_code`"
+      )
+    )
+
+    create(
+      index(:locations_administrative_division1, [:country_code],
+        comment: "Index on administrative division name"
       )
     )
 
