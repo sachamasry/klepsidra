@@ -92,16 +92,34 @@ defmodule Klepsidra.LocationsFixtures do
     {:ok, administrative_division1} =
       attrs
       |> Enum.into(%{
-        administrative_division_code: "ENG",
+        administrative_division1_code: "ENG",
+        country_code: "GB",
         administrative_division_name: "some administrative_division_name",
         administrative_division_name_ascii: "some administrative_division_name_ascii",
-        country_code: "GB",
-        c_code: "GB",
         geoname_id: 42
       })
       |> Klepsidra.Locations.create_administrative_division1()
 
     administrative_division1
+  end
+
+  @doc """
+  Generate a administrative_division2.
+  """
+  def administrative_division2_fixture(attrs \\ %{}) do
+    {:ok, administrative_division2} =
+      attrs
+      |> Enum.into(%{
+        administrative_division1_code: "some administrative_division1_code",
+        administrative_division2_code: "some administrative_division2_code",
+        country_code: "GB",
+        administrative_division_ascii_name: "some administrative_division_ascii_name",
+        administrative_division_name: "some administrative_division_name",
+        geoname_id: 42
+      })
+      |> Klepsidra.Locations.create_administrative_division2()
+
+    administrative_division2
   end
 
   @doc """

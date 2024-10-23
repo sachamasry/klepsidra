@@ -17,14 +17,14 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
           administrative_division1_code: String.t(),
           country_code: String.t(),
           administrative_division_name: String.t(),
-          administrative_division_name_ascii: String.t(),
+          administrative_division_ascii_name: String.t(),
           geoname_id: integer()
         }
   schema "locations_administrative_division1" do
     field(:administrative_division1_code, :string, primary_key: true)
     field(:country_code, :string)
     field(:administrative_division_name, :string)
-    field(:administrative_division_name_ascii, :string)
+    field(:administrative_division_ascii_name, :string)
     field(:geoname_id, :integer)
 
     timestamps()
@@ -37,7 +37,7 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
       :administrative_division1_code,
       :country_code,
       :administrative_division_name,
-      :administrative_division_name_ascii,
+      :administrative_division_ascii_name,
       :geoname_id
     ])
     |> foreign_key_constraint(:country_code,
@@ -47,7 +47,7 @@ defmodule Klepsidra.Locations.AdministrativeDivision1 do
       :administrative_division1_code,
       :country_code,
       :administrative_division_name,
-      :administrative_division_name_ascii,
+      :administrative_division_ascii_name,
       :geoname_id
     ])
   end
