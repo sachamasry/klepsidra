@@ -19,8 +19,8 @@ defmodule Klepsidra.Locations.FeatureClass do
           description: String.t()
         }
   schema "locations_feature_classes" do
-    field :description, :string, primary_key: true
-    field :feature_class, :string
+    field(:description, :string, primary_key: true)
+    field(:feature_class, :string)
 
     timestamps()
   end
@@ -29,6 +29,9 @@ defmodule Klepsidra.Locations.FeatureClass do
   def changeset(feature_class, attrs) do
     feature_class
     |> cast(attrs, [:feature_class, :description])
+    |> unique_constraint(:feature_class,
+      name: :locations_feature_classes_feature_class_index
+    )
     |> validate_required([:feature_class])
   end
 end

@@ -17,18 +17,18 @@ defmodule Klepsidra.Locations.City do
           id: Ecto.UUID.t(),
           geoname_id: integer(),
           name: String.t(),
-          asciiname: String.t(),
-          alternatenames: String.t(),
+          ascii_name: String.t(),
+          alternate_names: String.t(),
           latitude: float(),
           longitude: float(),
           feature_class: String.t(),
           feature_code: String.t(),
           country_code: String.t(),
           cc2: String.t(),
-          admin1_code: String.t(),
-          admin2_code: String.t(),
-          admin3_code: String.t(),
-          admin4_code: String.t(),
+          administrative_division_1_code: String.t(),
+          administrative_division_2_code: String.t(),
+          administrative_division_3_code: String.t(),
+          administrative_division_4_code: String.t(),
           population: integer(),
           elevation: integer(),
           dem: integer(),
@@ -38,22 +38,21 @@ defmodule Klepsidra.Locations.City do
   schema "locations_cities" do
     field(:geoname_id, :integer)
     field(:name, :string)
-    field(:asciiname, :string)
-    field(:alternatenames, :string)
+    field(:ascii_name, :string)
+    field(:alternate_names, :string)
     field(:latitude, :float)
     field(:longitude, :float)
 
     field(:feature_class, :binary_id)
-    field(:feature_code, :binary_id)
-    # belongs_to(:feature_code, FeatureClass, references: :feature_code, type: :binary_id)
+    # field(:feature_code, :binary_id)
+    belongs_to(:feature_code, FeatureCode, references: :feature_code, type: :binary_id)
 
-    # belongs_to(:feature_class, FeatureClass, references: :feature_class, type: :binary_id)
     field(:country_code, :string)
     field(:cc2, :string)
-    field(:admin1_code, :string)
-    field(:admin2_code, :string)
-    field(:admin3_code, :string)
-    field(:admin4_code, :string)
+    field(:administrative_division_1_code, :string)
+    field(:administrative_division_2_code, :string)
+    field(:administrative_division_3_code, :string)
+    field(:administrative_division_4_code, :string)
     field(:population, :integer)
     field(:elevation, :integer)
     field(:dem, :integer)
@@ -77,18 +76,30 @@ defmodule Klepsidra.Locations.City do
       :feature_code,
       :country_code,
       :cc2,
-      :admin1_code,
-      :admin2_code,
-      :admin3_code,
-      :admin4_code,
+      :administrative_division_1_code,
+      :administrative_division_2_code,
+      :administrative_division_3_code,
+      :administrative_division_4_code,
       :population,
       :elevation,
       :dem,
       :timezone,
       :modification_date
     ])
-    |> unique_constraint([:feature_class, :feature_code],
-      name: :locations_feature_codes_feature_class_feature_code_index
+    |> unique_constraint([:geoname_id],
+      name: :locations_cities_geoname_id_index
+    )
+    |> foreign_key_constraint(:administrative_divisions_1,
+      name: :FK_locations_cities_locations_administrative_divisions_1
+    )
+    |> foreign_key_constraint(:administrative_divisions_2,
+      name: :FK_locations_cities_locations_administrative_divisions_2_2
+    )
+    |> foreign_key_constraint(:country_code,
+      name: :FK_locations_cities_locations_countries_3
+    )
+    |> foreign_key_constraint(:feature_code,
+      name: :FK_locations_cities_locations_feature_codes_4
     )
     |> validate_required([
       :geoname_id,

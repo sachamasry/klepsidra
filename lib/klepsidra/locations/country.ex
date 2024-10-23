@@ -13,10 +13,10 @@ defmodule Klepsidra.Locations.Country do
 
   @primary_key false
   @type t :: %__MODULE__{
-          iso: String.t(),
-          iso_3: String.t(),
-          iso_numeric: integer(),
-          fips: String.t(),
+          iso_country_code: String.t(),
+          iso_3_country_code: String.t(),
+          iso_numeric_country_code: integer(),
+          fips_country_code: String.t(),
           country_name: String.t(),
           capital: String.t(),
           area: float(),
@@ -34,10 +34,10 @@ defmodule Klepsidra.Locations.Country do
           equivalent_fips_code: String.t()
         }
   schema "locations_countries" do
-    field(:iso, :string, primary_key: true)
-    field(:iso_3, :string)
-    field(:iso_numeric, :integer)
-    field(:fips, :string)
+    field(:iso_country_code, :string, primary_key: true)
+    field(:iso_3_country_code, :string)
+    field(:iso_numeric_country_code, :integer)
+    field(:fips_country_code, :string)
     field(:country_name, :string)
     field(:capital, :string)
     field(:area, :float)
@@ -61,10 +61,10 @@ defmodule Klepsidra.Locations.Country do
   def changeset(country, attrs) do
     country
     |> cast(attrs, [
-      :iso,
-      :iso_3,
-      :iso_numeric,
-      :fips,
+      :iso_country_code,
+      :iso_3_country_code,
+      :iso_numeric_country_code,
+      :fips_country_code,
       :country_name,
       :capital,
       :area,
@@ -81,10 +81,13 @@ defmodule Klepsidra.Locations.Country do
       :neighbours,
       :equivalent_fips_code
     ])
+    |> foreign_key_constraint(:continent_code,
+      name: :FK_locations_countries_locations_continents
+    )
     |> validate_required([
-      :iso,
-      :iso_3,
-      :iso_numeric,
+      :iso_country_code,
+      :iso_3_country_code,
+      :iso_numeric_country_code,
       :country_name,
       :area,
       :population,

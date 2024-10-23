@@ -35,112 +35,112 @@ defmodule Seeds.Utilities do
   end
 end
 
-defmodule Klepsidra.Locations.FeatureClass.Seeds do
-  alias Klepsidra.Locations
+# defmodule Klepsidra.Locations.FeatureClass.Seeds do
+#   alias Klepsidra.Locations
 
-  "priv/data/feature_classes.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/feature_classes.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
-       ], headers}
-  end)
-  |> Stream.each(fn record ->
-    Locations.create_feature_class(record)
-  end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+#        ], headers}
+#   end)
+#   |> Stream.each(fn record ->
+#     Locations.create_feature_class(record)
+#   end)
+#   |> Stream.run()
+# end
 
-defmodule Klepsidra.Locations.FeatureCode.Seeds do
-  alias Klepsidra.Locations
+# defmodule Klepsidra.Locations.FeatureCode.Seeds do
+#   alias Klepsidra.Locations
 
-  "priv/data/featureCodes_en.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/featureCodes_en.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} ->
-           {String.to_atom(k), v}
-         end)
-       ], headers}
-  end)
-  |> Stream.map(fn record -> Map.merge(record, %{f_class: record.feature_class}) end)
-  |> Stream.each(fn record ->
-    Locations.create_feature_code(record)
-  end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} ->
+#            {String.to_atom(k), v}
+#          end)
+#        ], headers}
+#   end)
+#   |> Stream.map(fn record -> Map.merge(record, %{f_class: record.feature_class}) end)
+#   |> Stream.each(fn record ->
+#     Locations.create_feature_code(record)
+#   end)
+#   |> Stream.run()
+# end
 
-defmodule Klepsidra.Localisation.Languages.Seeds do
-  alias Klepsidra.Localisation
+# defmodule Klepsidra.Localisation.Languages.Seeds do
+#   alias Klepsidra.Localisation
 
-  "priv/data/iso-languagecodes-cleansed.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/iso-languagecodes-cleansed.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
-       ], headers}
-  end)
-  |> Stream.each(fn record -> Localisation.create_language(record) end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+#        ], headers}
+#   end)
+#   |> Stream.each(fn record -> Localisation.create_language(record) end)
+#   |> Stream.run()
+# end
 
-defmodule Klepsidra.Locations.Continents.Seeds do
-  alias Klepsidra.Locations
+# defmodule Klepsidra.Locations.Continents.Seeds do
+#   alias Klepsidra.Locations
 
-  "priv/data/continent_codes.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/continent_codes.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
-       ], headers}
-  end)
-  |> Stream.each(fn record -> Locations.create_continent(record) end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+#        ], headers}
+#   end)
+#   |> Stream.each(fn record -> Locations.create_continent(record) end)
+#   |> Stream.run()
+# end
 
-defmodule Klepsidra.Locations.Countries.Seeds do
-  alias Klepsidra.Locations
+# defmodule Klepsidra.Locations.Countries.Seeds do
+#   alias Klepsidra.Locations
 
-  "priv/data/countryInfo-cleansed.txt"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.TabDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/countryInfo-cleansed.txt"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.TabDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
-       ], headers}
-  end)
-  |> Stream.each(fn record -> Locations.create_country(record) end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+#        ], headers}
+#   end)
+#   |> Stream.each(fn record -> Locations.create_country(record) end)
+#   |> Stream.run()
+# end
 
 defmodule Klepsidra.Locations.AdministrativeDivisions1.Seeds do
   alias Klepsidra.Locations
@@ -168,62 +168,63 @@ defmodule Klepsidra.Locations.AdministrativeDivisions1.Seeds do
         )
     })
   end)
-  |> Stream.each(fn record -> Locations.create_administrative_division1(record) end)
+  |> Stream.map(fn rec -> IO.inspect(rec) end)
+  |> Stream.each(fn record -> Locations.create_administrative_division_1(record) end)
   |> Stream.run()
 end
 
-defmodule Klepsidra.Locations.AdministrativeDivisions2.Seeds do
-  alias Klepsidra.Locations
+# defmodule Klepsidra.Locations.AdministrativeDivisions2.Seeds do
+#   alias Klepsidra.Locations
 
-  "priv/data/admin2Codes.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/admin2Codes.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[
-         Enum.zip(headers, row)
-         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
-       ], headers}
-  end)
-  |> Stream.map(fn record ->
-    Map.merge(record, %{
-      administrative_division1_code:
-        Seeds.Utilities.split_last_component_from_key(
-          record.administrative_division2_code,
-          ".",
-          1
-        ),
-      country_code:
-        Seeds.Utilities.split_last_component_from_key(
-          record.administrative_division2_code,
-          ".",
-          2
-        )
-    })
-  end)
-  |> Stream.each(fn record -> Locations.create_administrative_division2(record) end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[
+#          Enum.zip(headers, row)
+#          |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+#        ], headers}
+#   end)
+#   |> Stream.map(fn record ->
+#     Map.merge(record, %{
+#       administrative_division1_code:
+#         Seeds.Utilities.split_last_component_from_key(
+#           record.administrative_division2_code,
+#           ".",
+#           1
+#         ),
+#       country_code:
+#         Seeds.Utilities.split_last_component_from_key(
+#           record.administrative_division2_code,
+#           ".",
+#           2
+#         )
+#     })
+#   end)
+#   |> Stream.each(fn record -> Locations.create_administrative_division2(record) end)
+#   |> Stream.run()
+# end
 
-defmodule Klepsidra.Locations.City.Seeds do
-  @moduledoc false
+# defmodule Klepsidra.Locations.City.Seeds do
+#   @moduledoc false
 
-  alias Klepsidra.Locations
+#   alias Klepsidra.Locations
 
-  "priv/data/cities500.csv"
-  |> File.stream!(read_ahead: 100_000)
-  |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
-  |> Stream.transform(nil, fn
-    headers, nil ->
-      {[], headers}
+#   "priv/data/cities500.csv"
+#   |> File.stream!(read_ahead: 100_000)
+#   |> Klepsidra.Parsers.GeoNamesParser.CommaDelimited.parse_stream(skip_headers: false)
+#   |> Stream.transform(nil, fn
+#     headers, nil ->
+#       {[], headers}
 
-    row, headers ->
-      {[Enum.zip(headers, row) |> Map.new(fn {k, v} -> {String.to_existing_atom(k), v} end)],
-       headers}
-  end)
-  |> Stream.each(fn record -> Klepsidra.Locations.create_city(record) end)
-  |> Stream.run()
-end
+#     row, headers ->
+#       {[Enum.zip(headers, row) |> Map.new(fn {k, v} -> {String.to_existing_atom(k), v} end)],
+#        headers}
+#   end)
+#   |> Stream.each(fn record -> Klepsidra.Locations.create_city(record) end)
+#   |> Stream.run()
+# end

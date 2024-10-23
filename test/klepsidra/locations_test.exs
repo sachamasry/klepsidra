@@ -77,10 +77,10 @@ defmodule Klepsidra.LocationsTest do
     import Klepsidra.LocationsFixtures
 
     @invalid_attrs %{
+      feature_code: nil,
+      feature_class: nil,
       order: nil,
       description: nil,
-      feature_class: nil,
-      feature_code: nil,
       note: nil
     }
 
@@ -98,18 +98,18 @@ defmodule Klepsidra.LocationsTest do
 
     # test "create_feature_code/1 with valid data creates a feature_code" do
     #   valid_attrs = %{
+    #     feature_code: "PPL",
+    #     feature_class: "P",
     #     order: 42,
     #     description: "some description",
-    #     feature_class: "P",
-    #     feature_code: "PPL",
     #     note: "some note"
     #   }
 
     #   assert {:ok, %FeatureCode{} = feature_code} = Locations.create_feature_code(valid_attrs)
+    #   assert feature_code.feature_code == "PPL"
+    #   assert feature_code.feature_class == "P"
     #   assert feature_code.order == 42
     #   assert feature_code.description == "some description"
-    #   assert feature_code.feature_class == "P"
-    #   assert feature_code.feature_code == "PPL"
     #   assert feature_code.note == "some note"
     # end
 
@@ -121,20 +121,20 @@ defmodule Klepsidra.LocationsTest do
     #   feature_code = feature_code_fixture()
 
     #   update_attrs = %{
+    #     feature_code: "PPLA",
+    #     feature_class: "P",
     #     order: 43,
     #     description: "some updated description",
-    #     feature_class: "P",
-    #     feature_code: "PPLA",
     #     note: "some updated note"
     #   }
 
     #   assert {:ok, %FeatureCode{} = feature_code} =
     #            Locations.update_feature_code(feature_code, update_attrs)
 
+    #   assert feature_code.feature_code == "PPLA"
+    #   assert feature_code.feature_class == "P"
     #   assert feature_code.order == 43
     #   assert feature_code.description == "some updated description"
-    #   assert feature_code.feature_class == "P"
-    #   assert feature_code.feature_code == "PPLA"
     #   assert feature_code.note == "some updated note"
     # end
 
@@ -381,189 +381,188 @@ defmodule Klepsidra.LocationsTest do
     # end
   end
 
-  describe "locations_administrative_division1" do
-    alias Klepsidra.Locations.AdministrativeDivision1
+  describe "locations_administrative_divisions_1" do
+    alias Klepsidra.Locations.AdministrativeDivisions1
 
     import Klepsidra.LocationsFixtures
 
     @invalid_attrs %{
+      administrative_division_1_code: nil,
       country_code: nil,
       c_code: nil,
-      administrative_division_code: nil,
-      administrative_division_name: nil,
-      administrative_division_name_ascii: nil,
+      administrative_division_1_name: nil,
+      administrative_division_1_name_ascii: nil,
       geonames_id: nil
     }
 
-    # test "list_locations_administrative_division1/0 returns all locations_administrative_division1" do
-    #   administrative_division1 = administrative_division1_fixture()
-    #   assert Locations.list_locations_administrative_division1() == [administrative_division1]
+    # test "list_locations_administrative_division_1/0 returns all locations_administrative_division_1" do
+    #   administrative_division_1 = administrative_division_1_fixture()
+    #   assert Locations.list_locations_administrative_division_1() == [administrative_division_1]
     # end
 
-    # test "get_administrative_division1!/1 returns the administrative_division1 with given id" do
-    #   administrative_division1 = administrative_division1_fixture()
+    # test "get_administrative_division_1!/1 returns the administrative_division_1 with given id" do
+    #   administrative_division_1 = administrative_division_1_fixture()
 
-    #   assert Locations.get_administrative_division1!(
-    #            administrative_division1.country_code,
-    #            administrative_division1.administrative_division_code
-    #          ) == administrative_division1
+    #   assert Locations.get_administrative_division_1!(
+    #            administrative_division_1.country_code,
+    #            administrative_division_1.administrative_division_code
+    #          ) == administrative_division_1
     # end
 
-    # test "create_administrative_division1/1 with valid data creates a administrative_division1" do
+    # test "create_administrative_division_1/1 with valid data creates a administrative_division_1" do
     #   valid_attrs = %{
-    #     country_code: "UK",
     #     administrative_division_code: "SCT",
-    #     administrative_division_name: "some administrative_division_name",
-    #     administrative_division_name_ascii: "some administrative_division_name_ascii",
+    #     country_code: "UK",
+    #     administrative_division_1_name: "some administrative_division_name",
+    #     administrative_division_1_name_ascii: "some administrative_division_name_ascii",
     #     geoname_id: 42
     #   }
 
-    #   assert {:ok, %AdministrativeDivision1{} = administrative_division1} =
-    #            Locations.create_administrative_division1(valid_attrs)
+    #   assert {:ok, %AdministrativeDivisions1{} = administrative_division_1} =
+    #            Locations.create_administrative_division_1(valid_attrs)
 
-    #   assert administrative_division1.country_code == "UK"
-    #   assert administrative_division1.administrative_division_code == "SCT"
+    #   assert administrative_division_1.administrative_division_1_code == "SCT"
+    #   assert administrative_division_1.country_code == "UK"
 
-    #   assert administrative_division1.administrative_division_name ==
+    #   assert administrative_division_1.administrative_division_1_name ==
     #            "some administrative_division_name"
 
-    #   assert administrative_division1.administrative_division_name_ascii ==
+    #   assert administrative_division_1.administrative_division_1_name_ascii ==
     #            "some administrative_division_name_ascii"
 
-    #   assert administrative_division1.geoname_id == 42
+    #   assert administrative_division_1.geoname_id == 42
     # end
 
-    # test "create_administrative_division1/1 with invalid data returns error changeset" do
+    # test "create_administrative_division_1/1 with invalid data returns error changeset" do
     #   assert {:error, %Ecto.Changeset{}} =
-    #            Locations.create_administrative_division1(@invalid_attrs)
+    #            Locations.create_administrative_division_1(@invalid_attrs)
     # end
 
-    # test "update_administrative_division1/2 with valid data updates the administrative_division1" do
-    #   administrative_division1 = administrative_division1_fixture()
+    # test "update_administrative_division_1/2 with valid data updates the administrative_division_1" do
+    #   administrative_division_1 = administrative_division_1_fixture()
 
     #   update_attrs = %{
+    #     administrative_division_1_code: "FL",
     #     country_code: "US",
-    #     c_code: "US",
-    #     administrative_division_code: "FL",
-    #     administrative_division_name: "some updated administrative_division_name",
-    #     administrative_division_name_ascii: "some updated administrative_division_name_ascii",
+    #     administrative_division_1_name: "some updated administrative_division_name",
+    #     administrative_division_1_name_ascii: "some updated administrative_division_name_ascii",
     #     geoname_id: 43
     #   }
 
-    #   assert {:ok, %AdministrativeDivision1{} = administrative_division1} =
-    #            Locations.update_administrative_division1(administrative_division1, update_attrs)
+    #   assert {:ok, %AdministrativeDivisions1{} = administrative_division_1} =
+    #            Locations.update_administrative_division_1(administrative_division_1, update_attrs)
 
-    #   assert administrative_division1.country_code == "US"
-    #   assert administrative_division1.administrative_division_code == "FL"
+    #   assert administrative_division_1.administrative_division_1_code == "FL"
+    #   assert administrative_division_1.country_code == "US"
 
-    #   assert administrative_division1.administrative_division_name ==
+    #   assert administrative_division_1.administrative_1_division_name ==
     #            "some updated administrative_division_name"
 
-    #   assert administrative_division1.administrative_division_name_ascii ==
+    #   assert administrative_division_1.administrative_division_1_name_ascii ==
     #            "some updated administrative_division_name_ascii"
 
-    #   assert administrative_division1.geoname_id == 43
+    #   assert administrative_division_1.geoname_id == 43
     # end
 
-    # test "update_administrative_division1/2 with invalid data returns error changeset" do
-    #   administrative_division1 = administrative_division1_fixture()
+    # test "update_administrative_division_1/2 with invalid data returns error changeset" do
+    #   administrative_division_1 = administrative_division_1_fixture()
 
     #   assert {:error, %Ecto.Changeset{}} =
-    #            Locations.update_administrative_division1(administrative_division1, @invalid_attrs)
+    #            Locations.update_administrative_division_1(administrative_division_1, @invalid_attrs)
 
-    #   assert administrative_division1 ==
-    #            Locations.get_administrative_division1!(
-    #              administrative_division1.country_code,
-    #              administrative_division1.administrative_division_code
+    #   assert administrative_division_1 ==
+    #            Locations.get_administrative_division_1!(
+    #              administrative_division_1.country_code,
+    #              administrative_division_1.administrative_division_1_code
     #            )
     # end
 
-    # test "delete_administrative_division1/1 deletes the administrative_division1" do
-    #   administrative_division1 = administrative_division1_fixture()
+    # test "delete_administrative_division_1/1 deletes the administrative_division_1" do
+    #   administrative_division_1 = administrative_division_1_fixture()
 
-    #   assert {:ok, %AdministrativeDivision1{}} =
-    #            Locations.delete_administrative_division1(administrative_division1)
+    #   assert {:ok, %AdministrativeDivisions1{}} =
+    #            Locations.delete_administrative_division_1(administrative_division_1)
 
-    #   assert Locations.get_administrative_division1!(
-    #            administrative_division1.country_code,
-    #            administrative_division1.administrative_division_code
+    #   assert Locations.get_administrative_division_1!(
+    #            administrative_division_1.administrative_division_1_code
+    #            administrative_division_1.country_code,
     #          ) == nil
     # end
 
-    # test "change_administrative_division1/1 returns a administrative_division1 changeset" do
-    #   administrative_division1 = administrative_division1_fixture()
+    # test "change_administrative_division_1/1 returns a administrative_division_1 changeset" do
+    #   administrative_division_1 = administrative_division_1_fixture()
 
     #   assert %Ecto.Changeset{} =
-    #            Locations.change_administrative_division1(administrative_division1)
+    #            Locations.change_administrative_division_1(administrative_division_1)
     # end
   end
 
-  describe "locations_administrative_division2" do
-    alias Klepsidra.Locations.AdministrativeDivision2
+  describe "locations_administrative_divisions_2" do
+    alias Klepsidra.Locations.AdministrativeDivisions2
 
     import Klepsidra.LocationsFixtures
 
     @invalid_attrs %{
-      administrative_division2_code: nil,
-      administrative_division1_code: nil,
+      administrative_division_2_code: nil,
+      administrative_division_1_code: nil,
       country_code: nil,
-      administrative_division_name: nil,
-      administrative_division_ascii_name: nil,
+      administrative_division_2_name: nil,
+      administrative_division_2_ascii_name: nil,
       geoname_id: nil
     }
 
-    # test "list_locations_administrative_division2/0 returns all locations_administrative_division2" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   assert Locations.list_locations_administrative_division2() == [administrative_division2]
+    # test "list_locations_administrative_division_2/0 returns all locations_administrative_division_2" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   assert Locations.list_locations_administrative_division_2() == [administrative_division_2]
     # end
 
-    # test "get_administrative_division2!/1 returns the administrative_division2 with given id" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   assert Locations.get_administrative_division2!(administrative_division2.id) == administrative_division2
+    # test "get_administrative_division_2!/1 returns the administrative_division_2 with given id" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   assert Locations.get_administrative_division_2!(administrative_division_2.id) == administrative_division_2
     # end
 
-    # test "create_administrative_division2/1 with valid data creates a administrative_division2" do
-    #   valid_attrs = %{administrative_division2_code: "some administrative_division2_code", administrative_division1_code: "some administrative_division1_code", administrative_division_name: "some administrative_division_name", administrative_division_ascii_name: "some administrative_division_ascii_name", geonames_id: 42}
+    # test "create_administrative_division_2/1 with valid data creates a administrative_division_2" do
+    #   valid_attrs = %{administrative_division_2_code: "some administrative_division2_code", administrative_division_1_code: "some administrative_division1_code", administrative_division_2_name: "some administrative_division_name", administrative_division_2_ascii_name: "some administrative_division_ascii_name", geonames_id: 42}
 
-    #   assert {:ok, %AdministrativeDivision2{} = administrative_division2} = Locations.create_administrative_division2(valid_attrs)
-    #   assert administrative_division2.administrative_division2_code == "some administrative_division2_code"
-    #   assert administrative_division2.administrative_division1_code == "some administrative_division1_code"
-    #   assert administrative_division2.administrative_division_name == "some administrative_division_name"
-    #   assert administrative_division2.administrative_division_ascii_name == "some administrative_division_ascii_name"
-    #   assert administrative_division2.geonames_id == 42
+    #   assert {:ok, %AdministrativeDivisions2{} = administrative_division_2} = Locations.create_administrative_division_2(valid_attrs)
+    #   assert administrative_division_2.administrative_division_2_code == "some administrative_division2_code"
+    #   assert administrative_division_2.administrative_division_1_code == "some administrative_division1_code"
+    #   assert administrative_division_2.administrative_division_2_name == "some administrative_division_name"
+    #   assert administrative_division_2.administrative_division_2_ascii_name == "some administrative_division_ascii_name"
+    #   assert administrative_division_2.geonames_id == 42
     # end
 
-    # test "create_administrative_division2/1 with invalid data returns error changeset" do
-    #   assert {:error, %Ecto.Changeset{}} = Locations.create_administrative_division2(@invalid_attrs)
+    # test "create_administrative_division_2/1 with invalid data returns error changeset" do
+    #   assert {:error, %Ecto.Changeset{}} = Locations.create_administrative_division_2(@invalid_attrs)
     # end
 
-    # test "update_administrative_division2/2 with valid data updates the administrative_division2" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   update_attrs = %{administrative_division2_code: "some updated administrative_division2_code", administrative_division1_code: "some updated administrative_division1_code", administrative_division_name: "some updated administrative_division_name", administrative_division_ascii_name: "some updated administrative_division_ascii_name", geonames_id: 43}
+    # test "update_administrative_division_2/2 with valid data updates the administrative_division_2" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   update_attrs = %{administrative_division_2_code: "some updated administrative_division2_code", administrative_division_1_code: "some updated administrative_division1_code", administrative_division_2_name: "some updated administrative_division_name", administrative_division_2_ascii_name: "some updated administrative_division_ascii_name", geonames_id: 43}
 
-    #   assert {:ok, %AdministrativeDivision2{} = administrative_division2} = Locations.update_administrative_division2(administrative_division2, update_attrs)
-    #   assert administrative_division2.administrative_division2_code == "some updated administrative_division2_code"
-    #   assert administrative_division2.administrative_division1_code == "some updated administrative_division1_code"
-    #   assert administrative_division2.administrative_division_name == "some updated administrative_division_name"
-    #   assert administrative_division2.administrative_division_ascii_name == "some updated administrative_division_ascii_name"
-    #   assert administrative_division2.geonames_id == 43
+    #   assert {:ok, %AdministrativeDivisions2{} = administrative_division_2} = Locations.update_administrative_division_2(administrative_division_2, update_attrs)
+    #   assert administrative_division_2.administrative_division_2_code == "some updated administrative_division2_code"
+    #   assert administrative_division_2.administrative_division_1_code == "some updated administrative_division1_code"
+    #   assert administrative_division_2.administrative_division_name == "some updated administrative_division_name"
+    #   assert administrative_division_2.administrative_division_ascii_name == "some updated administrative_division_ascii_name"
+    #   assert administrative_division_2.geonames_id == 43
     # end
 
-    # test "update_administrative_division2/2 with invalid data returns error changeset" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   assert {:error, %Ecto.Changeset{}} = Locations.update_administrative_division2(administrative_division2, @invalid_attrs)
-    #   assert administrative_division2 == Locations.get_administrative_division2!(administrative_division2.id)
+    # test "update_administrative_division_2/2 with invalid data returns error changeset" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   assert {:error, %Ecto.Changeset{}} = Locations.update_administrative_division_2(administrative_division_2, @invalid_attrs)
+    #   assert administrative_division_2 == Locations.get_administrative_division_2!(administrative_division_2.id)
     # end
 
-    # test "delete_administrative_division2/1 deletes the administrative_division2" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   assert {:ok, %AdministrativeDivision2{}} = Locations.delete_administrative_division2(administrative_division2)
-    #   assert_raise Ecto.NoResultsError, fn -> Locations.get_administrative_division2!(administrative_division2.id) end
+    # test "delete_administrative_division_2/1 deletes the administrative_division_2" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   assert {:ok, %AdministrativeDivisions2{}} = Locations.delete_administrative_division_2(administrative_division_2)
+    #   assert_raise Ecto.NoResultsError, fn -> Locations.get_administrative_division_2!(administrative_division_2.id) end
     # end
 
-    # test "change_administrative_division2/1 returns a administrative_division2 changeset" do
-    #   administrative_division2 = administrative_division2_fixture()
-    #   assert %Ecto.Changeset{} = Locations.change_administrative_division2(administrative_division2)
+    # test "change_administrative_division_2/1 returns a administrative_division_2 changeset" do
+    #   administrative_division_2 = administrative_division_2_fixture()
+    #   assert %Ecto.Changeset{} = Locations.change_administrative_division_2(administrative_division_2)
     # end
   end
 
@@ -576,18 +575,18 @@ defmodule Klepsidra.LocationsTest do
     @invalid_attrs %{
       name: nil,
       geoname_id: nil,
-      asciiname: nil,
-      alternatenames: nil,
+      ascii_name: nil,
+      alternate_names: nil,
       latitude: nil,
       longitude: nil,
       feature_class: nil,
       feature_code: nil,
       country_code: nil,
       cc2: nil,
-      admin1_code: nil,
-      admin2_code: nil,
-      admin3_code: nil,
-      admin4_code: nil,
+      administrative_division_1_code: nil,
+      administrative_division_2_code: nil,
+      administrative_division_3_code: nil,
+      administrative_division_4_code: nil,
       population: nil,
       elevation: nil,
       dem: nil,

@@ -25,12 +25,12 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
         comment: "Name of geographical point (utf8) varchar(200)"
       )
 
-      add(:asciiname, :string,
+      add(:ascii_name, :string,
         null: true,
         comment: "Name of geographical point in plain ascii characters, varchar(200)"
       )
 
-      add(:alternatenames, :string,
+      add(:alternate_names, :string,
         null: true,
         comment:
           "Alternatenames, comma separated, ascii names automatically transliterated, convenience attribute from alternatename table, varchar(10000)"
@@ -48,27 +48,29 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
 
       add(
         :feature_class,
+        :string,
+        null: false,
+        comment:
+          "Class of geographic feature. See http://www.geonames.org/export/codes.html, char(1)"
+      )
+
+      add(
+        :feature_code,
         references(:locations_feature_codes,
-          column: :feature_class,
-          with: [feature_code: :feature_code],
+          column: :feature_code,
           type: :binary_id,
           on_delete: :nothing,
           on_update: :nothing
         ),
         null: false,
         comment:
-          "Foreign key to `locations_feature_codes`. See http://www.geonames.org/export/codes.html, char(1)"
-      )
-
-      add(:feature_code, :string,
-        null: false,
-        comment: "See http://www.geonames.org/export/codes.html, varchar(10)"
+          "Foreign key to `locations_feature_codes`. See http://www.geonames.org/export/codes.html, varchar(10)"
       )
 
       add(
         :country_code,
         references(:locations_countries,
-          column: :iso,
+          column: :iso_country_code,
           type: :binary_id,
           on_delete: :nothing,
           on_update: :nothing
@@ -85,27 +87,41 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
           "Alternate country codes, comma separated, ISO-3166 2-letter country code, 200 characters"
       )
 
-      add(:admin1_code, :string,
+      add(
+        :administrative_division_1_code,
+        references(:locations_administrative_divisions_1,
+          column: :administrative_division_1_code,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
         null: true,
         default: "",
         comment:
           "Fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code; varchar(20)"
       )
 
-      add(:admin2_code, :string,
+      add(
+        :administrative_division_2_code,
+        references(:locations_administrative_divisions_2,
+          column: :administrative_division_2_code,
+          type: :binary_id,
+          on_delete: :nothing,
+          on_update: :nothing
+        ),
         null: true,
         default: "",
         comment:
           "Code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)"
       )
 
-      add(:admin3_code, :string,
+      add(:administrative_division_3_code, :string,
         null: true,
         default: "",
         comment: "Code for third level administrative division, varchar(20)"
       )
 
-      add(:admin4_code, :string,
+      add(:administrative_division_4_code, :string,
         null: true,
         default: "",
         comment: "Code for fourth level administrative division, varchar(20)"
@@ -162,9 +178,21 @@ defmodule Klepsidra.Repo.Migrations.CreateCities do
     )
 
     create(
-      index(:locations_cities, [:name, :feature_class, :feature_code, :population, :country_code],
+      index(:locations_cities, [:name, :feature_code, :population, :country_code],
         comment:
-          "Index on city name, feature class/code, population and country code. Useful for sorting cities in order of importance and population"
+          "Index on city name, feature code, population and country code. Useful for sorting cities in order of importance and population"
+      )
+    )
+
+    create(
+      index(:locations_cities, [:administrative_division_1_code],
+        comment: "Index on administrative division level 1 code"
+      )
+    )
+
+    create(
+      index(:locations_cities, [:administrative_division_2_code],
+        comment: "Index on administrative division level 2 code"
       )
     )
 

@@ -7,28 +7,16 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
              comment:
                "GeoNames feature classes and codes with description, notes and an ordering field, for improved sorting support"
            ) do
-      add(:feature_class, :string,
-        primary_key: true,
-        null: false,
-        comment: "GeoNames composite primary key: feature class"
-      )
-
       add(
         :feature_code,
         :string,
         primary_key: true,
         null: false,
-        comment: "GeoNames composite primary key: feature code"
-      )
-
-      add(:order, :integer,
-        null: false,
-        default: 0,
-        comment: "An integer-based ordering field for an improved sorting of features"
+        comment: "GeoNames feature code primary key"
       )
 
       add(
-        :f_class,
+        :feature_class,
         references(:locations_feature_classes,
           column: :feature_class,
           type: :binary_id,
@@ -36,7 +24,13 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
           on_update: :nothing
         ),
         null: false,
-        comment: "GeoNames composite primary key: feature class"
+        comment: "GeoNames feature class foreign key"
+      )
+
+      add(:order, :integer,
+        null: false,
+        default: 0,
+        comment: "An integer-based ordering field for an improved sorting of features"
       )
 
       add(:description, :string,
@@ -55,20 +49,26 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
     end
 
     create(
-      unique_index(:locations_feature_codes, [:feature_class, :feature_code],
+      unique_index(:locations_feature_codes, [:feature_code],
         comment: "Unique index on GeoNames' composite primary key, `class.code`"
       )
     )
 
     create(
-      index(:locations_feature_codes, [:feature_class, :feature_code, :order],
-        comment: "Composite index on `feature_class`, `feature_code` and `order` fields"
+      index(:locations_feature_codes, [:feature_code, :feature_class, :order],
+        comment: "Composite index on `feature_code`, `feature_class` and `order` fields"
       )
     )
 
     create(
-      index(:locations_feature_codes, [:order, :feature_class, :feature_code],
-        comment: "Composite index on `order`, `feature_class` and `feature_code` fields"
+      index(:locations_feature_codes, [:feature_code, :order],
+        comment: "Composite index on `feature_code` and `order` fields"
+      )
+    )
+
+    create(
+      index(:locations_feature_codes, [:order, :feature_code],
+        comment: "Composite index on `order` and `feature_code` fields"
       )
     )
   end

@@ -11,9 +11,9 @@ defmodule Klepsidra.LocalisationFixtures do
     {:ok, language} =
       attrs
       |> Enum.into(%{
-        "iso_639-1": "some iso_639-1",
-        "iso_639-2": "some iso_639-2",
-        "iso_639-3": "some iso_639-3",
+        "iso_639-1_language_code": "some iso_639-1",
+        "iso_639-2_language_code": "some iso_639-2",
+        "iso_639-3_language_code": "some iso_639-3",
         language_name: "some language_name"
       })
       |> Klepsidra.Localisation.create_language()

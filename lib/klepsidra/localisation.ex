@@ -36,7 +36,7 @@ defmodule Klepsidra.Localisation do
 
   """
   def get_language!(language_code) do
-    Language |> where([l], l."iso_639-3" == ^language_code) |> Repo.one()
+    Language |> where([l], l."iso_639-3_language_code" == ^language_code) |> Repo.one()
   end
 
   @doc """

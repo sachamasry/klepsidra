@@ -18,9 +18,9 @@ defmodule Klepsidra.Locations.Continent do
           geoname_id: integer()
         }
   schema "locations_continents" do
-    field :continent_code, :string, primary_key: true
-    field :continent_name, :string
-    field :geoname_id, :integer
+    field(:continent_code, :string, primary_key: true)
+    field(:continent_name, :string)
+    field(:geoname_id, :integer)
 
     timestamps()
   end
@@ -29,6 +29,9 @@ defmodule Klepsidra.Locations.Continent do
   def changeset(continent, attrs) do
     continent
     |> cast(attrs, [:continent_code, :continent_name, :geoname_id])
+    |> unique_constraint(:continent_code,
+      name: :locations_continents_continent_code_index
+    )
     |> validate_required([:continent_code, :continent_name, :geoname_id])
   end
 end

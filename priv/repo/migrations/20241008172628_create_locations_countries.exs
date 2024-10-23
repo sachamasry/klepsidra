@@ -6,23 +6,23 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
              primary_key: false,
              comment: "GeoNames country information table"
            ) do
-      add(:iso, :string,
+      add(:iso_country_code, :string,
         primary_key: true,
         null: false,
         comment: "Unique primary key, ISO-3166 2-letter country code, 2 characters"
       )
 
-      add(:iso_3, :string,
+      add(:iso_3_country_code, :string,
         null: false,
         comment: "ISO 3 country code, 3 characters"
       )
 
-      add(:iso_numeric, :integer,
+      add(:iso_numeric_country_code, :integer,
         null: false,
         comment: "ISO numeric identifier"
       )
 
-      add(:fips, :string,
+      add(:fips_country_code, :string,
         null: true,
         default: "",
         comment: "FIPS code"
@@ -58,7 +58,7 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
           on_update: :nothing
         ),
         null: false,
-        comment: "Continent the country belongs to"
+        comment: "Continent the country politically belongs to"
       )
 
       add(:tld, :string,
@@ -124,13 +124,13 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
     end
 
     create(
-      unique_index(:locations_countries, [:iso],
+      unique_index(:locations_countries, [:iso_country_code],
         comment: "Primary key, unique two-character country identification code"
       )
     )
 
     create(
-      unique_index(:locations_countries, [:iso_3],
+      unique_index(:locations_countries, [:iso_3_country_code],
         comment: "Unique three-character country identification code"
       )
     )
@@ -142,7 +142,7 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
     )
 
     create(
-      unique_index(:locations_countries, [:iso_numeric],
+      unique_index(:locations_countries, [:iso_numeric_country_code],
         comment: "Unique ISO numeric country code"
       )
     )

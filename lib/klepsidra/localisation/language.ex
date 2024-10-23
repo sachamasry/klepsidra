@@ -14,15 +14,15 @@ defmodule Klepsidra.Localisation.Language do
 
   @primary_key false
   @type t :: %__MODULE__{
-          "iso_639-1": String.t(),
-          "iso_639-2": String.t(),
-          "iso_639-3": String.t(),
+          "iso_639-1_language_code": String.t(),
+          "iso_639-2_language_code": String.t(),
+          "iso_639-3_language_code": String.t(),
           language_name: String.t()
         }
   schema "localisation_languages" do
-    field(:"iso_639-3", :string, primary_key: true)
-    field(:"iso_639-2", :string)
-    field(:"iso_639-1", :string)
+    field(:"iso_639-3_language_code", :string, primary_key: true)
+    field(:"iso_639-2_language_code", :string)
+    field(:"iso_639-1_language_code", :string)
     field(:language_name, :string)
 
     timestamps()
@@ -31,7 +31,12 @@ defmodule Klepsidra.Localisation.Language do
   @doc false
   def changeset(language, attrs) do
     language
-    |> cast(attrs, [:"iso_639-3", :"iso_639-2", :"iso_639-1", :language_name])
-    |> validate_required([:"iso_639-3", :language_name])
+    |> cast(attrs, [
+      :"iso_639-3_language_code",
+      :"iso_639-2_language_code",
+      :"iso_639-1_language_code",
+      :language_name
+    ])
+    |> validate_required([:"iso_639-3_language_code", :language_name])
   end
 end

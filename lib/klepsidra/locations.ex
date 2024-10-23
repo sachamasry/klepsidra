@@ -13,8 +13,8 @@ defmodule Klepsidra.Locations do
   alias Klepsidra.Locations.FeatureCode
   alias Klepsidra.Locations.Continent
   alias Klepsidra.Locations.Country
-  alias Klepsidra.Locations.AdministrativeDivision1
-  alias Klepsidra.Locations.AdministrativeDivision2
+  alias Klepsidra.Locations.AdministrativeDivisions1
+  alias Klepsidra.Locations.AdministrativeDivisions2
   alias Klepsidra.Locations.City
 
   @doc """
@@ -140,9 +140,8 @@ defmodule Klepsidra.Locations do
       ** (Ecto.NoResultsError)
 
   """
-  def get_feature_code!(feature_class, feature_code) do
+  def get_feature_code!(feature_code) do
     FeatureCode
-    |> where([fc], fc.feature_class == ^feature_class)
     |> where([fc], fc.feature_code == ^feature_code)
     |> Repo.one()
   end
@@ -335,7 +334,11 @@ defmodule Klepsidra.Locations do
       ** (Ecto.NoResultsError)
 
   """
-  def get_country!(id), do: Repo.get!(Country, id)
+  def get_country!(iso_country_code) do
+    Country
+    |> where([c], c.iso_country_code == ^iso_country_code)
+    |> Repo.one()
+  end
 
   @doc """
   Creates a country.
@@ -403,211 +406,211 @@ defmodule Klepsidra.Locations do
   end
 
   @doc """
-  Returns the list of locations_administrative_division1.
+  Returns the list of level 1 administrative divisions.
 
   ## Examples
 
-      iex> list_locations_administrative_division1()
-      [%AdministrativeDivision1{}, ...]
+      iex> list_administrative_divisions_1()
+      [%AdministrativeDivisions1{}, ...]
 
   """
-  def list_locations_administrative_division1 do
-    Repo.all(AdministrativeDivision1)
+  def list_administrative_divisions_1 do
+    Repo.all(AdministrativeDivisions1)
   end
 
   @doc """
-  Gets a single administrative_division1.
+  Gets a single level 1 administrative division.
 
-  Raises `Ecto.NoResultsError` if the Administrative division1 does not exist.
+  Raises `Ecto.NoResultsError` if the `administrative_division_1` does not exist.
 
   ## Examples
 
-      iex> get_administrative_division1!(123)
-      %AdministrativeDivision1{}
+      iex> get_administrative_division_1!(123)
+      %AdministrativeDivisions1{}
 
-      iex> get_administrative_division1!(456)
+      iex> get_administrative_division_1!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_administrative_division1!(administrative_division1_code) do
-    AdministrativeDivision1
-    |> where([ad1], ad1.administrative_division1_code == ^administrative_division1_code)
+  def get_administrative_division_1!(administrative_division_1_code) do
+    AdministrativeDivisions1
+    |> where([ad1], ad1.administrative_division_1_code == ^administrative_division_1_code)
     |> Repo.one()
   end
 
   @doc """
-  Creates a administrative_division1.
+  Creates a new level 1 administrative division.
 
   ## Examples
 
-      iex> create_administrative_division1(%{field: value})
-      {:ok, %AdministrativeDivision1{}}
+      iex> create_administrative_division_1(%{field: value})
+      {:ok, %AdministrativeDivisions1{}}
 
-      iex> create_administrative_division1(%{field: bad_value})
+      iex> create_administrative_division_1(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_administrative_division1(attrs \\ %{}) do
-    %AdministrativeDivision1{}
-    |> AdministrativeDivision1.changeset(attrs)
+  def create_administrative_division_1(attrs \\ %{}) do
+    %AdministrativeDivisions1{}
+    |> AdministrativeDivisions1.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a administrative_division1.
+  Updates a level 1 administrative division.
 
   ## Examples
 
-      iex> update_administrative_division1(administrative_division1, %{field: new_value})
-      {:ok, %AdministrativeDivision1{}}
+      iex> update_administrative_division_1(administrative_division_1, %{field: new_value})
+      {:ok, %AdministrativeDivisions1{}}
 
-      iex> update_administrative_division1(administrative_division1, %{field: bad_value})
+      iex> update_administrative_division_1(administrative_division_1, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_administrative_division1(
-        %AdministrativeDivision1{} = administrative_division1,
+  def update_administrative_division_1(
+        %AdministrativeDivisions1{} = administrative_division_1,
         attrs
       ) do
-    administrative_division1
-    |> AdministrativeDivision1.changeset(attrs)
+    administrative_division_1
+    |> AdministrativeDivisions1.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a administrative_division1.
+  Deletes a level 1 administrative division.
 
   ## Examples
 
-      iex> delete_administrative_division1(administrative_division1)
-      {:ok, %AdministrativeDivision1{}}
+      iex> delete_administrative_division_1(administrative_division_1)
+      {:ok, %AdministrativeDivisions1{}}
 
-      iex> delete_administrative_division1(administrative_division1)
+      iex> delete_administrative_division_1(administrative_division_1)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_administrative_division1(%AdministrativeDivision1{} = administrative_division1) do
-    Repo.delete(administrative_division1)
+  def delete_administrative_division_1(%AdministrativeDivisions1{} = administrative_division_1) do
+    Repo.delete(administrative_division_1)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking administrative_division1 changes.
+  Returns an `%Ecto.Changeset{}` for tracking `administrative_divisions_1` changes.
 
   ## Examples
 
-      iex> change_administrative_division1(administrative_division1)
-      %Ecto.Changeset{data: %AdministrativeDivision1{}}
+      iex> change_administrative_division_1(administrative_division_1)
+      %Ecto.Changeset{data: %AdministrativeDivisions1{}}
 
   """
-  def change_administrative_division1(
-        %AdministrativeDivision1{} = administrative_division1,
+  def change_administrative_division_1(
+        %AdministrativeDivisions1{} = administrative_division_1,
         attrs \\ %{}
       ) do
-    AdministrativeDivision1.changeset(administrative_division1, attrs)
+    AdministrativeDivisions1.changeset(administrative_division_1, attrs)
   end
 
   @doc """
-  Returns the list of locations_administrative_division2.
+  Returns the list of level 2 administrative divisions.
 
   ## Examples
 
-      iex> list_locations_administrative_division2()
-      [%AdministrativeDivision2{}, ...]
+      iex> list_locations_administrative_divisions_2()
+      [%AdministrativeDivisions2{}, ...]
 
   """
-  def list_locations_administrative_division2 do
-    Repo.all(AdministrativeDivision2)
+  def list_locations_administrative_divisions_2 do
+    Repo.all(AdministrativeDivisions2)
   end
 
   @doc """
-  Gets a single administrative_division2.
+  Gets a single level 2 administrative division.
 
-  Raises `Ecto.NoResultsError` if the Administrative division2 does not exist.
+  Raises `Ecto.NoResultsError` if the `administrative_division_2` does not exist.
 
   ## Examples
 
-      iex> get_administrative_division2!(123)
-      %AdministrativeDivision2{}
+      iex> get_administrative_division_2!(123)
+      %AdministrativeDivisions2{}
 
-      iex> get_administrative_division2!(456)
+      iex> get_administrative_division_2!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_administrative_division2!(administrative_division2_code) do
-    AdministrativeDivision2
-    |> where([ad2], ad2.administrative_division2_code == ^administrative_division2_code)
+  def get_administrative_division_2!(administrative_division_2_code) do
+    AdministrativeDivisions2
+    |> where([ad2], ad2.administrative_division_2_code == ^administrative_division_2_code)
     |> Repo.one()
   end
 
   @doc """
-  Creates a administrative_division2.
+  Creates a level 2 administrative division.
 
   ## Examples
 
-      iex> create_administrative_division2(%{field: value})
-      {:ok, %AdministrativeDivision2{}}
+      iex> create_administrative_division_2(%{field: value})
+      {:ok, %AdministrativeDivisions2{}}
 
-      iex> create_administrative_division2(%{field: bad_value})
+      iex> create_administrative_division_2(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_administrative_division2(attrs \\ %{}) do
-    %AdministrativeDivision2{}
-    |> AdministrativeDivision2.changeset(attrs)
+  def create_administrative_division_2(attrs \\ %{}) do
+    %AdministrativeDivisions2{}
+    |> AdministrativeDivisions2.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a administrative_division2.
+  Updates a level 2 administrative division.
 
   ## Examples
 
-      iex> update_administrative_division2(administrative_division2, %{field: new_value})
-      {:ok, %AdministrativeDivision2{}}
+      iex> update_administrative_division_2(administrative_division_2, %{field: new_value})
+      {:ok, %AdministrativeDivisions2{}}
 
-      iex> update_administrative_division2(administrative_division2, %{field: bad_value})
+      iex> update_administrative_division_2(administrative_division_2, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_administrative_division2(
-        %AdministrativeDivision2{} = administrative_division2,
+  def update_administrative_division_2(
+        %AdministrativeDivisions2{} = administrative_division_2,
         attrs
       ) do
-    administrative_division2
-    |> AdministrativeDivision2.changeset(attrs)
+    administrative_division_2
+    |> AdministrativeDivisions2.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a administrative_division2.
+  Deletes a level 2 administrative division.
 
   ## Examples
 
-      iex> delete_administrative_division2(administrative_division2)
-      {:ok, %AdministrativeDivision2{}}
+      iex> delete_administrative_division_2(administrative_division_2)
+      {:ok, %AdministrativeDivisions2{}}
 
-      iex> delete_administrative_division2(administrative_division2)
+      iex> delete_administrative_division_2(administrative_division_2)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_administrative_division2(%AdministrativeDivision2{} = administrative_division2) do
-    Repo.delete(administrative_division2)
+  def delete_administrative_division_2(%AdministrativeDivisions2{} = administrative_division_2) do
+    Repo.delete(administrative_division_2)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking administrative_division2 changes.
+  Returns an `%Ecto.Changeset{}` for tracking `administrative_division_2` changes.
 
   ## Examples
 
-      iex> change_administrative_division2(administrative_division2)
+      iex> change_administrative_division_2(administrative_division_2)
       %Ecto.Changeset{data: %AdministrativeDivision2{}}
 
   """
-  def change_administrative_division2(
-        %AdministrativeDivision2{} = administrative_division2,
+  def change_administrative_division_2(
+        %AdministrativeDivisions2{} = administrative_division_2,
         attrs \\ %{}
       ) do
-    AdministrativeDivision2.changeset(administrative_division2, attrs)
+    AdministrativeDivisions2.changeset(administrative_division_2, attrs)
   end
 
   @doc """
@@ -650,7 +653,7 @@ defmodule Klepsidra.Locations do
         left_join: co in Country,
         on: c.country_code == co.iso,
         where: like(c.name, ^like_name),
-        left_join: ad in AdministrativeDivision1,
+        left_join: ad in AdministrativeDivisions1,
         on: c.country_code == ad.country_code,
         on: c.admin1_code == ad.administrative_division_code,
         order_by: [
