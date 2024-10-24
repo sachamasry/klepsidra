@@ -648,14 +648,12 @@ defmodule Klepsidra.Locations do
       from(
         c in City,
         left_join: fc in FeatureCode,
-        on: c.feature_class == fc.feature_class,
         on: c.feature_code == fc.feature_code,
         left_join: co in Country,
-        on: c.country_code == co.iso,
+        on: c.country_code == co.iso_country_code,
         where: like(c.name, ^like_name),
         left_join: ad in AdministrativeDivisions1,
-        on: c.country_code == ad.country_code,
-        on: c.admin1_code == ad.administrative_division_code,
+        on: c.administrative_division_1_code == ad.administrative_division_1_code,
         order_by: [
           asc: fc.order,
           desc: c.population,
@@ -666,11 +664,11 @@ defmodule Klepsidra.Locations do
         select: %{
           id: c.id,
           name: c.name,
-          population: c.population,
-          state: ad.administrative_division_name |> coalesce(""),
+          state: ad.administrative_division_1_name |> coalesce(""),
           country_name: co.country_name,
           feature_description: fc.description
-        }
+        },
+        limit: 25
       )
 
     Repo.all(query)
