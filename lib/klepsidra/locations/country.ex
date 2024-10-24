@@ -81,9 +81,13 @@ defmodule Klepsidra.Locations.Country do
       :neighbours,
       :equivalent_fips_code
     ])
-    |> foreign_key_constraint(:continent_code,
-      name: :FK_locations_countries_locations_continents
-    )
+    |> unique_constraint([
+      :iso_country_code,
+      :iso_3_country_code,
+      :iso_numeric_country_code,
+      :geoname_id
+    ])
+    |> foreign_key_constraint(:continent_code)
     |> validate_required([
       :iso_country_code,
       :iso_3_country_code,

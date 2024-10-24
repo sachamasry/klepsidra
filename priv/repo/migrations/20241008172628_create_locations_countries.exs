@@ -58,7 +58,7 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
           on_update: :nothing
         ),
         null: false,
-        comment: "Continent the country politically belongs to"
+        comment: "Continent the country belongs to politically"
       )
 
       add(:tld, :string,
@@ -124,26 +124,20 @@ defmodule Klepsidra.Repo.Migrations.CreateCountries do
     end
 
     create(
-      unique_index(:locations_countries, [:iso_country_code],
-        comment: "Primary key, unique two-character country identification code"
-      )
-    )
-
-    create(
       unique_index(:locations_countries, [:iso_3_country_code],
         comment: "Unique three-character country identification code"
       )
     )
 
     create(
-      unique_index(:locations_countries, [:geoname_id],
-        comment: "Unique GeoNames' identifier (integer)"
+      unique_index(:locations_countries, [:iso_numeric_country_code],
+        comment: "Unique ISO numeric country code"
       )
     )
 
     create(
-      unique_index(:locations_countries, [:iso_numeric_country_code],
-        comment: "Unique ISO numeric country code"
+      unique_index(:locations_countries, [:geoname_id],
+        comment: "Unique GeoNames' identifier (integer)"
       )
     )
 

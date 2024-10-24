@@ -34,12 +34,6 @@ defmodule Klepsidra.Repo.Migrations.CreateLocalisationLanguages do
     end
 
     create(
-      unique_index(:localisation_languages, [:"iso_639-3_language_code"],
-        comment: "Unique index on ISO 639-3 language code"
-      )
-    )
-
-    create(
       index(:localisation_languages, [:"iso_639-3_language_code", :language_name],
         comment: "Index of ISO 639-3 language codes and names"
       )

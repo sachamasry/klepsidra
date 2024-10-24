@@ -21,11 +21,5 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsFeatureClasses do
 
       timestamps()
     end
-
-    create(
-      unique_index(:locations_feature_classes, [:feature_class],
-        comment: "Unique index on primary key, `feature_class``"
-      )
-    )
   end
 end

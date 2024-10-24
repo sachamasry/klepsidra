@@ -60,15 +60,6 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsAdministrativeDivisions2 do
     end
 
     create(
-      unique_index(
-        :locations_administrative_divisions_2,
-        [:administrative_division_2_code],
-        comment:
-          "Unique index on GeoNames' composite primary key, `country_code.admin_division1_code.admin_division2_code`"
-      )
-    )
-
-    create(
       index(:locations_administrative_divisions_2, [:administrative_division_1_code],
         comment: "Index on administrative division 1 code"
       )

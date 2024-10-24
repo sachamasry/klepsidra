@@ -49,12 +49,6 @@ defmodule Klepsidra.Repo.Migrations.CreateFeatureCodes do
     end
 
     create(
-      unique_index(:locations_feature_codes, [:feature_code],
-        comment: "Unique index on GeoNames' composite primary key, `class.code`"
-      )
-    )
-
-    create(
       index(:locations_feature_codes, [:feature_code, :feature_class, :order],
         comment: "Composite index on `feature_code`, `feature_class` and `order` fields"
       )

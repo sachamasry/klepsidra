@@ -34,12 +34,8 @@ defmodule Klepsidra.Locations.FeatureCode do
   def changeset(feature_code, attrs) do
     feature_code
     |> cast(attrs, [:feature_code, :feature_class, :description, :note, :order])
-    |> unique_constraint(:feature_code,
-      name: :locations_feature_codes_feature_code_index
-    )
-    |> foreign_key_constraint(:feature_class,
-      name: :FK_locations_feature_codes_locations_feature_classes
-    )
+    |> unique_constraint(:feature_code)
+    |> foreign_key_constraint(:feature_class)
     |> validate_required([:feature_code, :feature_class, :order, :description])
   end
 end

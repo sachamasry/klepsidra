@@ -37,6 +37,7 @@ defmodule Klepsidra.Localisation.Language do
       :"iso_639-1_language_code",
       :language_name
     ])
+    |> unique_constraint(:"iso_639-3")
     |> validate_required([:"iso_639-3_language_code", :language_name])
   end
 end

@@ -29,9 +29,7 @@ defmodule Klepsidra.Locations.Continent do
   def changeset(continent, attrs) do
     continent
     |> cast(attrs, [:continent_code, :continent_name, :geoname_id])
-    |> unique_constraint(:continent_code,
-      name: :locations_continents_continent_code_index
-    )
+    |> unique_constraint(:continent_code)
     |> validate_required([:continent_code, :continent_name, :geoname_id])
   end
 end

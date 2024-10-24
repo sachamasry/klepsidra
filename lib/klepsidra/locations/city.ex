@@ -44,8 +44,7 @@ defmodule Klepsidra.Locations.City do
     field(:longitude, :float)
 
     field(:feature_class, :binary_id)
-    # field(:feature_code, :binary_id)
-    belongs_to(:feature_code, FeatureCode, references: :feature_code, type: :binary_id)
+    field(:feature_code, :binary_id)
 
     field(:country_code, :string)
     field(:cc2, :string)
@@ -68,8 +67,8 @@ defmodule Klepsidra.Locations.City do
     |> cast(attrs, [
       :geoname_id,
       :name,
-      :asciiname,
-      :alternatenames,
+      :ascii_name,
+      :alternate_names,
       :latitude,
       :longitude,
       :feature_class,
@@ -86,21 +85,18 @@ defmodule Klepsidra.Locations.City do
       :timezone,
       :modification_date
     ])
-    |> unique_constraint([:geoname_id],
-      name: :locations_cities_geoname_id_index
+    |> unique_constraint(:geoname_id)
+    |> foreign_key_constraint(:feature_class,
+      name: :FK_locations_cities_locations_feature_classes_4
     )
-    |> foreign_key_constraint(:administrative_divisions_1,
+    |> foreign_key_constraint(:feature_code, name: :FK_locations_cities_locations_feature_codes_5)
+    |> foreign_key_constraint(:country_code, name: :FK_locations_cities_locations_countries_3)
+    |> foreign_key_constraint(:administrative_divisions_1_code,
       name: :FK_locations_cities_locations_administrative_divisions_1
     )
-    |> foreign_key_constraint(:administrative_divisions_2,
-      name: :FK_locations_cities_locations_administrative_divisions_2_2
-    )
-    |> foreign_key_constraint(:country_code,
-      name: :FK_locations_cities_locations_countries_3
-    )
-    |> foreign_key_constraint(:feature_code,
-      name: :FK_locations_cities_locations_feature_codes_4
-    )
+    # |> foreign_key_constraint(:administrative_divisions_2_code,
+    #   name: :FK_locations_cities_locations_administrative_divisions_2_2
+    # )
     |> validate_required([
       :geoname_id,
       :name,

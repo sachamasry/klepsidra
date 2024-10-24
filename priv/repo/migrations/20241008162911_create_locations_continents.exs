@@ -27,12 +27,6 @@ defmodule Klepsidra.Repo.Migrations.CreateLocationsContinents do
     end
 
     create(
-      unique_index(:locations_continents, [:continent_code],
-        comment: "Unique index on two-character continent code primary key"
-      )
-    )
-
-    create(
       unique_index(:locations_continents, [:continent_name],
         comment: "Unique index on continent name field"
       )

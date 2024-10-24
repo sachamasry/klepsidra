@@ -40,12 +40,8 @@ defmodule Klepsidra.Locations.AdministrativeDivisions1 do
       :administrative_division_1_ascii_name,
       :geoname_id
     ])
-    |> unique_constraint(:administrative_division_1_code,
-      name: :locations_administrative_divisions_1_administrative_division_1_code_index
-    )
-    |> foreign_key_constraint(:country_code,
-      name: :FK_locations_administrative_divisions_1_locations_countries
-    )
+    |> unique_constraint(:administrative_division_1_code)
+    |> foreign_key_constraint(:country_code)
     |> validate_required([
       :administrative_division_1_code,
       :country_code,
