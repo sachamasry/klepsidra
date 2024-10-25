@@ -638,10 +638,14 @@ defmodule Klepsidra.Locations do
       iex> Locations.list_cities_by_name("london")
       [%{}, ...]
   """
-  @spec list_cities_by_name(name_filter :: String.t()) :: [map(), ...]
-  def list_cities_by_name(""), do: []
+  @spec list_cities_by_name(name_filter :: String.t(), options :: keyword()) :: [map(), ...]
+  def list_cities_by_name(name_filter, options \\ [])
 
-  def list_cities_by_name(name_filter) when is_bitstring(name_filter) do
+  def list_cities_by_name("", _), do: []
+
+  def list_cities_by_name(name_filter, _options) when is_bitstring(name_filter) do
+    # Keyword.get(options, :limit, 25)
+    max_result_count = 25
     like_name = "%#{name_filter}%"
 
     query =
@@ -664,15 +668,32 @@ defmodule Klepsidra.Locations do
         select: %{
           id: c.id,
           name: c.name,
-          state: ad.administrative_division_1_name |> coalesce(""),
+          level_1_division: ad.administrative_division_1_name |> coalesce(""),
           country_name: co.country_name,
           feature_description: fc.description
         },
-        limit: 25
+        limit: ^max_result_count
       )
 
     Repo.all(query)
   end
+
+  def list_cities_by_name(_, _), do: []
+
+  @doc """
+  Searches for cities, forming the result into an HTML usable
+  %{value: id, label: city} map.
+  """
+  @spec city_search(city_name :: String.t()) :: [map()]
+  def city_search(city_name) when is_bitstring(city_name) do
+    city_name
+    |> list_cities_by_name(limit: 25)
+    |> Enum.map(fn city ->
+      %{value: city.id, label: "#{city.name}, #{city.level_1_division} - #{city.country_name}}"}
+    end)
+  end
+
+  def city_search(_name), do: []
 
   @doc """
   Gets a single city.

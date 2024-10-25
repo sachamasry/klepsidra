@@ -191,7 +191,8 @@ defmodule Klepsidra.MixProject do
       {:timex, "~> 3.7"},
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
-      {:live_toast, "~> 0.6.4"}
+      {:live_toast, "~> 0.6.4"},
+      {:live_select, "~> 1.0"}
     ]
   end
 

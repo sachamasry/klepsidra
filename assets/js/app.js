@@ -33,6 +33,8 @@ const liveToastMaxItems = 3
 
 const liveToastHook = createLiveToastHook(liveToastDuration, liveToastMaxItems)
 
+import live_select from "live_select"
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
     params: {
@@ -46,7 +48,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
         }
     },
     hooks: {
-        LiveToast: liveToastHook
+        LiveToast: liveToastHook,
+        ...live_select
     }
 })
 

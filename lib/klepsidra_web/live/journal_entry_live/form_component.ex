@@ -45,6 +45,19 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         />
         <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
         <.input field={@form[:location]} type="text" label="Where are you?" />
+
+        <.live_select
+          field={@form[:city]}
+          label="City"
+          mode={:single}
+          placeholder="Search for a city"
+          allow_clear={true}
+          update_min_len={2}
+          phx-focus="clear"
+          phx-target={@myself}
+          options={[{"New York", "NY"}]}
+        />
+
         <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
         <:actions>
           <.button phx-disable-with="Saving...">Save journal entry</.button>
@@ -78,6 +91,41 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
   def handle_event("save", %{"journal_entry" => journal_entry_params}, socket) do
     save_journal_entry(socket, socket.assigns.action, journal_entry_params)
+  end
+
+  @impl true
+  def handle_event("live_select_change", %{"text" => text, "id" => live_select_id}, socket) do
+    cities = Klepsidra.Locations.city_search(text)
+    # cities could be:
+    # [ {"city name 1", [lat_1, long_1]}, {"city name 2", [lat_2, long_2]}, ... ]
+    #
+    # but it could also be (no coordinates in this case):
+    # [ "city name 1", "city name 2", ... ]
+    #
+    # or:
+    # [ [label: "city name 1", value: [lat_1, long_1]], [label: "city name 2", value: [lat_2, long_2]], ... ] 
+    #
+    # or even:
+    # ["city name 1": [lat_1, long_1], "city name 2": [lat_2, long_2]]
+
+    send_update(LiveSelect.Component, id: live_select_id, options: cities)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "change",
+        %{"journal_entry" => %{"location_text_input" => city_name}},
+        socket
+      ) do
+    IO.puts("You selected city #{city_name} ")
+
+    {:noreply, socket}
+  end
+
+  def handle_event("clear", %{"id" => "journal_entry_city_live_select_component"}, socket) do
+    {:noreply, socket}
   end
 
   defp save_journal_entry(socket, :edit, journal_entry_params) do
