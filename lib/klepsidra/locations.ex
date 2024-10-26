@@ -689,7 +689,7 @@ defmodule Klepsidra.Locations do
     city_name
     |> list_cities_by_name(limit: 25)
     |> Enum.map(fn city ->
-      %{value: city.id, label: "#{city.name}, #{city.level_1_division} - #{city.country_name}}"}
+      %{value: city.id, label: "#{city.name}, #{city.level_1_division} - #{city.country_name}"}
     end)
   end
 

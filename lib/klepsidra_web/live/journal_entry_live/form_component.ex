@@ -44,18 +44,17 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
           placeholder="Summary of key points"
         />
         <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
-        <.input field={@form[:location]} type="text" label="Where are you?" />
-
         <.live_select
-          field={@form[:city]}
+          field={@form[:location]}
           label="City"
           mode={:single}
-          placeholder="Search for a city"
+          placeholder="Where are you?"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
           allow_clear={true}
           update_min_len={2}
           phx-focus="clear"
           phx-target={@myself}
-          options={[{"New York", "NY"}]}
         />
 
         <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
@@ -96,35 +95,15 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   @impl true
   def handle_event("live_select_change", %{"text" => text, "id" => live_select_id}, socket) do
     cities = Klepsidra.Locations.city_search(text)
-    # cities could be:
-    # [ {"city name 1", [lat_1, long_1]}, {"city name 2", [lat_2, long_2]}, ... ]
-    #
-    # but it could also be (no coordinates in this case):
-    # [ "city name 1", "city name 2", ... ]
-    #
-    # or:
-    # [ [label: "city name 1", value: [lat_1, long_1]], [label: "city name 2", value: [lat_2, long_2]], ... ] 
-    #
-    # or even:
-    # ["city name 1": [lat_1, long_1], "city name 2": [lat_2, long_2]]
 
     send_update(LiveSelect.Component, id: live_select_id, options: cities)
 
     {:noreply, socket}
   end
 
-  @impl true
-  def handle_event(
-        "change",
-        %{"journal_entry" => %{"location_text_input" => city_name}},
-        socket
-      ) do
-    IO.puts("You selected city #{city_name} ")
+  def handle_event("clear", %{"id" => id}, socket) do
+    send_update(LiveSelect.Component, options: [], id: id)
 
-    {:noreply, socket}
-  end
-
-  def handle_event("clear", %{"id" => "journal_entry_city_live_select_component"}, socket) do
     {:noreply, socket}
   end
 

@@ -660,6 +660,12 @@ defmodule KlepsidraWeb.CoreComponents do
       <.label for={@field.id}><%= @label %></.label>
       <LiveSelect.live_select
         field={@field}
+        active_option_class={["bg-violet-700 text-white"]}
+        available_option_class={["cursor-pointer hover:bg-violet-500 hover:text-white rounded"]}
+        clear_button_class={["cursor-pointer hidden"]}
+        container_class={["h-full relative text-black"]}
+        option_class={["px-4 py-1 rounded"]}
+        selected_option_class={["text-gray-400"]}
         text_input_class={[
           "mt-2 block w-full rounded-lg border-zinc-300 py-[7px] px-[11px]",
           "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
