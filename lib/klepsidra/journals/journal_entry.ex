@@ -15,8 +15,8 @@ defmodule Klepsidra.Journals.JournalEntry do
           entry_text_markdown: String.t(),
           entry_text_html: String.t(),
           highlights: String.t(),
-          entry_type_id: integer(),
-          location: String.t(),
+          entry_type_id: Ecto.UUID.t(),
+          location_id: Ecto.UUID.t(),
           latitude: float(),
           longitude: float(),
           mood: String.t(),
@@ -31,7 +31,7 @@ defmodule Klepsidra.Journals.JournalEntry do
     field(:entry_text_html, :string)
     field(:highlights, :string)
     belongs_to(:entry_type, Klepsidra.Journals.JournalEntryTypes)
-    field(:location, :string, default: "")
+    belongs_to(:location, Klepsidra.Locations.City)
     field(:latitude, :float, default: nil)
     field(:longitude, :float, default: nil)
     field(:mood, :string, default: "")
@@ -52,7 +52,7 @@ defmodule Klepsidra.Journals.JournalEntry do
       :entry_text_html,
       :entry_type_id,
       :highlights,
-      :location,
+      :location_id,
       :latitude,
       :longitude,
       :mood,
@@ -68,6 +68,10 @@ defmodule Klepsidra.Journals.JournalEntry do
       message: "Please select what type of journal entry you're logging"
     )
     |> assoc_constraint(:entry_type)
+    |> validate_required(:location_id,
+      message: "Where are you as you log this entry?"
+    )
+    |> assoc_constraint(:location)
   end
 
   @doc """

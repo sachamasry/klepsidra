@@ -18,6 +18,7 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
     {:ok,
      socket
      |> assign(:datestamp, datestamp)
+     |> assign(:location_select_value, {"", ""})
      |> stream(:journal_entries, journal_entries)}
   end
 

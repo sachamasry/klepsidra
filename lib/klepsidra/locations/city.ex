@@ -9,6 +9,7 @@ defmodule Klepsidra.Locations.City do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Klepsidra.Locations
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -109,5 +110,12 @@ defmodule Klepsidra.Locations.City do
       :timezone,
       :modification_date
     ])
+  end
+
+  def format_city_into_html_select(city_id) do
+    city =
+      Locations.get_city_territory_and_country!(city_id)
+
+    %{value: city.id, label: "#{city.name}, #{city.level_1_division} - #{city.country_name}"}
   end
 end

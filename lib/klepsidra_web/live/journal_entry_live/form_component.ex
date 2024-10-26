@@ -45,7 +45,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         />
         <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
         <.live_select
-          field={@form[:location]}
+          field={@form[:location_id]}
           label="City"
           mode={:single}
           placeholder="Where are you?"

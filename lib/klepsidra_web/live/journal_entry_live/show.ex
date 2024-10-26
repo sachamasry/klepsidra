@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntry
+  alias Klepsidra.Locations.City
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,12 +17,14 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
     journal_entry = get_journal(id)
 
     journal_entry_type = get_journal_entry_type(journal_entry.entry_type_id |> to_string())
+    location_select_value = City.format_city_into_html_select(journal_entry.location_id)
 
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:journal_entry, journal_entry)
-     |> assign(:journal_entry_type, journal_entry_type)}
+     |> assign(:journal_entry_type, journal_entry_type)
+     |> assign(:location_select_value, location_select_value)}
   end
 
   defp page_title(:show), do: "Show journal entry"
