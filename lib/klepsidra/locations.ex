@@ -712,21 +712,24 @@ defmodule Klepsidra.Locations do
   def get_city!(id), do: Repo.get!(City, id)
 
   @doc """
-  Gets a single city, with level 1 division and country names.
+  Gets a single city, with level 1 administrative division or territory,
+  and country name.
 
-  Raises `Ecto.NoResultsError` if the City does not exist.
+  Returns `nil` if the City does not exist.
 
   ## Examples
 
-      iex> Locations.get_city!(123)
+      iex> Locations.get_city_territory_and_country!(123)
       %Locations.City{}
 
-      iex> Locations.get_city!(456)
-      ** (Ecto.NoResultsError)
+      iex> Locations.get_city_territory_and_country!(456)
+      nil
 
   """
-  @spec get_city_territory_and_country!(id :: Ecto.UUID.t()) :: City.t()
-  def get_city_territory_and_country!(id) do
+  @spec get_city_territory_and_country!(city_id :: Ecto.UUID.t()) :: City.t() | nil
+  def get_city_territory_and_country!(""), do: nil
+
+  def get_city_territory_and_country!(city_id) when is_bitstring(city_id) do
     query =
       from(
         c in City,
@@ -736,7 +739,7 @@ defmodule Klepsidra.Locations do
         on: c.country_code == co.iso_country_code,
         left_join: ad in AdministrativeDivisions1,
         on: c.administrative_division_1_code == ad.administrative_division_1_code,
-        where: c.id == ^id,
+        where: c.id == ^city_id,
         select: %{
           id: c.id,
           name: c.name,
@@ -748,6 +751,8 @@ defmodule Klepsidra.Locations do
 
     Repo.one(query)
   end
+
+  def get_city_territory_and_country!(_), do: nil
 
   @doc """
   Creates a city.

@@ -95,9 +95,6 @@ defmodule Klepsidra.Locations.City do
     |> foreign_key_constraint(:administrative_divisions_1_code,
       name: :FK_locations_cities_locations_administrative_divisions_1
     )
-    # |> foreign_key_constraint(:administrative_divisions_2_code,
-    #   name: :FK_locations_cities_locations_administrative_divisions_2_2
-    # )
     |> validate_required([
       :geoname_id,
       :name,
@@ -112,10 +109,48 @@ defmodule Klepsidra.Locations.City do
     ])
   end
 
-  def format_city_into_html_select(city_id) do
-    city =
-      Locations.get_city_territory_and_country!(city_id)
+  @doc """
+  Constructs an HTML `select` option for a single city entity, for use by
+  the `live_select` live component.
 
-    %{value: city.id, label: "#{city.name}, #{city.level_1_division} - #{city.country_name}"}
+  Given a current `location_id`, a foreign key reference to a city in the
+  `locations_cities` table, calls the `get_city_territory_and_country/1`
+  query, obtaining necessary fields to construct a full, unambiguous,
+  city name.
+
+  ## Returns
+
+  Returns a single map:
+  ```
+  %{
+    label: << city_name, territory - country name >>,
+    value: << city_id (UUID) >>
+  ```
+
+  ## Examples
+
+      iex> city_option_as_html_select(UUID)
+      %{label: "...", value: "UUID"}
+
+      iex> city_option_as_html_select(123)
+      %{label: "", value: ""}
+  """
+  @spec city_option_for_select(city_id :: Ecto.UUID.t()) :: %{
+          label: String.t(),
+          value: Ecto.UUID.t() | String.t()
+        }
+  def city_option_for_select(city_id) when is_bitstring(city_id) do
+    case Locations.get_city_territory_and_country!(city_id) do
+      nil ->
+        %{label: "", value: ""}
+
+      city ->
+        %{
+          label: "#{city.name}, #{city.level_1_division} - #{city.country_name}",
+          value: city.id
+        }
+    end
   end
+
+  def city_option_as_html_select(_), do: %{label: "", value: ""}
 end

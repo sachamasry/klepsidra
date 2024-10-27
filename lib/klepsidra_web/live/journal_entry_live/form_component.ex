@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntryTypes
+  alias Klepsidra.Locations.City
 
   @impl true
   def render(assigns) do
@@ -46,15 +47,16 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
         <.live_select
           field={@form[:location_id]}
-          label="City"
-          mode={:single}
+          label="Location"
           placeholder="Where are you?"
           debounce={200}
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-          allow_clear={true}
+          mode={:single}
           update_min_len={2}
-          phx-focus="clear"
           phx-target={@myself}
+          phx-focus="location_focus"
+          phx-blur="location_blur"
+          value_mapper={&value_mapper/1}
         />
 
         <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
@@ -68,6 +70,13 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
   @impl true
   def update(%{journal_entry: journal_entry} = assigns, socket) do
+    # if journal_entry.id do
+    # send_update(LiveSelect.Component,
+    #             id: "journal_entry_location_id_live_select_component",
+    #             options: City.format_city_into_html_select("63de1fac-95d0-49f2-a2bf-11740a5950c1")
+    # )
+    # end
+
     socket =
       socket
       |> assign(assigns)
@@ -75,6 +84,10 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         to_form(Journals.change_journal_entry(journal_entry))
       end)
       |> assign_entry_type()
+      |> assign(:location_select_value, %{
+        label: "West End of London, England - United Kingdom",
+        value: "63de1fac-95d0-49f2-a2bf-11740a5950c1"
+      })
 
     {:ok, socket}
   end
@@ -101,9 +114,21 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
     {:noreply, socket}
   end
 
+  def handle_event("focus", _params, socket) do
+    {:noreply, socket}
+  end
+
   def handle_event("clear", %{"id" => id}, socket) do
     send_update(LiveSelect.Component, options: [], id: id)
 
+    {:noreply, socket}
+  end
+
+  def handle_event("location_focus", %{"id" => _id}, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("location_blur", %{"id" => _id}, socket) do
     {:noreply, socket}
   end
 
@@ -155,4 +180,10 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp value_mapper(location_id) when is_bitstring(location_id) do
+    City.city_option_for_select(location_id)
+  end
+
+  defp value_mapper(value), do: value
 end
