@@ -164,7 +164,7 @@ defmodule Klepsidra.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
       {:ecto_sqlite3, ">= 0.0.0"},
-      {:phoenix_html, "~> 4.1.0"},
+      {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.20.2"},
       {:floki, ">= 0.30.0"},
@@ -199,7 +199,7 @@ defmodule Klepsidra.MixProject do
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
       {:live_toast, "~> 0.6.4"},
-      {:live_select, "~> 1.4.2"}
+      {:live_select, "~> 1.4.3"}
     ]
   end
 
