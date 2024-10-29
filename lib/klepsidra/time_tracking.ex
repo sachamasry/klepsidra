@@ -962,7 +962,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Deletes a activity_type.
+  Deletes an activity_type.
 
   ## Examples
 

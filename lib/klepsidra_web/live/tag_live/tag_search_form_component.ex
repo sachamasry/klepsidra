@@ -270,7 +270,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
   end
 
   defp add_tag_to_timer(timer, search_phrase) do
-    Categorisation.tag_timer(timer, %{tag: %{name: search_phrase}})
+    Categorisation.upsert_tag_timer(timer, %{tag: %{name: search_phrase}})
     timer = TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
 
     # timer.tags

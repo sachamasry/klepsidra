@@ -17,6 +17,7 @@ defmodule Klepsidra.Categorisation do
 
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
+  alias Klepsidra.TimeTracking.Timer
 
   @doc """
   Returns the list of tags.
@@ -112,9 +113,20 @@ defmodule Klepsidra.Categorisation do
     Tag.changeset(tag, attrs)
   end
 
+  @doc false
+  def tag_timer(timer, tag_id) when is_struct(timer, Timer) and is_bitstring(tag_id) do
+    tag = get_tag!(tag_id)
+
+    timer
+    |> Ecto.build_assoc(:timer_tags)
+    |> TimerTags.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:tag, tag)
+    |> Repo.insert()
+  end
+
   @doc """
   """
-  def tag_timer(timer, %{tag: tag_attrs} = attrs) do
+  def upsert_tag_timer(timer, %{tag: tag_attrs} = attrs) do
     tag = create_or_find_tag(tag_attrs)
 
     timer
@@ -154,8 +166,24 @@ defmodule Klepsidra.Categorisation do
 
   @doc """
   """
-  def delete_tag_from_timer(timer, tag) do
+  def delete_tag_from_timer(timer, tag) when is_struct(timer, Timer) and is_struct(tag, Tag) do
     Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag.id)
+    |> case do
+      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
+      nil -> {:ok, %TimerTags{}}
+    end
+  end
+
+  def delete_tag_from_timer(timer, tag) when is_struct(timer, Timer) and is_bitstring(tag) do
+    Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag)
+    |> case do
+      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
+      nil -> {:ok, %TimerTags{}}
+    end
+  end
+
+  def delete_tag_from_timer(timer, tag) when is_bitstring(timer) and is_bitstring(tag) do
+    Repo.get_by(TimerTags, timer_id: timer, tag_id: tag)
     |> case do
       %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
       nil -> {:ok, %TimerTags{}}

@@ -9,6 +9,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
   alias Klepsidra.TimeTracking.ActivityType
+  alias Klepsidra.Categorisation.Tag
 
   @impl true
   def render(assigns) do
@@ -26,6 +27,19 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.live_select
+          field={@form[:ls_tag_search]}
+          mode={:tags}
+          label="Tags"
+          options={[]}
+          value={@timer_tags}
+          placeholder="Enter tag"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={2}
+          user_defined_options="true"
+          phx-target={@myself}
+        />
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
 
@@ -103,12 +117,28 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           %{}
       end
 
+    timer = timer |> Klepsidra.Repo.preload(:tags)
+
     changeset = TimeTracking.change_timer(timer, timer_changes)
+
+    sorted_timer_tags = Tag.sort_tags(timer.timer_tags)
+
+    timer_tags_for_option =
+      sorted_timer_tags
+      |> Enum.map(fn timer_tag -> %{label: timer_tag.tag.name, value: timer_tag.tag.id} end)
+
+    timer_tags =
+      sorted_timer_tags
+      |> Enum.map(fn timer_tag -> timer_tag.tag.id end)
 
     socket =
       socket
       |> assign(assigns)
-      |> assign(billable_activity?: assigns.timer.billable)
+      |> assign(
+        billable_activity?: assigns.timer.billable,
+        timer_tags: timer_tags_for_option,
+        tags: timer_tags
+      )
       |> assign_project()
       |> assign_business_partner()
       |> assign_activity_type()
@@ -278,6 +308,34 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:noreply, assign_form(socket, changeset)}
   end
 
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
+        socket
+      ) do
+    Tag.handle_tag_list_changes(
+      socket.assigns.tags,
+      tags_applied,
+      socket.assigns.timer,
+      fn base_entity, ins_list ->
+        Enum.map(ins_list, fn tag_id ->
+          Klepsidra.Categorisation.tag_timer(base_entity, tag_id)
+        end)
+      end,
+      fn base_entity, del_list ->
+        Enum.map(del_list, fn tag_id ->
+          Klepsidra.Categorisation.delete_tag_from_timer(base_entity, tag_id)
+        end)
+      end
+    )
+
+    socket =
+      socket
+      |> assign(tags: tags_applied)
+
+    {:noreply, socket}
+  end
+
   def handle_event("validate", %{"timer" => timer_params}, socket) do
     changeset =
       socket.assigns.timer
@@ -289,6 +347,32 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
     save_timer(socket, socket.assigns.action, timer_params)
+  end
+
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "timer_ls_tag_search",
+          "id" => live_select_id,
+          "text" => tag_search_phrase
+        },
+        socket
+      ) do
+    tag_search_results =
+      Klepsidra.Categorisation.search_tags_by_name_prefix(tag_search_phrase)
+      |> Enum.map(fn tag -> %{label: tag.name, value: tag.id} end)
+
+    send_update(LiveSelect.Component, id: live_select_id, options: tag_search_results)
+
+    socket =
+      socket
+      |> assign(
+        tag_search_results: tag_search_results,
+        tag_search_phrase: tag_search_phrase,
+        current_tag_focus_index: -1
+      )
+
+    {:noreply, socket}
   end
 
   defp save_timer(socket, :new_timer, timer_params) do
