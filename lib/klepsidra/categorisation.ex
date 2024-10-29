@@ -113,30 +113,79 @@ defmodule Klepsidra.Categorisation do
     Tag.changeset(tag, attrs)
   end
 
-  @doc false
+  @doc """
+  DEPRECATED, to be removed
+  """
   def tag_timer(timer, tag_id) when is_struct(timer, Timer) and is_bitstring(tag_id) do
     tag = get_tag!(tag_id)
 
     timer
-    |> Ecto.build_assoc(:timer_tags)
+    |> Ecto.build_assoc(:tags)
+    |> Tag.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:tags, tag)
+    |> Repo.insert()
+  end
+
+  def add_timer_tag(timer_id, tag_id) do
+    now = DateTime.utc_now()
+
+    # Check if the tag is already associated with the timer
+    existing_association =
+      Repo.one(
+        from(tt in "timer_tags",
+          where: tt.timer_id == ^timer_id and tt.tag_id == ^tag_id,
+          select: %{timer_id: tt.timer_id, tag_id: tt.tag_id}
+        )
+      )
+
+    # Repo.update(changeset)
+    if existing_association do
+      {:ok, :already_exists}
+    else
+      # Insert a new association with timestamps
+      timer_tag_entry = %{
+        timer_id: timer_id,
+        tag_id: tag_id,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      case Repo.insert_all("timer_tags", [timer_tag_entry]) do
+        {1, _} -> {:ok, :inserted}
+        _ -> {:error, :insert_failed}
+      end
+    end
+  end
+
+  def delete_timer_tag(timer_id, tag_id) do
+    # Execute the delete operation on the "timer_tags" table
+    case Repo.delete_all(
+           from(tt in "timer_tags",
+             where: tt.timer_id == ^timer_id and tt.tag_id == ^tag_id
+           )
+         ) do
+      # No records were deleted
+      {0, _} -> {:error, :not_found}
+      # One record was deleted
+      {1, _} -> {:ok, :deleted}
+      # For any unexpected results
+      _ -> {:error, :unexpected_result}
+    end
+  end
+
+  @doc """
+  DEPRECATED, will be removed
+  """
+  def upsert_tag_timer(timer, %{tag: tag_attrs} = _attrs) do
+    tag = create_or_find_tag(tag_attrs)
+
+    timer
     |> TimerTags.changeset(%{})
     |> Ecto.Changeset.put_assoc(:tag, tag)
     |> Repo.insert()
   end
 
-  @doc """
-  """
-  def upsert_tag_timer(timer, %{tag: tag_attrs} = attrs) do
-    tag = create_or_find_tag(tag_attrs)
-
-    timer
-    |> Ecto.build_assoc(:timer_tags)
-    |> TimerTags.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:tag, tag)
-    |> Repo.insert()
-  end
-
-  defp create_or_find_tag(%{name: "" <> name} = attrs) do
+  def create_or_find_tag(%{name: "" <> name} = attrs) do
     %Tag{}
     |> Tag.changeset(attrs)
     |> Repo.insert()
@@ -146,7 +195,7 @@ defmodule Klepsidra.Categorisation do
     end
   end
 
-  defp create_or_find_tag(_), do: nil
+  def create_or_find_tag(_), do: nil
 
   @doc """
   Gets a single timer tag record.

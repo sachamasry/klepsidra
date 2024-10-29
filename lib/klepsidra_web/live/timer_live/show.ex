@@ -6,7 +6,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   alias Klepsidra.TimeTracking
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
-  alias KlepsidraWeb.Live.TagLive.SearchFormComponent
+  # alias KlepsidraWeb.Live.TagLive.SearchFormComponent
 
   @impl true
   def mount(params, _session, socket) do

@@ -7,23 +7,25 @@ defmodule Klepsidra.Repo.Migrations.CreateTimerTags do
              comment:
                "Activity timer tags table, helping categorise timers with tags in a many-to-many relationship"
            ) do
-      add :id, :uuid,
-        primary_key: true,
+      add(
+        :timer_id,
+        references(:timers, on_delete: :delete_all, on_update: :update_all, type: :uuid),
         null: false,
-        comment: "UUID-based timer tags primary key"
+        comment: "Foreign key referencing activity timers"
+      )
 
-      add :tag_id, references(:tags, on_delete: :delete_all, on_update: :update_all, type: :uuid),
+      add(:tag_id, references(:tags, on_delete: :delete_all, on_update: :update_all, type: :uuid),
+        null: false,
         comment: "Foreign key referencing tags"
-
-      add :timer_id,
-          references(:timers, on_delete: :delete_all, on_update: :update_all, type: :uuid),
-          comment: "Foreign key referencing activity timers"
+      )
 
       timestamps()
     end
 
-    create index(:timer_tags, [:tag_id, :timer_id],
-             comment: "Composite index of `tag_id` and `timer_id` fields"
-           )
+    create(
+      unique_index(:timer_tags, [:timer_id, :tag_id],
+        comment: "Composite unique index of `timer_id` and `tag_id` fields"
+      )
+    )
   end
 end

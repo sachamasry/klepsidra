@@ -136,7 +136,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
      |> assign(assigns)
      |> assign(
        timer: timer,
-       timer_tags: sort_tags(timer.timer_tags),
+       # timer_tags: sort_tags(timer.timer_tags),
        tags: [],
        search_results: [],
        search_phrase: "",
@@ -239,13 +239,14 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
 
   # ENTER
   def handle_event("set-focus", %{"key" => "Enter"}, socket) do
-    search_phrase =
-      case Enum.at(socket.assigns.search_results, socket.assigns.current_focus) do
-        {_, "" <> search_phrase, _} -> handle_event("pick", %{"name" => search_phrase}, socket)
-        _ -> socket.assigns.search_phrase
-      end
+    # search_phrase =
+    #   case Enum.at(socket.assigns.search_results, socket.assigns.current_focus) do
+    #     {_, "" <> search_phrase, _} -> handle_event("pick", %{"name" => search_phrase}, socket)
+    #     _ -> socket.assigns.search_phrase
+    #   end
 
-    handle_event("pick", %{"name" => search_phrase}, socket)
+    # handle_event("pick", %{"name" => search_phrase}, socket)
+    {:noreply, socket}
   end
 
   # Esc
@@ -271,10 +272,7 @@ defmodule KlepsidraWeb.Live.TagLive.SearchFormComponent do
 
   defp add_tag_to_timer(timer, search_phrase) do
     Categorisation.upsert_tag_timer(timer, %{tag: %{name: search_phrase}})
-    timer = TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
-
-    # timer.tags
-    timer
+    TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
   end
 
   defp delete_tag_from_timer(timer_tag_id) do

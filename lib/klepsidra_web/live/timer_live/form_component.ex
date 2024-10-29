@@ -25,6 +25,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         id="timer-form"
         phx-target={@myself}
         phx-change="validate"
+        phx-window-keyup="key_up"
         phx-submit="save"
       >
         <.live_select
@@ -32,12 +33,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           mode={:tags}
           label="Tags"
           options={[]}
-          value={@timer_tags}
           placeholder="Enter tag"
-          debounce={200}
+          debounce={80}
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
           update_min_len={2}
           user_defined_options="true"
+          value={@selected_tags}
+          phx-blur="ls_tag_search_blur"
           phx-target={@myself}
         />
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
@@ -121,23 +123,21 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
-    sorted_timer_tags = Tag.sort_tags(timer.timer_tags)
+    tag_options =
+      Enum.map(timer.tags, fn tag ->
+        %{label: tag.name, value: tag.id}
+      end)
 
-    timer_tags_for_option =
-      sorted_timer_tags
-      |> Enum.map(fn timer_tag -> %{label: timer_tag.tag.name, value: timer_tag.tag.id} end)
-
-    timer_tags =
-      sorted_timer_tags
-      |> Enum.map(fn timer_tag -> timer_tag.tag.id end)
+    tags =
+      Enum.map(timer.tags, fn tag -> tag.id end)
 
     socket =
       socket
       |> assign(assigns)
       |> assign(
-        billable_activity?: assigns.timer.billable,
-        timer_tags: timer_tags_for_option,
-        tags: timer_tags
+        billable_activity?: timer.billable,
+        selected_tags: tag_options,
+        tag_queue: tags
       )
       |> assign_project()
       |> assign_business_partner()
@@ -313,25 +313,37 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
         socket
       ) do
-    Tag.handle_tag_list_changes(
-      socket.assigns.tags,
+    update_tags(
+      socket.assigns.action,
+      socket.assigns.tag_queue,
       tags_applied,
-      socket.assigns.timer,
-      fn base_entity, ins_list ->
-        Enum.map(ins_list, fn tag_id ->
-          Klepsidra.Categorisation.tag_timer(base_entity, tag_id)
-        end)
-      end,
-      fn base_entity, del_list ->
-        Enum.map(del_list, fn tag_id ->
-          Klepsidra.Categorisation.delete_tag_from_timer(base_entity, tag_id)
-        end)
-      end
+      socket.assigns.timer.id
     )
 
     socket =
       socket
-      |> assign(tags: tags_applied)
+      |> assign(tag_queue: tags_applied)
+
+    {:noreply, socket}
+  end
+
+  @doc """
+  Validate event which fires only once the last of the tags has been cleared
+  from a `live_select` component.
+  """
+  def handle_event(
+        "validate",
+        %{
+          "_target" => ["timer", "ls_tag_search_empty_selection"],
+          "timer" => %{"ls_tag_search_empty_selection" => ""}
+        },
+        socket
+      ) do
+    update_tags(socket.assigns.action, socket.assigns.tag_queue, [], socket.assigns.timer.id)
+
+    socket =
+      socket
+      |> assign(possible_free_tag_entered: false)
 
     {:noreply, socket}
   end
@@ -367,11 +379,75 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     socket =
       socket
       |> assign(
-        tag_search_results: tag_search_results,
         tag_search_phrase: tag_search_phrase,
-        current_tag_focus_index: -1
+        possible_free_tag_entered: true
       )
 
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "ls_tag_search_blur",
+        %{"id" => "timer_ls_tag_search_live_select_component"},
+        socket
+      ) do
+    socket =
+      socket
+      |> assign(possible_free_tag_entered: false)
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "key_up",
+        %{"key" => "Enter"},
+        %{assigns: %{possible_free_tag_entered: true}} = socket
+      ) do
+    # possible_free_tag_entry? = socket.assigns.possible_free_tag_entered
+    # search_phrase = socket.assigns.tag_search_phrase
+
+    # valid_free_tag_entry =
+    #   cond do
+    #     possible_free_tag_entry? and String.length(search_phrase) > 1 ->
+    #       IO.inspect(search_phrase, label: "BINGO! Adding search phrase")
+    #       IO.inspect(socket.assigns.timer, label: "On Enter timer")
+    #       timer = add_tag_to_timer(socket.assigns.timer, search_phrase)
+    #       IO.inspect(timer.timer_tags, label: "On Enter sorted timer tags")
+
+    #       sorted_timer_tags = Tag.sort_tags(timer.timer_tags)
+
+    #       timer_tags_for_option =
+    #         sorted_timer_tags
+    #         |> Enum.map(fn timer_tag -> %{label: timer_tag.tag.name, value: timer_tag.tag.id} end)
+
+    #       timer_tags =
+    #         sorted_timer_tags
+    #         |> Enum.map(fn timer_tag -> timer_tag.tag.id end)
+    #       IO.inspect(timer_tags, label: "On Enter timer tags")
+
+    #       socket =
+    #         socket
+    #         |> assign(
+    #           selected_tags: timer_tags_for_option,
+    #           # tag_queue: timer_tags,
+    #           tag_search_phrase: "",
+    #           possible_free_tag_entered: false
+    #         )
+
+    #       IO.inspect(socket.assigns.tags, label: "On Enter Assigns tags")
+    #       send_update(LiveSelect.Component,
+    #                   id: "timer_ls_tag_search_live_select_component",
+    #         value: timer_tags_for_option
+    #       )
+
+    #     true ->
+    #       nil
+    #   end
+
+    {:noreply, socket}
+  end
+
+  def handle_event("key_up", %{"key" => _}, socket) do
     {:noreply, socket}
   end
 
@@ -444,6 +520,16 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       end
 
     assign(socket, activity_types: activity_types)
+  end
+
+  @spec update_tags(
+          action :: :edit_timer,
+          current_tag_queue :: [any()],
+          tag_list_to_sync_with :: [any()],
+          entity_id :: bitstring()
+        ) :: nil
+  def update_tags(:edit_timer, current_tag_queue, tag_list_to_sync_with, entity) do
+    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

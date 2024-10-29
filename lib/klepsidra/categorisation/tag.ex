@@ -9,8 +9,7 @@ defmodule Klepsidra.Categorisation.Tag do
 
   use Ecto.Schema
   import Ecto.Changeset
-
-  alias Klepsidra.Categorisation.TimerTags
+  alias Klepsidra.Categorisation
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -27,9 +26,13 @@ defmodule Klepsidra.Categorisation.Tag do
     field(:colour, :string)
     field(:fg_colour, :string)
 
-    timestamps()
+    many_to_many(:timers, Klepsidra.TimeTracking.Timer,
+      join_through: "timer_tags",
+      on_replace: :delete,
+      preload_order: [asc: :start_stamp]
+    )
 
-    many_to_many(:timers, TimerTags, join_through: "timer_tags")
+    timestamps()
   end
 
   @doc false
@@ -46,24 +49,42 @@ defmodule Klepsidra.Categorisation.Tag do
   @doc """
   Find tag list differences.
   """
-  @spec tag_list_diff(list1 :: [Ecto.UUID.t(), ...], list2 :: [Ecto.UUID.t(), ...]) :: list()
-  def tag_list_diff(list1, list2) when is_list(list1) and is_list(list2) do
-    List.myers_difference(list1, list2)
+
+  # @spec calculate_tag_list_diff(
+  #         list1 :: [Ecto.UUID.t(), ...] | [],
+  #         list2 :: [Ecto.UUID.t(), ...] | []
+  #       ) ::
+  #         [{:del, [any()]} | {:eq, [any()]} | {:ins, [any()]}]
+  # def calculate_tag_list_diff(list1, list2) when is_list(list1) and is_list(list2) do
+  #   List.myers_difference(list1, list2)
+  # end
+
+  @spec handle_tag_list_changes(list1 :: list(), list2 :: list(), entity_id :: bitstring()) ::
+          nil
+  def handle_tag_list_changes(list1, list2, entity_id)
+      when is_list(list1) and is_list(list2) and is_bitstring(entity_id) do
+    # myers_difference = calculate_tag_list_diff(list1, list2)
+    del_list = list1 -- list2
+    ins_list = list2 -- list1
+
+    insert_function = fn entity_id, ins_list ->
+      Categorisation.add_timer_tag(entity_id, ins_list)
+    end
+
+    delete_function = fn entity_id, del_list ->
+      Categorisation.delete_timer_tag(entity_id, del_list)
+    end
+
+    handle_tag_actions(ins_list, entity_id, insert_function)
+
+    handle_tag_actions(del_list, entity_id, delete_function)
   end
 
-  def handle_tag_list_changes(list1, list2, base_entity, insert_function, delete_function)
-      when is_list(list1) and is_list(list2) and is_struct(base_entity) and
-             is_function(insert_function) and
-             is_function(delete_function) do
-    myers_difference = tag_list_diff(list1, list2)
-
-    List.keyfind(myers_difference, :ins, 0, [])
-    |> handle_tag_actions(base_entity, insert_function)
-
-    List.keyfind(myers_difference, :del, 0, [])
-    |> handle_tag_actions(base_entity, delete_function)
-  end
-
+  @spec handle_tag_actions(
+          action_list :: list(),
+          entity_id :: bitstring(),
+          insert_function :: function()
+        ) :: nil | none()
   def handle_tag_actions([], _base_entity, _enumeration_function), do: nil
 
   def handle_tag_actions({:ins, tag_id_list}, base_entity, enumeration_function),
@@ -74,7 +95,10 @@ defmodule Klepsidra.Categorisation.Tag do
 
   def handle_tag_actions(tag_id_list, base_entity, enumeration_function)
       when is_list(tag_id_list) and is_function(enumeration_function) do
-    enumeration_function.(base_entity, tag_id_list)
+    tag_id_list
+    |> Enum.map(fn tag_id ->
+      enumeration_function.(base_entity, tag_id)
+    end)
   end
 
   def handle_tag_actions(_, _base_entity, _enumeration_function), do: nil

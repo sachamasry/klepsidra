@@ -9,7 +9,6 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   import Ecto.Changeset
   alias Klepsidra.BusinessPartners.BusinessPartner
-  alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Cldr.Unit
   alias Klepsidra.Projects.Project
   alias Klepsidra.TimeTracking.ActivityType
@@ -58,12 +57,11 @@ defmodule Klepsidra.TimeTracking.Timer do
     field(:billing_duration, :integer)
     field(:billing_duration_time_unit, :string)
 
-    has_many(:timer_tags, TimerTags,
-      preload_order: [asc: :tag_id],
-      on_replace: :delete
+    many_to_many(:tags, Klepsidra.Categorisation.Tag,
+      join_through: "timer_tags",
+      on_replace: :delete,
+      preload_order: [asc: :name]
     )
-
-    has_many(:tags, through: [:timer_tags, :tag])
 
     has_many(:notes, Klepsidra.TimeTracking.Note, on_delete: :delete_all)
 
