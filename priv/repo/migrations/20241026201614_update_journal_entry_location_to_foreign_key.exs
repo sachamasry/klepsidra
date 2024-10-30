@@ -8,7 +8,7 @@ defmodule Klepsidra.Repo.Migrations.UpdateJournalEntryLocationToForeignKey do
 
       # Add the new location column as a foreign key referencing the `locations_cities` table
       add(:location_id, references(:locations_cities, on_delete: :nothing, type: :uuid),
-        null: false
+        null: true
       )
     end
   end
