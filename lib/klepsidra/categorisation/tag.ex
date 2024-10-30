@@ -47,18 +47,25 @@ defmodule Klepsidra.Categorisation.Tag do
   end
 
   @doc """
-  Find tag list differences.
+  Format tag list to label/value map usable by `live_select` component.
   """
+  @spec tag_options_for_live_select(tag_list :: [t(), ...]) :: [map, ...]
+  def tag_options_for_live_select(tag_list) when is_list(tag_list) do
+    tag_list
+    |> Enum.map(fn tag ->
+      %{
+        label: tag.name,
+        value: tag.id,
+        description: tag.description
+      }
+    end)
+  end
 
-  # @spec calculate_tag_list_diff(
-  #         list1 :: [Ecto.UUID.t(), ...] | [],
-  #         list2 :: [Ecto.UUID.t(), ...] | []
-  #       ) ::
-  #         [{:del, [any()]} | {:eq, [any()]} | {:ins, [any()]}]
-  # def calculate_tag_list_diff(list1, list2) when is_list(list1) and is_list(list2) do
-  #   List.myers_difference(list1, list2)
-  # end
-
+  @doc """
+  Finds tag list differences between the list of applied tags and
+  those in the front-end component's accumulator list, calling 
+  functions responsible for adding and removing tags.
+  """
   @spec handle_tag_list_changes(list1 :: list(), list2 :: list(), entity_id :: bitstring()) ::
           nil
   def handle_tag_list_changes(list1, list2, entity_id)
@@ -80,6 +87,8 @@ defmodule Klepsidra.Categorisation.Tag do
     handle_tag_actions(del_list, entity_id, delete_function)
   end
 
+  @doc """
+  """
   @spec handle_tag_actions(
           action_list :: list(),
           entity_id :: bitstring(),
@@ -102,8 +111,4 @@ defmodule Klepsidra.Categorisation.Tag do
   end
 
   def handle_tag_actions(_, _base_entity, _enumeration_function), do: nil
-
-  def sort_tags(timer_tags) do
-    Enum.sort_by(timer_tags, fn timer_tag -> timer_tag.tag.name end)
-  end
 end

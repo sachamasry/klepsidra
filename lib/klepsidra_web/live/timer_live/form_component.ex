@@ -9,6 +9,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
   alias Klepsidra.TimeTracking.ActivityType
+  alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
 
   @impl true
@@ -17,7 +18,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Manage activity timers.</:subtitle>
       </.header>
 
       <.simple_form
@@ -43,9 +43,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         <.live_select
           field={@form[:ls_tag_search]}
           mode={:tags}
-          label="Tags"
+          label=""
           options={[]}
-          placeholder="Enter tag"
+          placeholder="Add tag"
           debounce={80}
           clear_tag_button_class="cursor-pointer ml-2"
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
@@ -58,8 +58,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           phx-blur="ls_tag_search_blur"
           phx-target={@myself}
         >
+          <:option :let={option}>
+            <div class="flex" title={option.description}>
+              <%= option.label %>
+            </div>
+          </:option>
           <:tag :let={option}>
-            <%= option.label %>
+            <div title={option.description}><%= option.label %></div>
           </:tag>
         </.live_select>
 
@@ -132,19 +137,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
-    tag_options =
-      Enum.map(timer.tags, fn tag ->
-        %{
-          label: tag.name,
-          value: tag.id,
-          bg_colour: tag.colour,
-          fg_colour: tag.fg_colour,
-          name: tag.name
-        }
-      end)
+    tag_options = Tag.tag_options_for_live_select(timer.tags)
 
-    tags =
-      Enum.map(timer.tags, fn tag -> tag.id end)
+    tags = Enum.map(timer.tags, fn tag -> tag.id end)
 
     socket =
       socket
@@ -386,8 +381,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         socket
       ) do
     tag_search_results =
-      Klepsidra.Categorisation.search_tags_by_name_prefix(tag_search_phrase)
-      |> Enum.map(fn tag -> %{label: tag.name, value: tag.id} end)
+      Categorisation.search_tags_by_name_content(tag_search_phrase)
+      |> Tag.tag_options_for_live_select()
 
     send_update(LiveSelect.Component, id: live_select_id, options: tag_search_results)
 
@@ -428,8 +423,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     #       IO.inspect(socket.assigns.timer, label: "On Enter timer")
     #       timer = add_tag_to_timer(socket.assigns.timer, search_phrase)
     #       IO.inspect(timer.timer_tags, label: "On Enter sorted timer tags")
-
-    #       sorted_timer_tags = Tag.sort_tags(timer.timer_tags)
 
     #       timer_tags_for_option =
     #         sorted_timer_tags

@@ -113,19 +113,6 @@ defmodule Klepsidra.Categorisation do
     Tag.changeset(tag, attrs)
   end
 
-  @doc """
-  DEPRECATED, to be removed
-  """
-  def tag_timer(timer, tag_id) when is_struct(timer, Timer) and is_bitstring(tag_id) do
-    tag = get_tag!(tag_id)
-
-    timer
-    |> Ecto.build_assoc(:tags)
-    |> Tag.changeset(%{})
-    |> Ecto.Changeset.put_assoc(:tags, tag)
-    |> Repo.insert()
-  end
-
   def add_timer_tag(timer_id, tag_id) do
     now = DateTime.utc_now()
 
@@ -171,18 +158,6 @@ defmodule Klepsidra.Categorisation do
       # For any unexpected results
       _ -> {:error, :unexpected_result}
     end
-  end
-
-  @doc """
-  DEPRECATED, will be removed
-  """
-  def upsert_tag_timer(timer, %{tag: tag_attrs} = _attrs) do
-    tag = create_or_find_tag(tag_attrs)
-
-    timer
-    |> TimerTags.changeset(%{})
-    |> Ecto.Changeset.put_assoc(:tag, tag)
-    |> Repo.insert()
   end
 
   def create_or_find_tag(%{name: "" <> name} = attrs) do
@@ -266,6 +241,22 @@ defmodule Klepsidra.Categorisation do
     |> Enum.filter(fn %{name: name} ->
       String.starts_with?(String.downcase(name), search_phrase)
     end)
+  end
+
+  @doc """
+  Search for tags using a `LIKE` wildcard search.
+  """
+  @spec search_tags_by_name_content(search_phrase :: String.t()) :: [Tag.t(), ...]
+  def search_tags_by_name_content(search_phrase) when is_bitstring(search_phrase) do
+    search_fragment = "%#{String.downcase(search_phrase)}%"
+
+    query =
+      from(t in Tag,
+        where: like(t.name, ^search_fragment),
+        order_by: [asc: t.name]
+      )
+
+    Repo.all(query)
   end
 
   alias Klepsidra.Categorisation.ProjectTag

@@ -8,6 +8,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias Klepsidra.Projects.Project
   alias Klepsidra.BusinessPartners.BusinessPartner
+  # alias Klepsidra.TimeTracking.ActivityType
+  alias Klepsidra.Categorisation
+  alias Klepsidra.Categorisation.Tag
 
   @impl true
   def render(assigns) do
@@ -22,6 +25,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         id="timer-form"
         phx-target={@myself}
         phx-change="validate"
+        phx-window-keyup="key_up"
         phx-submit="save"
       >
         <div :if={@invocation_context == :start_timer}>
@@ -49,7 +53,37 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             label="Duration time increment"
             options={Units.construct_duration_unit_options_list(use_primitives?: true)}
           />
+        </div>
 
+        <.live_select
+          field={@form[:ls_tag_search]}
+          mode={:tags}
+          label=""
+          options={[]}
+          placeholder="Add tag"
+          debounce={80}
+          clear_tag_button_class="cursor-pointer ml-2"
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          tag_class="bg-slate-400 text-white flex py-1 px-3 rounded-md text-xs font-semibold"
+          tags_container_class="flex flex-wrap gap-2"
+          container_extra_class="rounded border border-violet-300 p-2"
+          update_min_len={1}
+          user_defined_options="true"
+          value={@selected_tags}
+          phx-blur="ls_tag_search_blur"
+          phx-target={@myself}
+        >
+          <:option :let={option}>
+            <div class="flex" title={option.description}>
+              <%= option.label %>
+            </div>
+          </:option>
+          <:tag :let={option}>
+            <div title={option.description}><%= option.label %></div>
+          </:tag>
+        </.live_select>
+
+        <div :if={@invocation_context == :stop_timer}>
           <.input
             field={@form[:description]}
             type="textarea"
@@ -97,7 +131,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   def update(%{timer: timer} = assigns, socket) do
     timer =
       case timer.id do
-        nil -> timer
+        nil -> timer |> Klepsidra.Repo.preload(:tags)
         _ -> TimeTracking.get_timer!(timer.id) |> Klepsidra.Repo.preload(:tags)
       end
 
@@ -147,10 +181,18 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
+    tag_options = Tag.tag_options_for_live_select(timer.tags)
+
+    tags = Enum.map(timer.tags, fn tag -> tag.id end)
+
     {:ok,
      socket
      |> assign_form(changeset)
-     |> assign(billable_activity?: assigns.timer.billable)
+     |> assign(
+       billable_activity?: assigns.timer.billable,
+       selected_tags: tag_options,
+       tag_queue: tags
+     )
      |> assign_business_partner()
      |> assign_project()
      |> assign(assigns)}
@@ -229,6 +271,46 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     {:noreply, assign_form(socket, changeset)}
   end
 
+  def handle_event(
+        "validate",
+        %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
+        socket
+      ) do
+    update_tags(
+      socket.assigns.action,
+      socket.assigns.tag_queue,
+      tags_applied,
+      socket.assigns.timer.id
+    )
+
+    socket =
+      socket
+      |> assign(tag_queue: tags_applied)
+
+    {:noreply, socket}
+  end
+
+  @doc """
+  Validate event which fires only once the last of the tags has been cleared
+  from a `live_select` component.
+  """
+  def handle_event(
+        "validate",
+        %{
+          "_target" => ["timer", "ls_tag_search_empty_selection"],
+          "timer" => %{"ls_tag_search_empty_selection" => ""}
+        },
+        socket
+      ) do
+    update_tags(socket.assigns.action, socket.assigns.tag_queue, [], socket.assigns.timer.id)
+
+    socket =
+      socket
+      |> assign(possible_free_tag_entered: false)
+
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event("validate", %{"timer" => timer_params}, socket) do
     changeset =
@@ -241,6 +323,47 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
   def handle_event("save", %{"timer" => timer_params}, socket) do
     save_timer(socket, socket.assigns.action, timer_params)
+  end
+
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "timer_ls_tag_search",
+          "id" => live_select_id,
+          "text" => tag_search_phrase
+        },
+        socket
+      ) do
+    tag_search_results =
+      Categorisation.search_tags_by_name_content(tag_search_phrase)
+      |> Tag.tag_options_for_live_select()
+
+    send_update(LiveSelect.Component, id: live_select_id, options: tag_search_results)
+
+    socket =
+      socket
+      |> assign(
+        tag_search_phrase: tag_search_phrase,
+        possible_free_tag_entered: true
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "ls_tag_search_blur",
+        %{"id" => "timer_ls_tag_search_live_select_component"},
+        socket
+      ) do
+    socket =
+      socket
+      |> assign(possible_free_tag_entered: false)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("key_up", %{"key" => _}, socket) do
+    {:noreply, socket}
   end
 
   defp save_timer(socket, :start_timer, timer_params) do
@@ -258,6 +381,10 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
+
+        %{"ls_tag_search" => tag_queue} = timer_params
+        update_tags(:new_timer_created, [], tag_queue, timer.id)
+
         notify_parent({:timer_started, timer})
 
         {:noreply,
@@ -301,6 +428,22 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     business_partners = BusinessPartner.populate_customers_list()
 
     assign(socket, business_partners: business_partners)
+  end
+
+  @spec update_tags(
+          action :: :start_timer | :new_timer_created | :stop_timer,
+          current_tag_queue :: [any()],
+          tag_list_to_sync_with :: [any()],
+          entity_id :: bitstring()
+        ) :: nil
+  def update_tags(:stop_timer, current_tag_queue, tag_list_to_sync_with, entity) do
+    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
+  end
+
+  def update_tags(:start_timer, _current_tag_queue, _tag_list_to_sync_with, _entity), do: nil
+
+  def update_tags(:new_timer_created, current_tag_queue, tag_list_to_sync_with, entity) do
+    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
