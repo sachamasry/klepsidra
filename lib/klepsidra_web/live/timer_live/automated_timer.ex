@@ -283,9 +283,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       socket.assigns.timer.id
     )
 
+    tag_options =
+      tags_applied
+      |> Categorisation.get_tags!()
+      |> Tag.tag_options_for_live_select()
+
     socket =
       socket
-      |> assign(tag_queue: tags_applied)
+      |> assign(
+        selected_tags: tag_options,
+        tag_queue: tags_applied
+      )
 
     {:noreply, socket}
   end
@@ -382,8 +390,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
 
-        %{"ls_tag_search" => tag_queue} = timer_params
-        update_tags(:new_timer_created, [], tag_queue, timer.id)
+        update_tags(:new_timer_created, [], socket.assigns.tag_queue, timer.id)
 
         notify_parent({:timer_started, timer})
 

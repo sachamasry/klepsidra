@@ -105,7 +105,6 @@ guides](https://hexdocs.pm/phoenix/deployment.html).
   * Make it possible to drill into the tag from the live component
   * Provide ability to set new tag colour when creating freeform tag in live
     component
-  * Document tag selector live component
   * Improve search functionality to perform fuzzy query directly in the database
   * Develop ability to cope with temporary data structures, before a timer has
     been created?

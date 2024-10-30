@@ -49,6 +49,28 @@ defmodule Klepsidra.Categorisation do
   def get_tag!(id), do: Repo.get!(Tag, id)
 
   @doc """
+  Gets multiple tags.
+
+  Raises `Ecto.NoResultsError` if the Tag id is not a proper UUID.
+
+  ## Examples
+
+      iex> get_tags!([123, 789])
+      %Tag{}
+
+      iex> get_tag!([])
+      []
+
+      iex> get_tag!([""])
+      ** (Ecto.Query.CastError)
+
+  """
+  @spec get_tags!(id_list :: [Ecto.UUID.t(), ...]) :: [Tag.t(), ...] | []
+  def get_tags!(id_list) when is_list(id_list) do
+    Repo.all(from(t in Tag, where: t.id in ^id_list))
+  end
+
+  @doc """
   Creates a tag.
 
   ## Examples
