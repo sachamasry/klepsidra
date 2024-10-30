@@ -663,7 +663,6 @@ defmodule KlepsidraWeb.CoreComponents do
         active_option_class={["bg-violet-700 text-white"]}
         available_option_class={["cursor-pointer hover:bg-violet-500 hover:text-white rounded"]}
         clear_button_class={["cursor-pointer hidden"]}
-        container_class={["h-full relative text-black"]}
         option_class={["px-4 py-1 rounded"]}
         selected_option_class={["bg-violet-400"]}
         text_input_class={[

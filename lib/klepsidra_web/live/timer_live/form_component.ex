@@ -28,20 +28,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         phx-window-keyup="key_up"
         phx-submit="save"
       >
-        <.live_select
-          field={@form[:ls_tag_search]}
-          mode={:tags}
-          label="Tags"
-          options={[]}
-          placeholder="Enter tag"
-          debounce={80}
-          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-          update_min_len={2}
-          user_defined_options="true"
-          value={@selected_tags}
-          phx-blur="ls_tag_search_blur"
-          phx-target={@myself}
-        />
         <.input field={@form[:start_stamp]} type="datetime-local" label="Start time" />
         <.input field={@form[:end_stamp]} type="datetime-local" label="End time" />
 
@@ -53,6 +39,29 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           label="Duration time increment"
           options={Units.construct_duration_unit_options_list(use_primitives?: true)}
         />
+
+        <.live_select
+          field={@form[:ls_tag_search]}
+          mode={:tags}
+          label="Tags"
+          options={[]}
+          placeholder="Enter tag"
+          debounce={80}
+          clear_tag_button_class="cursor-pointer ml-2"
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          tag_class="bg-slate-400 text-white flex py-1 px-3 rounded-md text-xs font-semibold"
+          tags_container_class="flex flex-wrap gap-2"
+          container_extra_class="rounded border border-violet-300 p-2"
+          update_min_len={1}
+          user_defined_options="true"
+          value={@selected_tags}
+          phx-blur="ls_tag_search_blur"
+          phx-target={@myself}
+        >
+          <:tag :let={option}>
+            <%= option.label %>
+          </:tag>
+        </.live_select>
 
         <.input field={@form[:description]} type="textarea" label="Description" />
 
@@ -125,7 +134,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     tag_options =
       Enum.map(timer.tags, fn tag ->
-        %{label: tag.name, value: tag.id}
+        %{
+          label: tag.name,
+          value: tag.id,
+          bg_colour: tag.colour,
+          fg_colour: tag.fg_colour,
+          name: tag.name
+        }
       end)
 
     tags =
@@ -456,6 +471,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
 
+        %{"ls_tag_search" => tag_queue} = timer_params
+        update_tags(:new_timer_created, [], tag_queue, timer.id)
+
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:saved_closed_timer, timer})
         else
@@ -523,12 +541,18 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   @spec update_tags(
-          action :: :edit_timer,
+          action :: :new_timer | :new_timer_created | :edit_timer,
           current_tag_queue :: [any()],
           tag_list_to_sync_with :: [any()],
           entity_id :: bitstring()
         ) :: nil
   def update_tags(:edit_timer, current_tag_queue, tag_list_to_sync_with, entity) do
+    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
+  end
+
+  def update_tags(:new_timer, _current_tag_queue, _tag_list_to_sync_with, _entity), do: nil
+
+  def update_tags(:new_timer_created, current_tag_queue, tag_list_to_sync_with, entity) do
     Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
   end
 
