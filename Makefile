@@ -29,6 +29,7 @@ all:
 	@echo
 	@echo "	compile-project			Compile project codebase"
 	@echo "	compile-assets			Compile static application assets"
+	@echo "	deploy-assets			Alias for tailwind default --minify, esbuild default --minify, phx.digest"
 	@echo
 	@echo "	db-migration 			Migrate database"
 	@echo "	db-doc 				Generate database schema documentation"
