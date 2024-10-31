@@ -57,7 +57,13 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
           phx-focus="location_focus"
           phx-blur="location_blur"
           value_mapper={&value_mapper/1}
-        />
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
 
         <.input field={@form[:is_private]} type="checkbox" label="Private entry?" />
         <:actions>

@@ -339,7 +339,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       socket
       |> assign(
         selected_tags: tag_options,
-        tag_queue: tags_applied
+        tag_queue: tags_applied,
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
       )
 
     {:noreply, socket}
@@ -361,7 +363,10 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     socket =
       socket
-      |> assign(possible_free_tag_entered: false)
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
 
     {:noreply, socket}
   end
@@ -419,46 +424,16 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   def handle_event(
         "key_up",
         %{"key" => "Enter"},
-        %{assigns: %{possible_free_tag_entered: true}} = socket
+        %{assigns: %{tag_search_phrase: tag_search_phrase, possible_free_tag_entered: true}} =
+          socket
       ) do
-    # possible_free_tag_entry? = socket.assigns.possible_free_tag_entered
-    # search_phrase = socket.assigns.tag_search_phrase
-
-    # valid_free_tag_entry =
-    #   cond do
-    #     possible_free_tag_entry? and String.length(search_phrase) > 1 ->
-    #       IO.inspect(search_phrase, label: "BINGO! Adding search phrase")
-    #       IO.inspect(socket.assigns.timer, label: "On Enter timer")
-    #       timer = add_tag_to_timer(socket.assigns.timer, search_phrase)
-    #       IO.inspect(timer.timer_tags, label: "On Enter sorted timer tags")
-
-    #       timer_tags_for_option =
-    #         sorted_timer_tags
-    #         |> Enum.map(fn timer_tag -> %{label: timer_tag.tag.name, value: timer_tag.tag.id} end)
-
-    #       timer_tags =
-    #         sorted_timer_tags
-    #         |> Enum.map(fn timer_tag -> timer_tag.tag.id end)
-    #       IO.inspect(timer_tags, label: "On Enter timer tags")
-
-    #       socket =
-    #         socket
-    #         |> assign(
-    #           selected_tags: timer_tags_for_option,
-    #           # tag_queue: timer_tags,
-    #           tag_search_phrase: "",
-    #           possible_free_tag_entered: false
-    #         )
-
-    #       IO.inspect(socket.assigns.tags, label: "On Enter Assigns tags")
-    #       send_update(LiveSelect.Component,
-    #                   id: "timer_ls_tag_search_live_select_component",
-    #         value: timer_tags_for_option
-    #       )
-
-    #     true ->
-    #       nil
-    #   end
+    socket =
+      handle_free_tagging(
+        socket.assigns.action,
+        String.length(tag_search_phrase) > 1,
+        tag_search_phrase,
+        socket
+      )
 
     {:noreply, socket}
   end
@@ -554,6 +529,45 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   def update_tags(:new_timer_created, current_tag_queue, tag_list_to_sync_with, entity) do
     Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
+  end
+
+  @spec handle_free_tagging(
+          action :: :edit_timer | :new_timer | :new_timer_created,
+          requirements_met? :: boolean(),
+          tag_search_phrase :: String.t(),
+          socket :: Phoenix.LiveView.Socket.t()
+        ) :: Phoenix.LiveView.Socket.t()
+  def handle_free_tagging(_action, false, _tag_search_phrase, _socket), do: nil
+
+  def handle_free_tagging(_action, true, tag_search_phrase, socket) do
+    tag = Categorisation.create_or_find_tag(%{name: tag_search_phrase})
+
+    case Categorisation.add_timer_tag(socket.assigns.timer.id, tag.id) do
+      {:ok, :inserted} ->
+        tags_applied = [tag.id | socket.assigns.tag_queue]
+
+        tag_options =
+          tags_applied
+          |> Categorisation.get_tags!()
+          |> Enum.sort_by(fn tag -> tag.name end, :asc)
+          |> Tag.tag_options_for_live_select()
+
+        send_update(LiveSelect.Component,
+          id: "timer_ls_tag_search_live_select_component",
+          value: tag_options
+        )
+
+        socket
+        |> assign(
+          selected_tags: tag_options,
+          tag_queue: tags_applied,
+          tag_search_phrase: nil,
+          possible_free_tag_entered: false
+        )
+
+      _ ->
+        socket
+    end
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

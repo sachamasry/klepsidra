@@ -655,7 +655,7 @@ defmodule Klepsidra.Locations do
         on: c.feature_code == fc.feature_code,
         left_join: co in Country,
         on: c.country_code == co.iso_country_code,
-        where: like(c.name, ^like_name),
+        where: like(c.ascii_name, ^like_name),
         left_join: ad in AdministrativeDivisions1,
         on: c.administrative_division_1_code == ad.administrative_division_1_code,
         order_by: [

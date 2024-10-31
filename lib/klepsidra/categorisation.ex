@@ -135,6 +135,8 @@ defmodule Klepsidra.Categorisation do
     Tag.changeset(tag, attrs)
   end
 
+  def add_timer_tag(nil, _tag_id), do: {:error, :timer_is_nil}
+
   def add_timer_tag(timer_id, tag_id) do
     now = DateTime.utc_now()
 
