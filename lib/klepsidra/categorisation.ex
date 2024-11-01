@@ -71,6 +71,34 @@ defmodule Klepsidra.Categorisation do
   end
 
   @doc """
+  Gets multiple tags, sorted by tag name.
+
+  Raises `Ecto.NoResultsError` if the Tag id is not a proper UUID.
+
+  ## Examples
+
+      iex> get_tags_sorted!([123, 789])
+      %Tag{}
+
+      iex> get_tag_sorted!([])
+      []
+
+      iex> get_tag_sorted!([""])
+      ** (Ecto.Query.CastError)
+
+  """
+  @spec get_tags_sorted!(id_list :: [Ecto.UUID.t(), ...]) :: [Tag.t(), ...] | []
+  def get_tags_sorted!(id_list) when is_list(id_list) do
+    Repo.all(
+      from(
+        t in Tag,
+        where: t.id in ^id_list,
+        order_by: [asc: t.name]
+      )
+    )
+  end
+
+  @doc """
   Creates a tag.
 
   ## Examples
@@ -184,6 +212,7 @@ defmodule Klepsidra.Categorisation do
     end
   end
 
+  @spec create_or_find_tag(attrs :: %{name: String.t()}) :: Tag.t()
   def create_or_find_tag(%{name: "" <> name} = attrs) do
     %Tag{}
     |> Tag.changeset(attrs)

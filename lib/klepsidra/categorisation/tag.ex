@@ -68,23 +68,26 @@ defmodule Klepsidra.Categorisation.Tag do
   """
   @spec handle_tag_list_changes(list1 :: list(), list2 :: list(), entity_id :: bitstring()) ::
           nil
+  def handle_tag_list_changes([], [], _entity_id), do: nil
+
+  def handle_tag_list_changes(_list1, _list2, nil), do: nil
+
   def handle_tag_list_changes(list1, list2, entity_id)
       when is_list(list1) and is_list(list2) and is_bitstring(entity_id) do
-    # myers_difference = calculate_tag_list_diff(list1, list2)
-    del_list = list1 -- list2
-    ins_list = list2 -- list1
+    deletion_list = list1 -- list2
+    insertion_list = list2 -- list1
 
-    insert_function = fn entity_id, ins_list ->
-      Categorisation.add_timer_tag(entity_id, ins_list)
+    insert_function = fn entity_id, insertion_list ->
+      Categorisation.add_timer_tag(entity_id, insertion_list)
     end
 
-    delete_function = fn entity_id, del_list ->
-      Categorisation.delete_timer_tag(entity_id, del_list)
+    delete_function = fn entity_id, deletion_list ->
+      Categorisation.delete_timer_tag(entity_id, deletion_list)
     end
 
-    handle_tag_actions(ins_list, entity_id, insert_function)
+    handle_tag_actions(insertion_list, entity_id, insert_function)
 
-    handle_tag_actions(del_list, entity_id, delete_function)
+    handle_tag_actions(deletion_list, entity_id, delete_function)
   end
 
   @doc """

@@ -137,18 +137,18 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
-    tag_options = Tag.tag_options_for_live_select(timer.tags)
-
-    tags = Enum.map(timer.tags, fn tag -> tag.id end)
+    socket =
+      generate_tag_options(
+        [],
+        Enum.map(timer.tags, fn tag -> tag.id end),
+        "timer_ls_tag_search_live_select_component",
+        socket
+      )
 
     socket =
       socket
       |> assign(assigns)
-      |> assign(
-        billable_activity?: timer.billable,
-        selected_tags: tag_options,
-        tag_queue: tags
-      )
+      |> assign(billable_activity?: timer.billable)
       |> assign_project()
       |> assign_business_partner()
       |> assign_activity_type()
@@ -323,23 +323,23 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
         socket
       ) do
-    update_tags(
-      socket.assigns.action,
-      socket.assigns.tag_queue,
+    Tag.handle_tag_list_changes(
+      socket.assigns.selected_tag_queue,
       tags_applied,
       socket.assigns.timer.id
     )
 
-    tag_options =
-      tags_applied
-      |> Categorisation.get_tags!()
-      |> Tag.tag_options_for_live_select()
+    socket =
+      generate_tag_options(
+        socket.assigns.selected_tag_queue,
+        tags_applied,
+        "timer_ls_tag_search_live_select_component",
+        socket
+      )
 
     socket =
       socket
       |> assign(
-        selected_tags: tag_options,
-        tag_queue: tags_applied,
         tag_search_phrase: nil,
         possible_free_tag_entered: false
       )
@@ -359,7 +359,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         },
         socket
       ) do
-    update_tags(socket.assigns.action, socket.assigns.tag_queue, [], socket.assigns.timer.id)
+    Tag.handle_tag_list_changes(socket.assigns.selected_tag_queue, [], socket.assigns.timer.id)
 
     socket =
       socket
@@ -430,24 +430,22 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     socket =
       handle_free_tagging(
         socket.assigns.action,
-        String.length(tag_search_phrase) > 1,
         tag_search_phrase,
+        String.length(tag_search_phrase),
         socket
       )
 
     {:noreply, socket}
   end
 
-  def handle_event("key_up", %{"key" => _}, socket) do
-    {:noreply, socket}
-  end
+  def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
   defp save_timer(socket, :new_timer, timer_params) do
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
 
-        update_tags(:new_timer_created, [], socket.assigns.tag_queue, timer.id)
+        Tag.handle_tag_list_changes([], socket.assigns.selected_tag_queue, timer.id)
 
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:saved_closed_timer, timer})
@@ -515,59 +513,74 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     assign(socket, activity_types: activity_types)
   end
 
-  @spec update_tags(
-          action :: :new_timer | :new_timer_created | :edit_timer,
-          current_tag_queue :: [any()],
-          tag_list_to_sync_with :: [any()],
-          entity_id :: bitstring()
-        ) :: nil
-  def update_tags(:edit_timer, current_tag_queue, tag_list_to_sync_with, entity) do
-    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
-  end
-
-  def update_tags(:new_timer, _current_tag_queue, _tag_list_to_sync_with, _entity), do: nil
-
-  def update_tags(:new_timer_created, current_tag_queue, tag_list_to_sync_with, entity) do
-    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
-  end
-
   @spec handle_free_tagging(
           action :: :edit_timer | :new_timer | :new_timer_created,
-          requirements_met? :: boolean(),
           tag_search_phrase :: String.t(),
+          free_tag_length :: integer(),
           socket :: Phoenix.LiveView.Socket.t()
         ) :: Phoenix.LiveView.Socket.t()
-  def handle_free_tagging(_action, false, _tag_search_phrase, _socket), do: nil
+  def handle_free_tagging(_action, _tag_search_phrase, free_tag_length, socket)
+      when free_tag_length <= 2,
+      do: socket
 
-  def handle_free_tagging(_action, true, tag_search_phrase, socket) do
+  def handle_free_tagging(_, tag_search_phrase, _free_tag_length, socket) do
     tag = Categorisation.create_or_find_tag(%{name: tag_search_phrase})
 
-    case Categorisation.add_timer_tag(socket.assigns.timer.id, tag.id) do
-      {:ok, :inserted} ->
-        tags_applied = [tag.id | socket.assigns.tag_queue]
+    tags_applied = [tag.id | socket.assigns.selected_tag_queue]
 
-        tag_options =
-          tags_applied
-          |> Categorisation.get_tags!()
-          |> Enum.sort_by(fn tag -> tag.name end, :asc)
-          |> Tag.tag_options_for_live_select()
+    generate_tag_options(
+      socket.assigns.selected_tag_queue,
+      tags_applied,
+      "timer_ls_tag_search_live_select_component",
+      socket
+    )
 
-        send_update(LiveSelect.Component,
-          id: "timer_ls_tag_search_live_select_component",
-          value: tag_options
-        )
+    send_update(LiveSelect.Component,
+      id: "timer_ls_tag_search_live_select_component",
+      options: []
+    )
 
-        socket
-        |> assign(
-          selected_tags: tag_options,
-          tag_queue: tags_applied,
-          tag_search_phrase: nil,
-          possible_free_tag_entered: false
-        )
+    socket
+    |> assign(
+      tag_search_phrase: nil,
+      possible_free_tag_entered: false
+    )
+  end
 
-      _ ->
-        socket
-    end
+  @doc """
+  Takes list of tag IDs, returning full, tag-name sorted, HTML option list
+  for `live_select` component.
+  """
+  # Phoenix.LiveView.Socket.t()
+  @spec generate_tag_options(
+          # [Ecto.UUID.t(), ...],
+          previous_tag_list :: list(),
+          # [Ecto.UUID.t(), ...],
+          accumulated_tag_list :: list(),
+          live_select_id :: String.t(),
+          socket :: Phoenix.LiveView.Socket.t()
+        ) :: any()
+  def generate_tag_options(
+        previous_tag_list,
+        previous_tag_list,
+        _live_select_id,
+        %{assigns: %{selected_tags: _selected_tags, selected_tag_queue: _selected_tag_queue}} =
+          socket
+      ),
+      do: socket
+
+  def generate_tag_options(previous_tag_list, previous_tag_list, _live_select_id, socket),
+    do: assign(socket, selected_tags: [], selected_tag_queue: [])
+
+  def generate_tag_options(_previous_tag_list, accumulated_tag_list, live_select_id, socket) do
+    tag_options =
+      accumulated_tag_list
+      |> Categorisation.get_tags!()
+      |> Tag.tag_options_for_live_select()
+
+    send_update(LiveSelect.Component, id: live_select_id, value: tag_options)
+
+    assign(socket, selected_tags: tag_options, selected_tag_queue: accumulated_tag_list)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
