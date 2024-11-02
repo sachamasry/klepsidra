@@ -15,7 +15,7 @@ defmodule Klepsidra.DynamicCSS do
     css_content =
       Enum.map_join(tags, "\n", fn tag ->
         """
-        .tag-#{tag.name} {
+        .tag-#{tag.name}, .tag-#{tag.name} + button {
           background-color: #{tag.colour || "rgb(148, 163, 184)"};
           color: #{tag.fg_colour || "white"};
         }
