@@ -18,6 +18,7 @@ defmodule Klepsidra.Categorisation do
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.DynamicCSS
 
   @doc """
   Returns the list of tags.
@@ -111,9 +112,16 @@ defmodule Klepsidra.Categorisation do
 
   """
   def create_tag(attrs \\ %{}) do
-    %Tag{}
-    |> Tag.changeset(attrs)
-    |> Repo.insert()
+    case Repo.insert(%Tag{} |> Tag.changeset(attrs)) do
+      {:ok, tag} ->
+        # Fetch all tags and regenerate the CSS
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        {:ok, tag}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -129,9 +137,16 @@ defmodule Klepsidra.Categorisation do
 
   """
   def update_tag(%Tag{} = tag, attrs) do
-    tag
-    |> Tag.changeset(attrs)
-    |> Repo.update()
+    case Repo.update(tag |> Tag.changeset(attrs)) do
+      {:ok, tag} ->
+        # Fetch all tags and regenerate the CSS
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        {:ok, tag}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -147,7 +162,15 @@ defmodule Klepsidra.Categorisation do
 
   """
   def delete_tag(%Tag{} = tag) do
-    Repo.delete(tag)
+    case Repo.delete(tag) do
+      {:ok, tag} ->
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        {:ok, tag}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -218,8 +241,17 @@ defmodule Klepsidra.Categorisation do
     |> Tag.changeset(attrs)
     |> Repo.insert()
     |> case do
-      {:ok, tag} -> tag
-      _ -> Repo.get_by(Tag, name: name)
+      {:ok, tag} ->
+        # Fetch all tags and regenerate the CSS
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        tag
+
+      {:error, changeset} ->
+        {:error, changeset}
+
+      _ ->
+        Repo.get_by(Tag, name: name)
     end
   end
 

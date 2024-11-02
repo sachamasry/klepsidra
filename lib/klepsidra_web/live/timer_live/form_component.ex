@@ -50,9 +50,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           options={[]}
           placeholder="Add tag"
           debounce={80}
-          clear_tag_button_class="cursor-pointer ml-2"
+          clear_tag_button_class="cursor-pointer px-1"
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-          tag_class="bg-slate-400 text-white flex py-1 px-3 rounded-md text-xs font-semibold"
+          tag_class="bg-slate-400 text-white flex p-px rounded-md text-xs font-semibold"
           tags_container_class="flex flex-wrap gap-2"
           container_extra_class="rounded border border-violet-300 p-2"
           update_min_len={1}
@@ -67,7 +67,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             </div>
           </:option>
           <:tag :let={option}>
-            <div title={option.description}><%= option.label %></div>
+            <div class={"tag-#{option.label} py-1.5 px-3 rounded-md"} title={option.description}>
+              <%= option.label %>
+            </div>
           </:tag>
         </.live_select>
 
