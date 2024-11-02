@@ -11,6 +11,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   # alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.DynamicCSS
   alias KlepsidraWeb.TagLive.TagUtilities
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
@@ -65,9 +66,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
           options={[]}
           placeholder="Add tag"
           debounce={80}
-          clear_tag_button_class="cursor-pointer ml-2"
+          clear_tag_button_class="cursor-pointer px-1 rounded-r-md"
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-          tag_class="bg-slate-400 text-white flex p-px rounded-md text-xs font-semibold"
+          tag_class="bg-slate-400 text-white flex rounded-md text-xs font-semibold"
           tags_container_class="flex flex-wrap gap-2"
           container_extra_class="rounded border border-violet-300 p-2"
           update_min_len={1}
@@ -82,7 +83,10 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             </div>
           </:option>
           <:tag :let={option}>
-            <div class={"tag-#{option.label} py-1.5 px-3 rounded-md"} title={option.description}>
+            <div
+              class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}
+              title={option.description}
+            >
               <%= option.label %>
             </div>
           </:tag>
