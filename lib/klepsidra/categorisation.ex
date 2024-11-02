@@ -306,7 +306,7 @@ defmodule Klepsidra.Categorisation do
     query =
       from(t in Tag,
         where: like(t.name, ^search_fragment),
-        order_by: [asc: t.name]
+        order_by: [asc: fragment("lower(?)", t.name)]
       )
 
     Repo.all(query)

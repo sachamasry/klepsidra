@@ -35,10 +35,12 @@ const liveToastHook = createLiveToastHook(liveToastDuration, liveToastMaxItems)
 
 import live_select from "live_select"
 
-let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+let cspNonce = document.querySelector("meta[name='csp-nonce']").getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
+    longPollFallbackMs: 2500,
     params: {
-        _csrf_token: csrfToken
+        _csrf_token: csrfToken, _csp_nonce: cspNonce
     },
     metadata: {
         keydown: (event, element) => {

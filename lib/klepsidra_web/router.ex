@@ -14,8 +14,12 @@ defmodule KlepsidraWeb.Router do
     plug :protect_from_forgery
 
     plug :put_content_security_policy,
+      default_src: "'none'",
+      script_src: "'self'",
+      connect_src: "'self'",
       img_src: "'self' data:",
-      style_src: "'self' 'nonce'"
+      style_src: "'self' 'nonce'",
+      font_src: "'self'"
 
     plug :put_secure_browser_headers
   end
