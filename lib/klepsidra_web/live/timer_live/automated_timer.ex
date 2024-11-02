@@ -11,6 +11,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   # alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
+
+  @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 
   @impl true
   def render(assigns) do
@@ -181,21 +184,23 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
-    tag_options = Tag.tag_options_for_live_select(timer.tags)
+    socket =
+      TagUtilities.generate_tag_options(
+        [],
+        Enum.map(timer.tags, fn tag -> tag.id end),
+        @tag_search_live_component_id,
+        socket
+      )
 
-    tags = Enum.map(timer.tags, fn tag -> tag.id end)
+    socket =
+      socket
+      |> assign_form(changeset)
+      |> assign(billable_activity?: assigns.timer.billable)
+      |> assign_business_partner()
+      |> assign_project()
+      |> assign(assigns)
 
-    {:ok,
-     socket
-     |> assign_form(changeset)
-     |> assign(
-       billable_activity?: assigns.timer.billable,
-       selected_tags: tag_options,
-       tag_queue: tags
-     )
-     |> assign_business_partner()
-     |> assign_project()
-     |> assign(assigns)}
+    {:ok, socket}
   end
 
   @impl true
@@ -276,23 +281,25 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
         socket
       ) do
-    update_tags(
-      socket.assigns.action,
-      socket.assigns.tag_queue,
+    Tag.handle_tag_list_changes(
+      socket.assigns.selected_tag_queue,
       tags_applied,
       socket.assigns.timer.id
     )
 
-    tag_options =
-      tags_applied
-      |> Categorisation.get_tags!()
-      |> Tag.tag_options_for_live_select()
+    socket =
+      TagUtilities.generate_tag_options(
+        socket.assigns.selected_tag_queue,
+        tags_applied,
+        @tag_search_live_component_id,
+        socket
+      )
 
     socket =
       socket
       |> assign(
-        selected_tags: tag_options,
-        tag_queue: tags_applied
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
       )
 
     {:noreply, socket}
@@ -310,11 +317,14 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         },
         socket
       ) do
-    update_tags(socket.assigns.action, socket.assigns.tag_queue, [], socket.assigns.timer.id)
+    Tag.handle_tag_list_changes(socket.assigns.selected_tag_queue, [], socket.assigns.timer.id)
 
     socket =
       socket
-      |> assign(possible_free_tag_entered: false)
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
 
     {:noreply, socket}
   end
@@ -360,19 +370,37 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
   def handle_event(
         "ls_tag_search_blur",
-        %{"id" => "timer_ls_tag_search_live_select_component"},
+        %{"id" => @tag_search_live_component_id},
         socket
       ) do
     socket =
       socket
-      |> assign(possible_free_tag_entered: false)
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
 
     {:noreply, socket}
   end
 
-  def handle_event("key_up", %{"key" => _}, socket) do
+  def handle_event(
+        "key_up",
+        %{"key" => "Enter"},
+        %{assigns: %{tag_search_phrase: tag_search_phrase, possible_free_tag_entered: true}} =
+          socket
+      ) do
+    socket =
+      TagUtilities.handle_free_tagging(
+        tag_search_phrase,
+        String.length(tag_search_phrase),
+        @tag_search_live_component_id,
+        socket
+      )
+
     {:noreply, socket}
   end
+
+  def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
   defp save_timer(socket, :start_timer, timer_params) do
     timer_params =
@@ -390,7 +418,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
 
-        update_tags(:new_timer_created, [], socket.assigns.tag_queue, timer.id)
+        Tag.handle_tag_list_changes([], socket.assigns.selected_tag_queue, timer.id)
 
         notify_parent({:timer_started, timer})
 
@@ -422,35 +450,20 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     assign(socket, :form, to_form(changeset))
   end
 
-  @spec assign_project(Phoenix.LiveView.Socket.t()) :: Klepsidra.Projects.Project.t()
+  @spec assign_project(Phoenix.LiveView.Socket.t()) ::
+          Phoenix.LiveView.Socket.t()
   defp assign_project(socket) do
     projects = Project.populate_projects_list()
 
     assign(socket, projects: projects)
   end
 
-  # @spec assign_business_partner(Phoenix.LiveView.Socket.t()) ::
-  #         Klepsidra.BusinessPartners.BusinessPartner.t()
+  @spec assign_business_partner(Phoenix.LiveView.Socket.t()) ::
+          Phoenix.LiveView.Socket.t()
   defp assign_business_partner(socket) do
     business_partners = BusinessPartner.populate_customers_list()
 
     assign(socket, business_partners: business_partners)
-  end
-
-  @spec update_tags(
-          action :: :start_timer | :new_timer_created | :stop_timer,
-          current_tag_queue :: [any()],
-          tag_list_to_sync_with :: [any()],
-          entity_id :: bitstring()
-        ) :: nil
-  def update_tags(:stop_timer, current_tag_queue, tag_list_to_sync_with, entity) do
-    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
-  end
-
-  def update_tags(:start_timer, _current_tag_queue, _tag_list_to_sync_with, _entity), do: nil
-
-  def update_tags(:new_timer_created, current_tag_queue, tag_list_to_sync_with, entity) do
-    Tag.handle_tag_list_changes(current_tag_queue, tag_list_to_sync_with, entity)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
