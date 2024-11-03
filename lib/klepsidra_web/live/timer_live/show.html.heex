@@ -12,6 +12,59 @@
   </:actions>
 </.header>
 <!-- .live_component module={SearchFormComponent} id={:new} timer_id={@timer_id} / -->
+
+<!--
+<.form phx-change="change">
+<div class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
+  <div id="tag_selector_and_input_wrapper">
+    <.live_select
+      mode={:tags}
+      label=""
+      options={[]}
+      placeholder="Add tag"
+      debounce={80}
+      clear_tag_button_class="cursor-pointer px-1 rounded-r-md"
+      dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+      tag_class="bg-slate-400 text-white flex rounded-md text-sm font-semibold"
+      tags_container_class="flex flex-wrap gap-2"
+      container_extra_class="rounded border border-none"
+      update_min_len={1}
+      user_defined_options="true"
+      value={@selected_tags}
+      phx-blur="ls_tag_search_blur"
+    >
+      <:option :let={option}>
+        <div class="flex" title={option.description}>
+          < %= option.label % >
+        </div>
+      </:option>
+      <:tag :let={option}>
+        <div
+          class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}
+          title={option.description}
+        >
+          < %= option.label % >
+        </div>
+      </:tag>
+    </.live_select>
+  </div>
+
+  <.button
+    id="add_tag_button"
+    class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
+    type="button"
+    phx-click={
+      JS.remove_class("hidden", to: "#timer_ls_tag_search_text_input")
+      |> JS.focus(to: "#timer_ls_tag_search_text_input")
+      |> JS.add_class("hidden", to: "#add_tag_button")
+      |> JS.add_class("flex-auto", to: "#tag_selector_and_input_wrapper")
+            }
+  >
+    Add tag +
+  </.button>
+</div>
+</.form>
+-->
 <.list>
   <:item title="Start time"><%= @timer.start_stamp %></:item>
   <:item title="End time"><%= @timer.end_stamp %></:item>

@@ -6,11 +6,14 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   alias Klepsidra.TimeTracking
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
-  # alias KlepsidraWeb.Live.TagLive.SearchFormComponent
+  alias KlepsidraWeb.TagLive.TagUtilities
+
+  @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 
   @impl true
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
+    timer = Klepsidra.TimeTracking.get_timer!(timer_id) |> Klepsidra.Repo.preload(:tags)
     return_to = Map.get(params, "return_to", "/timers")
 
     notes = TimeTracking.get_note_by_timer_id!(timer_id)
@@ -18,12 +21,24 @@ defmodule KlepsidraWeb.TimerLive.Show do
     note_metadata = title_notes_section(length(notes))
 
     socket =
+      TagUtilities.generate_tag_options(
+        [],
+        Enum.map(timer.tags, fn tag -> tag.id end),
+        @tag_search_live_component_id,
+        socket
+      )
+
+    socket =
       socket
       |> stream(:notes, notes)
-      |> assign(:note_count, note_metadata.note_count)
-      |> assign(:notes_title, note_metadata.section_title)
-      |> assign(:timer_id, timer_id)
-      |> assign(:return_to, return_to)
+      |> assign(
+        # live_select_form:
+        #   to_form(Klepsidra.Categorisation.Tag.changeset(%{}, %{}), as: "tag_form"),
+        note_count: note_metadata.note_count,
+        notes_title: note_metadata.section_title,
+        timer_id: timer_id,
+        return_to: return_to
+      )
 
     {:ok, socket}
   end
