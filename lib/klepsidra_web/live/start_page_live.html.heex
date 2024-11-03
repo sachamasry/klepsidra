@@ -73,9 +73,9 @@
     <:action :let={{id, timer}}>
       <.link
         phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
-        data-confirm="Delete activity timer?"
+        data-confirm="Cancel activity timer?"
       >
-        Delete
+        Cancel
       </.link>
     </:action>
   </.table>
