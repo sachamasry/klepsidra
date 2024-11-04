@@ -11,7 +11,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
-  alias Klepsidra.DynamicCSS
   alias KlepsidraWeb.TagLive.TagUtilities
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
@@ -70,10 +69,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
                 </div>
               </:option>
               <:tag :let={option}>
-                <div
-                  class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}
-                  title={option.description}
-                >
+                <div class={"#{option.tag_class} py-1.5 px-3 rounded-l-md"} title={option.description}>
                   <%= option.label %>
                 </div>
               </:tag>
@@ -422,7 +418,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       ) do
     tag_search_results =
       Categorisation.search_tags_by_name_content(tag_search_phrase)
-      |> Tag.tag_options_for_live_select()
+      |> TagUtilities.tag_options_for_live_select()
 
     send_update(LiveSelect.Component, id: live_select_id, options: tag_search_results)
 

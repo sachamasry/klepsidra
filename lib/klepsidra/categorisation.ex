@@ -125,6 +125,42 @@ defmodule Klepsidra.Categorisation do
   end
 
   @doc """
+  Creates a tag if it doesn't exist, otherwise gets and returns a tag
+  matching the name provided.
+
+  ## Examples
+
+      iex> create_or_find_tag(%{name: good_name})
+      %Tag{}
+
+      iex> create_or_find_tag(%{field: existing_name})
+      %Tag{}
+
+  """
+  @spec create_or_find_tag(attrs :: %{name: String.t()}) :: Tag.t() | nil
+  def create_or_find_tag(%{name: "" <> name} = attrs) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, tag} ->
+        # Fetch all tags and regenerate the CSS
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        tag
+
+      {:error, _changeset} ->
+        # {:error, changeset}
+        Repo.get_by(Tag, name: name)
+
+      _ ->
+        Repo.get_by(Tag, name: name)
+    end
+  end
+
+  def create_or_find_tag(_), do: nil
+
+  @doc """
   Updates a tag.
 
   ## Examples
@@ -234,28 +270,6 @@ defmodule Klepsidra.Categorisation do
       _ -> {:error, :unexpected_result}
     end
   end
-
-  @spec create_or_find_tag(attrs :: %{name: String.t()}) :: Tag.t()
-  def create_or_find_tag(%{name: "" <> name} = attrs) do
-    %Tag{}
-    |> Tag.changeset(attrs)
-    |> Repo.insert()
-    |> case do
-      {:ok, tag} ->
-        # Fetch all tags and regenerate the CSS
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
-        tag
-
-      {:error, changeset} ->
-        {:error, changeset}
-
-      _ ->
-        Repo.get_by(Tag, name: name)
-    end
-  end
-
-  def create_or_find_tag(_), do: nil
 
   @doc """
   Gets a single timer tag record.

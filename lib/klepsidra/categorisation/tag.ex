@@ -47,21 +47,6 @@ defmodule Klepsidra.Categorisation.Tag do
   end
 
   @doc """
-  Format tag list to label/value map usable by `live_select` component.
-  """
-  @spec tag_options_for_live_select(tag_list :: [t(), ...]) :: [map, ...]
-  def tag_options_for_live_select(tag_list) when is_list(tag_list) do
-    tag_list
-    |> Enum.map(fn tag ->
-      %{
-        label: tag.name,
-        value: tag.id,
-        description: tag.description
-      }
-    end)
-  end
-
-  @doc """
   Finds tag list differences between the list of applied tags and
   those in the front-end component's accumulator list, calling 
   functions responsible for adding and removing tags.

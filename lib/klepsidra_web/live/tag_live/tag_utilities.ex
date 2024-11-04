@@ -4,6 +4,23 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
   use KlepsidraWeb, :live_component
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.DynamicCSS
+
+  @doc """
+  Format tag list to label/value map usable by `live_select` component.
+  """
+  @spec tag_options_for_live_select(tag_list :: [Tag.t(), ...]) :: [map, ...]
+  def tag_options_for_live_select(tag_list) when is_list(tag_list) do
+    tag_list
+    |> Enum.map(fn tag ->
+      %{
+        label: tag.name,
+        value: tag.id,
+        description: tag.description,
+        tag_class: "tag-#{DynamicCSS.convert_tag_name_to_class(tag.name)}"
+      }
+    end)
+  end
 
   @doc """
   Handles creation of new freeform tags, and their immediate selection as
@@ -69,7 +86,7 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
     tag_options =
       accumulated_tag_list
       |> Categorisation.get_tags!()
-      |> Tag.tag_options_for_live_select()
+      |> tag_options_for_live_select()
 
     send_update(LiveSelect.Component, id: live_select_id, value: tag_options)
 

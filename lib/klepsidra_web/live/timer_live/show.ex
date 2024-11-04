@@ -2,13 +2,41 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+
   import LiveToast
 
   alias Klepsidra.TimeTracking
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
   alias KlepsidraWeb.TagLive.TagUtilities
+  alias Klepsidra.DynamicCSS
+  alias Klepsidra.Categorisation
+  alias Klepsidra.Categorisation.Tag
+  alias LiveSelect.Component
 
-  @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
+  defmodule TagSearch do
+    @moduledoc """
+    The `TagSearch` module defines an embedded `tag_search` schema
+    containing many tags for this timer.
+    """
+    use Ecto.Schema
+
+    import Ecto.Changeset
+
+    @type t :: %__MODULE__{
+            tag_search: Tag.t()
+          }
+    embedded_schema do
+      embeds_many(:tag_search, Tag, on_replace: :delete)
+    end
+
+    @doc false
+    def changeset(schema \\ %__MODULE__{}, params) do
+      cast(schema, params, [])
+      |> cast_embed(:tag_search)
+    end
+  end
+
+  @tag_search_live_component_id "tag_form_tag_search_live_select_component"
 
   @impl true
   def mount(params, _session, socket) do
@@ -32,8 +60,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
       socket
       |> stream(:notes, notes)
       |> assign(
-        # live_select_form:
-        #   to_form(Klepsidra.Categorisation.Tag.changeset(%{}, %{}), as: "tag_form"),
+        live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
@@ -67,24 +94,129 @@ defmodule KlepsidraWeb.TimerLive.Show do
   defp page_title(:edit_note), do: "Edit note"
 
   @impl true
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "tag_form_tag_search",
+          "id" => @tag_search_live_component_id,
+          "text" => tag_search_phrase
+        },
+        socket
+      ) do
+    tag_search_results =
+      Categorisation.search_tags_by_name_content(tag_search_phrase)
+      |> TagUtilities.tag_options_for_live_select()
+
+    send_update(Component,
+      id: @tag_search_live_component_id,
+      options: tag_search_results
+    )
+
+    socket =
+      socket
+      |> assign(
+        tag_search_phrase: tag_search_phrase,
+        possible_free_tag_entered: true
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "change",
+        %{
+          "_target" => ["tag_form", "tag_search_empty_selection"],
+          "tag_form" => %{
+            "tag_search_empty_selection" => "",
+            "tag_search_text_input" => _tag_search_phrase
+          }
+        },
+        socket
+      ) do
+    Tag.handle_tag_list_changes(socket.assigns.selected_tag_queue, [], socket.assigns.timer.id)
+
+    socket =
+      socket
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "change",
+        %{
+          "_target" => ["tag_form", "tag_search"],
+          "tag_form" => %{
+            "tag_search" => selected_tags,
+            "tag_search_text_input" => _tag_search_phrase
+          }
+        },
+        socket
+      ) do
+    Tag.handle_tag_list_changes(
+      socket.assigns.selected_tag_queue,
+      selected_tags,
+      socket.assigns.timer.id
+    )
+
+    socket =
+      TagUtilities.generate_tag_options(
+        socket.assigns.selected_tag_queue,
+        selected_tags,
+        @tag_search_live_component_id,
+        socket
+      )
+
+    socket =
+      socket
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "ls_tag_search_blur",
+        %{"id" => @tag_search_live_component_id},
+        socket
+      ) do
+    socket =
+      socket
+      |> assign(
+        tag_search_phrase: nil,
+        possible_free_tag_entered: false
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "key_up",
+        %{"key" => "Enter"},
+        %{assigns: %{tag_search_phrase: tag_search_phrase, possible_free_tag_entered: true}} =
+          socket
+      ) do
+    socket =
+      TagUtilities.handle_free_tagging(
+        tag_search_phrase,
+        String.length(tag_search_phrase),
+        @tag_search_live_component_id,
+        socket
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
+
   def handle_event("delete_note", %{"id" => id}, socket) do
     {:noreply, handle_deleted_note(socket, TimeTracking.get_note!(id))}
   end
-
-  # @impl true
-  # def handle_event("keyboard_event", %{"key" => "n"} = _params, socket) do
-  #   {:noreply,
-  #    socket
-  #    |> assign(
-  #      live_action: :new_note,
-  #      page_title: "New note"
-  #    )
-  #    |> push_patch(to: ~p"/timers/#{socket.assigns.timer_id}/new-note")}
-  # end
-
-  # def handle_event("keyboard_event", _params, socket) do
-  #   {:noreply, socket}
-  # end
 
   @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved, _timer}}, socket) do
