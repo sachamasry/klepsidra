@@ -27,17 +27,35 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
   a chosen tag for the entity.
   """
   @spec handle_free_tagging(
+          socket :: Phoenix.LiveView.Socket.t(),
           tag_search_phrase :: String.t(),
           free_tag_length :: integer(),
           live_select_id :: String.t(),
-          socket :: Phoenix.LiveView.Socket.t()
+          tag_bg_colour :: {String.t(), String.t()}
         ) :: Phoenix.LiveView.Socket.t()
-  def handle_free_tagging(_tag_search_phrase, free_tag_length, _live_select_id, socket)
+  def handle_free_tagging(
+        socket,
+        _tag_search_phrase,
+        free_tag_length,
+        _live_select_id,
+        _tag_bg_colour
+      )
       when free_tag_length <= 2,
       do: socket
 
-  def handle_free_tagging(tag_search_phrase, _free_tag_length, live_select_id, socket) do
-    tag = Categorisation.create_or_find_tag(%{name: tag_search_phrase})
+  def handle_free_tagging(
+        socket,
+        tag_search_phrase,
+        _free_tag_length,
+        live_select_id,
+        {bg_colour, fg_colour}
+      ) do
+    tag =
+      Categorisation.create_or_find_tag(%{
+        name: tag_search_phrase,
+        colour: bg_colour,
+        fg_colour: fg_colour
+      })
 
     tags_applied = [tag.id | socket.assigns.selected_tag_queue]
 

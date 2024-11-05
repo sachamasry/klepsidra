@@ -137,7 +137,27 @@ defmodule Klepsidra.Categorisation do
       %Tag{}
 
   """
-  @spec create_or_find_tag(attrs :: %{name: String.t()}) :: Tag.t() | nil
+  @spec create_or_find_tag(attrs :: map()) :: Tag.t() | nil
+  def create_or_find_tag(%{name: "" <> name, colour: "" <> _colour} = attrs) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, tag} ->
+        # Fetch all tags and regenerate the CSS
+        tags = list_tags()
+        DynamicCSS.generate_tag_styles(tags)
+        tag
+
+      {:error, _changeset} ->
+        # {:error, changeset}
+        Repo.get_by(Tag, name: name)
+
+      _ ->
+        Repo.get_by(Tag, name: name)
+    end
+  end
+
   def create_or_find_tag(%{name: "" <> name} = attrs) do
     %Tag{}
     |> Tag.changeset(attrs)

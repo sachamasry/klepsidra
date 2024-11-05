@@ -199,7 +199,8 @@ defmodule Klepsidra.MixProject do
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
       {:live_toast, "~> 0.6.4"},
-      {:live_select, "~> 1.4.3"}
+      {:live_select, "~> 1.4.3"},
+      {:color_contrast, "~> 1.1"}
     ]
   end
 

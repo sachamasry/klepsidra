@@ -27,6 +27,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
           }
     embedded_schema do
       embeds_many(:tag_search, Tag, on_replace: :delete)
+      field(:bg_colour, :string)
     end
 
     @doc false
@@ -61,6 +62,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
       |> stream(:notes, notes)
       |> assign(
         live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
+        new_tag_colour: {"#94a3b8", "#ff"},
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
@@ -181,6 +183,31 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   def handle_event(
+        "change",
+        %{
+          "_target" => ["tag_form", "bg_colour"],
+          "tag_form" => %{
+            "bg_colour" => bg_colour,
+            "tag_search" => _selected_tags,
+            "tag_search_text_input" => _tag_search_phrase
+          }
+        },
+        socket
+      ) do
+    fg_colour =
+      case ColorContrast.calc_contrast(bg_colour) do
+        {:ok, fg_colour} -> fg_colour
+        {:error, _} -> "#fff"
+      end
+
+    socket =
+      socket
+      |> assign(new_tag_colour: {bg_colour, fg_colour})
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
         "ls_tag_search_blur",
         %{"id" => @tag_search_live_component_id},
         socket
@@ -203,10 +230,11 @@ defmodule KlepsidraWeb.TimerLive.Show do
       ) do
     socket =
       TagUtilities.handle_free_tagging(
+        socket,
         tag_search_phrase,
         String.length(tag_search_phrase),
         @tag_search_live_component_id,
-        socket
+        socket.assigns.new_tag_colour
       )
 
     {:noreply, socket}

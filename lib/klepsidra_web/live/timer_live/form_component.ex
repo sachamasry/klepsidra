@@ -455,10 +455,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       ) do
     socket =
       TagUtilities.handle_free_tagging(
+        socket,
         tag_search_phrase,
         String.length(tag_search_phrase),
         @tag_search_live_component_id,
-        socket
+        {"", ""}
       )
 
     {:noreply, socket}

@@ -53,6 +53,9 @@
         </:tag>
       </.live_select>
     </div>
+    <div class="w-8 overflow-hidden">
+      <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
+    </div>
 
     <.button
       id="add_tag_button"
