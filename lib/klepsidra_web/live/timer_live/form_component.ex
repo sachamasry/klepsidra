@@ -70,7 +70,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
               </:option>
               <:tag :let={option}>
                 <div class={"#{option.tag_class} py-1.5 px-3 rounded-l-md"} title={option.description}>
-                  <%= option.label %>
+                  <.link navigate={~p"/tags/#{option.value}"}>
+                    <%= option.label %>
+                  </.link>
                 </div>
               </:tag>
             </.live_select>
