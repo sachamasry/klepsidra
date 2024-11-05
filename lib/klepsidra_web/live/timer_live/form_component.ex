@@ -43,7 +43,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           options={Units.construct_duration_unit_options_list(use_primitives?: true)}
         />
 
-        <div class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
+        <div id="tag_selector_container" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
           <div id="tag_selector_and_input_wrapper">
             <.live_select
               field={@form[:ls_tag_search]}
@@ -76,14 +76,20 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             </.live_select>
           </div>
 
+          <div id="tag_colour_select" class="tag-colour-picker hidden w-10 overflow-hidden self-end">
+            <.input field={@form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
+          </div>
+
           <.button
             id="add_tag_button"
             class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
             type="button"
             phx-click={
               JS.remove_class("hidden", to: "#timer_ls_tag_search_text_input")
+              |> JS.remove_class("hidden", to: "#tag_colour_select")
               |> JS.focus(to: "#timer_ls_tag_search_text_input")
               |> JS.add_class("hidden", to: "#add_tag_button")
+              |> JS.add_class("gap-2", to: "#tag_selector_container")
               |> JS.add_class("flex-auto", to: "#tag_selector_and_input_wrapper")
             }
           >
@@ -171,7 +177,10 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     socket =
       socket
       |> assign(assigns)
-      |> assign(billable_activity?: timer.billable)
+      |> assign(
+        billable_activity?: timer.billable,
+        new_tag_colour: {"#94a3b8", "#fff"}
+      )
       |> assign_project()
       |> assign_business_partner()
       |> assign_activity_type()
@@ -394,6 +403,29 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     {:noreply, socket}
   end
 
+  def handle_event(
+        "validate",
+        %{
+          "_target" => ["timer", "bg_colour"],
+          "timer" => %{
+            "bg_colour" => bg_colour
+          }
+        },
+        socket
+      ) do
+    fg_colour =
+      case ColorContrast.calc_contrast(bg_colour) do
+        {:ok, fg_colour} -> fg_colour
+        {:error, _} -> "#fff"
+      end
+
+    socket =
+      socket
+      |> assign(new_tag_colour: {bg_colour, fg_colour})
+
+    {:noreply, socket}
+  end
+
   def handle_event("validate", %{"timer" => timer_params}, socket) do
     changeset =
       socket.assigns.timer
@@ -459,7 +491,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         tag_search_phrase,
         String.length(tag_search_phrase),
         @tag_search_live_component_id,
-        {"", ""}
+        socket.assigns.new_tag_colour
       )
 
     {:noreply, socket}

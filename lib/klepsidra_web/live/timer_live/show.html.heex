@@ -19,7 +19,7 @@
   phx-change="change"
   phx-window-keyup="key_up"
 >
-  <div class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
+  <div id="tag_selector_container" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
     <div id="tag_selector_and_input_wrapper">
       <.live_select
         field={@live_select_form[:tag_search]}
@@ -53,7 +53,8 @@
         </:tag>
       </.live_select>
     </div>
-    <div class="w-8 overflow-hidden">
+
+    <div id="tag_colour_select" class="tag-colour-picker hidden w-10 overflow-hidden self-end">
       <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
     </div>
 
@@ -63,8 +64,10 @@
       type="button"
       phx-click={
         JS.remove_class("hidden", to: "#tag_form_tag_search_text_input")
+        |> JS.remove_class("hidden", to: "#tag_colour_select")
         |> JS.focus(to: "#tag_form_tag_search_text_input")
         |> JS.add_class("hidden", to: "#add_tag_button")
+        |> JS.add_class("gap-2", to: "#tag_selector_container")
         |> JS.add_class("flex-auto", to: "#tag_selector_and_input_wrapper")
       }
     >

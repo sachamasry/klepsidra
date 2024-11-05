@@ -62,7 +62,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
       |> stream(:notes, notes)
       |> assign(
         live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
-        new_tag_colour: {"#94a3b8", "#ff"},
+        new_tag_colour: {"#94a3b8", "#fff"},
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
@@ -188,7 +188,6 @@ defmodule KlepsidraWeb.TimerLive.Show do
           "_target" => ["tag_form", "bg_colour"],
           "tag_form" => %{
             "bg_colour" => bg_colour,
-            "tag_search" => _selected_tags,
             "tag_search_text_input" => _tag_search_phrase
           }
         },
