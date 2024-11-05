@@ -60,10 +60,10 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
     tags_applied = [tag.id | socket.assigns.selected_tag_queue]
 
     generate_tag_options(
+      socket,
       socket.assigns.selected_tag_queue,
       tags_applied,
-      live_select_id,
-      socket
+      live_select_id
     )
 
     send_update(LiveSelect.Component,
@@ -83,24 +83,24 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
   for `live_select` component.
   """
   @spec generate_tag_options(
+          socket :: Phoenix.LiveView.Socket.t(),
           previous_tag_list :: [Ecto.UUID.t(), ...] | [],
           accumulated_tag_list :: [Ecto.UUID.t(), ...] | [],
-          live_select_id :: String.t(),
-          socket :: Phoenix.LiveView.Socket.t()
+          live_select_id :: String.t()
         ) :: any()
   def generate_tag_options(
-        previous_tag_list,
-        previous_tag_list,
-        _live_select_id,
         %{assigns: %{selected_tags: _selected_tags, selected_tag_queue: _selected_tag_queue}} =
-          socket
+          socket,
+        previous_tag_list,
+        previous_tag_list,
+        _live_select_id
       ),
       do: socket
 
-  def generate_tag_options(previous_tag_list, previous_tag_list, _live_select_id, socket),
+  def generate_tag_options(socket, previous_tag_list, previous_tag_list, _live_select_id),
     do: assign(socket, selected_tags: [], selected_tag_queue: [])
 
-  def generate_tag_options(_previous_tag_list, accumulated_tag_list, live_select_id, socket) do
+  def generate_tag_options(socket, _previous_tag_list, accumulated_tag_list, live_select_id) do
     tag_options =
       accumulated_tag_list
       |> Categorisation.get_tags!()

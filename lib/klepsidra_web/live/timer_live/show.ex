@@ -51,10 +51,10 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
     socket =
       TagUtilities.generate_tag_options(
+        socket,
         [],
         Enum.map(timer.tags, fn tag -> tag.id end),
-        @tag_search_live_component_id,
-        socket
+        @tag_search_live_component_id
       )
 
     socket =
@@ -166,10 +166,10 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
     socket =
       TagUtilities.generate_tag_options(
+        socket,
         socket.assigns.selected_tag_queue,
         selected_tags,
-        @tag_search_live_component_id,
-        socket
+        @tag_search_live_component_id
       )
 
     socket =

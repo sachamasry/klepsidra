@@ -22,7 +22,20 @@ config :klepsidra, KlepsidraWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Klepsidra.PubSub,
-  live_view: [signing_salt: "3h4E5TnT"]
+  live_view: [signing_salt: "3h4E5TnT"],
+  live_reload: [
+    notify: [
+      live_view: [
+        ~r"lib/klepsidra_web/components/core_components.ex$",
+        ~r"lib/klepsidra_web/(live|components)/.*(ex|heex)$"
+      ]
+    ],
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif)$},
+      ~r{lib/klepsidra_web/views/.*(ex)$},
+      ~r{lib/klepsidra_web/templates/.*(eex)$}
+    ]
+  ]
 
 # Configures the mailer
 #

@@ -170,10 +170,10 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     socket =
       TagUtilities.generate_tag_options(
+        socket,
         [],
         Enum.map(timer.tags, fn tag -> tag.id end),
-        @tag_search_live_component_id,
-        socket
+        @tag_search_live_component_id
       )
 
     socket =
@@ -365,10 +365,10 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     socket =
       TagUtilities.generate_tag_options(
+        socket,
         socket.assigns.selected_tag_queue,
         tags_applied,
-        @tag_search_live_component_id,
-        socket
+        @tag_search_live_component_id
       )
 
     socket =
