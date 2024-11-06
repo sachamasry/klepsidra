@@ -47,16 +47,17 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
         <.input field={@form[:mood]} type="text" label="How would you describe your mood?" />
         <.live_select
           field={@form[:location_id]}
+          mode={:single}
           label="Location"
+          options={[]}
           placeholder="Where are you?"
           debounce={200}
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-          mode={:single}
           update_min_len={2}
-          phx-target={@myself}
+          value_mapper={&value_mapper/1}
           phx-focus="location_focus"
           phx-blur="location_blur"
-          value_mapper={&value_mapper/1}
+          phx-target={@myself}
         >
           <:option :let={option}>
             <div class="flex">

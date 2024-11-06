@@ -19,7 +19,8 @@ defmodule KlepsidraWeb.Router do
       style_src: "'self' 'nonce'",
       connect_src: "'self'",
       img_src: "'self' data:",
-      font_src: "'self'"
+      font_src: "'self'",
+      frame_src: "'self' 'nonce'"
 
     plug :put_secure_browser_headers
   end

@@ -66,7 +66,8 @@ defmodule KlepsidraWeb.TimerLive.Show do
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
-        return_to: return_to
+        return_to: return_to,
+        style_declarations: "p { color: orange; }"
       )
 
     {:ok, socket}
@@ -311,5 +312,14 @@ defmodule KlepsidraWeb.TimerLive.Show do
       title_pluralisation: note_pluralisation,
       section_title: [title_note_count, note_pluralisation] |> Enum.join(" ")
     }
+  end
+
+  defp enable_tag_selector() do
+    JS.remove_class("hidden", to: "#tag_form_tag_search_text_input")
+    |> JS.remove_class("hidden", to: "#tag-selector__colour-select")
+    |> JS.add_class("hidden", to: "#tag-selector__add-button")
+    |> JS.add_class("gap-2", to: "#tag-selector")
+    |> JS.add_class("flex-auto", to: "#tag-selector__live-select")
+    |> JS.focus(to: "#tag_form_tag_search_text_input")
   end
 end

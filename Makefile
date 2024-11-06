@@ -108,10 +108,12 @@ setup-assets:
 	MIX_ENV=prod mix assets.setup
 	@echo "--> Successfully Initialised application assets"
 
-compile-assets:
-	@echo "==> Compiling static application assets"
-	MIX_ENV=prod mix assets.compile
-	@echo "--> Successfully compiled application assets"
+compile-assets: build-assets
+
+build-assets:
+	@echo "==> Building static application assets"
+	MIX_ENV=prod mix assets.build
+	@echo "--> Successfully built  application assets"
 
 deploy-assets:
 	@echo "==> Preparing static application assets for deployment"
