@@ -366,7 +366,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       tags_applied,
-      socket.assigns.timer.id
+      socket.assigns.timer.id,
+      &Categorisation.add_timer_tag(&1, &2),
+      &Categorisation.delete_timer_tag(&1, &2)
     )
 
     socket =
@@ -405,7 +407,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         },
         socket
       ) do
-    Tag.handle_tag_list_changes(socket.assigns.selected_tag_queue, [], socket.assigns.timer.id)
+    Tag.handle_tag_list_changes(
+      socket.assigns.selected_tag_queue,
+      [],
+      socket.assigns.timer.id,
+      &Categorisation.add_timer_tag(&1, &2),
+      &Categorisation.delete_timer_tag(&1, &2)
+    )
 
     socket =
       socket
@@ -518,7 +526,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       {:ok, timer} ->
         timer = TimeTracking.get_formatted_timer_record!(timer.id)
 
-        Tag.handle_tag_list_changes([], socket.assigns.selected_tag_queue, timer.id)
+        Tag.handle_tag_list_changes(
+          [],
+          socket.assigns.selected_tag_queue,
+          timer.id,
+          &Categorisation.add_timer_tag(&1, &2),
+          &Categorisation.delete_timer_tag(&1, &2)
+        )
 
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:saved_closed_timer, timer})

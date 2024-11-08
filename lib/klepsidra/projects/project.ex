@@ -29,6 +29,12 @@ defmodule Klepsidra.Projects.Project do
 
     belongs_to :business_partner, BusinessPartner, type: Ecto.UUID
 
+    many_to_many(:tags, Klepsidra.Categorisation.Tag,
+      join_through: "project_tags",
+      on_replace: :delete,
+      preload_order: [asc: :name]
+    )
+
     timestamps()
   end
 

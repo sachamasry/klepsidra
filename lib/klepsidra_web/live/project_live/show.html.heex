@@ -22,6 +22,71 @@
   </:actions>
 </.header>
 
+<.form
+  for={@live_select_form}
+  id="live-select-form"
+  class="mt-6"
+  phx-change="change"
+  phx-window-keyup="key_up"
+>
+  <div id="tag-selector" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
+    <div
+      id="tag-selector__live-select"
+      phx-mounted={JS.add_class("hidden", to: "#tag_form_tag_search_text_input")}
+    >
+      <.live_select
+        field={@live_select_form[:tag_search]}
+        mode={:tags}
+        label=""
+        options={[]}
+        placeholder="Add tag"
+        debounce={80}
+        clear_tag_button_class="cursor-pointer px-1 rounded-r-md"
+        dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+        tag_class="bg-slate-400 text-white flex rounded-md text-sm font-semibold"
+        tags_container_class="flex flex-wrap gap-2"
+        container_extra_class="rounded border border-none"
+        update_min_len={1}
+        user_defined_options="true"
+        value={@selected_tags}
+        phx-blur="ls_tag_search_blur"
+      >
+        <:option :let={option}>
+          <div class="flex" title={option.description}>
+            <%= option.label %>
+          </div>
+        </:option>
+        <:tag :let={option}>
+          <div
+            class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}
+            title={option.description}
+          >
+            <.link navigate={~p"/tags/#{option.value}"}>
+              <%= option.label %>
+            </.link>
+          </div>
+        </:tag>
+      </.live_select>
+    </div>
+
+    <div
+      id="tag-selector__colour-select"
+      class="tag-colour-picker hidden w-10 overflow-hidden self-end shrink-0"
+    >
+      <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
+    </div>
+
+    <.button
+      id="tag-selector__add-button"
+      class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
+      type="button"
+      phx-click={enable_tag_selector()}
+    >
+      Add tag +
+    </.button>
+  </div>
+</.form>
+
 <.list>
   <:item title="Active?">
     <div class={"rounded-full h-full aspect-square #{if @project.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>

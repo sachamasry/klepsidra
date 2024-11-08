@@ -9,7 +9,6 @@ defmodule Klepsidra.Categorisation.Tag do
 
   use Ecto.Schema
   import Ecto.Changeset
-  alias Klepsidra.Categorisation
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -51,28 +50,26 @@ defmodule Klepsidra.Categorisation.Tag do
   those in the front-end component's accumulator list, calling 
   functions responsible for adding and removing tags.
   """
-  @spec handle_tag_list_changes(list1 :: list(), list2 :: list(), entity_id :: bitstring()) ::
+  @spec handle_tag_list_changes(
+          list1 :: list(),
+          list2 :: list(),
+          entity_id :: bitstring(),
+          insert_fun :: function(),
+          delete_fun :: function()
+        ) ::
           nil
-  def handle_tag_list_changes([], [], _entity_id), do: nil
+  def handle_tag_list_changes([], [], _entity_id, _insert_fun, _delete_fun), do: nil
 
-  def handle_tag_list_changes(_list1, _list2, nil), do: nil
+  def handle_tag_list_changes(_list1, _list2, nil, _insert_fun, _delete_fun), do: nil
 
-  def handle_tag_list_changes(list1, list2, entity_id)
+  def handle_tag_list_changes(list1, list2, entity_id, insert_fun, delete_fun)
       when is_list(list1) and is_list(list2) and is_bitstring(entity_id) do
     deletion_list = list1 -- list2
     insertion_list = list2 -- list1
 
-    insert_function = fn entity_id, insertion_list ->
-      Categorisation.add_timer_tag(entity_id, insertion_list)
-    end
+    handle_tag_actions(insertion_list, entity_id, insert_fun)
 
-    delete_function = fn entity_id, deletion_list ->
-      Categorisation.delete_timer_tag(entity_id, deletion_list)
-    end
-
-    handle_tag_actions(insertion_list, entity_id, insert_function)
-
-    handle_tag_actions(deletion_list, entity_id, delete_function)
+    handle_tag_actions(deletion_list, entity_id, delete_fun)
   end
 
   @doc """

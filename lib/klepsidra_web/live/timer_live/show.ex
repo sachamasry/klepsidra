@@ -7,17 +7,16 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   alias Klepsidra.TimeTracking
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
-  alias KlepsidraWeb.TagLive.TagUtilities
-  alias Klepsidra.DynamicCSS
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
 
   defmodule TagSearch do
     @moduledoc """
     The `TagSearch` module defines an embedded `tag_search` schema
-    containing many tags for this timer.
+    containing the tags for this timer.
     """
     use Ecto.Schema
 
@@ -73,8 +72,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
-        return_to: return_to,
-        style_declarations: "p { color: orange; }"
+        return_to: return_to
       )
 
     {:ok, socket}
@@ -143,7 +141,13 @@ defmodule KlepsidraWeb.TimerLive.Show do
         },
         socket
       ) do
-    Tag.handle_tag_list_changes(socket.assigns.selected_tag_queue, [], socket.assigns.timer.id)
+    Tag.handle_tag_list_changes(
+      socket.assigns.selected_tag_queue,
+      [],
+      socket.assigns.timer.id,
+      &Categorisation.add_timer_tag(&1, &2),
+      &Categorisation.delete_timer_tag(&1, &2)
+    )
 
     socket =
       socket
@@ -169,7 +173,9 @@ defmodule KlepsidraWeb.TimerLive.Show do
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       selected_tags,
-      socket.assigns.timer.id
+      socket.assigns.timer.id,
+      &Categorisation.add_timer_tag(&1, &2),
+      &Categorisation.delete_timer_tag(&1, &2)
     )
 
     socket =
