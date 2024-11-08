@@ -90,7 +90,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
           <.button
             id="tag-selector__add-button"
-            class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
+            class="add-tag-button flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
             type="button"
             phx-click={enable_tag_selector()}
           >
@@ -166,6 +166,15 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     timer = timer |> Klepsidra.Repo.preload(:tags)
 
     changeset = TimeTracking.change_timer(timer, timer_changes)
+
+    socket =
+      socket
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        ".add-tag-button{background-color:orange;}"
+      )
 
     socket =
       TagUtilities.generate_tag_options(

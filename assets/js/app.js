@@ -21,6 +21,7 @@ import "phoenix_html"
 import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import "/Users/sacha/Development/elixir/vendor/phoenix_live_head" 
 
 // Import LiveToast (https://toast.src.rip/) into app
 import { createLiveToastHook } from 'live_toast'

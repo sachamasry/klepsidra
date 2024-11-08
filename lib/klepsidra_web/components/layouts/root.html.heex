@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="scrollbar-gutter: stable;">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,7 +12,11 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/generated_styles.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
-    <style nonce={get_csp_nonce()}>
+    <style
+      id="dynamic-style-block"
+      nonce={get_csp_nonce()}
+      data-dynamic-text-content="{style_declarations}"
+    >
     </style>
   </head>
   <body class="bg-white antialiased">
