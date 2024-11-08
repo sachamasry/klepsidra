@@ -17,7 +17,7 @@ defmodule Klepsidra.Categorisation do
 
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
-  alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.Categorisation.ProjectTags
 
   @doc """
   Returns the list of tags.
@@ -196,52 +196,84 @@ defmodule Klepsidra.Categorisation do
     Tag.changeset(tag, attrs)
   end
 
+  @doc """
+  Attach a single tag to a timer. Checks if the tag is already associated
+  with the timer, only adding it if it’s missing.
+
+  ## Examples
+
+      iex> add_timer_tag(%Timer{}, %Tag{})
+      {:ok, :inserted}
+
+      iex> add_timer_tag(%Timer{}, %Tag{})
+      {:ok, :already_exists}
+
+      iex> add_timer_tag(%Timer{}, %Tag{})
+      {:error, :insert_failed}
+
+  """
+  @spec add_timer_tag(timer_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :inserted}
+          | {:ok, :already_exists}
+          | {:error, :insert_failed}
+          | {:error, :timer_is_nil}
   def add_timer_tag(nil, _tag_id), do: {:error, :timer_is_nil}
 
   def add_timer_tag(timer_id, tag_id) do
-    now = DateTime.utc_now()
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
 
     # Check if the tag is already associated with the timer
     existing_association =
-      Repo.one(
-        from(tt in "timer_tags",
-          where: tt.timer_id == ^timer_id and tt.tag_id == ^tag_id,
-          select: %{timer_id: tt.timer_id, tag_id: tt.tag_id}
-        )
-      )
+      Repo.get_by(TimerTags, timer_id: timer_id, tag_id: tag_id)
 
     # Repo.update(changeset)
     if existing_association do
       {:ok, :already_exists}
     else
       # Insert a new association with timestamps
-      timer_tag_entry = %{
+      timer_tag_entry = %TimerTags{
         timer_id: timer_id,
         tag_id: tag_id,
         inserted_at: now,
         updated_at: now
       }
 
-      case Repo.insert_all("timer_tags", [timer_tag_entry]) do
-        {1, _} -> {:ok, :inserted}
-        _ -> {:error, :insert_failed}
+      case Repo.insert(timer_tag_entry) do
+        {:ok, _} -> {:ok, :inserted}
+        {:error, _} -> {:error, :insert_failed}
       end
     end
   end
 
+  @doc """
+  Deletes a timer's tag association.
+
+  ## Examples
+
+      iex> delete_timer_tag(%Timer(), %Tag())
+      {:ok, :deleted}
+
+      iex> delete_timer_tag(%Timer(), %Tag())
+      {:error, :not_found}
+
+      iex> delete_timer_tag(%Timer(), %Tag())
+      {:error, :delete_failed}
+
+  """
+  @spec delete_timer_tag(timer_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :deleted} | {:error, :not_found} | {:error, :delete_failed}
   def delete_timer_tag(timer_id, tag_id) do
     # Execute the delete operation on the "timer_tags" table
-    case Repo.delete_all(
-           from(tt in "timer_tags",
-             where: tt.timer_id == ^timer_id and tt.tag_id == ^tag_id
-           )
-         ) do
-      # No records were deleted
-      {0, _} -> {:error, :not_found}
-      # One record was deleted
-      {1, _} -> {:ok, :deleted}
-      # For any unexpected results
-      _ -> {:error, :unexpected_result}
+    case Repo.get_by(TimerTags, timer_id: timer_id, tag_id: tag_id) do
+      # Record not found
+      nil ->
+        {:error, :not_found}
+
+      timer_tag ->
+        case Repo.delete(timer_tag) do
+          {:ok, _} -> {:ok, :deleted}
+          {:error, _} -> {:error, :delete_failed}
+        end
     end
   end
 
@@ -252,46 +284,16 @@ defmodule Klepsidra.Categorisation do
 
   ## Examples
 
-      iex> get_timer_tag!(123)
-      %TimerTag{}
+      iex> get_timer_tag!("timer_id", "tag_id")
+      %TimerTags{}
 
-      iex> get_timer_tag!(456)
+      iex> get_timer_tag!("", "")
       ** (Ecto.NoResultsError)
 
   """
-  def get_timer_tag!(id), do: Repo.get_by!(TimerTags, id: id)
-
-  @doc """
-  """
-  def delete_tag_from_timer(timer, tag) when is_struct(timer, Timer) and is_struct(tag, Tag) do
-    Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag.id)
-    |> case do
-      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
-      nil -> {:ok, %TimerTags{}}
-    end
-  end
-
-  def delete_tag_from_timer(timer, tag) when is_struct(timer, Timer) and is_bitstring(tag) do
-    Repo.get_by(TimerTags, timer_id: timer.id, tag_id: tag)
-    |> case do
-      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
-      nil -> {:ok, %TimerTags{}}
-    end
-  end
-
-  def delete_tag_from_timer(timer, tag) when is_bitstring(timer) and is_bitstring(tag) do
-    Repo.get_by(TimerTags, timer_id: timer, tag_id: tag)
-    |> case do
-      %TimerTags{} = timer_tags -> Repo.delete(timer_tags)
-      nil -> {:ok, %TimerTags{}}
-    end
-  end
-
-  @doc """
-  """
-  def delete_timer_tag(%TimerTags{} = timer_tag) do
-    Repo.delete(timer_tag)
-  end
+  @spec get_timer_tag!(timer_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) :: TimerTags.t()
+  def get_timer_tag!(timer_id, tag_id),
+    do: Repo.get_by!(TimerTags, timer_id: timer_id, tag_id: tag_id)
 
   @doc """
   Simple search for tags defined in the system, performing a prefix filter only.
@@ -332,99 +334,102 @@ defmodule Klepsidra.Categorisation do
     Repo.all(query)
   end
 
-  alias Klepsidra.Categorisation.ProjectTag
-
   @doc """
-  Returns the list of project_tags.
+  Attach a single tag to a project. Checks if the tag is already associated
+  with the project, only adding it if it’s missing.
 
   ## Examples
 
-      iex> list_project_tags()
-      [%ProjectTag{}, ...]
+      iex> add_project_tag(%Project{}, %Tag{})
+      {:ok, :inserted}
+
+      iex> add_project_tag(%Project{}, %Tag{})
+      {:ok, :already_exists}
+
+      iex> add_project_tag(%Project{}, %Tag{})
+      {:error, :insert_failed}
 
   """
-  def list_project_tags do
-    ProjectTag |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
+  @spec add_project_tag(project_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :inserted}
+          | {:ok, :already_exists}
+          | {:error, :insert_failed}
+          | {:error, :project_is_nil}
+  def add_project_tag(nil, _tag_id), do: {:error, :project_is_nil}
+
+  def add_project_tag(project_id, tag_id) do
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+
+    # Check if the tag is already associated with the project
+    existing_association =
+      Repo.get_by(ProjectTags, project_id: project_id, tag_id: tag_id)
+
+    # Repo.update(changeset)
+    if existing_association do
+      {:ok, :already_exists}
+    else
+      # Insert a new association with timestamps
+      project_tag_entry = %ProjectTags{
+        project_id: project_id,
+        tag_id: tag_id,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      case Repo.insert(project_tag_entry) do
+        {:ok, _} -> {:ok, :inserted}
+        {:error, _} -> {:error, :insert_failed}
+      end
+    end
   end
 
   @doc """
-  Gets a single project_tag.
+  Deletes a project's tag association.
+
+  ## Examples
+
+      iex> delete_project_tag(%Project(), %Tag())
+      {:ok, :deleted}
+
+      iex> delete_project_tag(%Project(), %Tag())
+      {:error, :not_found}
+
+      iex> delete_project_tag(%Project(), %Tag())
+      {:error, :unexpected_result}
+
+  """
+  @spec delete_project_tag(project_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :deleted} | {:error, :not_found} | {:error, :delete_failed}
+  def delete_project_tag(project_id, tag_id) do
+    # Execute the delete operation on the "project_tags" table
+    case Repo.get_by(ProjectTags, project_id: project_id, tag_id: tag_id) do
+      # Record not found
+      nil ->
+        {:error, :not_found}
+
+      project_tag ->
+        case Repo.delete(project_tag) do
+          {:ok, _} -> {:ok, :deleted}
+          {:error, _} -> {:error, :delete_failed}
+        end
+    end
+  end
+
+  @doc """
+  Gets a single project tag.
 
   Raises `Ecto.NoResultsError` if the Project tag does not exist.
 
   ## Examples
 
       iex> get_project_tag!(123)
-      %ProjectTag{}
+      %ProjectTags{}
 
       iex> get_project_tag!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_project_tag!(id), do: Repo.get!(ProjectTag, id)
-
-  @doc """
-  Creates a project_tag.
-
-  ## Examples
-
-      iex> create_project_tag(%{field: value})
-      {:ok, %ProjectTag{}}
-
-      iex> create_project_tag(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_project_tag(attrs \\ %{}) do
-    %ProjectTag{}
-    |> ProjectTag.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a project_tag.
-
-  ## Examples
-
-      iex> update_project_tag(project_tag, %{field: new_value})
-      {:ok, %ProjectTag{}}
-
-      iex> update_project_tag(project_tag, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_project_tag(%ProjectTag{} = project_tag, attrs) do
-    project_tag
-    |> ProjectTag.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a project_tag.
-
-  ## Examples
-
-      iex> delete_project_tag(project_tag)
-      {:ok, %ProjectTag{}}
-
-      iex> delete_project_tag(project_tag)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_project_tag(%ProjectTag{} = project_tag) do
-    Repo.delete(project_tag)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking project_tag changes.
-
-  ## Examples
-
-      iex> change_project_tag(project_tag)
-      %Ecto.Changeset{data: %ProjectTag{}}
-
-  """
-  def change_project_tag(%ProjectTag{} = project_tag, attrs \\ %{}) do
-    ProjectTag.changeset(project_tag, attrs)
-  end
+  @spec get_project_tag!(project_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) :: ProjectTags.t()
+  def get_project_tag!(project_id, tag_id),
+    do: Repo.get!(ProjectTags, project_id: project_id, tag_id: tag_id)
 end
