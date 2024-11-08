@@ -12,6 +12,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
+  alias Klepsidra.DynamicCSS
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 
@@ -212,11 +213,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
     changeset = TimeTracking.change_timer(timer, timer_changes)
 
     socket =
-      TagUtilities.generate_tag_options(
-        socket,
+      socket
+      |> TagUtilities.generate_tag_options(
         [],
         Enum.map(timer.tags, fn tag -> tag.id end),
         @tag_search_live_component_id
+      )
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        DynamicCSS.generate_tag_styles(timer.tags)
       )
 
     socket =

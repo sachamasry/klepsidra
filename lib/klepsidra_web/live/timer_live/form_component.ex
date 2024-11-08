@@ -12,6 +12,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
+  alias Klepsidra.DynamicCSS
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 
@@ -169,19 +170,16 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     socket =
       socket
+      |> TagUtilities.generate_tag_options(
+        [],
+        Enum.map(timer.tags, fn tag -> tag.id end),
+        @tag_search_live_component_id
+      )
       |> Phx.Live.Head.push(
         "style[id*=dynamic-style-block]",
         :dynamic,
         "style_declarations",
-        ".add-tag-button{background-color:orange;}"
-      )
-
-    socket =
-      TagUtilities.generate_tag_options(
-        socket,
-        [],
-        Enum.map(timer.tags, fn tag -> tag.id end),
-        @tag_search_live_component_id
+        DynamicCSS.generate_tag_styles(timer.tags)
       )
 
     socket =

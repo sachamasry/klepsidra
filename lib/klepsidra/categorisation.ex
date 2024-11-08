@@ -18,7 +18,6 @@ defmodule Klepsidra.Categorisation do
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.DynamicCSS
 
   @doc """
   Returns the list of tags.
@@ -111,17 +110,11 @@ defmodule Klepsidra.Categorisation do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_tag(attrs :: map()) :: {:ok, Tag.t()} | {:error, any()}
   def create_tag(attrs \\ %{}) do
-    case Repo.insert(%Tag{} |> Tag.changeset(attrs)) do
-      {:ok, tag} ->
-        # Fetch all tags and regenerate the CSS
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
-        {:ok, tag}
-
-      {:error, changeset} ->
-        {:error, changeset}
-    end
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """
@@ -137,40 +130,16 @@ defmodule Klepsidra.Categorisation do
       %Tag{}
 
   """
-  @spec create_or_find_tag(attrs :: map()) :: Tag.t() | nil
-  def create_or_find_tag(%{name: "" <> name, colour: "" <> _colour} = attrs) do
-    %Tag{}
-    |> Tag.changeset(attrs)
-    |> Repo.insert()
-    |> case do
-      {:ok, tag} ->
-        # Fetch all tags and regenerate the CSS
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
-        tag
-
-      {:error, _changeset} ->
-        # {:error, changeset}
-        Repo.get_by(Tag, name: name)
-
-      _ ->
-        Repo.get_by(Tag, name: name)
-    end
-  end
-
+  @spec create_or_find_tag(attrs :: map()) :: Tag.t()
   def create_or_find_tag(%{name: "" <> name} = attrs) do
     %Tag{}
     |> Tag.changeset(attrs)
     |> Repo.insert()
     |> case do
       {:ok, tag} ->
-        # Fetch all tags and regenerate the CSS
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
         tag
 
       {:error, _changeset} ->
-        # {:error, changeset}
         Repo.get_by(Tag, name: name)
 
       _ ->
@@ -193,16 +162,9 @@ defmodule Klepsidra.Categorisation do
 
   """
   def update_tag(%Tag{} = tag, attrs) do
-    case Repo.update(tag |> Tag.changeset(attrs)) do
-      {:ok, tag} ->
-        # Fetch all tags and regenerate the CSS
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
-        {:ok, tag}
-
-      {:error, changeset} ->
-        {:error, changeset}
-    end
+    tag
+    |> Tag.changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
@@ -218,15 +180,7 @@ defmodule Klepsidra.Categorisation do
 
   """
   def delete_tag(%Tag{} = tag) do
-    case Repo.delete(tag) do
-      {:ok, tag} ->
-        tags = list_tags()
-        DynamicCSS.generate_tag_styles(tags)
-        {:ok, tag}
-
-      {:error, changeset} ->
-        {:error, changeset}
-    end
+    Repo.delete(tag)
   end
 
   @doc """

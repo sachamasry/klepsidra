@@ -5,29 +5,24 @@ defmodule Klepsidra.DynamicCSS do
   directory.
   """
 
-  @css_file_path "priv/static/assets/generated_styles.css"
-
   @doc """
   Generates tag styling classes for all tags, named `tag-<tag_name>`.
   """
-  @spec generate_tag_styles(tags :: [Klepsidra.Categorisation.Tag.t(), ...] | []) :: :ok
+  @spec generate_tag_styles(tags :: [Klepsidra.Categorisation.Tag.t(), ...] | []) :: binary()
   def generate_tag_styles(tags) do
-    css_content =
-      Enum.map_join(tags, "\n", fn tag ->
-        generate_tag_style_declaration(tag)
-      end)
-
-    File.write!(@css_file_path, css_content)
+    Enum.map_join(tags, "\n", fn tag ->
+      generate_tag_style_declaration(tag)
+    end)
   end
 
   @doc """
   Generates a single tag style declaration.
   """
-  @spec generate_tag_style_declaration(tag :: Klepsidra.Categorisation.Tag.t()) :: String.t()
+  @spec generate_tag_style_declaration(tag :: Klepsidra.Categorisation.Tag.t()) :: binary()
   def generate_tag_style_declaration(tag) do
     tag_class_name = convert_tag_name_to_class(tag.name)
 
-    fg_colour = if tag.fg_colour, do: tag.fg_colour, else: "white"
+    fg_colour = if tag.fg_colour, do: tag.fg_colour, else: "#fff"
 
     bg_colour = if tag.colour, do: tag.colour, else: "rgb(148, 163, 184)"
 

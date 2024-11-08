@@ -12,6 +12,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
   alias LiveSelect.Component
+  alias Klepsidra.DynamicCSS
 
   defmodule TagSearch do
     @moduledoc """
@@ -50,11 +51,17 @@ defmodule KlepsidraWeb.TimerLive.Show do
     note_metadata = title_notes_section(length(notes))
 
     socket =
-      TagUtilities.generate_tag_options(
-        socket,
+      socket
+      |> TagUtilities.generate_tag_options(
         [],
         Enum.map(timer.tags, fn tag -> tag.id end),
         @tag_search_live_component_id
+      )
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        DynamicCSS.generate_tag_styles(timer.tags)
       )
 
     socket =
