@@ -7,23 +7,25 @@ defmodule Klepsidra.Repo.Migrations.CreateProjectTags do
              comment:
                "Project tags table, helping categorise projects with tags in a many-to-many relationship"
            ) do
-      add :id, :uuid,
-        primary_key: true,
+      add(
+        :project_id,
+        references(:projects, on_delete: :delete_all, on_update: :update_all, type: :uuid),
         null: false,
-        comment: "UUID-based project tags primary key"
+        comment: "Foreign key referencing projects"
+      )
 
-      add :tag_id, references(:tags, on_delete: :delete_all, on_update: :update_all, type: :uuid),
+      add(:tag_id, references(:tags, on_delete: :delete_all, on_update: :update_all, type: :uuid),
+        null: false,
         comment: "Foreign key referencing tags"
-
-      add :project_id,
-          references(:projects, on_delete: :delete_all, on_update: :update_all, type: :uuid),
-          comment: "Foreign key referencing projects"
+      )
 
       timestamps()
     end
 
-    create index(:project_tags, [:tag_id, :project_id],
-             comment: "Composite index of `tag_id` and `project_id` fields"
-           )
+    create(
+      unique_index(:project_tags, [:project_id, :tag_id],
+        comment: "Composite unique index of `tag_id` and `project_id` fields"
+      )
+    )
   end
 end
