@@ -201,7 +201,7 @@ defmodule Klepsidra.MixProject do
       {:live_toast, "~> 0.6.4"},
       {:live_select, "~> 1.4.3"},
       {:color_contrast, "~> 1.1"},
-      {:phoenix_live_head, path: "../vendor/phoenix_live_head", override: true}
+      {:phoenix_live_head, path: "~/Development/elixir/vendor/phoenix_live_head", override: true}
       # {:phoenix_live_head, "~> 0.2.0"},
     ]
   end
