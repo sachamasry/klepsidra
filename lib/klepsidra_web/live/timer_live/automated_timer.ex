@@ -73,7 +73,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
               debounce={80}
               clear_tag_button_class="cursor-pointer px-1 rounded-r-md"
               dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
-              tag_class="bg-slate-400 text-white flex rounded-md text-xs font-semibold"
+              tag_class="bg-slate-400 text-white flex rounded-md text-sm font-semibold"
               tags_container_class="flex flex-wrap gap-2"
               container_extra_class="rounded border border-none"
               update_min_len={1}
@@ -330,6 +330,12 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         socket.assigns.selected_tag_queue,
         tags_applied,
         @tag_search_live_component_id
+      )
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        DynamicCSS.generate_tag_styles(tags_applied)
       )
 
     socket =

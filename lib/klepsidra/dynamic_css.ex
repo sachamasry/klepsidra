@@ -5,6 +5,8 @@ defmodule Klepsidra.DynamicCSS do
   directory.
   """
 
+  alias Klepsidra.Categorisation
+
   @doc """
   Generates tag styling classes for all tags, named `tag-<tag_name>`.
   """
@@ -19,7 +21,10 @@ defmodule Klepsidra.DynamicCSS do
   Generates a single tag style declaration.
   """
   @spec generate_tag_style_declaration(tag :: Klepsidra.Categorisation.Tag.t()) :: binary()
-  def generate_tag_style_declaration(tag) do
+  def generate_tag_style_declaration(tag) when is_bitstring(tag),
+    do: generate_tag_style_declaration(Categorisation.get_tag!(tag))
+
+  def generate_tag_style_declaration(tag) when is_struct(tag, Klepsidra.Categorisation.Tag) do
     tag_class_name = convert_tag_name_to_class(tag.name)
 
     fg_colour = if tag.fg_colour, do: tag.fg_colour, else: "#fff"

@@ -179,6 +179,12 @@ defmodule KlepsidraWeb.TimerLive.Show do
         selected_tags,
         @tag_search_live_component_id
       )
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        DynamicCSS.generate_tag_styles(selected_tags)
+      )
 
     socket =
       socket

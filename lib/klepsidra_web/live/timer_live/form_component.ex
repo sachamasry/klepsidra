@@ -376,6 +376,12 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         tags_applied,
         @tag_search_live_component_id
       )
+      |> Phx.Live.Head.push(
+        "style[id*=dynamic-style-block]",
+        :dynamic,
+        "style_declarations",
+        DynamicCSS.generate_tag_styles(tags_applied)
+      )
 
     socket =
       socket
