@@ -18,6 +18,7 @@ defmodule Klepsidra.Categorisation do
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Categorisation.ProjectTags
+  alias Klepsidra.Categorisation.JournalEntryTags
 
   @doc """
   Returns the list of tags.
@@ -96,6 +97,45 @@ defmodule Klepsidra.Categorisation do
         order_by: [asc: t.name]
       )
     )
+  end
+
+  @doc """
+  Simple search for tags defined in the system, performing a prefix filter only.
+
+  This search takes in the `search_phrase`, and after converting it to lowercase,
+  compares it against a list of similarly lowercased tag names (`name` field), from the
+  database. The comparison checks filters all tags that start with the normalised
+  search phrase.
+
+  ## Examples
+
+      iex> search_tags_by_name_prefix("hello")
+      [%Tag{}, ...]
+  """
+  @spec search_tags_by_name_prefix(String.t()) :: [Tag.t(), ...]
+  def search_tags_by_name_prefix(search_phrase) do
+    search_phrase = String.downcase(search_phrase)
+
+    Klepsidra.Categorisation.list_tags()
+    |> Enum.filter(fn %{name: name} ->
+      String.starts_with?(String.downcase(name), search_phrase)
+    end)
+  end
+
+  @doc """
+  Search for tags using a `LIKE` wildcard search.
+  """
+  @spec search_tags_by_name_content(search_phrase :: String.t()) :: [Tag.t(), ...]
+  def search_tags_by_name_content(search_phrase) when is_bitstring(search_phrase) do
+    search_fragment = "%#{String.downcase(search_phrase)}%"
+
+    query =
+      from(t in Tag,
+        where: like(t.name, ^search_fragment),
+        order_by: [asc: fragment("lower(?)", t.name)]
+      )
+
+    Repo.all(query)
   end
 
   @doc """
@@ -296,45 +336,6 @@ defmodule Klepsidra.Categorisation do
     do: Repo.get_by!(TimerTags, timer_id: timer_id, tag_id: tag_id)
 
   @doc """
-  Simple search for tags defined in the system, performing a prefix filter only.
-
-  This search takes in the `search_phrase`, and after converting it to lowercase,
-  compares it against a list of similarly lowercased tag names (`name` field), from the
-  database. The comparison checks filters all tags that start with the normalised
-  search phrase.
-
-  ## Examples
-
-      iex> search_tags_by_name_prefix("hello")
-      [%Tag{}, ...]
-  """
-  @spec search_tags_by_name_prefix(String.t()) :: [Tag.t(), ...]
-  def search_tags_by_name_prefix(search_phrase) do
-    search_phrase = String.downcase(search_phrase)
-
-    Klepsidra.Categorisation.list_tags()
-    |> Enum.filter(fn %{name: name} ->
-      String.starts_with?(String.downcase(name), search_phrase)
-    end)
-  end
-
-  @doc """
-  Search for tags using a `LIKE` wildcard search.
-  """
-  @spec search_tags_by_name_content(search_phrase :: String.t()) :: [Tag.t(), ...]
-  def search_tags_by_name_content(search_phrase) when is_bitstring(search_phrase) do
-    search_fragment = "%#{String.downcase(search_phrase)}%"
-
-    query =
-      from(t in Tag,
-        where: like(t.name, ^search_fragment),
-        order_by: [asc: fragment("lower(?)", t.name)]
-      )
-
-    Repo.all(query)
-  end
-
-  @doc """
   Attach a single tag to a project. Checks if the tag is already associated
   with the project, only adding it if it’s missing.
 
@@ -432,4 +433,85 @@ defmodule Klepsidra.Categorisation do
   @spec get_project_tag!(project_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) :: ProjectTags.t()
   def get_project_tag!(project_id, tag_id),
     do: Repo.get!(ProjectTags, project_id: project_id, tag_id: tag_id)
+
+  @doc """
+  Attach a single tag to a journal entry. Checks if the tag is already associated
+  with the entry, only adding it if it’s missing.
+
+  ## Examples
+
+      iex> add_journal_entry_tag(%JournalEntry{}, %Tag{})
+      {:ok, :inserted}
+
+      iex> add_journal_entry_tag(%JournalEntry{}, %Tag{})
+      {:ok, :already_exists}
+
+      iex> add_journal_entry_tag(%JournalEntry{}, %Tag{})
+      {:error, :insert_failed}
+
+  """
+  @spec add_journal_entry_tag(journal_entry_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :inserted}
+          | {:ok, :already_exists}
+          | {:error, :insert_failed}
+          | {:error, :journal_entry_is_nil}
+  def add_journal_entry_tag(nil, _tag_id), do: {:error, :journal_entry_is_nil}
+
+  def add_journal_entry_tag(journal_entry_id, tag_id) do
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+
+    # Check if the tag is already associated with the journal entry
+    existing_association =
+      Repo.get_by(JournalEntryTags, journal_entry_id: journal_entry_id, tag_id: tag_id)
+
+    # Repo.update(changeset)
+    if existing_association do
+      {:ok, :already_exists}
+    else
+      # Insert a new association with timestamps
+      journal_entry_tag_entry = %JournalEntryTags{
+        journal_entry_id: journal_entry_id,
+        tag_id: tag_id,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      case Repo.insert(journal_entry_tag_entry) do
+        {:ok, _} -> {:ok, :inserted}
+        {:error, _} -> {:error, :insert_failed}
+      end
+    end
+  end
+
+  @doc """
+  Deletes a journal entry's tag association.
+
+  ## Examples
+
+      iex> delete_journal_entry_tag(%JournalEntry(), %Tag())
+      {:ok, :deleted}
+
+      iex> delete_journal_entry_tag(%JournalEntry(), %Tag())
+      {:error, :not_found}
+
+      iex> delete_journal_entry_tag(%JournalEntry(), %Tag())
+      {:error, :unexpected_result}
+
+  """
+  @spec delete_journal_entry_tag(journal_entry_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :deleted} | {:error, :not_found} | {:error, :delete_failed}
+  def delete_journal_entry_tag(journal_entry_id, tag_id) do
+    # Execute the delete operation on the "journal_entry_tags" table
+    case Repo.get_by(JournalEntryTags, journal_entry_id: journal_entry_id, tag_id: tag_id) do
+      # Record not found
+      nil ->
+        {:error, :not_found}
+
+      journal_entry_tag ->
+        case Repo.delete(journal_entry_tag) do
+          {:ok, _} -> {:ok, :deleted}
+          {:error, _} -> {:error, :delete_failed}
+        end
+    end
+  end
 end

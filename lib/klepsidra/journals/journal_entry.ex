@@ -40,6 +40,12 @@ defmodule Klepsidra.Journals.JournalEntry do
     field(:is_scheduled, :boolean, default: false)
     belongs_to(:user, Klepsidra.Accounts.User)
 
+    many_to_many(:tags, Klepsidra.Categorisation.Tag,
+      join_through: "journal_entry_tags",
+      on_replace: :delete,
+      preload_order: [asc: :name]
+    )
+
     timestamps()
   end
 

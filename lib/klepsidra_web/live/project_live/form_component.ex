@@ -150,9 +150,6 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         "style_declarations",
         DynamicCSS.generate_tag_styles(tags_applied)
       )
-
-    socket =
-      socket
       |> assign(
         tag_search_phrase: nil,
         possible_free_tag_entered: false
