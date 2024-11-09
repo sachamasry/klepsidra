@@ -1,0 +1,126 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# Development Roadmap
+
+## Outline
+
+1. [Release 0.1.3](#release-013) <== Current
+2. [Release 0.1.4](#release-014)
+3. [Release 0.1.5](#release-015)
+4. [Release 0.2](#release-02)
+5. [Release 0.3](#release-03)
+6. [Someday/maybe](#somedaymaybe)
+
+## Release 0.1.3
+
+Ensure all code works, that any obvious bugs have been quashed.
+
+* [X] Tagging projects
+* [X] Tagging journal entries
+* [X] Make it possible to drill into the tag from the live component
+* [X] Provide ability to set new tag colour when creating freeform tag in live component
+* [X] Improve search functionality to perform fuzzy query directly in the database
+* [X] Develop ability to cope with temporary data structures, before an entity has been created
+* [ ] Reformat timer listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
+* [ ] Allow stopping a timer from timer 'show' view
+
+## Release 0.1.4
+
+* [ ] Creation of quotes entity
+* [ ] Meaningful display of quotes in a prominent place
+* [ ] UI and UX improvements
+  * [ ] Display tags for open and closed timers, on timer listings
+  * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
+  * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
+  * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
+  * [ ] On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
+* [ ] _Today_ view
+  * [ ] Provide daily navigation facility: back and forward a day; jump to today
+  * [ ]
+* [ ] Timer reporting and analysis
+  * [ ] Develop tag-based filtering in the reporting view
+  * [ ] Report on aggregate time spent, or timed, by tag, reporting on tag _show_ page
+  * [ ] Report on aggregate time spent by activity type, reporting on activity_type _show_ page
+
+## Release 0.1.5
+
+Implement basic _trip tracker_ functionality, recording how many days have been spent in each country or block, with particular regard to visa regulation regimes.
+
+Audit all existing code for documentation quality, documenting missing functionality; ensure _all_ functionality has type specifications; ensure _all_ backend functionality has at least basic unit tests defined; add property tests where relevant.
+
+* [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
+
+## Release 0.2
+
+By this point, the application is not only fully self-hosted, but can also be used by a wider range of users—it is not yet widely usable, but is acceptable to power users and those willing to be active testers of the system.
+
+During the lifetime of this release, adopt one consistent UI component system, converting the application to using it. Fully audit the entire user interface, unifying it in a new direction, ensuring the system is consistent and visually easy to use.
+
+<!-- livebook:{"break_markdown":true} -->
+
+* [ ] Audit other timers for strengths and weaknesses
+* [ ] Permit pausing and resuming timers; add forward-pointing field to next timer, like a linked list
+* [ ] Develop full-text search
+  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
+  * [ ] Enable SQLite description fields full-text search (tags, projects)
+* [ ] Extend tagging functionality
+  * [ ] Provide way to _deactivate_ old tags
+  * [ ] Make it possible to _merge_ tags which are similar, where having both starts causing complications
+  * [ ] Develop way to create tag hierarchies
+* [ ] UI/UX improvements
+  * [ ] Select a UI component framework, to aid in the building of a modern web app
+  * [ ] Resize datetime, duration and duration unit controls to more efficiently use space
+  * [ ] Redevelop all series 0.1.x views, modularising displays into reusable components
+  * [ ] Improve on cryptic or incomplete UI error messages
+  * [ ] Calculate duration of open timers, client-side, updating continuously
+  * [ ] Replace timer listing description pop-up (title attribute), with a proper HTML-formatted popover component
+
+## Release 0.3
+
+* [ ] UI/UX improvements
+  * [ ] Incorporate Gov.uk Design System (https://design-system.service.gov.uk/) accessibility and user interface/experience decisions, starting from input controls
+  * [ ] Start implementing colour palette
+  * [ ] Improve presentation of currency fields; at present they use an input control of type 'number' which is unintuitive UX
+* [ ] Look into default `timestamps()` fields; it appears that datetime stamps are in UTC, where local timezone may be preferable
+  * [ ] This is most specifically important for timestamps recorded for notes and activities, where the times reported may be relied on by users
+
+## Someday/maybe
+
+* Start creating an undo feature, reducing reliance on confirmation dialogs,
+  particularly for deletions
+  ```
+  * Build an audit trail-like functionality, to be able to undo any deletion
+    or modification, at any time, as well as to see a history of actions
+    taken
+  ```
+* Document truncate and markdown_to_html functions
+* Markdown and other markup languages
+  * Provide ability to use other popular markup languages: Org-mode, TiddlyWiki, etc.
+  * Refactor conversion of plain text to Markdown everywhere; should
+    interpretation happen at table layout level, or earlier at query level?
+  * Create a dedicated field to markdown text, and another for HTML, to improve
+    performance, by not requiring just in time mardown interpretation
+* Expand role of activity types beyond the hour rate, to act as a rigid
+  categorisation for major types of activities, which cannot be entrusted to
+  tags only, e.g. exercise, learning, professional development
+  * Automate `billable`, duration unit measurements, and tags within it;
+    selecting this on an activity should automatically adjust these attributes
+    on a timer
+* Security improvements
+  * Improve handling of `return_to` functionality
+    * Ensure it is a validated route at point of sending
+    * Ensure the parameter is read at the `router.ex` level
+    * Send the information through to the target in an `on_mount` function
+    * Remove the parameter and clean up the URL, redirecting to it, before the
+      user can see it, in case they want to bookmark the page
+      (https://elixirforum.com/t/how-to-store-return-to-url-when-navigating-from-liveview-to-another-page-liveview-regular/55480/4)
+    * Insert it in the render code, as a verified route
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Interface
+
+* [ ] Develop keyboard shortcut functionality for an improved power-user interface
+* [ ] Develop command-line interface, providing another input method for power users
+* [ ] Develop voice recognition interface, making it possible to use aspects of the application in circumstances where a keyboard doesn't exist (watches), or is impractical (phones), or merely undesirable (tablets)
+* [ ] Develop self-contained version of the app—LiveView Native—packaging it as a macOS desktop app, and an iOS iPhone and iPad app, with a potential iWatch app where timers can be quickly started and stopped
