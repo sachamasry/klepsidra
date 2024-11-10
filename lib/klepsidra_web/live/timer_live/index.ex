@@ -11,10 +11,12 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok,
-     socket
-     |> assign(display_help: false)
-     |> stream(:timers, TimeTracking.list_timers_with_customers())}
+    socket =
+      socket
+      |> assign(display_help: false)
+      |> stream(:timers, TimeTracking.list_timers_with_customers())
+
+    {:ok, socket}
   end
 
   @impl true

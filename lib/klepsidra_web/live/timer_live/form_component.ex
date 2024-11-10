@@ -518,39 +518,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
-  defp save_timer(socket, :new_timer, timer_params) do
-    case TimeTracking.create_timer(timer_params) do
-      {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
-
-        Tag.handle_tag_list_changes(
-          [],
-          socket.assigns.selected_tag_queue,
-          timer.id,
-          &Categorisation.add_timer_tag(&1, &2),
-          &Categorisation.delete_timer_tag(&1, &2)
-        )
-
-        if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
-          notify_parent({:saved_closed_timer, timer})
-        else
-          notify_parent({:saved_open_timer, timer})
-        end
-
-        {:noreply,
-         socket
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
-    end
-  end
-
   defp save_timer(socket, :edit_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
-
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:updated_closed_timer, timer})
         else

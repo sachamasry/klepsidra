@@ -22,9 +22,9 @@
   phx-change="change"
   phx-window-keyup="key_up"
 >
-  <div id="tag-selector" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
+  <div id="tag-selector--show" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
     <div
-      id="tag-selector__live-select"
+      id="tag-selector__live-select--show"
       phx-mounted={JS.add_class("hidden", to: "#tag_form_tag_search_text_input")}
     >
       <.live_select
@@ -63,14 +63,14 @@
     </div>
 
     <div
-      id="tag-selector__colour-select"
+      id="tag-selector__colour-select--show"
       class="tag-colour-picker hidden w-10 overflow-hidden self-end shrink-0"
     >
       <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
     </div>
 
     <.button
-      id="tag-selector__add-button"
+      id="tag-selector__add-button--show"
       class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
       type="button"
       phx-click={enable_tag_selector()}

@@ -253,10 +253,10 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
 
   defp enable_tag_selector() do
     JS.remove_class("hidden", to: "#tag_form_tag_search_text_input")
-    |> JS.remove_class("hidden", to: "#tag-selector__colour-select")
-    |> JS.add_class("hidden", to: "#tag-selector__add-button")
-    |> JS.add_class("gap-2", to: "#tag-selector")
-    |> JS.add_class("flex-auto", to: "#tag-selector__live-select")
+    |> JS.remove_class("hidden", to: "#tag-selector__colour-select--show")
+    |> JS.add_class("hidden", to: "#tag-selector__add-button--show")
+    |> JS.add_class("gap-2", to: "#tag-selector--show")
+    |> JS.add_class("flex-auto", to: "#tag-selector__live-select--show")
     |> JS.focus(to: "#tag_form_tag_search_text_input")
   end
 end
