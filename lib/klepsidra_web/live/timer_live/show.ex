@@ -6,6 +6,8 @@ defmodule KlepsidraWeb.TimerLive.Show do
   import LiveToast
 
   alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
   alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
@@ -79,21 +81,60 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => _id, "note_id" => note_id}, _, socket) do
-    socket = assign(socket, :note, TimeTracking.get_note!(note_id))
-
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:note, TimeTracking.get_note!(note_id))}
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:timer, TimeTracking.get_timer!(id))
-     |> assign(:note, %Klepsidra.TimeTracking.Note{})}
+  defp apply_action(socket, :show, %{"id" => id}) do
+    socket
+    |> assign(:page_title, page_title(socket.assigns.live_action))
+    |> assign(:timer, TimeTracking.get_timer!(id))
+    |> assign(:note, %Klepsidra.TimeTracking.Note{})
+  end
+
+  defp apply_action(socket, :edit_timer, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Timer")
+    |> assign(:timer, TimeTracking.get_timer!(id))
+  end
+
+  defp apply_action(socket, :stop_timer, %{"id" => id}) do
+    start_timestamp = TimeTracking.get_timer!(id).start_stamp
+    clocked_out = Timer.clock_out(start_timestamp, :minute)
+    billing_duration_unit = Units.get_default_billing_increment()
+
+    billing_duration =
+      Timer.calculate_timer_duration(
+        start_timestamp,
+        clocked_out.end_timestamp,
+        String.to_existing_atom(billing_duration_unit)
+      )
+
+    socket
+    |> assign(:page_title, "Clock out")
+    |> assign(
+      clocked_out: clocked_out,
+      duration_unit: "minute",
+      billing_duration: billing_duration,
+      billing_duration_unit: billing_duration_unit
+    )
+    |> assign(:timer, TimeTracking.get_timer!(id))
+  end
+
+  defp apply_action(socket, :new_note, %{"id" => id} = _params) do
+    socket
+    |> assign(:page_title, "New note")
+    |> assign(:timer_id, id)
+  end
+
+  defp apply_action(socket, nil, _params), do: socket
+
+  defp apply_action(socket, :edit_note, %{"id" => _id, "note_id" => note_id}) do
+    socket
+    |> assign(
+      note: TimeTracking.get_note!(note_id),
+      page_title: page_title(socket.assigns.live_action)
+    )
   end
 
   defp page_title(:show), do: "Show Timer"
@@ -271,6 +312,11 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:saved_closed_timer, timer}}, socket) do
+    {:noreply, handle_closed_timer(socket, timer)}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.TimerLive.FormComponent, {:updated_open_timer, _timer}}, socket) do
     {:noreply, socket}
   end
@@ -281,6 +327,11 @@ defmodule KlepsidraWeb.TimerLive.Show do
   end
 
   @impl true
+  def handle_info({KlepsidraWeb.TimerLive.AutomatedTimer, {:timer_stopped, timer}}, socket) do
+    {:noreply, handle_closed_timer(socket, timer)}
+  end
+
+  @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:updated_note, note}}, socket) do
     {:noreply, handle_updated_note(socket, note)}
   end
@@ -288,6 +339,13 @@ defmodule KlepsidraWeb.TimerLive.Show do
   @impl true
   def handle_info({KlepsidraWeb.Live.NoteLive.NoteFormComponent, {:saved_note, note}}, socket) do
     {:noreply, handle_saved_note(socket, note)}
+  end
+
+  defp handle_closed_timer(socket, _timer) do
+    # closed_timer_duration = {timer.duration, timer.duration_time_unit}
+
+    socket
+    |> put_toast(:info, "Timer stopped")
   end
 
   defp handle_saved_note(socket, note) do

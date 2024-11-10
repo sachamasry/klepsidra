@@ -21,7 +21,8 @@ Ensure all code works, that any obvious bugs have been quashed.
 * [X] Provide ability to set new tag colour when creating freeform tag in live component
 * [X] Improve search functionality to perform fuzzy query directly in the database
 * [X] Develop ability to cope with temporary data structures, before an entity has been created
-* [ ] Reformat timer listing display to a more useful format, removing description field to a popup box or tooltip; change date display to more informative format
+* [X] Reformat timer listing display to a more useful format, relegating full description field to a popup box or tooltip, showing only a truncated version spanning at most two lines
+* [X] Change date display to more informative format
 * [ ] Allow stopping a timer from timer 'show' view
 
 ## Release 0.1.4
@@ -86,6 +87,20 @@ During the lifetime of this release, adopt one consistent UI component system, c
 
 ## Someday/maybe
 
+### Multitasking
+
+One major area at which web applications fall short is multitasking; in the desktop paradign, we have been trained to enjoy the ability to run multiple programs side by side, and to open windows next to each other for cross-reference. Web apps cannot do this, and usually—at best—only provide modal content as an attempt at a solution.
+
+Logseq provides a real alternative to this problem, taking its cue from TiddlyWiki: it opens a permanent sidebar, which can be populated with any kind of content. This content can be stacked up endlessly, any or all items can be minimised to reduce clutter, and any and all can also be closed. The sidebar stays populated with the option of choice for the duration of the session.
+
+<!-- livebook:{"break_markdown":true} -->
+
+* [ ] Multitasking
+  * [ ] Provide a sidebar in which _any_ type of content, and any number of entitits can be openedo Once opened, this content lives in the sidebar for continues reference; any item can be minimised or closed (‘Logseq: A Privacy-First, Open-Source Knowledge Base’).
+  * [ ] This sidebar is a permanent _companion_ to the app. Whichever area of the system people are in, the sidebar is present (though it can be hidden), with the information previously opened in it (‘Logseq: A Privacy-First, Open-Source Knowledge Base’.).
+
+<!-- livebook:{"break_markdown":true} -->
+
 * Start creating an undo feature, reducing reliance on confirmation dialogs,
   particularly for deletions
   ```
@@ -124,3 +139,7 @@ During the lifetime of this release, adopt one consistent UI component system, c
 * [ ] Develop command-line interface, providing another input method for power users
 * [ ] Develop voice recognition interface, making it possible to use aspects of the application in circumstances where a keyboard doesn't exist (watches), or is impractical (phones), or merely undesirable (tablets)
 * [ ] Develop self-contained version of the app—LiveView Native—packaging it as a macOS desktop app, and an iOS iPhone and iPad app, with a potential iWatch app where timers can be quickly started and stopped
+
+## References
+
+1. logseq. ‘Logseq: A Privacy-First, Open-Source Knowledge Base’, 29 July 2024. https://logseq.com.

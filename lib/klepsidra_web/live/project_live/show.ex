@@ -243,6 +243,11 @@ defmodule KlepsidraWeb.ProjectLive.Show do
   defp page_title(:show), do: "Show Project"
   defp page_title(:edit), do: "Edit Project"
 
+  @impl true
+  def handle_info({KlepsidraWeb.ProjectLive.FormComponent, {:saved, _project}}, socket) do
+    {:noreply, socket}
+  end
+
   defp get_aggregate_duration_for_project(project_id) do
     project_id
     |> Klepsidra.TimeTracking.get_closed_timer_durations_for_project()

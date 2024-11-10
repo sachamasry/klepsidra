@@ -170,6 +170,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
     socket =
       socket
+      |> assign(assigns)
       |> TagUtilities.generate_tag_options(
         [],
         Enum.map(timer.tags, fn tag -> tag.id end),
@@ -181,10 +182,6 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         "style_declarations",
         DynamicCSS.generate_tag_styles(timer.tags)
       )
-
-    socket =
-      socket
-      |> assign(assigns)
       |> assign(
         billable_activity?: timer.billable,
         new_tag_colour: {"#94a3b8", "#fff"}

@@ -27,26 +27,26 @@
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[18ex]">
       <div class="leading-snug inline-block">
-        <div>
+        <div class="block font-extrabold text-xs leading-[1.75] text-slate-400 inline-block">
           <%= timer.start_stamp %>
         </div>
         <div
           :if={timer.formatted_start_date}
-          class="leading-[1.4rem] block align-top uppercase text-xs text-pink-600/75 font-normal"
+          class="block align-top uppercase text-xs leading-[1.75] text-pink-600/75 font-normal"
         >
           <%= timer.formatted_start_date %>
         </div>
       </div>
     </:col>
-    <:col :let={{_id, timer}} label="Description" class="align-top">
+    <:col :let={{_id, timer}} label="Description" class="align-top leading-normal">
       <span
-        class="leading-snug inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
+        class="inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-snug">
+    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-normal">
       <div class="">
         <%= timer.project_name %>
       </div>
@@ -60,12 +60,16 @@
       </div>
     </:action>
     <:action :let={{_id, timer}}>
-      <.link patch={~p"/timer_notes/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>
+      <.link
+        patch={~p"/timer_notes/#{timer.id}/notes/new"}
+        phx-click={JS.push_focus()}
+        class="leading-normal"
+      >
         + Note
       </.link>
     </:action>
     <:action :let={{_id, timer}}>
-      <.link patch={~p"/edit_timer/#{timer.id}"}>Edit</.link>
+      <.link patch={~p"/edit_timer/#{timer.id}"} class="leading-normal">Edit</.link>
     </:action>
     <:action :let={{_id, timer}}>
       <.link :if={is_nil(timer.end_stamp)} patch={~p"/stop_timer/#{timer.id}"}>Stop</.link>
@@ -74,6 +78,7 @@
       <.link
         phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
         data-confirm="Cancel activity timer?"
+        class="leading-normal"
       >
         Cancel
       </.link>
@@ -106,29 +111,29 @@
   >
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[18ex]">
       <div class="leading-snug inline-block">
-        <div class="block font-extrabold text-xs leading-[1.7] text-slate-400 inline-block">
-          <%= timer.formatted_duration %>
-        </div>
-        <div class="block leading-[1] align-top">
+        <div class="block font-extrabold text-xs leading-[1.75] text-slate-400 inline-block">
           <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
+        </div>
+        <div class="block leading-[1] align-top text-sm leading-normal">
+          <%= timer.formatted_duration %>
         </div>
         <div
           :if={timer.formatted_start_date}
-          class="block align-top uppercase text-xs text-pink-600/75 font-normal"
+          class="block align-top uppercase text-xs leading-[1.75] text-pink-600/75 font-normal"
         >
           <%= timer.formatted_start_date %>
         </div>
       </div>
     </:col>
-    <:col :let={{_id, timer}} label="Description" class="align-top">
+    <:col :let={{_id, timer}} label="Description" class="align-top leading-normal">
       <span
-        class="leading-snug inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
+        class="inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
         <%= timer.summary %>
       </span>
     </:col>
-    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-snug">
+    <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-normal">
       <div class="">
         <%= timer.project_name %>
       </div>
@@ -142,17 +147,22 @@
       </div>
     </:action>
     <:action :let={{_id, timer}}>
-      <.link patch={~p"/timer_notes/#{timer.id}/notes/new"} phx-click={JS.push_focus()}>
+      <.link
+        patch={~p"/timer_notes/#{timer.id}/notes/new"}
+        phx-click={JS.push_focus()}
+        class="leading-normal"
+      >
         + Note
       </.link>
     </:action>
     <:action :let={{_id, timer}}>
-      <.link patch={~p"/edit_timer/#{timer.id}"}>Edit</.link>
+      <.link patch={~p"/edit_timer/#{timer.id}"} class="leading-normal">Edit</.link>
     </:action>
     <:action :let={{id, timer}}>
       <.link
         phx-click={JS.push("delete-open-timer", value: %{id: timer.id}) |> hide("##{id}")}
         data-confirm="Delete activity timer?"
+        class="leading-normal"
       >
         Delete
       </.link>

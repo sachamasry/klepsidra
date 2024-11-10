@@ -3,6 +3,9 @@
   <%= if is_nil(@timer.end_stamp), do: "(Running timer)" %>
   <:subtitle>Activity timer record.</:subtitle>
   <:actions>
+    <.link :if={is_nil(@timer.end_stamp)} patch={~p"/timers/#{@timer.id}/stop-timer"}>
+      <.button>Stop timer</.button>
+    </.link>
     <.link patch={~p"/timers/#{@timer}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit timer</.button>
     </.link>
@@ -159,6 +162,23 @@
 </.modal>
 
 <.modal
+  :if={@live_action in [:stop_timer]}
+  id="timer-modal"
+  show
+  on_cancel={JS.patch(~p"/timers/#{@timer.id}")}
+>
+  <.live_component
+    module={KlepsidraWeb.TimerLive.AutomatedTimer}
+    id={@timer.id}
+    title="Stopping timer"
+    action={@live_action}
+    timer={@timer}
+    invocation_context={:stop_timer}
+    patch={~p"/timers/#{@timer.id}"}
+  />
+</.modal>
+
+<.modal
   :if={@live_action in [:new_note, :edit_note]}
   id="note-modal"
   show
@@ -174,6 +194,6 @@
     action={@live_action}
     timer_id={@timer_id}
     note={@note}
-    patch={~p"/timers/#{@timer_id}"}
+    patch={~p"/timers/#{@timer.id}"}
   />
 </.modal>

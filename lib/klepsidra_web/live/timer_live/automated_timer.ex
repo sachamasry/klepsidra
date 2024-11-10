@@ -228,6 +228,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     socket =
       socket
+      |> assign(assigns)
       |> assign_form(changeset)
       |> assign(
         billable_activity?: assigns.timer.billable,
@@ -235,7 +236,6 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       )
       |> assign_business_partner()
       |> assign_project()
-      |> assign(assigns)
 
     {:ok, socket}
   end

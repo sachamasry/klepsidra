@@ -18,6 +18,11 @@ defmodule KlepsidraWeb.TagLive.Show do
      |> assign(:tag, Categorisation.get_tag!(id))}
   end
 
+  @impl true
+  def handle_info({KlepsidraWeb.TagLive.FormComponent, {:saved, _tag}}, socket) do
+    {:noreply, socket}
+  end
+
   defp page_title(:show), do: "Show Tag"
   defp page_title(:edit), do: "Edit Tag"
 end
