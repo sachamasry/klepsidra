@@ -138,7 +138,7 @@ source.</p><h2 id="module-set-up" class="section-heading">
   </a>
   <span class="text">1) Configure <code class="inline">lib/my_app_web.ex</code></span>
 </h3>
-<p>Ensure you import the helpers in <code class="inline">MyAppWeb</code>.</p><p>  def router do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="5428489074-1">do</span><span class="w">
+<p>Ensure you import the helpers in <code class="inline">MyAppWeb</code>.</p><p>  def router do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="3555847911-1">do</span><span class="w">
   </span><span class="kn">use</span><span class="w"> </span><span class="nc">Phoenix.Router</span><span class="p">,</span><span class="w"> </span><span class="ss">helpers</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="w">
 
   </span><span class="c1"># Import common connection and controller functions to use in pipelines</span><span class="w">
@@ -146,29 +146,29 @@ source.</p><h2 id="module-set-up" class="section-heading">
   </span><span class="kn">import</span><span class="w"> </span><span class="nc">Phoenix.Controller</span><span class="w">
   </span><span class="kn">import</span><span class="w"> </span><span class="nc">Phoenix.LiveView.Router</span><span class="w">
 
-  </span><span class="kn">import</span><span class="w"> </span><span class="nc">MyAppWeb.CSP</span><span class="p">,</span><span class="w"> </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5428489074-2">[</span><span class="ss">put_content_security_policy</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5428489074-2">]</span><span class="w">
-</span><span class="k" data-group-id="5428489074-1">end</span></code></pre><p>  end</p><p>  # ...</p><p>  def html do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="5320395688-1">do</span><span class="w">
+  </span><span class="kn">import</span><span class="w"> </span><span class="nc">MyAppWeb.CSP</span><span class="p">,</span><span class="w"> </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3555847911-2">[</span><span class="ss">put_content_security_policy</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3555847911-2">]</span><span class="w">
+</span><span class="k" data-group-id="3555847911-1">end</span></code></pre><p>  end</p><p>  # ...</p><p>  def html do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="0215180591-1">do</span><span class="w">
   </span><span class="kn">use</span><span class="w"> </span><span class="nc">Phoenix.Component</span><span class="w">
 
   </span><span class="kn">import</span><span class="w"> </span><span class="nc">MyAppWeb.CldrHelpers</span><span class="w">
 
   </span><span class="c1"># Import convenience functions from controllers</span><span class="w">
   </span><span class="kn">import</span><span class="w"> </span><span class="nc">Phoenix.Controller</span><span class="p">,</span><span class="w">
-    </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5320395688-2">[</span><span class="ss">get_csrf_token</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">view_module</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">view_template</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5320395688-2">]</span><span class="w">
+    </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0215180591-2">[</span><span class="ss">get_csrf_token</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">view_module</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">view_template</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="0215180591-2">]</span><span class="w">
 
   </span><span class="kn">import</span><span class="w"> </span><span class="nc">MyAppWeb.CSP</span><span class="p">,</span><span class="w">
-    </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5320395688-3">[</span><span class="ss">get_csp_nonce</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5320395688-3">]</span><span class="w">
+    </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0215180591-3">[</span><span class="ss">get_csp_nonce</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0215180591-3">]</span><span class="w">
 
   </span><span class="c1"># Include general helpers for rendering HTML</span><span class="w">
-  </span><span class="k">unquote</span><span class="p" data-group-id="5320395688-4">(</span><span class="n">html_helpers</span><span class="p" data-group-id="5320395688-5">(</span><span class="p" data-group-id="5320395688-5">)</span><span class="p" data-group-id="5320395688-4">)</span><span class="w">
-</span><span class="k" data-group-id="5320395688-1">end</span></code></pre><p>  end</p><p>  # ...</p><p>  def live_view do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="1662957404-1">do</span><span class="w">
+  </span><span class="k">unquote</span><span class="p" data-group-id="0215180591-4">(</span><span class="n">html_helpers</span><span class="p" data-group-id="0215180591-5">(</span><span class="p" data-group-id="0215180591-5">)</span><span class="p" data-group-id="0215180591-4">)</span><span class="w">
+</span><span class="k" data-group-id="0215180591-1">end</span></code></pre><p>  end</p><p>  # ...</p><p>  def live_view do</p><pre><code class="makeup elixir" translate="no"><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="5357900972-1">do</span><span class="w">
   </span><span class="kn">use</span><span class="w"> </span><span class="nc">Phoenix.LiveView</span><span class="p">,</span><span class="w">
-    </span><span class="ss">layout</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1662957404-2">{</span><span class="nc">MyAppWeb.Layouts</span><span class="p">,</span><span class="w"> </span><span class="ss">:app</span><span class="p" data-group-id="1662957404-2">}</span><span class="w">
+    </span><span class="ss">layout</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5357900972-2">{</span><span class="nc">MyAppWeb.Layouts</span><span class="p">,</span><span class="w"> </span><span class="ss">:app</span><span class="p" data-group-id="5357900972-2">}</span><span class="w">
 
   </span><span class="n">on_mount</span><span class="w"> </span><span class="nc">MyAppWeb.CSP</span><span class="w">
 
-  </span><span class="k">unquote</span><span class="p" data-group-id="1662957404-3">(</span><span class="n">html_helpers</span><span class="p" data-group-id="1662957404-4">(</span><span class="p" data-group-id="1662957404-4">)</span><span class="p" data-group-id="1662957404-3">)</span><span class="w">
-</span><span class="k" data-group-id="1662957404-1">end</span></code></pre><p>  end</p><h3 id="module-2-add-nonce-metatag-to-the-html-document" class="section-heading">
+  </span><span class="k">unquote</span><span class="p" data-group-id="5357900972-3">(</span><span class="n">html_helpers</span><span class="p" data-group-id="5357900972-4">(</span><span class="p" data-group-id="5357900972-4">)</span><span class="p" data-group-id="5357900972-3">)</span><span class="w">
+</span><span class="k" data-group-id="5357900972-1">end</span></code></pre><p>  end</p><h3 id="module-2-add-nonce-metatag-to-the-html-document" class="section-heading">
   <a href="#module-2-add-nonce-metatag-to-the-html-document" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -185,13 +185,13 @@ source.</p><h2 id="module-set-up" class="section-heading">
 <code class="inline">assets/js/app.js</code>.</p><p>  let csrfToken = document.querySelector(&quot;meta[name='csrf-token']&quot;).getAttribute(&quot;content&quot;);
   let cspNonce = document.querySelector(&quot;meta[name='csp-nonce']&quot;).getAttribute(&quot;content&quot;)
   let liveSocket = new LiveSocket(&quot;/live&quot;, Socket, {</p><pre><code class="makeup elixir" translate="no"><span class="ss">longPollFallbackMs</span><span class="p">:</span><span class="w"> </span><span class="mi">2500</span><span class="p">,</span><span class="w">
-</span><span class="ss">params</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2404605031-1">{</span><span class="w"> </span><span class="ss">_csrf_token</span><span class="p">:</span><span class="w"> </span><span class="n">csrfToken</span><span class="p">,</span><span class="w"> </span><span class="ss">_csp_nonce</span><span class="p">:</span><span class="w"> </span><span class="n">cspNonce</span><span class="w"> </span><span class="p" data-group-id="2404605031-1">}</span></code></pre><p>  })</p><h2 id="module-usage" class="section-heading">
+</span><span class="ss">params</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4616163729-1">{</span><span class="w"> </span><span class="ss">_csrf_token</span><span class="p">:</span><span class="w"> </span><span class="n">csrfToken</span><span class="p">,</span><span class="w"> </span><span class="ss">_csp_nonce</span><span class="p">:</span><span class="w"> </span><span class="n">cspNonce</span><span class="w"> </span><span class="p" data-group-id="4616163729-1">}</span></code></pre><p>  })</p><h2 id="module-usage" class="section-heading">
   <a href="#module-usage" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Usage</span>
 </h2>
-<p>If you got inline <code class="inline">&lt;style&gt;</code> or script tags you must set the nonce attribute:</p><pre><code class="makeup elixir" translate="no"><span class="o">&lt;</span><span class="n">style</span><span class="w"> </span><span class="n">nonce</span><span class="o">=</span><span class="p" data-group-id="0251952932-1">{</span><span class="n">get_csp_nonce</span><span class="p" data-group-id="0251952932-2">(</span><span class="p" data-group-id="0251952932-2">)</span><span class="p" data-group-id="0251952932-1">}</span><span class="o">&gt;</span><span class="w">
+<p>If you got inline <code class="inline">&lt;style&gt;</code> or script tags you must set the nonce attribute:</p><pre><code class="makeup elixir" translate="no"><span class="o">&lt;</span><span class="n">style</span><span class="w"> </span><span class="n">nonce</span><span class="o">=</span><span class="p" data-group-id="2053731320-1">{</span><span class="n">get_csp_nonce</span><span class="p" data-group-id="2053731320-2">(</span><span class="p" data-group-id="2053731320-2">)</span><span class="p" data-group-id="2053731320-1">}</span><span class="o">&gt;</span><span class="w">
   </span><span class="o">//</span><span class="w"> </span><span class="n">...</span><span class="w">
 </span><span class="o">&lt;</span><span class="o">/</span><span class="n">style</span><span class="o">&gt;</span></code></pre>
     </section>
@@ -311,10 +311,10 @@ or list of binaries. Duplicate directives will be merged together.</p><h2 id="pu
   <span class="text">Example</span>
 </h2>
 <p>  plug :put_content_security_policy,</p><pre><code class="makeup elixir" translate="no"><span class="ss">img_src</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&#39;self&#39; data:`,
-style_src: &quot;</span><span class="sc">&#39;self&#39;</span><span class="w"> </span><span class="sc">&#39;nonce&#39;</span><span class="err">&quot;</span></code></pre><p>  plug :put_content_security_policy,</p><pre><code class="makeup elixir" translate="no"><span class="ss">img_src</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4753601332-1">[</span><span class="w">
+style_src: &quot;</span><span class="sc">&#39;self&#39;</span><span class="w"> </span><span class="sc">&#39;nonce&#39;</span><span class="err">&quot;</span></code></pre><p>  plug :put_content_security_policy,</p><pre><code class="makeup elixir" translate="no"><span class="ss">img_src</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0157759372-1">[</span><span class="w">
   </span><span class="s">&quot;&#39;self&#39;&quot;</span><span class="p">,</span><span class="w">
   </span><span class="s">&quot;data:&quot;</span><span class="w">
-</span><span class="p" data-group-id="4753601332-1">]</span></code></pre><p>  plug :put_content_security_policy, &amp;MyAppWeb.CSPPolicy.opts/1</p>
+</span><span class="p" data-group-id="0157759372-1">]</span></code></pre><p>  plug :put_content_security_policy, &amp;MyAppWeb.CSPPolicy.opts/1</p>
   </section>
 </section>
 
