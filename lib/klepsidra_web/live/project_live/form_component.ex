@@ -129,6 +129,8 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         },
         socket
       ) do
+    parent_tag_select_id = Map.get(socket.assigns, :parent_tag_select_id, nil)
+
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       tags_applied,
@@ -143,7 +145,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         socket.assigns.selected_tag_queue,
         tags_applied,
         @tag_search_live_component_id,
-        parent_tag_select_id: socket.assigns.parent_tag_select_id
+        parent_tag_select_id: parent_tag_select_id
       )
       |> Phx.Live.Head.push(
         "style[id*=dynamic-style-block]",
@@ -171,6 +173,8 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         },
         socket
       ) do
+    parent_tag_select_id = Map.get(socket.assigns, :parent_tag_select_id, nil)
+
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       [],
@@ -179,8 +183,8 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
       &Categorisation.delete_project_tag(&1, &2)
     )
 
-    socket.assigns.parent_tag_select_id &&
-      send_update(LiveSelect.Component, id: socket.assigns.parent_tag_select_id, value: [])
+    parent_tag_select_id &&
+      send_update(LiveSelect.Component, id: parent_tag_select_id, value: [])
 
     socket =
       socket

@@ -360,6 +360,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         %{"_target" => ["timer", "ls_tag_search"], "timer" => %{"ls_tag_search" => tags_applied}},
         socket
       ) do
+    parent_tag_select_id = Map.get(socket.assigns, :parent_tag_select_id, nil)
+
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       tags_applied,
@@ -374,7 +376,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         socket.assigns.selected_tag_queue,
         tags_applied,
         @tag_search_live_component_id,
-        parent_tag_select_id: socket.assigns.parent_tag_select_id
+        parent_tag_select_id: parent_tag_select_id
       )
       |> Phx.Live.Head.push(
         "style[id*=dynamic-style-block]",
@@ -405,6 +407,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         },
         socket
       ) do
+    parent_tag_select_id = Map.get(socket.assigns, :parent_tag_select_id, nil)
+
     Tag.handle_tag_list_changes(
       socket.assigns.selected_tag_queue,
       [],
@@ -413,8 +417,8 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
       &Categorisation.delete_timer_tag(&1, &2)
     )
 
-    socket.assigns.parent_tag_select_id &&
-      send_update(LiveSelect.Component, id: socket.assigns.parent_tag_select_id, value: [])
+    parent_tag_select_id &&
+      send_update(LiveSelect.Component, id: parent_tag_select_id, value: [])
 
     socket =
       socket
@@ -522,9 +526,39 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
+  defp save_timer(socket, :new_timer, timer_params) do
+    case TimeTracking.create_timer(timer_params) do
+      {:ok, timer} ->
+        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+
+        Tag.handle_tag_list_changes(
+          [],
+          socket.assigns.selected_tag_queue,
+          timer.id,
+          &Categorisation.add_timer_tag(&1, &2),
+          &Categorisation.delete_timer_tag(&1, &2)
+        )
+
+        if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
+          notify_parent({:saved_closed_timer, timer})
+        else
+          notify_parent({:saved_open_timer, timer})
+        end
+
+        {:noreply,
+         socket
+         |> push_patch(to: socket.assigns.patch)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign_form(socket, changeset)}
+    end
+  end
+
   defp save_timer(socket, :edit_timer, timer_params) do
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
+        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:updated_closed_timer, timer})
         else
