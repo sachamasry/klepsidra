@@ -66,6 +66,8 @@ defmodule Klepsidra.DynamicCSS do
           "}",
           ":",
           ";",
+          ",",
+          ".",
           "/",
           "\\",
           "<",

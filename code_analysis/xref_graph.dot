@@ -1,0 +1,451 @@
+digraph "xref graph" {
+  "lib/klepsidra.ex"
+  "lib/klepsidra/accounts.ex"
+  "lib/klepsidra/accounts.ex" -> "lib/klepsidra/accounts/user.ex" [label="(export)"]
+  "lib/klepsidra/accounts.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/accounts/user.ex"
+  "lib/klepsidra/application.ex"
+  "lib/klepsidra/application.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/application.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/endpoint.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/endpoint.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/router.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/router.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/components/core_components.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web/klepsidra_csp.ex" [label="(export)"]
+  "lib/klepsidra_web/components/layouts.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/router.ex" -> "lib/klepsidra_web/klepsidra_csp.ex" [label="(export)"]
+  "lib/klepsidra_web/router.ex" -> "lib/klepsidra_web/telemetry.ex"
+  "lib/klepsidra/application.ex" -> "lib/klepsidra_web/telemetry.ex"
+  "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra/business_partners.ex" -> "lib/klepsidra/business_partners/business_partner.ex" [label="(export)"]
+  "lib/klepsidra/business_partners/business_partner.ex" -> "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra/business_partners.ex" -> "lib/klepsidra/business_partners/note.ex" [label="(export)"]
+  "lib/klepsidra/business_partners.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/business_partners/business_partner.ex"
+  "lib/klepsidra/business_partners/note.ex"
+  "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra/categorisation.ex" -> "lib/klepsidra/categorisation/journal_entry_tags.ex" [label="(export)"]
+  "lib/klepsidra/categorisation/journal_entry_tags.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/categorisation/tag.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/business_partners/business_partner.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/ex_cldr.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/projects/project.ex"
+  "lib/klepsidra/projects/project.ex" -> "lib/klepsidra/business_partners/business_partner.ex"
+  "lib/klepsidra/projects/project.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/projects/project.ex" -> "lib/klepsidra/projects.ex"
+  "lib/klepsidra/projects.ex" -> "lib/klepsidra/projects/note.ex" [label="(export)"]
+  "lib/klepsidra/projects.ex" -> "lib/klepsidra/projects/project.ex" [label="(export)"]
+  "lib/klepsidra/projects.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/time_tracking/activity_type.ex"
+  "lib/klepsidra/time_tracking/activity_type.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra/time_tracking.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/time_tracking.ex" -> "lib/klepsidra/time_tracking/activity_type.ex" [label="(export)"]
+  "lib/klepsidra/time_tracking.ex" -> "lib/klepsidra/time_tracking/note.ex" [label="(export)"]
+  "lib/klepsidra/time_tracking/note.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra/time_tracking.ex" -> "lib/klepsidra/time_tracking/timer.ex" [label="(export)"]
+  "lib/klepsidra/time_tracking.ex" -> "lib/klepsidra/utilities/math.ex"
+  "lib/klepsidra/time_tracking/timer.ex" -> "lib/klepsidra/time_tracking/note.ex"
+  "lib/klepsidra/categorisation/journal_entry_tags.ex" -> "lib/klepsidra/journals/journal_entry.ex"
+  "lib/klepsidra/journals/journal_entry.ex" -> "lib/klepsidra/accounts/user.ex"
+  "lib/klepsidra/journals/journal_entry.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/journals/journal_entry.ex" -> "lib/klepsidra/journals/journal_entry_types.ex"
+  "lib/klepsidra/journals/journal_entry_types.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra/journals.ex" -> "lib/klepsidra/journals/journal_entry.ex" [label="(export)"]
+  "lib/klepsidra/journals.ex" -> "lib/klepsidra/journals/journal_entry_types.ex" [label="(export)"]
+  "lib/klepsidra/journals.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/journals/journal_entry.ex" -> "lib/klepsidra/locations/city.ex"
+  "lib/klepsidra/locations/city.ex" -> "lib/klepsidra/locations.ex"
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/administrative_divisions_1.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/administrative_divisions_2.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/city.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/continent.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/country.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/feature_class.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/locations/feature_code.ex" [label="(export)"]
+  "lib/klepsidra/locations.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/categorisation.ex" -> "lib/klepsidra/categorisation/project_tags.ex" [label="(export)"]
+  "lib/klepsidra/categorisation/project_tags.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/categorisation/project_tags.ex" -> "lib/klepsidra/projects/project.ex"
+  "lib/klepsidra/categorisation.ex" -> "lib/klepsidra/categorisation/tag.ex" [label="(export)"]
+  "lib/klepsidra/categorisation.ex" -> "lib/klepsidra/categorisation/timer_tags.ex" [label="(export)"]
+  "lib/klepsidra/categorisation/timer_tags.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/categorisation/timer_tags.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra/categorisation.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/categorisation/journal_entry_tags.ex"
+  "lib/klepsidra/categorisation/project_tags.ex"
+  "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra/categorisation/timer_tags.ex"
+  "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra/dynamic_css.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra/ex_cldr.ex"
+  "lib/klepsidra/journals.ex"
+  "lib/klepsidra/journals/journal_entry.ex"
+  "lib/klepsidra/journals/journal_entry_types.ex"
+  "lib/klepsidra/localisation.ex"
+  "lib/klepsidra/localisation.ex" -> "lib/klepsidra/localisation/language.ex" [label="(export)"]
+  "lib/klepsidra/localisation.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra/localisation/language.ex"
+  "lib/klepsidra/locations.ex"
+  "lib/klepsidra/locations/administrative_divisions_1.ex"
+  "lib/klepsidra/locations/administrative_divisions_2.ex"
+  "lib/klepsidra/locations/city.ex"
+  "lib/klepsidra/locations/continent.ex"
+  "lib/klepsidra/locations/country.ex"
+  "lib/klepsidra/locations/feature_class.ex"
+  "lib/klepsidra/locations/feature_code.ex"
+  "lib/klepsidra/mailer.ex"
+  "lib/klepsidra/projects.ex"
+  "lib/klepsidra/projects/note.ex"
+  "lib/klepsidra/projects/project.ex"
+  "lib/klepsidra/repo.ex"
+  "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra/time_tracking/activity_type.ex"
+  "lib/klepsidra/time_tracking/note.ex"
+  "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra/time_tracking/time_units.ex" -> "lib/klepsidra/ex_cldr.ex"
+  "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra/utilities/math.ex"
+  "lib/klepsidra_web.ex"
+  "lib/klepsidra_web/components/core_components.ex"
+  "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/controllers/error_html.ex"
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web/klepsidra_csp.ex" [label="(export)"]
+  "lib/klepsidra_web/controllers/error_html.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/controllers/error_json.ex"
+  "lib/klepsidra_web/controllers/page_html.ex"
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web/klepsidra_csp.ex" [label="(export)"]
+  "lib/klepsidra_web/controllers/page_html.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/klepsidra_csp.ex"
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex"
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/activity_type_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra/time_tracking/activity_type.ex" [label="(export)"]
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/live/activity_type_live/form_component.ex"
+  "lib/klepsidra_web/live/activity_type_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/live/activity_type_live/form_component.ex"
+  "lib/klepsidra_web/live/activity_type_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex"
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/business_partner_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra/business_partners/business_partner.ex" [label="(export)"]
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/live/business_partner_live/form_component.ex"
+  "lib/klepsidra_web/live/business_partner_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/live/business_partner_live/form_component.ex"
+  "lib/klepsidra_web/live/business_partner_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/journals/journal_entry_types.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/locations.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/locations/city.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra/journals/journal_entry.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/live/journal_entry_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/locations/city.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/live/journal_entry_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/journal_entry_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra/journals/journal_entry_types.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra/journals.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/live/journal_entry_types_live/form_component.ex"
+  "lib/klepsidra_web/live/journal_entry_types_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/note_live/note_form_component.ex"
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra/time_tracking/note.ex" [label="(export)"]
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/note_live/note_form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra/projects.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/project_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/project_live/index.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra/projects.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra/projects/project.ex" [label="(export)"]
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/live/project_live/form_component.ex"
+  "lib/klepsidra_web/live/project_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/project_live/show.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/ex_cldr.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/projects.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/live/project_live/form_component.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/project_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra/business_partners.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra/projects.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/live/timer_live/form_component.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/business_partners/business_partner.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/projects/project.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/time_tracking/activity_type.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/reporting/activity_time_reporting.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/start_page_live.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra/time_tracking/timer.ex" [label="(export)"]
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/live/note_live/note_form_component.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/live/timer_live/automated_timer.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/business_partners/business_partner.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/projects/project.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/live/timer_live/form_component.ex"
+  "lib/klepsidra_web/live/start_page_live.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/tag_live/form_component.ex"
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/tag_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra/categorisation/tag.ex" [label="(export)"]
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/live/tag_live/form_component.ex"
+  "lib/klepsidra_web/live/tag_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/live/tag_live/form_component.ex"
+  "lib/klepsidra_web/live/tag_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/timer_live/automated_timer.ex"
+  "lib/klepsidra_web/live/timer_live/form_component.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra/time_tracking/timer.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/live/note_live/note_form_component.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/live/timer_live/automated_timer.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/live/timer_live/form_component.ex"
+  "lib/klepsidra_web/live/timer_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/categorisation.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/categorisation/tag.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/dynamic_css.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/repo.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/time_tracking.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/time_tracking/note.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/time_tracking/time_units.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra/time_tracking/timer.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/live/note_live/note_form_component.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/live/tag_live/tag_utilities.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/live/timer_live/automated_timer.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/live/timer_live/form_component.ex"
+  "lib/klepsidra_web/live/timer_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/user_live/form_component.ex"
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra/accounts.ex"
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/user_live/form_component.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/user_live/index.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra/accounts.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra/accounts/user.ex" [label="(export)"]
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/live/user_live/form_component.ex"
+  "lib/klepsidra_web/live/user_live/index.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/live/user_live/show.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra/accounts.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web.ex" [label="(compile)"]
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/components/core_components.ex" [label="(export)"]
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/components/layouts.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/endpoint.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/gettext.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/live/user_live/form_component.ex"
+  "lib/klepsidra_web/live/user_live/show.ex" -> "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/router.ex"
+  "lib/klepsidra_web/telemetry.ex"
+}

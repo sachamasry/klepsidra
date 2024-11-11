@@ -331,7 +331,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
         socket,
         socket.assigns.selected_tag_queue,
         tags_applied,
-        @tag_search_live_component_id
+        @tag_search_live_component_id,
+        parent_tag_select_id: socket.assigns.parent_tag_select_id
       )
       |> Phx.Live.Head.push(
         "style[id*=dynamic-style-block]",
@@ -369,6 +370,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       &Categorisation.add_timer_tag(&1, &2),
       &Categorisation.delete_timer_tag(&1, &2)
     )
+
+    socket.assigns.parent_tag_select_id &&
+      send_update(LiveSelect.Component, id: socket.assigns.parent_tag_select_id, value: [])
 
     socket =
       socket

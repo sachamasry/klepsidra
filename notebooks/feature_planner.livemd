@@ -1,0 +1,880 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# Klepsidra Feature Planner
+
+## Contents
+
+1. Quotation management
+2. Trip tracker
+3. Notes
+4. To-Dos
+
+## Quote management
+
+The following fature list comes from a conversation with Claude AI, on the 9th November 2024.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Core Functionality
+
+#### 1. Quote Entry and Management
+
+* Rich text input with formatting support
+* Fields for:
+  * Quote text
+  * Author
+  * Source/work
+  * Year/date
+  * Original language
+  * Translation credits (if applicable)
+  * Context of the quote
+  * Categories/themes
+  * Verification status
+* Bulk import capability (CSV, JSON)
+* Version history for quote edits
+* Duplicate detection
+
+#### 2. Organization and Categorization
+
+* Hierarchical tagging system
+* Custom collections/folders
+* Multiple categorization methods:
+  * By theme
+  * By author
+  * By time period
+  * By source type
+  * By language
+* Smart collections based on rules
+* Cross-referencing between related quotes
+
+#### 3. Search and Discovery
+
+* Full-text search
+* Advanced filtering options
+* Fuzzy matching for similar quotes
+* Author biography lookup
+* Related quotes suggestion
+* Search within specific collections/categories
+* Save search criteria as views
+
+#### 4. Verification and Sources
+
+* Source verification system
+* Citation format generator
+* External reference links
+* Reliability rating
+* Community verification flags
+* Primary source documentation
+* Academic reference integration
+
+#### 5. Engagement Features
+
+* Personal annotations
+* Highlighting and markup
+* Note-taking capability
+* Reflection prompts
+* Study modes
+* Spaced repetition for memorization
+* Reading lists
+
+#### 6. Sharing and Export
+
+* Multiple export formats (PDF, DOCX, HTML)
+* Social sharing integration
+* Quote cards generator
+* Presentation mode
+* API access
+* Collaborative collections
+* Public/private visibility settings
+
+#### 7. Analytics and Insights
+
+* Reading history
+* Favorite themes analysis
+* Author distribution
+* Time period coverage
+* Language diversity metrics
+* Usage patterns
+* Personal growth tracking
+
+### Technical Requirements
+
+#### 1. Data Security
+
+* End-to-end encryption
+* Regular backups
+* Data export capability
+* Privacy controls
+* User authentication
+* Access logging
+
+#### 2. Integration Capabilities
+
+* API endpoints
+* Common authentication methods
+* Database compatibility
+* Cloud storage options
+* Third-party app connections
+* Browser extensions
+
+#### 3. Platform Support
+
+* Web application
+* Mobile apps (iOS/Android)
+* Desktop versions
+* Offline functionality
+* Cross-device sync
+* Cloud backup
+
+### User Experience Features
+
+#### 1. Customization
+
+* Theme options
+* Layout preferences
+* Custom fields
+* Personalized dashboards
+* Widget system
+* Quick access shortcuts
+
+#### 2. Accessibility
+
+* Screen reader support
+* Keyboard navigation
+* Font size adjustment
+* High contrast modes
+* Multi-language interface
+* Voice input support
+
+#### 3. Learning Tools
+
+* Reading speed optimization
+* Comprehension tools
+* Translation integration
+* Context explanation
+* Historical background
+* Related concepts
+
+### Development Priorities
+
+#### Phase 1 (MVP)
+
+1. Basic quote entry and management
+2. Simple tagging system
+3. Search functionality
+4. Export capability
+5. User accounts
+
+#### Phase 2
+
+1. Advanced categorization
+2. Verification system
+3. Mobile apps
+4. Sharing features
+5. Analytics dashboard
+
+#### Phase 3
+
+1. API development
+2. Integration ecosystem
+3. Advanced learning tools
+4. Community features
+5. AI-powered insights
+
+<!-- livebook:{"break_markdown":true} -->
+
+A comprehensive database schema that supports the specified functionality.
+
+```sql
+-- Users and Authentication
+CREATE TABLE users (
+    user_id UUID PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP WITH TIME ZONE,
+    is_active BOOLEAN DEFAULT true,
+    preferences JSONB
+);
+
+-- User Roles and Permissions
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE user_roles (
+    user_id UUID REFERENCES users(user_id),
+    role_id INTEGER REFERENCES roles(role_id),
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- Authors Management
+CREATE TABLE authors (
+    author_id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    birth_date DATE,
+    death_date DATE,
+    nationality VARCHAR(100),
+    biography TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID REFERENCES users(user_id),
+    verified BOOLEAN DEFAULT false
+);
+
+-- Sources (Books, Speeches, etc.)
+CREATE TABLE sources (
+    source_id UUID PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL, -- book, speech, article, etc.
+    publication_date DATE,
+    publisher VARCHAR(255),
+    url TEXT,
+    isbn VARCHAR(20),
+    language_code VARCHAR(10),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID REFERENCES users(user_id)
+);
+
+-- Categories/Themes Hierarchy
+CREATE TABLE categories (
+    category_id UUID PRIMARY KEY,
+    parent_category_id UUID REFERENCES categories(category_id),
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_by UUID REFERENCES users(user_id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Main Quotes Table
+CREATE TABLE quotes (
+    quote_id UUID PRIMARY KEY,
+    text TEXT NOT NULL,
+    author_id UUID REFERENCES authors(author_id),
+    source_id UUID REFERENCES sources(source_id),
+    language_code VARCHAR(10),
+    year INTEGER,
+    context TEXT,
+    verification_status VARCHAR(50) DEFAULT 'unverified',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID REFERENCES users(user_id),
+    is_public BOOLEAN DEFAULT false
+);
+
+-- Quote Translations
+CREATE TABLE quote_translations (
+    translation_id UUID PRIMARY KEY,
+    quote_id UUID REFERENCES quotes(quote_id),
+    language_code VARCHAR(10) NOT NULL,
+    translated_text TEXT NOT NULL,
+    translator VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID REFERENCES users(user_id)
+);
+
+-- Quote Categories Junction
+CREATE TABLE quote_categories (
+    quote_id UUID REFERENCES quotes(quote_id),
+    category_id UUID REFERENCES categories(category_id),
+    PRIMARY KEY (quote_id, category_id)
+);
+
+-- Tags System
+CREATE TABLE tags (
+    tag_id UUID PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    created_by UUID REFERENCES users(user_id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE quote_tags (
+    quote_id UUID REFERENCES quotes(quote_id),
+    tag_id UUID REFERENCES tags(tag_id),
+    created_by UUID REFERENCES users(user_id),
+    PRIMARY KEY (quote_id, tag_id)
+);
+
+-- Collections (User-created quote groups)
+CREATE TABLE collections (
+    collection_id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    is_public BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE collection_quotes (
+    collection_id UUID REFERENCES collections(collection_id),
+    quote_id UUID REFERENCES quotes(quote_id),
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (collection_id, quote_id)
+);
+
+-- User Interactions
+CREATE TABLE user_annotations (
+    annotation_id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id),
+    quote_id UUID REFERENCES quotes(quote_id),
+    annotation_text TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_favorites (
+    user_id UUID REFERENCES users(user_id),
+    quote_id UUID REFERENCES quotes(quote_id),
+    favorited_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, quote_id)
+);
+
+-- Verification and Moderation
+CREATE TABLE verification_history (
+    verification_id UUID PRIMARY KEY,
+    quote_id UUID REFERENCES quotes(quote_id),
+    verified_by UUID REFERENCES users(user_id),
+    verification_status VARCHAR(50) NOT NULL,
+    verification_notes TEXT,
+    verified_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Activity Logging
+CREATE TABLE activity_log (
+    log_id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id),
+    activity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(50) NOT NULL,
+    entity_id UUID NOT NULL,
+    details JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for Performance
+CREATE INDEX idx_quotes_author ON quotes(author_id);
+CREATE INDEX idx_quotes_source ON quotes(source_id);
+CREATE INDEX idx_quotes_created_by ON quotes(created_by);
+CREATE INDEX idx_quotes_verification_status ON quotes(verification_status);
+CREATE INDEX idx_quotes_language ON quotes(language_code);
+CREATE INDEX idx_quote_text_search ON quotes USING GIN (to_tsvector('english', text));
+CREATE INDEX idx_collections_user ON collections(user_id);
+CREATE INDEX idx_user_annotations_quote ON user_annotations(quote_id);
+CREATE INDEX idx_user_favorites_user ON user_favorites(user_id);
+
+```
+
+### This schema design provides:
+
+1. **Core Quote Management**:
+
+   * Quotes with translations and versioning
+   * Authors and sources tracking
+   * Categories and tags
+   * Collections system
+
+2. **User Management**:
+
+   * User accounts and roles
+   * Personal collections
+   * Annotations and favorites
+
+3. **Organization**:
+
+   * Hierarchical categories
+   * Flexible tagging
+   * Custom collections
+
+4. **Quality Control**:
+
+   * Verification system
+   * Activity logging
+   * Moderation capabilities
+
+5. **Performance Optimizations**:
+
+   * Strategic indexing
+   * Full-text search support
+   * Efficient relationship tracking
+
+<!-- livebook:{"break_markdown":true} -->
+
+Key relationships and detailed field specifications for the core tables.
+
+### Database Relationships and Field Specifications
+
+### Core Entity Relationships
+
+#### 1. Quotes → Authors (Many-to-One)
+
+* Each quote must have one author (`author_id` in `quotes` table)
+* One author can have many quotes
+* Relationship enforced by foreign key `quotes.author_id → authors.author_id`
+
+#### 2. Quotes → Sources (Many-to-One)
+
+* Each quote can have one source (`source_id` in `quotes` table)
+* One source can contain many quotes
+* Optional relationship (quotes may exist without sources)
+* Enforced by foreign key `quotes.source_id → sources.source_id`
+
+#### 3. Quotes ↔ Categories (Many-to-Many)
+
+* Implemented through junction table `quote_categories`
+* One quote can belong to multiple categories
+* One category can contain multiple quotes
+* Allows hierarchical categorization through `categories.parent_category_id`
+
+#### 4. Quotes ↔ Tags (Many-to-Many)
+
+* Implemented through junction table `quote_tags`
+* More flexible than categories
+* Includes user attribution for tag assignment
+
+#### 5. Users ↔ Quotes (Various)
+
+* Direct relationship through `quotes.created_by`
+* Indirect relationships through:
+  * `user_annotations`
+  * `user_favorites`
+  * `collections` → `collection_quotes`
+
+### Detailed Field Specifications
+
+#### Quotes Table
+
+```sql
+CREATE TABLE quotes (
+    quote_id UUID 
+        PRIMARY KEY
+        COMMENT 'Unique identifier for the quote',
+    
+    text TEXT 
+        NOT NULL
+        COMMENT 'The actual quote text, unlimited length',
+    
+    author_id UUID 
+        REFERENCES authors(author_id)
+        COMMENT 'Foreign key to authors table',
+    
+    source_id UUID 
+        REFERENCES sources(source_id)
+        COMMENT 'Optional reference to source material',
+    
+    language_code VARCHAR(10)
+        COMMENT 'ISO 639-1/2 language code',
+    
+    year INTEGER
+        COMMENT 'Year the quote was originally spoken/written',
+    
+    context TEXT
+        COMMENT 'Historical or situational context of the quote',
+    
+    verification_status VARCHAR(50)
+        DEFAULT 'unverified'
+        CHECK (verification_status IN (
+            'unverified',
+            'verified',
+            'disputed',
+            'needs_review'
+        ))
+        COMMENT 'Current verification status',
+    
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP
+        COMMENT 'When the quote was added to the system',
+    
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP
+        COMMENT 'Last modification timestamp',
+    
+    created_by UUID
+        REFERENCES users(user_id)
+        COMMENT 'User who added the quote',
+    
+    is_public BOOLEAN
+        DEFAULT false
+        COMMENT 'Whether the quote is visible to all users'
+);
+```
+
+#### Authors Table
+
+```sql
+CREATE TABLE authors (
+    author_id UUID
+        PRIMARY KEY
+        COMMENT 'Unique identifier for the author',
+    
+    name VARCHAR(255)
+        NOT NULL
+        COMMENT 'Full name of the author',
+    
+    birth_date DATE
+        COMMENT 'Author''s birth date',
+    
+    death_date DATE
+        COMMENT 'Author''s death date',
+    
+    nationality VARCHAR(100)
+        COMMENT 'Author''s primary nationality',
+    
+    biography TEXT
+        COMMENT 'Brief biographical information',
+    
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    
+    created_by UUID
+        REFERENCES users(user_id)
+        COMMENT 'User who created the author entry',
+    
+    verified BOOLEAN
+        DEFAULT false
+        COMMENT 'Whether author info has been verified',
+    
+    CONSTRAINT birth_before_death
+        CHECK (birth_date < death_date)
+);
+```
+
+#### Collections System
+
+```sql
+-- Main collections table for organizing quotes
+CREATE TABLE collections (
+    collection_id UUID
+        PRIMARY KEY
+        COMMENT 'Unique identifier for the collection',
+    
+    user_id UUID
+        REFERENCES users(user_id)
+        NOT NULL
+        COMMENT 'Owner of the collection',
+    
+    name VARCHAR(255)
+        NOT NULL
+        COMMENT 'Collection name',
+    
+    description TEXT
+        COMMENT 'Collection description',
+    
+    is_public BOOLEAN
+        DEFAULT false
+        COMMENT 'Visibility setting',
+    
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT unique_user_collection_name
+        UNIQUE (user_id, name)
+);
+
+-- Junction table for quotes in collections
+CREATE TABLE collection_quotes (
+    collection_id UUID
+        REFERENCES collections(collection_id)
+        ON DELETE CASCADE,
+    
+    quote_id UUID
+        REFERENCES quotes(quote_id)
+        ON DELETE CASCADE,
+    
+    added_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP
+        COMMENT 'When the quote was added to collection',
+    
+    PRIMARY KEY (collection_id, quote_id)
+);
+```
+
+#### Common Query Patterns
+
+#### 1. Fetching a Quote with Related Data
+
+```sql
+SELECT 
+    q.quote_id,
+    q.text,
+    a.name AS author_name,
+    s.title AS source_title,
+    array_agg(DISTINCT c.name) AS categories,
+    array_agg(DISTINCT t.name) AS tags
+FROM quotes q
+LEFT JOIN authors a ON q.author_id = a.author_id
+LEFT JOIN sources s ON q.source_id = s.source_id
+LEFT JOIN quote_categories qc ON q.quote_id = qc.quote_id
+LEFT JOIN categories c ON qc.category_id = c.category_id
+LEFT JOIN quote_tags qt ON q.quote_id = qt.quote_id
+LEFT JOIN tags t ON qt.tag_id = t.tag_id
+WHERE q.quote_id = [quote_id]
+GROUP BY q.quote_id, a.name, s.title;
+```
+
+#### 2. User's Favorite Quotes
+
+```sql
+SELECT 
+    q.text,
+    a.name AS author_name,
+    uf.favorited_at
+FROM user_favorites uf
+JOIN quotes q ON uf.quote_id = q.quote_id
+JOIN authors a ON q.author_id = a.author_id
+WHERE uf.user_id = [user_id]
+ORDER BY uf.favorited_at DESC;
+```
+
+#### 3. Finding Similar Quotes
+
+```sql
+SELECT 
+    q2.quote_id,
+    q2.text,
+    similarity(q1.text, q2.text) AS similarity_score
+FROM quotes q1
+JOIN quotes q2 ON q1.quote_id != q2.quote_id
+WHERE q1.quote_id = [quote_id]
+AND similarity(q1.text, q2.text) > 0.3
+ORDER BY similarity_score DESC
+LIMIT 5;
+```
+
+### Data Integrity Rules
+
+1. **Cascading Deletes**:
+
+   * Collection quotes are deleted when collection is deleted
+   * Tags are preserved when quotes are deleted
+   * Annotations are preserved when quotes are deleted
+
+2. **Constraints**:
+
+   * Authors must have name
+   * Quotes must have text and author
+   * Collections must have owner and name
+   * Birth date must be before death date
+
+3. **Soft Deletes**:
+
+   * User accounts are deactivated, not deleted
+   * Quotes are marked private, not deleted
+   * Maintains data integrity and history
+
+<!-- livebook:{"break_markdown":true} -->
+
+A comprehensive overview of all database relationships and the indexing strategy.
+
+### Complete Database Relationships Analysis
+
+#### Direct Relationships
+
+##### User-Related Relationships
+
+1. **Users → Roles** (Many-to-Many)
+
+   * Through `user_roles` junction table
+   * Enables flexible permission management
+   * `users.user_id → user_roles.user_id`
+   * `roles.role_id → user_roles.role_id`
+
+2. **Users → Collections** (One-to-Many)
+
+   * One user can own multiple collections
+   * `collections.user_id → users.user_id`
+
+3. **Users → Quotes** (One-to-Many)
+
+   * As creator: `quotes.created_by → users.user_id`
+   * As favorite: Through `user_favorites`
+   * As annotator: Through `user_annotations`
+
+##### Quote-Related Relationships
+
+1. **Quotes → Authors** (Many-to-One)
+
+   * Each quote has one author
+   * `quotes.author_id → authors.author_id`
+   * Required relationship (NOT NULL)
+
+2. **Quotes → Sources** (Many-to-One)
+
+   * Each quote can have one source
+   * `quotes.source_id → sources.source_id`
+   * Optional relationship (NULL allowed)
+
+3. **Quotes ↔ Categories** (Many-to-Many)
+
+   * Through `quote_categories` junction table
+   * Hierarchical categorization possible
+   * `quotes.quote_id → quote_categories.quote_id`
+   * `categories.category_id → quote_categories.category_id`
+
+4. **Quotes ↔ Tags** (Many-to-Many)
+
+   * Through `quote_tags` junction table
+   * Flat tagging structure
+   * `quotes.quote_id → quote_tags.quote_id`
+   * `tags.tag_id → quote_tags.tag_id`
+
+5. **Quotes → Translations** (One-to-Many)
+
+   * One quote can have multiple translations
+   * `quote_translations.quote_id → quotes.quote_id`
+
+##### Collection-Related Relationships
+
+1. **Collections ↔ Quotes** (Many-to-Many)
+   * Through `collection_quotes` junction table
+   * `collections.collection_id → collection_quotes.collection_id`
+   * `quotes.quote_id → collection_quotes.quote_id`
+
+##### Verification-Related Relationships
+
+1. **Quotes → Verification History** (One-to-Many)
+   * Tracks all verification status changes
+   * `verification_history.quote_id → quotes.quote_id`
+   * `verification_history.verified_by → users.user_id`
+
+##### Category-Related Relationships
+
+1. **Categories → Categories** (Self-Referential)
+   * Enables hierarchical category structure
+   * `categories.parent_category_id → categories.category_id`
+   * Optional relationship (NULL for root categories)
+
+#### Indexing Strategy
+
+##### 1. Primary Key Indexes
+
+* Automatically created for all PRIMARY KEY constraints
+* Uses B-tree data structure
+* Example tables: users, quotes, authors, collections
+
+```sql
+-- Already created by PRIMARY KEY constraints
+CREATE INDEX pk_users ON users(user_id);
+CREATE INDEX pk_quotes ON quotes(quote_id);
+CREATE INDEX pk_authors ON authors(author_id);
+```
+
+##### 2. Foreign Key Indexes
+
+```sql
+-- Quote relationships
+CREATE INDEX idx_quotes_author ON quotes(author_id);
+CREATE INDEX idx_quotes_source ON quotes(source_id);
+CREATE INDEX idx_quotes_created_by ON quotes(created_by);
+
+-- Collection relationships
+CREATE INDEX idx_collections_user ON collections(user_id);
+CREATE INDEX idx_collection_quotes_quote ON collection_quotes(quote_id);
+
+-- Category relationships
+CREATE INDEX idx_categories_parent ON categories(parent_category_id);
+
+-- User interaction indexes
+CREATE INDEX idx_user_favorites_user ON user_favorites(user_id);
+CREATE INDEX idx_user_annotations_user ON user_annotations(user_id);
+CREATE INDEX idx_user_annotations_quote ON user_annotations(quote_id);
+```
+
+##### 3. Full-Text Search Indexes
+
+```sql
+-- Quote text search
+CREATE INDEX idx_quotes_text_search ON quotes 
+USING GIN (to_tsvector('english', text));
+
+-- Author name search
+CREATE INDEX idx_authors_name_search ON authors 
+USING GIN (to_tsvector('english', name));
+
+-- Source title search
+CREATE INDEX idx_sources_title_search ON sources 
+USING GIN (to_tsvector('english', title));
+```
+
+##### 4. Composite Indexes for Common Queries
+
+```sql
+-- User collections by name
+CREATE INDEX idx_collections_user_name ON collections(user_id, name);
+
+-- Quotes by language and verification status
+CREATE INDEX idx_quotes_lang_status ON quotes(language_code, verification_status);
+
+-- Quote categories with timestamp
+CREATE INDEX idx_quote_categories_timestamp ON quote_categories(quote_id, category_id, created_at);
+```
+
+##### 5. Performance Optimization Indexes
+
+```sql
+-- Timestamp-based queries
+CREATE INDEX idx_quotes_created_at ON quotes(created_at);
+CREATE INDEX idx_quotes_updated_at ON quotes(updated_at);
+
+-- Verification status queries
+CREATE INDEX idx_quotes_verification ON quotes(verification_status);
+
+-- Public/private content queries
+CREATE INDEX idx_quotes_public ON quotes(is_public);
+CREATE INDEX idx_collections_public ON collections(is_public);
+```
+
+##### 6. Specialized Indexes
+
+```sql
+-- B-tree index for range queries on dates
+CREATE INDEX idx_authors_dates ON authors(birth_date, death_date);
+
+-- Hash index for exact matches
+CREATE INDEX idx_tags_name_hash ON tags USING HASH (name);
+
+-- GiST index for similarity searches
+CREATE INDEX idx_quotes_similarity ON quotes 
+USING gist (text gist_trgm_ops);
+```
+
+##### Index Maintenance Considerations
+
+1. **Automated Maintenance**
+
+   ```sql
+   -- Regular index statistics update
+   ALTER TABLE quotes SET (autovacuum_analyze_scale_factor = 0.1);
+   ALTER TABLE quotes SET (autovacuum_vacuum_scale_factor = 0.2);
+   ```
+
+2. **Index Usage Monitoring**
+
+   ```sql
+   -- Query to monitor index usage
+   SELECT 
+    schemaname || '.' || tablename as table_name,
+    indexname,
+    idx_scan as number_of_scans,
+    idx_tup_read as tuples_read,
+    idx_tup_fetch as tuples_fetched
+   FROM pg_stat_user_indexes
+   WHERE idx_scan = 0
+   AND schemaname NOT LIKE 'pg_%'
+   ORDER BY schemaname, tablename;
+   ```
+
+3. **Performance Impact Considerations**
+
+* Indexes improve query performance but impact write operations
+* Regular monitoring of index usage
+* Removal of unused indexes
+* Periodic reindexing of fragmented indexes

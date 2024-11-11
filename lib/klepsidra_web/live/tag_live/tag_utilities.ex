@@ -32,15 +32,26 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
           socket :: Phoenix.LiveView.Socket.t(),
           tag_search_phrase :: String.t(),
           free_tag_length :: integer(),
-          live_select_id :: String.t(),
-          tag_bg_colour :: {String.t(), String.t()}
+          tag_select_id :: String.t(),
+          tag_colour :: {String.t(), String.t()},
+          options :: keyword()
         ) :: Phoenix.LiveView.Socket.t()
+  def handle_free_tagging(
+        socket,
+        tag_search_phrase,
+        free_tag_length,
+        tag_select_id,
+        tag_colour,
+        options \\ []
+      )
+
   def handle_free_tagging(
         socket,
         _tag_search_phrase,
         free_tag_length,
-        _live_select_id,
-        _tag_bg_colour
+        _tag_select_id,
+        _tag_colour,
+        _options
       )
       when free_tag_length <= 2,
       do: socket
@@ -49,8 +60,9 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
         socket,
         tag_search_phrase,
         _free_tag_length,
-        live_select_id,
-        {bg_colour, fg_colour}
+        tag_select_id,
+        {bg_colour, fg_colour},
+        _options
       ) do
     tag =
       Categorisation.create_or_find_tag(%{
@@ -65,11 +77,11 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
       socket,
       socket.assigns.selected_tag_queue,
       tags_applied,
-      live_select_id
+      tag_select_id
     )
 
     send_update(LiveSelect.Component,
-      id: live_select_id,
+      id: tag_select_id,
       options: []
     )
 
@@ -88,27 +100,54 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
           socket :: Phoenix.LiveView.Socket.t(),
           previous_tag_list :: [Ecto.UUID.t(), ...] | [],
           accumulated_tag_list :: [Ecto.UUID.t(), ...] | [],
-          live_select_id :: String.t()
+          tag_select_id :: String.t(),
+          options :: keyword()
         ) :: any()
+  def generate_tag_options(
+        socket,
+        previous_tag_list,
+        accumulated_tag_list,
+        tag_select_id,
+        options \\ []
+      )
+
   def generate_tag_options(
         %{assigns: %{selected_tags: _selected_tags, selected_tag_queue: _selected_tag_queue}} =
           socket,
         previous_tag_list,
         previous_tag_list,
-        _live_select_id
+        _tag_select_id,
+        _options
       ),
       do: socket
 
-  def generate_tag_options(socket, previous_tag_list, previous_tag_list, _live_select_id),
-    do: assign(socket, selected_tags: [], selected_tag_queue: [])
+  def generate_tag_options(
+        socket,
+        previous_tag_list,
+        previous_tag_list,
+        _tag_select_id,
+        _options
+      ),
+      do: assign(socket, selected_tags: [], selected_tag_queue: [])
 
-  def generate_tag_options(socket, _previous_tag_list, accumulated_tag_list, live_select_id) do
+  def generate_tag_options(
+        socket,
+        _previous_tag_list,
+        accumulated_tag_list,
+        tag_select_id,
+        options
+      ) do
+    parent_tag_select_id = Keyword.get(options, :parent_tag_select_id, nil)
+
     tag_options =
       accumulated_tag_list
       |> Categorisation.get_tags!()
       |> tag_options_for_live_select()
 
-    send_update(LiveSelect.Component, id: live_select_id, value: tag_options)
+    send_update(LiveSelect.Component, id: tag_select_id, value: tag_options)
+
+    parent_tag_select_id &&
+      send_update(LiveSelect.Component, id: parent_tag_select_id, value: tag_options)
 
     assign(socket, selected_tags: tag_options, selected_tag_queue: accumulated_tag_list)
   end

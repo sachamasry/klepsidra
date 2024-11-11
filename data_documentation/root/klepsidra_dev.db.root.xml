@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database name="klepsidra_dev.db" schema="root" type="SQLite - 3.46.0">
    <tables>
-      <table name="activity_types" numRows="5" remarks="" type="TABLE">
+      <table name="activity_types" numRows="2" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="activity_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="timers"/>
          </column>
@@ -46,7 +46,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="business_partners" numRows="4" remarks="" type="TABLE">
+      <table name="business_partners" numRows="3" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="business_partner_id" foreignKey="" implied="false" onDeleteCascade="false" table="business_partner_notes"/>
             <child column="business_partner_id" foreignKey="" implied="false" onDeleteCascade="false" table="projects"/>
@@ -84,6 +84,402 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
+      <table name="journal_entries" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="journal_entry_id" foreignKey="" implied="false" onDeleteCascade="true" table="journal_entry_tags"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="journal_for" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="entry_text_markdown" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="entry_text_html" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="highlights" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="entry_type_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="journal_entry_types"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="10" id="6" name="latitude" nullable="true" remarks="" size="2000000000" type="NUMERIC" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="null" digits="10" id="7" name="longitude" nullable="true" remarks="" size="2000000000" type="NUMERIC" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="mood" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="9" name="is_private" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="10" name="is_short_entry" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="11" name="is_scheduled" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="user_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="location_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="locations_cities"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="journal_entries_s_pk" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="journal_entries_entry_type_id_index" unique="false">
+            <column ascending="true" name="entry_type_id"/>
+         </index>
+         <index name="journal_entries_inserted_at_index" unique="false">
+            <column ascending="true" name="inserted_at"/>
+         </index>
+         <index name="journal_entries_is_private_index" unique="false">
+            <column ascending="true" name="is_private"/>
+         </index>
+         <index name="journal_entries_journal_for_index" unique="false">
+            <column ascending="true" name="journal_for"/>
+         </index>
+         <index name="journal_entries_user_id_index" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+         <index name="sqlite_autoindex_journal_entries_1" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="journal_entry_tags" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="journal_entry_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="journal_entries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <index name="journal_entry_tags_journal_entry_id_tag_id_index" unique="true">
+            <column ascending="true" name="journal_entry_id"/>
+            <column ascending="true" name="tag_id"/>
+         </index>
+      </table>
+      <table name="journal_entry_types" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="entry_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="journal_entries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="description" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="3" name="active" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="journal_entry_types_s_pk" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="journal_entry_types_active_index" unique="false">
+            <column ascending="true" name="active"/>
+         </index>
+         <index name="journal_entry_types_name_index" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+         <index name="sqlite_autoindex_journal_entry_types_1" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="localisation_languages" numRows="7852" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="iso_639-3_language_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="1" name="iso_639-2_language_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="2" name="iso_639-1_language_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="language_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="iso_639-3_language_code" sequenceNumberInPK="1"/>
+         <index name="localisation_languages_s_pk" unique="true">
+            <column ascending="true" name="iso_639-3_language_code"/>
+         </index>
+         <index name="localisation_languages_iso_639_1_language_code_index" unique="false">
+            <column ascending="true" name="iso_639-1_language_code"/>
+         </index>
+         <index name="localisation_languages_iso_639_1_language_code_language_name_index" unique="false">
+            <column ascending="true" name="iso_639-1_language_code"/>
+            <column ascending="true" name="language_name"/>
+         </index>
+         <index name="localisation_languages_iso_639_2_language_code_index" unique="false">
+            <column ascending="true" name="iso_639-2_language_code"/>
+         </index>
+         <index name="localisation_languages_iso_639_2_language_code_language_name_index" unique="false">
+            <column ascending="true" name="iso_639-2_language_code"/>
+            <column ascending="true" name="language_name"/>
+         </index>
+         <index name="localisation_languages_iso_639_3_language_code_language_name_index" unique="false">
+            <column ascending="true" name="iso_639-3_language_code"/>
+            <column ascending="true" name="language_name"/>
+         </index>
+         <index name="localisation_languages_language_name_index" unique="false">
+            <column ascending="true" name="language_name"/>
+         </index>
+         <index name="sqlite_autoindex_localisation_languages_1" unique="true">
+            <column ascending="true" name="iso_639-3_language_code"/>
+         </index>
+      </table>
+      <table name="locations_administrative_divisions_1" numRows="3893" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="administrative_division_1_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="administrative_division_1_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_administrative_divisions_2"/>
+            <child column="administrative_division_1_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_cities"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="country_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="iso_country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_countries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="2" name="administrative_division_1_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="3" name="administrative_division_1_ascii_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="geoname_id" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="administrative_division_1_code" sequenceNumberInPK="1"/>
+         <index name="locations_administrative_divisions_1_s_pk" unique="true">
+            <column ascending="true" name="administrative_division_1_code"/>
+         </index>
+         <index name="locations_administrative_divisions_1_administrative_division_1_ascii_name_index" unique="false">
+            <column ascending="true" name="administrative_division_1_ascii_name"/>
+         </index>
+         <index name="locations_administrative_divisions_1_administrative_division_1_name_index" unique="false">
+            <column ascending="true" name="administrative_division_1_name"/>
+         </index>
+         <index name="locations_administrative_divisions_1_country_code_index" unique="false">
+            <column ascending="true" name="country_code"/>
+         </index>
+         <index name="locations_administrative_divisions_1_geoname_id_index" unique="false">
+            <column ascending="true" name="geoname_id"/>
+         </index>
+         <index name="sqlite_autoindex_locations_administrative_divisions_1_1" unique="true">
+            <column ascending="true" name="administrative_division_1_code"/>
+         </index>
+      </table>
+      <table name="locations_administrative_divisions_2" numRows="47229" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="administrative_division_2_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="administrative_division_2_code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locations_cities"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="administrative_division_1_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="administrative_division_1_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_administrative_divisions_1"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="country_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="iso_country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_countries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="3" name="administrative_division_2_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="4" name="administrative_division_2_ascii_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="geoname_id" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="administrative_division_2_code" sequenceNumberInPK="1"/>
+         <index name="locations_administrative_divisions_2_s_pk" unique="true">
+            <column ascending="true" name="administrative_division_2_code"/>
+         </index>
+         <index name="locations_administrative_divisions_2_administrative_division_1_code_index" unique="false">
+            <column ascending="true" name="administrative_division_1_code"/>
+         </index>
+         <index name="locations_administrative_divisions_2_administrative_division_2_ascii_name_index" unique="false">
+            <column ascending="true" name="administrative_division_2_ascii_name"/>
+         </index>
+         <index name="locations_administrative_divisions_2_administrative_division_2_name_index" unique="false">
+            <column ascending="true" name="administrative_division_2_name"/>
+         </index>
+         <index name="locations_administrative_divisions_2_country_code_index" unique="false">
+            <column ascending="true" name="country_code"/>
+         </index>
+         <index name="locations_administrative_divisions_2_geoname_id_index" unique="false">
+            <column ascending="true" name="geoname_id"/>
+         </index>
+         <index name="sqlite_autoindex_locations_administrative_divisions_2_1" unique="true">
+            <column ascending="true" name="administrative_division_2_code"/>
+         </index>
+      </table>
+      <table name="locations_cities" numRows="210698" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="location_id" foreignKey="" implied="false" onDeleteCascade="false" table="journal_entries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="geoname_id" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="2" name="name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="3" name="ascii_name" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="4" name="alternate_names" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="10" id="5" name="latitude" nullable="false" remarks="" size="2000000000" type="NUMERIC" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="null" digits="10" id="6" name="longitude" nullable="false" remarks="" size="2000000000" type="NUMERIC" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="feature_class" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="feature_class" foreignKey="" implied="false" onDeleteCascade="false" table="locations_feature_classes"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="feature_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="feature_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_feature_codes"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="country_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="iso_country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_countries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="10" name="cc2" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="11" name="administrative_division_1_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="administrative_division_1_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_administrative_divisions_1"/>
+         </column>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="12" name="administrative_division_2_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="administrative_division_2_code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locations_administrative_divisions_2"/>
+         </column>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="13" name="administrative_division_3_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="14" name="administrative_division_4_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="15" name="population" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="16" name="elevation" nullable="true" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="NULL" digits="0" id="17" name="dem" nullable="true" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="timezone" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="modification_date" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="21" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="locations_cities_s_pk" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="locations_cities_administrative_division_1_code_index" unique="false">
+            <column ascending="true" name="administrative_division_1_code"/>
+         </index>
+         <index name="locations_cities_administrative_division_2_code_index" unique="false">
+            <column ascending="true" name="administrative_division_2_code"/>
+         </index>
+         <index name="locations_cities_country_code_index" unique="false">
+            <column ascending="true" name="country_code"/>
+         </index>
+         <index name="locations_cities_geoname_id_index" unique="true">
+            <column ascending="true" name="geoname_id"/>
+         </index>
+         <index name="locations_cities_latitude_longitude_index" unique="false">
+            <column ascending="true" name="latitude"/>
+            <column ascending="true" name="longitude"/>
+         </index>
+         <index name="locations_cities_name_country_code_index" unique="false">
+            <column ascending="true" name="name"/>
+            <column ascending="true" name="country_code"/>
+         </index>
+         <index name="locations_cities_name_feature_code_population_country_code_index" unique="false">
+            <column ascending="true" name="name"/>
+            <column ascending="true" name="feature_code"/>
+            <column ascending="true" name="population"/>
+            <column ascending="true" name="country_code"/>
+         </index>
+         <index name="locations_cities_timezone_index" unique="false">
+            <column ascending="true" name="timezone"/>
+         </index>
+         <index name="sqlite_autoindex_locations_cities_1" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="locations_continents" numRows="7" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="continent_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="continent_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_countries"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="continent_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="geoname_id" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="continent_code" sequenceNumberInPK="1"/>
+         <index name="locations_continents_s_pk" unique="true">
+            <column ascending="true" name="continent_code"/>
+         </index>
+         <index name="locations_continents_continent_name_index" unique="true">
+            <column ascending="true" name="continent_name"/>
+         </index>
+         <index name="sqlite_autoindex_locations_continents_1" unique="true">
+            <column ascending="true" name="continent_code"/>
+         </index>
+      </table>
+      <table name="locations_countries" numRows="252" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="iso_country_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_administrative_divisions_1"/>
+            <child column="country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_administrative_divisions_2"/>
+            <child column="country_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_cities"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="iso_3_country_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="iso_numeric_country_code" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="3" name="fips_country_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="country_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="5" name="capital" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="10" id="6" name="area" nullable="false" remarks="" size="2000000000" type="NUMERIC" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="population" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="continent_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="continent_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_continents"/>
+         </column>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="9" name="tld" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="10" name="currency_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="11" name="currency_name" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="12" name="phone" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="13" name="postal_code_format" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="14" name="postal_code_regex" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="15" name="languages" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="geoname_id" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="17" name="neighbours" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="18" name="equivalent_fips_code" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="iso_country_code" sequenceNumberInPK="1"/>
+         <index name="locations_countries_s_pk" unique="true">
+            <column ascending="true" name="iso_country_code"/>
+         </index>
+         <index name="locations_countries_continent_code_index" unique="false">
+            <column ascending="true" name="continent_code"/>
+         </index>
+         <index name="locations_countries_country_name_area_population_index" unique="false">
+            <column ascending="true" name="country_name"/>
+            <column ascending="true" name="area"/>
+            <column ascending="true" name="population"/>
+         </index>
+         <index name="locations_countries_country_name_population_area_index" unique="false">
+            <column ascending="true" name="country_name"/>
+            <column ascending="true" name="population"/>
+            <column ascending="true" name="area"/>
+         </index>
+         <index name="locations_countries_currency_code_index" unique="false">
+            <column ascending="true" name="currency_code"/>
+         </index>
+         <index name="locations_countries_geoname_id_index" unique="true">
+            <column ascending="true" name="geoname_id"/>
+         </index>
+         <index name="locations_countries_iso_3_country_code_index" unique="true">
+            <column ascending="true" name="iso_3_country_code"/>
+         </index>
+         <index name="locations_countries_iso_numeric_country_code_index" unique="true">
+            <column ascending="true" name="iso_numeric_country_code"/>
+         </index>
+         <index name="locations_countries_tld_index" unique="false">
+            <column ascending="true" name="tld"/>
+         </index>
+         <index name="sqlite_autoindex_locations_countries_1" unique="true">
+            <column ascending="true" name="iso_country_code"/>
+         </index>
+      </table>
+      <table name="locations_feature_classes" numRows="9" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="feature_class" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="feature_class" foreignKey="" implied="false" onDeleteCascade="false" table="locations_cities"/>
+            <child column="feature_class" foreignKey="" implied="false" onDeleteCascade="false" table="locations_feature_codes"/>
+         </column>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="1" name="description" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="feature_class" sequenceNumberInPK="1"/>
+         <index name="locations_feature_classes_s_pk" unique="true">
+            <column ascending="true" name="feature_class"/>
+         </index>
+         <index name="sqlite_autoindex_locations_feature_classes_1" unique="true">
+            <column ascending="true" name="feature_class"/>
+         </index>
+      </table>
+      <table name="locations_feature_codes" numRows="684" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="feature_code" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="feature_code" foreignKey="" implied="false" onDeleteCascade="false" table="locations_cities"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="feature_class" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="feature_class" foreignKey="" implied="false" onDeleteCascade="false" table="locations_feature_classes"/>
+         </column>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="2" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="3" name="description" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''" digits="0" id="4" name="note" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <primaryKey column="feature_code" sequenceNumberInPK="1"/>
+         <index name="locations_feature_codes_s_pk" unique="true">
+            <column ascending="true" name="feature_code"/>
+         </index>
+         <index name="locations_feature_codes_feature_code_feature_class_order_index" unique="false">
+            <column ascending="true" name="feature_code"/>
+            <column ascending="true" name="feature_class"/>
+            <column ascending="true" name="order"/>
+         </index>
+         <index name="locations_feature_codes_feature_code_order_index" unique="false">
+            <column ascending="true" name="feature_code"/>
+            <column ascending="true" name="order"/>
+         </index>
+         <index name="locations_feature_codes_order_feature_code_index" unique="false">
+            <column ascending="true" name="order"/>
+            <column ascending="true" name="feature_code"/>
+         </index>
+         <index name="sqlite_autoindex_locations_feature_codes_1" unique="true">
+            <column ascending="true" name="feature_code"/>
+         </index>
+      </table>
       <table name="project_notes" numRows="0" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="note" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
@@ -108,28 +504,20 @@
          </index>
       </table>
       <table name="project_tags" numRows="0" remarks="" type="TABLE">
-         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
-            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
-         </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="project_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="project_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="projects"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <primaryKey column="id" sequenceNumberInPK="1"/>
-         <index name="project_tags_s_pk" unique="true">
-            <column ascending="true" name="id"/>
-         </index>
-         <index name="project_tags_tag_id_project_id_index" unique="false">
-            <column ascending="true" name="tag_id"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <index name="project_tags_project_id_tag_id_index" unique="true">
             <column ascending="true" name="project_id"/>
-         </index>
-         <index name="sqlite_autoindex_project_tags_1" unique="true">
-            <column ascending="true" name="id"/>
+            <column ascending="true" name="tag_id"/>
          </index>
       </table>
-      <table name="projects" numRows="5" remarks="" type="TABLE">
+      <table name="projects" numRows="13" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="project_id" foreignKey="" implied="false" onDeleteCascade="false" table="project_notes"/>
             <child column="project_id" foreignKey="" implied="false" onDeleteCascade="true" table="project_tags"/>
@@ -186,8 +574,9 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="tags" numRows="5" remarks="" type="TABLE">
+      <table name="tags" numRows="167" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="true" table="journal_entry_tags"/>
             <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="true" table="project_tags"/>
             <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_tags"/>
          </column>
@@ -208,7 +597,7 @@
             <column ascending="true" name="name"/>
          </index>
       </table>
-      <table name="timer_notes" numRows="29" remarks="" type="TABLE">
+      <table name="timer_notes" numRows="52" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="note" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="timer_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
@@ -224,29 +613,21 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="timer_tags" numRows="2" remarks="" type="TABLE">
-         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
-            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
-         </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="timer_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
+      <table name="timer_tags" numRows="629" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="timer_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="timers"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
-         <primaryKey column="id" sequenceNumberInPK="1"/>
-         <index name="timer_tags_s_pk" unique="true">
-            <column ascending="true" name="id"/>
-         </index>
-         <index name="sqlite_autoindex_timer_tags_1" unique="true">
-            <column ascending="true" name="id"/>
-         </index>
-         <index name="timer_tags_tag_id_timer_id_index" unique="false">
-            <column ascending="true" name="tag_id"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="tag_id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="true" table="tags"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="inserted_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="updated_at" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <index name="timer_tags_timer_id_tag_id_index" unique="true">
             <column ascending="true" name="timer_id"/>
+            <column ascending="true" name="tag_id"/>
          </index>
       </table>
-      <table name="timers" numRows="65" remarks="" type="TABLE">
+      <table name="timers" numRows="277" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <child column="timer_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_notes"/>
             <child column="timer_id" foreignKey="" implied="false" onDeleteCascade="true" table="timer_tags"/>
@@ -262,7 +643,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="activity_type_id" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12">
             <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="activity_types"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="10" id="8" name="billing_rate" nullable="true" remarks="" size="2000000000" type="DECIMAL" typeCode="6"/>
+         <column autoUpdated="false" defaultValue="0.0" digits="10" id="8" name="billing_rate" nullable="true" remarks="" size="2000000000" type="DECIMAL" typeCode="6"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="billing_duration" nullable="true" remarks="" size="2000000000" type="INTEGER" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="billing_duration_time_unit" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="description" nullable="true" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
@@ -294,7 +675,9 @@
          </index>
       </table>
       <table name="users" numRows="0" remarks="" type="TABLE">
-         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12">
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="journal_entries"/>
+         </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_name" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="login_email" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="password_hash" nullable="false" remarks="" size="2000000000" type="TEXT" typeCode="12"/>

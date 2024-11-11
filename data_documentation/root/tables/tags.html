@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>tags</h1><p><span id="recordNumber">5</span> rows</p><br />
+                    <h1>tags</h1><p><span id="recordNumber">167</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -117,6 +117,11 @@
                                     <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="journal_entry_tags.[journal_entry_id, tag_id] references tags.[id, id] via "><a href='journal_entry_tags.html'>journal_entry_tags</a><span class='relatedKey'>.tag_id</span></td>
+                                                <td class="constraint detail"></td>
+                                                <td class="constraint detail"><span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
+                                            </tr>
                                             <tr>
                                                 <td title="project_tags.[project_id, tag_id] references tags.[id, id] via "><a href='project_tags.html'>project_tags</a><span class='relatedKey'>.tag_id</span></td>
                                                 <td class="constraint detail"></td>

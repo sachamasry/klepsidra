@@ -158,6 +158,7 @@
     timer={@timer}
     invocation_context={if @live_action == :new_timer, do: :new_timer, else: :edit_timer}
     patch={~p"/timers/#{@timer}"}
+    parent_tag_select_id="tag_form_tag_search_live_select_component"
   />
 </.modal>
 
@@ -175,6 +176,7 @@
     timer={@timer}
     invocation_context={:stop_timer}
     patch={~p"/timers/#{@timer.id}"}
+    parent_tag_select_id="tag_form_tag_search_live_select_component"
   />
 </.modal>
 

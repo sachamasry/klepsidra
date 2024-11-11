@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.34.2">
+    <meta name="project" content="Klepsidra v0.1.3">
+
+      <meta name="author" content="Sacha El Masry">
+
+
+    <title>Klepsidra.Locations — Klepsidra v0.1.3</title>
+    <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-289C4C7B.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-YIPIRHGU.js"></script>
+
+  </head>
+  <body data-type="modules" class="page-module">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="" class="sidebar-projectName" translate="no">
+Klepsidra
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.3
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+Pages
+        </button>
+      </li>
+
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
+
+
+    </ul>
+  </div>
+
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
+
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
+  <output role="status" id="toast"></output>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Klepsidra</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <h1>
+
+    <span translate="no">Klepsidra.Locations</span> 
+    <small class="app-vsn" translate="no">(Klepsidra v0.1.3)</small>
+
+  </h1>
+
+
+    <section id="moduledoc">
+<p>Location utilities for countries, subdivisions and cities.</p><p>The module is largely a wrapper for Plausible Analytics'
+<a href="https://github.com/plausible/location/tree/main"><code class="inline">Location</code> package</a>.</p>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_administrative_division_1/2" data-no-tooltip translate="no">change_administrative_division_1(administrative_division_1, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking <code class="inline">administrative_divisions_1</code> changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_administrative_division_2/2" data-no-tooltip translate="no">change_administrative_division_2(administrative_division_2, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking <code class="inline">administrative_division_2</code> changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_city/2" data-no-tooltip translate="no">change_city(city, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking city changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_continent/2" data-no-tooltip translate="no">change_continent(continent, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking continent changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_country/2" data-no-tooltip translate="no">change_country(country, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking country changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_feature_class/2" data-no-tooltip translate="no">change_feature_class(feature_class, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking feature_class changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#change_feature_code/2" data-no-tooltip translate="no">change_feature_code(feature_code, attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking feature_code changes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#city_search/1" data-no-tooltip translate="no">city_search(city_name)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Searches for cities, forming the result into an HTML usable
+%{value: id, label: city} map.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_administrative_division_1/1" data-no-tooltip translate="no">create_administrative_division_1(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a new level 1 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_administrative_division_2/1" data-no-tooltip translate="no">create_administrative_division_2(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a level 2 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_city/1" data-no-tooltip translate="no">create_city(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a city.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_continent/1" data-no-tooltip translate="no">create_continent(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a continent.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_country/1" data-no-tooltip translate="no">create_country(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a country.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_feature_class/1" data-no-tooltip translate="no">create_feature_class(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a feature_class.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_feature_code/1" data-no-tooltip translate="no">create_feature_code(attrs \\ %{})</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a feature_code.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_administrative_division_1/1" data-no-tooltip translate="no">delete_administrative_division_1(administrative_division_1)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a level 1 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_administrative_division_2/1" data-no-tooltip translate="no">delete_administrative_division_2(administrative_division_2)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a level 2 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_city/1" data-no-tooltip translate="no">delete_city(city)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a city.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_continent/1" data-no-tooltip translate="no">delete_continent(continent)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a continent.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_country/1" data-no-tooltip translate="no">delete_country(country)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a country.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_feature_class/1" data-no-tooltip translate="no">delete_feature_class(feature_class)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a feature_class.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_feature_code/1" data-no-tooltip translate="no">delete_feature_code(feature_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deletes a feature_code.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_administrative_division_1!/1" data-no-tooltip translate="no">get_administrative_division_1!(administrative_division_1_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single level 1 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_administrative_division_2!/1" data-no-tooltip translate="no">get_administrative_division_2!(administrative_division_2_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single level 2 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_city!/1" data-no-tooltip translate="no">get_city!(id)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single city.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_city_territory_and_country!/1" data-no-tooltip translate="no">get_city_territory_and_country!(city_id)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single city, with level 1 administrative division or territory,
+and country name.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_continent!/1" data-no-tooltip translate="no">get_continent!(continent_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single continent.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_country!/1" data-no-tooltip translate="no">get_country!(iso_country_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single country.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_feature_class!/1" data-no-tooltip translate="no">get_feature_class!(feature_class)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single feature_class.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_feature_code!/1" data-no-tooltip translate="no">get_feature_code!(feature_code)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Gets a single feature_code.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_administrative_divisions_1/0" data-no-tooltip translate="no">list_administrative_divisions_1()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of level 1 administrative divisions.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_cities/0" data-no-tooltip translate="no">list_cities()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of cities.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_cities_by_name/2" data-no-tooltip translate="no">list_cities_by_name(name_filter, options \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns a list of cities containing the name fragment, sorted by
+descending population size, and by name in alphabetical order.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_continents/0" data-no-tooltip translate="no">list_continents()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of locations_continents.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_countries/0" data-no-tooltip translate="no">list_countries()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of countries.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_feature_classes/0" data-no-tooltip translate="no">list_feature_classes()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of locations_feature_classes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_feature_codes/0" data-no-tooltip translate="no">list_feature_codes()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of feature_codes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_locations_administrative_divisions_2/0" data-no-tooltip translate="no">list_locations_administrative_divisions_2()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns the list of level 2 administrative divisions.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_administrative_division_1/2" data-no-tooltip translate="no">update_administrative_division_1(administrative_division_1, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a level 1 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_administrative_division_2/2" data-no-tooltip translate="no">update_administrative_division_2(administrative_division_2, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a level 2 administrative division.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_city/2" data-no-tooltip translate="no">update_city(city, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a city.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_continent/2" data-no-tooltip translate="no">update_continent(continent, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a continent.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_country/2" data-no-tooltip translate="no">update_country(country, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a country.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_feature_class/2" data-no-tooltip translate="no">update_feature_class(feature_class, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a feature_class.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_feature_code/2" data-no-tooltip translate="no">update_feature_code(feature_code, attrs)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Updates a feature_code.</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="change_administrative_division_1/2">
+
+    <span id="change_administrative_division_1/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_administrative_division_1/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_administrative_division_1(administrative_division_1, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking <code class="inline">administrative_divisions_1</code> changes.</p><h2 id="change_administrative_division_1/2-examples" class="section-heading">
+  <a href="#change_administrative_division_1/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_administrative_division_1</span><span class="p" data-group-id="1958240403-1">(</span><span class="n">administrative_division_1</span><span class="p" data-group-id="1958240403-1">)</span><span class="w">
+</span><span class="p" data-group-id="1958240403-2">%</span><span class="nc" data-group-id="1958240403-2">Ecto.Changeset</span><span class="p" data-group-id="1958240403-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1958240403-3">%</span><span class="nc" data-group-id="1958240403-3">AdministrativeDivisions1</span><span class="p" data-group-id="1958240403-3">{</span><span class="p" data-group-id="1958240403-3">}</span><span class="p" data-group-id="1958240403-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_administrative_division_2/2">
+
+    <span id="change_administrative_division_2/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_administrative_division_2/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_administrative_division_2(administrative_division_2, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking <code class="inline">administrative_division_2</code> changes.</p><h2 id="change_administrative_division_2/2-examples" class="section-heading">
+  <a href="#change_administrative_division_2/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_administrative_division_2</span><span class="p" data-group-id="8062718892-1">(</span><span class="n">administrative_division_2</span><span class="p" data-group-id="8062718892-1">)</span><span class="w">
+</span><span class="p" data-group-id="8062718892-2">%</span><span class="nc" data-group-id="8062718892-2">Ecto.Changeset</span><span class="p" data-group-id="8062718892-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8062718892-3">%</span><span class="nc" data-group-id="8062718892-3">AdministrativeDivision2</span><span class="p" data-group-id="8062718892-3">{</span><span class="p" data-group-id="8062718892-3">}</span><span class="p" data-group-id="8062718892-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_city/2">
+
+    <span id="change_city/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_city/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_city(city, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking city changes.</p><h2 id="change_city/2-examples" class="section-heading">
+  <a href="#change_city/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">change_city</span><span class="p" data-group-id="4178341584-1">(</span><span class="n">city</span><span class="p" data-group-id="4178341584-1">)</span><span class="w">
+</span><span class="p" data-group-id="4178341584-2">%</span><span class="nc" data-group-id="4178341584-2">Ecto.Changeset</span><span class="p" data-group-id="4178341584-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4178341584-3">%</span><span class="nc" data-group-id="4178341584-3">Locations.City</span><span class="p" data-group-id="4178341584-3">{</span><span class="p" data-group-id="4178341584-3">}</span><span class="p" data-group-id="4178341584-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_continent/2">
+
+    <span id="change_continent/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_continent/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_continent(continent, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking continent changes.</p><h2 id="change_continent/2-examples" class="section-heading">
+  <a href="#change_continent/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_continent</span><span class="p" data-group-id="3834932232-1">(</span><span class="n">continent</span><span class="p" data-group-id="3834932232-1">)</span><span class="w">
+</span><span class="p" data-group-id="3834932232-2">%</span><span class="nc" data-group-id="3834932232-2">Ecto.Changeset</span><span class="p" data-group-id="3834932232-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3834932232-3">%</span><span class="nc" data-group-id="3834932232-3">Continent</span><span class="p" data-group-id="3834932232-3">{</span><span class="p" data-group-id="3834932232-3">}</span><span class="p" data-group-id="3834932232-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_country/2">
+
+    <span id="change_country/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_country/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_country(country, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking country changes.</p><h2 id="change_country/2-examples" class="section-heading">
+  <a href="#change_country/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_country</span><span class="p" data-group-id="9914999405-1">(</span><span class="n">country</span><span class="p" data-group-id="9914999405-1">)</span><span class="w">
+</span><span class="p" data-group-id="9914999405-2">%</span><span class="nc" data-group-id="9914999405-2">Ecto.Changeset</span><span class="p" data-group-id="9914999405-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9914999405-3">%</span><span class="nc" data-group-id="9914999405-3">Country</span><span class="p" data-group-id="9914999405-3">{</span><span class="p" data-group-id="9914999405-3">}</span><span class="p" data-group-id="9914999405-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_feature_class/2">
+
+    <span id="change_feature_class/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_feature_class/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_feature_class(feature_class, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking feature_class changes.</p><h2 id="change_feature_class/2-examples" class="section-heading">
+  <a href="#change_feature_class/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_feature_class</span><span class="p" data-group-id="7805933293-1">(</span><span class="n">feature_class</span><span class="p" data-group-id="7805933293-1">)</span><span class="w">
+</span><span class="p" data-group-id="7805933293-2">%</span><span class="nc" data-group-id="7805933293-2">Ecto.Changeset</span><span class="p" data-group-id="7805933293-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7805933293-3">%</span><span class="nc" data-group-id="7805933293-3">FeatureClass</span><span class="p" data-group-id="7805933293-3">{</span><span class="p" data-group-id="7805933293-3">}</span><span class="p" data-group-id="7805933293-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_feature_code/2">
+
+    <span id="change_feature_code/1"></span>
+
+  <div class="detail-header">
+    <a href="#change_feature_code/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">change_feature_code(feature_code, attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking feature_code changes.</p><h2 id="change_feature_code/2-examples" class="section-heading">
+  <a href="#change_feature_code/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">change_feature_code</span><span class="p" data-group-id="8714722821-1">(</span><span class="n">feature_code</span><span class="p" data-group-id="8714722821-1">)</span><span class="w">
+</span><span class="p" data-group-id="8714722821-2">%</span><span class="nc" data-group-id="8714722821-2">Ecto.Changeset</span><span class="p" data-group-id="8714722821-2">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8714722821-3">%</span><span class="nc" data-group-id="8714722821-3">FeatureCode</span><span class="p" data-group-id="8714722821-3">{</span><span class="p" data-group-id="8714722821-3">}</span><span class="p" data-group-id="8714722821-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="city_search/1">
+
+  <div class="detail-header">
+    <a href="#city_search/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">city_search(city_name)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> city_search(city_name :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()]</pre>
+
+      </div>
+
+<p>Searches for cities, forming the result into an HTML usable
+%{value: id, label: city} map.</p>
+  </section>
+</section>
+<section class="detail" id="create_administrative_division_1/1">
+
+    <span id="create_administrative_division_1/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_administrative_division_1/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_administrative_division_1(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a new level 1 administrative division.</p><h2 id="create_administrative_division_1/1-examples" class="section-heading">
+  <a href="#create_administrative_division_1/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_administrative_division_1</span><span class="p" data-group-id="6110189889-1">(</span><span class="p" data-group-id="6110189889-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6110189889-2">}</span><span class="p" data-group-id="6110189889-1">)</span><span class="w">
+</span><span class="p" data-group-id="6110189889-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6110189889-4">%</span><span class="nc" data-group-id="6110189889-4">AdministrativeDivisions1</span><span class="p" data-group-id="6110189889-4">{</span><span class="p" data-group-id="6110189889-4">}</span><span class="p" data-group-id="6110189889-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_administrative_division_1</span><span class="p" data-group-id="6110189889-5">(</span><span class="p" data-group-id="6110189889-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6110189889-6">}</span><span class="p" data-group-id="6110189889-5">)</span><span class="w">
+</span><span class="p" data-group-id="6110189889-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6110189889-8">%</span><span class="nc" data-group-id="6110189889-8">Ecto.Changeset</span><span class="p" data-group-id="6110189889-8">{</span><span class="p" data-group-id="6110189889-8">}</span><span class="p" data-group-id="6110189889-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_administrative_division_2/1">
+
+    <span id="create_administrative_division_2/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_administrative_division_2/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_administrative_division_2(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a level 2 administrative division.</p><h2 id="create_administrative_division_2/1-examples" class="section-heading">
+  <a href="#create_administrative_division_2/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_administrative_division_2</span><span class="p" data-group-id="2288997652-1">(</span><span class="p" data-group-id="2288997652-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="2288997652-2">}</span><span class="p" data-group-id="2288997652-1">)</span><span class="w">
+</span><span class="p" data-group-id="2288997652-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2288997652-4">%</span><span class="nc" data-group-id="2288997652-4">AdministrativeDivisions2</span><span class="p" data-group-id="2288997652-4">{</span><span class="p" data-group-id="2288997652-4">}</span><span class="p" data-group-id="2288997652-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_administrative_division_2</span><span class="p" data-group-id="2288997652-5">(</span><span class="p" data-group-id="2288997652-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2288997652-6">}</span><span class="p" data-group-id="2288997652-5">)</span><span class="w">
+</span><span class="p" data-group-id="2288997652-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2288997652-8">%</span><span class="nc" data-group-id="2288997652-8">Ecto.Changeset</span><span class="p" data-group-id="2288997652-8">{</span><span class="p" data-group-id="2288997652-8">}</span><span class="p" data-group-id="2288997652-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_city/1">
+
+    <span id="create_city/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_city/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_city(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a city.</p><h2 id="create_city/1-examples" class="section-heading">
+  <a href="#create_city/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">create_city</span><span class="p" data-group-id="8304640245-1">(</span><span class="p" data-group-id="8304640245-2">%{</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Londinium&quot;</span><span class="p" data-group-id="8304640245-2">}</span><span class="p" data-group-id="8304640245-1">)</span><span class="w">
+</span><span class="p" data-group-id="8304640245-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8304640245-4">%</span><span class="nc" data-group-id="8304640245-4">Locations.City</span><span class="p" data-group-id="8304640245-4">{</span><span class="p" data-group-id="8304640245-4">}</span><span class="p" data-group-id="8304640245-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">create_city</span><span class="p" data-group-id="8304640245-5">(</span><span class="p" data-group-id="8304640245-6">%{</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="mi">123_456</span><span class="p" data-group-id="8304640245-6">}</span><span class="p" data-group-id="8304640245-5">)</span><span class="w">
+</span><span class="p" data-group-id="8304640245-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8304640245-8">%</span><span class="nc" data-group-id="8304640245-8">Ecto.Changeset</span><span class="p" data-group-id="8304640245-8">{</span><span class="p" data-group-id="8304640245-8">}</span><span class="p" data-group-id="8304640245-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_continent/1">
+
+    <span id="create_continent/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_continent/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_continent(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a continent.</p><h2 id="create_continent/1-examples" class="section-heading">
+  <a href="#create_continent/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_continent</span><span class="p" data-group-id="5768176797-1">(</span><span class="p" data-group-id="5768176797-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="5768176797-2">}</span><span class="p" data-group-id="5768176797-1">)</span><span class="w">
+</span><span class="p" data-group-id="5768176797-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5768176797-4">%</span><span class="nc" data-group-id="5768176797-4">Continent</span><span class="p" data-group-id="5768176797-4">{</span><span class="p" data-group-id="5768176797-4">}</span><span class="p" data-group-id="5768176797-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_continent</span><span class="p" data-group-id="5768176797-5">(</span><span class="p" data-group-id="5768176797-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5768176797-6">}</span><span class="p" data-group-id="5768176797-5">)</span><span class="w">
+</span><span class="p" data-group-id="5768176797-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5768176797-8">%</span><span class="nc" data-group-id="5768176797-8">Ecto.Changeset</span><span class="p" data-group-id="5768176797-8">{</span><span class="p" data-group-id="5768176797-8">}</span><span class="p" data-group-id="5768176797-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_country/1">
+
+    <span id="create_country/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_country/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_country(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a country.</p><h2 id="create_country/1-examples" class="section-heading">
+  <a href="#create_country/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_country</span><span class="p" data-group-id="2932381192-1">(</span><span class="p" data-group-id="2932381192-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="2932381192-2">}</span><span class="p" data-group-id="2932381192-1">)</span><span class="w">
+</span><span class="p" data-group-id="2932381192-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2932381192-4">%</span><span class="nc" data-group-id="2932381192-4">Country</span><span class="p" data-group-id="2932381192-4">{</span><span class="p" data-group-id="2932381192-4">}</span><span class="p" data-group-id="2932381192-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_country</span><span class="p" data-group-id="2932381192-5">(</span><span class="p" data-group-id="2932381192-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2932381192-6">}</span><span class="p" data-group-id="2932381192-5">)</span><span class="w">
+</span><span class="p" data-group-id="2932381192-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2932381192-8">%</span><span class="nc" data-group-id="2932381192-8">Ecto.Changeset</span><span class="p" data-group-id="2932381192-8">{</span><span class="p" data-group-id="2932381192-8">}</span><span class="p" data-group-id="2932381192-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_feature_class/1">
+
+    <span id="create_feature_class/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_feature_class/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_feature_class(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a feature_class.</p><h2 id="create_feature_class/1-examples" class="section-heading">
+  <a href="#create_feature_class/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_feature_class</span><span class="p" data-group-id="0581501296-1">(</span><span class="p" data-group-id="0581501296-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="0581501296-2">}</span><span class="p" data-group-id="0581501296-1">)</span><span class="w">
+</span><span class="p" data-group-id="0581501296-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0581501296-4">%</span><span class="nc" data-group-id="0581501296-4">FeatureClass</span><span class="p" data-group-id="0581501296-4">{</span><span class="p" data-group-id="0581501296-4">}</span><span class="p" data-group-id="0581501296-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_feature_class</span><span class="p" data-group-id="0581501296-5">(</span><span class="p" data-group-id="0581501296-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="0581501296-6">}</span><span class="p" data-group-id="0581501296-5">)</span><span class="w">
+</span><span class="p" data-group-id="0581501296-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0581501296-8">%</span><span class="nc" data-group-id="0581501296-8">Ecto.Changeset</span><span class="p" data-group-id="0581501296-8">{</span><span class="p" data-group-id="0581501296-8">}</span><span class="p" data-group-id="0581501296-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_feature_code/1">
+
+    <span id="create_feature_code/0"></span>
+
+  <div class="detail-header">
+    <a href="#create_feature_code/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_feature_code(attrs \\ %{})</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Creates a feature_code.</p><h2 id="create_feature_code/1-examples" class="section-heading">
+  <a href="#create_feature_code/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">create_feature_code</span><span class="p" data-group-id="2427096274-1">(</span><span class="p" data-group-id="2427096274-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="2427096274-2">}</span><span class="p" data-group-id="2427096274-1">)</span><span class="w">
+</span><span class="p" data-group-id="2427096274-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2427096274-4">%</span><span class="nc" data-group-id="2427096274-4">FeatureCode</span><span class="p" data-group-id="2427096274-4">{</span><span class="p" data-group-id="2427096274-4">}</span><span class="p" data-group-id="2427096274-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_feature_code</span><span class="p" data-group-id="2427096274-5">(</span><span class="p" data-group-id="2427096274-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2427096274-6">}</span><span class="p" data-group-id="2427096274-5">)</span><span class="w">
+</span><span class="p" data-group-id="2427096274-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2427096274-8">%</span><span class="nc" data-group-id="2427096274-8">Ecto.Changeset</span><span class="p" data-group-id="2427096274-8">{</span><span class="p" data-group-id="2427096274-8">}</span><span class="p" data-group-id="2427096274-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_administrative_division_1/1">
+
+  <div class="detail-header">
+    <a href="#delete_administrative_division_1/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_administrative_division_1(administrative_division_1)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a level 1 administrative division.</p><h2 id="delete_administrative_division_1/1-examples" class="section-heading">
+  <a href="#delete_administrative_division_1/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_administrative_division_1</span><span class="p" data-group-id="9687922460-1">(</span><span class="n">administrative_division_1</span><span class="p" data-group-id="9687922460-1">)</span><span class="w">
+</span><span class="p" data-group-id="9687922460-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9687922460-3">%</span><span class="nc" data-group-id="9687922460-3">AdministrativeDivisions1</span><span class="p" data-group-id="9687922460-3">{</span><span class="p" data-group-id="9687922460-3">}</span><span class="p" data-group-id="9687922460-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_administrative_division_1</span><span class="p" data-group-id="9687922460-4">(</span><span class="n">administrative_division_1</span><span class="p" data-group-id="9687922460-4">)</span><span class="w">
+</span><span class="p" data-group-id="9687922460-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9687922460-6">%</span><span class="nc" data-group-id="9687922460-6">Ecto.Changeset</span><span class="p" data-group-id="9687922460-6">{</span><span class="p" data-group-id="9687922460-6">}</span><span class="p" data-group-id="9687922460-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_administrative_division_2/1">
+
+  <div class="detail-header">
+    <a href="#delete_administrative_division_2/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_administrative_division_2(administrative_division_2)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a level 2 administrative division.</p><h2 id="delete_administrative_division_2/1-examples" class="section-heading">
+  <a href="#delete_administrative_division_2/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_administrative_division_2</span><span class="p" data-group-id="2209285133-1">(</span><span class="n">administrative_division_2</span><span class="p" data-group-id="2209285133-1">)</span><span class="w">
+</span><span class="p" data-group-id="2209285133-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2209285133-3">%</span><span class="nc" data-group-id="2209285133-3">AdministrativeDivisions2</span><span class="p" data-group-id="2209285133-3">{</span><span class="p" data-group-id="2209285133-3">}</span><span class="p" data-group-id="2209285133-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_administrative_division_2</span><span class="p" data-group-id="2209285133-4">(</span><span class="n">administrative_division_2</span><span class="p" data-group-id="2209285133-4">)</span><span class="w">
+</span><span class="p" data-group-id="2209285133-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2209285133-6">%</span><span class="nc" data-group-id="2209285133-6">Ecto.Changeset</span><span class="p" data-group-id="2209285133-6">{</span><span class="p" data-group-id="2209285133-6">}</span><span class="p" data-group-id="2209285133-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_city/1">
+
+  <div class="detail-header">
+    <a href="#delete_city/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_city(city)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a city.</p><h2 id="delete_city/1-examples" class="section-heading">
+  <a href="#delete_city/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">delete_city</span><span class="p" data-group-id="4889142688-1">(</span><span class="n">city</span><span class="p" data-group-id="4889142688-1">)</span><span class="w">
+</span><span class="p" data-group-id="4889142688-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4889142688-3">%</span><span class="nc" data-group-id="4889142688-3">Locations.City</span><span class="p" data-group-id="4889142688-3">{</span><span class="p" data-group-id="4889142688-3">}</span><span class="p" data-group-id="4889142688-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">delete_city</span><span class="p" data-group-id="4889142688-4">(</span><span class="n">city</span><span class="p" data-group-id="4889142688-4">)</span><span class="w">
+</span><span class="p" data-group-id="4889142688-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4889142688-6">%</span><span class="nc" data-group-id="4889142688-6">Ecto.Changeset</span><span class="p" data-group-id="4889142688-6">{</span><span class="p" data-group-id="4889142688-6">}</span><span class="p" data-group-id="4889142688-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_continent/1">
+
+  <div class="detail-header">
+    <a href="#delete_continent/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_continent(continent)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a continent.</p><h2 id="delete_continent/1-examples" class="section-heading">
+  <a href="#delete_continent/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_continent</span><span class="p" data-group-id="2162502612-1">(</span><span class="n">continent</span><span class="p" data-group-id="2162502612-1">)</span><span class="w">
+</span><span class="p" data-group-id="2162502612-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2162502612-3">%</span><span class="nc" data-group-id="2162502612-3">Continent</span><span class="p" data-group-id="2162502612-3">{</span><span class="p" data-group-id="2162502612-3">}</span><span class="p" data-group-id="2162502612-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_continent</span><span class="p" data-group-id="2162502612-4">(</span><span class="n">continent</span><span class="p" data-group-id="2162502612-4">)</span><span class="w">
+</span><span class="p" data-group-id="2162502612-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2162502612-6">%</span><span class="nc" data-group-id="2162502612-6">Ecto.Changeset</span><span class="p" data-group-id="2162502612-6">{</span><span class="p" data-group-id="2162502612-6">}</span><span class="p" data-group-id="2162502612-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_country/1">
+
+  <div class="detail-header">
+    <a href="#delete_country/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_country(country)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a country.</p><h2 id="delete_country/1-examples" class="section-heading">
+  <a href="#delete_country/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_country</span><span class="p" data-group-id="1928039728-1">(</span><span class="n">country</span><span class="p" data-group-id="1928039728-1">)</span><span class="w">
+</span><span class="p" data-group-id="1928039728-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1928039728-3">%</span><span class="nc" data-group-id="1928039728-3">Country</span><span class="p" data-group-id="1928039728-3">{</span><span class="p" data-group-id="1928039728-3">}</span><span class="p" data-group-id="1928039728-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_country</span><span class="p" data-group-id="1928039728-4">(</span><span class="n">country</span><span class="p" data-group-id="1928039728-4">)</span><span class="w">
+</span><span class="p" data-group-id="1928039728-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1928039728-6">%</span><span class="nc" data-group-id="1928039728-6">Ecto.Changeset</span><span class="p" data-group-id="1928039728-6">{</span><span class="p" data-group-id="1928039728-6">}</span><span class="p" data-group-id="1928039728-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_feature_class/1">
+
+  <div class="detail-header">
+    <a href="#delete_feature_class/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_feature_class(feature_class)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a feature_class.</p><h2 id="delete_feature_class/1-examples" class="section-heading">
+  <a href="#delete_feature_class/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_feature_class</span><span class="p" data-group-id="9312445404-1">(</span><span class="n">feature_class</span><span class="p" data-group-id="9312445404-1">)</span><span class="w">
+</span><span class="p" data-group-id="9312445404-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9312445404-3">%</span><span class="nc" data-group-id="9312445404-3">FeatureClass</span><span class="p" data-group-id="9312445404-3">{</span><span class="p" data-group-id="9312445404-3">}</span><span class="p" data-group-id="9312445404-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_feature_class</span><span class="p" data-group-id="9312445404-4">(</span><span class="n">feature_class</span><span class="p" data-group-id="9312445404-4">)</span><span class="w">
+</span><span class="p" data-group-id="9312445404-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9312445404-6">%</span><span class="nc" data-group-id="9312445404-6">Ecto.Changeset</span><span class="p" data-group-id="9312445404-6">{</span><span class="p" data-group-id="9312445404-6">}</span><span class="p" data-group-id="9312445404-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_feature_code/1">
+
+  <div class="detail-header">
+    <a href="#delete_feature_code/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">delete_feature_code(feature_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deletes a feature_code.</p><h2 id="delete_feature_code/1-examples" class="section-heading">
+  <a href="#delete_feature_code/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">delete_feature_code</span><span class="p" data-group-id="8799557635-1">(</span><span class="n">feature_code</span><span class="p" data-group-id="8799557635-1">)</span><span class="w">
+</span><span class="p" data-group-id="8799557635-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8799557635-3">%</span><span class="nc" data-group-id="8799557635-3">FeatureCode</span><span class="p" data-group-id="8799557635-3">{</span><span class="p" data-group-id="8799557635-3">}</span><span class="p" data-group-id="8799557635-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_feature_code</span><span class="p" data-group-id="8799557635-4">(</span><span class="n">feature_code</span><span class="p" data-group-id="8799557635-4">)</span><span class="w">
+</span><span class="p" data-group-id="8799557635-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8799557635-6">%</span><span class="nc" data-group-id="8799557635-6">Ecto.Changeset</span><span class="p" data-group-id="8799557635-6">{</span><span class="p" data-group-id="8799557635-6">}</span><span class="p" data-group-id="8799557635-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_administrative_division_1!/1">
+
+  <div class="detail-header">
+    <a href="#get_administrative_division_1!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_administrative_division_1!(administrative_division_1_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single level 1 administrative division.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the <code class="inline">administrative_division_1</code> does not exist.</p><h2 id="get_administrative_division_1!/1-examples" class="section-heading">
+  <a href="#get_administrative_division_1!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_administrative_division_1!</span><span class="p" data-group-id="8986495350-1">(</span><span class="mi">123</span><span class="p" data-group-id="8986495350-1">)</span><span class="w">
+</span><span class="p" data-group-id="8986495350-2">%</span><span class="nc" data-group-id="8986495350-2">AdministrativeDivisions1</span><span class="p" data-group-id="8986495350-2">{</span><span class="p" data-group-id="8986495350-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_administrative_division_1!</span><span class="p" data-group-id="8986495350-3">(</span><span class="mi">456</span><span class="p" data-group-id="8986495350-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_administrative_division_2!/1">
+
+  <div class="detail-header">
+    <a href="#get_administrative_division_2!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_administrative_division_2!(administrative_division_2_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single level 2 administrative division.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the <code class="inline">administrative_division_2</code> does not exist.</p><h2 id="get_administrative_division_2!/1-examples" class="section-heading">
+  <a href="#get_administrative_division_2!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_administrative_division_2!</span><span class="p" data-group-id="9833286682-1">(</span><span class="mi">123</span><span class="p" data-group-id="9833286682-1">)</span><span class="w">
+</span><span class="p" data-group-id="9833286682-2">%</span><span class="nc" data-group-id="9833286682-2">AdministrativeDivisions2</span><span class="p" data-group-id="9833286682-2">{</span><span class="p" data-group-id="9833286682-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_administrative_division_2!</span><span class="p" data-group-id="9833286682-3">(</span><span class="mi">456</span><span class="p" data-group-id="9833286682-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_city!/1">
+
+  <div class="detail-header">
+    <a href="#get_city!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_city!(id)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single city.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the City does not exist.</p><h2 id="get_city!/1-examples" class="section-heading">
+  <a href="#get_city!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">get_city!</span><span class="p" data-group-id="9671800097-1">(</span><span class="mi">123</span><span class="p" data-group-id="9671800097-1">)</span><span class="w">
+</span><span class="p" data-group-id="9671800097-2">%</span><span class="nc" data-group-id="9671800097-2">Locations.City</span><span class="p" data-group-id="9671800097-2">{</span><span class="p" data-group-id="9671800097-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">get_city!</span><span class="p" data-group-id="9671800097-3">(</span><span class="mi">456</span><span class="p" data-group-id="9671800097-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_city_territory_and_country!/1">
+
+  <div class="detail-header">
+    <a href="#get_city_territory_and_country!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_city_territory_and_country!(city_id)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_city_territory_and_country!(city_id :: <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) ::
+  <a href="Klepsidra.Locations.City.html#t:t/0">Klepsidra.Locations.City.t</a>() | nil</pre>
+
+      </div>
+
+<p>Gets a single city, with level 1 administrative division or territory,
+and country name.</p><p>Returns <code class="inline">nil</code> if the City does not exist.</p><h2 id="get_city_territory_and_country!/1-examples" class="section-heading">
+  <a href="#get_city_territory_and_country!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">get_city_territory_and_country!</span><span class="p" data-group-id="0097693324-1">(</span><span class="mi">123</span><span class="p" data-group-id="0097693324-1">)</span><span class="w">
+</span><span class="p" data-group-id="0097693324-2">%</span><span class="nc" data-group-id="0097693324-2">Locations.City</span><span class="p" data-group-id="0097693324-2">{</span><span class="p" data-group-id="0097693324-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">get_city_territory_and_country!</span><span class="p" data-group-id="0097693324-3">(</span><span class="mi">456</span><span class="p" data-group-id="0097693324-3">)</span><span class="w">
+</span><span class="no">nil</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_continent!/1">
+
+  <div class="detail-header">
+    <a href="#get_continent!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_continent!(continent_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single continent.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Continent does not exist.</p><h2 id="get_continent!/1-examples" class="section-heading">
+  <a href="#get_continent!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_continent!</span><span class="p" data-group-id="4420304442-1">(</span><span class="mi">123</span><span class="p" data-group-id="4420304442-1">)</span><span class="w">
+</span><span class="p" data-group-id="4420304442-2">%</span><span class="nc" data-group-id="4420304442-2">Continent</span><span class="p" data-group-id="4420304442-2">{</span><span class="p" data-group-id="4420304442-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_continent!</span><span class="p" data-group-id="4420304442-3">(</span><span class="mi">456</span><span class="p" data-group-id="4420304442-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_country!/1">
+
+  <div class="detail-header">
+    <a href="#get_country!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_country!(iso_country_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single country.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Country does not exist.</p><h2 id="get_country!/1-examples" class="section-heading">
+  <a href="#get_country!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_country!</span><span class="p" data-group-id="4763349932-1">(</span><span class="mi">123</span><span class="p" data-group-id="4763349932-1">)</span><span class="w">
+</span><span class="p" data-group-id="4763349932-2">%</span><span class="nc" data-group-id="4763349932-2">Country</span><span class="p" data-group-id="4763349932-2">{</span><span class="p" data-group-id="4763349932-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_country!</span><span class="p" data-group-id="4763349932-3">(</span><span class="mi">456</span><span class="p" data-group-id="4763349932-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_feature_class!/1">
+
+  <div class="detail-header">
+    <a href="#get_feature_class!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_feature_class!(feature_class)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single feature_class.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Feature class does not exist.</p><h2 id="get_feature_class!/1-examples" class="section-heading">
+  <a href="#get_feature_class!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_feature_class!</span><span class="p" data-group-id="1033402860-1">(</span><span class="mi">123</span><span class="p" data-group-id="1033402860-1">)</span><span class="w">
+</span><span class="p" data-group-id="1033402860-2">%</span><span class="nc" data-group-id="1033402860-2">FeatureClass</span><span class="p" data-group-id="1033402860-2">{</span><span class="p" data-group-id="1033402860-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_feature_class!</span><span class="p" data-group-id="1033402860-3">(</span><span class="mi">456</span><span class="p" data-group-id="1033402860-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_feature_code!/1">
+
+  <div class="detail-header">
+    <a href="#get_feature_code!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_feature_code!(feature_code)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Gets a single feature_code.</p><p>Raises <a href="https://hexdocs.pm/ecto/3.12.4/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Feature code does not exist.</p><h2 id="get_feature_code!/1-examples" class="section-heading">
+  <a href="#get_feature_code!/1-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">get_feature_code!</span><span class="p" data-group-id="5768273634-1">(</span><span class="s">&quot;P&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PPL&quot;</span><span class="p" data-group-id="5768273634-1">)</span><span class="w">
+</span><span class="p" data-group-id="5768273634-2">%</span><span class="nc" data-group-id="5768273634-2">FeatureCode</span><span class="p" data-group-id="5768273634-2">{</span><span class="p" data-group-id="5768273634-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_feature_code!</span><span class="p" data-group-id="5768273634-3">(</span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;YYY&quot;</span><span class="p" data-group-id="5768273634-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_administrative_divisions_1/0">
+
+  <div class="detail-header">
+    <a href="#list_administrative_divisions_1/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_administrative_divisions_1()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of level 1 administrative divisions.</p><h2 id="list_administrative_divisions_1/0-examples" class="section-heading">
+  <a href="#list_administrative_divisions_1/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_administrative_divisions_1</span><span class="p" data-group-id="6696618733-1">(</span><span class="p" data-group-id="6696618733-1">)</span><span class="w">
+</span><span class="p" data-group-id="6696618733-2">[</span><span class="p" data-group-id="6696618733-3">%</span><span class="nc" data-group-id="6696618733-3">AdministrativeDivisions1</span><span class="p" data-group-id="6696618733-3">{</span><span class="p" data-group-id="6696618733-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="6696618733-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_cities/0">
+
+  <div class="detail-header">
+    <a href="#list_cities/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_cities()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of cities.</p><h2 id="list_cities/0-examples" class="section-heading">
+  <a href="#list_cities/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">list_cities</span><span class="p" data-group-id="2734670563-1">(</span><span class="p" data-group-id="2734670563-1">)</span><span class="w">
+</span><span class="p" data-group-id="2734670563-2">[</span><span class="p" data-group-id="2734670563-3">%</span><span class="nc" data-group-id="2734670563-3">Locations.City</span><span class="p" data-group-id="2734670563-3">{</span><span class="p" data-group-id="2734670563-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="2734670563-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_cities_by_name/2">
+
+    <span id="list_cities_by_name/1"></span>
+
+  <div class="detail-header">
+    <a href="#list_cities_by_name/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_cities_by_name(name_filter, options \\ [])</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> list_cities_by_name(name_filter :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), options :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: [
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
+  ...
+]</pre>
+
+      </div>
+
+<p>Returns a list of cities containing the name fragment, sorted by
+descending population size, and by name in alphabetical order.</p><h2 id="list_cities_by_name/2-examples" class="section-heading">
+  <a href="#list_cities_by_name/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">list_cities_by_name</span><span class="p" data-group-id="7323463027-1">(</span><span class="s">&quot;&quot;</span><span class="p" data-group-id="7323463027-1">)</span><span class="w">
+</span><span class="p" data-group-id="7323463027-2">[</span><span class="p" data-group-id="7323463027-2">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">list_cities_by_name</span><span class="p" data-group-id="7323463027-3">(</span><span class="s">&quot;london&quot;</span><span class="p" data-group-id="7323463027-3">)</span><span class="w">
+</span><span class="p" data-group-id="7323463027-4">[</span><span class="p" data-group-id="7323463027-5">%{</span><span class="p" data-group-id="7323463027-5">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="7323463027-4">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_continents/0">
+
+  <div class="detail-header">
+    <a href="#list_continents/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_continents()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of locations_continents.</p><h2 id="list_continents/0-examples" class="section-heading">
+  <a href="#list_continents/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_continents</span><span class="p" data-group-id="1751580403-1">(</span><span class="p" data-group-id="1751580403-1">)</span><span class="w">
+</span><span class="p" data-group-id="1751580403-2">[</span><span class="p" data-group-id="1751580403-3">%</span><span class="nc" data-group-id="1751580403-3">Continent</span><span class="p" data-group-id="1751580403-3">{</span><span class="p" data-group-id="1751580403-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1751580403-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_countries/0">
+
+  <div class="detail-header">
+    <a href="#list_countries/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_countries()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of countries.</p><h2 id="list_countries/0-examples" class="section-heading">
+  <a href="#list_countries/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_countries</span><span class="p" data-group-id="0159992958-1">(</span><span class="p" data-group-id="0159992958-1">)</span><span class="w">
+</span><span class="p" data-group-id="0159992958-2">[</span><span class="p" data-group-id="0159992958-3">%</span><span class="nc" data-group-id="0159992958-3">Country</span><span class="p" data-group-id="0159992958-3">{</span><span class="p" data-group-id="0159992958-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="0159992958-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_feature_classes/0">
+
+  <div class="detail-header">
+    <a href="#list_feature_classes/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_feature_classes()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of locations_feature_classes.</p><h2 id="list_feature_classes/0-examples" class="section-heading">
+  <a href="#list_feature_classes/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_feature_classes</span><span class="p" data-group-id="9958510089-1">(</span><span class="p" data-group-id="9958510089-1">)</span><span class="w">
+</span><span class="p" data-group-id="9958510089-2">[</span><span class="p" data-group-id="9958510089-3">%</span><span class="nc" data-group-id="9958510089-3">FeatureClass</span><span class="p" data-group-id="9958510089-3">{</span><span class="p" data-group-id="9958510089-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="9958510089-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_feature_codes/0">
+
+  <div class="detail-header">
+    <a href="#list_feature_codes/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_feature_codes()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of feature_codes.</p><h2 id="list_feature_codes/0-examples" class="section-heading">
+  <a href="#list_feature_codes/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_feature_codes</span><span class="p" data-group-id="6721401824-1">(</span><span class="p" data-group-id="6721401824-1">)</span><span class="w">
+</span><span class="p" data-group-id="6721401824-2">[</span><span class="p" data-group-id="6721401824-3">%</span><span class="nc" data-group-id="6721401824-3">FeatureCode</span><span class="p" data-group-id="6721401824-3">{</span><span class="p" data-group-id="6721401824-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="6721401824-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_locations_administrative_divisions_2/0">
+
+  <div class="detail-header">
+    <a href="#list_locations_administrative_divisions_2/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_locations_administrative_divisions_2()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Returns the list of level 2 administrative divisions.</p><h2 id="list_locations_administrative_divisions_2/0-examples" class="section-heading">
+  <a href="#list_locations_administrative_divisions_2/0-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">list_locations_administrative_divisions_2</span><span class="p" data-group-id="2024708325-1">(</span><span class="p" data-group-id="2024708325-1">)</span><span class="w">
+</span><span class="p" data-group-id="2024708325-2">[</span><span class="p" data-group-id="2024708325-3">%</span><span class="nc" data-group-id="2024708325-3">AdministrativeDivisions2</span><span class="p" data-group-id="2024708325-3">{</span><span class="p" data-group-id="2024708325-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="2024708325-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_administrative_division_1/2">
+
+  <div class="detail-header">
+    <a href="#update_administrative_division_1/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_administrative_division_1(administrative_division_1, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a level 1 administrative division.</p><h2 id="update_administrative_division_1/2-examples" class="section-heading">
+  <a href="#update_administrative_division_1/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_administrative_division_1</span><span class="p" data-group-id="8485384207-1">(</span><span class="n">administrative_division_1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8485384207-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="8485384207-2">}</span><span class="p" data-group-id="8485384207-1">)</span><span class="w">
+</span><span class="p" data-group-id="8485384207-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8485384207-4">%</span><span class="nc" data-group-id="8485384207-4">AdministrativeDivisions1</span><span class="p" data-group-id="8485384207-4">{</span><span class="p" data-group-id="8485384207-4">}</span><span class="p" data-group-id="8485384207-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_administrative_division_1</span><span class="p" data-group-id="8485384207-5">(</span><span class="n">administrative_division_1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8485384207-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="8485384207-6">}</span><span class="p" data-group-id="8485384207-5">)</span><span class="w">
+</span><span class="p" data-group-id="8485384207-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8485384207-8">%</span><span class="nc" data-group-id="8485384207-8">Ecto.Changeset</span><span class="p" data-group-id="8485384207-8">{</span><span class="p" data-group-id="8485384207-8">}</span><span class="p" data-group-id="8485384207-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_administrative_division_2/2">
+
+  <div class="detail-header">
+    <a href="#update_administrative_division_2/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_administrative_division_2(administrative_division_2, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a level 2 administrative division.</p><h2 id="update_administrative_division_2/2-examples" class="section-heading">
+  <a href="#update_administrative_division_2/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_administrative_division_2</span><span class="p" data-group-id="9797319206-1">(</span><span class="n">administrative_division_2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9797319206-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="9797319206-2">}</span><span class="p" data-group-id="9797319206-1">)</span><span class="w">
+</span><span class="p" data-group-id="9797319206-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9797319206-4">%</span><span class="nc" data-group-id="9797319206-4">AdministrativeDivisions2</span><span class="p" data-group-id="9797319206-4">{</span><span class="p" data-group-id="9797319206-4">}</span><span class="p" data-group-id="9797319206-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_administrative_division_2</span><span class="p" data-group-id="9797319206-5">(</span><span class="n">administrative_division_2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9797319206-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9797319206-6">}</span><span class="p" data-group-id="9797319206-5">)</span><span class="w">
+</span><span class="p" data-group-id="9797319206-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9797319206-8">%</span><span class="nc" data-group-id="9797319206-8">Ecto.Changeset</span><span class="p" data-group-id="9797319206-8">{</span><span class="p" data-group-id="9797319206-8">}</span><span class="p" data-group-id="9797319206-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_city/2">
+
+  <div class="detail-header">
+    <a href="#update_city/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_city(city, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a city.</p><h2 id="update_city/2-examples" class="section-heading">
+  <a href="#update_city/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">update_city</span><span class="p" data-group-id="7452987221-1">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7452987221-2">%{</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Troy&quot;</span><span class="p" data-group-id="7452987221-2">}</span><span class="p" data-group-id="7452987221-1">)</span><span class="w">
+</span><span class="p" data-group-id="7452987221-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7452987221-4">%</span><span class="nc" data-group-id="7452987221-4">Locations.City</span><span class="p" data-group-id="7452987221-4">{</span><span class="p" data-group-id="7452987221-4">}</span><span class="p" data-group-id="7452987221-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Locations</span><span class="o">.</span><span class="n">update_city</span><span class="p" data-group-id="7452987221-5">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7452987221-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="7452987221-6">}</span><span class="p" data-group-id="7452987221-5">)</span><span class="w">
+</span><span class="p" data-group-id="7452987221-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7452987221-8">%</span><span class="nc" data-group-id="7452987221-8">Ecto.Changeset</span><span class="p" data-group-id="7452987221-8">{</span><span class="p" data-group-id="7452987221-8">}</span><span class="p" data-group-id="7452987221-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_continent/2">
+
+  <div class="detail-header">
+    <a href="#update_continent/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_continent(continent, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a continent.</p><h2 id="update_continent/2-examples" class="section-heading">
+  <a href="#update_continent/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_continent</span><span class="p" data-group-id="9535782311-1">(</span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9535782311-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="9535782311-2">}</span><span class="p" data-group-id="9535782311-1">)</span><span class="w">
+</span><span class="p" data-group-id="9535782311-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9535782311-4">%</span><span class="nc" data-group-id="9535782311-4">Continent</span><span class="p" data-group-id="9535782311-4">{</span><span class="p" data-group-id="9535782311-4">}</span><span class="p" data-group-id="9535782311-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_continent</span><span class="p" data-group-id="9535782311-5">(</span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9535782311-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9535782311-6">}</span><span class="p" data-group-id="9535782311-5">)</span><span class="w">
+</span><span class="p" data-group-id="9535782311-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9535782311-8">%</span><span class="nc" data-group-id="9535782311-8">Ecto.Changeset</span><span class="p" data-group-id="9535782311-8">{</span><span class="p" data-group-id="9535782311-8">}</span><span class="p" data-group-id="9535782311-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_country/2">
+
+  <div class="detail-header">
+    <a href="#update_country/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_country(country, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a country.</p><h2 id="update_country/2-examples" class="section-heading">
+  <a href="#update_country/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_country</span><span class="p" data-group-id="9445455062-1">(</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9445455062-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="9445455062-2">}</span><span class="p" data-group-id="9445455062-1">)</span><span class="w">
+</span><span class="p" data-group-id="9445455062-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9445455062-4">%</span><span class="nc" data-group-id="9445455062-4">Country</span><span class="p" data-group-id="9445455062-4">{</span><span class="p" data-group-id="9445455062-4">}</span><span class="p" data-group-id="9445455062-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_country</span><span class="p" data-group-id="9445455062-5">(</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9445455062-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9445455062-6">}</span><span class="p" data-group-id="9445455062-5">)</span><span class="w">
+</span><span class="p" data-group-id="9445455062-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9445455062-8">%</span><span class="nc" data-group-id="9445455062-8">Ecto.Changeset</span><span class="p" data-group-id="9445455062-8">{</span><span class="p" data-group-id="9445455062-8">}</span><span class="p" data-group-id="9445455062-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_feature_class/2">
+
+  <div class="detail-header">
+    <a href="#update_feature_class/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_feature_class(feature_class, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a feature_class.</p><h2 id="update_feature_class/2-examples" class="section-heading">
+  <a href="#update_feature_class/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_feature_class</span><span class="p" data-group-id="3150779301-1">(</span><span class="n">feature_class</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3150779301-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="3150779301-2">}</span><span class="p" data-group-id="3150779301-1">)</span><span class="w">
+</span><span class="p" data-group-id="3150779301-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3150779301-4">%</span><span class="nc" data-group-id="3150779301-4">FeatureClass</span><span class="p" data-group-id="3150779301-4">{</span><span class="p" data-group-id="3150779301-4">}</span><span class="p" data-group-id="3150779301-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_feature_class</span><span class="p" data-group-id="3150779301-5">(</span><span class="n">feature_class</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3150779301-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3150779301-6">}</span><span class="p" data-group-id="3150779301-5">)</span><span class="w">
+</span><span class="p" data-group-id="3150779301-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3150779301-8">%</span><span class="nc" data-group-id="3150779301-8">Ecto.Changeset</span><span class="p" data-group-id="3150779301-8">{</span><span class="p" data-group-id="3150779301-8">}</span><span class="p" data-group-id="3150779301-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_feature_code/2">
+
+  <div class="detail-header">
+    <a href="#update_feature_code/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_feature_code(feature_code, attrs)</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Updates a feature_code.</p><h2 id="update_feature_code/2-examples" class="section-heading">
+  <a href="#update_feature_code/2-examples" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Examples</span>
+</h2>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="n">update_feature_code</span><span class="p" data-group-id="5925768206-1">(</span><span class="n">feature_code</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5925768206-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="5925768206-2">}</span><span class="p" data-group-id="5925768206-1">)</span><span class="w">
+</span><span class="p" data-group-id="5925768206-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5925768206-4">%</span><span class="nc" data-group-id="5925768206-4">FeatureCode</span><span class="p" data-group-id="5925768206-4">{</span><span class="p" data-group-id="5925768206-4">}</span><span class="p" data-group-id="5925768206-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_feature_code</span><span class="p" data-group-id="5925768206-5">(</span><span class="n">feature_code</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5925768206-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5925768206-6">}</span><span class="p" data-group-id="5925768206-5">)</span><span class="w">
+</span><span class="p" data-group-id="5925768206-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5925768206-8">%</span><span class="nc" data-group-id="5925768206-8">Ecto.Changeset</span><span class="p" data-group-id="5925768206-8">{</span><span class="p" data-group-id="5925768206-8">}</span><span class="p" data-group-id="5925768206-7">}</span></code></pre>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+      <p>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="Klepsidra.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.2) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

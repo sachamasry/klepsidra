@@ -80,7 +80,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="ion ion-key"></i>
-                            <h3 class="box-title">7 Foreign Key Constraints</h3>
+                            <h3 class="box-title">14 Foreign Key Constraints</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -108,26 +108,62 @@
                                         <td>
                                             <table border='0' cellspacing='0' cellpadding='0'>
                                                 <tr>
-                                                    <td><a href='tables/timers.html'>timers</a><span>.activity_type_id</span></td>
+                                                    <td><a href='tables/journal_entries.html'>journal_entries</a><span>.entry_type_id</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href='tables/timers.html'>timers</a><span>.business_partner_id</span></td>
+                                                    <td><a href='tables/journal_entries.html'>journal_entries</a><span>.location_id</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href='tables/timers.html'>timers</a><span>.project_id</span></td>
+                                                    <td><a href='tables/journal_entries.html'>journal_entries</a><span>.user_id</span></td>
                                                 </tr>
                                             </table>
                                         </td>
                                         <td>
                                             <table border='0' cellspacing='0' cellpadding='0'>
                                                 <tr>
-                                                    <td><a href='tables/activity_types.html'>activity_types</a><span>.id</span></td>
+                                                    <td><a href='tables/journal_entry_types.html'>journal_entry_types</a><span>.id</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href='tables/business_partners.html'>business_partners</a><span>.id</span></td>
+                                                    <td><a href='tables/locations_cities.html'>locations_cities</a><span>.id</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href='tables/projects.html'>projects</a><span>.id</span></td>
+                                                    <td><a href='tables/users.html'>users</a><span>.id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_cities.html'>locations_cities</a><span>.administrative_division_1_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_cities.html'>locations_cities</a><span>.country_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_cities.html'>locations_cities</a><span>.feature_class</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_cities.html'>locations_cities</a><span>.feature_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_administrative_divisions_1.html'>locations_administrative_divisions_1</a><span>.administrative_division_1_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_countries.html'>locations_countries</a><span>.iso_country_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_feature_classes.html'>locations_feature_classes</a><span>.feature_class</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_feature_codes.html'>locations_feature_codes</a><span>.feature_code</span></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -174,6 +210,48 @@
                                         <td>
                                             <table border='0' cellspacing='0' cellpadding='0'>
                                                 <tr>
+                                                    <td><a href='tables/locations_administrative_divisions_1.html'>locations_administrative_divisions_1</a><span>.country_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_countries.html'>locations_countries</a><span>.iso_country_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/journal_entry_tags.html'>journal_entry_tags</a><span>.journal_entry_id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/journal_entry_tags.html'>journal_entry_tags</a><span>.tag_id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/journal_entries.html'>journal_entries</a><span>.id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/tags.html'>tags</a><span>.id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Cascade on delete:&#10;Deletion of parent deletes child'>Cascade on delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
                                                     <td><a href='tables/timer_tags.html'>timer_tags</a><span>.tag_id</span></td>
                                                 </tr>
                                                 <tr>
@@ -192,6 +270,30 @@
                                             </table>
                                         </td>
                                         <td><span title='Cascade on delete:&#10;Deletion of parent deletes child'>Cascade on delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_administrative_divisions_2.html'>locations_administrative_divisions_2</a><span>.administrative_division_1_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_administrative_divisions_2.html'>locations_administrative_divisions_2</a><span>.country_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_administrative_divisions_1.html'>locations_administrative_divisions_1</a><span>.administrative_division_1_code</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/locations_countries.html'>locations_countries</a><span>.iso_country_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
                                     </tr>
                                     <tr>
                                         <td></td>
@@ -224,6 +326,72 @@
                                             <table border='0' cellspacing='0' cellpadding='0'>
                                                 <tr>
                                                     <td><a href='tables/business_partners.html'>business_partners</a><span>.id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_countries.html'>locations_countries</a><span>.continent_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_continents.html'>locations_continents</a><span>.continent_code</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/timers.html'>timers</a><span>.activity_type_id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/timers.html'>timers</a><span>.business_partner_id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/timers.html'>timers</a><span>.project_id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/activity_types.html'>activity_types</a><span>.id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/business_partners.html'>business_partners</a><span>.id</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href='tables/projects.html'>projects</a><span>.id</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>Restrict delete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_feature_codes.html'>locations_feature_codes</a><span>.feature_class</span></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border='0' cellspacing='0' cellpadding='0'>
+                                                <tr>
+                                                    <td><a href='tables/locations_feature_classes.html'>locations_feature_classes</a><span>.feature_class</span></td>
                                                 </tr>
                                             </table>
                                         </td>
