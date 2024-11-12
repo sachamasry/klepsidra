@@ -26,7 +26,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
           type="select"
           label="Entry type"
           options={[Annotation: "annotation", Quote: "quote"]}
-          value="annotation"
+          value={if @annotation.entry_type, do: @annotation.entry_type, else: "annotation"}
         />
         <.input field={@form[:text]} type="textarea" label="Text" />
         <.input field={@form[:author_name]} type="text" label="Author" />
@@ -41,12 +41,14 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
 
   @impl true
   def update(%{annotation: annotation} = assigns, socket) do
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign_new(:form, fn ->
-       to_form(KnowledgeManagement.change_annotation(annotation))
-     end)}
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign_new(:form, fn ->
+        to_form(KnowledgeManagement.change_annotation(annotation))
+      end)
+
+    {:ok, socket}
   end
 
   @impl true

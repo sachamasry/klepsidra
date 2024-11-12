@@ -47,7 +47,7 @@ defmodule Klepsidra.KnowledgeManagement do
   @spec get_random_quote() :: Annotation.t()
   def get_random_quote do
     case list_quotes() do
-      [] -> ""
+      [] -> nil
       quote_list -> Enum.random(quote_list)
     end
   end
