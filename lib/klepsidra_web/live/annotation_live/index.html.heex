@@ -1,0 +1,53 @@
+<.header>
+  Listing Annotations
+  <:actions>
+    <.link patch={~p"/annotations/new"}>
+      <.button>New Annotation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="annotations"
+  rows={@streams.annotations}
+  row_click={fn {_id, annotation} -> JS.navigate(~p"/annotations/#{annotation}") end}
+>
+  <:col :let={{_id, annotation}} label="Id"><%= annotation.id %></:col>
+  <:col :let={{_id, annotation}} label="Text"><%= annotation.text %></:col>
+  <:col :let={{_id, annotation}} label="Entry type"><%= annotation.entry_type %></:col>
+  <:col :let={{_id, annotation}} label="Author name"><%= annotation.author_name %></:col>
+  <:col :let={{_id, annotation}} label="Comment"><%= annotation.comment %></:col>
+  <:col :let={{_id, annotation}} label="Position reference">
+    <%= annotation.position_reference %>
+  </:col>
+  <:action :let={{_id, annotation}}>
+    <div class="sr-only">
+      <.link navigate={~p"/annotations/#{annotation}"}>Show</.link>
+    </div>
+    <.link patch={~p"/annotations/#{annotation}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, annotation}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: annotation.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="annotation-modal"
+  show
+  on_cancel={JS.patch(~p"/annotations")}
+>
+  <.live_component
+    module={KlepsidraWeb.AnnotationLive.FormComponent}
+    id={@annotation.id || :new}
+    title={@page_title}
+    action={@live_action}
+    annotation={@annotation}
+    patch={~p"/annotations"}
+  />
+</.modal>

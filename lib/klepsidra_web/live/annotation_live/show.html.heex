@@ -1,0 +1,36 @@
+<.header>
+  Annotation <%= @annotation.id %>
+  <:subtitle>This is a annotation record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/annotations/#{@annotation}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit annotation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Id"><%= @annotation.id %></:item>
+  <:item title="Text"><%= @annotation.text %></:item>
+  <:item title="Entry type"><%= @annotation.entry_type %></:item>
+  <:item title="Author name"><%= @annotation.author_name %></:item>
+  <:item title="Comment"><%= @annotation.comment %></:item>
+  <:item title="Position reference"><%= @annotation.position_reference %></:item>
+</.list>
+
+<.back navigate={~p"/annotations"}>Back to annotations</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="annotation-modal"
+  show
+  on_cancel={JS.patch(~p"/annotations/#{@annotation}")}
+>
+  <.live_component
+    module={KlepsidraWeb.AnnotationLive.FormComponent}
+    id={@annotation.id}
+    title={@page_title}
+    action={@live_action}
+    annotation={@annotation}
+    patch={~p"/annotations/#{@annotation}"}
+  />
+</.modal>

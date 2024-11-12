@@ -108,6 +108,13 @@ defmodule KlepsidraWeb.Router do
     live "/journal_entries/:id", JournalEntryLive.Show, :show
     live "/journal_entries/:id/show/edit", JournalEntryLive.Show, :edit
 
+    live "/annotations", AnnotationLive.Index, :index
+    live "/annotations/new", AnnotationLive.Index, :new
+    live "/annotations/:id/edit", AnnotationLive.Index, :edit
+
+    live "/annotations/:id", AnnotationLive.Show, :show
+    live "/annotations/:id/show/edit", AnnotationLive.Show, :edit
+
     live "/reporting/activities_timed", TimerLive.ActivityTimeReporting, :index
 
     live "/reporting/activities_timed/timers/:id/edit",

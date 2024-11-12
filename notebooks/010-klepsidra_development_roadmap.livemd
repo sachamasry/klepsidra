@@ -29,23 +29,20 @@ Ensure all code works, that any obvious bugs have been quashed.
 
 ## Release 0.1.4
 
-* [ ] Debugging
-  * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
 * [ ] Creation of quotes and citations of wisdom entity
 * [ ] Meaningful display of quotes in a prominent place
 * [ ] UI and UX improvements
   * [ ] Display tags for open and closed timers, on timer listings
-  * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
-  * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
   * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
   * [ ] On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
 * [ ] _Today_ view
   * [ ] Provide daily navigation facility: back and forward a day; jump to today
-  * [ ]
 * [ ] Timer reporting and analysis
   * [ ] Develop tag-based filtering in the reporting view
   * [ ] Report on aggregate time spent, or timed, by tag, reporting on tag _show_ page
   * [ ] Report on aggregate time spent by activity type, reporting on activity_type _show_ page
+* [ ] Debugging
+  * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
 
 ## Release 0.1.5
 
@@ -57,6 +54,9 @@ Audit all existing code for documentation quality, documenting missing functiona
 * [ ] Add field(s) to projects
   * [ ] End date, project review date, deadline date, etc.
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
+* [ ] UI and UX improvements
+  * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
+  * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
 
 ## Release 0.1.6
 
@@ -71,6 +71,9 @@ What is incredibly useful about this software is that these snippets can be open
 <!-- livebook:{"break_markdown":true} -->
 
 * [ ] Create _notes_ functionality
+* [ ] Develop full-text search
+  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
+  * [ ] Enable SQLite description fields full-text search (tags, projects)
 
 ## Release 0.2
 
@@ -82,9 +85,6 @@ During the lifetime of this release, adopt one consistent UI component system, c
 
 * [ ] Audit other timers for strengths and weaknesses
 * [ ] Permit pausing and resuming timers; add forward-pointing field to next timer, like a linked list
-* [ ] Develop full-text search
-  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
-  * [ ] Enable SQLite description fields full-text search (tags, projects)
 * [ ] Extend tagging functionality
   * [ ] Provide way to _deactivate_ old tags
   * [ ] Make it possible to _merge_ tags which are similar, where having both starts causing complications
