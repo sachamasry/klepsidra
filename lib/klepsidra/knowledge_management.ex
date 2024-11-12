@@ -22,6 +22,37 @@ defmodule Klepsidra.KnowledgeManagement do
   end
 
   @doc """
+  Returns the list of quotes.
+
+  ## Examples
+
+      iex> list_quotes()
+      [%Annotation{}, ...]
+
+  """
+  @spec list_quotes() :: [Annotation.t(), ...] | []
+  def list_quotes do
+    Annotation |> where([a], a.entry_type == "quote") |> Repo.all()
+  end
+
+  @doc """
+  Returns one random quote.
+
+  ## Examples
+
+      iex> get_random_quote()
+      %Annotation{}
+
+  """
+  @spec get_random_quote() :: Annotation.t()
+  def get_random_quote do
+    case list_quotes() do
+      [] -> ""
+      quote_list -> Enum.random(quote_list)
+    end
+  end
+
+  @doc """
   Gets a single annotation.
 
   Raises `Ecto.NoResultsError` if the Annotation does not exist.

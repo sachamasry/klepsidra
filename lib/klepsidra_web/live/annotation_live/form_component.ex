@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage annotation records in your database.</:subtitle>
+        <:subtitle>Record source material annotations or quotes</:subtitle>
       </.header>
 
       <.simple_form
@@ -21,12 +21,16 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:id]} type="text" label="Id" />
-        <.input field={@form[:text]} type="text" label="Text" />
-        <.input field={@form[:entry_type]} type="text" label="Entry type" />
-        <.input field={@form[:author_name]} type="text" label="Author name" />
-        <.input field={@form[:comment]} type="text" label="Comment" />
-        <.input field={@form[:position_reference]} type="text" label="Position reference" />
+        <.input
+          field={@form[:entry_type]}
+          type="select"
+          label="Entry type"
+          options={[Annotation: "annotation", Quote: "quote"]}
+          value="annotation"
+        />
+        <.input field={@form[:text]} type="textarea" label="Text" />
+        <.input field={@form[:author_name]} type="text" label="Author" />
+        <.input field={@form[:comment]} type="textarea" label="Comment" hidden />
         <:actions>
           <.button phx-disable-with="Saving...">Save Annotation</.button>
         </:actions>

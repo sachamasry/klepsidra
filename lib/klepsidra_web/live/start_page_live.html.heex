@@ -170,6 +170,13 @@
   </.table>
 </div>
 
+<div :if={@quote} class="container flex justify-center my-10">
+  <blockquote class="max-w-prose border-y border-double border-violet-500 font-serif subpixel-antialiased italic text-lg text-center px-14 py-6">
+    <p><%= @quote.text %></p>
+    <p class="mt-4"><cite>—<%= @quote.author_name %></cite></p>
+  </blockquote>
+</div>
+
 <.modal
   :if={@live_action in [:new_timer, :edit_timer]}
   id="timer-modal"

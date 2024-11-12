@@ -5,28 +5,22 @@ defmodule KlepsidraWeb.AnnotationLiveTest do
   import Klepsidra.KnowledgeManagementFixtures
 
   @create_attrs %{
-    id: "some id",
-    entry_type: "some entry_type",
+    entry_type: "annotation",
     text: "some text",
     author_name: "some author_name",
-    comment: "some comment",
-    position_reference: "some position_reference"
+    comment: "some comment"
   }
   @update_attrs %{
-    id: "some updated id",
-    entry_type: "some updated entry_type",
+    entry_type: "quote",
     text: "some updated text",
     author_name: "some updated author_name",
-    comment: "some updated comment",
-    position_reference: "some updated position_reference"
+    comment: "some updated comment"
   }
   @invalid_attrs %{
-    id: nil,
-    entry_type: nil,
+    entry_type: "annotation",
     text: nil,
     author_name: nil,
-    comment: nil,
-    position_reference: nil
+    comment: nil
   }
 
   defp create_annotation(_) do

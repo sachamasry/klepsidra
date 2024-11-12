@@ -11,7 +11,6 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
     {:ok, annotation} =
       attrs
       |> Enum.into(%{
-        id: "some id",
         entry_type: "some entry_type",
         text: "some text",
         author_name: "some author_name",
