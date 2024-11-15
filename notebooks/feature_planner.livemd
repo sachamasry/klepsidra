@@ -5,7 +5,8 @@
 ## Contents
 
 1. [Quote and wisdom recording](#quotes-and-wisdom-recording)
-2. Trip tracker
+2. [Trip tracker](#trip-tracker)
+   1. [Trip tracker schema](#trip-tracker-schema)
 3. Notes
 4. To-Dos
 
@@ -878,3 +879,832 @@ USING gist (text gist_trgm_ops);
 * Regular monitoring of index usage
 * Removal of unused indexes
 * Periodic reindexing of fragmented indexes
+
+## Trip tracker
+
+### Key Features
+
+1. User Onboarding and Profiles: Collect basic user details, such as nationality, home country, and countries they frequently visit or plan to visit. This will help determine relevant visa requirements and legal limits.
+
+2. Trip Tracking (Entries & Exits):
+
+* Entry/Exit Logging: Users should be able to log their entry and exit dates for each country.
+* Automatic Date Calculation: Calculate the total number of days spent in each country based on entry/exit dates.
+* Remaining Days Alert: Notify users of remaining days in the country before reaching legal limits.
+
+1. Legal Limit Information:
+
+* Visa and Residency Rules Database: Track different types of visas and residency rules (e.g., Schengen 90/180-day rule, tourist visas, digital nomad visas, etc.).
+* Country-Specific Limits: Keep a database of countries’ unique requirements, such as day limits, renewal options, and penalties for overstaying.
+
+1. Notifications and Alerts:
+
+* Threshold Alerts: Notify users when they are nearing their legal stay limit in a particular country.
+* Visa Expiry Reminders: Alert users when they need to renew or apply for a new visa.
+
+1. Dashboard and Reports:
+
+   * Overview of Time Spent: Show a summary of days spent across all visited countries within a certain period.
+   * Historical Log: Provide a log of past visits for each country.
+   * Compliance Status: Indicate compliance or risk level for each country based on historical stays and upcoming plans.
+
+2. Analytics:
+
+   * Day-by-Day Calculator: Calculate remaining days under specific visa requirements, e.g., 90 days in a 180-day rolling period for the Schengen Area.
+   * Forecasting: Estimate how long a user can legally stay in a country in the future if they re-enter on a particular date.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Implementation Steps
+
+1. Database Design:
+   * User Table: Stores user info (e.g., name, nationality, home country).
+   * Country Rules Table: Includes visa requirements, day limits, and other legal limits for each country.
+   * Visit Logs Table: Tracks entry and exit dates per user per country.
+   * Notification Table: Logs alerts sent to users, such as nearing legal limit notifications.
+2. Backend Logic:
+   * Date Calculation: Implement logic to calculate the total number of days in each country, accounting for rolling periods (e.g., Schengen 90/180 rule).
+   * Threshold Detection: Use scheduled jobs to check if users are nearing their day limits and trigger notifications.
+   * Visa & Residency Rule Lookup: Develop a service to fetch visa rules and legal limits based on user nationality and destination country.
+3. User Interface:
+   * Dashboard: Display a map or list view with color-coding for days remaining (e.g., green for under limit, yellow nearing, red if over limit).
+   * Entry/Exit Form: Simple form for users to input entry and exit dates.
+   * Notifications & Alerts: Provide an area for users to view alerts related to nearing limits and expiring visas.
+4. APIs and Integration:
+   * Visa Rules API: If possible, integrate with an external API for visa and residency information (if a reliable one exists).
+   * Calendar Sync: Allow users to sync entry/exit dates with their calendars for easier tracking.
+5. Testing and Validation:
+   * Simulate Different Scenarios: Test with various travel scenarios and visa rules to ensure calculations are accurate.
+   * User Feedback: Conduct user testing to ensure usability, especially for notifications and alerts.
+
+<!-- livebook:{"break_markdown":true} -->
+
+This tracker could be particularly valuable for digital nomads and remote workers who travel frequently, offering peace of mind and a simple way to ensure compliance with travel and visa restrictions.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Up-to-the-minute tracking of a user’s remaining days in each country.
+
+### Additional Features
+
+1. Travel History Analytics
+   * Country Trends: Visual summaries showing which countries users visit most often, average duration of stays, and time of year.
+   * Total Time Abroad: Track the cumulative days spent abroad over a chosen period, which could help with tax considerations or visa renewals.
+     •   Interactive Map: Show a map with heat zones or markers based on recent travel, giving users a visual sense of their travel patterns.
+2. Tax Residency and Compliance Checker
+   * Home Country Tax Requirements: Provide information on tax residency rules for users’ home countries (e.g., 183-day rule in many countries).
+   * Country-Specific Tax Alerts: Warn users when they’re approaching the threshold for tax residency in a foreign country, which could have significant implications for freelancers.
+   * Income Reporting Reminders: Provide reminders to users based on their time in a country, especially if they need to report income or file taxes locally.
+3. Document Storage and Expiry Reminders
+   * Document Uploads: Allow users to store digital copies of important documents, such as passports, visas, residence permits, or work permits, in an encrypted section of the app.
+   * Expiry Notifications: Automatically send reminders when important documents are approaching expiration (e.g., passport or visa renewal deadlines).
+4. Visa and Legal Compliance Assistance
+   * Customized Visa Recommendations: Based on travel patterns, suggest visa types or residency permits that might better suit a user’s needs.
+   * Local Contact Info for Embassies: Provide embassy and consulate contact information based on the user’s current location, in case they need assistance.
+   * Real-Time Compliance Check: Let users simulate future trips and test if these will impact their legal days. For instance, “If I enter the Schengen Area on March 1, can I still stay 30 days legally?”
+5. Community Insights and Ratings
+   * Crowdsourced Information: Allow users to leave reviews or insights about visa processes, embassy wait times, or compliance experiences for specific countries.
+   * Country-Specific Tips: Enable users to share tips specific to freelancers and nomads, such as internet speed, co-working spaces, or short-term rental resources.
+   * Local Freelance/Remote Work Resources: Suggest local resources for remote workers, like coworking spaces, networking events, or digital nomad communities.
+6. Social and Networking Features
+   * Proximity Alerts: Notify users if other app users are currently in the same city or country and are open to connecting (opt-in for privacy).
+   * User Groups by Country: Create country-based or city-based groups within the app to foster connections among users in the same area.
+7. Integration with Travel and Expense Management
+   * Automatic Entry/Exit Tracking with GPS (if opted-in): Allow users to automatically track their movements between countries, removing the need for manual entry of entry/exit dates. They could receive a notification whenever they cross into a new country.
+   * Expense and Currency Tracker: Track expenses in local currency, then aggregate them for a specific trip or country. This could be especially useful for budgeting and reporting purposes for freelancers.
+   * Flight and Accommodation Booking Integration: Integrate with travel services to auto-fill entry/exit dates based on bookings, simplifying the logging process.
+8. Visa-Related Insurance & Health Resources
+   * Insurance Recommendations: Depending on a user’s destination, suggest relevant travel, health, or liability insurance options that fulfill visa or entry requirements.
+   * COVID-19 or Health Entry Requirements: Offer current entry requirements, including any vaccine, health insurance, or testing requirements, and keep them updated as regulations change.
+9. AI-Powered Visa/Residency Assistant
+   * Intelligent Stay Planning: A smart assistant could suggest optimal dates or even generate travel plans that maximize stay lengths while complying with legal requirements (e.g., suggesting specific entry dates for the Schengen Area based on past stays).
+   * Q&A Bot for Visa Questions: An AI-powered chat assistant could answer common questions about visa requirements, country-specific limitations, or document needs, providing real-time support.
+10. Offline Mode
+    * Offline Access and Logging: Let users log entries/exits and view their days remaining even without an internet connection. Sync data automatically once they’re back online, which is useful when traveling to remote areas with limited connectivity.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Technical Enhancements with Phoenix LiveView
+
+Phoenix LiveView offers some excellent opportunities for seamless real-time interactions and notifications, which could enhance several of these features:
+
+* Real-Time Compliance Check: With LiveView’s real-time updates, users could immediately see the effect of a logged entry or exit on their remaining days.
+* Collaborative Features: If users share their travel plans with a friend or colleague, they could see updates live, such as meeting up in a shared destination.
+* Interactive Map with Live Data: Real-time map adjustments based on user entries, showing compliance status, visa availability, and other key information.
+
+These extra features would make the app more than just a travel tracker; it could become a centralized toolkit for remote workers managing compliance, finances, and social connectivity while on the go.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Additional and Advanced Feature Ideas
+
+1. AI-Powered Travel and Visa Recommendations
+   * Personalized Destination Suggestions: Based on user profiles and previous travel patterns, offer destination suggestions that align with visa limitations, lifestyle preferences, cost of living, or work infrastructure quality (e.g., internet speed, co-working spaces).
+   * Adaptive Visa Calculator: An AI-powered tool that adapts to the user’s nationality and travel history to dynamically recommend visa options, especially useful for countries with complex or changing visa policies.
+2. Tax Optimization and Residency Recommendations
+   * Tax Residency Optimizer: For high-frequency travelers, this feature could analyze a user’s travel history and provide tax residency suggestions that minimize legal or financial risk.
+   * Income Split Tracking: Assist freelancers and remote workers in managing income streams based on location, allowing them to attribute revenue to specific countries and potentially reduce tax liabilities.
+3. Customized Compliance Rules for Different User Types
+   * Freelancer vs. Employee Mode: Customize compliance rules for freelancers, remote employees, and entrepreneurs, as these groups often face different regulatory requirements in various countries.
+   * Income Declaration Notifications: For users who operate businesses or freelance in multiple locations, automatically alert them if certain countries require income declarations above specific thresholds (e.g., Brazil, Japan).
+4. Multi-Country Permit or Long-Term Visa Planner
+   * Digital Nomad Visa Planner: Provide information on and track eligibility for digital nomad visas, long-term work visas, or residency permits in various countries.
+   * Multi-Stop Journey Calculator: For those who travel between specific countries frequently, calculate an optimized route to maximize allowable stay time across all destinations (e.g., managing time across multiple Schengen and non-Schengen countries).
+5. Financial and Cost of Living Tracker
+   * Local Currency Conversion & Cost Tracking: Track expenses in local currency, and provide insights on exchange rates and costs of living. A budget comparison tool could show users how their expenses stack up in each country.
+   * Expense Category Analysis: Track expenses by category (e.g., housing, food, travel) to give users insights into their cost of living per country and per trip.
+   * Digital Nomad Cost of Living Database: Combine community contributions with data from sources like Numbeo to display cost comparisons for popular nomad destinations.
+6. Cross-Platform Accessibility and Integrations
+   * Mobile App with Offline Mode: Extend the app to a mobile version with an offline mode that allows travelers to log entries/exits without an internet connection.
+   * Calendar Integrations for Travel Logging: Sync with calendars (Google, iCal, Outlook) to automatically track trips based on calendar entries and travel bookings.
+   * Expense and Time-Tracking Tool Integration: Integrate with popular freelancer tools like Toggl or FreshBooks to help users track their work time and expenses per location.
+7. Country Culture and Etiquette Tips
+   * Local Etiquette Reminders: Provide users with useful information on cultural etiquette, customs, and tips (e.g., tipping, language basics, holiday closures).
+   * Digital Nomad Lifestyle Guides: Offer information on local co-working spaces, digital nomad communities, and networking events for freelancers or remote workers.
+8. Interactive Trip Planning and Visualization Tools
+   * Visa-Friendly Route Planner: An interactive tool that visualizes an ideal route through visa-compliant countries for long-term trips, highlighting cost-effective routes, weather conditions, and visa regulations.
+   * Customizable Travel Map: Let users mark and customize a global map with visited and planned destinations, allowing them to keep a visual record of their travels.
+9. Emergency Resources and Safety Information
+   * Emergency Contacts and Health Facilities: Provide a list of local emergency contacts (e.g., 911 equivalent), hospitals, and health facilities relevant to each country.
+   * Safety Score and Alerts: Provide users with real-time safety scores or alerts for their current location. Integrate with travel safety services like SafeTravel or TravelSafe for updates on political situations, natural disasters, or health alerts.
+10. Enhanced Privacy and Data Security Features
+    * Selective Data Sharing and Privacy Controls: Allow users to toggle visibility on specific data, so they can choose to share their travel history only with select individuals or groups.
+    * Encrypted Document Vault: Store users’ documents and personal data in a secure, encrypted vault accessible only with two-factor authentication.
+    * Zero-Knowledge Data Option: For those who prioritize privacy, offer a “zero-knowledge” data storage option, where only the user holds the encryption keys, ensuring even app admins can’t access stored data.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Suggested User Engagement Features
+
+To build a strong community and improve retention, consider adding features that increase user engagement and social interaction:
+
+1. Weekly or Monthly Summary Emails: Send automated summaries of recent travels, upcoming visa expirations, and day limits to keep users engaged and informed.
+2. Gamification Elements: Introduce achievement badges (e.g., “Schengen Pro” for users who maximize their 90/180 days or “Country Hopper” for frequent travelers) to make tracking progress enjoyable.
+3. Referral Program: Encourage users to invite others through a referral program, offering credits or access to premium features for successful referrals.
+
+### Premium Features for Monetization
+
+If you plan to offer a free version, consider a tiered approach with premium features like:
+•   Advanced Visa Insights and Notifications: Real-time updates and in-depth visa information for paid users.
+•   Multi-Currency Expense Analysis: Advanced financial analysis tools, such as a multi-currency tracker and a personal finance assistant.
+•   Priority Support and Visa Assistance: Offer premium users priority support for queries related to visas, compliance, and other travel-related issues.
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Personalized Country Readiness Score
+
+   * Readiness Score Calculation: Create a readiness score for each country based on the user’s requirements. For instance, if someone prioritizes ease of entry, safety, cost of living, internet speed, and co-working availability, this score could dynamically adjust based on these criteria and current conditions.
+   * Customizable Criteria: Allow users to select what matters most (e.g., safety, visa ease, tax implications, healthcare access) so that the app tailors suggestions accordingly.
+
+2. Future Travel “Sandbox”
+
+   * Trip Simulation Mode: Users could simulate potential trips to see how each planned stay affects visa compliance, tax residency, and financial expenses. For example, if a user adds a hypothetical 2-month stay in Thailand followed by a month in Japan, the app would show how this affects their overall compliance and cost projections.
+   * Best Time to Enter Tool: For countries with visa resets or rolling period requirements, this tool could suggest the optimal times to enter to maximize the allowable stay, ideal for Schengen zone travel or countries with specific re-entry rules.
+
+3. Currency & Exchange Rate Optimizer
+
+   * Real-Time Conversion: Track expenses and show real-time currency conversion based on the user’s home currency. This could help freelancers manage their finances across multiple currencies and avoid surprises due to fluctuating exchange rates.
+   * Preferred Currency Alert: For major transactions (e.g., accommodation, flights), notify users when a preferred currency (or a favorable exchange rate) is available to help them save on large expenses.
+
+4. Nomad Health Toolkit
+
+   * Local Health Tips: Provide health advisories specific to the user’s current or upcoming location, such as common illnesses, seasonal health considerations, or vaccine requirements.
+   * Mental Wellness Resources: Nomadic life has unique stressors, so offer access to resources like remote counseling services, mindfulness exercises, or community wellness events.
+   * Health Insurance Recommendations: Tailored to the user’s travel profile, offer suggestions for health and travel insurance, and link to providers with options for expats and nomads.
+
+5. Localized Remote Work Productivity Boosters
+
+   * Internet Speed and Connectivity Tips: Pull data from user contributions and sources like Speedtest to show expected internet speeds at popular spots.
+   * Coworking and Quiet Spaces Locator: Provide an updated list of coworking spaces, cafes, and libraries in the user’s area, along with reviews, so they can find productive spots quickly.
+   * Focus Mode and Noise Levels: Create a local focus mode that shows noise levels in various locations and suggests quiet times or alternative spots for focused work.
+
+6. Automatic Compliance Documentation Generator
+
+   * Visa and Residency Paperwork Generator: Generate draft documents (like visa applications, tax forms, etc.) based on pre-entered user data to make paperwork less burdensome.
+   * Travel History Report: Allow users to download an official report of their travel history, which can be used as supporting documentation for visa applications, tax filings, or compliance checks.
+   * Customizable Templates: Provide templates for letters or forms that are often needed, such as proof of residency, bank letters for visa purposes, and travel itineraries.
+
+7. Carbon Footprint Tracker
+
+   * Flight Emissions Calculator: Allow users to track the carbon footprint of their travel. By entering or importing flight and transportation details, the app could estimate the total emissions produced.
+   * Offset Suggestions: Offer carbon offsetting recommendations or partnerships with offset programs. This would appeal to environmentally conscious travelers who want to minimize their impact.
+
+8. AI-Based Work-Life Balance and Scheduling Suggestions
+
+   * Optimal Time Zone Finder: For users working with international teams, provide a tool to find the best working time zone to maximize overlap with clients or teams.
+   * Work-Life Balance Insights: Analyze the user’s travel patterns and suggest ways to improve work-life balance. For instance, if a user is moving too frequently and working long hours, the app could recommend “focus-friendly” destinations to facilitate a healthier routine.
+   * Time Blocking for Nomads: Suggest work and leisure time blocks based on the local time zone, typical weather, or local cultural activities, helping users build a rhythm suited to their environment.
+
+9. Integrated Language Learning Mini-Tools
+
+   * Quick Language Tips: Offer quick, situation-specific language tips or phrase guides based on the user’s location (e.g., ordering food, asking for directions, or common pleasantries).
+   * Local Language Flashcards: A quick study tool that users can access before or during their stay, focusing on useful vocabulary relevant to nomads.
+   * Translation Shortcuts: Built-in translation tool that provides instant translations for common phrases and integrates with the app for easy access.
+
+10. Digital Nomad “Matchmaking” for Collaboration
+
+    * Project-Based Networking: Match users with similar interests, allowing them to connect with other nomads for collaboration on projects, co-working, or social networking.
+    * Skills Exchange Board: Allow users to exchange services (e.g., a web designer might trade skills with a copywriter) in a currency-free format that’s valuable for nomads.
+    * Language Exchange Pairs: Pair users up for language exchange sessions if they’re in the same area, which can provide a low-stakes way to meet others and learn the local language.
+
+Technical Enhancements with Phoenix LiveView
+
+LiveView’s dynamic nature will make a few of these advanced features not only possible but also smooth and responsive:
+
+```
+*   Real-Time Cost and Currency Updates: With LiveView, you could provide live currency conversion within expense trackers, instantly recalculating as the user adds new entries.
+*   Travel Dashboard with Notifications: Create an always-updated compliance dashboard that refreshes as users log new entries and exits, helping them make on-the-go adjustments.
+*   AI-Assisted Suggestions in Real-Time: Using Elixir’s concurrency capabilities, implement lightweight AI functions for compliance checking or visa recommendations that run seamlessly alongside user actions.
+```
+
+These additional features would make the app not just a compliance tool but a comprehensive lifestyle and productivity suite for digital nomads, addressing their needs for adaptability, resourcefulness, and community while helping them navigate complex legal landscapes.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Let's take the app into “next-level” territory, where it becomes an all-encompassing lifestyle, productivity, and compliance hub for digital nomads. Here’s how we could push the boundaries even further:
+
+1. Nomad Lifestyle and Location-Driven Personalization
+
+   * Smart Destination Personas: Build personalized destination profiles based on user behavior, interests, and past choices. For example, if a user frequently visits beach destinations with active nightlife, the app could suggest similar options worldwide.
+   * AI-Powered Local Highlights: An AI engine that learns from user preferences and curates hyper-local suggestions for activities, dining, and events tailored to individual tastes and work habits.
+
+2. Real-Time Local Integration with Smart Home Systems
+
+   * Smart Home Compatibility: Integrate with smart home and IoT devices (e.g., Google Home, Alexa) to automate daily routines. For example, automatic wake-up calls based on time zone changes or location-based reminders for tasks or meetings.
+   * Environment Adaptation: Based on location data, adjust settings in a user’s devices (e.g., light preferences for jetlag adjustment, white noise generation in noisy areas) for a seamless environment wherever they are.
+
+3. Advanced Global Health and Safety Toolkit
+
+   * Location-Based Health Alerts: Integrate with health databases to provide real-time health and safety alerts, such as local outbreaks, pollution levels, or regional safety warnings, with proactive recommendations like vaccines or health check-ups.
+   * Dynamic “Go/No-Go” Score: Calculate and show a score for health and safety, real-time updates on political stability, healthcare quality, or visa situation for every country, and even drill down to the city level.
+
+4. Augmented Reality (AR) Location Assistance
+
+   * AR Travel Guide: Allow users to point their phone camera at landmarks or venues to get instant, on-screen information such as travel tips, safety notices, or crowdsourced tips for a specific place.
+   * AR Navigation to Work-Friendly Spaces: Display AR directions to coworking spaces, cafes, or important landmarks, overlaying useful details like quiet times, availability of outlets, or current crowd size.
+
+5. Digital Nomad Banking and Financial Optimization
+
+   * Nomad-Specific Banking Options: Partner with digital-first banks (like Revolut or Wise) to provide seamless access to cross-border accounts, low-fee transfers, and remote-friendly financial services.
+   * Auto-Transfer and Currency Conversion Recommendations: Use AI to detect favorable exchange rates and suggest timing for currency exchanges or bank transfers, minimizing conversion fees.
+   * Tax-Friendly Bank Accounts: For nomads needing banking in multiple regions, recommend tax-friendly accounts based on the user’s primary business needs and personal tax situation.
+
+6. AI-Powered Content Creation Tools for Freelancers
+
+   * Writing and Research Assistant: A built-in, AI-powered content creation assistant tailored to freelance writers or bloggers. Integrate with writing tools and provide automatic language localization, content ideas, and SEO insights based on trends.
+   * Remote Work Portfolio Optimizer: For freelance creatives, provide automated portfolio analysis and suggestions on how to optimize for the next destination (e.g., trends in Japan if they’re headed there).
+   * Dynamic Pricing Suggestion Tool: For freelancers who adjust their rates based on local costs of living, provide a pricing assistant that suggests optimal rates for services based on local economic data and platform rates in that region.
+
+7. Nomad-Friendly Property and Relocation Services
+
+   * Short-Term Housing Matching: Partner with local housing providers and landlords who cater to nomads, allowing users to secure housing for weeks or months at a time, with special features like furnished apartments, co-living spaces, and flexible contracts.
+   * Relocation Concierge Services: Offer in-app concierge services that assist with legal requirements, settling-in support, and even relocation planning for popular nomad hubs like Bali or Lisbon.
+   * Nomad Homestay Exchanges: Enable a peer-to-peer property exchange where nomads can “swap” their rental homes temporarily, fostering an affordable way to travel and stay around the world.
+
+8. Intelligent Visa and Residency Progression Planner
+
+   * Path to Residency AI Tool: For nomads considering long-term residency or citizenship in a particular country, suggest the best visa path based on the user’s travel habits, business needs, and residency aspirations.
+   * Live Residency Eligibility Tracker: Keep a real-time counter of days in each country and provide instant feedback on eligibility for residency or long-term visa options as thresholds approach.
+   * Country-Switching Advice: Suggest visa resets by recommending nearby “visa-friendly” countries, allowing users to maximize stay limits while complying with legal requirements.
+
+9. Collaborative Nomad Community Projects
+
+   * Skill-Building Circles and Micro-Workshops: Let users host and join micro-workshops within the app, sharing expertise with each other on topics like client management, project bids, or personal finance for nomads.
+   * Collaborative Workspaces and Group Trips: Organize and manage co-living or co-working retreats, allowing nomads to work together in new locations for a set period with organized activities.
+   * Nomad-to-Nomad Gigs: Offer users the ability to hire other nomads for small gigs, from photography to logo design, fostering a freelance support ecosystem.
+
+10. Adaptive Legal and Tax Advisory Platform
+
+    * AI Legal Assistant for International Compliance: Using AI, provide customized advice on international tax, intellectual property, and client contracts based on local laws, ideal for freelancers doing business in multiple countries.
+    * Pro-Bono or Low-Cost Legal Services: Partner with legal firms specializing in expat and digital nomad issues to offer users affordable consultations for visa issues, tax laws, or compliance questions.
+    * Personalized Tax Filing Assistance: For users reaching residency thresholds or tax complexities, provide automated tax filing assistance in collaboration with accountants who specialize in expat and international digital nomad clients.
+
+11. Machine Learning-Driven Work-Life Recommendations
+
+    * Machine Learning for Lifestyle Balancing: Analyze travel, work, and social patterns to suggest routines that optimize well-being, work efficiency, and travel enjoyment (e.g., advising rest periods between countries, reminding users to socialize).
+    * Personalized Nomad Habits: Track individual work rhythms, downtime, and social patterns to give custom advice on managing burnout, work-life balance, and staying healthy while on the move.
+
+12. Customizable Nomad Dashboard with Real-Time Insights
+
+    * User-Centric Dashboard: Let users create a personalized dashboard that displays the metrics most important to them: visa days, productivity stats, budget tracking, project deadlines, or nomad achievements.
+    * Nomad Leaderboards: Add a fun, optional “leaderboard” for friendly competition among nomads (e.g., “Most Visited Countries This Year,” “Longest Stay in One Place,” or “Most Active in the Community”).
+    * Travel Cost Projection: Automatically pull data from various sources to give real-time projections of costs for upcoming locations, helping nomads anticipate expenses better.
+
+Adding integrations with GraphQL or RESTful APIs will also ensure the app connects effortlessly with third-party services, especially for financial, health, or location data updates. Phoenix Contexts will be ideal to keep the code modular, separating user-centric services, financial calculators, and AI systems into well-defined domains for easy expansion.
+
+Together, these features would make your app a total lifestyle solution for digital nomads—one that goes beyond travel compliance to offer deep personalization, AI-driven support, and a robust global community. It could truly transform the digital nomad lifestyle!
+
+<!-- livebook:{"break_markdown":true} -->
+
+Several regions and economic blocks have collective visa or entry policies that apply to the entire block rather than individual countries. Here’s an overview of some key visa blocks and regional entry agreements that function similarly to the Schengen Area:
+
+1. Schengen Area (Europe)
+
+* Countries: 27 European countries, including France, Germany, Italy, Spain, and others.
+* Entry Policy: Travelers can move freely between member states with a single Schengen visa. Stays are typically limited to 90 days within a 180-day period for non-residents.
+* Note: Some countries, like Switzerland and Norway, are in the Schengen Area but not in the EU, which means the Schengen visa policy applies without EU residency rights.
+
+1. CARICOM Single Market and Economy (CSME)
+
+* Countries: Caribbean nations like Barbados, Jamaica, Trinidad and Tobago, and others within the Caribbean Community (CARICOM).
+* Entry Policy: Nationals of CARICOM countries are often allowed to travel visa-free between member states for extended stays, especially if they are engaging in work or business.
+* Note: For non-CARICOM nationals, visa policies may differ by country within CARICOM, but agreements for the free movement of people are expanding.
+
+1. Gulf Cooperation Council (GCC)
+
+* Countries: Middle Eastern countries including Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, and Oman.
+* Entry Policy: GCC nationals can travel freely between member states without a visa. However, for tourists and foreign workers, a visa policy may vary slightly between countries.
+* Visa Options for Visitors: Some member states issue a GCC Resident Visa, which can allow residents of one GCC country to visit others for short stays without needing a separate visa.
+
+1. Central America-4 (CA-4) Border Control Agreement
+
+* Countries: Guatemala, El Salvador, Honduras, and Nicaragua.
+* Entry Policy: Under the CA-4 agreement, visitors can travel freely between these countries for up to 90 days total within the region (not per country). Extensions may be available but apply to the region as a whole, not individual countries.
+* Note: This is similar to the Schengen model but with fewer countries involved and more limited mutual agreements.
+
+1. East African Tourist Visa
+
+* Countries: Kenya, Rwanda, and Uganda.
+* Entry Policy: A single East Africa Tourist Visa allows entry to all three countries for 90 days. Travelers can move freely between these countries within this period.
+* Note: This visa is available for tourism only. Other travel purposes, like work or study, require individual visas.
+
+1. Pacific Alliance
+
+* Countries: Chile, Colombia, Mexico, and Peru.
+* Entry Policy: While there is no unified tourist visa yet, the Pacific Alliance aims to facilitate free movement. Citizens of these countries can often travel visa-free within the alliance for short stays, and member states are working on mutual visa waiver agreements for broader mobility.
+* Note: For tourists from outside the alliance, visa policies may vary by country, but the alliance has plans to harmonize entry requirements in the future.
+
+1. Mercosur (Southern Common Market)
+
+* Countries: Argentina, Brazil, Paraguay, Uruguay, and associate members like Chile, Bolivia, and Peru.
+* Entry Policy: Nationals of Mercosur countries can travel freely for work, residence, and tourism within the bloc. Tourists from non-Mercosur countries must comply with individual visa policies per country.
+* Note: Member countries offer temporary residence visas to other Mercosur nationals, which allows longer stays and simplified work authorization.
+
+1. ASEAN (Association of Southeast Asian Nations)
+
+* Countries: Brunei, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand, Vietnam.
+* Entry Policy: ASEAN nationals can travel visa-free within the bloc for tourism for varying durations depending on the countries involved. Efforts are underway to create an ASEAN common visa for non-ASEAN tourists, though it’s still in development.
+* Note: For now, the ASEAN common visa remains a goal, and each country maintains its own visa policy for non-ASEAN nationals.
+
+## Trip Tracker schema
+
+### Data structure
+
+Entities for Users, Trips, Countries, Visas, Documents, and Notifications.
+
+1. Database Schema Overview
+
+The database schema includes the following main tables:
+
+1. users – Stores user information and profile details.
+2. trips – Logs individual trips, capturing entry/exit dates, location, and user ID.
+3. countries – Stores country-specific information, including visa requirements and legal stay limits.
+4. visas – Holds visa types, requirements, and stay limits for each country.
+5. notifications – Logs notifications sent to users for reminders and alerts.
+6. documents – Stores document metadata for user-related documents, such as visas, IDs, and passports.
+7. analytics – Aggregates data for reporting and analysis of travel patterns, visa use, and other metrics.
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Detailed Schema Design
+
+Table: `users`
+
+Stores basic user information and profile details.
+
+| Column           | Type      | Description                                   |
+| ---------------- | --------- | --------------------------------------------- |
+| id               | UUID      | Primary key, unique identifier for each user. |
+| email            | VARCHAR   | User’s email address, unique.               |
+| password_hash    | VARCHAR   | Hashed password for authentication.           |
+| full_name        | VARCHAR   | User’s full name.                           |
+| nationality      | VARCHAR   | User’s nationality, for visa purposes.      |
+| primary_currency | VARCHAR   | Preferred currency for budget tracking.       |
+| created_at       | TIMESTAMP | Account creation timestamp.                   |
+| updated_at       | TIMESTAMP | Last profile update timestamp.                |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Schema for the user preferences table, user actions log, and countries & visas API integration tables to further enhance the app.
+
+1. Table: `user_preferences`
+
+The user_preferences table stores individual user settings, preferences for notifications, dashboard layouts, and other customizations.
+
+| Column           | Type      | Description                                                                                |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------ |
+| id               | UUID      | Primary key, unique identifier for each preference record.                                 |
+| user_id          | UUID      | Foreign key referencing users(id).                                                         |
+| preference_type  | VARCHAR   | Type of preference (e.g., notification, dashboard, language).                              |
+| preference_key   | VARCHAR   | Specific setting within the preference type (e.g., email_notifications, default_currency). |
+| preference_value | VARCHAR   | The value for the specific preference setting (e.g., true, USD).                           |
+| created_at       | TIMESTAMP | When the preference was created.                                                           |
+| updated_at       | TIMESTAMP | When the preference was last updated.                                                      |
+
+Sample Entries
+
+* notification, email_notifications, true – To enable or disable email notifications.
+* dashboard, show_trip_statistics, true – To show/hide specific dashboard elements.
+* language, default_language, en – To set the preferred language.
+
+This structure allows for flexible key-value storage of user preferences, which can be expanded as new features are added.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `countries`
+
+Stores information about each country and its travel regulations.
+
+| Column     | Type      | Description                                      |
+| ---------- | --------- | ------------------------------------------------ |
+| id         | UUID      | Primary key, unique identifier for each country. |
+| name       | VARCHAR   | Country name.                                    |
+| code       | VARCHAR   | ISO country code.                                |
+| currency   | VARCHAR   | Primary currency used in the country.            |
+| updated_at | TIMESTAMP | Last update timestamp for the country data.      |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `documents`
+
+Tracks document details for each user, including expiry dates and types.
+
+| Column        | Type      | Description                              |
+| ------------- | --------- | ---------------------------------------- |
+| id            | UUID      | Primary key for each document record.    |
+| user_id       | UUID      | Foreign key referencing users(id).       |
+| document_type | VARCHAR   | Type of document (e.g., passport, visa). |
+| country_id    | UUID      | Foreign key referencing countries(id).   |
+| issue_date    | DATE      | Date when the document was issued.       |
+| expiry_date   | DATE      | Expiry date of the document.             |
+| file_path     | VARCHAR   | Path to the document file storage.       |
+| created_at    | TIMESTAMP | Document creation timestamp.             |
+
+Table: `notifications`
+
+Logs notifications sent to users, such as expiry reminders and travel alerts.
+
+| Column     | Type      | Description                                           |
+| ---------- | --------- | ----------------------------------------------------- |
+| id         | UUID      | Primary key for each notification record.             |
+| user_id    | UUID      | Foreign key referencing users(id).                    |
+| type       | VARCHAR   | Type of notification (e.g., visa expiry, stay limit). |
+| message    | TEXT      | Notification message content.                         |
+| is_read    | BOOLEAN   | Status of notification (read/unread).                 |
+| created_at | TIMESTAMP | When the notification was generated.                  |
+
+Table: `analytics`
+
+Stores aggregated data on user travels, legal compliance, and more for analytics and reporting.
+
+| Column                | Type      | Description                                  |
+| --------------------- | --------- | -------------------------------------------- |
+| id                    | UUID      | Primary key for each analytics record.       |
+| user_id               | UUID      | Foreign key referencing users(id).           |
+| total_trips           | INT       | Total number of trips taken by the user.     |
+| total_days_traveled   | INT       | Total number of days spent traveling.        |
+| average_trip_length   | FLOAT     | Average length of user’s trips (in days).  |
+| visa_compliance_score | FLOAT     | Custom metric score for compliance tracking. |
+| updated_at            | TIMESTAMP | Last update timestamp for analytics data.    |
+
+1. Basic Relationships and Indexing
+
+#### Foreign Key Relationships
+
+* trips.user_id → users.id
+* trips.country_id → countries.id
+* visas.country_id → countries.id
+* documents.user_id → users.id
+* documents.country_id → countries.id
+* notifications.user_id → users.id
+* analytics.user_id → users.id
+
+#### Indexes
+
+* users.email – Unique index for efficient user authentication.
+* trips.user_id, trips.entry_date – Index to improve performance on trip querying by user.
+* documents.user_id, documents.expiry_date – Index to optimize document expiry reminders.
+* notifications.user_id, notifications.is_read – Index for unread notification queries.
+
+1. Potential Extensions and Modifications
+
+This schema is designed to be extensible, allowing for further features and customization. Here’s a quick look at some possible enhancements:
+
+* Add User Preferences Table: For storing user-specific preferences (e.g., notification frequency, preferred visa types).
+* User Actions Log: Track actions or events for each user, useful for analytics or to improve the user experience with insights.
+* Countries & Visas API Integration Table: A separate table to store and sync country and visa data from third-party APIs.
+
+This schema provides a solid foundation for the initial key features while remaining flexible for future development.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `trips`
+
+Logs user trips with entry and exit dates, location, and trip status.
+
+| Column     | Type      | Description                                          |
+| ---------- | --------- | ---------------------------------------------------- |
+| id         | UUID      | Primary key for each trip.                           |
+| user_id    | UUID      | Foreign key referencing users(id).                   |
+| country_id | UUID      | Foreign key referencing countries(id).               |
+| entry_date | DATE      | Date of entry into the country.                      |
+| exit_date  | DATE      | Date of exit from the country (nullable if ongoing). |
+| status     | VARCHAR   | Status of the trip (e.g., active, completed).        |
+| created_at | TIMESTAMP | Trip log creation timestamp.                         |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `visa_types`
+
+This table will serve as a lookup for all possible visa types.
+
+```sql
+CREATE TABLE visa_types (
+    id UUID PRIMARY KEY,            -- Unique identifier for each visa type
+    name VARCHAR NOT NULL UNIQUE,   -- E.g., "Tourist Visa," "Business Visa," "Work Permit"
+    description TEXT,               -- Optional: description of what the visa type entails
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+Table: `visas`
+
+Defines different visa types, their durations, and any other requirements for each country.
+
+| Column        | Type      | Description                                                  |
+| ------------- | --------- | ------------------------------------------------------------ |
+| id            | UUID      | Primary key, unique identifier for each visa type.           |
+| country_id    | UUID      | Foreign key referencing countries(id).                       |
+| visa_block_id | UUID      | Foreign key referencing the block to which the visa applies. |
+| visa_type     | VARCHAR   | Name/type of the visa (e.g., tourist, business, nomad).      |
+| duration_days | INT       | Maximum duration allowed under this visa.                    |
+| renewable     | BOOLEAN   | Indicates if the visa is renewable.                          |
+| requirements  | TEXT      | Specific requirements for obtaining the visa.                |
+| updated_at    | TIMESTAMP | Last update timestamp for the visa data.                     |
+
+```sql
+CREATE TABLE visas (
+    id UUID PRIMARY KEY,
+    country_id UUID REFERENCES countries(id),       -- Country the visa applies to
+    visa_block_id UUID REFERENCES visa_blocks(id), -- Optional: Block the visa applies to (e.g., Schengen)
+    visa_type_id UUID REFERENCES visa_types(id),   -- Normalized visa type
+    visa_rules_summary TEXT,                       -- Description of visa requirements/rules
+    max_stay_limit INT,                            -- Maximum days allowed to stay
+    in_force_from DATE NOT NULL,                   -- Date the visa rules came into force
+    in_force_until DATE,                           -- Optional: End date if the rule is no longer valid
+    succeeded_by UUID REFERENCES visas(id),        -- Links to the next version of the visa rules
+    preceeded_by UUID REFERENCES visas(id),        -- Links to the previous version of the visa rules
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Handling Superseded Visa Rules
+
+The addition of `in_force_from`, `in_force_until`, and `succeeded_by` allows for clear versioning:
+
+```
+•   `in_force_from` and `in_force_until`: Define the time range during which the visa rules are valid.
+•   `succeeded_by` and `preceeded_by`: Form a chain of rule changes, allowing the application to trace historical changes.
+```
+
+This structure ensures that users see the most recent, in-force rules but can query historical data if needed.
+
+##### Benefits of Normalizing visa_type:
+
+1. Data Integrity: Ensures consistent naming and eliminates the risk of typos or slight variations (e.g., “Tourist Visa” vs. “tourist visa”).
+2. Query Efficiency: Queries filtering by visa type can be performed on indexed IDs, which are faster to search than strings.
+3. Reduced Redundancy: Instead of storing the same string repeatedly in multiple rows, only the foreign key (UUID) is stored.
+4. Flexibility: Additional metadata about each visa type (e.g., descriptions, eligibility) can be added to the visa_types table without altering the visas schema.
+
+#### Example Data
+
+`visa_types` Table
+
+```sql
+INSERT INTO visa_types (id, name, description) VALUES
+('1', 'Tourist Visa', 'Allows entry for leisure travel'),
+('2', 'Business Visa', 'Allows entry for business-related activities'),
+('3', 'Work Permit', 'Grants permission to work in the destination country'),
+('4', 'Student Visa', 'Allows enrollment in educational institutions');
+```
+
+`visas` Table
+
+```sql
+INSERT INTO visas (id, country_id, visa_block_id, visa_type_id, visa_rules_summary, max_stay_limit, in_force_from)
+VALUES
+('v1', 'france-id', 'schengen-id', '1', '90 days in Schengen area', 90, '2022-01-01'),
+('v2', 'japan-id', NULL, '1', '90 days visa-free travel for selected countries', 90, '2022-01-01'),
+('v3', 'usa-id', NULL, '2', 'Business visits up to 180 days', 180, '2021-06-01');
+```
+
+#### Query Examples
+
+Filter by Visa Type:
+
+To retrieve all visas for “Tourist Visa”:
+
+```sql
+SELECT v.*
+FROM visas v
+JOIN visa_types vt ON v.visa_type_id = vt.id
+WHERE vt.name = 'Tourist Visa';
+```
+
+Group by Visa Type:
+
+To count visas by type:
+
+```sql
+SELECT vt.name, COUNT(v.id) AS visa_count
+FROM visas v
+JOIN visa_types vt ON v.visa_type_id = vt.id
+GROUP BY vt.name;
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `visa_blocks`
+
+To handle visa blocks in the database schema, you can add a visa_block entity to capture these shared policies:
+
+```sql
+CREATE TABLE visa_blocks (
+    id UUID PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    max_stay INT,                     -- Maximum stay in days, e.g., 90
+    stay_period INT,                   -- Period within which max_stay applies, e.g., 180 for "90 days within 180 days"
+    shared_visa_policy BOOLEAN,        -- Indicates if a single visa applies to the whole block
+    description TEXT                   -- Description of any special rules or policies
+);
+```
+
+```sql
+CREATE TABLE country_visa_blocks (
+    country_id UUID REFERENCES countries(id),
+    visa_block_id UUID REFERENCES visa_blocks(id),
+    PRIMARY KEY (country_id, visa_block_id)
+);
+```
+
+With this setup:
+
+* Each visa block (e.g., “Schengen Area,” “CA-4”) has rules applied to all associated countries.
+* The country_visa_blocks table allows linking countries to visa blocks, so when a user enters a country in a block, the app can check block-level rules.
+
+This approach makes it easy to track which countries participate in each block and enforce block-wide limits on stays and visas.
+
+#### Versioned Country and Visa Blocks Integration
+
+To integrate countries and visa blocks, the schema can rely on the `country_visa_blocks` table while keeping a historical record of changes to block membership:
+
+```sql
+CREATE TABLE country_visa_blocks (
+    id UUID PRIMARY KEY,
+    country_id UUID REFERENCES countries(id),
+    visa_block_id UUID REFERENCES visa_blocks(id),
+    membership_in_force_from DATE NOT NULL,        -- When the country joined the block
+    membership_in_force_until DATE,               -- When the country left the block (if applicable)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+This setup ensures you can:
+
+1. Track when a country joined or left a visa block.
+2. Handle scenarios where countries temporarily suspend participation (e.g., Brexit-like scenarios).
+3. Keep historical records for reports and audits.
+
+#### Example Data Scenarios
+
+1. Schengen Area Example
+
+A visa_block entry for Schengen might look like this:
+
+```sql
+INSERT INTO visa_blocks (id, name, max_stay, stay_period, shared_visa_policy, description) 
+VALUES ('1', 'Schengen Area', 90, 180, TRUE, 'Single visa for travel within the Schengen Zone');
+```
+
+1. Visa Rules for Schengen
+
+Visa rules for Schengen could evolve like this:
+
+```sql
+INSERT INTO visas (id, country_id, visa_block_id, visa_type, visa_rules_summary, max_stay_limit, in_force_from, succeeded_by) 
+VALUES 
+('v1', NULL, '1', 'Tourist Visa', 'Allows 90 days of travel within 180-day period', 90, '2022-01-01', NULL),
+('v2', NULL, '1', 'Tourist Visa', 'Updated rules for 90 days travel within 180-day period (COVID-19 exceptions)', 90, '2023-01-01', 'v3');
+
+UPDATE visas SET succeeded_by = 'v2' WHERE id = 'v1';
+```
+
+1. Country Membership in Schengen
+
+```sql
+INSERT INTO country_visa_blocks (id, country_id, visa_block_id, membership_in_force_from) 
+VALUES ('c1', 'france-id', '1', '1995-03-26');
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Table: `user_actions_log`
+
+The user_actions_log table tracks user actions within the app for analytics, debugging, or engagement metrics.
+
+| Column             | Type      | Description                                                     |
+| ------------------ | --------- | --------------------------------------------------------------- |
+| id                 | UUID      | Primary key, unique identifier for each log entry.              |
+| user_id            | UUID      | Foreign key referencing users(id).                              |
+| action_type        | VARCHAR   | Type of action (e.g., login, trip_added, document_uploaded).    |
+| action_description | TEXT      | Detailed description of the action, if needed.                  |
+| action_metadata    | JSONB     | Metadata related to the action (e.g., IP address, device info). |
+| created_at         | TIMESTAMP | Timestamp when the action was performed.                        |
+
+Sample Entries
+
+* login, User logged in successfully, { "ip": "192.168.1.1", "device": "iPhone 12" }
+* trip_added, User added a new trip to France, { "country_id": "france-uuid", "entry_date": "2024-06-01" }
+
+This table uses a JSONB field to store additional metadata related to each action, making it easy to extend the schema as new action types are tracked.
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Table: `country_api_data`
+
+This table stores country information retrieved from third-party APIs, keeping track of important data such as visa policies, which can be regularly updated from an external source.
+
+| Column       | Type      | Description                                                      |
+| ------------ | --------- | ---------------------------------------------------------------- |
+| id           | UUID      | Primary key, unique identifier for each country API data record. |
+| country_id   | UUID      | Foreign key referencing countries(id).                           |
+| api_source   | VARCHAR   | Name or identifier of the API source (e.g., VisaDB).             |
+| data         | JSONB     | JSON structure containing the API data for the country.          |
+| last_updated | TIMESTAMP | Timestamp of the last API data update.                           |
+| created_at   | TIMESTAMP | Timestamp when the record was created.                           |
+
+Example of data Field
+
+```json
+{
+    "visa_requirements": {
+        "tourist": { "max_stay": 90, "renewable": true },
+        "business": { "max_stay": 30, "renewable": false }
+    },
+    "health_alerts": ["COVID-19 vaccination required", "Malaria endemic area"]
+}
+```
+
+This table is designed to support structured storage of API data, allowing easy access to country-specific visa rules and other important information without requiring constant API calls.
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Table: `visa_api_data`
+
+This table specifically focuses on visa-related information for different countries, stored per visa type. The data can be pulled from APIs and is stored here for easy access and caching.
+
+| Column       | Type      | Description                                                   |
+| ------------ | --------- | ------------------------------------------------------------- |
+| id           | UUID      | Primary key, unique identifier for each visa API data record. |
+| visa_id      | UUID      | Foreign key referencing visas(id).                            |
+| api_source   | VARCHAR   | Name or identifier of the API source (e.g., VisaHQ).          |
+| data         | JSONB     | JSON structure containing the API data for the visa.          |
+| last_updated | TIMESTAMP | Timestamp of the last API data update.                        |
+| created_at   | TIMESTAMP | Timestamp when the record was created.                        |
+
+Example of data Field
+
+```json
+{
+    "requirements": ["Proof of funds", "Return ticket"],
+    "processing_time": "3-5 business days",
+    "application_fee": "USD 50",
+    "additional_notes": "No visa required for stays under 30 days for US citizens."
+}
+```
+
+Storing visa-specific data as JSONB allows flexibility in handling structured information without requiring frequent schema changes. This table would allow caching of detailed, per-visa information from external sources.
+
+Relationships and Indexing Recommendations
+
+* Foreign Key Relationships:
+* user_preferences.user_id → users.id
+* user_actions_log.user_id → users.id
+* country_api_data.country_id → countries.id
+* visa_api_data.visa_id → visas.id
+* Indexes:
+* user_preferences.user_id, user_preferences.preference_type – For efficient querying of a user’s preferences.
+* user_actions_log.user_id, user_actions_log.action_type – For quickly filtering actions by type for a specific user.
+* country_api_data.country_id, country_api_data.api_source – To retrieve the latest country data from a particular API.
+* visa_api_data.visa_id, visa_api_data.api_source – To retrieve visa information quickly based on the source API.
+
+### Summary of Use Cases
+
+* user_preferences table allows for scalable, flexible storage of user-specific preferences for notifications, dashboards, and other settings.
+* user_actions_log enables logging and tracking of all user activities, which is useful for insights, analytics, and auditing.
+* country_api_data and visa_api_data tables serve as caches for external API data, ensuring that country and visa information is readily available without needing to repeatedly query third-party APIs.
+
+Together, these tables extend the database’s core functionality, ensuring the app can handle user customizations, activity tracking, and robust country/visa management via third-party APIs.

@@ -28,9 +28,20 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
           options={[Annotation: "annotation", Quote: "quote"]}
           value={if @annotation.entry_type, do: @annotation.entry_type, else: "annotation"}
         />
-        <.input field={@form[:text]} type="textarea" label="Text" />
+        <.input field={@form[:text]} type="textarea" placeholder="Annotation or quote" label="Text" />
         <.input field={@form[:author_name]} type="text" label="Author" />
-        <.input field={@form[:comment]} type="textarea" label="Comment" hidden />
+        <.input
+          field={@form[:position_reference]}
+          type="text"
+          label="Position reference"
+          placeholder="Accurately reference the source of the annotation or quote"
+        />
+        <.input
+          field={@form[:comment]}
+          type="textarea"
+          label="Comment"
+          placeholder="Personal comments on the annotation or quote"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Annotation</.button>
         </:actions>
