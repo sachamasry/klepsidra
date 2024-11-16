@@ -4,11 +4,135 @@
 
 ## Contents
 
-1. [Quote and wisdom recording](#quotes-and-wisdom-recording)
-2. [Trip tracker](#trip-tracker)
+1. [User authentication](#user-authentication)
+2. [Quote and wisdom recording](#quotes-and-wisdom-recording)
+3. [Trip tracker](#trip-tracker)
    1. [Trip tracker schema](#trip-tracker-schema)
-3. Notes
-4. To-Dos
+4. Notes
+5. To-Dos
+
+## User authentication
+
+#### Detailed Schema Design
+
+Table: `users`
+
+Stores basic user information and profile details. This is the main table for user data.
+
+Here’s a normalized table schema for a users table designed to support a CRM, ERP, and project management system. This schema takes into account core fields while ensuring normalization by linking to related tables for permissions, preferences, and other entities.
+
+| Column Name   | Data Type    | Constraints      | Description                            |
+| ------------- | ------------ | ---------------- | -------------------------------------- |
+| id            | UUID         | PRIMARY KEY      | Unique identifier for the user.        |
+| username      | VARCHAR(150) | NOT NULL, UNIQUE | Unique login username.                 |
+| email         | VARCHAR(255) | NOT NULL, UNIQUE | Email address for login/notifications. |
+| password_hash | TEXT         | NOT NULL         | Hashed password for authentication.    |
+
+| first_name | VARCHAR(100) |     |     | User’s first name. |
+| last_name  | VARCHAR(100) |     |     | User’s last name.  |
+
+| role_id   | UUID  | FOREIGN KEY (roles.id)    | Role assigned to the user, references roles table. |
+| is_active | BOOLEAN   DEFAULT TRUE    | Indicates if the account is active. |
+| is_verified   | BOOLEAN   DEFAULT FALSE   | Indicates if the email/account is verified. |
+| profile_picture   | TEXT      Path/URL to profile picture. |
+| created_at    | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP   | Timestamp when the account was created. |
+| updated_at    | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp for last update. |
+| last_login_at TIMESTAMP       Timestamp of the user’s last login. |
+| last_login_ip VARCHAR(45)     Last login IP address (IPv4/IPv6). |
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### Related Tables
+
+These tables help normalize the schema by separating permissions, preferences, and logging data.
+
+Table `roles`
+
+Manages user roles and permissions.
+
+| Column Name | Data Type   | Constraints      | Description                                 |
+| ----------- | ----------- | ---------------- | ------------------------------------------- |
+| id          | UUID        | PRIMARY KEY      | Unique identifier for the role.             |
+| name        | VARCHAR(50) | NOT NULL, UNIQUE | Role name (e.g., Admin, Manager, Employee). |
+
+| description   | TEXT  | |     | Description of the role’s purpose. |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `permissions`
+
+Defines granular permissions assigned to roles.
+
+| Column Name | Data Type   | Constraints      | Description                                        |
+| ----------- | ----------- | ---------------- | -------------------------------------------------- |
+| id          | UUID        | PRIMARY KEY      | Unique identifier for the permission.              |
+| name        | VARCHAR(50) | NOT NULL, UNIQUE | Permission name (e.g., view_users, edit_projects). |
+
+| description   | TEXT  | |     | Description of the permission. |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `role_permissions`
+
+Many-to-Many relationship between roles and permissions.
+
+| Column Name   | Data Type | Constraints                  | Description            |
+| ------------- | --------- | ---------------------------- | ---------------------- |
+| role_id       | UUID      | FOREIGN KEY (roles.id)       | Role identifier.       |
+| permission_id | UUID      | FOREIGN KEY (permissions.id) | Permission identifier. |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Schema for the user preferences table, user actions log, and countries & visas API integration tables to further enhance the app.
+
+1. Table: `user_preferences`
+
+The user_preferences table stores individual user settings, preferences for notifications, dashboard layouts, UI settings, notifications, and other customizations.
+
+| Column           | Type      | Description                                                                                |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------ |
+| id               | UUID      | Primary key, unique identifier for each preference record.                                 |
+| user_id          | UUID      | Foreign key referencing users(id).                                                         |
+| preference_type  | VARCHAR   | Type of preference (e.g., notification, dashboard, language).                              |
+| preference_key   | VARCHAR   | Specific setting within the preference type (e.g., email_notifications, default_currency). |
+| preference_value | VARCHAR   | The value for the specific preference setting (e.g., true, USD).                           |
+| created_at       | TIMESTAMP | When the preference was created.                                                           |
+| updated_at       | TIMESTAMP | When the preference was last updated.                                                      |
+
+Sample Entries
+
+* notification, email_notifications, true – To enable or disable email notifications.
+* dashboard, show_trip_statistics, true – To show/hide specific dashboard elements.
+* language, default_language, en – To set the preferred language.
+
+This structure allows for flexible key-value storage of user preferences, which can be expanded as new features are added.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `user_logs`
+
+Tracks user activity for auditing purposes.
+
+| Column Name | Data Type    | Constraints                         | Description                          |
+| ----------- | ------------ | ----------------------------------- | ------------------------------------ |
+| id          | UUID         | PRIMARY KEY                         | Unique identifier for the log entry. |
+| user_id     | UUID         | FOREIGN KEY (users.id)              | User identifier.                     |
+| action      | VARCHAR(255) | NOT NULL                            | Description of the user’s action.  |
+| timestamp   | TIMESTAMP    | NOT NULL, DEFAULT CURRENT_TIMESTAMP | When the action occurred.            |
+
+| ip_address    | VARCHAR(45)   | |     | IP address associated with the action.
+
+Summary
+
+This schema achieves the following:
+
+1. Normalization: Key entities like roles, permissions, and preferences are separated for reuse and scalability.
+2. Flexibility: Easily extendable with additional tables (e.g., API tokens, notification settings).
+3. Auditability: Supports tracking user activities via the user_logs table.
+
+<!-- livebook:{"break_markdown":true} -->
+
+
 
 ## Quotes and wisdom recording
 
@@ -1263,51 +1387,6 @@ The database schema includes the following main tables:
 5. notifications – Logs notifications sent to users for reminders and alerts.
 6. documents – Stores document metadata for user-related documents, such as visas, IDs, and passports.
 7. analytics – Aggregates data for reporting and analysis of travel patterns, visa use, and other metrics.
-
-<!-- livebook:{"break_markdown":true} -->
-
-1. Detailed Schema Design
-
-Table: `users`
-
-Stores basic user information and profile details.
-
-| Column           | Type      | Description                                   |
-| ---------------- | --------- | --------------------------------------------- |
-| id               | UUID      | Primary key, unique identifier for each user. |
-| email            | VARCHAR   | User’s email address, unique.               |
-| password_hash    | VARCHAR   | Hashed password for authentication.           |
-| full_name        | VARCHAR   | User’s full name.                           |
-| nationality      | VARCHAR   | User’s nationality, for visa purposes.      |
-| primary_currency | VARCHAR   | Preferred currency for budget tracking.       |
-| created_at       | TIMESTAMP | Account creation timestamp.                   |
-| updated_at       | TIMESTAMP | Last profile update timestamp.                |
-
-<!-- livebook:{"break_markdown":true} -->
-
-Schema for the user preferences table, user actions log, and countries & visas API integration tables to further enhance the app.
-
-1. Table: `user_preferences`
-
-The user_preferences table stores individual user settings, preferences for notifications, dashboard layouts, and other customizations.
-
-| Column           | Type      | Description                                                                                |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------ |
-| id               | UUID      | Primary key, unique identifier for each preference record.                                 |
-| user_id          | UUID      | Foreign key referencing users(id).                                                         |
-| preference_type  | VARCHAR   | Type of preference (e.g., notification, dashboard, language).                              |
-| preference_key   | VARCHAR   | Specific setting within the preference type (e.g., email_notifications, default_currency). |
-| preference_value | VARCHAR   | The value for the specific preference setting (e.g., true, USD).                           |
-| created_at       | TIMESTAMP | When the preference was created.                                                           |
-| updated_at       | TIMESTAMP | When the preference was last updated.                                                      |
-
-Sample Entries
-
-* notification, email_notifications, true – To enable or disable email notifications.
-* dashboard, show_trip_statistics, true – To show/hide specific dashboard elements.
-* language, default_language, en – To set the preferred language.
-
-This structure allows for flexible key-value storage of user preferences, which can be expanded as new features are added.
 
 <!-- livebook:{"break_markdown":true} -->
 
