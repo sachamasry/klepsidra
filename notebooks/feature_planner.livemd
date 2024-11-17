@@ -19,7 +19,7 @@ Table: `users`
 
 Stores basic user information and profile details. This is the main table for user data.
 
-Here’s a normalized table schema for a users table designed to support a CRM, ERP, and project management system. This schema takes into account core fields while ensuring normalization by linking to related tables for permissions, preferences, and other entities.
+This schema takes into account core fields while ensuring normalization by linking to related tables for permissions, preferences, and other entities. There are fields to track 2FA status and API-related identifiers directly within the users table.
 
 | Column Name   | Data Type    | Constraints      | Description                            |
 | ------------- | ------------ | ---------------- | -------------------------------------- |
@@ -31,14 +31,21 @@ Here’s a normalized table schema for a users table designed to support a CRM, 
 | first_name | VARCHAR(100) |     |     | User’s first name. |
 | last_name  | VARCHAR(100) |     |     | User’s last name.  |
 
-| role_id   | UUID  | FOREIGN KEY (roles.id)    | Role assigned to the user, references roles table. |
-| is_active | BOOLEAN   DEFAULT TRUE    | Indicates if the account is active. |
-| is_verified   | BOOLEAN   DEFAULT FALSE   | Indicates if the email/account is verified. |
-| profile_picture   | TEXT      Path/URL to profile picture. |
+| role_id     | UUID                         | FOREIGN KEY (roles.id)     | Role assigned to the user, references roles table.                      |
+| user_type   | ENUM('internal', 'external') | NOT NULL                   | Specifies if the user is internal (employee) or external (contact).     |
+| employee_id | UUID                         | FOREIGN KEY (employees.id) | Links to the employees table if the user is internal.                   |
+| contact_id  | UUID                         | FOREIGN KEY (contacts.id)  | Contact information, references contacts table if the user is external. |
+| is_active   | BOOLEAN   DEFAULT TRUE       |                            | Indicates if the account is active.                                     |
+| is_verified | BOOLEAN   DEFAULT FALSE      |                            | Indicates if the email/account is verified.                             |
+
+| profile_picture   | TEXT | |      | Path/URL to profile picture. |
+| two_factor_enabled    | BOOLEAN   | DEFAULT FALSE | Indicates if 2FA is enabled for the user. |
+| two_factor_secret | TEXT  | |     Secret key for generating 2FA tokens (e.g., TOTP). |
+| api_access_enabled    | BOOLEAN   | DEFAULT FALSE | Indicates if API access is allowed for this user. |
+| last_login_at | TIMESTAMP | |     Timestamp of the user’s last login. |
+| last_login_ip | VARCHAR(45)   | |     Last login IP address (IPv4/IPv6). |
 | created_at    | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP   | Timestamp when the account was created. |
 | updated_at    | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp for last update. |
-| last_login_at TIMESTAMP       Timestamp of the user’s last login. |
-| last_login_ip VARCHAR(45)     Last login IP address (IPv4/IPv6). |
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -104,6 +111,11 @@ Sample Entries
 * notification, email_notifications, true – To enable or disable email notifications.
 * dashboard, show_trip_statistics, true – To show/hide specific dashboard elements.
 * language, default_language, en – To set the preferred language.
+* currency - User's default currency
+* colour, user profile colour - Set user colour displayed in the UI
+* photo or avatar - Profile image displayed in the UI
+* timezone - Timezone to use to make timer creation easier
+* theme - System theme to display to user
 
 This structure allows for flexible key-value storage of user preferences, which can be expanded as new features are added.
 
@@ -132,7 +144,112 @@ This schema achieves the following:
 
 <!-- livebook:{"break_markdown":true} -->
 
+#### Additional Tables for 2FA and API Management
 
+Table `api_tokens`
+
+Manages API access tokens for users, including expiration and usage tracking.
+
+| Column Name | Data Type | Constraints | Description |
+| ----------- | --------- | ----------- | ----------- |
+
+| id    | UUID  PRIMARY KEY Unique identifier for the token. |
+| user_id   | UUID  | FOREIGN KEY (users.id)    User associated with the API token. |
+| token | TEXT  | NOT NULL, UNIQUE  The API access token (securely generated). |
+| expires_at    | TIMESTAMP     ||  Expiration timestamp for the token. |
+| created_at    | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP   | When the token was generated. |
+| last_used_at  | TIMESTAMP |   | Last time the token was used. |
+| ip_restrictions   | TEXT  |   | JSON or text list of allowed IP ranges for the token. |
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `two_factor_recovery_codes`
+
+Stores one-time use recovery codes for users who lose access to their 2FA devices.
+
+| Column Name   | Data Type | Constraints                         | Description                                   |
+| ------------- | --------- | ----------------------------------- | --------------------------------------------- |
+| id            | UUID      | PRIMARY KEY                         | Unique identifier for the recovery code.      |
+| user_id       | UUID      | FOREIGN KEY (users.id)              | User associated with the recovery code.       |
+| recovery_code | TEXT      | NOT NULL, UNIQUE                    | Encrypted or hashed one-time recovery code.   |
+| created_at    | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | When the recovery code was generated.         |
+| used_at       | TIMESTAMP |                                     | Timestamp of when the recovery code was used. |
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### Updated Tables for Enhanced API Integration
+
+Table `api_limits`
+
+Tracks API rate limits and quotas for users or their tokens.
+
+| Column Name   | Data Type | Constraints                 | Description                                        |
+| ------------- | --------- | --------------------------- | -------------------------------------------------- |
+| id            | UUID      | PRIMARY KEY                 | Unique identifier for the rate limit record.       |
+| user_id       | UUID      | FOREIGN KEY (users.id)      | User associated with the rate limit.               |
+| token_id      | UUID      | FOREIGN KEY (api_tokens.id) | Specific token (optional, for token-level limits). |
+| request_count | INTEGER   | DEFAULT 0                   | Number of API requests made in the current period. |
+| limit         | INTEGER   | NOT NULL                    | Maximum allowed API requests.                      |
+| reset_at      | TIMESTAMP | NOT NULL                    | When the rate limit counter resets.                |
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### Updated Schema for Two-Factor Authentication
+
+Table `two_factor_attempts`
+
+Logs attempts to use two-factor authentication for security auditing.
+
+| Column Name | Data Type   | Constraints                         | Description                               |
+| ----------- | ----------- | ----------------------------------- | ----------------------------------------- |
+| id          | UUID        | PRIMARY KEY                         | Unique identifier for the attempt record. |
+| user_id     | UUID        | FOREIGN KEY (users.id)              | User associated with the 2FA attempt.     |
+| timestamp   | TIMESTAMP   | NOT NULL, DEFAULT CURRENT_TIMESTAMP | When the 2FA attempt occurred.            |
+| success     | BOOLEAN     | DEFAULT FALSE                       | Whether the 2FA attempt was successful.   |
+| ip_address  | VARCHAR(45) |                                     | IP address of the 2FA attempt.            |
+
+#### Relationships
+
+1. Users to API Tokens: One user can have multiple API tokens (users.id → api_tokens.user_id).
+2. Users to 2FA Recovery Codes: One user can have multiple recovery codes (users.id → two_factor_recovery_codes.user_id).
+3. Users to API Limits: API usage can be tracked globally for a user or per token (users.id → api_limits.user_id).
+
+#### Example Query Use Cases
+
+1. Enable 2FA for a User
+
+Update the two_factor_enabled field for the user and generate a two_factor_secret.
+
+```sql
+UPDATE users
+SET two_factor_enabled = TRUE, two_factor_secret = 'NEW_SECRET_HERE'
+WHERE id = 'USER_UUID';
+```
+
+1. Log an API Token Usage
+
+Increment the request_count in api_limits when a token is used.
+
+```sql
+UPDATE api_limits
+SET request_count = request_count + 1
+WHERE user_id = 'USER_UUID' AND token_id = 'TOKEN_UUID' AND reset_at > NOW();
+```
+
+1. Log a 2FA Attempt
+
+Insert a record in two_factor_attempts for a login attempt.
+
+```sql
+INSERT INTO two_factor_attempts (user_id, timestamp, success, ip_address)
+VALUES ('USER_UUID', NOW(), FALSE, '192.168.1.1');
+```
+
+Benefits
+
+1. Security: 2FA fields and recovery codes ensure robust protection.
+2. Scalability: External API tokens with rate-limiting ensure controlled integration with third-party apps.
+3. Auditability: Logs for 2FA attempts and API usage help with compliance and debugging.
 
 ## Quotes and wisdom recording
 
