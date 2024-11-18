@@ -51,10 +51,9 @@ defmodule KlepsidraWeb.ProjectLive.Show do
         Enum.map(project.tags, fn tag -> tag.id end),
         @tag_search_live_component_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(project.tags)
       )
       |> assign(
@@ -167,10 +166,9 @@ defmodule KlepsidraWeb.ProjectLive.Show do
         selected_tags,
         @tag_search_live_component_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(selected_tags)
       )
       |> assign(

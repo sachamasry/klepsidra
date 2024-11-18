@@ -51,10 +51,9 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
         Enum.map(journal_entry.tags, fn tag -> tag.id end),
         @tag_search_live_component_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(journal_entry.tags)
       )
       |> assign(
@@ -164,10 +163,9 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
         selected_tags,
         @tag_search_live_component_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(selected_tags)
       )
       |> assign(
