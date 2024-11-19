@@ -1352,11 +1352,9 @@ Technical Enhancements with Phoenix LiveView
 
 LiveView’s dynamic nature will make a few of these advanced features not only possible but also smooth and responsive:
 
-```
-*   Real-Time Cost and Currency Updates: With LiveView, you could provide live currency conversion within expense trackers, instantly recalculating as the user adds new entries.
-*   Travel Dashboard with Notifications: Create an always-updated compliance dashboard that refreshes as users log new entries and exits, helping them make on-the-go adjustments.
-*   AI-Assisted Suggestions in Real-Time: Using Elixir’s concurrency capabilities, implement lightweight AI functions for compliance checking or visa recommendations that run seamlessly alongside user actions.
-```
+* Real-Time Cost and Currency Updates: With LiveView, you could provide live currency conversion within expense trackers, instantly recalculating as the user adds new entries.
+* Travel Dashboard with Notifications: Create an always-updated compliance dashboard that refreshes as users log new entries and exits, helping them make on-the-go adjustments.
+* AI-Assisted Suggestions in Real-Time: Using Elixir’s concurrency capabilities, implement lightweight AI functions for compliance checking or visa recommendations that run seamlessly alongside user actions.
 
 These additional features would make the app not just a compliance tool but a comprehensive lifestyle and productivity suite for digital nomads, addressing their needs for adaptability, resourcefulness, and community while helping them navigate complex legal landscapes.
 
@@ -1521,20 +1519,93 @@ Stores information about each country and its travel regulations.
 
 <!-- livebook:{"break_markdown":true} -->
 
+Table `document_types`
+
+This table will store all possible document types.
+
+```sql
+CREATE TABLE document_types (
+    id UUID PRIMARY KEY,            -- Unique identifier for the document type
+    name VARCHAR NOT NULL UNIQUE,   -- E.g., "Passport," "Visa," "ID Card," etc.
+    description TEXT,               -- Optional: description of the document type
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Example Data
+
+Table `document_types`
+
+```sql
+INSERT INTO document_types (id, name, description) VALUES
+('1', 'Passport', 'Official travel document issued by a country'),
+('2', 'Visa', 'Permit allowing entry into a country'),
+('3', 'ID Card', 'National identification card'),
+('4', 'Work Permit', 'Document authorizing employment in a foreign country');
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
 Table: `documents`
 
 Tracks document details for each user, including expiry dates and types.
 
-| Column        | Type      | Description                              |
-| ------------- | --------- | ---------------------------------------- |
-| id            | UUID      | Primary key for each document record.    |
-| user_id       | UUID      | Foreign key referencing users(id).       |
-| document_type | VARCHAR   | Type of document (e.g., passport, visa). |
-| country_id    | UUID      | Foreign key referencing countries(id).   |
-| issue_date    | DATE      | Date when the document was issued.       |
-| expiry_date   | DATE      | Expiry date of the document.             |
-| file_path     | VARCHAR   | Path to the document file storage.       |
-| created_at    | TIMESTAMP | Document creation timestamp.             |
+| Column           | Type                  | Description                                         |
+| ---------------- | --------------------- | --------------------------------------------------- |
+| id               | UUID                  | Primary key for each document record.               |
+| user_id          | UUID                  | Foreign key referencing users(id).                  |
+| document_type_id | UUID                  | Normalized type of document (e.g., passport, visa). |
+| description      | TEXT                  | Document description or other notes.                |
+| country_id       | UUID                  | Foreign key referencing countries(id).              |
+| issue_date       | DATE                  | Date when the document was issued.                  |
+| expiry_date      | DATE                  | Expiry date of the document.                        |
+| is_active        | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.       |
+| file_path        | VARCHAR               | Path to the document file storage.                  |
+| created_at       | TIMESTAMP             | Document creation timestamp.                        |
+
+#### Example data
+
+Table `documents`
+
+```sql
+INSERT INTO documents (id, user_id, document_type_id, file_url, expiry_date, issued_date, notes)
+VALUES
+('d1', 'user1-id', '1', '/storage/passports/user1_passport.pdf', '2030-12-31', '2020-01-01', 'Main passport'),
+('d2', 'user1-id', '2', '/storage/visas/user1_visa.pdf', '2024-05-01', '2023-05-01', 'Schengen visa for Europe'),
+('d3', 'user2-id', '3', '/storage/idcards/user2_idcard.pdf', NULL, '2019-08-15', 'National ID card');
+```
+
+#### Query Examples
+
+Fetch Documents for a Specific User:
+
+```sql
+SELECT d.*, dt.name AS document_type
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+WHERE d.user_id = 'user1-id';
+```
+
+Count Documents by Type:
+
+```sql
+SELECT dt.name AS document_type, COUNT(d.id) AS document_count
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+GROUP BY dt.name;
+```
+
+Fetch Expiring Documents:
+
+```sql
+SELECT d.*, dt.name AS document_type
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+WHERE d.expiry_date < NOW();
+```
+
+<!-- livebook:{"break_markdown":true} -->
 
 Table: `notifications`
 
