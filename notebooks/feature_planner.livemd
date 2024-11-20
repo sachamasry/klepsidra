@@ -1528,22 +1528,50 @@ CREATE TABLE document_types (
     id UUID PRIMARY KEY,            -- Unique identifier for the document type
     name VARCHAR NOT NULL UNIQUE,   -- E.g., "Passport," "Visa," "ID Card," etc.
     description TEXT,               -- Optional: description of the document type
+    notification_lead_time INT DEFAULT 30,    -- Number of days before expiry to raise a notification
+    processing_time_estimate INT DEFAULT 30,   -- Estimated days for document issuance
+    default_user_buffer_time INT DEFAULT 7,    -- Default buffer days for user action
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
+#### Field Explanation
+
+1. `notification_lead_time`:
+
+* Defines the number of days before the expiry date when a notification should be triggered.
+  * Default value of 30 days ensures timely reminders for most documents but can be customized for each document type.
+
+1. `processing_time_estimate`:
+   * Estimated number of days required by the issuing authority to process and deliver the document.
+2. `default_user_buffer_time`:
+   * Default extra days added as a buffer for user action. This can account for unforeseen delays or personal preparation time.
 
 #### Example Data
 
 Table `document_types`
 
 ```sql
-INSERT INTO document_types (id, name, description) VALUES
-('1', 'Passport', 'Official travel document issued by a country'),
-('2', 'Visa', 'Permit allowing entry into a country'),
-('3', 'ID Card', 'National identification card'),
-('4', 'Work Permit', 'Document authorizing employment in a foreign country');
+INSERT INTO document_types (id, name, description, notification_lead_time, processing_time_estimate, default_user_buffer_time) VALUES
+('1', 'Passport', 'Official travel document issued by a country', 180, 30, 14), -- Notify 6 months + processing + buffer
+('2', 'Visa', 'Permit allowing entry into a country', 30, 20, 7),              -- Notify 1 month + processing + buffer
+('3', 'ID Card', 'National identification card', 90, 45, 10),                 -- Notify 3 months + processing + buffer
+('4', 'Work Permit', 'Document authorizing employment in a foreign country', 60, 60, 14); -- Notify 2 months + processing + buffer
 ```
+
+#### Example Notification Workflow
+
+1. Regular Check:
+   * A cron job or a background process periodically runs the query above to fetch documents nearing expiry.
+   * Example: A job could run every day at midnight to check for documents triggering notifications.
+2. Notification Generation:
+   * The application generates notifications or reminders for users whose documents meet the criteria.
+   * Notifications could be stored in a table or directly sent via email/alerts.
+
+#### Enhancing User Flexibility
+
+For greater personalization, allow users to override the default buffer time per document. Add a field in the documents table to specify a custom buffer time.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -1551,18 +1579,19 @@ Table: `documents`
 
 Tracks document details for each user, including expiry dates and types.
 
-| Column           | Type                  | Description                                         |
-| ---------------- | --------------------- | --------------------------------------------------- |
-| id               | UUID                  | Primary key for each document record.               |
-| user_id          | UUID                  | Foreign key referencing users(id).                  |
-| document_type_id | UUID                  | Normalized type of document (e.g., passport, visa). |
-| description      | TEXT                  | Document description or other notes.                |
-| country_id       | UUID                  | Foreign key referencing countries(id).              |
-| issue_date       | DATE                  | Date when the document was issued.                  |
-| expiry_date      | DATE                  | Expiry date of the document.                        |
-| is_active        | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.       |
-| file_path        | VARCHAR               | Path to the document file storage.                  |
-| created_at       | TIMESTAMP             | Document creation timestamp.                        |
+| Column             | Type                  | Description                                           |
+| ------------------ | --------------------- | ----------------------------------------------------- |
+| id                 | UUID                  | Primary key for each document record.                 |
+| user_id            | UUID                  | Foreign key referencing users(id).                    |
+| document_type_id   | UUID                  | Normalized type of document (e.g., passport, visa).   |
+| description        | TEXT                  | Document description or other notes.                  |
+| country_id         | UUID                  | Foreign key referencing countries(id).                |
+| issue_date         | DATE                  | Date when the document was issued.                    |
+| expiry_date        | DATE                  | Expiry date of the document.                          |
+| is_active          | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.         |
+| file_url           | VARCHAR               | URL or file path to the document file storage.        |
+| custom_buffer_time | INT                   | Default extra days added as a buffer for user action. |
+| created_at         | TIMESTAMP             | Document creation timestamp.                          |
 
 #### Example data
 
@@ -1596,14 +1625,37 @@ JOIN document_types dt ON d.document_type_id = dt.id
 GROUP BY dt.name;
 ```
 
-Fetch Expiring Documents:
+#### Query to Identify Expiring Documents
+
+Fetch documents that are nearing expiry and should trigger a notification. To calculate the exact notification date, sum up the required fields (`notification_lead_time`, `processing_time_estimate`, `default_user_buffer_time`):
 
 ```sql
-SELECT d.*, dt.name AS document_type
+SELECT d.id AS document_id,
+       d.user_id,
+       d.expiry_date,
+       dt.name AS document_type,
+       COALESCE(d.custom_buffer_time, dt.default_user_buffer_time) AS buffer_time,
+       dt.notification_lead_time + dt.processing_time_estimate + 
+       COALESCE(d.custom_buffer_time, dt.default_user_buffer_time) AS total_lead_time
 FROM documents d
 JOIN document_types dt ON d.document_type_id = dt.id
-WHERE d.expiry_date < NOW();
+WHERE d.expiry_date IS NOT NULL 
+  AND d.expiry_date - INTERVAL '1 day' * (
+      dt.notification_lead_time + dt.processing_time_estimate + 
+      COALESCE(d.custom_buffer_time, dt.default_user_buffer_time)
+  ) <= NOW();
 ```
+
+This query ensures that notifications are triggered early enough to account for:
+
+1. The lead time needed to act before expiry.
+2. Processing time for the document authority.
+3. The user’s buffer period.
+
+This ensures flexibility:
+
+* Use the document type’s default buffer if the user hasn’t set a custom one.
+* Honor the user’s custom buffer time when specified.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -1611,14 +1663,40 @@ Table: `notifications`
 
 Logs notifications sent to users, such as expiry reminders and travel alerts.
 
-| Column     | Type      | Description                                           |
-| ---------- | --------- | ----------------------------------------------------- |
-| id         | UUID      | Primary key for each notification record.             |
-| user_id    | UUID      | Foreign key referencing users(id).                    |
-| type       | VARCHAR   | Type of notification (e.g., visa expiry, stay limit). |
-| message    | TEXT      | Notification message content.                         |
-| is_read    | BOOLEAN   | Status of notification (read/unread).                 |
-| created_at | TIMESTAMP | When the notification was generated.                  |
+| Column            | Type      | Description                                           |
+| ----------------- | --------- | ----------------------------------------------------- |
+| id                | UUID      | Primary key for each notification record.             |
+| user_id           | UUID      | Foreign key referencing users(id).                    |
+| document_id       | UUID      | Foreign key referencing documents (id).               |
+| notification_date | TIMESTAMP | When the notification was created.                    |
+| type              | VARCHAR   | Type of notification (e.g., visa expiry, stay limit). |
+| message           | TEXT      | Notification message content.                         |
+| is_sent           | BOOLEAN   | Has the notification been sent?                       |
+| sent_at           | TIMESTAMP | When was the notification sent?                       |
+| is_read           | BOOLEAN   | Status of notification (read/unread).                 |
+| created_at        | TIMESTAMP | When the notification was generated.                  |
+
+#### Notification Timing Calculation
+
+When determining when a notification should be raised, combine the following:
+
+1. `notification_lead_time` (e.g., 30 days).
+2. `processing_time_estimate` (e.g., 20 days for a visa).
+3. `default_user_buffer_time` (e.g., 7 days for buffer).
+
+In this example, the total lead time for notifications would be 57 days before expiry.
+
+#### Sample Notification Entry
+
+For a passport expiring in 180 days, a notification might look like this:
+
+```sql
+INSERT INTO notifications (id, user_id, document_id, notification_date, message)
+VALUES 
+('notif1', 'user1-id', 'passport-doc-id', NOW(), 'Your passport is set to expire in 6 months. Please renew it promptly.');
+```
+
+<!-- livebook:{"break_markdown":true} -->
 
 Table: `analytics`
 

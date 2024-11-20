@@ -63,4 +63,76 @@ defmodule Klepsidra.DocumentsTest do
       assert %Ecto.Changeset{} = Documents.change_document_type(document_type)
     end
   end
+
+  describe "user_documents" do
+    alias Klepsidra.Documents.UserDocument
+
+    import Klepsidra.DocumentsFixtures
+
+    @invalid_attrs %{id: nil, document_type_id: nil, user_id: nil, unique_reference: nil, issued_by: nil, issuing_country_id: nil, issue_date: nil, expiry_date: nil, is_active: nil, file_url: nil}
+
+    test "list_user_documents/0 returns all user_documents" do
+      user_document = user_document_fixture()
+      assert Documents.list_user_documents() == [user_document]
+    end
+
+    test "get_user_document!/1 returns the user_document with given id" do
+      user_document = user_document_fixture()
+      assert Documents.get_user_document!(user_document.id) == user_document
+    end
+
+    test "create_user_document/1 with valid data creates a user_document" do
+      valid_attrs = %{id: "7488a646-e31f-11e4-aace-600308960662", document_type_id: "7488a646-e31f-11e4-aace-600308960662", user_id: "7488a646-e31f-11e4-aace-600308960662", unique_reference: "some unique_reference", issued_by: "some issued_by", issuing_country_id: "some issuing_country_id", issue_date: ~D[2024-11-19], expiry_date: ~D[2024-11-19], is_active: true, file_url: "some file_url"}
+
+      assert {:ok, %UserDocument{} = user_document} = Documents.create_user_document(valid_attrs)
+      assert user_document.id == "7488a646-e31f-11e4-aace-600308960662"
+      assert user_document.document_type_id == "7488a646-e31f-11e4-aace-600308960662"
+      assert user_document.user_id == "7488a646-e31f-11e4-aace-600308960662"
+      assert user_document.unique_reference == "some unique_reference"
+      assert user_document.issued_by == "some issued_by"
+      assert user_document.issuing_country_id == "some issuing_country_id"
+      assert user_document.issue_date == ~D[2024-11-19]
+      assert user_document.expiry_date == ~D[2024-11-19]
+      assert user_document.is_active == true
+      assert user_document.file_url == "some file_url"
+    end
+
+    test "create_user_document/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Documents.create_user_document(@invalid_attrs)
+    end
+
+    test "update_user_document/2 with valid data updates the user_document" do
+      user_document = user_document_fixture()
+      update_attrs = %{id: "7488a646-e31f-11e4-aace-600308960668", document_type_id: "7488a646-e31f-11e4-aace-600308960668", user_id: "7488a646-e31f-11e4-aace-600308960668", unique_reference: "some updated unique_reference", issued_by: "some updated issued_by", issuing_country_id: "some updated issuing_country_id", issue_date: ~D[2024-11-20], expiry_date: ~D[2024-11-20], is_active: false, file_url: "some updated file_url"}
+
+      assert {:ok, %UserDocument{} = user_document} = Documents.update_user_document(user_document, update_attrs)
+      assert user_document.id == "7488a646-e31f-11e4-aace-600308960668"
+      assert user_document.document_type_id == "7488a646-e31f-11e4-aace-600308960668"
+      assert user_document.user_id == "7488a646-e31f-11e4-aace-600308960668"
+      assert user_document.unique_reference == "some updated unique_reference"
+      assert user_document.issued_by == "some updated issued_by"
+      assert user_document.issuing_country_id == "some updated issuing_country_id"
+      assert user_document.issue_date == ~D[2024-11-20]
+      assert user_document.expiry_date == ~D[2024-11-20]
+      assert user_document.is_active == false
+      assert user_document.file_url == "some updated file_url"
+    end
+
+    test "update_user_document/2 with invalid data returns error changeset" do
+      user_document = user_document_fixture()
+      assert {:error, %Ecto.Changeset{}} = Documents.update_user_document(user_document, @invalid_attrs)
+      assert user_document == Documents.get_user_document!(user_document.id)
+    end
+
+    test "delete_user_document/1 deletes the user_document" do
+      user_document = user_document_fixture()
+      assert {:ok, %UserDocument{}} = Documents.delete_user_document(user_document)
+      assert_raise Ecto.NoResultsError, fn -> Documents.get_user_document!(user_document.id) end
+    end
+
+    test "change_user_document/1 returns a user_document changeset" do
+      user_document = user_document_fixture()
+      assert %Ecto.Changeset{} = Documents.change_user_document(user_document)
+    end
+  end
 end

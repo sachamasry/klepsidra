@@ -19,6 +19,21 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
       add :description, :text,
         comment: "Any other document type details which may be useful in the future."
 
+      add :notification_lead_time, :integer,
+        null: false,
+        default: 30,
+        comment: "Number of days before expiry to raise a notification for this type of document"
+
+      add :processing_time_estimate, :integer,
+        null: false,
+        default: 30,
+        comment: "Estimated number of days for document issuance"
+
+      add :default_user_buffer_time, :integer,
+        null: false,
+        default: 7,
+        comment: "Default number of buffer days, allowing the user to act on notification"
+
       timestamps()
     end
 

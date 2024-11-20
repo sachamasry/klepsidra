@@ -1,0 +1,50 @@
+<.header>
+  Listing User documents
+  <:actions>
+    <.link patch={~p"/user_documents/new"}>
+      <.button>New User document</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="user_documents"
+  rows={@streams.user_documents}
+  row_click={fn {_id, user_document} -> JS.navigate(~p"/user_documents/#{user_document}") end}
+>
+  <:col :let={{_id, user_document}} label="Id"><%= user_document.id %></:col>
+  <:col :let={{_id, user_document}} label="Document type"><%= user_document.document_type_id %></:col>
+  <:col :let={{_id, user_document}} label="User"><%= user_document.user_id %></:col>
+  <:col :let={{_id, user_document}} label="Unique reference"><%= user_document.unique_reference %></:col>
+  <:col :let={{_id, user_document}} label="Issued by"><%= user_document.issued_by %></:col>
+  <:col :let={{_id, user_document}} label="Issuing country"><%= user_document.issuing_country_id %></:col>
+  <:col :let={{_id, user_document}} label="Issue date"><%= user_document.issue_date %></:col>
+  <:col :let={{_id, user_document}} label="Expiry date"><%= user_document.expiry_date %></:col>
+  <:col :let={{_id, user_document}} label="Is active"><%= user_document.is_active %></:col>
+  <:col :let={{_id, user_document}} label="File url"><%= user_document.file_url %></:col>
+  <:action :let={{_id, user_document}}>
+    <div class="sr-only">
+      <.link navigate={~p"/user_documents/#{user_document}"}>Show</.link>
+    </div>
+    <.link patch={~p"/user_documents/#{user_document}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, user_document}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: user_document.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="user_document-modal" show on_cancel={JS.patch(~p"/user_documents")}>
+  <.live_component
+    module={KlepsidraWeb.UserDocumentLive.FormComponent}
+    id={@user_document.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user_document={@user_document}
+    patch={~p"/user_documents"}
+  />
+</.modal>

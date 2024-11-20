@@ -127,6 +127,13 @@ defmodule KlepsidraWeb.Router do
 
     live "/document_types/:id", DocumentTypeLive.Show, :show
     live "/document_types/:id/show/edit", DocumentTypeLive.Show, :edit
+
+    live "/user_documents", UserDocumentLive.Index, :index
+    live "/user_documents/new", UserDocumentLive.Index, :new
+    live "/user_documents/:id/edit", UserDocumentLive.Index, :edit
+
+    live "/user_documents/:id", UserDocumentLive.Show, :show
+    live "/user_documents/:id/show/edit", UserDocumentLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
