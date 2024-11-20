@@ -48,9 +48,9 @@ defmodule KlepsidraWeb.ProjectLive.Index do
     {:noreply, handle_deleted_project(socket, project, :projects)}
   end
 
-  defp handle_deleted_project(socket, proiect, source_stream) do
+  defp handle_deleted_project(socket, project, source_stream) do
     socket
-    |> stream_delete(source_stream, proiect)
+    |> stream_delete(source_stream, project)
     |> put_toast(:info, "Project deleted successfully")
   end
 end

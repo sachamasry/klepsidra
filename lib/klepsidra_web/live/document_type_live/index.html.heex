@@ -1,0 +1,47 @@
+<.header>
+  Document types
+  <:actions>
+    <.link patch={~p"/document_types/new"}>
+      <.button>New document type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="document_types"
+  rows={@streams.document_types}
+  row_click={fn {_id, document_type} -> JS.navigate(~p"/document_types/#{document_type}") end}
+>
+  <:col :let={{_id, document_type}} label="Name"><%= document_type.name %></:col>
+  <:col :let={{_id, document_type}} label="Description"><%= document_type.description %></:col>
+  <:action :let={{_id, document_type}}>
+    <div class="sr-only">
+      <.link navigate={~p"/document_types/#{document_type}"}>Show</.link>
+    </div>
+    <.link patch={~p"/document_types/#{document_type}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, document_type}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: document_type.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="document_type-modal"
+  show
+  on_cancel={JS.patch(~p"/document_types")}
+>
+  <.live_component
+    module={KlepsidraWeb.DocumentTypeLive.FormComponent}
+    id={@document_type.id || :new}
+    title={@page_title}
+    action={@live_action}
+    document_type={@document_type}
+    patch={~p"/document_types"}
+  />
+</.modal>

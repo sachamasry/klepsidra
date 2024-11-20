@@ -120,6 +120,13 @@ defmodule KlepsidraWeb.Router do
     live "/reporting/activities_timed/timers/:id/edit",
          TimerLive.ActivityTimeReporting,
          :edit_timer
+
+    live "/document_types", DocumentTypeLive.Index, :index
+    live "/document_types/new", DocumentTypeLive.Index, :new
+    live "/document_types/:id/edit", DocumentTypeLive.Index, :edit
+
+    live "/document_types/:id", DocumentTypeLive.Show, :show
+    live "/document_types/:id/show/edit", DocumentTypeLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
