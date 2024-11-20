@@ -13,11 +13,21 @@ defmodule Klepsidra.Documents.DocumentType do
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           name: String.t(),
-          description: String.t()
+          description: String.t(),
+          default_validity_period_unit: String.t(),
+          default_validity_duration: integer(),
+          notification_lead_time_days: integer(),
+          processing_time_estimate_days: integer(),
+          default_buffer_time_days: integer()
         }
   schema "document_types" do
     field :name, :string
     field :description, :string
+    field :default_validity_period_unit, :string
+    field :default_validity_duration, :integer
+    field :notification_lead_time_days, :integer
+    field :processing_time_estimate_days, :integer
+    field :default_buffer_time_days, :integer
 
     timestamps()
   end
@@ -25,8 +35,23 @@ defmodule Klepsidra.Documents.DocumentType do
   @doc false
   def changeset(document_type, attrs) do
     document_type
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name])
+    |> cast(attrs, [
+      :name,
+      :description,
+      :default_validity_period_unit,
+      :default_validity_duration,
+      :notification_lead_time_date,
+      :processing_time_estimate_days,
+      :default_buffer_time_days
+    ])
+    |> validate_required([
+      :name,
+      :default_validity_period_unit,
+      :default_validity_duration,
+      :notification_lead_time_date,
+      :processing_time_estimate_days,
+      :default_buffer_time_days
+    ])
     |> unique_constraint(:name,
       message: "A document type with this name already exists"
     )

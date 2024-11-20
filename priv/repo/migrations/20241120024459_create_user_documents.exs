@@ -22,7 +22,8 @@ defmodule Klepsidra.Repo.Migrations.CreateUserDocuments do
 
       add :unique_reference, :string,
         null: false,
-        comment: "Unique document reference given by the issuing body"
+        comment:
+          "Unique document reference given by the issuing body, i.e. passport number, national ID, driving license number, etc."
 
       add :issued_by, :string,
         null: false,
@@ -53,8 +54,14 @@ defmodule Klepsidra.Repo.Migrations.CreateUserDocuments do
 
       add :file_url, :string, comment: "URL or path reference to document"
 
+      add :notes, :string, comment: "Further document details or comments"
+
       timestamps()
     end
+
+    create unique_index(:user_documents, [:unique_reference],
+             comment: "Unique index on the document's unique reference field"
+           )
 
     create index(:user_documents, [:document_type_id],
              comment:

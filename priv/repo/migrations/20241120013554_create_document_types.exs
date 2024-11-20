@@ -14,25 +14,36 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
 
       add :name, :string,
         null: false,
-        comment: "Human-readable document type, e.g. 'passport', 'visa', 'driving license', etc."
+        comment:
+          "Human-readable document type, e.g. 'passport', 'visa', 'driving license', 'ID card', etc."
 
-      add :description, :text,
-        comment: "Any other document type details which may be useful in the future."
+      add :description, :text, comment: "Any other document type details which may be useful."
 
-      add :notification_lead_time, :integer,
+      add :default_validity_period_unit, :string,
+        null: false,
+        default: "years",
+        comment: "Default validity time unit for this type (e.g. 'years')"
+
+      add :default_validity_duration, :integer,
+        null: false,
+        default: 0,
+        comment: "Default validity duration for this type, in time units specified (e.g. 10)"
+
+      add :notification_lead_time_days, :integer,
         null: false,
         default: 30,
-        comment: "Number of days before expiry to raise a notification for this type of document"
+        comment:
+          "Recommended days before expiry to trigger renewal notification for this type of document"
 
-      add :processing_time_estimate, :integer,
+      add :processing_time_estimate_days, :integer,
         null: false,
         default: 30,
-        comment: "Estimated number of days for document issuance"
+        comment: "Estimated document issuance processing and delivery time, in days"
 
-      add :default_user_buffer_time, :integer,
+      add :default_buffer_time_days, :integer,
         null: false,
-        default: 7,
-        comment: "Default number of buffer days, allowing the user to act on notification"
+        default: 14,
+        comment: "Default safety buffer, in days, for user action"
 
       timestamps()
     end

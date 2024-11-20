@@ -1528,9 +1528,11 @@ CREATE TABLE document_types (
     id UUID PRIMARY KEY,            -- Unique identifier for the document type
     name VARCHAR NOT NULL UNIQUE,   -- E.g., "Passport," "Visa," "ID Card," etc.
     description TEXT,               -- Optional: description of the document type
-    notification_lead_time INT DEFAULT 30,    -- Number of days before expiry to raise a notification
-    processing_time_estimate INT DEFAULT 30,   -- Estimated days for document issuance
-    default_user_buffer_time INT DEFAULT 7,    -- Default buffer days for user action
+    default_validity_period INTERVAL, -- Default validity for this type (e.g., "10 years")
+    notification_lead_time_days INT DEFAULT 30,    -- Recommended days before expiry to trigger renewal notification
+    processing_time_estimate_days INT DEFAULT 30,   -- Estimated document issuance processing and delivery time in days 
+    default_buffer_time_days INT DEFAULT 14,    -- Default safety buffer, in days, for user action
+    template_id UUID REFERENCES document_templates(id), -- Optional reference to template
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -1538,14 +1540,14 @@ CREATE TABLE document_types (
 
 #### Field Explanation
 
-1. `notification_lead_time`:
+1. `lead_time_days`:
 
 * Defines the number of days before the expiry date when a notification should be triggered.
   * Default value of 30 days ensures timely reminders for most documents but can be customized for each document type.
 
-1. `processing_time_estimate`:
+1. `processing_time_estimate_days`:
    * Estimated number of days required by the issuing authority to process and deliver the document.
-2. `default_user_buffer_time`:
+2. `default_buffer_time_days`:
    * Default extra days added as a buffer for user action. This can account for unforeseen delays or personal preparation time.
 
 #### Example Data
@@ -1579,30 +1581,65 @@ Table: `documents`
 
 Tracks document details for each user, including expiry dates and types.
 
-| Column             | Type                  | Description                                           |
-| ------------------ | --------------------- | ----------------------------------------------------- |
-| id                 | UUID                  | Primary key for each document record.                 |
-| user_id            | UUID                  | Foreign key referencing users(id).                    |
-| document_type_id   | UUID                  | Normalized type of document (e.g., passport, visa).   |
-| description        | TEXT                  | Document description or other notes.                  |
-| country_id         | UUID                  | Foreign key referencing countries(id).                |
-| issue_date         | DATE                  | Date when the document was issued.                    |
-| expiry_date        | DATE                  | Expiry date of the document.                          |
-| is_active          | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.         |
-| file_url           | VARCHAR               | URL or file path to the document file storage.        |
-| custom_buffer_time | INT                   | Default extra days added as a buffer for user action. |
-| created_at         | TIMESTAMP             | Document creation timestamp.                          |
+| Column              | Type                  | Description                                                               |
+| ------------------- | --------------------- | ------------------------------------------------------------------------- |
+| id                  | UUID                  | Primary key for each document record.                                     |
+| user_id             | UUID                  | Foreign key referencing users(id).                                        |
+| document_type_id    | UUID                  | Normalized type of document (e.g., passport, visa).                       |
+| document_reference  | VARCHAR               | Unique reference number for the document, given by the issuing authority. |
+| issuing_authority   | VARCHAR               | Name of the authority that issued the document.                           |
+| description         | TEXT                  | Document description or other notes.                                      |
+| country_id          | UUID                  | Foreign key referencing countries(id).                                    |
+| issue_date          | DATE                  | Date when the document was issued.                                        |
+| expiry_date         | DATE                  | Expiry date of the document.                                              |
+| is_active           | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.                             |
+| invalidation_reason | TEXT                  | Explanation for why the document is no longer valid.                      |
+| file_url            | VARCHAR               | URL or file path to the document file storage.                            |
+| custom_buffer_time  | INT                   | Default extra days added as a buffer for user action.                     |
+| created_at          | TIMESTAMP             | Document creation timestamp.                                              |
+
+#### Fields and Their Purpose
+
+1. `document_reference` (VARCHAR NOT NULL):
+   * Stores the unique identifier for the document, such as a passport number, license number, or visa reference.
+   * Ensures traceability and association with official records.
+   * Example Values:
+   * “AB1234567” for a passport.
+   * “DL123456789” for a driving license.
+   * “VisaRef12345” for a visa.
+2. `issuing_authority` (VARCHAR):
+   * Records the name of the entity that issued the document, such as a government body, consulate, or private organization.
+   * Useful for legal and administrative purposes.
+   * Example Values:
+   * “Department of State” for a U.S. passport.
+   * “Ontario Ministry of Transportation” for a Canadian driver’s license.
+   * “British High Commission” for a UK visa.
+3. `invalidation_reason` (TEXT):
+   * Provides a descriptive explanation when the document is marked inactive (i.e., is_active = FALSE).
+   * Improves traceability and helps users understand why a document is no longer valid.
+   * Example Values:
+   * “Lost or stolen.”
+   * “Superseded by a newer document.”
+   * “Invalid due to incorrect information.”
 
 #### Example data
 
 Table `documents`
 
 ```sql
-INSERT INTO documents (id, user_id, document_type_id, file_url, expiry_date, issued_date, notes)
+INSERT INTO documents (
+    id, user_id, document_type_id, document_reference, issuing_authority, file_url, expiry_date, 
+    issued_date, is_active, invalidation_reason, notes
+)
 VALUES
-('d1', 'user1-id', '1', '/storage/passports/user1_passport.pdf', '2030-12-31', '2020-01-01', 'Main passport'),
-('d2', 'user1-id', '2', '/storage/visas/user1_visa.pdf', '2024-05-01', '2023-05-01', 'Schengen visa for Europe'),
-('d3', 'user2-id', '3', '/storage/idcards/user2_idcard.pdf', NULL, '2019-08-15', 'National ID card');
+('doc1', 'user1-id', '1', 'AB1234567', 'Department of State', '/storage/passports/user1_passport.pdf',
+ '2030-12-31', '2020-01-01', TRUE, NULL, 'Main passport for international travel'),
+
+('doc2', 'user1-id', '2', 'Visa123456', 'Schengen Consulate', '/storage/visas/user1_visa.pdf',
+ '2024-05-01', '2023-05-01', TRUE, NULL, 'Schengen visa for Europe'),
+
+('doc3', 'user1-id', '1', 'CD7890123', 'Department of State', '/storage/passports/user1_old_passport.pdf',
+ '2025-12-31', '2015-01-01', FALSE, 'Superseded by a newer passport.', 'Previous passport.');
 ```
 
 #### Query Examples
@@ -1623,6 +1660,33 @@ SELECT dt.name AS document_type, COUNT(d.id) AS document_count
 FROM documents d
 JOIN document_types dt ON d.document_type_id = dt.id
 GROUP BY dt.name;
+```
+
+Retrieve All Active Documents
+
+```sql
+SELECT d.*, dt.name AS document_type
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+WHERE d.is_active = TRUE;
+```
+
+Retrieve Inactive Documents with Reasons:
+
+```sql
+SELECT d.*, dt.name AS document_type, d.invalidation_reason
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+WHERE d.is_active = FALSE;
+```
+
+Search by Document Reference:
+
+```sql
+SELECT d.*, dt.name AS document_type
+FROM documents d
+JOIN document_types dt ON d.document_type_id = dt.id
+WHERE d.document_reference = 'AB1234567';
 ```
 
 #### Query to Identify Expiring Documents
