@@ -10,6 +10,13 @@
 
 <.back navigate={~p"/document_types"}>Back to document types</.back>
 
+<.list>
+  <:item title="Default document validity"><%= @document_type.default_validity_duration %> <%= @document_type.default_validity_period_unit %></:item>
+  <:item title="Expiry notification lead time"><%= @document_type.notification_lead_time_days %> days</:item>
+  <:item title="Processing and delivery time estimate"><%= @document_type.processing_time_estimate_days %> days</:item>
+  <:item title="Safety buffer for user action"><%= @document_type.default_buffer_time_days %> days</:item>
+</.list>
+
 <.modal
   :if={@live_action == :edit}
   id="document_type-modal"

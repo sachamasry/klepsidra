@@ -12,7 +12,12 @@ defmodule Klepsidra.DocumentsFixtures do
       attrs
       |> Enum.into(%{
         name: "some name",
-        description: "some description"
+        description: "some description",
+        default_validity_period_unit: "year",
+        default_validity_duration: 10,
+        notification_lead_time_days: 30,
+        processing_time_estimate_days: 30,
+        default_buffer_time_days: 14
       })
       |> Klepsidra.Documents.create_document_type()
 

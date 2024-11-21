@@ -40,7 +40,7 @@ defmodule Klepsidra.Documents.DocumentType do
       :description,
       :default_validity_period_unit,
       :default_validity_duration,
-      :notification_lead_time_date,
+      :notification_lead_time_days,
       :processing_time_estimate_days,
       :default_buffer_time_days
     ])
@@ -48,7 +48,7 @@ defmodule Klepsidra.Documents.DocumentType do
       :name,
       :default_validity_period_unit,
       :default_validity_duration,
-      :notification_lead_time_date,
+      :notification_lead_time_days,
       :processing_time_estimate_days,
       :default_buffer_time_days
     ])

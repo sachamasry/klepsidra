@@ -52,5 +52,18 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
              unique: true,
              comment: "Unique index on document type"
            )
+
+    create index(
+             :document_types,
+             [
+               :default_validity_period_unit,
+               :default_validity_duration,
+               :notification_lead_time_days,
+               :processing_time_estimate_days,
+               :default_buffer_time_days
+             ],
+             comment:
+               "Composite index optimising queries that filter on a combination of default validity, `notification_lead_time_days`, `processing_time_estimate_days`, `default_buffer_time_days` fields, avoiding full-table scans"
+           )
   end
 end

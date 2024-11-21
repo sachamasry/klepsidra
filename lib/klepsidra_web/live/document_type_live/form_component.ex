@@ -24,6 +24,31 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
+        <.input
+          field={@form[:default_validity_period_unit]}
+          type="text"
+          label="Default validity time unit"
+        />
+        <.input
+          field={@form[:default_validity_duration]}
+          type="number"
+          label="Default validity duration"
+        />
+        <.input
+          field={@form[:notification_lead_time_days]}
+          type="number"
+          label="Expiry notification lead time for document type"
+        />
+        <.input
+          field={@form[:processing_time_estimate_days]}
+          type="number"
+          label="Estimated processing and delivery time for document type"
+        />
+        <.input
+          field={@form[:default_buffer_time_days]}
+          type="number"
+          label="Safety buffer for user action (days)"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save document type</.button>
         </:actions>
