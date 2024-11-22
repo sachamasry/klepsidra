@@ -49,6 +49,16 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
           type="number"
           label="Safety buffer for user action (days)"
         />
+        <.input
+          field={@form[:is_country_specific]}
+          type="checkbox"
+          label="Is this document type country-specific?"
+        />
+        <.input
+          field={@form[:requires_renewal]}
+          type="checkbox"
+          label="Does this document type need renewing?"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save document type</.button>
         </:actions>

@@ -1519,6 +1519,51 @@ Stores information about each country and its travel regulations.
 
 <!-- livebook:{"break_markdown":true} -->
 
+Table `document_templates`
+
+```sql
+CREATE TABLE document_templates (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- Unique identifier for each template
+    name TEXT NOT NULL UNIQUE, -- Name of the template (e.g., "Passport Template")
+    description TEXT, -- Description or additional information about the template
+    template_file_path TEXT, -- Path or reference to the template file
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of creation
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of last update
+);
+```
+
+#### Schema Details
+
+* id: A unique identifier for each template, ensuring distinct entries.
+* name: Unique name for identifying the document template (e.g., “Schengen Visa Application Form”).
+* description: Optional, provides a brief description of the template’s purpose or instructions.
+* template_file_path: A path or URL pointing to the stored file or document template. This might reference a storage service (e.g., AWS S3, Google Cloud Storage) or a local directory.
+* created_at and updated_at: Timestamps to track when the template was created and last updated.
+
+#### Indexes and Constraints
+
+To optimize queries and ensure data integrity:
+
+* Unique Index on name:
+
+```sql
+CREATE UNIQUE INDEX idx_document_templates_name ON document_templates (name);
+```
+
+* Full-Text Search on description: (Optional)
+
+```sql
+CREATE INDEX idx_document_templates_description_gin 
+ON document_templates USING gin (to_tsvector('english', description));
+```
+
+#### Relationship with Other Tables
+
+* Referenced by document_types: The document_types.template_id foreign key references document_templates.id. This allows associating a document type with its corresponding template.
+* Example Use Case: A visa application form (template) linked to multiple visa types in different jurisdictions.
+
+<!-- livebook:{"break_markdown":true} -->
+
 Table `document_types`
 
 This table will store all possible document types.
@@ -1532,7 +1577,8 @@ CREATE TABLE document_types (
     notification_lead_time_days INT DEFAULT 30,    -- Recommended days before expiry to trigger renewal notification
     processing_time_estimate_days INT DEFAULT 30,   -- Estimated document issuance processing and delivery time in days 
     default_buffer_time_days INT DEFAULT 14,    -- Default safety buffer, in days, for user action
-    template_id UUID REFERENCES document_templates(id), -- Optional reference to template
+    is_country_specific BOOLEAN DEFAULT TRUE, -- Indicates if this document type varies by country
+    requires_renewal BOOLEAN DEFAULT TRUE, -- Indicates if renewal is required
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -1549,6 +1595,9 @@ CREATE TABLE document_types (
    * Estimated number of days required by the issuing authority to process and deliver the document.
 2. `default_buffer_time_days`:
    * Default extra days added as a buffer for user action. This can account for unforeseen delays or personal preparation time.
+
+* `is_country_specific`: For document types like visas that vary by country, this field helps determine if country-specific rules apply.
+* `requires_renewal`: Simplifies checking whether a document type has a renewal requirement.
 
 #### Example Data
 

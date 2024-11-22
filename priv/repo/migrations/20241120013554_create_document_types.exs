@@ -45,12 +45,30 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
         default: 14,
         comment: "Default safety buffer, in days, for user action"
 
+      add :is_country_specific, :boolean,
+        null: false,
+        default: false,
+        comment: "Indicates if this document type varies by country"
+
+      add :requires_renewal, :boolean,
+        null: false,
+        default: true,
+        comment: "Indicates if renewal is required"
+
       timestamps()
     end
 
     create unique_index(:document_types, [:name],
              unique: true,
              comment: "Unique index on document type"
+           )
+
+    create index(:document_types, :is_country_specific,
+             comment: "Index `is_country_specific` field for faster searching and filtering"
+           )
+
+    create index(:document_types, :requires_renewal,
+             comment: "Index `requires_renewal` field for faster searching and filtering"
            )
 
     create index(

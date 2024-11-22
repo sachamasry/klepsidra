@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
+  @moduledoc false
+
   use KlepsidraWeb, :live_component
 
   alias Klepsidra.Documents

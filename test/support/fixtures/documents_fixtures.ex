@@ -17,7 +17,9 @@ defmodule Klepsidra.DocumentsFixtures do
         default_validity_duration: 10,
         notification_lead_time_days: 30,
         processing_time_estimate_days: 30,
-        default_buffer_time_days: 14
+        default_buffer_time_days: 14,
+        is_country_specific: true,
+        requires_renewal: true
       })
       |> Klepsidra.Documents.create_document_type()
 

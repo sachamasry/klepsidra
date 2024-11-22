@@ -23,7 +23,7 @@ defmodule Klepsidra.Documents.UserDocument do
           expiry_date: NaiveDateTime.t(),
           is_active: boolean(),
           file_url: String.t()
-          }
+        }
   schema "user_documents" do
     field :document_type_id, Ecto.UUID
     field :user_id, Ecto.UUID
@@ -41,7 +41,26 @@ defmodule Klepsidra.Documents.UserDocument do
   @doc false
   def changeset(user_document, attrs) do
     user_document
-    |> cast(attrs, [:document_type_id, :user_id, :unique_reference, :issued_by, :issuing_country_id, :issue_date, :expiry_date, :is_active, :file_url])
-    |> validate_required([:document_type_id, :user_id, :unique_reference, :issued_by, :issuing_country_id, :issue_date, :expiry_date, :is_active])
+    |> cast(attrs, [
+      :document_type_id,
+      :user_id,
+      :unique_reference,
+      :issued_by,
+      :issuing_country_id,
+      :issue_date,
+      :expiry_date,
+      :is_active,
+      :file_url
+    ])
+    |> validate_required([
+      :document_type_id,
+      :user_id,
+      :unique_reference,
+      :issued_by,
+      :issuing_country_id,
+      :issue_date,
+      :expiry_date,
+      :is_active
+    ])
   end
 end

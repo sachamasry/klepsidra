@@ -15,7 +15,9 @@ defmodule Klepsidra.DocumentsTest do
       default_validity_duration: nil,
       notification_lead_time_days: nil,
       processing_time_estimate_days: nil,
-      default_buffer_time_days: nil
+      default_buffer_time_days: nil,
+      is_country_specific: nil,
+      requires_renewal: nil
     }
 
     test "list_document_types/0 returns all document_types" do
@@ -36,7 +38,9 @@ defmodule Klepsidra.DocumentsTest do
         default_validity_duration: 10,
         notification_lead_time_days: 30,
         processing_time_estimate_days: 30,
-        default_buffer_time_days: 14
+        default_buffer_time_days: 14,
+        is_country_specific: true,
+        requires_renewal: true
       }
 
       assert {:ok, %DocumentType{} = document_type} = Documents.create_document_type(valid_attrs)
@@ -47,6 +51,8 @@ defmodule Klepsidra.DocumentsTest do
       assert document_type.notification_lead_time_days == 30
       assert document_type.processing_time_estimate_days == 30
       assert document_type.default_buffer_time_days == 14
+      assert document_type.is_country_specific == true
+      assert document_type.requires_renewal == true
     end
 
     test "create_document_type/1 with invalid data returns error changeset" do
@@ -63,7 +69,9 @@ defmodule Klepsidra.DocumentsTest do
         default_validity_duration: 36,
         notification_lead_time_days: 60,
         processing_time_estimate_days: 45,
-        default_buffer_time_days: 28
+        default_buffer_time_days: 28,
+        is_country_specific: false,
+        requires_renewal: false
       }
 
       assert {:ok, %DocumentType{} = document_type} =
@@ -76,6 +84,8 @@ defmodule Klepsidra.DocumentsTest do
       assert document_type.notification_lead_time_days == 60
       assert document_type.processing_time_estimate_days == 45
       assert document_type.default_buffer_time_days == 28
+      assert document_type.is_country_specific == false
+      assert document_type.requires_renewal == false
     end
 
     test "update_document_type/2 with invalid data returns error changeset" do

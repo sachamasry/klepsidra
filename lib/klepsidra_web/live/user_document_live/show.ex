@@ -1,4 +1,6 @@
 defmodule KlepsidraWeb.UserDocumentLive.Show do
+  @moduledoc false
+
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.Documents

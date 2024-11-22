@@ -18,7 +18,9 @@ defmodule Klepsidra.Documents.DocumentType do
           default_validity_duration: integer(),
           notification_lead_time_days: integer(),
           processing_time_estimate_days: integer(),
-          default_buffer_time_days: integer()
+          default_buffer_time_days: integer(),
+          is_country_specific: boolean(),
+          requires_renewal: boolean()
         }
   schema "document_types" do
     field :name, :string
@@ -28,6 +30,8 @@ defmodule Klepsidra.Documents.DocumentType do
     field :notification_lead_time_days, :integer
     field :processing_time_estimate_days, :integer
     field :default_buffer_time_days, :integer
+    field :is_country_specific, :boolean
+    field :requires_renewal, :boolean
 
     timestamps()
   end
@@ -42,7 +46,9 @@ defmodule Klepsidra.Documents.DocumentType do
       :default_validity_duration,
       :notification_lead_time_days,
       :processing_time_estimate_days,
-      :default_buffer_time_days
+      :default_buffer_time_days,
+      :is_country_specific,
+      :requires_renewal
     ])
     |> validate_required([
       :name,
@@ -50,7 +56,9 @@ defmodule Klepsidra.Documents.DocumentType do
       :default_validity_duration,
       :notification_lead_time_days,
       :processing_time_estimate_days,
-      :default_buffer_time_days
+      :default_buffer_time_days,
+      :is_country_specific,
+      :requires_renewal
     ])
     |> unique_constraint(:name,
       message: "A document type with this name already exists"
