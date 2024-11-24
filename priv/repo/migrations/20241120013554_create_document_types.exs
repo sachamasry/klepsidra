@@ -19,41 +19,26 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
 
       add :description, :text, comment: "Any other document type details which may be useful."
 
-      add :default_validity_period_unit, :string,
+      add :max_validity_period_unit, :string,
         null: false,
         default: "years",
-        comment: "Default validity time unit for this type (e.g. 'years')"
+        comment: "Maximum validity time unit for this type of document (e.g. 'years')"
 
-      add :default_validity_duration, :integer,
+      add :max_validity_duration, :integer,
         null: false,
         default: 0,
-        comment: "Default validity duration for this type, in time units specified (e.g. 10)"
-
-      add :notification_lead_time_days, :integer,
-        null: false,
-        default: 30,
         comment:
-          "Recommended days before expiry to trigger renewal notification for this type of document"
-
-      add :processing_time_estimate_days, :integer,
-        null: false,
-        default: 30,
-        comment: "Estimated document issuance processing and delivery time, in days"
-
-      add :default_buffer_time_days, :integer,
-        null: false,
-        default: 14,
-        comment: "Default safety buffer, in days, for user action"
+          "Maximum validity duration for this type of documents in time units specified (e.g. 10)"
 
       add :is_country_specific, :boolean,
         null: false,
-        default: false,
+        default: true,
         comment: "Indicates if this document type varies by country"
 
       add :requires_renewal, :boolean,
         null: false,
         default: true,
-        comment: "Indicates if renewal is required"
+        comment: "Indicates if renewal is required for this type of document"
 
       timestamps()
     end
@@ -74,14 +59,11 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
     create index(
              :document_types,
              [
-               :default_validity_period_unit,
-               :default_validity_duration,
-               :notification_lead_time_days,
-               :processing_time_estimate_days,
-               :default_buffer_time_days
+               :max_validity_period_unit,
+               :max_validity_duration
              ],
              comment:
-               "Composite index optimising queries that filter on a combination of default validity, `notification_lead_time_days`, `processing_time_estimate_days`, `default_buffer_time_days` fields, avoiding full-table scans"
+               "Composite index optimising queries that filter on a combination of default validity time unit and duration fields, avoiding full-table scans"
            )
   end
 end

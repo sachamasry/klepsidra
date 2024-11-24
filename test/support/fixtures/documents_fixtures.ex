@@ -13,11 +13,8 @@ defmodule Klepsidra.DocumentsFixtures do
       |> Enum.into(%{
         name: "some name",
         description: "some description",
-        default_validity_period_unit: "year",
-        default_validity_duration: 10,
-        notification_lead_time_days: 30,
-        processing_time_estimate_days: 30,
-        default_buffer_time_days: 14,
+        max_validity_period_unit: "year",
+        max_validity_duration: 10,
         is_country_specific: true,
         requires_renewal: true
       })

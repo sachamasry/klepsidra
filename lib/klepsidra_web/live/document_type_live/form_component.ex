@@ -25,30 +25,11 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
         <.input
-          field={@form[:default_validity_period_unit]}
+          field={@form[:max_validity_period_unit]}
           type="text"
-          label="Default validity time unit"
+          label="Maximum validity time unit"
         />
-        <.input
-          field={@form[:default_validity_duration]}
-          type="number"
-          label="Default validity duration"
-        />
-        <.input
-          field={@form[:notification_lead_time_days]}
-          type="number"
-          label="Expiry notification lead time for document type"
-        />
-        <.input
-          field={@form[:processing_time_estimate_days]}
-          type="number"
-          label="Estimated processing and delivery time for document type"
-        />
-        <.input
-          field={@form[:default_buffer_time_days]}
-          type="number"
-          label="Safety buffer for user action (days)"
-        />
+        <.input field={@form[:max_validity_duration]} type="number" label="Maximum validity duration" />
         <.input
           field={@form[:is_country_specific]}
           type="checkbox"
