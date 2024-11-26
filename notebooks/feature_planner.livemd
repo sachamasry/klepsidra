@@ -1505,14 +1505,15 @@ The database schema includes the following main tables:
 
 <!-- livebook:{"break_markdown":true} -->
 
-Table `issuing_authorities`
+Table `document_issuers`
 
 ```sql
-CREATE TABLE issuing_authorities (
+CREATE TABLE document_issuers (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE, -- Name of the issuing authority (e.g., "US Department of State")
     description TEXT, -- Description of the authority
-    country_id INT REFERENCES countries(id) ON DELETE CASCADE, -- Country where the authority operates
+    country_id CHAR(3) REFERENCES locations_countries(iso_3_country_code), -- Country where the authority operates, references country's iso_3_country_code
+
     contact_information JSONB, -- JSON structure for storing contact details (e.g., email, phone, address)
     website_url TEXT, -- Website for the issuing authority
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -1523,36 +1524,36 @@ CREATE TABLE issuing_authorities (
 #### Index Suggestions
 
 ```sql
-CREATE INDEX idx_issuing_authorities_country_id ON issuing_authorities (country_id);
+CREATE INDEX idx_document_issuers_country_id ON document_issuers (country_id);
 ```
 
-The `contact_information` field in the issuing_authorities table is defined as JSONB because it allows flexibility and efficiency in storing complex, semi-structured data that varies across authorities.
+The `contact_information` field in the `document_issuers` table is defined as JSONB because it allows flexibility and efficiency in storing complex, semi-structured data that varies across issuers.
 
 Reasons for Using JSONB
 
 1. Complex and Nested Data
 
    * Contact information can include multiple attributes, such as:
-   * Email addresses
-   * Phone numbers (possibly multiple, e.g., direct line and helpline)
-   * Physical addresses
-   * Office hours
-   * Additional details like fax numbers or secondary addresses
-   * Representing this data in a nested JSON structure avoids the need for additional tables or complex column-based designs.
+     * Email addresses
+     * Phone numbers (possibly multiple, e.g., direct line and helpline)
+     * Physical addresses
+     * Office hours
+     * Additional details like fax numbers or secondary addresses
+     * Representing this data in a nested JSON structure avoids the need for additional tables or complex column-based designs.
 
 2. Variability
 
-   * Different issuing authorities may provide different types of contact information:
-   * Some may offer only an email and phone.
-   * Others might include multiple office addresses or hours.
-   * A JSONB field handles these variations elegantly, as fields within the JSON document can be optional.
+   * Different document issuers may provide different types of contact information:
+     * Some may offer only an email and phone.
+     * Others might include multiple office addresses or hours.
+     * A JSONB field handles these variations elegantly, as fields within the JSON document can be optional.
 
 3. Querying and Indexing
 
    * JSONB in PostgreSQL supports:
-   * Efficient indexing via GIN (Generalized Inverted Index).
-   * Flexible querying with JSON path expressions or PostgreSQL-specific operators (->>, #>>).
-   * Example: Quickly retrieve issuing authorities with a specific office address or working hours.
+     * Efficient indexing via GIN (Generalized Inverted Index).
+     * Flexible querying with JSON path expressions or PostgreSQL-specific operators (->>, #>>).
+     * Example: Quickly retrieve issuing authorities with a specific office address or working hours.
 
 4. Future-Proofing
 
@@ -1562,15 +1563,15 @@ Reasons for Using JSONB
 5. Reduced Table Complexity
 
    * Without JSONB, you might need multiple related tables, such as:
-   * emails
-   * phone_numbers
-   * addresses
-   * office_hours
-   * Consolidating these details into a single field reduces the table count and joins, making the schema cleaner.
+     * emails
+     * phone_numbers
+     * addresses
+     * office_hours
+     * Consolidating these details into a single field reduces the table count and joins, making the schema cleaner.
 
 #### Examples of JSONB usage
 
-Example 1: A simple authority with minimal details
+Example 1: A simple document issuer with minimal details
 
 ```json
 {
@@ -1581,7 +1582,7 @@ Example 1: A simple authority with minimal details
 }
 ```
 
-Example 2: A complex authority with multiple addresses and lines:
+Example 2: A complex document issuer with multiple addresses and lines:
 
 ```json
 {
