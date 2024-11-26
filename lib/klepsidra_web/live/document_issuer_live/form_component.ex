@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   import LiveToast
 
   alias Klepsidra.Documents
+  alias Klepsidra.Locations.Country
 
   @impl true
   def render(assigns) do
@@ -24,8 +25,28 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
-        <.input field={@form[:country_id]} type="text" label="Country" />
-        <.input field={@form[:website_url]} type="url" label="Website URL" />
+
+        <.live_select
+          field={@form[:country_id]}
+          mode={:single}
+          label="Country"
+          options={[]}
+          placeholder="Document issuer country"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={2}
+          value_mapper={&value_mapper/1}
+          phx-blur="country_selector_blur"
+          phx-target={@myself}
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
+
+        <.input field={@form[:website_url]} type="text" label="Website URL" />
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
@@ -42,6 +63,26 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
      |> assign_new(:form, fn ->
        to_form(Documents.change_document_issuer(document_issuer))
      end)}
+  end
+
+  @impl true
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "document_issuer_country_id",
+          "id" => live_select_id,
+          "text" => country_search_phrase
+        },
+        socket
+      ) do
+    countries = Klepsidra.Locations.country_search(country_search_phrase)
+
+    send_update(LiveSelect.Component, id: live_select_id, options: countries)
+    {:noreply, socket}
+  end
+
+  def handle_event("country_selector_blur", %{"id" => _id}, socket) do
+    {:noreply, socket}
   end
 
   @impl true
@@ -87,4 +128,10 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp value_mapper(country_code) when is_bitstring(country_code) do
+    Country.country_option_for_select(country_code)
+  end
+
+  defp value_mapper(value), do: value
 end

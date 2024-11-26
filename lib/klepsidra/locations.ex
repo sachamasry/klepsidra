@@ -321,6 +321,65 @@ defmodule Klepsidra.Locations do
   end
 
   @doc """
+  Returns a list of countries containing the name fragment, sorted by
+  descending population size, and by name in alphabetical order.
+
+  ## Examples
+
+      iex> Locations.list_countries_by_name("")
+      []
+
+      iex> Locations.list_countries_by_name("Canada")
+      [%{}, ...]
+  """
+  @spec list_countries_by_name(name_filter :: String.t(), options :: keyword()) :: [map(), ...]
+  def list_countries_by_name(name_filter, options \\ [])
+
+  def list_countries_by_name("", _), do: []
+
+  def list_countries_by_name(name_filter, _options) when is_bitstring(name_filter) do
+    # Keyword.get(options, :limit, 25)
+    max_result_count = 25
+    like_name = "%#{name_filter}%"
+
+    query =
+      from(
+        co in Country,
+        where: like(co.country_name, ^like_name),
+        order_by: [
+          desc: co.population,
+          desc: co.area,
+          asc: co.country_name
+        ],
+        select: %{
+          iso_2_country_code: co.iso_country_code,
+          iso_3_country_code: co.iso_3_country_code,
+          country_name: co.country_name
+        },
+        limit: ^max_result_count
+      )
+
+    Repo.all(query)
+  end
+
+  def list_countries_by_name(_, _), do: []
+
+  @doc """
+  Searches for countries, forming the result into an HTML usable
+  %{value: id, label: city} map.
+  """
+  @spec country_search(country_name :: String.t()) :: [map()]
+  def country_search(country_name) when is_bitstring(country_name) do
+    country_name
+    |> list_countries_by_name(limit: 25)
+    |> Enum.map(fn country ->
+      %{value: country.iso_3_country_code, label: "#{country.country_name}"}
+    end)
+  end
+
+  def country_search(_name), do: []
+
+  @doc """
   Gets a single country.
 
   Raises `Ecto.NoResultsError` if the Country does not exist.
@@ -339,6 +398,37 @@ defmodule Klepsidra.Locations do
     |> where([c], c.iso_country_code == ^iso_country_code)
     |> Repo.one()
   end
+
+  @doc """
+  Gets a single country, with ISO three-letter code 
+  and country name.
+
+  Returns `nil` if the country does not exist.
+
+  ## Examples
+
+      iex> Locations.get_country_by_iso_3_code!(123)
+      %Locations.Country{}
+
+      iex> Locations.get_country_by_iso_3_code!(456)
+      nil
+
+  """
+  @spec get_country_by_iso_3_code!(country_code :: String.t()) :: Country.t() | nil
+  def get_country_by_iso_3_code!(""), do: nil
+
+  def get_country_by_iso_3_code!(country_code) when is_bitstring(country_code) do
+    query =
+      from(
+        co in Country,
+        where: co.iso_3_country_code == ^country_code,
+        select: %{value: co.iso_3_country_code, label: co.country_name}
+      )
+
+    Repo.one(query)
+  end
+
+  def get_country_by_iso_3_code!(_), do: nil
 
   @doc """
   Creates a country.

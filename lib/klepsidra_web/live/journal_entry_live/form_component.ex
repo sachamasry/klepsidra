@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntryTypes
@@ -381,7 +382,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Journal entry updated successfully")
+         |> put_toast(:info, "Journal entry updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -409,7 +410,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Journal entry logged successfully")
+         |> put_toast(:info, "Journal entry logged successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

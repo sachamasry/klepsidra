@@ -11,6 +11,8 @@ defmodule Klepsidra.Locations.Country do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Klepsidra.Locations
+
   @primary_key false
   @type t :: %__MODULE__{
           iso_country_code: String.t(),
@@ -99,4 +101,46 @@ defmodule Klepsidra.Locations.Country do
       :geoname_id
     ])
   end
+
+  @doc """
+  Constructs an HTML `select` option for a single country entity, for use by
+  the `live_select` live component.
+
+  Given a current `country_id`, a foreign key reference to a country in the
+  `locations_countries` table, calls the `get_country_by_iso_3_code!/1`
+  query, obtaining necessary fields to construct a full, unambiguous,
+  country name.
+
+  ## Returns
+
+  Returns a single map:
+  ```
+  %{
+    label: << country_name >>,
+    value: << iso_3_country_code (string) >>
+  ```
+
+  ## Examples
+
+      iex> country_option_as_html_select("GBR")
+      %{label: "...", value: "..."}
+
+      iex> country_option_as_html_select(123)
+      %{label: "", value: ""}
+  """
+  @spec country_option_for_select(country_code :: String.t()) :: %{
+          label: String.t(),
+          value: String.t()
+        }
+  def country_option_for_select(country_code) when is_bitstring(country_code) do
+    case Locations.get_country_by_iso_3_code!(country_code) do
+      nil ->
+        %{label: "", value: ""}
+
+      country ->
+        country
+    end
+  end
+
+  def country_option_as_html_select(_), do: %{label: "", value: ""}
 end
