@@ -13,10 +13,10 @@
   <:item title="Website URL">
     <a href={@document_issuer.website_url}><%= @document_issuer.website_url %></a>
   </:item>
-  <:item title="Contact information">
+  <:item :if={map_size(@document_issuer.contact_information) > 0} title="Contact information">
     <pre>
       <code>
-        <%= Jason.encode!(@document_issuer.contact_information) %>
+        <%= Jason.Formatter.pretty_print(Jason.encode!(@document_issuer.contact_information)) %>
       </code>
     </pre>
   </:item>
