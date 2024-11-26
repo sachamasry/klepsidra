@@ -4,6 +4,7 @@ defmodule KlepsidraWeb.Telemetry do
 
   @moduledoc false
 
+  @doc false
   def start_link(arg) do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
@@ -21,6 +22,7 @@ defmodule KlepsidraWeb.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
+  @doc false
   def metrics do
     [
       # Phoenix Metrics

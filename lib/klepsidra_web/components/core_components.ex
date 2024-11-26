@@ -241,6 +241,7 @@ defmodule KlepsidraWeb.CoreComponents do
   attr(:name, :any)
   attr(:label, :string, default: nil)
   attr(:value, :any)
+  attr(:selected, :any, default: "")
 
   attr(:type, :string,
     default: "text",
@@ -310,7 +311,7 @@ defmodule KlepsidraWeb.CoreComponents do
         {@rest}
       >
         <option :if={@prompt} value=""><%= @prompt %></option>
-        <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
+        <%= Phoenix.HTML.Form.options_for_select(@options, @value || @selected) %>
       </select>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>

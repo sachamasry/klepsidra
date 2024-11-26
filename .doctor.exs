@@ -1,21 +1,14 @@
 %Doctor.Config{
   ignore_modules: [
-    Klepsidra.Cldr.Currency,
-    Klepsidra.Cldr.Time,
-    Klepsidra.Cldr.Date,
-    Klepsidra.Cldr.DateTime,
-    Klepsidra.Cldr.DateTime.Relative,
-    Klepsidra.Cldr.Number.Formatter.Decimal,
-    Klepsidra.Cldr.Number.Symbol,
-    Klepsidra.Cldr.Number.System,
-    Klepsidra.Cldr.Territory,
     Klepsidra.Cldr.Unit.Additional,
-    KlepsidraWeb,
-    KlepsidraWeb.ErrorHTML,
-    KlepsidraWeb.ErrorJSON,
-    KlepsidraWeb.PageController,
-    KlepsidraWeb.Live.HelloStyles,
-    KlepsidraWeb.Telemetry
+    Klepsidra.Cldr.Time,
+    Klepsidra.Cldr.Number.System,
+    Klepsidra.Cldr.Number.Symbol,
+    Klepsidra.Cldr.Number.Formatter.Decimal,
+    Klepsidra.Cldr.DateTime.Relative,
+    Klepsidra.Cldr.DateTime,
+    Klepsidra.Cldr.Date,
+    Klepsidra.Cldr.Currency
   ],
   ignore_paths: [],
   min_module_doc_coverage: 40,
@@ -27,5 +20,6 @@
   raise: false,
   reporter: Doctor.Reporters.Full,
   struct_type_spec_required: true,
-  umbrella: false
+  umbrella: false,
+  failed: false
 }

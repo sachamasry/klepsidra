@@ -42,6 +42,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           type="select"
           label="Duration time increment"
           options={Units.construct_duration_unit_options_list(use_primitives?: true)}
+          selected=""
         />
 
         <div id="tag-selector" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>

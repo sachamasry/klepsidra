@@ -17,8 +17,10 @@ defmodule KlepsidraWeb do
   those modules here.
   """
 
+  @doc false
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
+  @doc false
   def router do
     quote do
       use Phoenix.Router, helpers: false
@@ -32,12 +34,14 @@ defmodule KlepsidraWeb do
     end
   end
 
+  @doc false
   def channel do
     quote do
       use Phoenix.Channel
     end
   end
 
+  @doc false
   def controller do
     quote do
       use Phoenix.Controller,
@@ -51,6 +55,7 @@ defmodule KlepsidraWeb do
     end
   end
 
+  @doc false
   def live_view do
     quote do
       use Phoenix.LiveView,
@@ -60,6 +65,7 @@ defmodule KlepsidraWeb do
     end
   end
 
+  @doc false
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -68,6 +74,7 @@ defmodule KlepsidraWeb do
     end
   end
 
+  @doc false
   def html do
     quote do
       use Phoenix.Component
@@ -100,6 +107,7 @@ defmodule KlepsidraWeb do
     end
   end
 
+  @doc false
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,

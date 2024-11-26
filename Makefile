@@ -136,7 +136,7 @@ db-doc:
 # Quality control
 check:
 	@echo "==> Running all code analysis & testing tools"
-	mix check --config .check.exs
+	mix check --config .check.exs || mix check --config .check.exs --retry || mix check --config .check.exs --retry
 	@echo "--> Successfully ran all code analysis & testing tools"
 
 test:

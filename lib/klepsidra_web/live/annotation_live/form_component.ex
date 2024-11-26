@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
 
@@ -25,8 +26,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
           field={@form[:entry_type]}
           type="select"
           label="Entry type"
-          options={[Annotation: "annotation", Quote: "quote"]}
-          value={if @annotation.entry_type, do: @annotation.entry_type, else: "annotation"}
+          options={@entry_type_options}
         />
         <.input field={@form[:text]} type="textarea" placeholder="Annotation or quote" label="Text" />
         <.input field={@form[:author_name]} type="text" label="Author" />
@@ -43,7 +43,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
           placeholder="Personal comments on the annotation or quote"
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Annotation</.button>
+          <.button phx-disable-with="Saving...">Save annotation</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -55,6 +55,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
     socket =
       socket
       |> assign(assigns)
+      |> assign(entry_type_options: [Annotation: "annotation", Quote: "quote"])
       |> assign_new(:form, fn ->
         to_form(KnowledgeManagement.change_annotation(annotation))
       end)
@@ -81,7 +82,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Annotation updated successfully")
+         |> put_toast(:info, "Annotation updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -96,7 +97,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Annotation created successfully")
+         |> put_toast(:info, "Annotation created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -9,7 +9,11 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :document_issuers, Documents.list_document_issuers())}
+    socket =
+      socket
+      |> stream(:document_issuers, Documents.list_document_issuers())
+
+    {:ok, socket}
   end
 
   @impl true
