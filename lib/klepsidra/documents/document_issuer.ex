@@ -6,6 +6,7 @@ defmodule Klepsidra.Documents.DocumentIssuer do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Klepsidra.Locations.Country
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
 
@@ -21,7 +22,7 @@ defmodule Klepsidra.Documents.DocumentIssuer do
     field :name, :string
     field :description, :string
 
-    belongs_to(:locations_countries, LocationsCountry,
+    belongs_to(:locations_countries, Country,
       foreign_key: :country_id,
       references: :iso_3_country_code,
       type: :string
@@ -37,7 +38,7 @@ defmodule Klepsidra.Documents.DocumentIssuer do
   def changeset(document_issuer, attrs) do
     document_issuer
     |> cast(attrs, [:name, :description, :country_id, :contact_information, :website_url])
-    |> validate_required([:name])
+    |> validate_required([:name], message: "Enter the document issuer name")
     |> unique_constraint(:name, message: "There is already a document issuer with that name")
   end
 end

@@ -37,15 +37,15 @@ defmodule KlepsidraWeb.DocumentIssuerLiveTest do
     test "lists all document_issuers", %{conn: conn, document_issuer: document_issuer} do
       {:ok, _index_live, html} = live(conn, ~p"/document_issuers")
 
-      assert html =~ "Listing Document issuers"
+      assert html =~ "Document issuers"
       assert html =~ document_issuer.name
     end
 
     test "saves new document_issuer", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/document_issuers")
 
-      assert index_live |> element("a", "New Document issuer") |> render_click() =~
-               "New Document issuer"
+      assert index_live |> element("a", "New document issuer") |> render_click() =~
+               "New document issuer"
 
       assert_patch(index_live, ~p"/document_issuers/new")
 
@@ -71,7 +71,7 @@ defmodule KlepsidraWeb.DocumentIssuerLiveTest do
       assert index_live
              |> element("#document_issuers-#{document_issuer.id} a", "Edit")
              |> render_click() =~
-               "Edit Document issuer"
+               "Edit document issuer"
 
       assert_patch(index_live, ~p"/document_issuers/#{document_issuer}/edit")
 

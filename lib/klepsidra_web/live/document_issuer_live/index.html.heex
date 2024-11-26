@@ -1,8 +1,8 @@
 <.header>
-  Listing Document issuers
+  Document issuers
   <:actions>
     <.link patch={~p"/document_issuers/new"}>
-      <.button>New Document issuer</.button>
+      <.button>New document issuer</.button>
     </.link>
   </:actions>
 </.header>
@@ -15,9 +15,6 @@
   }
 >
   <:col :let={{_id, document_issuer}} label="Name"><%= document_issuer.name %></:col>
-  <:col :let={{_id, document_issuer}} label="Description">
-    <%= document_issuer.description %>
-  </:col>
   <:col :let={{_id, document_issuer}} label="Country"><%= document_issuer.country_id %></:col>
   <:col :let={{_id, document_issuer}} label="Website url">
     <%= document_issuer.website_url %>

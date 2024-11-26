@@ -1,21 +1,28 @@
 <.header>
-  Document issuer <%= @document_issuer.id %>
-  <:subtitle>This is a document_issuer record from your database.</:subtitle>
+  <%= @document_issuer.name %>
+  <:subtitle><%= @document_issuer.description %></:subtitle>
   <:actions>
     <.link patch={~p"/document_issuers/#{@document_issuer}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit document_issuer</.button>
+      <.button>Edit document issuer</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Name"><%= @document_issuer.name %></:item>
-  <:item title="Description"><%= @document_issuer.description %></:item>
   <:item title="Country"><%= @document_issuer.country_id %></:item>
-  <:item title="Website url"><%= @document_issuer.website_url %></:item>
+  <:item title="Website URL">
+    <a href={@document_issuer.website_url}><%= @document_issuer.website_url %></a>
+  </:item>
+  <:item title="Contact information">
+    <pre>
+      <code>
+        <%= Jason.encode!(@document_issuer.contact_information) %>
+      </code>
+    </pre>
+  </:item>
 </.list>
 
-<.back navigate={~p"/document_issuers"}>Back to document_issuers</.back>
+<.back navigate={~p"/document_issuers"}>Back to document issuers</.back>
 
 <.modal
   :if={@live_action == :edit}

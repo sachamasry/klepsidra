@@ -41,8 +41,8 @@ defmodule Klepsidra.Documents.DocumentType do
       :is_country_specific,
       :requires_renewal
     ])
+    |> validate_required([:name], message: "Enter a document type name")
     |> validate_required([
-      :name,
       :max_validity_period_unit,
       :max_validity_duration,
       :is_country_specific,

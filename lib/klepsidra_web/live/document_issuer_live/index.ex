@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.Documents
   alias Klepsidra.Documents.DocumentIssuer
@@ -18,19 +19,19 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Document issuer")
+    |> assign(:page_title, "Edit document issuer")
     |> assign(:document_issuer, Documents.get_document_issuer!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Document issuer")
+    |> assign(:page_title, "New document issuer")
     |> assign(:document_issuer, %DocumentIssuer{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Document issuers")
+    |> assign(:page_title, "Document issuers")
     |> assign(:document_issuer, nil)
   end
 
@@ -47,6 +48,12 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Index do
     document_issuer = Documents.get_document_issuer!(id)
     {:ok, _} = Documents.delete_document_issuer(document_issuer)
 
-    {:noreply, stream_delete(socket, :document_issuers, document_issuer)}
+    {:noreply, handle_deleted_document_issuer(socket, document_issuer, :document_issuers)}
+  end
+
+  defp handle_deleted_document_issuer(socket, document_type, source_stream) do
+    socket
+    |> stream_delete(source_stream, document_type)
+    |> put_toast(:info, "Document issuer deleted successfully")
   end
 end

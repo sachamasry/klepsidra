@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Documents
 
@@ -11,7 +12,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage document_issuer records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -22,11 +23,11 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <.input field={@form[:country_id]} type="text" label="Country" />
-        <.input field={@form[:website_url]} type="text" label="Website url" />
+        <.input field={@form[:website_url]} type="url" label="Website URL" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Document issuer</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -62,7 +63,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Document issuer updated successfully")
+         |> put_toast(:info, "Document issuer updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -77,7 +78,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Document issuer created successfully")
+         |> put_toast(:info, "Document issuer created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
