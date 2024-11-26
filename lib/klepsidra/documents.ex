@@ -197,4 +197,100 @@ defmodule Klepsidra.Documents do
   def change_user_document(%UserDocument{} = user_document, attrs \\ %{}) do
     UserDocument.changeset(user_document, attrs)
   end
+
+  alias Klepsidra.Documents.DocumentIssuer
+
+  @doc """
+  Returns the list of document_issuers.
+
+  ## Examples
+
+      iex> list_document_issuers()
+      [%DocumentIssuer{}, ...]
+
+  """
+  def list_document_issuers do
+    Repo.all(DocumentIssuer)
+  end
+
+  @doc """
+  Gets a single document_issuer.
+
+  Raises `Ecto.NoResultsError` if the Document issuer does not exist.
+
+  ## Examples
+
+      iex> get_document_issuer!(123)
+      %DocumentIssuer{}
+
+      iex> get_document_issuer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_document_issuer!(id), do: Repo.get!(DocumentIssuer, id)
+
+  @doc """
+  Creates a document_issuer.
+
+  ## Examples
+
+      iex> create_document_issuer(%{field: value})
+      {:ok, %DocumentIssuer{}}
+
+      iex> create_document_issuer(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_document_issuer(attrs \\ %{}) do
+    %DocumentIssuer{}
+    |> DocumentIssuer.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a document_issuer.
+
+  ## Examples
+
+      iex> update_document_issuer(document_issuer, %{field: new_value})
+      {:ok, %DocumentIssuer{}}
+
+      iex> update_document_issuer(document_issuer, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_document_issuer(%DocumentIssuer{} = document_issuer, attrs) do
+    document_issuer
+    |> DocumentIssuer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a document_issuer.
+
+  ## Examples
+
+      iex> delete_document_issuer(document_issuer)
+      {:ok, %DocumentIssuer{}}
+
+      iex> delete_document_issuer(document_issuer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_document_issuer(%DocumentIssuer{} = document_issuer) do
+    Repo.delete(document_issuer)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking document_issuer changes.
+
+  ## Examples
+
+      iex> change_document_issuer(document_issuer)
+      %Ecto.Changeset{data: %DocumentIssuer{}}
+
+  """
+  def change_document_issuer(%DocumentIssuer{} = document_issuer, attrs \\ %{}) do
+    DocumentIssuer.changeset(document_issuer, attrs)
+  end
 end

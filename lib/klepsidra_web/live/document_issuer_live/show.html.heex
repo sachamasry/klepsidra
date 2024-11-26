@@ -1,0 +1,34 @@
+<.header>
+  Document issuer <%= @document_issuer.id %>
+  <:subtitle>This is a document_issuer record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/document_issuers/#{@document_issuer}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit document_issuer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @document_issuer.name %></:item>
+  <:item title="Description"><%= @document_issuer.description %></:item>
+  <:item title="Country"><%= @document_issuer.country_id %></:item>
+  <:item title="Website url"><%= @document_issuer.website_url %></:item>
+</.list>
+
+<.back navigate={~p"/document_issuers"}>Back to document_issuers</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="document_issuer-modal"
+  show
+  on_cancel={JS.patch(~p"/document_issuers/#{@document_issuer}")}
+>
+  <.live_component
+    module={KlepsidraWeb.DocumentIssuerLive.FormComponent}
+    id={@document_issuer.id}
+    title={@page_title}
+    action={@live_action}
+    document_issuer={@document_issuer}
+    patch={~p"/document_issuers/#{@document_issuer}"}
+  />
+</.modal>

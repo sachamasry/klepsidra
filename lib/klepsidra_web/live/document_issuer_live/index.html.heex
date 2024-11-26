@@ -1,0 +1,55 @@
+<.header>
+  Listing Document issuers
+  <:actions>
+    <.link patch={~p"/document_issuers/new"}>
+      <.button>New Document issuer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="document_issuers"
+  rows={@streams.document_issuers}
+  row_click={
+    fn {_id, document_issuer} -> JS.navigate(~p"/document_issuers/#{document_issuer}") end
+  }
+>
+  <:col :let={{_id, document_issuer}} label="Name"><%= document_issuer.name %></:col>
+  <:col :let={{_id, document_issuer}} label="Description">
+    <%= document_issuer.description %>
+  </:col>
+  <:col :let={{_id, document_issuer}} label="Country"><%= document_issuer.country_id %></:col>
+  <:col :let={{_id, document_issuer}} label="Website url">
+    <%= document_issuer.website_url %>
+  </:col>
+  <:action :let={{_id, document_issuer}}>
+    <div class="sr-only">
+      <.link navigate={~p"/document_issuers/#{document_issuer}"}>Show</.link>
+    </div>
+    <.link patch={~p"/document_issuers/#{document_issuer}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, document_issuer}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: document_issuer.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="document_issuer-modal"
+  show
+  on_cancel={JS.patch(~p"/document_issuers")}
+>
+  <.live_component
+    module={KlepsidraWeb.DocumentIssuerLive.FormComponent}
+    id={@document_issuer.id || :new}
+    title={@page_title}
+    action={@live_action}
+    document_issuer={@document_issuer}
+    patch={~p"/document_issuers"}
+  />
+</.modal>

@@ -5,6 +5,29 @@ defmodule Klepsidra.DocumentsFixtures do
   """
 
   @doc """
+  Generate a document_issuer.
+  """
+  def document_issuer_fixture(attrs \\ %{}) do
+    {:ok, document_issuer} =
+      attrs
+      |> Enum.into(%{
+        name: "some name",
+        description: "some description",
+        country_id: nil,
+        contact_information: %{
+          "email" => "contact@authority.gov",
+          "phone" => "+1-202-555-0198",
+          "address" => "123 Government Street, Washington, DC",
+          "working_hours" => "Mon-Fri, 9 AM - 5 PM"
+        },
+        website_url: "some website_url"
+      })
+      |> Klepsidra.Documents.create_document_issuer()
+
+    document_issuer
+  end
+
+  @doc """
   Generate a document_type.
   """
   def document_type_fixture(attrs \\ %{}) do

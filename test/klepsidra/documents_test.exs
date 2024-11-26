@@ -3,6 +3,98 @@ defmodule Klepsidra.DocumentsTest do
 
   alias Klepsidra.Documents
 
+  describe "document_issuers" do
+    alias Klepsidra.Documents.DocumentIssuer
+
+    import Klepsidra.DocumentsFixtures
+
+    @invalid_attrs %{
+      id: nil,
+      name: nil,
+      description: nil,
+      country_id: nil,
+      contact_information: nil,
+      website_url: nil
+    }
+
+    test "list_document_issuers/0 returns all document_issuers" do
+      document_issuer = document_issuer_fixture()
+      assert Documents.list_document_issuers() == [document_issuer]
+    end
+
+    test "get_document_issuer!/1 returns the document_issuer with given id" do
+      document_issuer = document_issuer_fixture()
+      assert Documents.get_document_issuer!(document_issuer.id) == document_issuer
+    end
+
+    test "create_document_issuer/1 with valid data creates a document_issuer" do
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        country_id: nil,
+        contact_information: %{},
+        website_url: "some website_url"
+      }
+
+      assert {:ok, %DocumentIssuer{} = document_issuer} =
+               Documents.create_document_issuer(valid_attrs)
+
+      assert document_issuer.name == "some name"
+      assert document_issuer.description == "some description"
+      assert document_issuer.country_id == nil
+      assert document_issuer.contact_information == %{}
+      assert document_issuer.website_url == "some website_url"
+    end
+
+    test "create_document_issuer/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Documents.create_document_issuer(@invalid_attrs)
+    end
+
+    test "update_document_issuer/2 with valid data updates the document_issuer" do
+      document_issuer = document_issuer_fixture()
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        country_id: nil,
+        contact_information: %{},
+        website_url: "some updated website_url"
+      }
+
+      assert {:ok, %DocumentIssuer{} = document_issuer} =
+               Documents.update_document_issuer(document_issuer, update_attrs)
+
+      assert document_issuer.name == "some updated name"
+      assert document_issuer.description == "some updated description"
+      assert document_issuer.country_id == nil
+      assert document_issuer.contact_information == %{}
+      assert document_issuer.website_url == "some updated website_url"
+    end
+
+    test "update_document_issuer/2 with invalid data returns error changeset" do
+      document_issuer = document_issuer_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Documents.update_document_issuer(document_issuer, @invalid_attrs)
+
+      assert document_issuer == Documents.get_document_issuer!(document_issuer.id)
+    end
+
+    test "delete_document_issuer/1 deletes the document_issuer" do
+      document_issuer = document_issuer_fixture()
+      assert {:ok, %DocumentIssuer{}} = Documents.delete_document_issuer(document_issuer)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Documents.get_document_issuer!(document_issuer.id)
+      end
+    end
+
+    test "change_document_issuer/1 returns a document_issuer changeset" do
+      document_issuer = document_issuer_fixture()
+      assert %Ecto.Changeset{} = Documents.change_document_issuer(document_issuer)
+    end
+  end
+
   describe "document_types" do
     alias Klepsidra.Documents.DocumentType
 
