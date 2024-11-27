@@ -1,22 +1,17 @@
 <.header>
-  Journal entry types <%= @journal_entry_types.id %>
-  <:subtitle>This is a journal_entry_types record from your database.</:subtitle>
+  <%= @journal_entry_types.name %>
+  <:subtitle><%= @journal_entry_types.description %></:subtitle>
   <:actions>
     <.link
       patch={~p"/journal_entry_types/#{@journal_entry_types}/show/edit"}
       phx-click={JS.push_focus()}
     >
-      <.button>Edit journal_entry_types</.button>
+      <.button>Edit journal entry type</.button>
     </.link>
   </:actions>
 </.header>
 
-<.list>
-  <:item title="Name"><%= @journal_entry_types.name %></:item>
-  <:item title="Description"><%= @journal_entry_types.description %></:item>
-</.list>
-
-<.back navigate={~p"/journal_entry_types"}>Back to journal_entry_types</.back>
+<.back navigate={~p"/journal_entry_types"}>Back to journal entry types</.back>
 
 <.modal
   :if={@live_action == :edit}

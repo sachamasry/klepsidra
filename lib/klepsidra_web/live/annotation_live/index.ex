@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.AnnotationLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.Annotation
@@ -44,6 +45,12 @@ defmodule KlepsidraWeb.AnnotationLive.Index do
     annotation = KnowledgeManagement.get_annotation!(id)
     {:ok, _} = KnowledgeManagement.delete_annotation(annotation)
 
-    {:noreply, stream_delete(socket, :annotations, annotation)}
+    {:noreply, handle_deleted_annotation(socket, annotation, :annotations)}
+  end
+
+  defp handle_deleted_annotation(socket, annotation, source_stream) do
+    socket
+    |> stream_delete(source_stream, annotation)
+    |> put_toast(:info, "Annotation deleted successfully")
   end
 end

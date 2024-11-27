@@ -1727,22 +1727,22 @@ Table: `documents`
 
 Tracks document details for each user, including expiry dates and types.
 
-| Column              | Type                  | Description                                                               |
-| ------------------- | --------------------- | ------------------------------------------------------------------------- |
-| id                  | UUID                  | Primary key for each document record.                                     |
-| user_id             | UUID                  | Foreign key referencing users(id).                                        |
-| document_type_id    | UUID                  | Normalized type of document (e.g., passport, visa).                       |
-| document_reference  | VARCHAR               | Unique reference number for the document, given by the issuing authority. |
-| issuing_authority   | VARCHAR               | Name of the authority that issued the document.                           |
-| description         | TEXT                  | Document description or other notes.                                      |
-| country_id          | UUID                  | Foreign key referencing countries(id).                                    |
-| issue_date          | DATE                  | Date when the document was issued.                                        |
-| expiry_date         | DATE                  | Expiry date of the document.                                              |
-| is_active           | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.                             |
-| invalidation_reason | TEXT                  | Explanation for why the document is no longer valid.                      |
-| file_url            | VARCHAR               | URL or file path to the document file storage.                            |
-| custom_buffer_time  | INT                   | Default extra days added as a buffer for user action.                     |
-| created_at          | TIMESTAMP             | Document creation timestamp.                                              |
+| Column                  | Type                  | Description                                                                                                             |
+| ----------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| id                      | UUID                  | Primary key for each document record.                                                                                   |
+| user_id                 | UUID                  | Foreign key referencing users(id).                                                                                      |
+| document_type_id        | UUID                  | Normalized type of document (e.g., passport, visa).                                                                     |
+| country_id              | UUID                  | Foreign key referencing countries(id).                                                                                  |
+| document_issuer_id      | UUID                  | Foreign key referencing document issuing authority.                                                                     |
+| unique_reference_number | VARCHAR               | Unique reference number for the document, given by the document issuing authority.                                      |
+| name                    | TEXT                  | User-defined title or name for the document.                                                                            |
+| description             | TEXT                  | Additional details or context.                                                                                          |
+| issued_at               | DATE                  | Date when the document was issued.                                                                                      |
+| expires_at              | DATE                  | Expiry date of the document.                                                                                            |
+| is_active               | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.                                                                           |
+| invalidation_reason     | TEXT                  | Explanation for why the document is no longer valid.                                                                    |
+| file_url                | VARCHAR               | URL or file path to the document file storage.                                                                          |
+| custom_buffer_time      | INT                   | User-defined override for notification lead time (in days), a buffer time for user action for this particular document. |
 
 #### Fields and Their Purpose
 
@@ -1767,6 +1767,92 @@ Tracks document details for each user, including expiry dates and types.
    * “Lost or stolen.”
    * “Superseded by a newer document.”
    * “Invalid due to incorrect information.”
+
+#### Indexes
+
+1. Unique Index on `unique_reference_number`
+
+   * Field: unique_reference_number
+   * Purpose: Ensures that reference numbers (e.g., passport numbers) are unique across documents and facilitates fast lookups by this field.
+   * Index Type: Unique index.
+
+```sql
+CREATE UNIQUE INDEX idx_documents_unique_reference_number ON documents(unique_reference_number);
+```
+
+1. Index on `user_id`
+
+   •   Field: user_id
+    •   Purpose: Supports queries that filter or join by user, such as retrieving all documents for a specific user.
+    •   Index Type: Standard B-Tree.
+
+```sql
+CREATE INDEX idx_documents_user_id ON documents(user_id);
+```
+
+1. Composite Index on `user_id` and `document_type_id`
+
+   •   Fields: (user_id, document_type_id)
+    •   Purpose: Optimizes queries where users search for documents by type. For instance:
+
+```sql
+SELECT * FROM documents WHERE user_id = ? AND document_type_id = ?;
+```
+
+```sql
+CREATE INDEX idx_documents_user_type ON documents(user_id, document_type_id);
+```
+
+1. Index on `expires_at`
+
+   •   Field: expires_at
+    •   Purpose: Facilitates queries for finding documents that are about to expire. Critical for generating expiration reminders and notifications.
+    •   Index Type: Standard B-Tree.
+
+```sql
+CREATE INDEX idx_documents_expires_at ON documents(expires_at);
+```
+
+1. Index on `country_id`
+
+   •   Field: country_id
+    •   Purpose: Useful for queries that filter documents by the issuing country. For example:
+
+```sql
+SELECT * FROM documents WHERE country_id = 'USA';
+```
+
+```sql
+CREATE INDEX idx_documents_country_id ON documents(country_id);
+```
+
+1. Composite Index on `document_type_id` and `country_id`
+
+   •   Fields: (document_type_id, country_id)
+    •   Purpose: Optimizes queries for filtering by document type and country, such as when finding templates or issuing rules for a particular type in a specific country.
+    •   Example Query:
+
+```sql
+SELECT * FROM documents WHERE is_active = true;
+```
+
+```sql
+CREATE INDEX idx_documents_is_active ON documents(is_active);
+```
+
+1. Full-Text Index on `name` and `description` (Optional)
+
+   •   Fields: (name, description)
+    •   Purpose: Supports full-text search when users search for documents by name or description.
+    •   Database-Specific:
+    •   MySQL/MariaDB: Use a FULLTEXT index.
+    •   PostgreSQL: Use a GIN index with the to_tsvector function.
+
+PostgreSQL Example:
+
+```sql
+CREATE INDEX idx_documents_fulltext ON documents USING gin (to_tsvector('english', name || ' ' || description));
+```
 
 #### Example data
 

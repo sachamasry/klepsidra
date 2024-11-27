@@ -19,15 +19,15 @@ defmodule KlepsidraWeb.JournalEntryTypesLiveTest do
     test "lists all journal_entry_types", %{conn: conn, journal_entry_types: journal_entry_types} do
       {:ok, _index_live, html} = live(conn, ~p"/journal_entry_types")
 
-      assert html =~ "Listing Journal entry types"
+      assert html =~ "Journal entry types"
       assert html =~ journal_entry_types.name
     end
 
     test "saves new journal_entry_types", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/journal_entry_types")
 
-      assert index_live |> element("a", "New Journal entry types") |> render_click() =~
-               "New Journal entry types"
+      assert index_live |> element("a", "New journal entry type") |> render_click() =~
+               "New journal entry type"
 
       assert_patch(index_live, ~p"/journal_entry_types/new")
 
@@ -83,7 +83,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLiveTest do
     test "displays journal_entry_types", %{conn: conn, journal_entry_types: journal_entry_types} do
       {:ok, _show_live, html} = live(conn, ~p"/journal_entry_types/#{journal_entry_types}")
 
-      assert html =~ "Show Journal entry types"
+      assert html =~ "Show journal entry type"
       assert html =~ journal_entry_types.name
     end
 
@@ -94,7 +94,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLiveTest do
       {:ok, show_live, _html} = live(conn, ~p"/journal_entry_types/#{journal_entry_types}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Journal entry types"
+               "Edit journal entry type"
 
       assert_patch(show_live, ~p"/journal_entry_types/#{journal_entry_types}/show/edit")
 

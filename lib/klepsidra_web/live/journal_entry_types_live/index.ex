@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntryTypes
@@ -18,19 +19,19 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Journal entry types")
+    |> assign(:page_title, "Edit journal entry type")
     |> assign(:journal_entry_types, Journals.get_journal_entry_types!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Journal entry types")
+    |> assign(:page_title, "New journal entry type")
     |> assign(:journal_entry_types, %JournalEntryTypes{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Journal entry types")
+    |> assign(:page_title, "Journal entry types")
     |> assign(:journal_entry_types, nil)
   end
 
@@ -47,6 +48,13 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.Index do
     journal_entry_types = Journals.get_journal_entry_types!(id)
     {:ok, _} = Journals.delete_journal_entry_types(journal_entry_types)
 
-    {:noreply, stream_delete(socket, :journal_entry_types_collection, journal_entry_types)}
+    {:noreply,
+     handle_deleted_journal_entry_type(socket, journal_entry_types, :journal_entry_types)}
+  end
+
+  defp handle_deleted_journal_entry_type(socket, journal_entry_type, source_stream) do
+    socket
+    |> stream_delete(source_stream, journal_entry_type)
+    |> put_toast(:info, "Journal entry type deleted successfully")
   end
 end

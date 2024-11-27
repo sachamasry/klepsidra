@@ -18,6 +18,6 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.Show do
      |> assign(:journal_entry_types, Journals.get_journal_entry_types!(id))}
   end
 
-  defp page_title(:show), do: "Show Journal entry types"
-  defp page_title(:edit), do: "Edit Journal entry types"
+  defp page_title(:show), do: "Show journal entry type"
+  defp page_title(:edit), do: "Edit journal entry type"
 end

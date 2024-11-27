@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Journals
 
@@ -11,7 +12,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage journal_entry_types records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -22,9 +23,9 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Journal entry types</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -66,7 +67,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Journal entry types updated successfully")
+         |> put_toast(:info, "Journal entry type updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -81,7 +82,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Journal entry types created successfully")
+         |> put_toast(:info, "Journal entry type created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
