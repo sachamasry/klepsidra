@@ -1742,25 +1742,18 @@ Tracks document details for each user, including expiry dates and types.
 | is_active               | BOOLEAN, DEFAULT TRUE | Indicates if the document is currently valid.                                                                           |
 | invalidation_reason     | TEXT                  | Explanation for why the document is no longer valid.                                                                    |
 | file_url                | VARCHAR               | URL or file path to the document file storage.                                                                          |
-| custom_buffer_time      | INT                   | User-defined override for notification lead time (in days), a buffer time for user action for this particular document. |
+| custom_buffer_time_days | INT                   | User-defined override for notification lead time (in days), a buffer time for user action for this particular document. |
 
 #### Fields and Their Purpose
 
-1. `document_reference` (VARCHAR NOT NULL):
+1. `unique_reference_number` (VARCHAR NOT NULL):
    * Stores the unique identifier for the document, such as a passport number, license number, or visa reference.
    * Ensures traceability and association with official records.
    * Example Values:
    * “AB1234567” for a passport.
    * “DL123456789” for a driving license.
    * “VisaRef12345” for a visa.
-2. `issuing_authority` (VARCHAR):
-   * Records the name of the entity that issued the document, such as a government body, consulate, or private organization.
-   * Useful for legal and administrative purposes.
-   * Example Values:
-   * “Department of State” for a U.S. passport.
-   * “Ontario Ministry of Transportation” for a Canadian driver’s license.
-   * “British High Commission” for a UK visa.
-3. `invalidation_reason` (TEXT):
+2. `invalidation_reason` (TEXT):
    * Provides a descriptive explanation when the document is marked inactive (i.e., is_active = FALSE).
    * Improves traceability and helps users understand why a document is no longer valid.
    * Example Values:
@@ -1782,9 +1775,9 @@ CREATE UNIQUE INDEX idx_documents_unique_reference_number ON documents(unique_re
 
 1. Index on `user_id`
 
-   •   Field: user_id
-    •   Purpose: Supports queries that filter or join by user, such as retrieving all documents for a specific user.
-    •   Index Type: Standard B-Tree.
+   * Field: user_id
+   * Purpose: Supports queries that filter or join by user, such as retrieving all documents for a specific user.
+   * Index Type: Standard B-Tree.
 
 ```sql
 CREATE INDEX idx_documents_user_id ON documents(user_id);
@@ -1792,8 +1785,8 @@ CREATE INDEX idx_documents_user_id ON documents(user_id);
 
 1. Composite Index on `user_id` and `document_type_id`
 
-   •   Fields: (user_id, document_type_id)
-    •   Purpose: Optimizes queries where users search for documents by type. For instance:
+   * Fields: (user_id, document_type_id)
+   * Purpose: Optimizes queries where users search for documents by type. For instance:
 
 ```sql
 SELECT * FROM documents WHERE user_id = ? AND document_type_id = ?;
@@ -1805,9 +1798,9 @@ CREATE INDEX idx_documents_user_type ON documents(user_id, document_type_id);
 
 1. Index on `expires_at`
 
-   •   Field: expires_at
-    •   Purpose: Facilitates queries for finding documents that are about to expire. Critical for generating expiration reminders and notifications.
-    •   Index Type: Standard B-Tree.
+   * Field: expires_at
+   * Purpose: Facilitates queries for finding documents that are about to expire. Critical for generating expiration reminders and notifications.
+   * Index Type: Standard B-Tree.
 
 ```sql
 CREATE INDEX idx_documents_expires_at ON documents(expires_at);
@@ -1815,8 +1808,8 @@ CREATE INDEX idx_documents_expires_at ON documents(expires_at);
 
 1. Index on `country_id`
 
-   •   Field: country_id
-    •   Purpose: Useful for queries that filter documents by the issuing country. For example:
+   * Field: country_id
+   * Purpose: Useful for queries that filter documents by the issuing country. For example:
 
 ```sql
 SELECT * FROM documents WHERE country_id = 'USA';
@@ -1828,9 +1821,9 @@ CREATE INDEX idx_documents_country_id ON documents(country_id);
 
 1. Composite Index on `document_type_id` and `country_id`
 
-   •   Fields: (document_type_id, country_id)
-    •   Purpose: Optimizes queries for filtering by document type and country, such as when finding templates or issuing rules for a particular type in a specific country.
-    •   Example Query:
+   * Fields: (document_type_id, country_id)
+   * Purpose: Optimizes queries for filtering by document type and country, such as when finding templates or issuing rules for a particular type in a specific country.
+   * Example Query:
 
 ```sql
 SELECT * FROM documents WHERE is_active = true;
@@ -1842,11 +1835,11 @@ CREATE INDEX idx_documents_is_active ON documents(is_active);
 
 1. Full-Text Index on `name` and `description` (Optional)
 
-   •   Fields: (name, description)
-    •   Purpose: Supports full-text search when users search for documents by name or description.
-    •   Database-Specific:
-    •   MySQL/MariaDB: Use a FULLTEXT index.
-    •   PostgreSQL: Use a GIN index with the to_tsvector function.
+   * Fields: (name, description)
+   * Purpose: Supports full-text search when users search for documents by name or description.
+   * Database-Specific:
+   * MySQL/MariaDB: Use a FULLTEXT index.
+   * PostgreSQL: Use a GIN index with the to_tsvector function.
 
 PostgreSQL Example:
 
