@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Documents
 
@@ -11,7 +12,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage user_document records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -21,16 +22,40 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:id]} type="text" label="Id" />
-        <.input field={@form[:document_type_id]} type="text" label="Document type" />
         <.input field={@form[:user_id]} type="text" label="User" />
-        <.input field={@form[:unique_reference]} type="text" label="Unique reference" />
-        <.input field={@form[:issued_by]} type="text" label="Issued by" />
-        <.input field={@form[:issuing_country_id]} type="text" label="Issuing country" />
-        <.input field={@form[:issue_date]} type="date" label="Issue date" />
-        <.input field={@form[:expiry_date]} type="date" label="Expiry date" />
-        <.input field={@form[:is_active]} type="checkbox" label="Is active" />
-        <.input field={@form[:file_url]} type="text" label="File url" />
+        <.input field={@form[:document_type_id]} type="text" label="Document type" />
+        <.input field={@form[:country_id]} type="text" label="Issuing country" />
+        <.input field={@form[:document_issuer_id]} type="text" label="Document issuer" />
+        <.input field={@form[:unique_reference_number]} type="text" label="Unique reference number" />
+        <.input field={@form[:name]} type="text" label="Name for the document" />
+        <.input
+          field={@form[:description]}
+          type="textarea"
+          label="Description"
+          placeholder="Additional details or context"
+        />
+        <.input field={@form[:issued_at]} type="date" label="Issue date" />
+        <.input field={@form[:expires_at]} type="date" label="Expiry date" />
+        <.input field={@form[:is_active]} type="checkbox" label="Is this document still valid?" />
+        <.input
+          field={@form[:invalidation_reason]}
+          type="textarea"
+          label="Invalidation reason"
+          placeholder="Explanation for why the document is no longer valid"
+        />
+        <.input
+          :if={false}
+          field={@form[:file_url]}
+          type="text"
+          label="File URL"
+          placeholder="URL or file path to the document file"
+        />
+        <.input
+          :if={false}
+          field={@form[:custom_buffer_time_days]}
+          type="number"
+          label="Lead time for user action (days)"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save User document</.button>
         </:actions>
@@ -66,7 +91,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "User document updated successfully")
+         |> put_toast(:info, "User document updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -81,7 +106,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "User document created successfully")
+         |> put_toast(:info, "User document created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

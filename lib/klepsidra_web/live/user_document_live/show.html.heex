@@ -1,27 +1,30 @@
 <.header>
-  User document <%= @user_document.id %>
-  <:subtitle>This is a user_document record from your database.</:subtitle>
+  <%= @user_document.name || "" %>
+  <:subtitle><%= @user_document.description %></:subtitle>
   <:actions>
     <.link patch={~p"/user_documents/#{@user_document}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit user_document</.button>
+      <.button>Edit user document</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Id"><%= @user_document.id %></:item>
   <:item title="Document type"><%= @user_document.document_type_id %></:item>
   <:item title="User"><%= @user_document.user_id %></:item>
-  <:item title="Unique reference"><%= @user_document.unique_reference %></:item>
-  <:item title="Issued by"><%= @user_document.issued_by %></:item>
-  <:item title="Issuing country"><%= @user_document.issuing_country_id %></:item>
-  <:item title="Issue date"><%= @user_document.issue_date %></:item>
-  <:item title="Expiry date"><%= @user_document.expiry_date %></:item>
-  <:item title="Is active"><%= @user_document.is_active %></:item>
-  <:item title="File url"><%= @user_document.file_url %></:item>
+  <:item title="Issuing country"><%= @user_document.country_id %></:item>
+  <:item title="Document issuer"><%= @user_document.document_issuer_id %></:item>
+  <:item title="Unique reference number"><%= @user_document.unique_reference_number %></:item>
+  <:item title="Issue date"><%= @user_document.issued_at %></:item>
+  <:item title="Expiry date"><%= @user_document.expires_at %></:item>
+  <:item title="Valid?"><%= @user_document.is_active %></:item>
+  <:item title="Invalidation reason"><%= @user_document.invalidation_reason %></:item>
+  <:item title="File URL"><%= @user_document.file_url %></:item>
+  <:item title="Lead time for user action (days)">
+    <%= @user_document.custom_buffer_time_days %>
+  </:item>
 </.list>
 
-<.back navigate={~p"/user_documents"}>Back to user_documents</.back>
+<.back navigate={~p"/user_documents"}>Back to user documents</.back>
 
 <.modal
   :if={@live_action == :edit}

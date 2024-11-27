@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.Documents
   alias Klepsidra.Documents.UserDocument
@@ -18,19 +19,19 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit User document")
+    |> assign(:page_title, "Edit user document")
     |> assign(:user_document, Documents.get_user_document!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New User document")
+    |> assign(:page_title, "New user document")
     |> assign(:user_document, %UserDocument{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing User documents")
+    |> assign(:page_title, "User documents")
     |> assign(:user_document, nil)
   end
 
@@ -44,6 +45,12 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
     user_document = Documents.get_user_document!(id)
     {:ok, _} = Documents.delete_user_document(user_document)
 
-    {:noreply, stream_delete(socket, :user_documents, user_document)}
+    {:noreply, handle_deleted_user_document(socket, user_document, :user_documents)}
+  end
+
+  defp handle_deleted_user_document(socket, user_document, source_stream) do
+    socket
+    |> stream_delete(source_stream, user_document)
+    |> put_toast(:info, "User_document deleted successfully")
   end
 end

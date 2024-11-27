@@ -88,5 +88,8 @@ defmodule Klepsidra.Documents.UserDocument do
       :issued_at,
       :is_active
     ])
+    |> unique_constraint(:unique_reference_number,
+      message: "This unique reference number has already been used"
+    )
   end
 end

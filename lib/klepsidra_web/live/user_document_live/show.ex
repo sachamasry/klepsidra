@@ -18,6 +18,6 @@ defmodule KlepsidraWeb.UserDocumentLive.Show do
      |> assign(:user_document, Documents.get_user_document!(id))}
   end
 
-  defp page_title(:show), do: "Show User document"
-  defp page_title(:edit), do: "Edit User document"
+  defp page_title(:show), do: "Show user document"
+  defp page_title(:edit), do: "Edit user document"
 end

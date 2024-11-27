@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
 
   use KlepsidraWeb, :live_component
   import LiveToast
+
   alias Klepsidra.Projects
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
