@@ -7,6 +7,7 @@ defmodule Klepsidra.Documents do
   alias Klepsidra.Repo
 
   alias Klepsidra.Documents.DocumentType
+  alias Klepsidra.Locations.Country
 
   @doc """
   Returns the list of document_types.
@@ -214,6 +215,37 @@ defmodule Klepsidra.Documents do
   end
 
   @doc """
+  Returns the list of document_issuers.
+
+  ## Examples
+
+      iex> list_document_issuers_with_country()
+      [%{}, ...]
+
+  """
+  @spec list_document_issuers_with_country() :: [map(), ...]
+  def list_document_issuers_with_country do
+    query =
+      from(
+        di in DocumentIssuer,
+        left_join: co in Country,
+        on: di.country_id == co.iso_3_country_code,
+        order_by: [asc: di.name],
+        select: %{
+          id: di.id,
+          name: di.name,
+          description: di.description,
+          country_id: di.country_id,
+          country_name: co.country_name,
+          contact_information: di.contact_information,
+          website_url: di.website_url
+        }
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single document_issuer.
 
   Raises `Ecto.NoResultsError` if the Document issuer does not exist.
@@ -228,6 +260,42 @@ defmodule Klepsidra.Documents do
 
   """
   def get_document_issuer!(id), do: Repo.get!(DocumentIssuer, id)
+
+  @doc """
+  Gets a single document_issuer, with country name.
+
+  Raises `Ecto.NoResultsError` if the Document issuer does not exist.
+
+  ## Examples
+
+      iex> get_document_issuer_with_country!(123)
+      %{}
+
+      iex> get_document_issuer_with_country!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_document_issuer_with_country!(id :: Ecto.UUID.t()) :: map()
+  def get_document_issuer_with_country!(id) do
+    query =
+      from(
+        di in DocumentIssuer,
+        left_join: co in Country,
+        on: di.country_id == co.iso_3_country_code,
+        where: di.id == ^id,
+        select: %{
+          id: di.id,
+          name: di.name,
+          description: di.description,
+          country_id: di.country_id,
+          country_name: co.country_name,
+          contact_information: di.contact_information,
+          website_url: di.website_url
+        }
+      )
+
+    Repo.one(query)
+  end
 
   @doc """
   Creates a document_issuer.

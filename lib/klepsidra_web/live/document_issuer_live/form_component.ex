@@ -30,6 +30,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
           field={@form[:country_id]}
           mode={:single}
           label="Country"
+          allow_clear
           options={[]}
           placeholder="Document issuer country"
           debounce={200}
@@ -100,6 +101,8 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   defp save_document_issuer(socket, :edit, document_issuer_params) do
     case Documents.update_document_issuer(socket.assigns.document_issuer, document_issuer_params) do
       {:ok, document_issuer} ->
+        document_issuer = Documents.get_document_issuer_with_country!(document_issuer.id)
+
         notify_parent({:saved, document_issuer})
 
         {:noreply,
@@ -115,6 +118,8 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   defp save_document_issuer(socket, :new, document_issuer_params) do
     case Documents.create_document_issuer(document_issuer_params) do
       {:ok, document_issuer} ->
+        document_issuer = Documents.get_document_issuer_with_country!(document_issuer.id)
+
         notify_parent({:saved, document_issuer})
 
         {:noreply,
@@ -130,7 +135,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   defp value_mapper(country_code) when is_bitstring(country_code) do
-    Country.country_option_for_select(country_code)
+    Country.country_options_for_select(country_code)
   end
 
   defp value_mapper(value), do: value

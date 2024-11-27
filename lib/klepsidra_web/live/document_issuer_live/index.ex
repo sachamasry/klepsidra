@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Index do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> stream(:document_issuers, Documents.list_document_issuers())
+      |> stream(:document_issuers, Documents.list_document_issuers_with_country())
 
     {:ok, socket}
   end

@@ -373,7 +373,7 @@ defmodule Klepsidra.Locations do
     country_name
     |> list_countries_by_name(limit: 25)
     |> Enum.map(fn country ->
-      %{value: country.iso_3_country_code, label: "#{country.country_name}"}
+      %{value: country.iso_3_country_code, label: country.country_name}
     end)
   end
 

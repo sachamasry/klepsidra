@@ -11,19 +11,19 @@
   id="document_issuers"
   rows={@streams.document_issuers}
   row_click={
-    fn {_id, document_issuer} -> JS.navigate(~p"/document_issuers/#{document_issuer}") end
+    fn {_id, document_issuer} -> JS.navigate(~p"/document_issuers/#{document_issuer.id}") end
   }
 >
   <:col :let={{_id, document_issuer}} label="Name"><%= document_issuer.name %></:col>
-  <:col :let={{_id, document_issuer}} label="Country"><%= document_issuer.country_id %></:col>
+  <:col :let={{_id, document_issuer}} label="Country"><%= document_issuer.country_name %></:col>
   <:col :let={{_id, document_issuer}} label="Website url">
     <%= document_issuer.website_url %>
   </:col>
   <:action :let={{_id, document_issuer}}>
     <div class="sr-only">
-      <.link navigate={~p"/document_issuers/#{document_issuer}"}>Show</.link>
+      <.link navigate={~p"/document_issuers/#{document_issuer.id}"}>Show</.link>
     </div>
-    <.link patch={~p"/document_issuers/#{document_issuer}/edit"}>Edit</.link>
+    <.link patch={~p"/document_issuers/#{document_issuer.id}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, document_issuer}}>
     <.link
