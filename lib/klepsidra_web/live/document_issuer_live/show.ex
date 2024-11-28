@@ -21,7 +21,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Show do
       socket
       |> assign(
         page_title: page_title(socket.assigns.live_action),
-        document_issuer: Documents.get_document_issuer!(id),
+        document_issuer: document_issuer,
         issuing_country_name: country_name.label
       )
 

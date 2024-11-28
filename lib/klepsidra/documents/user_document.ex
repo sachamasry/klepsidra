@@ -55,7 +55,7 @@ defmodule Klepsidra.Documents.UserDocument do
     field :description, :string
     field :issued_at, :date
     field :expires_at, :date
-    field :is_active, :boolean, default: false
+    field :is_active, :boolean, default: true
     field :invalidation_reason, :string
     field :file_url, :string
     field :custom_buffer_time_days, :integer

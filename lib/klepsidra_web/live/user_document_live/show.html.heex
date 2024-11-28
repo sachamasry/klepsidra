@@ -9,15 +9,17 @@
 </.header>
 
 <.list>
-  <:item title="Document type"><%= @user_document.document_type_id %></:item>
-  <:item title="User"><%= @user_document.user_id %></:item>
-  <:item title="Issuing country"><%= @user_document.country_id %></:item>
-  <:item title="Document issuer"><%= @user_document.document_issuer_id %></:item>
+  <:item title="User"><%= @user_name %></:item>
+  <:item title="Document type"><%= @document_type %></:item>
+  <:item title="Issuing country"><%= @issuing_country_name %></:item>
+  <:item title="Document issuer"><%= @document_issuer %></:item>
   <:item title="Unique reference number"><%= @user_document.unique_reference_number %></:item>
   <:item title="Issue date"><%= @user_document.issued_at %></:item>
   <:item title="Expiry date"><%= @user_document.expires_at %></:item>
-  <:item title="Valid?"><%= @user_document.is_active %></:item>
-  <:item title="Invalidation reason"><%= @user_document.invalidation_reason %></:item>
+  <:item :if={@user_document.is_active == false} title="Invalidation reason">
+    <p>Document is <em>not</em> currently valid</p>
+    <%= @user_document.invalidation_reason %>
+  </:item>
   <:item title="File URL"><%= @user_document.file_url %></:item>
   <:item title="Lead time for user action (days)">
     <%= @user_document.custom_buffer_time_days %>
