@@ -38,16 +38,13 @@ Implement basic _trip tracker_ functionality, recording how many days have been 
 * [X] Develop a more generic patch of `phoenix_live_head`, and push as a PR, for the library to be extended upstream.
 * [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
   * [X] Create `users` entity
-  * [ ] Create `user_preferences` entity
   * [X] Create `document_types` entity
   * [X] Create `document_issuers` entity
   * [ ] Create `documents` entity
-  * [ ] Create `notifications` entity
   * [ ] Create `trips` entity
-  * [ ] Create `visa_types` entity
-  * [ ] Create `visas` entity
-  * [ ] Create `visa_blocks` entity
-  * [ ] Create `country_visa_blocks` entity
+* [ ] Develop full-text search
+  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
+  * [ ] Enable SQLite description fields full-text search (tags, projects)
 * [ ] UI and UX improvements
   * [ ] Display tags for open and closed timers, on timer listings
   * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
@@ -65,12 +62,21 @@ Implement basic _trip tracker_ functionality, recording how many days have been 
 
 Audit all existing code for documentation quality, documenting missing functionality; ensure _all_ functionality has type specifications; ensure _all_ backend functionality has at least basic unit tests defined; add property tests where relevant.
 
+<!-- livebook:{"break_markdown":true} -->
+
 * [ ] Add field(s) to projects
   * [ ] End date, project review date, deadline date, etc.
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
 * [ ] UI and UX improvements
   * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
   * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
+* [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
+  * [ ] Create `user_preferences` entity
+  * [ ] Create `notifications` entity
+  * [ ] Create `visa_types` entity
+  * [ ] Create `visas` entity
+  * [ ] Create `visa_blocks` entity
+  * [ ] Create `country_visa_blocks` entity
 
 ## Release 0.1.6
 
@@ -85,9 +91,6 @@ What is incredibly useful about this software is that these snippets can be open
 <!-- livebook:{"break_markdown":true} -->
 
 * [ ] Create _notes_ functionality
-* [ ] Develop full-text search
-  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
-  * [ ] Enable SQLite description fields full-text search (tags, projects)
 
 ## Release 0.2
 

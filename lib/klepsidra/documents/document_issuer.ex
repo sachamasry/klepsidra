@@ -6,6 +6,7 @@ defmodule Klepsidra.Documents.DocumentIssuer do
 
   use Ecto.Schema
   import Ecto.Changeset
+
   alias Klepsidra.Locations.Country
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}

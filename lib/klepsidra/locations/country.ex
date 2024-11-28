@@ -128,16 +128,16 @@ defmodule Klepsidra.Locations.Country do
       iex> country_option_as_html_select(123)
       %{label: "", value: ""}
   """
-  @spec country_options_for_select(country_code :: String.t()) :: %{
+  @spec country_option_for_select(country_code :: String.t()) :: %{
           label: String.t(),
           value: String.t()
         }
-  def country_options_for_select(country_code) when is_bitstring(country_code) do
+  def country_option_for_select(country_code) when is_bitstring(country_code) do
     case Locations.get_country_by_iso_3_code!(country_code) do
       nil -> %{label: "", value: ""}
       country_results -> country_results
     end
   end
 
-  def country_options_for_select(_), do: %{label: "", value: ""}
+  def country_option_for_select(_), do: %{label: "", value: ""}
 end

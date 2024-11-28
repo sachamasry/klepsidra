@@ -19,7 +19,7 @@ defmodule Klepsidra.DocumentsTest do
 
     test "list_document_issuers/0 returns all document_issuers" do
       document_issuer = document_issuer_fixture()
-      assert Documents.list_document_issuers() == [document_issuer]
+      assert Documents.simple_list_document_issuers() == [document_issuer]
     end
 
     test "get_document_issuer!/1 returns the document_issuer with given id" do

@@ -15,7 +15,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     document_issuer = Documents.get_document_issuer!(id)
 
-    country_name = Country.country_options_for_select(document_issuer.country_id)
+    country_name = Country.country_option_for_select(document_issuer.country_id)
 
     socket =
       socket

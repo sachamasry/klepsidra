@@ -18,7 +18,32 @@ defmodule Klepsidra.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    User |> order_by(asc: :user_name) |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of users, sorted in ascending order by the
+  `user_name` field.
+
+  ## Examples
+
+      iex> list_users_for_html_select()
+      [%{}, ...]
+
+  """
+  @spec list_users_for_html_select() :: [map(), ...]
+  def list_users_for_html_select() do
+    query =
+      from(
+        u in User,
+        order_by: [asc: u.user_name],
+        select: %{
+          value: u.id,
+          label: u.user_name
+        }
+      )
+
+    Repo.all(query)
   end
 
   @doc """

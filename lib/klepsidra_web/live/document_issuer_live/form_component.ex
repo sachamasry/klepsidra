@@ -135,7 +135,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   defp value_mapper(country_code) when is_bitstring(country_code) do
-    Country.country_options_for_select(country_code)
+    Country.country_option_for_select(country_code)
   end
 
   defp value_mapper(value), do: value

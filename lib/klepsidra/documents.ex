@@ -210,8 +210,77 @@ defmodule Klepsidra.Documents do
       [%DocumentIssuer{}, ...]
 
   """
-  def list_document_issuers do
+  def simple_list_document_issuers do
     Repo.all(DocumentIssuer)
+  end
+
+  def list_document_issuers() do
+    from(di in DocumentIssuer)
+  end
+
+  def filter_document_issuers_matching_name(query, name_filter) do
+    like_name = "%#{name_filter}%"
+
+    from di in query,
+      where: like(di.name, ^like_name)
+  end
+
+  def filter_document_issuers_by_id(query, id) do
+    from di in query,
+      where: di.id == ^id
+  end
+
+  def order_by_document_issuer_name_asc(query) do
+    from di in query,
+      order_by: [asc: di.name]
+  end
+
+  def join_country_table(query) do
+    from di in query,
+      left_join: co in Country,
+      on: di.country_id == co.iso_3_country_code
+  end
+
+  def limit_returned_results(query, limit) do
+    from di in query,
+      limit: ^limit
+  end
+
+  def select_document_issuer_name(query) do
+    from di in query,
+      select: %{value: di.id, label: di.name}
+  end
+
+  def select_name_and_country(query) do
+    from [di, co] in query,
+      select: %{
+        id: di.id,
+        name: di.name,
+        description: di.description,
+        country_id: di.country_id,
+        country_name: co.country_name,
+        contact_information: di.contact_information,
+        website_url: di.website_url
+      }
+  end
+
+  def select_document_issuer_options_for_select_name_and_country(query) do
+    from [di, co] in query,
+      select: %{value: di.id, label: di.name, country_name: co.country_name}
+  end
+
+  def list_document_issuers_options_for_select_matching_name_with_country(
+        name_filter,
+        options \\ []
+      ) do
+    max_result_count = Keyword.get(options, :limit, 25)
+
+    list_document_issuers()
+    |> filter_document_issuers_matching_name(name_filter)
+    |> join_country_table()
+    |> limit_returned_results(max_result_count)
+    |> select_document_issuer_options_for_select_name_and_country()
+    |> Repo.all()
   end
 
   @doc """
@@ -225,24 +294,10 @@ defmodule Klepsidra.Documents do
   """
   @spec list_document_issuers_with_country() :: [map(), ...]
   def list_document_issuers_with_country do
-    query =
-      from(
-        di in DocumentIssuer,
-        left_join: co in Country,
-        on: di.country_id == co.iso_3_country_code,
-        order_by: [asc: di.name],
-        select: %{
-          id: di.id,
-          name: di.name,
-          description: di.description,
-          country_id: di.country_id,
-          country_name: co.country_name,
-          contact_information: di.contact_information,
-          website_url: di.website_url
-        }
-      )
-
-    Repo.all(query)
+    list_document_issuers()
+    |> join_country_table()
+    |> select_name_and_country()
+    |> Repo.all()
   end
 
   @doc """
@@ -276,26 +331,54 @@ defmodule Klepsidra.Documents do
 
   """
   @spec get_document_issuer_with_country!(id :: Ecto.UUID.t()) :: map()
-  def get_document_issuer_with_country!(id) do
-    query =
-      from(
-        di in DocumentIssuer,
-        left_join: co in Country,
-        on: di.country_id == co.iso_3_country_code,
-        where: di.id == ^id,
-        select: %{
-          id: di.id,
-          name: di.name,
-          description: di.description,
-          country_id: di.country_id,
-          country_name: co.country_name,
-          contact_information: di.contact_information,
-          website_url: di.website_url
-        }
-      )
-
-    Repo.one(query)
+  def get_document_issuer_with_country!(id) when is_bitstring(id) do
+    list_document_issuers()
+    |> join_country_table()
+    |> filter_document_issuers_by_id(id)
+    |> select_name_and_country()
+    |> Repo.one()
   end
+
+  @doc """
+  Constructs an HTML `select` option for a single document issuer entity,
+  along with the issuer country name, for use by the `live_select`
+  live component.
+
+  Given a current `document_issuer_id`, a reference to the document
+  issuer primary key in the `document_issuers` table, calls the
+  relevant query, obtaining necessary fields to construct a full,
+  unambiguous, document issuer name.
+
+  ## Returns
+
+  Returns a single map:
+  ```
+  %{
+    label: << document_issuer_name >>,
+    value: << document_issuer_id (UUID) >>
+  ```
+
+  ## Examples
+
+      iex> get_document_issuer_option_for_select_with_country("abc")
+      %{label: "...", value: "..."}
+
+      iex> get_document_issuer_option_for_select_with_country(123)
+      %{label: "", value: ""}
+  """
+  @spec get_document_issuer_option_for_select_with_country!(id :: Ecto.UUID.t()) :: %{
+          label: String.t(),
+          value: String.t()
+        }
+  def get_document_issuer_option_for_select_with_country!(id) when is_bitstring(id) do
+    list_document_issuers()
+    |> join_country_table()
+    |> filter_document_issuers_by_id(id)
+    |> select_document_issuer_options_for_select_name_and_country()
+    |> Repo.one()
+  end
+
+  def get_document_issuer_option_for_select_with_country!(_id), do: %{label: "", value: ""}
 
   @doc """
   Creates a document_issuer.
