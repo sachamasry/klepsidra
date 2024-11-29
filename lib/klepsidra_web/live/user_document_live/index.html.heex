@@ -50,6 +50,15 @@
   </:action>
 </.table>
 
+<div>
+  <div>
+    <.link navigate={~p"/document_types"}>Document types</.link>
+  </div>
+  <div>
+    <.link navigate={~p"/document_issuers"}>Document issuers</.link>
+  </div>
+</div>
+
 <.modal
   :if={@live_action in [:new, :edit]}
   id="user_document-modal"

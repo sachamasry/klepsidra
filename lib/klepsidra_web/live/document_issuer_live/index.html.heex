@@ -16,9 +16,6 @@
 >
   <:col :let={{_id, document_issuer}} label="Name"><%= document_issuer.name %></:col>
   <:col :let={{_id, document_issuer}} label="Country"><%= document_issuer.country_name %></:col>
-  <:col :let={{_id, document_issuer}} label="Website url">
-    <%= document_issuer.website_url %>
-  </:col>
   <:action :let={{_id, document_issuer}}>
     <div class="sr-only">
       <.link navigate={~p"/document_issuers/#{document_issuer.id}"}>Show</.link>
