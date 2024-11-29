@@ -299,12 +299,32 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
   end
 
   def handle_event("save", %{"user_document" => user_document_params}, socket) do
-    save_user_document(socket, socket.assigns.action, user_document_params)
+    save_user_document(
+      socket,
+      socket.assigns.action,
+      generate_document_name_if_blank(user_document_params)
+    )
+  end
+
+  defp generate_document_name_if_blank(user_document_params) do
+    user_name = user_document_params["user_id_text_input"]
+    document_type = user_document_params["document_type_id_text_input"]
+
+    if user_document_params["name"] == "" do
+      Map.merge(user_document_params, %{
+        "name" => "#{user_name |> String.capitalize()}'s #{document_type}"
+      })
+    else
+      user_document_params
+    end
   end
 
   defp save_user_document(socket, :edit, user_document_params) do
     case Documents.update_user_document(socket.assigns.user_document, user_document_params) do
       {:ok, user_document} ->
+        user_document =
+          Documents.get_user_document_with_document_type_issuer_and_country(user_document.id)
+
         notify_parent({:saved, user_document})
 
         {:noreply,
@@ -320,6 +340,9 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
   defp save_user_document(socket, :new, user_document_params) do
     case Documents.create_user_document(user_document_params) do
       {:ok, user_document} ->
+        user_document =
+          Documents.get_user_document_with_document_type_issuer_and_country(user_document.id)
+
         notify_parent({:saved, user_document})
 
         {:noreply,

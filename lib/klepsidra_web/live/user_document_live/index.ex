@@ -9,7 +9,14 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :user_documents, Documents.list_user_documents())}
+    socket =
+      socket
+      |> stream(
+        :user_documents,
+        Documents.list_user_documents_with_document_type_issuer_and_country()
+      )
+
+    {:ok, socket}
   end
 
   @impl true

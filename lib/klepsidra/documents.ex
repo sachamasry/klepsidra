@@ -6,6 +6,7 @@ defmodule Klepsidra.Documents do
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
+  alias Klepsidra.Accounts.User
   alias Klepsidra.Documents.DocumentType
   alias Klepsidra.Documents.DocumentIssuer
   alias Klepsidra.Documents.UserDocument
@@ -465,7 +466,7 @@ defmodule Klepsidra.Documents do
 
   @spec from_user_documents() :: Ecto.Query.t()
   def from_user_documents() do
-    from(ud in DocumentType, as: :user_documents)
+    from(ud in UserDocument, as: :user_documents)
   end
 
   @spec filter_user_documents_matching_name(query :: Ecto.Query.t(), name_filter :: String.t()) ::
@@ -490,22 +491,79 @@ defmodule Klepsidra.Documents do
       order_by: [asc: ud.name, desc: ud.expires_at]
   end
 
+  @spec order_by_user_documents_validity_name_asc_expiry_desc(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def order_by_user_documents_validity_name_asc_expiry_desc(query) do
+    from [user_documents: ud] in query,
+      order_by: [desc: ud.is_active, asc: ud.name, desc: ud.expires_at]
+  end
+
+  @spec join_user_documents_users(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def join_user_documents_users(query) do
+    from [user_documents: ud] in query,
+      left_join: u in User,
+      as: :user,
+      on: ud.user_id == u.id
+  end
+
+  @spec join_document_types_issuers_and_country_tables(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def join_document_types_issuers_and_country_tables(query) do
+    from [user_documents: ud] in query,
+      left_join: dt in DocumentType,
+      as: :document_type,
+      on: ud.document_type_id == dt.id,
+      left_join: di in DocumentIssuer,
+      as: :document_issuer,
+      on: ud.document_issuer_id == di.id,
+      left_join: co in Country,
+      as: :country,
+      on: ud.country_id == co.iso_3_country_code
+  end
+
   @spec select_document_name_type_issuer_and_country(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_document_name_type_issuer_and_country(query) do
-    from [user_documents: ud] in query,
+    from [user_documents: ud, document_type: dt, document_issuer: di, country: co] in query,
       select: %{
         id: ud.id,
         user_id: ud.user_id,
         document_type_id: ud.document_type_id,
+        document_type_name: dt.name,
         document_issuer_id: ud.document_issuer_id,
+        document_issuer_name: di.name,
         country_id: ud.country_id,
+        country_name: co.country_name,
         unique_reference_number: ud.unique_reference_number,
         name: ud.name,
-        description: ud.description,
+        description: ud.description |> coalesce(""),
         issued_at: ud.issued_at,
         expires_at: ud.expires_at,
         is_active: ud.is_active,
         file_url: ud.file_url
+      }
+  end
+
+  @spec select_user_document_all_fields(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_user_document_all_fields(query) do
+    from [user_documents: ud, user: u, document_type: dt, document_issuer: di, country: co] in query,
+      select: %{
+        id: ud.id,
+        user_id: ud.user_id,
+        user_name: u.user_name,
+        document_type_id: ud.document_type_id,
+        document_type_name: dt.name,
+        document_issuer_id: ud.document_issuer_id,
+        document_issuer_name: di.name,
+        country_id: ud.country_id,
+        country_name: co.country_name,
+        unique_reference_number: ud.unique_reference_number,
+        name: ud.name,
+        description: ud.description |> coalesce(""),
+        issued_at: ud.issued_at,
+        expires_at: ud.expires_at,
+        is_active: ud.is_active,
+        invalidation_reason: ud.invalidation_reason,
+        file_url: ud.file_url,
+        custom_buffer_time_days: ud.custom_buffer_time_days
       }
   end
 
@@ -529,6 +587,25 @@ defmodule Klepsidra.Documents do
   end
 
   @doc """
+  Returns a list of user documents with the document type,
+  issuer and country names.
+
+  ## Examples
+
+      iex> list_user_documents_with_document_type_issuer_and_country()
+      [%{}, ...]
+
+  """
+  @spec list_user_documents_with_document_type_issuer_and_country() :: [map(), ...]
+  def list_user_documents_with_document_type_issuer_and_country do
+    from_user_documents()
+    |> join_document_types_issuers_and_country_tables()
+    |> order_by_user_documents_validity_name_asc_expiry_desc()
+    |> select_document_name_type_issuer_and_country()
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single user_document.
 
   Raises `Ecto.NoResultsError` if the User document does not exist.
@@ -543,6 +620,49 @@ defmodule Klepsidra.Documents do
 
   """
   def get_user_document!(id), do: Repo.get!(UserDocument, id)
+
+  @doc """
+  Returns a single user document, with its document type, issuer and country name.
+
+  ## Examples
+
+      iex> get_user_document_with_document_type_issuer_and_country(id)
+      [%{}, ...]
+
+  """
+  @spec get_user_document_with_document_type_issuer_and_country(id :: Ecto.UUID.t()) :: [
+          map(),
+          ...
+        ]
+  def get_user_document_with_document_type_issuer_and_country(id) when is_bitstring(id) do
+    from_user_documents()
+    |> join_document_types_issuers_and_country_tables()
+    |> filter_user_documents_by_id(id)
+    |> select_document_name_type_issuer_and_country()
+    |> Repo.one()
+  end
+
+  @doc """
+  Returns a single user document, with all joins performed and all fields returned.
+
+  ## Examples
+
+      iex> list_document_issuers_with_all_fields(id)
+      [%{}, ...]
+
+  """
+  @spec get_user_document_with_all_fields(id :: Ecto.UUID.t()) :: [
+          map(),
+          ...
+        ]
+  def get_user_document_with_all_fields(id) when is_bitstring(id) do
+    from_user_documents()
+    |> join_user_documents_users()
+    |> join_document_types_issuers_and_country_tables()
+    |> filter_user_documents_by_id(id)
+    |> select_user_document_all_fields()
+    |> Repo.one()
+  end
 
   @doc """
   Creates a user_document.

@@ -1,5 +1,5 @@
 <.header>
-  User documents
+  Documents
   <:actions>
     <.link patch={~p"/user_documents/new"}>
       <.button>New user document</.button>
@@ -10,22 +10,35 @@
 <.table
   id="user_documents"
   rows={@streams.user_documents}
-  row_click={fn {_id, user_document} -> JS.navigate(~p"/user_documents/#{user_document}") end}
+  row_click={fn {_id, user_document} -> JS.navigate(~p"/user_documents/#{user_document.id}") end}
+  row_title={fn {_id, user_document} -> user_document.description end}
 >
+  <:col :let={{_id, user_document}} label="Document name">
+    <%= user_document.name %>
+  </:col>
   <:col :let={{_id, user_document}} label="Document type">
-    <%= user_document.document_type_id %>
+    <%= user_document.document_type_name %>
+  </:col>
+  <:col :let={{_id, user_document}} label="Issuer / Country">
+    <div><%= user_document.document_issuer_name %></div>
+    <div><%= user_document.country_name %></div>
   </:col>
   <:col :let={{_id, user_document}} label="Unique reference number">
     <%= user_document.unique_reference_number %>
   </:col>
-  <:col :let={{_id, user_document}} label="Issue date"><%= user_document.issued_at %></:col>
-  <:col :let={{_id, user_document}} label="Expiry date"><%= user_document.expires_at %></:col>
-  <:col :let={{_id, user_document}} label="Valid?"><%= user_document.is_active %></:col>
+  <:col :let={{_id, user_document}} label="Issue / Expiry dates">
+    <div><%= user_document.issued_at %></div>
+    <div><%= user_document.expires_at %></div>
+  </:col>
+  <:col :let={{_id, user_document}} label="Valid?">
+    <div class={"rounded-full h-full aspect-square w-5 #{if user_document.is_active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:col>
   <:action :let={{_id, user_document}}>
     <div class="sr-only">
-      <.link navigate={~p"/user_documents/#{user_document}"}>Show</.link>
+      <.link navigate={~p"/user_documents/#{user_document.id}"}>Show</.link>
     </div>
-    <.link patch={~p"/user_documents/#{user_document}/edit"}>Edit</.link>
+    <.link patch={~p"/user_documents/#{user_document.id}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, user_document}}>
     <.link

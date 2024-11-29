@@ -429,6 +429,11 @@ defmodule KlepsidraWeb.CoreComponents do
   attr(:row_id, :any, default: nil, doc: "the function for generating the row id")
   attr(:row_click, :any, default: nil, doc: "the function for handling phx-click on each row")
 
+  attr(:row_title, :any,
+    default: nil,
+    doc: "the function for handling the title displayed on each row"
+  )
+
   attr(:row_item, :any,
     default: &Function.identity/1,
     doc: "the function for mapping each row before calling the :col and :action slots"
@@ -465,6 +470,7 @@ defmodule KlepsidraWeb.CoreComponents do
             :for={row <- @rows}
             id={@row_id && @row_id.(row)}
             class="group hover:bg-violet-50 hover:bg-opacity-25"
+            title={@row_title && @row_title.(row)}
           >
             <td
               :for={{col, i} <- Enum.with_index(@col)}

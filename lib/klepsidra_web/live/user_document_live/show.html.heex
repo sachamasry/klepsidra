@@ -2,7 +2,7 @@
   <%= @user_document.name || "" %>
   <:subtitle><%= @user_document.description %></:subtitle>
   <:actions>
-    <.link patch={~p"/user_documents/#{@user_document}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/user_documents/#{@user_document.id}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit user document</.button>
     </.link>
   </:actions>
