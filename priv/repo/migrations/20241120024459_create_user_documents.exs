@@ -45,7 +45,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUserDocuments do
       add :description, :string, comment: "Additional details or context"
 
       add :issued_at, :date,
-        null: false,
+        null: true,
         comment: "Date when the document was issued"
 
       add :expires_at, :date,

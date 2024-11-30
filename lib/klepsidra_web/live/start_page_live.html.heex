@@ -171,9 +171,9 @@
 </div>
 
 <div :if={@quote} class="container flex justify-center my-10">
-  <blockquote class="max-w-prose border-y border-double border-violet-500 font-serif subpixel-antialiased italic text-lg text-center px-14 py-6">
-    <p><%= @quote.text %></p>
-    <p class="mt-4"><cite>—<%= @quote.author_name %></cite></p>
+  <blockquote class="max-w-prose border-y border-double border-violet-500 font-serif subpixel-antialiased italic text-lg px-14 py-6">
+    <p class="text-left"><%= @quote.text %></p>
+    <p class="mt-4 text-center"><cite>—<%= @quote.author_name %></cite></p>
   </blockquote>
 </div>
 

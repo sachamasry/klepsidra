@@ -20,12 +20,12 @@ defmodule Klepsidra.Repo.Migrations.CreateDocumentTypes do
       add :description, :text, comment: "Any other document type details which may be useful."
 
       add :max_validity_period_unit, :string,
-        null: false,
+        null: true,
         default: "years",
         comment: "Maximum validity time unit for this type of document (e.g. 'years')"
 
       add :max_validity_duration, :integer,
-        null: false,
+        null: true,
         default: 0,
         comment:
           "Maximum validity duration for this type of documents in time units specified (e.g. 10)"

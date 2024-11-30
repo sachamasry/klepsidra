@@ -54,7 +54,7 @@ defmodule KlepsidraWeb.DocumentTypeLiveTest do
 
       assert index_live
              |> form("#document_type-form", document_type: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a document type name"
 
       assert index_live
              |> form("#document_type-form", document_type: @create_attrs)

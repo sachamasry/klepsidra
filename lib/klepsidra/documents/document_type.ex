@@ -24,8 +24,8 @@ defmodule Klepsidra.Documents.DocumentType do
     field :description, :string
     field :max_validity_period_unit, :string
     field :max_validity_duration, :integer
-    field :is_country_specific, :boolean
-    field :requires_renewal, :boolean
+    field :is_country_specific, :boolean, default: true
+    field :requires_renewal, :boolean, default: true
 
     timestamps()
   end
@@ -43,8 +43,6 @@ defmodule Klepsidra.Documents.DocumentType do
     ])
     |> validate_required([:name], message: "Enter a document type name")
     |> validate_required([
-      :max_validity_period_unit,
-      :max_validity_duration,
       :is_country_specific,
       :requires_renewal
     ])

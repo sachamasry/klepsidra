@@ -85,7 +85,6 @@ defmodule Klepsidra.Documents.UserDocument do
       :document_type_id,
       :user_id,
       :unique_reference_number,
-      :issued_at,
       :is_active
     ])
     |> unique_constraint(:unique_reference_number,
