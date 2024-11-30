@@ -1,6 +1,6 @@
 <.header>
   Trip <%= @trip.id %>
-  <:subtitle>This is a trip record from your database.</:subtitle>
+  <:subtitle></:subtitle>
   <:actions>
     <.link patch={~p"/trips/#{@trip}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit trip</.button>
@@ -9,7 +9,6 @@
 </.header>
 
 <.list>
-  <:item title="Id"><%= @trip.id %></:item>
   <:item title="User"><%= @trip.user_id %></:item>
   <:item title="Country"><%= @trip.country_id %></:item>
   <:item title="Entry date"><%= @trip.entry_date %></:item>

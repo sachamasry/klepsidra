@@ -26,7 +26,7 @@ defmodule Klepsidra.Travel.Trip do
           entry_date: Date.t(),
           exit_date: Date.t()
         }
-  schema "trips" do
+  schema "travel_trips" do
     belongs_to(:users, User, foreign_key: :user_id, type: Ecto.UUID)
 
     belongs_to(:locations_countries, Country,
@@ -46,6 +46,8 @@ defmodule Klepsidra.Travel.Trip do
   def changeset(trip, attrs) do
     trip
     |> cast(attrs, [:user_id, :country_id, :description, :entry_date, :exit_date])
-    |> validate_required([:user_id, :country_id, :entry_date])
+    |> validate_required([:user_id], message: "Choose the user taking the trip")
+    |> validate_required([:country_id], message: "Choose the destination country")
+    |> validate_required([:entry_date], message: "When did the user enter the country?")
   end
 end

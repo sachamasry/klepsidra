@@ -18,6 +18,6 @@ defmodule KlepsidraWeb.TripLive.Show do
      |> assign(:trip, Travel.get_trip!(id))}
   end
 
-  defp page_title(:show), do: "Show Trip"
-  defp page_title(:edit), do: "Edit Trip"
+  defp page_title(:show), do: "Show trip"
+  defp page_title(:edit), do: "Edit trip"
 end

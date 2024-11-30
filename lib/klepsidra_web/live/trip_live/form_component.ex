@@ -2,8 +2,12 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
+  alias Klepsidra.Accounts
+  alias Klepsidra.Locations
   alias Klepsidra.Travel
+  alias Klepsidra.Locations.Country
 
   @impl true
   def render(assigns) do
@@ -11,7 +15,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage trip records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -21,13 +25,56 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:id]} type="text" label="Id" />
-        <.input field={@form[:user_id]} type="text" label="User" />
-        <.input field={@form[:country_id]} type="text" label="Country" />
+        <.live_select
+          field={@form[:user_id]}
+          mode={:single}
+          label="User"
+          allow_clear
+          options={[]}
+          placeholder="Which user took this trip?"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={2}
+          value_mapper={&user_value_mapper/1}
+          phx-target={@myself}
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
+
+        <.live_select
+          field={@form[:country_id]}
+          mode={:single}
+          label="Destination country"
+          allow_clear
+          options={[]}
+          placeholder="Country travelled to"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={2}
+          value_mapper={&country_value_mapper/1}
+          phx-target={@myself}
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
+
         <.input field={@form[:entry_date]} type="date" label="Entry date" />
         <.input field={@form[:exit_date]} type="date" label="Exit date" />
+        <.input
+          field={@form[:description]}
+          type="textarea"
+          label="Description"
+          placeholder="Additional notes, e.g. trip purpose, context, key events during the trip"
+        />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Trip</.button>
+          <.button phx-disable-with="Saving...">Save trip</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -42,6 +89,39 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
      |> assign_new(:form, fn ->
        to_form(Travel.change_trip(trip))
      end)}
+  end
+
+  @impl true
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "trip_user_id",
+          "id" => live_select_id,
+          "text" => user_name_search_phrase
+        },
+        socket
+      ) do
+    users =
+      Accounts.list_users_options_for_select_matching_name(user_name_search_phrase)
+
+    send_update(LiveSelect.Component, id: live_select_id, options: users)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "trip_country_id",
+          "id" => live_select_id,
+          "text" => country_search_phrase
+        },
+        socket
+      ) do
+    countries = Locations.country_search(country_search_phrase)
+
+    send_update(LiveSelect.Component, id: live_select_id, options: countries)
+    {:noreply, socket}
   end
 
   @impl true
@@ -61,7 +141,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Trip updated successfully")
+         |> put_toast(:info, "Trip updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -76,7 +156,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Trip created successfully")
+         |> put_toast(:info, "Trip created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -85,4 +165,17 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp user_value_mapper(user_id)
+       when is_bitstring(user_id) do
+    Accounts.get_user_option_for_select(user_id)
+  end
+
+  defp user_value_mapper(value), do: value
+
+  defp country_value_mapper(country_code) when is_bitstring(country_code) do
+    Country.country_option_for_select(country_code)
+  end
+
+  defp country_value_mapper(value), do: value
 end

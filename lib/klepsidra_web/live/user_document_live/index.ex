@@ -58,6 +58,6 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
   defp handle_deleted_user_document(socket, user_document, source_stream) do
     socket
     |> stream_delete(source_stream, user_document)
-    |> put_toast(:info, "User_document deleted successfully")
+    |> put_toast(:info, "User document deleted successfully")
   end
 end

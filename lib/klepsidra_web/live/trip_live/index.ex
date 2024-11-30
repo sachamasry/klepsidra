@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.TripLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.Travel
   alias Klepsidra.Travel.Trip
@@ -18,19 +19,19 @@ defmodule KlepsidraWeb.TripLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Trip")
+    |> assign(:page_title, "Edit trip")
     |> assign(:trip, Travel.get_trip!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Trip")
+    |> assign(:page_title, "New trip")
     |> assign(:trip, %Trip{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Trips")
+    |> assign(:page_title, "Trips")
     |> assign(:trip, nil)
   end
 
@@ -44,6 +45,12 @@ defmodule KlepsidraWeb.TripLive.Index do
     trip = Travel.get_trip!(id)
     {:ok, _} = Travel.delete_trip(trip)
 
-    {:noreply, stream_delete(socket, :trips, trip)}
+    {:noreply, handle_deleted_trip(socket, trip, :trips)}
+  end
+
+  defp handle_deleted_trip(socket, trip, source_stream) do
+    socket
+    |> stream_delete(source_stream, trip)
+    |> put_toast(:info, "Trip deleted successfully")
   end
 end

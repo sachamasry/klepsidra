@@ -1,8 +1,8 @@
 <.header>
-  Listing Trips
+  Trips
   <:actions>
     <.link patch={~p"/trips/new"}>
-      <.button>New Trip</.button>
+      <.button>New trip</.button>
     </.link>
   </:actions>
 </.header>
@@ -11,8 +11,8 @@
   id="trips"
   rows={@streams.trips}
   row_click={fn {_id, trip} -> JS.navigate(~p"/trips/#{trip}") end}
+  row_title={fn {_id, trip} -> trip.description end}
 >
-  <:col :let={{_id, trip}} label="Id"><%= trip.id %></:col>
   <:col :let={{_id, trip}} label="User"><%= trip.user_id %></:col>
   <:col :let={{_id, trip}} label="Country"><%= trip.country_id %></:col>
   <:col :let={{_id, trip}} label="Entry date"><%= trip.entry_date %></:col>
