@@ -30,6 +30,8 @@ all:
 	@echo "	compile-project			Compile project codebase"
 	@echo "	compile-assets			Compile static application assets"
 	@echo "	deploy-assets			Alias for tailwind default --minify, esbuild default --minify, phx.digest"
+	@echo "	get-lucide-icons		Clone the latest Lucide icons from the upstream repository," 
+	@echo "					and run generator task."
 	@echo
 	@echo "	db-migration 			Migrate database"
 	@echo "	db-doc 				Generate database schema documentation"
@@ -120,6 +122,11 @@ deploy-assets:
 	MIX_ENV=prod mix assets.deploy
 	@echo "--> Successfully prepared application assets for deployment"
 
+get-lucide-icons:
+	@echo "==> Getting latest Lucide icons from upstream repository..."
+	git clone https://github.com/lucide-icons/lucide.git priv/lucide && \
+	MIX_ENV=prod mix lucide.gen
+	@echo "--> Successfully updated Lucide icon set from upstream repository"
 
 # Database
 db-migration:
