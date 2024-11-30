@@ -1,0 +1,30 @@
+<.header>
+  Trip <%= @trip.id %>
+  <:subtitle>This is a trip record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/trips/#{@trip}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit trip</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Id"><%= @trip.id %></:item>
+  <:item title="User"><%= @trip.user_id %></:item>
+  <:item title="Country"><%= @trip.country_id %></:item>
+  <:item title="Entry date"><%= @trip.entry_date %></:item>
+  <:item title="Exit date"><%= @trip.exit_date %></:item>
+</.list>
+
+<.back navigate={~p"/trips"}>Back to trips</.back>
+
+<.modal :if={@live_action == :edit} id="trip-modal" show on_cancel={JS.patch(~p"/trips/#{@trip}")}>
+  <.live_component
+    module={KlepsidraWeb.TripLive.FormComponent}
+    id={@trip.id}
+    title={@page_title}
+    action={@live_action}
+    trip={@trip}
+    patch={~p"/trips/#{@trip}"}
+  />
+</.modal>

@@ -1,0 +1,45 @@
+<.header>
+  Listing Trips
+  <:actions>
+    <.link patch={~p"/trips/new"}>
+      <.button>New Trip</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="trips"
+  rows={@streams.trips}
+  row_click={fn {_id, trip} -> JS.navigate(~p"/trips/#{trip}") end}
+>
+  <:col :let={{_id, trip}} label="Id"><%= trip.id %></:col>
+  <:col :let={{_id, trip}} label="User"><%= trip.user_id %></:col>
+  <:col :let={{_id, trip}} label="Country"><%= trip.country_id %></:col>
+  <:col :let={{_id, trip}} label="Entry date"><%= trip.entry_date %></:col>
+  <:col :let={{_id, trip}} label="Exit date"><%= trip.exit_date %></:col>
+  <:action :let={{_id, trip}}>
+    <div class="sr-only">
+      <.link navigate={~p"/trips/#{trip}"}>Show</.link>
+    </div>
+    <.link patch={~p"/trips/#{trip}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, trip}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: trip.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="trip-modal" show on_cancel={JS.patch(~p"/trips")}>
+  <.live_component
+    module={KlepsidraWeb.TripLive.FormComponent}
+    id={@trip.id || :new}
+    title={@page_title}
+    action={@live_action}
+    trip={@trip}
+    patch={~p"/trips"}
+  />
+</.modal>
