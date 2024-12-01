@@ -9,7 +9,11 @@ defmodule KlepsidraWeb.TripLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :trips, Travel.list_trips())}
+    socket =
+      socket
+      |> stream(:trips, Travel.list_trips_with_user_and_country())
+
+    {:ok, socket}
   end
 
   @impl true

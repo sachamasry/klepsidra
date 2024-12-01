@@ -6,11 +6,11 @@ defmodule Klepsidra.Documents do
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
-  alias Klepsidra.Accounts.User
-  alias Klepsidra.Documents.DocumentType
-  alias Klepsidra.Documents.DocumentIssuer
-  alias Klepsidra.Documents.UserDocument
   alias Klepsidra.Locations.Country
+  alias Klepsidra.Documents.DocumentIssuer
+  alias Klepsidra.Documents.DocumentType
+  alias Klepsidra.Accounts.User
+  alias Klepsidra.Documents.UserDocument
 
   @doc """
   Query combinator for limiting returned records.

@@ -10,18 +10,17 @@
 <.table
   id="trips"
   rows={@streams.trips}
-  row_click={fn {_id, trip} -> JS.navigate(~p"/trips/#{trip}") end}
+  row_click={fn {_id, trip} -> JS.navigate(~p"/trips/#{trip.id}") end}
   row_title={fn {_id, trip} -> trip.description end}
 >
-  <:col :let={{_id, trip}} label="User"><%= trip.user_id %></:col>
-  <:col :let={{_id, trip}} label="Country"><%= trip.country_id %></:col>
+  <:col :let={{_id, trip}} label="Country"><%= trip.country_name %></:col>
   <:col :let={{_id, trip}} label="Entry date"><%= trip.entry_date %></:col>
   <:col :let={{_id, trip}} label="Exit date"><%= trip.exit_date %></:col>
   <:action :let={{_id, trip}}>
     <div class="sr-only">
-      <.link navigate={~p"/trips/#{trip}"}>Show</.link>
+      <.link navigate={~p"/trips/#{trip.id}"}>Show</.link>
     </div>
-    <.link patch={~p"/trips/#{trip}/edit"}>Edit</.link>
+    <.link patch={~p"/trips/#{trip.id}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, trip}}>
     <.link

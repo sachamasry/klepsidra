@@ -6,7 +6,67 @@ defmodule Klepsidra.Travel do
   import Ecto.Query, warn: false
   alias Klepsidra.Repo
 
+  alias Klepsidra.Accounts.User
+  alias Klepsidra.Locations.Country
   alias Klepsidra.Travel.Trip
+
+  @doc """
+  Query combinator for limiting returned records.
+  """
+  @spec limit_returned_results(query :: Ecto.Query.t(), limit :: integer()) :: Ecto.Query.t()
+  def limit_returned_results(query, limit) do
+    from zz in query,
+      limit: ^limit
+  end
+
+  @spec from_trips() :: Ecto.Query.t()
+  def from_trips() do
+    from(t in Trip, as: :trips)
+  end
+
+  @spec filter_trips_by_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) ::
+          Ecto.Query.t()
+  def filter_trips_by_id(query, id) do
+    from [trips: t] in query,
+      where: t.id == ^id
+  end
+
+  @spec order_by_trips_entry_asc_exit_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_by_trips_entry_asc_exit_asc(query) do
+    from [trips: t] in query,
+      order_by: [asc: t.entry_date, asc: t.exit_date]
+  end
+
+  @spec join_trips_users(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def join_trips_users(query) do
+    from [trips: t] in query,
+      left_join: u in User,
+      as: :user,
+      on: t.user_id == u.id
+  end
+
+  @spec join_trips_countries(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def join_trips_countries(query) do
+    from [trips: t] in query,
+      left_join: co in Country,
+      as: :country,
+      on: t.country_id == co.iso_3_country_code
+  end
+
+  @spec select_trips_user_and_country(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_trips_user_and_country(query) do
+    from [trips: t, user: u, country: co] in query,
+      select: %{
+        id: t.id,
+        user_id: t.user_id,
+        user_name: u.user_name,
+        country_id: t.country_id,
+        country_name: co.country_name,
+        description: t.description |> coalesce(""),
+        entry_date: t.entry_date,
+        exit_date: t.exit_date
+      }
+  end
 
   @doc """
   Returns the list of trips.
@@ -19,6 +79,25 @@ defmodule Klepsidra.Travel do
   """
   def list_trips do
     Repo.all(Trip)
+  end
+
+  @doc """
+  Returns a list of trips with the user and country names.
+
+  ## Examples
+
+      iex> list_trips_with_user_and_country()
+      [%{}, ...]
+
+  """
+  @spec list_trips_with_user_and_country() :: [map(), ...]
+  def list_trips_with_user_and_country do
+    from_trips()
+    |> join_trips_users()
+    |> join_trips_countries()
+    |> order_by_trips_entry_asc_exit_asc()
+    |> select_trips_user_and_country()
+    |> Repo.all()
   end
 
   @doc """
@@ -36,6 +115,28 @@ defmodule Klepsidra.Travel do
 
   """
   def get_trip!(id), do: Repo.get!(Trip, id)
+
+  @doc """
+  Returns a single trip, with user and country names.
+
+  ## Examples
+
+      iex> get_trip_with_user_and_country(id)
+      %{}
+
+  """
+  @spec get_trip_with_user_and_country(id :: Ecto.UUID.t()) :: [
+          map(),
+          ...
+        ]
+  def get_trip_with_user_and_country(id) when is_bitstring(id) do
+    from_trips()
+    |> join_trips_users()
+    |> join_trips_countries()
+    |> filter_trips_by_id(id)
+    |> select_trips_user_and_country()
+    |> Repo.one()
+  end
 
   @doc """
   Creates a trip.
