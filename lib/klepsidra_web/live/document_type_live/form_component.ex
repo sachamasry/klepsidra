@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
   import LiveToast
 
   alias Klepsidra.Documents
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
 
   @impl true
   def render(assigns) do
@@ -24,12 +25,16 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="textarea" label="Description" />
+
+        <.input field={@form[:max_validity_duration]} type="number" label="Maximum validity duration" />
         <.input
           field={@form[:max_validity_period_unit]}
-          type="text"
-          label="Maximum validity time unit"
+          type="select"
+          label="Validity time unit"
+          options={Units.construct_long_term_duration_unit_options_list(permit_null: true)}
+          selected=""
         />
-        <.input field={@form[:max_validity_duration]} type="number" label="Maximum validity duration" />
+
         <.input
           field={@form[:is_country_specific]}
           type="checkbox"

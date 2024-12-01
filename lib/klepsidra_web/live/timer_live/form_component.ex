@@ -3,16 +3,16 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   use KlepsidraWeb, :live_component
 
+  alias Klepsidra.Categorisation
+  alias Klepsidra.DynamicCSS
+  alias Klepsidra.TimeTracking.ActivityType
+  alias Klepsidra.BusinessPartners.BusinessPartner
+  alias Klepsidra.Projects.Project
+  alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
-  alias Klepsidra.Projects.Project
-  alias Klepsidra.BusinessPartners.BusinessPartner
-  alias Klepsidra.TimeTracking.ActivityType
-  alias Klepsidra.Categorisation
-  alias Klepsidra.Categorisation.Tag
-  alias KlepsidraWeb.TagLive.TagUtilities
-  alias Klepsidra.DynamicCSS
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 

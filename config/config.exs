@@ -98,7 +98,17 @@ config :ex_cldr_units, :additional_units,
   sixty_minute_increment: [base_unit: :second, factor: 3_600, offset: 0],
   hour_increment: [base_unit: :second, factor: 3_600, offset: 0],
   ninety_minute_increment: [base_unit: :second, factor: 5_400, offset: 0],
-  one_hundred_twenty_minute_increment: [base_unit: :second, factor: 7_200, offset: 0]
+  one_hundred_twenty_minute_increment: [base_unit: :second, factor: 7_200, offset: 0],
+  # Day
+  day_increment: [base_unit: :second, factor: 86_400, offset: 0],
+  # Week
+  week_increment: [base_unit: :second, factor: 604_800, offset: 0],
+  # Month
+  month_increment: [base_unit: :second, factor: 2_629_800, offset: 0],
+  # Quarter
+  quarter_increment: [base_unit: :second, factor: 7_889_400, offset: 0],
+  # Year
+  year_increment: [base_unit: :second, factor: 31_557_600, offset: 0]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

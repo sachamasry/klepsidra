@@ -73,4 +73,61 @@ defmodule Klepsidra.TimeTracking.TimeUnits do
         ]
     end
   end
+
+  @doc """
+  Constructs a list of longer-term time units, from days to years, ready
+  to be used in a `select` input element.
+
+  Returns list of tuples of the user-facing unit name and string version
+  of the time unit atom, shaped for use in Phoenix-constructed [HTML]
+  option input elements. Each tuple has two elements, the first is a
+  human-readable value, the second is the string value of the time
+  unit atom name.
+
+  For example, weeks would be presented as: `{"Weeks", "week"}`.
+
+  Note, all the time units in use have been chosen to match units (intervals)
+  available in `Ecto.Query.API`, so that Ecto can be used for duration
+  calculations..
+
+  ## Options
+
+  The list returned provides only the time increment options, as needed
+  for fields which must be provided.
+
+  If the field is optional, pass the `permit_null: true` option, ensuring
+  an empty default option is provided.
+
+  ## Examples
+
+      iex> TimeUnits.construct_long_term_duration_unit_options_list()
+      [
+        {"Days", "day"},
+        {"Weeks", "week"},
+        {"Months", "month"},
+        {"Years", "year"},
+      ]
+
+  """
+  @spec construct_long_term_duration_unit_options_list(options :: keyword()) :: [
+          {String.t(), String.t()},
+          ...
+        ]
+  def construct_long_term_duration_unit_options_list(options \\ []) do
+    permit_null_selection = Keyword.get(options, :permit_null, false)
+
+    options =
+      [
+        {"Days", "day"},
+        {"Weeks", "week"},
+        {"Months", "month"},
+        {"Years", "year"}
+      ]
+
+    if permit_null_selection do
+      [{"", ""} | options]
+    else
+      options
+    end
+  end
 end
