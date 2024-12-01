@@ -12,7 +12,7 @@ defmodule KlepsidraWeb.TripLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    trip = Travel.get_trip_with_user_and_country(id)
+    trip = Travel.get_trip_with_user_document_and_country(id)
     trip_struct = Travel.get_trip!(id)
 
     trip_title =
@@ -27,9 +27,7 @@ defmodule KlepsidraWeb.TripLive.Show do
         page_title: page_title(socket.assigns.live_action),
         trip: trip,
         trip_struct: trip_struct,
-        trip_title: trip_title,
-        user_name: trip.user_name,
-        country_name: trip.country_name
+        trip_title: trip_title
       )
 
     {:noreply, socket}

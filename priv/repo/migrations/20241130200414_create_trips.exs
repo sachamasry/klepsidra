@@ -16,6 +16,11 @@ defmodule Klepsidra.Repo.Migrations.CreateTrips do
         null: false,
         comment: "User reference. Foreign key to `users` table"
 
+      add :user_document_id, references(:user_documents, on_delete: :nothing, type: :uuid),
+        null: true,
+        comment:
+          "What document was used to travel into the country? User document reference. Foreign key to `users` table."
+
       add :country_id,
           references(:locations_countries,
             column: :iso_3_country_code,
@@ -43,6 +48,11 @@ defmodule Klepsidra.Repo.Migrations.CreateTrips do
                "Index of the trip's `user_id` field, optimising searches filtering or joining by user, such as retrieving all trips for a specific user"
            )
 
+    create index(:travel_trips, [:user_document_id],
+             comment:
+               "Index of the trip's `user_document_id` field, optimising searches filtering or joining by user document used, such as retrieving all trips on a specific document"
+           )
+
     create index(:travel_trips, [:country_id],
              comment:
                "Index of the trip's `country_id` field, useful for queries filtering trips into specific countries"
@@ -63,14 +73,21 @@ defmodule Klepsidra.Repo.Migrations.CreateTrips do
                "Composite index of the trip's `user_id` and `country_id` fields, optimising searches filtering or joining by user and country combinations"
            )
 
+    create index(:travel_trips, [:user_id, :user_document_id, :country_id],
+             comment:
+               "Composite index of the trip's `user_id`, `user_document_id` and `country_id` fields, optimising searches filtering or joining by user, document used, and country combinations"
+           )
+
     create index(:travel_trips, [:user_id, :entry_date],
              comment:
                "Composite index of the trip's `user_id` and `entry_date` fields, optimising searches filtering or joining by user and entry date combinations"
            )
 
-    create index(:travel_trips, [:user_id, :country_id, :entry_date, :exit_date],
+    create index(
+             :travel_trips,
+             [:user_id, :user_document_id, :country_id, :entry_date, :exit_date],
              comment:
-               "Composite index of the trip's `user_id`, `country_id`, and `entry_` and `exit_date` fields, optimising searches filtering or joining by user, country and date range combinations"
+               "Composite index of the trip's `user_id`, `user_document_id`, `country_id`, and `entry_` and `exit_date` fields, optimising searches filtering or joining by user, document used, country and date range combinations"
            )
   end
 end

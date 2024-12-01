@@ -7,6 +7,7 @@ defmodule Klepsidra.Travel do
   alias Klepsidra.Repo
 
   alias Klepsidra.Accounts.User
+  alias Klepsidra.Documents.UserDocument
   alias Klepsidra.Locations.Country
   alias Klepsidra.Travel.Trip
 
@@ -45,6 +46,14 @@ defmodule Klepsidra.Travel do
       on: t.user_id == u.id
   end
 
+  @spec join_trips_user_documents(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def join_trips_user_documents(query) do
+    from [trips: t] in query,
+      left_join: ud in UserDocument,
+      as: :user_document,
+      on: t.user_document_id == ud.id
+  end
+
   @spec join_trips_countries(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def join_trips_countries(query) do
     from [trips: t] in query,
@@ -60,6 +69,30 @@ defmodule Klepsidra.Travel do
         id: t.id,
         user_id: t.user_id,
         user_name: u.user_name,
+        country_id: t.country_id,
+        country_name: co.country_name,
+        description: t.description |> coalesce(""),
+        entry_date: t.entry_date,
+        exit_date: t.exit_date
+      }
+  end
+
+  @spec select_trips_user_document_and_country(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_trips_user_document_and_country(query) do
+    from [trips: t, user: u, user_document: ud, country: co] in query,
+      select: %{
+        id: t.id,
+        user_id: t.user_id,
+        user_name: u.user_name,
+        user_document_id: t.user_document_id,
+        user_document_name:
+          fragment(
+            "concat(?, ' (Ref: ', ?, ', Validity: ', ?, '-', ?, ')')",
+            ud.name,
+            ud.unique_reference_number,
+            ud.issued_at,
+            ud.expires_at
+          ),
         country_id: t.country_id,
         country_name: co.country_name,
         description: t.description |> coalesce(""),
@@ -135,6 +168,29 @@ defmodule Klepsidra.Travel do
     |> join_trips_countries()
     |> filter_trips_by_id(id)
     |> select_trips_user_and_country()
+    |> Repo.one()
+  end
+
+  @doc """
+  Returns a single trip, with user, document used and country names.
+
+  ## Examples
+
+      iex> get_trip_with_user_document_and_country(id)
+      %{}
+
+  """
+  @spec get_trip_with_user_document_and_country(id :: Ecto.UUID.t()) :: [
+          map(),
+          ...
+        ]
+  def get_trip_with_user_document_and_country(id) when is_bitstring(id) do
+    from_trips()
+    |> join_trips_users()
+    |> join_trips_user_documents()
+    |> join_trips_countries()
+    |> filter_trips_by_id(id)
+    |> select_trips_user_document_and_country()
     |> Repo.one()
   end
 

@@ -569,8 +569,17 @@ defmodule Klepsidra.Documents do
 
   @spec select_user_documents_options_for_select_name(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_user_documents_options_for_select_name(query) do
-    from [user_documents: ud] in query,
-      select: %{value: ud.id, label: ud.name}
+    from [user_documents: ud, country: co] in query,
+      select: %{
+        value: ud.id,
+        label:
+          fragment(
+            "concat(?, ' (', ?, ') ', ?)",
+            ud.name,
+            co.country_name,
+            ud.unique_reference_number
+          )
+      }
   end
 
   @doc """
@@ -604,6 +613,28 @@ defmodule Klepsidra.Documents do
     |> select_document_name_type_issuer_and_country()
     |> Repo.all()
   end
+
+  @spec list_user_documents_options_for_select_matching_name(
+          name_filter :: String.t(),
+          options :: keyword()
+        ) ::
+          [%{value: Ecto.UUID.t(), label: String.t()}, ...]
+
+  def list_user_documents_options_for_select_matching_name(name_filter, options \\ [])
+
+  def list_user_documents_options_for_select_matching_name(name_filter, options)
+      when is_bitstring(name_filter) do
+    max_result_count = Keyword.get(options, :limit, 25)
+
+    from_user_documents()
+    |> join_document_types_issuers_and_country_tables()
+    |> filter_user_documents_matching_name(name_filter)
+    |> limit_returned_results(max_result_count)
+    |> select_user_documents_options_for_select_name()
+    |> Repo.all()
+  end
+
+  def list_user_documents_options_for_select_matching_name(_, _), do: [%{value: "", label: ""}]
 
   @doc """
   Gets a single user_document.
@@ -641,6 +672,47 @@ defmodule Klepsidra.Documents do
     |> select_document_name_type_issuer_and_country()
     |> Repo.one()
   end
+
+  @doc """
+  Constructs an HTML `select` option for a single user document,
+  for use by the `live_select` live component.
+
+  Given a current `user_document_id`, a reference to the document
+  primary key in the `user_documents` table, calls the relevant query,
+  obtaining necessary fields to construct a full, unambiguous, document name.
+
+  ## Returns
+
+  Returns a single map:
+  ```
+  %{
+    label: << user_document_name >>,
+    value: << user_document_id (UUID) >>
+  ```
+
+  ## Examples
+
+      iex> get_user_document_option_for_select("abc")
+      %{label: "...", value: "..."}
+
+      iex> get_user_document_option_for_select(123)
+      %{label: "", value: ""}
+  """
+  @spec get_user_document_option_for_select(id :: Ecto.UUID.t()) :: %{
+          label: String.t(),
+          value: String.t()
+        }
+  def get_user_document_option_for_select(""), do: %{label: "", value: ""}
+
+  def get_user_document_option_for_select(id) when is_bitstring(id) do
+    from_user_documents()
+    |> join_document_types_issuers_and_country_tables()
+    |> filter_user_documents_by_id(id)
+    |> select_user_documents_options_for_select_name()
+    |> Repo.one()
+  end
+
+  def get_user_document_option_for_select(_id), do: %{label: "", value: ""}
 
   @doc """
   Returns a single user document, with all joins performed and all fields returned.

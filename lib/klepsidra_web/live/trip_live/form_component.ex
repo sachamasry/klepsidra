@@ -5,6 +5,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   import LiveToast
 
   alias Klepsidra.Accounts
+  alias Klepsidra.Documents
   alias Klepsidra.Locations
   alias Klepsidra.Travel
   alias Klepsidra.Locations.Country
@@ -36,6 +37,26 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
           dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
           update_min_len={2}
           value_mapper={&user_value_mapper/1}
+          phx-target={@myself}
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
+
+        <.live_select
+          field={@form[:user_document_id]}
+          mode={:single}
+          label="Travel document"
+          allow_clear
+          options={[]}
+          placeholder="Which travel document was used to travel to country?"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={2}
+          value_mapper={&user_document_value_mapper/1}
           phx-target={@myself}
         >
           <:option :let={option}>
@@ -108,6 +129,24 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
     {:noreply, socket}
   end
 
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "trip_user_document_id",
+          "id" => live_select_id,
+          "text" => user_document_name_search_phrase
+        },
+        socket
+      ) do
+    user_documents =
+      Documents.list_user_documents_options_for_select_matching_name(
+        user_document_name_search_phrase
+      )
+
+    send_update(LiveSelect.Component, id: live_select_id, options: user_documents)
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event(
         "live_select_change",
@@ -174,6 +213,13 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   end
 
   defp user_value_mapper(value), do: value
+
+  defp user_document_value_mapper(user_document_id)
+       when is_bitstring(user_document_id) do
+    Documents.get_user_document_option_for_select(user_document_id)
+  end
+
+  defp user_document_value_mapper(value), do: value
 
   defp country_value_mapper(country_code) when is_bitstring(country_code) do
     Country.country_option_for_select(country_code)

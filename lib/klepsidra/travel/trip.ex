@@ -13,6 +13,7 @@ defmodule Klepsidra.Travel.Trip do
   import Ecto.Changeset
 
   alias Klepsidra.Locations.Country
+  alias Klepsidra.Documents.UserDocument
   alias Klepsidra.Accounts.User
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
@@ -21,6 +22,7 @@ defmodule Klepsidra.Travel.Trip do
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           user_id: Ecto.UUID.t(),
+          user_document_id: Ecto.UUID.t(),
           country_id: String.t(),
           description: String.t(),
           entry_date: Date.t(),
@@ -28,6 +30,8 @@ defmodule Klepsidra.Travel.Trip do
         }
   schema "travel_trips" do
     belongs_to(:users, User, foreign_key: :user_id, type: Ecto.UUID)
+
+    belongs_to(:user_documents, UserDocument, foreign_key: :user_document_id, type: Ecto.UUID)
 
     belongs_to(:locations_countries, Country,
       foreign_key: :country_id,
@@ -45,7 +49,14 @@ defmodule Klepsidra.Travel.Trip do
   @doc false
   def changeset(trip, attrs) do
     trip
-    |> cast(attrs, [:user_id, :country_id, :description, :entry_date, :exit_date])
+    |> cast(attrs, [
+      :user_id,
+      :user_document_id,
+      :country_id,
+      :description,
+      :entry_date,
+      :exit_date
+    ])
     |> validate_required([:user_id], message: "Choose the user taking the trip")
     |> validate_required([:country_id], message: "Choose the destination country")
     |> validate_required([:entry_date], message: "When did the user enter the country?")
