@@ -137,6 +137,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   defp save_trip(socket, :edit, trip_params) do
     case Travel.update_trip(socket.assigns.trip, trip_params) do
       {:ok, trip} ->
+        trip = Travel.get_trip_with_user_and_country(trip.id)
         notify_parent({:saved, trip})
 
         {:noreply,
@@ -152,6 +153,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
   defp save_trip(socket, :new, trip_params) do
     case Travel.create_trip(trip_params) do
       {:ok, trip} ->
+        trip = Travel.get_trip_with_user_and_country(trip.id)
         notify_parent({:saved, trip})
 
         {:noreply,
