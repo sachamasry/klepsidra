@@ -14,8 +14,14 @@
   row_title={fn {_id, trip} -> trip.description end}
 >
   <:col :let={{_id, trip}} label="Country"><%= trip.country_name %></:col>
-  <:col :let={{_id, trip}} label="Entry date"><%= trip.entry_date %></:col>
-  <:col :let={{_id, trip}} label="Exit date"><%= trip.exit_date %></:col>
+  <:col :let={{_id, trip}} label="Entry date and point">
+    <div><%= trip.entry_date %></div>
+    <div><%= trip.entry_point %></div>
+  </:col>
+  <:col :let={{_id, trip}} label="Exit date and point">
+    <div><%= trip.exit_date %></div>
+    <div><%= trip.exit_point %></div>
+  </:col>
   <:action :let={{_id, trip}}>
     <div class="sr-only">
       <.link navigate={~p"/trips/#{trip.id}"}>Show</.link>

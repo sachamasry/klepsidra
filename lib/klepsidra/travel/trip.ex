@@ -26,7 +26,9 @@ defmodule Klepsidra.Travel.Trip do
           country_id: String.t(),
           description: String.t(),
           entry_date: Date.t(),
-          exit_date: Date.t()
+          entry_point: String.t(),
+          exit_date: Date.t(),
+          exit_point: String.t()
         }
   schema "travel_trips" do
     belongs_to(:users, User, foreign_key: :user_id, type: Ecto.UUID)
@@ -41,7 +43,9 @@ defmodule Klepsidra.Travel.Trip do
 
     field :description, :string
     field :entry_date, :date
+    field :entry_point, :string
     field :exit_date, :date
+    field :exit_point, :string
 
     timestamps()
   end
@@ -55,7 +59,9 @@ defmodule Klepsidra.Travel.Trip do
       :country_id,
       :description,
       :entry_date,
-      :exit_date
+      :entry_point,
+      :exit_date,
+      :exit_point
     ])
     |> validate_required([:user_id], message: "Choose the user taking the trip")
     |> validate_required([:country_id], message: "Choose the destination country")

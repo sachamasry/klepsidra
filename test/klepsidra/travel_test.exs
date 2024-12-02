@@ -13,7 +13,9 @@ defmodule Klepsidra.TravelTest do
       country_id: nil,
       description: nil,
       entry_date: nil,
-      exit_date: nil
+      entry_point: nil,
+      exit_date: nil,
+      exit_point: nil
     }
 
     # test "list_trips/0 returns all trips" do
@@ -32,7 +34,9 @@ defmodule Klepsidra.TravelTest do
     #     user_id: "7488a646-e31f-11e4-aace-600308960662",
     #     country_id: "some country_id",
     #     entry_date: ~D[2024-11-29],
-    #     exit_date: ~D[2024-11-29]
+    #     entry_point: "Entry port",
+    #     exit_date: ~D[2024-11-29],
+    #     exit_point: "Exit point"
     #   }
 
     #   assert {:ok, %Trip{} = trip} = Travel.create_trip(valid_attrs)
@@ -55,7 +59,9 @@ defmodule Klepsidra.TravelTest do
     #     user_id: "7488a646-e31f-11e4-aace-600308960668",
     #     country_id: "some updated country_id",
     #     entry_date: ~D[2024-11-30],
-    #     exit_date: ~D[2024-11-30]
+    #     entry_point: "Entry port",
+    #     exit_date: ~D[2024-11-30],
+    #     exit_point: "Exit point"
     #   }
 
     #   assert {:ok, %Trip{} = trip} = Travel.update_trip(trip, update_attrs)

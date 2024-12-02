@@ -87,7 +87,19 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
         </.live_select>
 
         <.input field={@form[:entry_date]} type="date" label="Entry date" />
+        <.input
+          field={@form[:entry_point]}
+          type="text"
+          label="Entry point"
+          placeholder="Location where you entered the country"
+        />
         <.input field={@form[:exit_date]} type="date" label="Exit date" />
+        <.input
+          field={@form[:exit_point]}
+          type="text"
+          label="Exit point"
+          placeholder="Location where you left the country"
+        />
         <.input
           field={@form[:description]}
           type="textarea"

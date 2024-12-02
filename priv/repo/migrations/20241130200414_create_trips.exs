@@ -36,9 +36,17 @@ defmodule Klepsidra.Repo.Migrations.CreateTrips do
         null: false,
         comment: "Date of entry into a country"
 
+      add :entry_point, :string,
+        null: true,
+        comment: "Location where the user entered the country"
+
       add :exit_date, :date,
         null: true,
         comment: "Date of exit from a country"
+
+      add :exit_point, :string,
+        null: true,
+        comment: "Location where the user left the country"
 
       timestamps()
     end
@@ -63,9 +71,19 @@ defmodule Klepsidra.Repo.Migrations.CreateTrips do
                "Index of the trip's `entry_date` field, useful for queries filtering trips based on entry dates"
            )
 
+    create index(:travel_trips, [:entry_point],
+             comment:
+               "Index of the trip's `entry_point` field, useful for queries filtering trips based on location of entry into the country"
+           )
+
     create index(:travel_trips, [:exit_date],
              comment:
                "Index of the trip's `exit_date` field, useful for queries filtering trips based on exit dates"
+           )
+
+    create index(:travel_trips, [:exit_point],
+             comment:
+               "Index of the trip's `exit_point` field, useful for queries filtering trips based on location of leaving the country"
            )
 
     create index(:travel_trips, [:user_id, :country_id],

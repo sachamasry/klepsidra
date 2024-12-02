@@ -15,7 +15,9 @@ defmodule Klepsidra.TravelFixtures do
         country_id: "GBR",
         description: "Work-related trip",
         entry_date: ~D[2024-11-29],
-        exit_date: ~D[2024-11-29]
+        entry_point: "Entry into country",
+        exit_date: ~D[2024-11-29],
+        exit_point: "Exit from country"
       })
       |> Klepsidra.Travel.create_trip()
 

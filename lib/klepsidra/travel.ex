@@ -73,7 +73,9 @@ defmodule Klepsidra.Travel do
         country_name: co.country_name,
         description: t.description |> coalesce(""),
         entry_date: t.entry_date,
-        exit_date: t.exit_date
+        entry_point: t.entry_point,
+        exit_date: t.exit_date,
+        exit_point: t.exit_point
       }
   end
 
@@ -97,7 +99,9 @@ defmodule Klepsidra.Travel do
         country_name: co.country_name,
         description: t.description |> coalesce(""),
         entry_date: t.entry_date,
-        exit_date: t.exit_date
+        entry_point: t.entry_point,
+        exit_date: t.exit_date,
+        exit_point: t.exit_point
       }
   end
 

@@ -9,21 +9,27 @@ defmodule KlepsidraWeb.TripLiveTest do
     country_id: "some country_id",
     description: "Business trip",
     entry_date: "2024-11-29",
-    exit_date: "2024-11-29"
+    entry_point: "Entry port",
+    exit_date: "2024-11-29",
+    exit_point: "Exit port"
   }
   @update_attrs %{
     user_id: "7488a646-e31f-11e4-aace-600308960668",
     country_id: "some updated country_id",
     description: "Leisure trip",
     entry_date: "2024-11-30",
-    exit_date: "2024-11-30"
+    entry_point: "Entry port",
+    exit_date: "2024-11-30",
+    exit_point: "Exit port"
   }
   @invalid_attrs %{
     user_id: nil,
     country_id: nil,
     description: "",
     entry_date: nil,
-    exit_date: nil
+    entry_point: nil,
+    exit_date: nil,
+    exit_point: nil
   }
 
   # defp create_trip(_) do
