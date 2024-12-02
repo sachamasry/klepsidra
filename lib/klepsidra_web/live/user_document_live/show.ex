@@ -18,11 +18,7 @@ defmodule KlepsidraWeb.UserDocumentLive.Show do
       socket
       |> assign(
         page_title: page_title(socket.assigns.live_action),
-        user_document: document,
-        user_name: document.user_name,
-        document_type: document.document_type_name,
-        document_issuer: document.document_issuer_name,
-        issuing_country_name: document.country_name
+        user_document: document
       )
 
     {:noreply, socket}

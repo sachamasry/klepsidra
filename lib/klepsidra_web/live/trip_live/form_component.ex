@@ -139,7 +139,7 @@ defmodule KlepsidraWeb.TripLive.FormComponent do
         socket
       ) do
     user_documents =
-      Documents.list_user_documents_options_for_select_matching_name(
+      Documents.list_user_documents_options_for_select_valid_matching_name(
         user_document_name_search_phrase
       )
 

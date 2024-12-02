@@ -469,33 +469,34 @@ defmodule Klepsidra.Documents do
     from(ud in UserDocument, as: :user_documents)
   end
 
-  @spec filter_user_documents_matching_name(query :: Ecto.Query.t(), name_filter :: String.t()) ::
+  @spec join_user_document_validity_subquery(query :: Ecto.Query.t(), date :: Date.t()) ::
           Ecto.Query.t()
-  def filter_user_documents_matching_name(query, name_filter) do
-    like_name = "%#{name_filter}%"
+  def join_user_document_validity_subquery(query, date) when is_struct(date, Date) do
+    subquery =
+      from(ud_v in UserDocument,
+        select: %{
+          id: ud_v.id,
+          valid:
+            fragment(
+              """
+              CASE
+                WHEN ? = false THEN false
+                WHEN ? < ? AND ? IS NOT NULL THEN false
+                ELSE true
+              END
+              """,
+              ud_v.is_active,
+              ud_v.expires_at,
+              ^date,
+              ud_v.expires_at
+            )
+        }
+      )
 
     from [user_documents: ud] in query,
-      where: like(ud.name, ^like_name)
-  end
-
-  @spec filter_user_documents_by_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) ::
-          Ecto.Query.t()
-  def filter_user_documents_by_id(query, id) do
-    from [user_documents: ud] in query,
-      where: ud.id == ^id
-  end
-
-  @spec order_by_user_documents_name_asc_expiry_desc(query :: Ecto.Query.t()) :: Ecto.Query.t()
-  def order_by_user_documents_name_asc_expiry_desc(query) do
-    from [user_documents: ud] in query,
-      order_by: [asc: ud.name, desc: ud.expires_at]
-  end
-
-  @spec order_by_user_documents_validity_name_asc_expiry_desc(query :: Ecto.Query.t()) ::
-          Ecto.Query.t()
-  def order_by_user_documents_validity_name_asc_expiry_desc(query) do
-    from [user_documents: ud] in query,
-      order_by: [desc: ud.is_active, asc: ud.name, desc: ud.expires_at]
+      join: ud_v in subquery(subquery),
+      as: :user_document_validity,
+      on: ud.id == ud_v.id
   end
 
   @spec join_user_documents_users(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -520,51 +521,129 @@ defmodule Klepsidra.Documents do
       on: ud.country_id == co.iso_3_country_code
   end
 
+  @spec filter_user_documents_matching_name(query :: Ecto.Query.t(), name_filter :: String.t()) ::
+          Ecto.Query.t()
+  def filter_user_documents_matching_name(query, name_filter) do
+    like_name = "%#{name_filter}%"
+
+    from [user_documents: ud] in query,
+      where: like(ud.name, ^like_name)
+  end
+
+  @spec filter_user_documents_by_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) ::
+          Ecto.Query.t()
+  def filter_user_documents_by_id(query, id) do
+    from [user_documents: ud] in query,
+      where: ud.id == ^id
+  end
+
+  @spec filter_user_documents_only_valid(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def filter_user_documents_only_valid(query) do
+    from [user_documents: ud, user_document_validity: ud_v] in query,
+      where: ud_v.valid == true
+  end
+
+  @spec order_by_user_documents_name_asc_expiry_desc(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_by_user_documents_name_asc_expiry_desc(query) do
+    from [user_documents: ud] in query,
+      order_by: [asc: ud.name, desc: ud.expires_at]
+  end
+
+  @spec order_by_user_documents_validity_name_asc_expiry_desc(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def order_by_user_documents_validity_name_asc_expiry_desc(query) do
+    from [user_documents: ud, user_document_validity: ud_v] in query,
+      order_by: [desc: ud_v.valid, asc: ud.name, desc: ud.expires_at]
+  end
+
   @spec select_document_name_type_issuer_and_country(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_document_name_type_issuer_and_country(query) do
-    from [user_documents: ud, document_type: dt, document_issuer: di, country: co] in query,
-      select: %{
-        id: ud.id,
-        user_id: ud.user_id,
-        document_type_id: ud.document_type_id,
-        document_type_name: dt.name,
-        document_issuer_id: ud.document_issuer_id,
-        document_issuer_name: di.name,
-        country_id: ud.country_id,
-        country_name: co.country_name,
-        unique_reference_number: ud.unique_reference_number,
-        name: ud.name,
-        description: ud.description |> coalesce(""),
-        issued_at: ud.issued_at,
-        expires_at: ud.expires_at,
-        is_active: ud.is_active,
-        file_url: ud.file_url
-      }
+    from [
+           user_documents: ud,
+           document_type: dt,
+           document_issuer: di,
+           country: co
+         ] in query,
+         select: %{
+           id: ud.id,
+           user_id: ud.user_id,
+           document_type_id: ud.document_type_id,
+           document_type_name: dt.name,
+           document_issuer_id: ud.document_issuer_id,
+           document_issuer_name: di.name,
+           country_id: ud.country_id,
+           country_name: co.country_name,
+           unique_reference_number: ud.unique_reference_number,
+           name: ud.name,
+           description: ud.description |> coalesce(""),
+           issued_at: ud.issued_at,
+           expires_at: ud.expires_at,
+           is_active: ud.is_active,
+           file_url: ud.file_url
+         }
+  end
+
+  @spec select_document_name_validity_type_issuer_and_country(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def select_document_name_validity_type_issuer_and_country(query) do
+    from [
+           user_documents: ud,
+           user_document_validity: ud_v,
+           document_type: dt,
+           document_issuer: di,
+           country: co
+         ] in query,
+         select: %{
+           id: ud.id,
+           user_id: ud.user_id,
+           document_type_id: ud.document_type_id,
+           document_type_name: dt.name,
+           document_issuer_id: ud.document_issuer_id,
+           document_issuer_name: di.name,
+           country_id: ud.country_id,
+           country_name: co.country_name,
+           unique_reference_number: ud.unique_reference_number,
+           name: ud.name,
+           description: ud.description |> coalesce(""),
+           issued_at: ud.issued_at,
+           expires_at: ud.expires_at,
+           valid: ud_v.valid,
+           file_url: ud.file_url
+         }
   end
 
   @spec select_user_document_all_fields(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_user_document_all_fields(query) do
-    from [user_documents: ud, user: u, document_type: dt, document_issuer: di, country: co] in query,
-      select: %{
-        id: ud.id,
-        user_id: ud.user_id,
-        user_name: u.user_name,
-        document_type_id: ud.document_type_id,
-        document_type_name: dt.name,
-        document_issuer_id: ud.document_issuer_id,
-        document_issuer_name: di.name,
-        country_id: ud.country_id,
-        country_name: co.country_name,
-        unique_reference_number: ud.unique_reference_number,
-        name: ud.name,
-        description: ud.description |> coalesce(""),
-        issued_at: ud.issued_at,
-        expires_at: ud.expires_at,
-        is_active: ud.is_active,
-        invalidation_reason: ud.invalidation_reason,
-        file_url: ud.file_url,
-        custom_buffer_time_days: ud.custom_buffer_time_days
-      }
+    from [
+           user_documents: ud,
+           user_document_validity: ud_v,
+           user: u,
+           document_type: dt,
+           document_issuer: di,
+           country: co
+         ] in query,
+         select: %{
+           id: ud.id,
+           user_id: ud.user_id,
+           user_name: u.user_name,
+           document_type_id: ud.document_type_id,
+           document_type_name: dt.name,
+           document_issuer_id: ud.document_issuer_id,
+           document_issuer_name: di.name,
+           country_id: ud.country_id,
+           country_name: co.country_name,
+           unique_reference_number: ud.unique_reference_number,
+           name: ud.name,
+           description: ud.description |> coalesce(""),
+           issued_at: ud.issued_at,
+           expires_at: ud.expires_at,
+           is_active: ud.is_active,
+           invalidation_reason: ud.invalidation_reason,
+           valid: ud_v.valid,
+           file_url: ud.file_url,
+           custom_buffer_time_days: ud.custom_buffer_time_days
+         }
   end
 
   @spec select_user_documents_options_for_select_name(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -605,12 +684,16 @@ defmodule Klepsidra.Documents do
       [%{}, ...]
 
   """
-  @spec list_user_documents_with_document_type_issuer_and_country() :: [map(), ...]
-  def list_user_documents_with_document_type_issuer_and_country do
+  @spec list_user_documents_with_document_type_issuer_and_country(options :: keyword()) ::
+          [map(), ...]
+  def list_user_documents_with_document_type_issuer_and_country(options \\ []) do
+    date = Keyword.get(options, :date, Date.utc_today())
+
     from_user_documents()
+    |> join_user_document_validity_subquery(date)
     |> join_document_types_issuers_and_country_tables()
     |> order_by_user_documents_validity_name_asc_expiry_desc()
-    |> select_document_name_type_issuer_and_country()
+    |> select_document_name_validity_type_issuer_and_country()
     |> Repo.all()
   end
 
@@ -635,6 +718,32 @@ defmodule Klepsidra.Documents do
   end
 
   def list_user_documents_options_for_select_matching_name(_, _), do: [%{value: "", label: ""}]
+
+  @spec list_user_documents_options_for_select_valid_matching_name(
+          name_filter :: String.t(),
+          options :: keyword()
+        ) ::
+          [%{value: Ecto.UUID.t(), label: String.t()}, ...]
+
+  def list_user_documents_options_for_select_valid_matching_name(name_filter, options \\ [])
+
+  def list_user_documents_options_for_select_valid_matching_name(name_filter, options)
+      when is_bitstring(name_filter) do
+    date = Keyword.get(options, :date, Date.utc_today())
+    max_result_count = Keyword.get(options, :limit, 25)
+
+    from_user_documents()
+    |> join_user_document_validity_subquery(date)
+    |> join_document_types_issuers_and_country_tables()
+    |> filter_user_documents_only_valid()
+    |> filter_user_documents_matching_name(name_filter)
+    |> limit_returned_results(max_result_count)
+    |> select_user_documents_options_for_select_name()
+    |> Repo.all()
+  end
+
+  def list_user_documents_options_for_select_valid_matching_name(_, _),
+    do: [%{value: "", label: ""}]
 
   @doc """
   Gets a single user_document.
@@ -727,8 +836,11 @@ defmodule Klepsidra.Documents do
           map(),
           ...
         ]
-  def get_user_document_with_all_fields(id) when is_bitstring(id) do
+  def get_user_document_with_all_fields(id, options \\ []) when is_bitstring(id) do
+    date = Keyword.get(options, :date, Date.utc_today())
+
     from_user_documents()
+    |> join_user_document_validity_subquery(date)
     |> join_user_documents_users()
     |> join_document_types_issuers_and_country_tables()
     |> filter_user_documents_by_id(id)

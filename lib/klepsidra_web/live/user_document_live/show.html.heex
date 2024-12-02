@@ -9,10 +9,14 @@
 </.header>
 
 <.list>
-  <:item title="User"><%= @user_name %></:item>
-  <:item title="Document type"><%= @document_type %></:item>
-  <:item title="Issuing country"><%= @issuing_country_name %></:item>
-  <:item title="Document issuer"><%= @document_issuer %></:item>
+  <:item title="Valid?">
+    <div class={"rounded-full h-full aspect-square #{if @user_document.valid == 1, do: "bg-emerald-500", else: "bg-rose-500"}"}>
+    </div>
+  </:item>
+  <:item title="User"><%= @user_document.user_name %></:item>
+  <:item title="Document type"><%= @user_document.document_type_name %></:item>
+  <:item title="Issuing country"><%= @user_document.country_name %></:item>
+  <:item title="Document issuer"><%= @user_document.document_issuer_name %></:item>
   <:item title="Unique reference number"><%= @user_document.unique_reference_number %></:item>
   <:item title="Issue date"><%= @user_document.issued_at %></:item>
   <:item title="Expiry date"><%= @user_document.expires_at %></:item>

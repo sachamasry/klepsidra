@@ -81,12 +81,14 @@ defmodule Klepsidra.Documents.UserDocument do
       :file_url,
       :custom_buffer_time_days
     ])
-    |> validate_required([
-      :document_type_id,
-      :user_id,
-      :unique_reference_number,
-      :is_active
-    ])
+    |> validate_required([:document_type_id], message: "What type of document is this?")
+    |> validate_required([:user_id], message: "Whose document is this?")
+    |> validate_required([:unique_reference_number],
+      message: "Enter the document's unique reference or serial nmber"
+    )
+    |> validate_required([:is_active],
+      message: "Is this document currently valid or not?"
+    )
     |> unique_constraint(:unique_reference_number,
       message: "This unique reference number has already been used"
     )
