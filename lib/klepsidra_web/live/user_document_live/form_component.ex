@@ -310,7 +310,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
     user_name = user_document_params["user_id_text_input"]
     document_type = user_document_params["document_type_id_text_input"]
 
-    if user_document_params["name"] == "" do
+    if user_document_params["name"] == "" and length(user_name) > 0 and length(document_type) > 0 do
       Map.merge(user_document_params, %{
         "name" => "#{user_name |> String.capitalize()}'s #{document_type}"
       })
@@ -323,7 +323,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
     case Documents.update_user_document(socket.assigns.user_document, user_document_params) do
       {:ok, user_document} ->
         user_document =
-          Documents.get_user_document_with_document_type_issuer_and_country(user_document.id)
+          Documents.get_user_document_with_all_fields(user_document.id)
 
         notify_parent({:saved, user_document})
 
@@ -341,7 +341,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
     case Documents.create_user_document(user_document_params) do
       {:ok, user_document} ->
         user_document =
-          Documents.get_user_document_with_document_type_issuer_and_country(user_document.id)
+          Documents.get_user_document_with_all_fields(user_document.id)
 
         notify_parent({:saved, user_document})
 

@@ -13,12 +13,14 @@ defmodule KlepsidraWeb.UserDocumentLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     document = Documents.get_user_document_with_all_fields(id)
+    user_document_struct = Documents.get_user_document!(id)
 
     socket =
       socket
       |> assign(
         page_title: page_title(socket.assigns.live_action),
-        user_document: document
+        user_document: document,
+        user_document_struct: user_document_struct
       )
 
     {:noreply, socket}

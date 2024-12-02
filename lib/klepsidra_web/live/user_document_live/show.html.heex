@@ -36,14 +36,14 @@
   :if={@live_action == :edit}
   id="user_document-modal"
   show
-  on_cancel={JS.patch(~p"/user_documents/#{@user_document}")}
+  on_cancel={JS.patch(~p"/user_documents/#{@user_document.id}")}
 >
   <.live_component
     module={KlepsidraWeb.UserDocumentLive.FormComponent}
     id={@user_document.id}
     title={@page_title}
     action={@live_action}
-    user_document={@user_document}
-    patch={~p"/user_documents/#{@user_document}"}
+    user_document={@user_document_struct}
+    patch={~p"/user_documents/#{@user_document.id}"}
   />
 </.modal>
