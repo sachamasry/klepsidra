@@ -327,6 +327,14 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
       {:ok, note} ->
         notify_parent({:saved, note})
 
+        Tag.handle_tag_list_changes(
+          [],
+          socket.assigns.selected_tag_queue,
+          note.id,
+          &KnowledgeManagement.add_knowledge_management_note_tag(&1, &2),
+          &KnowledgeManagement.delete_knowledge_management_note_tag(&1, &2)
+        )
+
         {:noreply,
          socket
          |> put_toast(:info, "Note created successfully")

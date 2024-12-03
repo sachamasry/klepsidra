@@ -34,7 +34,7 @@ all:
 	@echo "					and run generator task."
 	@echo
 	@echo "	db-migrations 			Show database migrations status"
-	@echo "	db-migration 			Migrate database"
+	@echo "	db-migrate   			Migrate database"
 	@echo "	db-doc 				Generate database schema documentation"
 	@echo
 
@@ -134,7 +134,7 @@ db-migrations:
 	@echo "==> Getting database migration status"
 	MIX_ENV=prod mix ecto.migrations
 
-db-migration:
+db-migrate:
 	@echo "==> Completing database migrations"
 	MIX_ENV=prod mix ecto.migrate
 	@echo "--> Database successfully migrated"
