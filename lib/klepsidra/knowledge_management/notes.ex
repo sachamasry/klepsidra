@@ -14,6 +14,8 @@ defmodule Klepsidra.KnowledgeManagement.Note do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Klepsidra.Categorisation.Tag
+
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
 
@@ -43,6 +45,12 @@ defmodule Klepsidra.KnowledgeManagement.Note do
     field :pinned, :boolean, default: false
     field :attachments, :map
     field :priority, :integer
+
+    many_to_many(:tags, Tag,
+      join_through: "knowledge_management_note_tags",
+      on_replace: :delete,
+      preload_order: [asc: :name]
+    )
 
     timestamps()
   end

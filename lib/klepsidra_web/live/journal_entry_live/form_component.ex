@@ -4,13 +4,13 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
   use KlepsidraWeb, :live_component
   import LiveToast
 
+  alias Klepsidra.Categorisation
+  alias Klepsidra.Locations.City
+  alias Klepsidra.DynamicCSS
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntryTypes
-  alias Klepsidra.Locations.City
-  alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
-  alias Klepsidra.DynamicCSS
 
   @tag_search_live_component_id "journal_entry_ls_tag_search_live_select_component"
 

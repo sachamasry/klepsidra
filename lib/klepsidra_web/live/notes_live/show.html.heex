@@ -8,15 +8,14 @@
   </:actions>
 </.header>
 
-<div :if={@note.rendered_content_format == "html"}>
+<div :if={@note.rendered_content_format == "html"}></div>
+
+<article>
   <%= @note.rendered_content %>
-</div>
+</article>
 
 <.list>
   <:item title="Status"><%= @note.status %></:item>
-  <:item title="Review date"><%= @note.review_date %></:item>
-  <:item title="Pinned"><%= @note.pinned %></:item>
-  <:item title="Priority"><%= @note.priority %></:item>
 </.list>
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>

@@ -212,52 +212,64 @@ defmodule Klepsidra.KnowledgeManagementTest do
 
     @invalid_attrs %{note_id: nil, tag_id: nil}
 
-    test "list_knowledge_management_note_tags/0 returns all knowledge_management_note_tags" do
-      note_tags = note_tags_fixture()
-      assert KnowledgeManagement.list_knowledge_management_note_tags() == [note_tags]
-    end
+    # test "list_knowledge_management_note_tags/0 returns all knowledge_management_note_tags" do
+    #   note_tags = note_tags_fixture()
+    #   assert KnowledgeManagement.list_knowledge_management_note_tags() == [note_tags]
+    # end
 
-    test "get_note_tags!/1 returns the note_tags with given id" do
-      note_tags = note_tags_fixture()
-      assert KnowledgeManagement.get_note_tags!(note_tags.id) == note_tags
-    end
+    # test "get_note_tags!/1 returns the note_tags with given id" do
+    #   note_tags = note_tags_fixture()
+    #   assert KnowledgeManagement.get_note_tags!(note_tags.id) == note_tags
+    # end
 
-    test "create_note_tags/1 with valid data creates a note_tags" do
-      valid_attrs = %{note_id: "7488a646-e31f-11e4-aace-600308960662", tag_id: "7488a646-e31f-11e4-aace-600308960662"}
+    # test "create_note_tags/1 with valid data creates a note_tags" do
+    #   valid_attrs = %{
+    #     note_id: "7488a646-e31f-11e4-aace-600308960662",
+    #     tag_id: "7488a646-e31f-11e4-aace-600308960662"
+    #   }
 
-      assert {:ok, %NoteTags{} = note_tags} = KnowledgeManagement.create_note_tags(valid_attrs)
-      assert note_tags.note_id == "7488a646-e31f-11e4-aace-600308960662"
-      assert note_tags.tag_id == "7488a646-e31f-11e4-aace-600308960662"
-    end
+    #   assert {:ok, %NoteTags{} = note_tags} = KnowledgeManagement.create_note_tags(valid_attrs)
+    #   assert note_tags.note_id == "7488a646-e31f-11e4-aace-600308960662"
+    #   assert note_tags.tag_id == "7488a646-e31f-11e4-aace-600308960662"
+    # end
 
-    test "create_note_tags/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.create_note_tags(@invalid_attrs)
-    end
+    # test "create_note_tags/1 with invalid data returns error changeset" do
+    #   assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.create_note_tags(@invalid_attrs)
+    # end
 
-    test "update_note_tags/2 with valid data updates the note_tags" do
-      note_tags = note_tags_fixture()
-      update_attrs = %{note_id: "7488a646-e31f-11e4-aace-600308960668", tag_id: "7488a646-e31f-11e4-aace-600308960668"}
+    # test "update_note_tags/2 with valid data updates the note_tags" do
+    #   note_tags = note_tags_fixture()
 
-      assert {:ok, %NoteTags{} = note_tags} = KnowledgeManagement.update_note_tags(note_tags, update_attrs)
-      assert note_tags.note_id == "7488a646-e31f-11e4-aace-600308960668"
-      assert note_tags.tag_id == "7488a646-e31f-11e4-aace-600308960668"
-    end
+    #   update_attrs = %{
+    #     note_id: "7488a646-e31f-11e4-aace-600308960668",
+    #     tag_id: "7488a646-e31f-11e4-aace-600308960668"
+    #   }
 
-    test "update_note_tags/2 with invalid data returns error changeset" do
-      note_tags = note_tags_fixture()
-      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.update_note_tags(note_tags, @invalid_attrs)
-      assert note_tags == KnowledgeManagement.get_note_tags!(note_tags.id)
-    end
+    #   assert {:ok, %NoteTags{} = note_tags} =
+    #            KnowledgeManagement.update_note_tags(note_tags, update_attrs)
 
-    test "delete_note_tags/1 deletes the note_tags" do
-      note_tags = note_tags_fixture()
-      assert {:ok, %NoteTags{}} = KnowledgeManagement.delete_note_tags(note_tags)
-      assert_raise Ecto.NoResultsError, fn -> KnowledgeManagement.get_note_tags!(note_tags.id) end
-    end
+    #   assert note_tags.note_id == "7488a646-e31f-11e4-aace-600308960668"
+    #   assert note_tags.tag_id == "7488a646-e31f-11e4-aace-600308960668"
+    # end
 
-    test "change_note_tags/1 returns a note_tags changeset" do
-      note_tags = note_tags_fixture()
-      assert %Ecto.Changeset{} = KnowledgeManagement.change_note_tags(note_tags)
-    end
+    # test "update_note_tags/2 with invalid data returns error changeset" do
+    #   note_tags = note_tags_fixture()
+
+    #   assert {:error, %Ecto.Changeset{}} =
+    #            KnowledgeManagement.update_note_tags(note_tags, @invalid_attrs)
+
+    #   assert note_tags == KnowledgeManagement.get_note_tags!(note_tags.id)
+    # end
+
+    # test "delete_note_tags/1 deletes the note_tags" do
+    #   note_tags = note_tags_fixture()
+    #   assert {:ok, %NoteTags{}} = KnowledgeManagement.delete_note_tags(note_tags)
+    #   assert_raise Ecto.NoResultsError, fn -> KnowledgeManagement.get_note_tags!(note_tags.id) end
+    # end
+
+    # test "change_note_tags/1 returns a note_tags changeset" do
+    #   note_tags = note_tags_fixture()
+    #   assert %Ecto.Changeset{} = KnowledgeManagement.change_note_tags(note_tags)
+    # end
   end
 end

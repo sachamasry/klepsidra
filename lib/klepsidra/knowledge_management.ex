@@ -8,6 +8,7 @@ defmodule Klepsidra.KnowledgeManagement do
 
   alias Klepsidra.KnowledgeManagement.Annotation
   alias Klepsidra.KnowledgeManagement.Note
+  alias Klepsidra.KnowledgeManagement.NoteTags
 
   @doc """
   Returns the list of annotations.
@@ -228,8 +229,6 @@ defmodule Klepsidra.KnowledgeManagement do
     Note.changeset(notes, attrs)
   end
 
-  alias Klepsidra.KnowledgeManagement.NoteTags
-
   @doc """
   Returns the list of knowledge_management_note_tags.
 
@@ -259,44 +258,126 @@ defmodule Klepsidra.KnowledgeManagement do
   """
   def get_note_tags!(id), do: Repo.get!(NoteTags, id)
 
+  # @doc """
+  # Creates a note_tags.
+
+  # ## Examples
+
+  #     iex> create_note_tags(%{field: value})
+  #     {:ok, %NoteTags{}}
+
+  #     iex> create_note_tags(%{field: bad_value})
+  #     {:error, %Ecto.Changeset{}}
+
+  # """
+  # def create_note_tags(attrs \\ %{}) do
+  #   %NoteTags{}
+  #   |> NoteTags.changeset(attrs)
+  #   |> Repo.insert()
+  # end
+
   @doc """
-  Creates a note_tags.
+  Attach a single tag to a knowledge management note. Checks if
+  the tag is already associated with the note, only adding it
+  if it’s missing.
 
   ## Examples
 
-      iex> create_note_tags(%{field: value})
-      {:ok, %NoteTags{}}
+      iex> add_knowledge_management_note_tag(%Note{}, %Tag{})
+      {:ok, :inserted}
 
-      iex> create_note_tags(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      iex> add_knowledge_management_note_tag(%Note{}, %Tag{})
+      {:ok, :already_exists}
+
+      iex> add_knowledge_management_note_tag(%Note{}, %Tag{})
+      {:error, :insert_failed}
 
   """
-  def create_note_tags(attrs \\ %{}) do
-    %NoteTags{}
-    |> NoteTags.changeset(attrs)
-    |> Repo.insert()
+  @spec add_knowledge_management_note_tag(note_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :inserted}
+          | {:ok, :already_exists}
+          | {:error, :insert_failed}
+          | {:error, :note_is_nil}
+  def add_knowledge_management_note_tag(nil, _tag_id), do: {:error, :note_is_nil}
+
+  def add_knowledge_management_note_tag(note_id, tag_id) do
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+
+    # Check if the tag is already associated with the note entry
+    existing_association =
+      Repo.get_by(NoteTags, note_id: note_id, tag_id: tag_id)
+
+    # Repo.update(changeset)
+    if existing_association do
+      {:ok, :already_exists}
+    else
+      # Insert a new association with timestamps
+      note_tag_entry = %NoteTags{
+        note_id: note_id,
+        tag_id: tag_id,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      case Repo.insert(note_tag_entry) do
+        {:ok, _} -> {:ok, :inserted}
+        {:error, _} -> {:error, :insert_failed}
+      end
+    end
   end
 
   @doc """
-  Updates a note_tags.
+  Deletes a note's tag association.
 
   ## Examples
 
-      iex> update_note_tags(note_tags, %{field: new_value})
-      {:ok, %NoteTags{}}
+      iex> delete_knowledge_management_note_tag(%Note(), %Tag())
+      {:ok, :deleted}
 
-      iex> update_note_tags(note_tags, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      iex> delete_knowledge_management_note_tag(%Note(), %Tag())
+      {:error, :not_found}
+
+      iex> delete_knowledge_management_note_tag(%Note(), %Tag())
+      {:error, :unexpected_result}
 
   """
-  def update_note_tags(%NoteTags{} = note_tags, attrs) do
-    note_tags
-    |> NoteTags.changeset(attrs)
-    |> Repo.update()
+  @spec delete_knowledge_management_note_tag(note_id :: Ecto.UUID.t(), tag_id :: Ecto.UUID.t()) ::
+          {:ok, :deleted} | {:error, :not_found} | {:error, :delete_failed}
+  def delete_knowledge_management_note_tag(note_id, tag_id) do
+    # Execute the delete operation on the "note_tags" table
+    case Repo.get_by(NoteTags, note_id: note_id, tag_id: tag_id) do
+      # Record not found
+      nil ->
+        {:error, :not_found}
+
+      note_tag ->
+        case Repo.delete(note_tag) do
+          {:ok, _} -> {:ok, :deleted}
+          {:error, _} -> {:error, :delete_failed}
+        end
+    end
   end
 
+  # @doc """
+  # Updates a note_tags.
+
+  # ## Examples
+
+  #     iex> update_note_tags(note_tags, %{field: new_value})
+  #     {:ok, %NoteTags{}}
+
+  #     iex> update_note_tags(note_tags, %{field: bad_value})
+  #     {:error, %Ecto.Changeset{}}
+
+  # """
+  # def update_note_tags(%NoteTags{} = note_tags, attrs) do
+  #   note_tags
+  #   |> NoteTags.changeset(attrs)
+  #   |> Repo.update()
+  # end
+
   @doc """
-  Deletes a note_tags.
+  Deletes a note tag.
 
   ## Examples
 
@@ -311,16 +392,16 @@ defmodule Klepsidra.KnowledgeManagement do
     Repo.delete(note_tags)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking note_tags changes.
+  # @doc """
+  # Returns an `%Ecto.Changeset{}` for tracking note tag changes.
 
-  ## Examples
+  # ## Examples
 
-      iex> change_note_tags(note_tags)
-      %Ecto.Changeset{data: %NoteTags{}}
+  #     iex> change_note_tags(note_tags)
+  #     %Ecto.Changeset{data: %NoteTags{}}
 
-  """
-  def change_note_tags(%NoteTags{} = note_tags, attrs \\ %{}) do
-    NoteTags.changeset(note_tags, attrs)
-  end
+  # """
+  # def change_note_tags(%NoteTags{} = note_tags, attrs \\ %{}) do
+  #   NoteTags.changeset(note_tags, attrs)
+  # end
 end

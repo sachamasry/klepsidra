@@ -24,8 +24,8 @@ defmodule Klepsidra.KnowledgeManagement.NoteTags do
   end
 
   @doc false
-  def changeset(note_tags, attrs) do
-    note_tags
+  def changeset(knowledge_management_note_tags, attrs) do
+    knowledge_management_note_tags
     |> unique_constraint([:note, :tag],
       name: "knowledge_management_note_tags_note_id_tag_id_inde",
       message: "This tag has already been added to the note"

@@ -7,6 +7,11 @@ defmodule Klepsidra.Journals.JournalEntry do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Klepsidra.Locations.City
+  alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.Journals.JournalEntryTypes
+  alias Klepsidra.Accounts.User
+
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
 
@@ -30,17 +35,17 @@ defmodule Klepsidra.Journals.JournalEntry do
     field(:entry_text_markdown, :string)
     field(:entry_text_html, :string)
     field(:highlights, :string)
-    belongs_to(:entry_type, Klepsidra.Journals.JournalEntryTypes)
-    belongs_to(:location, Klepsidra.Locations.City)
+    belongs_to(:entry_type, JournalEntryTypes)
+    belongs_to(:location, City)
     field(:latitude, :float, default: nil)
     field(:longitude, :float, default: nil)
     field(:mood, :string, default: "")
     field(:is_private, :boolean, default: false)
     field(:is_short_entry, :boolean, default: false)
     field(:is_scheduled, :boolean, default: false)
-    belongs_to(:user, Klepsidra.Accounts.User)
+    belongs_to(:user, User)
 
-    many_to_many(:tags, Klepsidra.Categorisation.Tag,
+    many_to_many(:tags, Tag,
       join_through: "journal_entry_tags",
       on_replace: :delete,
       preload_order: [asc: :name]
