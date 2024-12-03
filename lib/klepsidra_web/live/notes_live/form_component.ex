@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
 
@@ -22,21 +23,15 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:content]} type="text" label="Content" />
+
+        <.input field={@form[:content]} type="textarea" label="Note content" />
         <.input
           field={@form[:content_format]}
           type="select"
           label="Content format"
           prompt="Choose a value"
+          selected="markdown"
           options={Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :content_format)}
-        />
-        <.input field={@form[:rendered_content]} type="text" label="Rendered content" />
-        <.input
-          field={@form[:rendered_content_format]}
-          type="select"
-          label="Rendered content format"
-          prompt="Choose a value"
-          options={Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :rendered_content_format)}
         />
         <.input field={@form[:summary]} type="text" label="Summary" />
         <.input
@@ -44,11 +39,10 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
           type="select"
           label="Status"
           prompt="Choose a value"
+          selected="fleeting"
           options={Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :status)}
         />
         <.input field={@form[:review_date]} type="date" label="Review date" />
-        <.input field={@form[:pinned]} type="checkbox" label="Pinned" />
-        <.input field={@form[:priority]} type="number" label="Priority" />
         <:actions>
           <.button phx-disable-with="Saving...">Save note</.button>
         </:actions>
@@ -84,7 +78,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Note updated successfully")
+         |> put_toast(:info, "Note updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -99,7 +93,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Note created successfully")
+         |> put_toast(:info, "Note created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -54,11 +54,12 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
     journal_entry = Journals.get_journal_entry!(id)
     {:ok, _} = Journals.delete_journal_entry(journal_entry)
 
-    socket =
-      socket
-      |> stream_delete(:journal_entries, journal_entry)
-      |> put_toast(:info, "Journal entry deleted succesfully")
+    {:noreply, handle_deleted_journal_entry(socket, journal_entry, :journal_entries)}
+  end
 
-    {:noreply, socket}
+  defp handle_deleted_journal_entry(socket, journal_entry, source_stream) do
+    socket
+    |> stream_delete(source_stream, journal_entry)
+    |> put_toast(:info, "Journal entry deleted successfully")
   end
 end

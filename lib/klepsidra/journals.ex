@@ -8,6 +8,114 @@ defmodule Klepsidra.Journals do
   alias Klepsidra.Repo
 
   alias Klepsidra.Journals.JournalEntry
+  alias Klepsidra.Journals.JournalEntryTypes
+
+  @doc """
+  Returns the list of journal entry types.
+
+  ## Examples
+
+      iex> list_journal_entry_types()
+      [%JournalEntryTypes{}, ...]
+
+  """
+  @spec list_journal_entry_types() :: [JournalEntryTypes.t(), ...]
+  def list_journal_entry_types do
+    Repo.all(JournalEntryTypes)
+  end
+
+  @doc """
+  Gets a single journal entry type.
+
+  Raises `Ecto.NoResultsError` if the Journal entry types does not exist.
+
+  ## Examples
+
+      iex> get_journal_entry_types!(123)
+      %JournalEntryTypes{}
+
+      iex> get_journal_entry_types!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_journal_entry_types!(id :: Ecto.UUID.t()) :: JournalEntryTypes.t() | no_return()
+  def get_journal_entry_types!(id), do: Repo.get!(JournalEntryTypes, id)
+
+  @doc """
+  Creates a journal_entry_types.
+
+  ## Examples
+
+      iex> create_journal_entry_types(%{field: value})
+      {:ok, %JournalEntryTypes{}}
+
+      iex> create_journal_entry_types(%{field: bad_value})
+      {:error, Ecto.Changeset.t()}
+
+  """
+  @spec create_journal_entry_types(attrs :: map()) ::
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
+  def create_journal_entry_types(attrs \\ %{}) do
+    %JournalEntryTypes{}
+    |> JournalEntryTypes.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a journal_entry_types.
+
+  ## Examples
+
+      iex> update_journal_entry_types(journal_entry_types, %{field: new_value})
+      {:ok, %JournalEntryTypes{}}
+
+      iex> update_journal_entry_types(journal_entry_types, %{field: bad_value})
+      {:error, Ecto.Changeset.t()}
+
+  """
+  @spec update_journal_entry_types(
+          journal_entry_types :: JournalEntryTypes.t(),
+          attrs :: map()
+        ) ::
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
+  def update_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs) do
+    journal_entry_types
+    |> JournalEntryTypes.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a journal_entry_types.
+
+  ## Examples
+
+      iex> delete_journal_entry_types(journal_entry_types)
+      {:ok, %JournalEntryTypes{}}
+
+      iex> delete_journal_entry_types(journal_entry_types)
+      {:error, Ecto.Changeset.t()}
+
+  """
+  @spec delete_journal_entry_types(journal_entry_types :: JournalEntryTypes.t()) ::
+          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
+  def delete_journal_entry_types(%JournalEntryTypes{} = journal_entry_types) do
+    Repo.delete(journal_entry_types)
+  end
+
+  @doc """
+  Returns an `Ecto.Changeset.t()` for tracking journal_entry_types changes.
+
+  ## Examples
+
+      iex> change_journal_entry_types(journal_entry_types)
+      %Ecto.Changeset{data: %JournalEntryTypes{}}
+
+  """
+  @spec change_journal_entry_types(journal_entry_types :: JournalEntryTypes.t(), attrs :: map()) ::
+          Ecto.Changeset.t()
+  def change_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs \\ %{}) do
+    JournalEntryTypes.changeset(journal_entry_types, attrs)
+  end
 
   @doc """
   Returns the list of journal_entries.
@@ -131,114 +239,5 @@ defmodule Klepsidra.Journals do
           Ecto.Changeset.t()
   def change_journal_entry(%JournalEntry{} = journal_entry, attrs \\ %{}) do
     JournalEntry.changeset(journal_entry, attrs)
-  end
-
-  alias Klepsidra.Journals.JournalEntryTypes
-
-  @doc """
-  Returns the list of journal_entry_types.
-
-  ## Examples
-
-      iex> list_journal_entry_types()
-      [%JournalEntryTypes{}, ...]
-
-  """
-  @spec list_journal_entries() :: [JournalEntryTypes.t(), ...]
-  def list_journal_entry_types do
-    Repo.all(JournalEntryTypes)
-  end
-
-  @doc """
-  Gets a single journal_entry_types.
-
-  Raises `Ecto.NoResultsError` if the Journal entry types does not exist.
-
-  ## Examples
-
-      iex> get_journal_entry_types!(123)
-      %JournalEntryTypes{}
-
-      iex> get_journal_entry_types!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  @spec get_journal_entry_types!(id :: Ecto.UUID.t()) :: JournalEntryTypes.t() | no_return()
-  def get_journal_entry_types!(id), do: Repo.get!(JournalEntryTypes, id)
-
-  @doc """
-  Creates a journal_entry_types.
-
-  ## Examples
-
-      iex> create_journal_entry_types(%{field: value})
-      {:ok, %JournalEntryTypes{}}
-
-      iex> create_journal_entry_types(%{field: bad_value})
-      {:error, Ecto.Changeset.t()}
-
-  """
-  @spec create_journal_entry_types(attrs :: map()) ::
-          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
-  def create_journal_entry_types(attrs \\ %{}) do
-    %JournalEntryTypes{}
-    |> JournalEntryTypes.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a journal_entry_types.
-
-  ## Examples
-
-      iex> update_journal_entry_types(journal_entry_types, %{field: new_value})
-      {:ok, %JournalEntryTypes{}}
-
-      iex> update_journal_entry_types(journal_entry_types, %{field: bad_value})
-      {:error, Ecto.Changeset.t()}
-
-  """
-  @spec update_journal_entry_types(
-          journal_entry_types :: JournalEntryTypes.t(),
-          attrs :: map()
-        ) ::
-          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
-  def update_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs) do
-    journal_entry_types
-    |> JournalEntryTypes.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a journal_entry_types.
-
-  ## Examples
-
-      iex> delete_journal_entry_types(journal_entry_types)
-      {:ok, %JournalEntryTypes{}}
-
-      iex> delete_journal_entry_types(journal_entry_types)
-      {:error, Ecto.Changeset.t()}
-
-  """
-  @spec delete_journal_entry_types(journal_entry_types :: JournalEntryTypes.t()) ::
-          {:ok, JournalEntryTypes.t()} | {:error, Ecto.Changeset.t()}
-  def delete_journal_entry_types(%JournalEntryTypes{} = journal_entry_types) do
-    Repo.delete(journal_entry_types)
-  end
-
-  @doc """
-  Returns an `Ecto.Changeset.t()` for tracking journal_entry_types changes.
-
-  ## Examples
-
-      iex> change_journal_entry_types(journal_entry_types)
-      %Ecto.Changeset{data: %JournalEntryTypes{}}
-
-  """
-  @spec change_journal_entry_types(journal_entry_types :: JournalEntryTypes.t(), attrs :: map()) ::
-          Ecto.Changeset.t()
-  def change_journal_entry_types(%JournalEntryTypes{} = journal_entry_types, attrs \\ %{}) do
-    JournalEntryTypes.changeset(journal_entry_types, attrs)
   end
 end

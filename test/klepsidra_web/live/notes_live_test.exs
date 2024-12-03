@@ -8,36 +8,36 @@ defmodule KlepsidraWeb.NotesLiveTest do
     title: "some title",
     content: "some content",
     content_format: :markdown,
-    rendered_content: "some rendered_content",
-    rendered_content_format: :html,
+    # rendered_content: "some rendered_content",
+    # rendered_content_format: :html,
     summary: "some summary",
     status: :draft,
-    review_date: "2024-12-02",
-    pinned: true
+    review_date: "2024-12-02"
+    # pinned: true
     # priority: 42
   }
   @update_attrs %{
     title: "some updated title",
     content: "some updated content",
     content_format: :"org-mode",
-    rendered_content: "some updated rendered_content",
-    rendered_content_format: :pdf,
+    # rendered_content: "some updated rendered_content",
+    # rendered_content_format: :pdf,
     summary: "some updated summary",
     status: :fleeting,
-    review_date: "2024-12-03",
-    pinned: false
+    review_date: "2024-12-03"
+    # pinned: false
     # priority: 43
   }
   @invalid_attrs %{
     title: nil,
     content: nil,
     content_format: nil,
-    rendered_content: nil,
-    rendered_content_format: nil,
+    # rendered_content: nil,
+    # rendered_content_format: nil,
     summary: nil,
     status: nil,
-    review_date: nil,
-    pinned: false
+    review_date: nil
+    # pinned: false
     # priority: nil
   }
 

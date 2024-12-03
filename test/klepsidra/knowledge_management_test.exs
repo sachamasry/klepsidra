@@ -128,7 +128,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
         title: "some title",
         content: "some content",
         content_format: :markdown,
-        rendered_content: "some rendered_content",
+        rendered_content: "<p>\nsome content</p>\n",
         rendered_content_format: :html,
         summary: "some summary",
         status: :draft,
@@ -144,7 +144,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
       assert notes.title == "some title"
       assert notes.content == "some content"
       assert notes.content_format == :markdown
-      assert notes.rendered_content == "some rendered_content"
+      assert notes.rendered_content == "<p>\nsome content</p>\n"
       assert notes.rendered_content_format == :html
       assert notes.summary == "some summary"
       assert notes.review_date == ~D[2024-12-02]
@@ -163,7 +163,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
         title: "some updated title",
         content: "some updated content",
         content_format: :"org-mode",
-        rendered_content: "some updated rendered_content",
+        rendered_content: "<p>\nsome updated content</p>\n",
         rendered_content_format: :pdf,
         summary: "some updated summary",
         status: :fleeting,
@@ -179,7 +179,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
       assert notes.title == "some updated title"
       assert notes.content == "some updated content"
       assert notes.content_format == :"org-mode"
-      assert notes.rendered_content == "some updated rendered_content"
+      assert notes.rendered_content == "<p>\nsome updated content</p>\n"
       assert notes.rendered_content_format == :pdf
       assert notes.summary == "some updated summary"
       assert notes.review_date == ~D[2024-12-03]

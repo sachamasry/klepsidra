@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.NotesLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.Note
@@ -49,6 +50,12 @@ defmodule KlepsidraWeb.NotesLive.Index do
     note = KnowledgeManagement.get_notes!(id)
     {:ok, _} = KnowledgeManagement.delete_notes(note)
 
-    {:noreply, stream_delete(socket, :knowledge_management_notes, note)}
+    {:noreply, handle_deleted_note(socket, note, :knowledge_management_notes)}
+  end
+
+  defp handle_deleted_note(socket, note, source_stream) do
+    socket
+    |> stream_delete(source_stream, note)
+    |> put_toast(:info, "Note deleted successfully")
   end
 end

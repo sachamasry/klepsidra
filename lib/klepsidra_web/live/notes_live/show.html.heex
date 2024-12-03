@@ -1,6 +1,6 @@
 <.header>
-  Notes <%= @note.id %>
-  <:subtitle></:subtitle>
+  <%= @note.title %>
+  <:subtitle><%= @note.summary %></:subtitle>
   <:actions>
     <.link patch={~p"/knowledge_management/notes/#{@note}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit notes</.button>
@@ -8,13 +8,11 @@
   </:actions>
 </.header>
 
+<div :if={@note.rendered_content_format == "html"}>
+  <%= @note.rendered_content %>
+</div>
+
 <.list>
-  <:item title="Title"><%= @note.title %></:item>
-  <:item title="Content"><%= @note.content %></:item>
-  <:item title="Content format"><%= @note.content_format %></:item>
-  <:item title="Rendered content"><%= @note.rendered_content %></:item>
-  <:item title="Rendered content format"><%= @note.rendered_content_format %></:item>
-  <:item title="Summary"><%= @note.summary %></:item>
   <:item title="Status"><%= @note.status %></:item>
   <:item title="Review date"><%= @note.review_date %></:item>
   <:item title="Pinned"><%= @note.pinned %></:item>
