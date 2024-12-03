@@ -33,6 +33,7 @@ all:
 	@echo "	get-lucide-icons		Clone the latest Lucide icons from the upstream repository," 
 	@echo "					and run generator task."
 	@echo
+	@echo "	db-migrations 			Show database migrations status"
 	@echo "	db-migration 			Migrate database"
 	@echo "	db-doc 				Generate database schema documentation"
 	@echo
@@ -129,6 +130,10 @@ get-lucide-icons:
 	@echo "--> Successfully updated Lucide icon set from upstream repository"
 
 # Database
+db-migrations:
+	@echo "==> Getting database migration status"
+	MIX_ENV=prod mix ecto.migrations
+
 db-migration:
 	@echo "==> Completing database migrations"
 	MIX_ENV=prod mix ecto.migrate
