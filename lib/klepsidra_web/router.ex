@@ -121,6 +121,13 @@ defmodule KlepsidraWeb.Router do
          TimerLive.ActivityTimeReporting,
          :edit_timer
 
+    live "/knowledge_management/notes", NotesLive.Index, :index
+    live "/knowledge_management/notes/new", NotesLive.Index, :new
+    live "/knowledge_management/notes/:id/edit", NotesLive.Index, :edit
+
+    live "/knowledge_management/notes/:id", NotesLive.Show, :show
+    live "/knowledge_management/notes/:id/show/edit", NotesLive.Show, :edit
+
     live "/document_types", DocumentTypeLive.Index, :index
     live "/document_types/new", DocumentTypeLive.Index, :new
     live "/document_types/:id/edit", DocumentTypeLive.Index, :edit

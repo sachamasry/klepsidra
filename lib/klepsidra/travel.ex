@@ -25,19 +25,6 @@ defmodule Klepsidra.Travel do
     from(t in Trip, as: :trips)
   end
 
-  @spec filter_trips_by_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) ::
-          Ecto.Query.t()
-  def filter_trips_by_id(query, id) do
-    from [trips: t] in query,
-      where: t.id == ^id
-  end
-
-  @spec order_by_trips_entry_asc_exit_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
-  def order_by_trips_entry_asc_exit_asc(query) do
-    from [trips: t] in query,
-      order_by: [asc: t.entry_date, asc: t.exit_date]
-  end
-
   @spec join_trips_users(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def join_trips_users(query) do
     from [trips: t] in query,
@@ -60,6 +47,19 @@ defmodule Klepsidra.Travel do
       left_join: co in Country,
       as: :country,
       on: t.country_id == co.iso_3_country_code
+  end
+
+  @spec filter_trips_by_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) ::
+          Ecto.Query.t()
+  def filter_trips_by_id(query, id) do
+    from [trips: t] in query,
+      where: t.id == ^id
+  end
+
+  @spec order_by_trips_entry_asc_exit_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_by_trips_entry_asc_exit_asc(query) do
+    from [trips: t] in query,
+      order_by: [asc: t.entry_date, asc: t.exit_date]
   end
 
   @spec select_trips_user_and_country(query :: Ecto.Query.t()) :: Ecto.Query.t()

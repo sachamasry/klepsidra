@@ -7,6 +7,7 @@ defmodule Klepsidra.KnowledgeManagement do
   alias Klepsidra.Repo
 
   alias Klepsidra.KnowledgeManagement.Annotation
+  alias Klepsidra.KnowledgeManagement.Note
 
   @doc """
   Returns the list of annotations.
@@ -131,5 +132,99 @@ defmodule Klepsidra.KnowledgeManagement do
   """
   def change_annotation(%Annotation{} = annotation, attrs \\ %{}) do
     Annotation.changeset(annotation, attrs)
+  end
+
+  @doc """
+  Returns the list of knowledge_management_notes.
+
+  ## Examples
+
+      iex> list_knowledge_management_notes()
+      [%Note{}, ...]
+
+  """
+  def list_knowledge_management_notes do
+    Repo.all(Note)
+  end
+
+  @doc """
+  Gets a single notes.
+
+  Raises `Ecto.NoResultsError` if the Note does not exist.
+
+  ## Examples
+
+      iex> get_notes!(123)
+      %Note{}
+
+      iex> get_notes!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_notes!(id), do: Repo.get!(Note, id)
+
+  @doc """
+  Creates a notes.
+
+  ## Examples
+
+      iex> create_notes(%{field: value})
+      {:ok, %Note{}}
+
+      iex> create_notes(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_notes(attrs \\ %{}) do
+    %Note{}
+    |> Note.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a notes.
+
+  ## Examples
+
+      iex> update_notes(notes, %{field: new_value})
+      {:ok, %Note{}}
+
+      iex> update_notes(notes, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_notes(%Note{} = notes, attrs) do
+    notes
+    |> Note.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a notes.
+
+  ## Examples
+
+      iex> delete_notes(notes)
+      {:ok, %Note{}}
+
+      iex> delete_notes(notes)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_notes(%Note{} = notes) do
+    Repo.delete(notes)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking notes changes.
+
+  ## Examples
+
+      iex> change_notes(notes)
+      %Ecto.Changeset{data: %Note{}}
+
+  """
+  def change_notes(%Note{} = notes, attrs \\ %{}) do
+    Note.changeset(notes, attrs)
   end
 end

@@ -8,7 +8,7 @@
 2. [Quote and wisdom recording](#quotes-and-wisdom-recording)
 3. [Trip tracker](#trip-tracker)
    1. [Trip tracker schema](#trip-tracker-schema)
-4. Notes
+4. [Notes](#notes)
 5. To-Dos
 
 ## User authentication
@@ -2032,50 +2032,104 @@ This schema provides a solid foundation for the initial key features while remai
 
 <!-- livebook:{"break_markdown":true} -->
 
-Table: `trips`
+Table `travel_visa_types`
 
-Logs user trips with entry and exit dates, location, and trip status.
-
-| Column     | Type      | Description                                          |
-| ---------- | --------- | ---------------------------------------------------- |
-| id         | UUID      | Primary key for each trip.                           |
-| user_id    | UUID      | Foreign key referencing users(id).                   |
-| country_id | UUID      | Foreign key referencing countries(id).               |
-| entry_date | DATE      | Date of entry into the country.                      |
-| exit_date  | DATE      | Date of exit from the country (nullable if ongoing). |
-| status     | VARCHAR   | Status of the trip (e.g., active, completed).        |
-| created_at | TIMESTAMP | Trip log creation timestamp.                         |
-
-<!-- livebook:{"break_markdown":true} -->
-
-Table: `visa_types`
-
-This table will serve as a lookup for all possible visa types.
+Capture the high-level categories of visas (e.g., tourist, work, business, student, nomad).
 
 ```sql
-CREATE TABLE visa_types (
-    id UUID PRIMARY KEY,            -- Unique identifier for each visa type
-    name VARCHAR NOT NULL UNIQUE,   -- E.g., "Tourist Visa," "Business Visa," "Work Permit"
-    description TEXT,               -- Optional: description of what the visa type entails
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE travel_visa_types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL, -- Type of visa (e.g. Tourist, Business, Student, Nomad)
+    description TEXT, -- Optional: description of what the visa type entails
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-Table: `visas`
+#### Usage Scenarios
+
+* A Schengen Visa will remain a traditional visa entry with multiple_entry set to true or false.
+* An ETIAS entry will have is_electronic = true and requires_preapproval = true.
+
+#### Example Data
+
+```sql
+INSERT INTO visa_types (id, name, description) VALUES
+('1', 'Tourist Visa', 'Allows entry for leisure travel'),
+('2', 'Business Visa', 'Allows entry for business-related activities'),
+('3', 'Work Permit', 'Grants permission to work in the destination country'),
+('4', 'Student Visa', 'Allows enrollment in educational institutions');
+```
+
+#### Likely Query Patterns
+
+1. Fetching visa types by name:
+   • When searching for a specific visa type (e.g., for admin or UX purposes), users might query by the name field.
+2. General management or list views:
+   •   Queries may order or filter by the created_at and updated_at timestamps to show recently added or updated visa types.
+3. Foreign key references:
+   •   The id column will frequently be referenced by related tables like `travel_country_visa_rules`.
+
+#### Recommended Indexes
+
+1. Primary Index on id:
+   •   This is the default primary key index, ensuring efficient lookups by id, particularly for foreign key relationships:
+
+```sql
+PRIMARY KEY (id)
+```
+
+1. Unique Index on name:
+   •   To ensure no two visa types have the same name, which is critical for data integrity and allows efficient lookups by name:
+
+```sql
+CREATE UNIQUE INDEX unique_visa_type_name ON travel_visa_types (name);
+```
+
+Ensures uniqueness and supports quick searches, as name is likely queried frequently.
+
+1. Index for ordering by timestamps:
+   •   For displaying visa types in chronological order (e.g., sorted by created_at or updated_at), add a composite index:
+
+```sql
+CREATE INDEX visa_types_created_updated_idx ON travel_visa_types (created_at, updated_at);
+```
+
+Useful for admin views or audit trails, where sorting or filtering by timestamps is common.
+
+1. Full-text Search Index (Optional):
+   •   If description contains substantial textual information and you anticipate searches within it, create a full-text index (PostgreSQL example):
+
+```sql
+CREATE INDEX visa_types_description_fts_idx ON travel_visa_types USING gin(to_tsvector('english', description));
+```
+
+Full-text Search on description: Adds flexibility for advanced search capabilities, useful in admin interfaces or automated systems referencing visa descriptions.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `travel_visas`
 
 Defines different visa types, their durations, and any other requirements for each country.
 
-| Column        | Type      | Description                                                  |
-| ------------- | --------- | ------------------------------------------------------------ |
-| id            | UUID      | Primary key, unique identifier for each visa type.           |
-| country_id    | UUID      | Foreign key referencing countries(id).                       |
-| visa_block_id | UUID      | Foreign key referencing the block to which the visa applies. |
-| visa_type     | VARCHAR   | Name/type of the visa (e.g., tourist, business, nomad).      |
-| duration_days | INT       | Maximum duration allowed under this visa.                    |
-| renewable     | BOOLEAN   | Indicates if the visa is renewable.                          |
-| requirements  | TEXT      | Specific requirements for obtaining the visa.                |
-| updated_at    | TIMESTAMP | Last update timestamp for the visa data.                     |
+| Column                  | Type      | Description                                                        |
+| ----------------------- | --------- | ------------------------------------------------------------------ |
+| id                      | UUID      | Primary key, unique identifier for each visa type.                 |
+| user_id                 | UUID      | Foreign key, referencing users(id)                                 |
+| visa_type_id            | UUID      | Foreign key to visa type                                           |
+| country_id              | UUID      | Foreign key referencing countries(id).                             |
+| issuing_authority_id    | UUID      | Foreign key referencing visa issuing authority                     |
+| unique_reference_number | TEXT      | Unique visa number                                                 |
+| visa_block_id           | UUID      | Foreign key referencing the block to which the visa applies.       |
+| valid_from              | date      | Date the visa is valid from                                        |
+| valid_to                | date      | Date the visa is valid until                                       |
+| duration_days           | INT       | Maximum duration allowed by this visa.                             |
+| description             | TEXT      | Additional details about the visa                                  |
+| is_active               | BOOLEAN   | Is this visa currently active                                      |
+| invalidation_reason     | TEXT      | If the visa is no longer active, why was it invalidated or revoked |
+| renewable               | BOOLEAN   | Indicates if the visa is renewable.                                |
+| requirements            | TEXT      | Specific requirements for obtaining the visa.                      |
+| updated_at              | TIMESTAMP | Last update timestamp for the visa data.                           |
 
 ```sql
 CREATE TABLE visas (
@@ -2114,16 +2168,6 @@ This structure ensures that users see the most recent, in-force rules but can qu
 
 #### Example Data
 
-`visa_types` Table
-
-```sql
-INSERT INTO visa_types (id, name, description) VALUES
-('1', 'Tourist Visa', 'Allows entry for leisure travel'),
-('2', 'Business Visa', 'Allows entry for business-related activities'),
-('3', 'Work Permit', 'Grants permission to work in the destination country'),
-('4', 'Student Visa', 'Allows enrollment in educational institutions');
-```
-
 `visas` Table
 
 ```sql
@@ -2157,6 +2201,31 @@ FROM visas v
 JOIN visa_types vt ON v.visa_type_id = vt.id
 GROUP BY vt.name;
 ```
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Improved Travel and Residency Tools
+
+#### Proof of Stay and Entry Logs
+
+* Purpose: Enable users to log entry/exit dates or upload supporting documents (e.g., flight tickets, boarding passes).
+* Benefit: Helps users reconstruct travel histories for visa applications or tax compliance.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table: `trips`
+
+Logs user trips with entry and exit dates, location, and trip status.
+
+| Column     | Type      | Description                                          |
+| ---------- | --------- | ---------------------------------------------------- |
+| id         | UUID      | Primary key for each trip.                           |
+| user_id    | UUID      | Foreign key referencing users(id).                   |
+| country_id | UUID      | Foreign key referencing countries(id).               |
+| entry_date | DATE      | Date of entry into the country.                      |
+| exit_date  | DATE      | Date of exit from the country (nullable if ongoing). |
+| status     | VARCHAR   | Status of the trip (e.g., active, completed).        |
+| created_at | TIMESTAMP | Trip log creation timestamp.                         |
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -2342,3 +2411,205 @@ Relationships and Indexing Recommendations
 * country_api_data and visa_api_data tables serve as caches for external API data, ensuring that country and visa information is readily available without needing to repeatedly query third-party APIs.
 
 Together, these tables extend the database’s core functionality, ensuring the app can handle user customizations, activity tracking, and robust country/visa management via third-party APIs.
+
+## Notes
+
+Table `knowledge_management_notes`
+
+```sql
+CREATE TABLE Notes (
+    note_id SERIAL PRIMARY KEY, -- Unique ID for each note
+    title VARCHAR(255) NOT NULL UNIQUE, -- The title of the note; must be unique and meaningful
+    content TEXT NOT NULL, -- Main content/body of the note
+    content_format ENUM('markdown', 'org-mode', 'plaintext', 'html') DEFAULT 'plaintext', -- Input format
+    rendered_content TEXT,            -- Rendered output (e.g., HTML, PDF content, etc.)
+    rendered_content_format ENUM('html', 'pdf', 'plaintext', 'other') DEFAULT 'html', -- Format of rendered_content
+    summary TEXT DEFAULT NULL, -- A brief summary or abstract of the note
+    status ENUM('draft', 'fleeting', 'evergreen', 'archived') DEFAULT 'fleeting', -- Lifecycle state
+    review_date DATE DEFAULT NULL, -- Next scheduled review date
+    pinned BOOLEAN DEFAULT FALSE, -- Indicates whether the note is pinned
+    attachments JSON DEFAULT NULL, -- A JSON field to store metadata about attached files, embedded media, or links. This can include filenames, URLs, or base64-encoded data
+    source_id INT DEFAULT NULL, -- Links to a source in the citations table (optional)
+    priority INT DEFAULT NULL, -- Importance/urgency of the note
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Creation timestamp
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last modification timestamp
+);
+```
+
+#### Indexes
+
+Index on `status`
+
+•   Purpose: Many queries will likely filter notes by their status (e.g., active, draft, or archived), so an index on this field can improve performance when filtering by these states.
+
+```sql
+CREATE INDEX idx_status ON knowledge_management_notes (status);
+```
+
+Index on `pinned`
+
+•   Purpose: Similarly, the pinned field is likely to be used frequently in queries (e.g., for filtering or prioritizing pinned notes). Indexing this field makes sense for faster retrieval.
+
+```sql
+CREATE INDEX idx_pinned ON knowledge_management_notes (pinned);
+```
+
+Composite Index on `status`, `pinned`, and `priority`
+
+•   Purpose: If you frequently query notes based on multiple criteria (e.g., status, pinned status, and priority), a composite index on these fields will speed up such queries by avoiding the need for a full scan of the table.
+
+```sql
+CREATE INDEX idx_status_pinned_priority ON knowledge_management_notes (status, pinned, priority);
+```
+
+Index on `created_at`
+
+•   Purpose: Sorting or filtering notes by their creation date is a common operation. An index on created_at helps optimize queries that involve date-based filters or sorting.
+
+```sql
+CREATE INDEX idx_created_at ON knowledge_management_notes (created_at);
+```
+
+Index on `review_date`
+
+•   Purpose: Since your system supports regular reviews of notes, querying by review_date is important. Indexing this field will speed up searches for notes that are due for review.
+
+```sql
+CREATE INDEX idx_review_date ON knowledge_management_notes (review_date);
+```
+
+Index on `format`
+
+•   Purpose: If you frequently query notes based on their input format (e.g., searching for all Markdown-formatted notes), indexing this field can improve performance.
+
+```sql
+CREATE INDEX idx_format ON knowledge_management_notes (format);
+```
+
+Full-Text Index on `content`
+
+•   Purpose: The content field stores the primary text for the note. Since you may need to search within the note’s content (e.g., searching for a specific word or phrase), a full-text index would be beneficial for those types of queries.
+
+```sql
+CREATE INDEX idx_content_fulltext ON knowledge_management_notes USING GIN (to_tsvector('english', content));
+```
+
+Index on `rendered_format`
+
+•   Purpose: If you query the rendered format of the note (e.g., to distinguish between HTML, PDF, or other formats), an index on rendered_format can speed up these queries.
+
+```sql
+CREATE INDEX idx_content_fulltext ON knowledge_management_notes USING GIN (to_tsvector('english', content));
+```
+
+Other indexes:
+
+```sql
+-- Indexes
+CREATE INDEX idx_notes_title ON Notes (title);
+CREATE INDEX idx_notes_status_updated ON Notes (status, updated_at);
+```
+
+### Design rationale
+
+#### `text_format` field
+
+•   Purpose: To let the system know how to interpret the content field.
+•   Type: ENUM to restrict allowed formats to avoid errors or unsupported types.
+•   Possible Values:
+•   'markdown': Markdown syntax.
+•   'org-mode': Org-mode syntax (e.g., for advanced outlining).
+•   'plaintext': Raw text without formatting.
+•   'html': Already processed HTML.
+•   Default: 'plaintext'.
+
+#### `rendered_content` field
+
+•   Purpose: Specifies the format of the content stored in the rendered_content field.
+•   Type: ENUM to restrict allowed values and ensure consistency.
+•   Possible Values:
+
+```
+•   'html': For rendered HTML output (default and most common case).
+•   'pdf': For rendered PDF content (if supported by the system).
+  • 'plaintext': For plain text renderings.
+  • 'other': To handle any future or custom formats.
+```
+
+#### `rendered_format`
+
+```
+•   Purpose: Specifies the format of the content stored in the rendered_content field.
+•   Type: ENUM to restrict allowed values and ensure consistency.
+•   Possible Values:
+•   'html': For rendered HTML output (default and most common case).
+•   'pdf': For rendered PDF content (if supported by the system).
+•   'plaintext': For plain text renderings.
+•   'other': To handle any future or custom formats.
+```
+
+#### `status` field
+
+Purpose:
+
+The status field is central to managing the lifecycle of a note, aligning with concepts from Zettelkasten, Evergreen Notes, and general note refinement workflows. Notes often progress through phases of utility, from fleeting ideas to long-term reusable knowledge, requiring a clear way to indicate their stage.
+
+Reasoning:
+
+•   Fleeting Notes: Temporary thoughts, unpolished ideas, or quick captures that require further review or elaboration.
+•   Inspired by Zettelkasten’s transient notes.
+•   Evergreen Notes: Finalized, polished notes that are reusable and form part of a permanent knowledge base.
+•   Matches the Evergreen Notes philosophy of cultivating lasting knowledge.
+•   Archived Notes: Notes no longer active or relevant but retained for reference, historical value, or audit trails.
+•   Addresses scenarios where notes don’t need regular engagement but still hold potential value.
+
+Design Choice:
+
+•   Using an ENUM ensures that the status is limited to predefined, meaningful states.
+•   The statuses provide clear, structured workflows without overwhelming users with options.
+
+#### `pinned` field
+
+Purpose:
+
+The pinned field addresses the need for quick access to notes that are currently important, frequently referenced, or actively in use.
+
+Reasoning:
+
+•   Users often work on ongoing projects, reference specific notes repeatedly, or need a “favorites”-style feature for easy retrieval.
+•   Borrowed from the behavior seen in apps like Apple Notes and Notion, where pinning critical items enhances productivity.
+•   Pinning is an intuitive and lightweight mechanism to signal note importance without requiring complex tagging or prioritization systems.
+
+Design Choice:
+
+•   A boolean field (true/false) keeps it simple and efficient. It’s easy for users to toggle and straightforward to implement in UI and queries (e.g., “show pinned notes”).
+•   Unlike priority, which is about ranking importance, pinned focuses on accessibility and user intent.
+
+#### `priority` field
+
+Purpose:
+
+The priority field provides a granular way to rank notes based on their relative importance, urgency, or the user’s intent to engage with them soon.
+
+Reasoning:
+
+•   Some users may need to manage notes based on importance or time sensitivity, such as:
+•   Notes requiring immediate action or review.
+•   Notes deemed central to a research topic or project.
+•   Notes for upcoming deadlines.
+•   Inspired by task management systems like Todoist and Asana, where priority fields help users organize content dynamically.
+•   Complements the review_date field for scheduling reviews but offers a non-temporal perspective on importance.
+
+Design Choice:
+
+•   A numeric field allows for a wide range of priorities (e.g., 1 for the highest priority, 5 for lower priority). Users can implement their own frameworks for interpreting these levels.
+•   By making it optional, it doesn’t overwhelm users who don’t need such specificity, but power users can leverage it for more refined note organization.
+
+#### Interplay between these fields
+
+These three fields work together to provide a holistic approach to note management:
+•   status categorizes notes by lifecycle stage, helping users focus on refining content where needed.
+•   pinned highlights active or high-use notes for easy access.
+•   priority introduces a flexible way to rank and organize notes by subjective importance.
+
+Together, they balance simplicity for casual users and powerful organizational tools for advanced workflows, ensuring broad usability and scalability.
