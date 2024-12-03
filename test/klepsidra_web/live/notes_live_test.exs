@@ -41,13 +41,13 @@ defmodule KlepsidraWeb.NotesLiveTest do
     # priority: nil
   }
 
-  defp create_notes(_) do
+  defp create_note(_) do
     note = note_fixture()
     %{note: note}
   end
 
   describe "Index" do
-    setup [:create_notes]
+    setup [:create_note]
 
     test "lists all knowledge_management_notes", %{conn: conn, note: note} do
       {:ok, _index_live, html} = live(conn, ~p"/knowledge_management/notes")
@@ -56,7 +56,7 @@ defmodule KlepsidraWeb.NotesLiveTest do
       assert html =~ note.title
     end
 
-    test "saves new notes", %{conn: conn} do
+    test "saves new note", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/knowledge_management/notes")
 
       assert index_live |> element("a", "New note") |> render_click() =~
@@ -79,7 +79,7 @@ defmodule KlepsidraWeb.NotesLiveTest do
       assert html =~ "some title"
     end
 
-    test "updates notes in listing", %{conn: conn, note: note} do
+    test "updates note in listing", %{conn: conn, note: note} do
       {:ok, index_live, _html} = live(conn, ~p"/knowledge_management/notes")
 
       assert index_live
@@ -104,7 +104,7 @@ defmodule KlepsidraWeb.NotesLiveTest do
       assert html =~ "some updated title"
     end
 
-    test "deletes notes in listing", %{conn: conn, note: note} do
+    test "deletes note in listing", %{conn: conn, note: note} do
       {:ok, index_live, _html} = live(conn, ~p"/knowledge_management/notes")
 
       assert index_live
@@ -116,16 +116,16 @@ defmodule KlepsidraWeb.NotesLiveTest do
   end
 
   describe "Show" do
-    setup [:create_notes]
+    setup [:create_note]
 
-    test "displays notes", %{conn: conn, note: note} do
+    test "displays note", %{conn: conn, note: note} do
       {:ok, _show_live, html} = live(conn, ~p"/knowledge_management/notes/#{note}")
 
       assert html =~ "Show note"
       assert html =~ note.title
     end
 
-    test "updates notes within modal", %{conn: conn, note: note} do
+    test "updates note within modal", %{conn: conn, note: note} do
       {:ok, show_live, _html} = live(conn, ~p"/knowledge_management/notes/#{note}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~

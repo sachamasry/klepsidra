@@ -71,12 +71,14 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
     journal_entry_type = get_journal_entry_type(journal_entry.entry_type_id |> to_string())
     location_select_value = City.city_option_for_select(journal_entry.location_id)
 
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:journal_entry, journal_entry)
-     |> assign(:journal_entry_type, journal_entry_type)
-     |> assign(:location_formatted_name, location_select_value.label)}
+    socket =
+      socket
+      |> assign(:page_title, page_title(socket.assigns.live_action))
+      |> assign(:journal_entry, journal_entry)
+      |> assign(:journal_entry_type, journal_entry_type)
+      |> assign(:location_formatted_name, location_select_value.label)
+
+    {:noreply, socket}
   end
 
   @impl true

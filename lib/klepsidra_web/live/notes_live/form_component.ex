@@ -131,7 +131,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
       )
       |> assign(assigns)
       |> assign_new(:form, fn ->
-        to_form(KnowledgeManagement.change_notes(note))
+        to_form(KnowledgeManagement.change_note(note))
       end)
       |> assign(new_tag_colour: {"#94a3b8", "#fff"})
 
@@ -238,12 +238,12 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"note" => note_params}, socket) do
-    changeset = KnowledgeManagement.change_notes(socket.assigns.note, note_params)
+    changeset = KnowledgeManagement.change_note(socket.assigns.note, note_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
   def handle_event("save", %{"note" => note_params}, socket) do
-    save_notes(socket, socket.assigns.action, note_params)
+    save_note(socket, socket.assigns.action, note_params)
   end
 
   @impl true
@@ -307,8 +307,8 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
 
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
-  defp save_notes(socket, :edit, note_params) do
-    case KnowledgeManagement.update_notes(socket.assigns.note, note_params) do
+  defp save_note(socket, :edit, note_params) do
+    case KnowledgeManagement.update_note(socket.assigns.note, note_params) do
       {:ok, note} ->
         notify_parent({:saved, note})
 
@@ -322,8 +322,8 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
     end
   end
 
-  defp save_notes(socket, :new, note_params) do
-    case KnowledgeManagement.create_notes(note_params) do
+  defp save_note(socket, :new, note_params) do
+    case KnowledgeManagement.create_note(note_params) do
       {:ok, note} ->
         notify_parent({:saved, note})
 

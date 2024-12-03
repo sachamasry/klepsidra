@@ -16,7 +16,7 @@ defmodule KlepsidraWeb.TagLive.TagUtilities do
       %{
         label: tag.name,
         value: tag.id,
-        description: tag.description,
+        description: tag.description || "",
         tag_class: "tag-#{DynamicCSS.convert_tag_name_to_class(tag.name)}",
         bg_colour: tag.colour || "#94a3b8",
         fg_colour: tag.fg_colour || "#fff"

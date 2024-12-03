@@ -25,7 +25,7 @@ defmodule KlepsidraWeb.NotesLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit note")
-    |> assign(:note, KnowledgeManagement.get_notes!(id))
+    |> assign(:note, KnowledgeManagement.get_note!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -47,8 +47,8 @@ defmodule KlepsidraWeb.NotesLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    note = KnowledgeManagement.get_notes!(id)
-    {:ok, _} = KnowledgeManagement.delete_notes(note)
+    note = KnowledgeManagement.get_note!(id)
+    {:ok, _} = KnowledgeManagement.delete_note(note)
 
     {:noreply, handle_deleted_note(socket, note, :knowledge_management_notes)}
   end

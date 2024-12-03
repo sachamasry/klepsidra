@@ -113,17 +113,17 @@ defmodule Klepsidra.KnowledgeManagementTest do
       priority: nil
     }
 
-    test "list_knowledge_management_notes/0 returns all knowledge_management_notes" do
-      notes = note_fixture()
-      assert KnowledgeManagement.list_knowledge_management_notes() == [notes]
+    test "list_knowledge_management_notes/0 returns all knowledge management notes" do
+      note = note_fixture()
+      assert KnowledgeManagement.list_knowledge_management_notes() == [note]
     end
 
-    test "get_notes!/1 returns the notes with given id" do
-      notes = note_fixture()
-      assert KnowledgeManagement.get_notes!(notes.id) == notes
+    test "get_note!/1 returns the note with given id" do
+      note = note_fixture()
+      assert KnowledgeManagement.get_note!(note.id) == note
     end
 
-    test "create_notes/1 with valid data creates a notes" do
+    test "create_note/1 with valid data creates a note" do
       valid_attrs = %{
         title: "some title",
         content: "some content",
@@ -138,26 +138,26 @@ defmodule Klepsidra.KnowledgeManagementTest do
         priority: 42
       }
 
-      assert {:ok, %Note{} = notes} = KnowledgeManagement.create_notes(valid_attrs)
-      assert notes.priority == 42
-      assert notes.status == :draft
-      assert notes.title == "some title"
-      assert notes.content == "some content"
-      assert notes.content_format == :markdown
-      assert notes.rendered_content == "<p>\nsome content</p>\n"
-      assert notes.rendered_content_format == :html
-      assert notes.summary == "some summary"
-      assert notes.review_date == ~D[2024-12-02]
-      assert notes.pinned == true
-      assert notes.attachments == %{}
+      assert {:ok, %Note{} = note} = KnowledgeManagement.create_note(valid_attrs)
+      assert note.priority == 42
+      assert note.status == :draft
+      assert note.title == "some title"
+      assert note.content == "some content"
+      assert note.content_format == :markdown
+      assert note.rendered_content == "<p>\nsome content</p>\n"
+      assert note.rendered_content_format == :html
+      assert note.summary == "some summary"
+      assert note.review_date == ~D[2024-12-02]
+      assert note.pinned == true
+      assert note.attachments == %{}
     end
 
-    test "create_notes/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.create_notes(@invalid_attrs)
+    test "create_note/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.create_note(@invalid_attrs)
     end
 
-    test "update_notes/2 with valid data updates the notes" do
-      notes = note_fixture()
+    test "update_note/2 with valid data updates the note" do
+      note = note_fixture()
 
       update_attrs = %{
         title: "some updated title",
@@ -173,35 +173,35 @@ defmodule Klepsidra.KnowledgeManagementTest do
         priority: 43
       }
 
-      assert {:ok, %Note{} = notes} = KnowledgeManagement.update_notes(notes, update_attrs)
-      assert notes.priority == 43
-      assert notes.status == :fleeting
-      assert notes.title == "some updated title"
-      assert notes.content == "some updated content"
-      assert notes.content_format == :"org-mode"
-      assert notes.rendered_content == "<p>\nsome updated content</p>\n"
-      assert notes.rendered_content_format == :pdf
-      assert notes.summary == "some updated summary"
-      assert notes.review_date == ~D[2024-12-03]
-      assert notes.pinned == false
-      assert notes.attachments == %{}
+      assert {:ok, %Note{} = note} = KnowledgeManagement.update_note(note, update_attrs)
+      assert note.priority == 43
+      assert note.status == :fleeting
+      assert note.title == "some updated title"
+      assert note.content == "some updated content"
+      assert note.content_format == :"org-mode"
+      assert note.rendered_content == "<p>\nsome updated content</p>\n"
+      assert note.rendered_content_format == :pdf
+      assert note.summary == "some updated summary"
+      assert note.review_date == ~D[2024-12-03]
+      assert note.pinned == false
+      assert note.attachments == %{}
     end
 
-    test "update_notes/2 with invalid data returns error changeset" do
-      notes = note_fixture()
-      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.update_notes(notes, @invalid_attrs)
-      assert notes == KnowledgeManagement.get_notes!(notes.id)
+    test "update_note/2 with invalid data returns error changeset" do
+      note = note_fixture()
+      assert {:error, %Ecto.Changeset{}} = KnowledgeManagement.update_note(note, @invalid_attrs)
+      assert note == KnowledgeManagement.get_note!(note.id)
     end
 
-    test "delete_notes/1 deletes the notes" do
-      notes = note_fixture()
-      assert {:ok, %Note{}} = KnowledgeManagement.delete_notes(notes)
-      assert_raise Ecto.NoResultsError, fn -> KnowledgeManagement.get_notes!(notes.id) end
+    test "delete_note/1 deletes the note" do
+      note = note_fixture()
+      assert {:ok, %Note{}} = KnowledgeManagement.delete_note(note)
+      assert_raise Ecto.NoResultsError, fn -> KnowledgeManagement.get_note!(note.id) end
     end
 
-    test "change_notes/1 returns a notes changeset" do
-      notes = note_fixture()
-      assert %Ecto.Changeset{} = KnowledgeManagement.change_notes(notes)
+    test "change_note/1 returns a note changeset" do
+      note = note_fixture()
+      assert %Ecto.Changeset{} = KnowledgeManagement.change_note(note)
     end
   end
 

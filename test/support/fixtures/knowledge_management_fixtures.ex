@@ -26,7 +26,7 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
   Generate a note.
   """
   def note_fixture(attrs \\ %{}) do
-    {:ok, notes} =
+    {:ok, note} =
       attrs
       |> Enum.into(%{
         title: "some title",
@@ -41,9 +41,9 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
         attachments: %{},
         priority: 42
       })
-      |> Klepsidra.KnowledgeManagement.create_notes()
+      |> Klepsidra.KnowledgeManagement.create_note()
 
-    notes
+    note
   end
 
   @doc """

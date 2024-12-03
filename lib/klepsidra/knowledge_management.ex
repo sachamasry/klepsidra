@@ -149,88 +149,88 @@ defmodule Klepsidra.KnowledgeManagement do
   end
 
   @doc """
-  Gets a single notes.
+  Gets a single note.
 
   Raises `Ecto.NoResultsError` if the Note does not exist.
 
   ## Examples
 
-      iex> get_notes!(123)
+      iex> get_note!(123)
       %Note{}
 
-      iex> get_notes!(456)
+      iex> get_note!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_notes!(id), do: Repo.get!(Note, id)
+  def get_note!(id), do: Repo.get!(Note, id)
 
   @doc """
-  Creates a notes.
+  Creates a note.
 
   ## Examples
 
-      iex> create_notes(%{field: value})
+      iex> create_note(%{field: value})
       {:ok, %Note{}}
 
-      iex> create_notes(%{field: bad_value})
+      iex> create_note(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_notes(attrs \\ %{}) do
+  def create_note(attrs \\ %{}) do
     %Note{}
     |> Note.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a notes.
+  Updates a note.
 
   ## Examples
 
-      iex> update_notes(notes, %{field: new_value})
+      iex> update_note(note, %{field: new_value})
       {:ok, %Note{}}
 
-      iex> update_notes(notes, %{field: bad_value})
+      iex> update_note(note, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_notes(%Note{} = notes, attrs) do
-    notes
+  def update_note(%Note{} = note, attrs) do
+    note
     |> Note.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a notes.
+  Deletes a note.
 
   ## Examples
 
-      iex> delete_notes(notes)
+      iex> delete_note(notes)
       {:ok, %Note{}}
 
-      iex> delete_notes(notes)
+      iex> delete_note(notes)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_notes(%Note{} = notes) do
-    Repo.delete(notes)
+  def delete_note(%Note{} = note) do
+    Repo.delete(note)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking notes changes.
+  Returns an `%Ecto.Changeset{}` for tracking note changes.
 
   ## Examples
 
-      iex> change_notes(notes)
+      iex> change_notes(note)
       %Ecto.Changeset{data: %Note{}}
 
   """
-  def change_notes(%Note{} = notes, attrs \\ %{}) do
-    Note.changeset(notes, attrs)
+  def change_note(%Note{} = note, attrs \\ %{}) do
+    Note.changeset(note, attrs)
   end
 
   @doc """
-  Returns the list of knowledge_management_note_tags.
+  Returns the list of knowledge management note tags.
 
   ## Examples
 
@@ -243,34 +243,34 @@ defmodule Klepsidra.KnowledgeManagement do
   end
 
   @doc """
-  Gets a single note_tags.
+  Gets a single note tag.
 
-  Raises `Ecto.NoResultsError` if the Note tags does not exist.
+  Raises `Ecto.NoResultsError` if the Note tag does not exist.
 
   ## Examples
 
-      iex> get_note_tags!(123)
+      iex> get_note_tag!(123)
       %NoteTags{}
 
       iex> get_note_tags!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_note_tags!(id), do: Repo.get!(NoteTags, id)
+  def get_note_tag!(id), do: Repo.get!(NoteTag, id)
 
   # @doc """
-  # Creates a note_tags.
+  # Creates a note tag.
 
   # ## Examples
 
-  #     iex> create_note_tags(%{field: value})
+  #     iex> create_note_tag(%{field: value})
   #     {:ok, %NoteTags{}}
 
-  #     iex> create_note_tags(%{field: bad_value})
+  #     iex> create_note_tag(%{field: bad_value})
   #     {:error, %Ecto.Changeset{}}
 
   # """
-  # def create_note_tags(attrs \\ %{}) do
+  # def create_note_tag(attrs \\ %{}) do
   #   %NoteTags{}
   #   |> NoteTags.changeset(attrs)
   #   |> Repo.insert()
@@ -359,19 +359,19 @@ defmodule Klepsidra.KnowledgeManagement do
   end
 
   # @doc """
-  # Updates a note_tags.
+  # Updates a note tag.
 
   # ## Examples
 
-  #     iex> update_note_tags(note_tags, %{field: new_value})
+  #     iex> update_note_tag(note_tag, %{field: new_value})
   #     {:ok, %NoteTags{}}
 
-  #     iex> update_note_tags(note_tags, %{field: bad_value})
+  #     iex> update_note_tag(note_tag, %{field: bad_value})
   #     {:error, %Ecto.Changeset{}}
 
   # """
-  # def update_note_tags(%NoteTags{} = note_tags, attrs) do
-  #   note_tags
+  # def update_note_tag(%NoteTags{} = note_tag, attrs) do
+  #   note_tag
   #   |> NoteTags.changeset(attrs)
   #   |> Repo.update()
   # end
@@ -388,8 +388,8 @@ defmodule Klepsidra.KnowledgeManagement do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_note_tags(%NoteTags{} = note_tags) do
-    Repo.delete(note_tags)
+  def delete_note_tag(%NoteTags{} = note_tag) do
+    Repo.delete(note_tag)
   end
 
   # @doc """
@@ -397,11 +397,11 @@ defmodule Klepsidra.KnowledgeManagement do
 
   # ## Examples
 
-  #     iex> change_note_tags(note_tags)
+  #     iex> change_note_tag(note_tag)
   #     %Ecto.Changeset{data: %NoteTags{}}
 
   # """
-  # def change_note_tags(%NoteTags{} = note_tags, attrs \\ %{}) do
-  #   NoteTags.changeset(note_tags, attrs)
+  # def change_note_tags(%NoteTag{} = note_tag, attrs \\ %{}) do
+  #   NoteTags.changeset(note_tag, attrs)
   # end
 end
