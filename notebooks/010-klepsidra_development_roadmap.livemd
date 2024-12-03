@@ -33,6 +33,16 @@ Implement basic _trip tracker_ functionality, recording how many days have been 
 
 <!-- livebook:{"break_markdown":true} -->
 
+Implement a _notes_ functionality, where users can record snippets of any thoughts, information needed for later, inspirations, and any other information deemed useful for the future.
+
+The inspiration for this feature, most directly, is [TiddlyWiki](https://tiddlywiki.com/).
+
+> TiddlyWiki, a unique non-linear notebook for capturing, organising and sharing complex information
+
+What is incredibly useful about this software is that these snippets can be opened alone, together with other _tiddleres_, which can be expanded or collapsed, or closed entirely at any time.
+
+<!-- livebook:{"break_markdown":true} -->
+
 * [X] Creation of quotes and citations of wisdom entity
 * [X] Meaningful display of quotes in a prominent place
 * [X] Develop a more generic patch of `phoenix_live_head`, and push as a PR, for the library to be extended upstream.
@@ -44,9 +54,8 @@ Implement basic _trip tracker_ functionality, recording how many days have been 
   * [ ] Create `travel_visa_types` entity
   * [X] Create `trips` entity
   * [X] Add country entry and exit points in `trips`
-* [ ] Develop full-text search
-  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
-  * [ ] Enable SQLite description fields full-text search (tags, projects)
+* [X] Create _notes_ functionality
+* [ ] Develop full-text search on new and general _notes_ entity
 * [ ] UI and UX improvements
   * [ ] Randomise colours for new tags
   * [ ] Display tags for open and closed timers, on timer listings
@@ -83,17 +92,10 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 ## Release 0.1.6
 
-Implement a _notes_ functionality, where users can record snippets of any thoughts, information needed for later, inspirations, and any other information deemed useful for the future.
-
-The inspiration for this feature, most directly, is [TiddlyWiki](https://tiddlywiki.com/).
-
-> TiddlyWiki, a unique non-linear notebook for capturing, organising and sharing complex information
-
-What is incredibly useful about this software is that these snippets can be opened alone, together with other _tiddleres_, which can be expanded or collapsed, or closed entirely at any time.
-
-<!-- livebook:{"break_markdown":true} -->
-
-* [ ] Create _notes_ functionality
+* [ ] Expand full text search to encompass all relevant tables and fields in application
+  * [ ] Enable SQLite notes fields full-text search (timers, business partners, projects)
+  * [ ] Enable SQLite description fields full-text search (tags, projects)
+* [ ] Use SQLite built-in functionality to regularly create database backup
 
 ## Release 0.2
 

@@ -2416,8 +2416,10 @@ Together, these tables extend the database’s core functionality, ensuring the 
 
 Table `knowledge_management_notes`
 
+Stores the primary notes.
+
 ```sql
-CREATE TABLE Notes (
+CREATE TABLE knowledge_management_notes (
     note_id SERIAL PRIMARY KEY, -- Unique ID for each note
     title VARCHAR(255) NOT NULL UNIQUE, -- The title of the note; must be unique and meaningful
     content TEXT NOT NULL, -- Main content/body of the note
@@ -2613,3 +2615,94 @@ These three fields work together to provide a holistic approach to note manageme
 •   priority introduces a flexible way to rank and organize notes by subjective importance.
 
 Together, they balance simplicity for casual users and powerful organizational tools for advanced workflows, ensuring broad usability and scalability.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `knowledge_management_annotations`
+
+Stores annotations and quotes linked to sources.
+
+```sql
+CREATE TABLE knowledge_management_annotations (
+    annotation_id UUID PRIMARY KEY,
+    source_id UUID NOT NULL,          
+    text TEXT NOT NULL,               
+    note_id UUID,                     
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (source_id) REFERENCES knowledge_management_sources (source_id),
+    FOREIGN KEY (note_id) REFERENCES knowledge_management_notes (note_id)
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `knowledge_management_sources`
+
+Tracks source materials for annotations.
+
+```sql
+CREATE TABLE knowledge_management_sources (
+    source_id UUID PRIMARY KEY,
+    title TEXT,                       
+    author TEXT,                      
+    type ENUM('book', 'article', 'webpage', 'video', 'other') DEFAULT 'other',
+    publication_date DATE,            
+    source_url TEXT                   
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+Notes and annotations tables
+
+Links tags to notes and annotations.
+
+```sql
+CREATE TABLE knowledge_management_note_tags (
+    note_id UUID NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (note_id) REFERENCES knowledge_management_notes (note_id),
+    FOREIGN KEY (tag_id) REFERENCES knowledge_management_tags (tag_id)
+);
+
+CREATE TABLE knowledge_management_annotation_tags (
+    annotation_id UUID NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (annotation_id) REFERENCES knowledge_management_annotations (annotation_id),
+    FOREIGN KEY (tag_id) REFERENCES knowledge_management_tags (tag_id)
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `knowledge_management_links`
+
+Handles interconnections between notes.
+
+```sql
+CREATE TABLE knowledge_management_links (
+    link_id SERIAL PRIMARY KEY,
+    source_note_id UUID NOT NULL,
+    target_note_id UUID NOT NULL,
+    link_type ENUM('reference', 'embed', 'transclusion') NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (source_note_id) REFERENCES knowledge_management_notes (note_id),
+    FOREIGN KEY (target_note_id) REFERENCES knowledge_management_notes (note_id)
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+Table `knowledge_management_reviews`
+
+Tracks review schedules for notes.
+
+```sql
+CREATE TABLE knowledge_management_reviews (
+    review_id SERIAL PRIMARY KEY,
+    note_id UUID NOT NULL,
+    scheduled_date TIMESTAMP NOT NULL,
+    completed_date TIMESTAMP,
+    FOREIGN KEY (note_id) REFERENCES knowledge_management_notes (note_id)
+);
+```

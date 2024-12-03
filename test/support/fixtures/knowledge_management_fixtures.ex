@@ -45,4 +45,19 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
 
     notes
   end
+
+  @doc """
+  Generate a note_tags.
+  """
+  def note_tags_fixture(attrs \\ %{}) do
+    {:ok, note_tags} =
+      attrs
+      |> Enum.into(%{
+        note_id: "7488a646-e31f-11e4-aace-600308960662",
+        tag_id: "7488a646-e31f-11e4-aace-600308960662"
+      })
+      |> Klepsidra.KnowledgeManagement.create_note_tags()
+
+    note_tags
+  end
 end
