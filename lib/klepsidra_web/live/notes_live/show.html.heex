@@ -1,6 +1,6 @@
 <.header>
   <%= @note.title %>
-  <:subtitle><%= @note.summary %></:subtitle>
+  <:subtitle class="max-w-prose"><%= @note.summary %></:subtitle>
   <:actions>
     <.link patch={~p"/knowledge_management/notes/#{@note}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit notes</.button>

@@ -71,6 +71,9 @@ defmodule Klepsidra.KnowledgeManagement.Note do
       :attachments,
       :priority
     ])
+    |> validate_required([:title], message: "Enter a title for this note")
+    |> validate_required([:content], message: "Write the content of the note")
+    |> validate_required([:content_format, :status, :pinned])
     |> validate_required([:title, :content, :content_format, :status, :pinned])
     |> generate_html_entry()
   end

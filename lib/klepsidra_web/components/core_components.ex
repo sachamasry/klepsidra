@@ -431,7 +431,7 @@ defmodule KlepsidraWeb.CoreComponents do
 
   attr(:row_title, :any,
     default: nil,
-    doc: "the function for handling the title displayed on each row"
+    doc: "the function for handling the title displayed on each row, on hover"
   )
 
   attr(:row_item, :any,
