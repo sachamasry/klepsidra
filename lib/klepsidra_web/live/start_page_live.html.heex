@@ -10,8 +10,8 @@
   </:actions>
 </.header>
 
-<div class="open-timers-list mt-5">
-  <div class="mt-10 px-6 py-4 bg-violet-400 text-lg text-white font-medium">
+<div class="open-timers-list mt-10 rounded-3xl">
+  <div class="border rounded-2xl px-6 py-4 text-lg text-white font-medium bg-gradient-to-r from-violet-900 from-15% via-purple-700 via-85% to-purple-900 to-95%">
     <h2>Open timers</h2>
   </div>
 
@@ -86,8 +86,8 @@
   </.table>
 </div>
 
-<div class="closed-timers-list mt-7">
-  <div class="mt-10 px-6 py-4 bg-violet-400 text-white text-lg font-medium">
+<div class="closed-timers-list mt-10 rounded-3xl">
+  <div class="border-p rounded-2xl px-6 py-4 bg-violet-900 text-white text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-85% to-purple-900 to-95%">
     <h2>Closed timers</h2>
     <p>
       <%= @human_readable_duration %> <%= if @human_readable_duration != "", do: "timed", else: "" %> (<%= @closed_timer_count %> <%= if @closed_timer_count ==

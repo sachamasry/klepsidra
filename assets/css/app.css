@@ -10,17 +10,42 @@ html {
 
 :root {
     --primary-colour: hsl(22deg 100% 80%);
-    --header-bg-colour: hsl(22deg 100% 88%);
-    --background-colour: hsla(22deg 100% 93% / 100%);
+    --primary-colour-lighten-1: hsl(22deg 100% 82%);
+    --primary-colour-lighten-2: hsl(22deg 100% 84%);
+    --primary-colour-lighten-3: hsl(22deg 100% 86%);
+    --primary-colour-lighten-4: hsl(22deg 100% 88%);
+    --primary-colour-lighten-5: hsl(22deg 100% 90%);
+    --primary-colour-lighten-6: hsl(22deg 100% 92%);
+    --primary-colour-lighten-6_5: hsl(22deg 100% 93%);
+    --primary-colour-lighten-7: hsl(22deg 100% 94%);
+    --primary-colour-lighten-7_5: hsl(22deg 100% 95%);
+    --primary-colour-lighten-8: hsl(22deg 100% 96%);
+    --primary-colour-lighten-8_5: hsl(22deg 100% 97%);
+    --primary-colour-lighten-9: hsl(22deg 100% 98%);
+    --primary-colour-lighten-9_5: hsl(22deg 100% 99%);
+    --primary-colour-lighten-10: hsl(22deg 100% 100%);
+    --header-bg-colour: var(--primary-colour-lighten-4);
+    --background-colour: var(--primary-colour-lighten-6_5);
+    --modal-backdrop-bg-colour: var(--primary-colour-lighten-9_5);
+    --modal-bg-colour: var(--primary-colour-lighten-6_5);
+    --input-element-bg-colour: var(--primary-colour-lighten-8_5);
 }
 
-body {
-    /* background-color:#fff2eb; */
+body, .modal-container, .form-container {
     background-color: var(--background-colour);
 }
 
-.header {
+.modal-component__backdrop {
+    background-color: var(--modal-backdrop-bg-colour);
+}
+
+.page-header {
     background-color: var(--header-bg-colour);
+    border-color: var(--primary-colour);
+}
+
+.input-element {
+    background-color: var(--input-element-bg-colour);
 }
 
 /************************************************************************
