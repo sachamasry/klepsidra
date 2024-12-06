@@ -3,12 +3,13 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
 
   use KlepsidraWeb, :live_component
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
-  alias Klepsidra.Projects
   alias Klepsidra.Categorisation
+  alias Klepsidra.DynamicCSS
+  alias Klepsidra.Projects
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
-  alias Klepsidra.DynamicCSS
 
   @tag_search_live_component_id "project_ls_tag_search_live_select_component"
 
@@ -77,14 +78,9 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
             <.input field={@form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
           </div>
 
-          <.button
-            id="tag-selector__add-button"
-            class="add-tag-button flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
-            type="button"
-            phx-click={enable_tag_selector()}
-          >
-            Add tag +
-          </.button>
+          <.tag_add_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
+            Add tag <.icon name="hero-plus" />
+          </.tag_add_button>
         </div>
 
         <:actions>
@@ -108,10 +104,9 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         Enum.map(project.tags, fn tag -> tag.id end),
         @tag_search_live_component_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(project.tags)
       )
       |> assign(assigns)
@@ -148,10 +143,9 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
         @tag_search_live_component_id,
         parent_tag_select_id: parent_tag_select_id
       )
-      |> Phx.Live.Head.push(
+      |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :dynamic,
-        "style_declarations",
+        :set,
         DynamicCSS.generate_tag_styles(tags_applied)
       )
       |> assign(

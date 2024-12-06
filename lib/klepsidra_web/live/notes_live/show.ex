@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.NotesLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Categorisation
   alias LiveSelect.Component

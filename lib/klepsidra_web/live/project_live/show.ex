@@ -2,15 +2,16 @@ defmodule KlepsidraWeb.ProjectLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
-  alias Klepsidra.Projects
-  alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.Cldr.Unit
   alias Klepsidra.Categorisation
-  alias Klepsidra.Categorisation.Tag
-  alias KlepsidraWeb.TagLive.TagUtilities
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
+  alias Klepsidra.Projects
+  alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
+  alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.Cldr.Unit
 
   defmodule TagSearch do
     @moduledoc """

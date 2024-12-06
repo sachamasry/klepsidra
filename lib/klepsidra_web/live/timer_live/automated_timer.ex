@@ -3,16 +3,17 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
   use KlepsidraWeb, :live_component
 
-  alias Klepsidra.TimeTracking
-  alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.TimeTracking.TimeUnits, as: Units
-  alias Klepsidra.Projects.Project
+  import KlepsidraWeb.ButtonComponents
   alias Klepsidra.BusinessPartners.BusinessPartner
-  # alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.Categorisation
+  alias Klepsidra.DynamicCSS
+  alias Klepsidra.Projects.Project
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
-  alias Klepsidra.DynamicCSS
+  alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.TimeTracking
+  alias Klepsidra.TimeTracking.TimeUnits, as: Units
+  # alias Klepsidra.TimeTracking.ActivityType
 
   @tag_search_live_component_id "timer_ls_tag_search_live_select_component"
 
@@ -104,14 +105,9 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             <.input field={@form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
           </div>
 
-          <.button
-            id="tag-selector__add-button"
-            class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
-            type="button"
-            phx-click={enable_tag_selector()}
-          >
-            Add tag +
-          </.button>
+          <.tag_add_button id="tag-selector__add-button" phx-click={enable_tag_selector()}>
+            Add tag <.icon name="hero-plus" />
+          </.tag_add_button>
         </div>
 
         <div :if={@invocation_context == :stop_timer}>

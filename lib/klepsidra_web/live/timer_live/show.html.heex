@@ -4,13 +4,13 @@
   <:subtitle></:subtitle>
   <:actions>
     <.link :if={is_nil(@timer.end_stamp)} patch={~p"/timers/#{@timer.id}/stop-timer"}>
-      <.button>Stop timer</.button>
+      <.outline_button>Stop timer</.outline_button>
     </.link>
     <.link patch={~p"/timers/#{@timer}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit timer</.button>
+      <.outline_button>Edit timer</.outline_button>
     </.link>
     <.link patch={~p"/timers/#{@timer}/new-note"} phx-click={JS.push_focus()}>
-      <.button>New Note</.button>
+      <.outline_button>New Note</.outline_button>
     </.link>
   </:actions>
 </.header>
@@ -73,9 +73,9 @@
       <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
     </div>
 
-    <.outline_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
+    <.tag_add_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
       Add tag <.icon name="hero-plus" />
-    </.outline_button>
+    </.tag_add_button>
   </div>
 </.form>
 

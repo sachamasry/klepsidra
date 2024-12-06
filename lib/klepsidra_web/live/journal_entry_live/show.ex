@@ -2,15 +2,16 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
-  alias Klepsidra.Journals
-  alias Klepsidra.Journals.JournalEntry
-  alias Klepsidra.Locations.City
   alias Klepsidra.Categorisation
-  alias Klepsidra.Categorisation.Tag
-  alias KlepsidraWeb.TagLive.TagUtilities
+  alias Klepsidra.Locations.City
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
+  alias Klepsidra.Journals
+  alias Klepsidra.Journals.JournalEntry
+  alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
 
   defmodule TagSearch do
     @moduledoc """

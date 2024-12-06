@@ -2,10 +2,10 @@
   <%= @today %>
   <:actions>
     <.link phx-keyup="start_timer" patch={~p"/start_timer"}>
-      <.button>Start Timer</.button>
+      <.outline_button>Start Timer</.outline_button>
     </.link>
     <.link patch={~p"/new_timer"}>
-      <.button>Manual Timer</.button>
+      <.outline_button>Manual Timer</.outline_button>
     </.link>
   </:actions>
 </.header>

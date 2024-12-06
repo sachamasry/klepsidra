@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
 
   use KlepsidraWeb, :live_component
 
+  import KlepsidraWeb.ButtonComponents
   alias Klepsidra.Categorisation
   alias Klepsidra.DynamicCSS
   alias Klepsidra.TimeTracking.ActivityType
@@ -90,14 +91,9 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             <.input field={@form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
           </div>
 
-          <.button
-            id="tag-selector__add-button"
-            class="add-tag-button flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
-            type="button"
-            phx-click={enable_tag_selector()}
-          >
-            Add tag +
-          </.button>
+          <.tag_add_button id="tag-selector__add-button" phx-click={enable_tag_selector()}>
+            Add tag <.icon name="hero-plus" />
+          </.tag_add_button>
         </div>
 
         <.input field={@form[:description]} type="textarea" label="Description" />
@@ -141,7 +137,12 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
         </div>
 
         <:actions>
-          <.button phx-disable-with="Saving...">Save</.button>
+          <.button
+            class="bg-peach-fuzz-500 hover:bg-peach-fuzz-600 active:bg-peach-fuzz-700 active:text-white"
+            phx-disable-with="Saving..."
+          >
+            Save
+          </.button>
         </:actions>
       </.simple_form>
     </div>

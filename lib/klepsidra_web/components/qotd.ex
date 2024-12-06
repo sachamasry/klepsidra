@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.AnnotationComponents do
   @moduledoc false
 
   use Phoenix.Component
+  import KlepsidraWeb.CoreComponents
 
   @doc """
   Renders a quote, presented as a quote of the day.
@@ -33,7 +34,7 @@ defmodule KlepsidraWeb.AnnotationComponents do
         <p class="mt-4 text-center">
           <cite>—<%= @author %></cite>
           <.link navigate={@navigate}>
-            <KlepsidraWeb.CoreComponents.icon
+            <.icon
               name="hero-arrow-top-right-on-square"
               class="inline-block align-text-top bg-violet-500 h-3 w-3"
             />

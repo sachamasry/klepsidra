@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.ProjectLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Projects
   alias Klepsidra.Projects.Project

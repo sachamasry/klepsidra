@@ -17,7 +17,7 @@
   </:subtitle>
   <:actions>
     <.link patch={~p"/projects/#{@project}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit project</.button>
+      <.outline_button>Edit project</.outline_button>
     </.link>
   </:actions>
 </.header>
@@ -76,14 +76,9 @@
       <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
     </div>
 
-    <.button
-      id="tag-selector__add-button--show"
-      class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
-      type="button"
-      phx-click={enable_tag_selector()}
-    >
-      Add tag +
-    </.button>
+    <.tag_add_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
+      Add tag <.icon name="hero-plus" />
+    </.tag_add_button>
   </div>
 </.form>
 

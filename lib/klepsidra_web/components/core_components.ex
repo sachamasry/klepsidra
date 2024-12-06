@@ -76,10 +76,10 @@ defmodule KlepsidraWeb.CoreComponents do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
+                  class="-m-3 flex-none p-3 opacity-20 hover:opacity-60"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <.icon name="hero-x-mark-solid" class="bg-peach-fuzz-500 h-5 w-5" />
                 </button>
               </div>
               <div id={"#{@id}-content"}>
@@ -218,7 +218,7 @@ defmodule KlepsidraWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-peach-fuzz-600 hover:bg-peach-fuzz-700 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -293,7 +293,7 @@ defmodule KlepsidraWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="input-element rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class="input-element rounded border-peach-fuzz-300/50 focus:border-peach-fuzz-400 text-zinc-900 focus:ring-0"
           {@rest}
         />
         <%= @label %>
@@ -310,7 +310,7 @@ defmodule KlepsidraWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="input-element mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="input-element mt-1 block w-full rounded-md border border-peach-fuzz-300/50 bg-peach-fuzz-lightness-38 shadow-sm focus:border-peach-fuzz-400 focus:ring-0 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -332,8 +332,8 @@ defmodule KlepsidraWeb.CoreComponents do
         class={[
           "input-element",
           "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          "min-h-[6rem] border-zinc-300 focus:border-zinc-400",
+          "phx-no-feedback:border-peach-fuzz-300/50 phx-no-feedback:focus:border-peach-fuzz-400",
+          "min-h-[6rem] border-peach-fuzz-300/50 focus:border-peach-fuzz-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
@@ -356,8 +356,8 @@ defmodule KlepsidraWeb.CoreComponents do
         class={[
           "input-element",
           "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          "border-zinc-300 focus:border-zinc-400",
+          "phx-no-feedback:border-peach-fuzz-300/50 phx-no-feedback:focus:border-peach-fuzz-400",
+          "border-peach-fuzz-300/50 focus:border-peach-fuzz-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
