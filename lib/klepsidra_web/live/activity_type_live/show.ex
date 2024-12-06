@@ -1,6 +1,8 @@
 defmodule KlepsidraWeb.ActivityTypeLive.Show do
   @moduledoc false
 
+  import KlepsidraWeb.ButtonComponents
+
   use KlepsidraWeb, :live_view
 
   alias Klepsidra.TimeTracking

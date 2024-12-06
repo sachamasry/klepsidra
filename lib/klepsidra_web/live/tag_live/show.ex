@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TagLive.Show do
 
   @moduledoc false
 
+  import KlepsidraWeb.ButtonComponents
   alias Klepsidra.Categorisation
 
   @impl true

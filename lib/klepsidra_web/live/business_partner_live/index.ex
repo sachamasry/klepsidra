@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.BusinessPartners
   alias Klepsidra.BusinessPartners.BusinessPartner

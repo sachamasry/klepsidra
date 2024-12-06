@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.ActivityType

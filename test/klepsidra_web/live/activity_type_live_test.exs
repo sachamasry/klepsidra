@@ -5,18 +5,17 @@ defmodule KlepsidraWeb.ActivityTypeLiveTest do
   import Klepsidra.TimeTrackingFixtures
 
   @create_attrs %{
-    active: true,
     name: "some activity_type",
     billing_rate: "120.5"
   }
 
   @update_attrs %{
-    active: false,
     name: "some updated activity_type",
-    billing_rate: "456.7"
+    billing_rate: "456.7",
+    active: false
   }
 
-  @invalid_attrs %{active: false, name: nil, billing_rate: nil}
+  @invalid_attrs %{name: nil, billing_rate: nil}
 
   defp create_activity_type(_) do
     activity_type = activity_type_fixture()

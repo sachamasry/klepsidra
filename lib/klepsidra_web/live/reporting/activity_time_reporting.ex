@@ -2,9 +2,10 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.TimeTracking
-  import LiveToast
 
   @impl true
   def mount(_params, _session, socket) do

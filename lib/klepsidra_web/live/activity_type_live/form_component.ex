@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
 
   use KlepsidraWeb, :live_component
   import LiveToast
+
   alias Klepsidra.TimeTracking
 
   @impl true
@@ -24,7 +25,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
 
         <.input field={@form[:billing_rate]} type="number" label="Billing rate" min="0" step="0.01" />
 
-        <.input field={@form[:active]} type="checkbox" label="Active" />
+        <.input :if={@action == :edit} field={@form[:active]} type="checkbox" label="Active" />
         <:actions>
           <.button phx-disable-with="Saving...">Save</.button>
         </:actions>

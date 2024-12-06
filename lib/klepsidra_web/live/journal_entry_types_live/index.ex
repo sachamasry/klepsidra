@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.JournalEntryTypesLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntryTypes

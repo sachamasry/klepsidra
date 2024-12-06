@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.DocumentTypeLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Documents
   alias Klepsidra.Documents.DocumentType

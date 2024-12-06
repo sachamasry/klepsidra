@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.UserLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Accounts
 

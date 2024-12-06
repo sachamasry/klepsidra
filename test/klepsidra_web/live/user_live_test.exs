@@ -6,15 +6,13 @@ defmodule KlepsidraWeb.UserLiveTest do
 
   @create_attrs %{
     user_name: "some user_name",
-    login_email: "some login_email",
-    password_hash: "some password_hash"
+    login_email: "some login_email"
   }
   @update_attrs %{
     user_name: "some updated user_name",
-    login_email: "some updated login_email",
-    password_hash: "some updated password_hash"
+    login_email: "some updated login_email"
   }
-  @invalid_attrs %{user_name: nil, login_email: nil, password_hash: nil}
+  @invalid_attrs %{user_name: nil, login_email: nil}
 
   defp create_user(_) do
     user = user_fixture()
@@ -41,7 +39,7 @@ defmodule KlepsidraWeb.UserLiveTest do
 
       assert index_live
              |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a username"
 
       assert index_live
              |> form("#user-form", user: @create_attrs)
@@ -64,7 +62,7 @@ defmodule KlepsidraWeb.UserLiveTest do
 
       assert index_live
              |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a username"
 
       assert index_live
              |> form("#user-form", user: @update_attrs)
@@ -105,7 +103,7 @@ defmodule KlepsidraWeb.UserLiveTest do
 
       assert show_live
              |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Enter a username"
 
       assert show_live
              |> form("#user-form", user: @update_attrs)

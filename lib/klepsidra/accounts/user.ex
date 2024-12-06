@@ -33,7 +33,9 @@ defmodule Klepsidra.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:user_name, :login_email, :password_hash, :frozen, :active])
-    |> validate_required([:user_name, :login_email, :password_hash])
+    |> validate_required([:user_name], message: "Enter a username")
+    |> validate_required([:login_email], message: "Provide the user's email address")
+    # |> validate_required([:password_hash], message: "Enter a password for the user")
     |> unique_constraint(:user_name,
       name: :users_user_name_index,
       message: "This user name is taken"

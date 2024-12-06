@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TagLive.Index do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Categorisation
   alias Klepsidra.Categorisation.Tag

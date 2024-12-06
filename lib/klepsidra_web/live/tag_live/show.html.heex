@@ -2,7 +2,7 @@
   Tag <em><%= @tag.name %></em>
   <:actions>
     <.link patch={~p"/tags/#{@tag}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit tag</.button>
+      <.outline_button>Edit tag</.outline_button>
     </.link>
   </:actions>
 </.header>

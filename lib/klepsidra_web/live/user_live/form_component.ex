@@ -23,7 +23,6 @@ defmodule KlepsidraWeb.UserLive.FormComponent do
       >
         <.input field={@form[:user_name]} type="text" label="User name" />
         <.input field={@form[:login_email]} type="text" label="Login email" />
-        <.input field={@form[:password_hash]} type="text" label="Password hash" />
         <:actions>
           <.button phx-disable-with="Saving...">Save User</.button>
         </:actions>
