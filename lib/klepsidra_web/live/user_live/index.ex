@@ -2,7 +2,9 @@ defmodule KlepsidraWeb.UserLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.Accounts
   alias Klepsidra.Accounts.User
@@ -45,6 +47,12 @@ defmodule KlepsidraWeb.UserLive.Index do
     user = Accounts.get_user!(id)
     {:ok, _} = Accounts.delete_user(user)
 
-    {:noreply, stream_delete(socket, :users, user)}
+    {:noreply, handle_deleted_user(socket, user, :users)}
+  end
+
+  defp handle_deleted_user(socket, user, source_stream) do
+    socket
+    |> stream_delete(source_stream, user)
+    |> put_toast(:info, "User deleted successfully")
   end
 end

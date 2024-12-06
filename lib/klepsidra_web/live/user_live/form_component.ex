@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.UserLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.Accounts
 
@@ -58,7 +59,7 @@ defmodule KlepsidraWeb.UserLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "User updated successfully")
+         |> put_toast(:info, "User updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -73,7 +74,7 @@ defmodule KlepsidraWeb.UserLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "User created successfully")
+         |> put_toast(:info, "User created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

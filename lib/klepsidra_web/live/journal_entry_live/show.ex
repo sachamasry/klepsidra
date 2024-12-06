@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.JournalEntryLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+
   import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.Categorisation

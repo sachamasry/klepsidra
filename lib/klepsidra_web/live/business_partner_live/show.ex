@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+
   import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.BusinessPartners

@@ -2,7 +2,9 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+
   import LiveToast
+
   alias Klepsidra.BusinessPartners
 
   @impl true
@@ -87,7 +89,7 @@ defmodule KlepsidraWeb.BusinessPartnerLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "#{business_partner_type} created successfully")
+         |> put_toast(:info, "#{business_partner_type} created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -2,8 +2,9 @@ defmodule KlepsidraWeb.TripLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
-  import LiveToast
+
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.Travel
   alias Klepsidra.Travel.Trip

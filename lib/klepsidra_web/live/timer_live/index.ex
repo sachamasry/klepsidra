@@ -2,6 +2,8 @@ defmodule KlepsidraWeb.TimerLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+
+  import KlepsidraWeb.ButtonComponents
   import LiveToast
 
   alias Klepsidra.TimeTracking

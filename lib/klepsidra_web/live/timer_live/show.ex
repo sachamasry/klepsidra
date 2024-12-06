@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   use KlepsidraWeb, :live_view
 
+  import KlepsidraWeb.ButtonComponents
   import LiveToast
 
   import KlepsidraWeb.ButtonComponents

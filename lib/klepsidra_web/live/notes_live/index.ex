@@ -2,8 +2,9 @@ defmodule KlepsidraWeb.NotesLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
-  import LiveToast
+
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.Note

@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.TagLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+
   import LiveToast
 
   alias Klepsidra.Categorisation

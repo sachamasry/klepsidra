@@ -2,8 +2,9 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
-  import LiveToast
+
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.Journals
   alias Klepsidra.Journals.JournalEntry
