@@ -9,6 +9,7 @@ defmodule KlepsidraWeb.StartPageLive do
 
   use KlepsidraWeb, :live_view
   import LiveToast
+  import KlepsidraWeb.AnnotationComponents
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units

@@ -52,7 +52,7 @@ defmodule KlepsidraWeb.CoreComponents do
     >
       <div
         id={"#{@id}-bg"}
-        class="modal-component__backdrop bg-zinc-50/90 fixed inset-0 transition-opacity"
+        class="modal-component__backdrop bg-peach-fuzz-lightness-25/90 border-p fixed inset-0 transition-opacity"
         aria-hidden="true"
       />
       <div
@@ -63,14 +63,14 @@ defmodule KlepsidraWeb.CoreComponents do
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
+        <div class="flex min-h-full items-center justify-center border-peach-fuzz-300 ">
           <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="modal-container shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl p-14 shadow-lg ring-1 transition"
+              class="modal-container bg-peach-fuzz-lightness-88 shadow-peach-fuzz-300/20 ring-peach-fuzz-300/30 relative hidden rounded-2xl p-14 shadow-lg ring-1 transition"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -189,7 +189,7 @@ defmodule KlepsidraWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="form-container mt-10 space-y-8 bg-white">
+      <div class="form-container mt-10 space-y-8 bg-peach-fuzz-lightness-88/0">
         <%= render_slot(@inner_block, f) %>
         <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
           <%= render_slot(action, f) %>
@@ -415,7 +415,7 @@ defmodule KlepsidraWeb.CoreComponents do
         <h1 class="text-lg font-semibold leading-8 text-zinc-800">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600 max-w-prose">
           <%= render_slot(@subtitle) %>
         </p>
       </div>

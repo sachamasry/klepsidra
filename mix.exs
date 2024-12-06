@@ -170,7 +170,8 @@ defmodule Klepsidra.MixProject do
       {:floki, ">= 0.30.0"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2.4", runtime: Mix.env() == :dev},
+      # Possibly deprecated, built into core_components
       {:heroicons, "~> 0.5.5"},
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},

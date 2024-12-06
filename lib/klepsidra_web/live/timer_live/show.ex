@@ -5,15 +5,16 @@ defmodule KlepsidraWeb.TimerLive.Show do
 
   import LiveToast
 
+  import KlepsidraWeb.ButtonComponents
+  alias Klepsidra.Categorisation
+  alias LiveSelect.Component
+  alias Klepsidra.DynamicCSS
+  alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
+  alias Klepsidra.Categorisation.Tag
+  alias KlepsidraWeb.TagLive.TagUtilities
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
-  alias KlepsidraWeb.Live.NoteLive.NoteFormComponent
-  alias Klepsidra.Categorisation
-  alias Klepsidra.Categorisation.Tag
-  alias KlepsidraWeb.TagLive.TagUtilities
-  alias LiveSelect.Component
-  alias Klepsidra.DynamicCSS
 
   defmodule TagSearch do
     @moduledoc """
@@ -45,6 +46,27 @@ defmodule KlepsidraWeb.TimerLive.Show do
   def mount(params, _session, socket) do
     timer_id = Map.get(params, "id")
     timer = Klepsidra.TimeTracking.get_timer!(timer_id) |> Klepsidra.Repo.preload(:tags)
+
+    timer_description =
+      case timer.description do
+        nil ->
+          ""
+
+        _ ->
+          Earmark.as_html!(timer.description,
+            breaks: true,
+            code_class_prefix: "lang- language-",
+            compact_output: false,
+            escape: false,
+            footnotes: true,
+            gfm_tables: true,
+            smartypants: true,
+            sub_sup: true
+          )
+          |> HtmlSanitizeEx.html5()
+          |> Phoenix.HTML.raw()
+      end
+
     return_to = Map.get(params, "return_to", "/timers")
 
     notes = TimeTracking.get_note_by_timer_id!(timer_id)
@@ -73,6 +95,7 @@ defmodule KlepsidraWeb.TimerLive.Show do
         note_count: note_metadata.note_count,
         notes_title: note_metadata.section_title,
         timer_id: timer_id,
+        timer_description: timer_description,
         return_to: return_to
       )
 

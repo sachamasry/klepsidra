@@ -1,7 +1,7 @@
 <.header>
   <%= @timer.start_stamp %>–<%= @timer.end_stamp %>
   <%= if is_nil(@timer.end_stamp), do: "(Running timer)" %>
-  <:subtitle>Activity timer record.</:subtitle>
+  <:subtitle></:subtitle>
   <:actions>
     <.link :if={is_nil(@timer.end_stamp)} patch={~p"/timers/#{@timer.id}/stop-timer"}>
       <.button>Stop timer</.button>
@@ -14,6 +14,10 @@
     </.link>
   </:actions>
 </.header>
+
+<section class="max-w-prose">
+  <%= @timer_description %>
+</section>
 
 <.form
   for={@live_select_form}
@@ -69,14 +73,9 @@
       <.input field={@live_select_form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
     </div>
 
-    <.button
-      id="tag-selector__add-button--show"
-      class="flex-none flex-grow-0 h-fit self-end [&&]:bg-violet-50 [&&]:text-indigo-900 [&&]:py-1 rounded-md"
-      type="button"
-      phx-click={enable_tag_selector()}
-    >
-      Add tag +
-    </.button>
+    <.outline_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
+      Add tag <.icon name="hero-plus" />
+    </.outline_button>
   </div>
 </.form>
 
@@ -87,26 +86,13 @@
   <:item title="Duration time unit"><%= @timer.duration_time_unit %></:item>
   <:item title="Billable duration"><%= @timer.billing_duration %></:item>
   <:item title="Billable duration time unit"><%= @timer.billing_duration_time_unit %></:item>
-  <:item title="Description">
-    <%= case @timer.description do
-      nil ->
-        ""
-
-      _ ->
-        Earmark.as_html!(@timer.description,
-          compact_output: true,
-          code_class_prefix: "lang-",
-          smartypants: true
-        )
-        |> HtmlSanitizeEx.html5()
-        |> Phoenix.HTML.raw()
-    end %>
-  </:item>
 </.list>
 
 <.back navigate={"#{@return_to}"}>Back to activity timers</.back>
 
-<h2 class="mt-10 px-6 py-4 bg-violet-50 text-lg font-medium"><%= @notes_title %></h2>
+<h2 class="border-p rounded-2xl mt-10 px-6 py-4 text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-65% to-purple-900 to-95% text-white">
+  <%= @notes_title %>
+</h2>
 
 <.live_component
   module={NoteFormComponent}
@@ -120,7 +106,7 @@
     <div class="timer-notes__datetime mt-6 text-violet-800 font-medium">
       <%= note.inserted_at |> Cldr.DateTime.to_string!() %>
     </div>
-    <div class="timer-notes__note markdown-content my-6">
+    <div class="timer-notes__note max-w-prose markdown-content my-6">
       <%= Earmark.as_html!(note.note,
         compact_output: true,
         code_class_prefix: "lang-",

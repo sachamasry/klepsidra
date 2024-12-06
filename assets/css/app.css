@@ -26,25 +26,23 @@ html {
     --primary-colour-lighten-10: hsl(22deg 100% 100%);
     --header-bg-colour: var(--primary-colour-lighten-4);
     --background-colour: var(--primary-colour-lighten-6_5);
-    --modal-backdrop-bg-colour: var(--primary-colour-lighten-9_5);
     --modal-bg-colour: var(--primary-colour-lighten-6_5);
+    --modal-backdrop-bg-colour: var(--primary-colour-lighten-9_5);
     --input-element-bg-colour: var(--primary-colour-lighten-8_5);
 }
 
 body, .modal-container, .form-container {
-    background-color: var(--background-colour);
+    /* background-color: var(--background-colour); */
 }
 
-.modal-component__backdrop {
-    background-color: var(--modal-backdrop-bg-colour);
-}
+.modal-component__backdrop {}
 
 .page-header {
     background-color: var(--header-bg-colour);
     border-color: var(--primary-colour);
 }
 
-.input-element {
+.input-element,[type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select {
     background-color: var(--input-element-bg-colour);
 }
 
