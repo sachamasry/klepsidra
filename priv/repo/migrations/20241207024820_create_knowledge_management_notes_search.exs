@@ -4,15 +4,15 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
   def up do
     execute("""
     CREATE VIRTUAL TABLE IF NOT EXISTS knowledge_management_notes_search
-    USING fts5(id UNINDEXED, title, content, summary, status, tokenize='trigram');
+    USING fts5(id UNINDEXED, title, content, summary, tokenize='trigram remove_diacritics 1');
     """)
 
     execute("""
     CREATE TRIGGER IF NOT EXISTS knowledge_management_notes_search_ai AFTER INSERT
     ON knowledge_management_notes
     BEGIN
-      INSERT INTO knowledge_management_notes_search(rowid, id, title, content, summary, status)
-      VALUES (NEW.rowid, NEW.id, NEW.title, NEW.content, NEW.summary, NEW.status);
+      INSERT INTO knowledge_management_notes_search(rowid, id, title, content, summary)
+      VALUES (NEW.rowid, NEW.id, NEW.title, NEW.content, NEW.summary);
     END;
     """)
 
@@ -29,7 +29,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
     ON knowledge_management_notes
     BEGIN
       UPDATE knowledge_management_notes_search
-      SET title = NEW.title, content = NEW.content, summary = NEW.summary, status = NEW.status
+      SET title = NEW.title, content = NEW.content, summary = NEW.summary
       WHERE rowid = NEW.rowid;
     END;
     """)
