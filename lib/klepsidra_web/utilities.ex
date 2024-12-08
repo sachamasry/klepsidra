@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.Utilities do
       # used to hide the disconnected flashes
       if(assigns[:rest][:hidden] == true, do: "hidden", else: "flex"),
       # override styles per severity
-      assigns[:kind] == :info && "bg-peach-fuzz-lightness-12 text-black",
+      assigns[:kind] == :info && "bg-peach-fuzz-lightness-25/100 text-black",
       assigns[:kind] == :error && "!text-rose-700 !bg-rose-100 border-rose-200"
     ]
   end
