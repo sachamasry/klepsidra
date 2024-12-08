@@ -75,7 +75,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
         FROM knowledge_management_note_tags kmnt
         LEFT JOIN tags t
         ON kmnt.tag_id = t.id
-        WHERE kmnt.note_id = OLD.note_id
+        WHERE kmnt.note_id = NEW.note_id
       )
       WHERE id = OLD.note_id;
     END;
