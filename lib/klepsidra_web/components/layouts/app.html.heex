@@ -25,6 +25,7 @@
       flash={@flash}
       connected={assigns[:socket] != nil}
       corner={:bottom_right}
+      toast_class_fn={&KlepsidraWeb.Utilities.toast_class_fn/1}
     />
 
     <%= @inner_content %>

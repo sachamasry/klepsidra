@@ -172,7 +172,7 @@ defmodule Klepsidra.MixProject do
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.4", runtime: Mix.env() == :dev},
       # Possibly deprecated, built into core_components
-      {:heroicons, "~> 0.5.5"},
+      # {:heroicons, "~> 0.5.5"},
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
