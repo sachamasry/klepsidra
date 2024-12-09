@@ -1,6 +1,6 @@
 defmodule Klepsidra.KnowledgeManagement.Note do
   @moduledoc """
-  Defines the `Note` schema needed to record users notes.
+  Defines the `Note` schema needed to record user notes.
 
   This entity records standalone and versatile notes of broader
   thematic potential, such as (but not limited to) thoughts,

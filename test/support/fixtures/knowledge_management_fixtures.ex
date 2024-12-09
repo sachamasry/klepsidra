@@ -47,6 +47,25 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
   end
 
   @doc """
+  Generate a note_search.
+  """
+  def note_search_fixture(attrs \\ %{}) do
+    {:ok, note_search} =
+      attrs
+      |> Enum.into(%{
+        rowid: 2,
+        id: "7488a646-e31f-11e4-aace-600308960662",
+        title: "some title",
+        content: "some content",
+        summary: "some summary",
+        tags: "test · design · learning"
+      })
+      |> Klepsidra.KnowledgeManagement.create_note_search()
+
+    note_search
+  end
+
+  @doc """
   Generate a note_tags.
   """
   def note_tags_fixture(attrs \\ %{}) do

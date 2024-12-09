@@ -8,6 +8,7 @@ defmodule Klepsidra.KnowledgeManagement do
 
   alias Klepsidra.KnowledgeManagement.Annotation
   alias Klepsidra.KnowledgeManagement.Note
+  alias Klepsidra.KnowledgeManagement.NoteSearch
   alias Klepsidra.KnowledgeManagement.NoteTags
 
   @doc """
@@ -404,4 +405,61 @@ defmodule Klepsidra.KnowledgeManagement do
   # def change_note_tags(%NoteTag{} = note_tag, attrs \\ %{}) do
   #   NoteTags.changeset(note_tag, attrs)
   # end
+
+  alias Klepsidra.KnowledgeManagement.NoteSearch
+
+  @doc """
+  Returns the list of knowledge_management_notes_search.
+
+  ## Examples
+
+      iex> list_knowledge_management_notes_search()
+      [%NoteSearch{}, ...]
+
+  """
+  def list_knowledge_management_notes_search do
+    Repo.all(NoteSearch)
+  end
+
+  @doc """
+  Search knowledge management notes using full-text search.
+
+  ## Examples
+
+      iex> search_notes("hello")
+      [%Klepsidra.KnowledgeManagement.NoteSearch{}, ...]
+
+  """
+  def search_notes(search_phrase) do
+    from(ns in NoteSearch,
+      select: [:rank, :id, :title, :content, :summary, :tags],
+      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
+      order_by: [asc: :rank]
+    )
+    |> Repo.all()
+  end
+
+  def search_notes_and_highlight(search_phrase) do
+    from(ns in NoteSearch,
+      select: fragment("highlight(knowledge_management_notes_search, 0, \'<b>\', \'</b>\')"),
+      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
+      order_by: [asc: :rank]
+    )
+    |> Repo.all()
+  end
+
+  @spec search_notes_and_highlight_snippet(search_phrase :: String.t()) ::
+          [%{id: Ecto.UUID.t(), result: String.t()}, ...]
+  def search_notes_and_highlight_snippet(search_phrase) do
+    from(ns in NoteSearch,
+      select: %{
+        id: ns.id,
+        result:
+          fragment("snippet(knowledge_management_notes_search, -1, \'<b>\', \'</b>\', \'…\', 64)")
+      },
+      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
+      order_by: [asc: :rank]
+    )
+    |> Repo.all()
+  end
 end
