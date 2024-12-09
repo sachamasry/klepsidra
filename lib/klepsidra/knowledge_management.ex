@@ -8,8 +8,10 @@ defmodule Klepsidra.KnowledgeManagement do
 
   alias Klepsidra.KnowledgeManagement.Annotation
   alias Klepsidra.KnowledgeManagement.Note
+  alias Klepsidra.KnowledgeManagement.NoteTags
   alias Klepsidra.KnowledgeManagement.NoteSearch
   alias Klepsidra.KnowledgeManagement.NoteTags
+  alias Klepsidra.Categorisation.Tag
 
   @doc """
   Returns the list of annotations.
@@ -467,4 +469,62 @@ defmodule Klepsidra.KnowledgeManagement do
     )
     |> Repo.all()
   end
+
+  @spec from_knowledge_management_notes() :: Ecto.Query.t()
+  def from_knowledge_management_notes() do
+    from(n in Note, as: :notes)
+  end
+
+  @spec join_knowledge_management_note_tags_and_tags_tables(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_knowledge_management_note_tags_and_tags_tables(query) do
+    from [notes: n] in query,
+      left_join: nt in NoteTags,
+      on: n.id == nt.note_id,
+      left_join: t in Tag,
+      on: nt.tag_id == t.id,
+      as: :tags
+  end
+
+  @spec select_knowledge_management_notes_for_fts(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_knowledge_management_notes_for_fts(query) do
+    from [notes: n, tags: t] in query,
+      group_by: [n.id, n.title, n.content, n.summary],
+      select: %{
+        note_id: n.id,
+        title: n.title,
+        content: n.content,
+        summary: n.summary,
+        tags: fragment("GROUP_CONCAT(?, ' ⸱ ')", t.name)
+      }
+  end
+
+  @spec list_knowledge_management_notes_for_fts() ::
+          [%{value: Ecto.UUID.t(), label: String.t()}, ...]
+  def list_knowledge_management_notes_for_fts() do
+    from_knowledge_management_notes()
+    |> join_knowledge_management_note_tags_and_tags_tables()
+    |> select_knowledge_management_notes_for_fts()
+    |> Repo.all()
+  end
+
+  @spec insert_knowledge_management_notes_into_fts() :: {integer(), nil}
+  def insert_knowledge_management_notes_into_fts() do
+    query =
+      from_knowledge_management_notes()
+      |> join_knowledge_management_note_tags_and_tags_tables()
+      |> select_knowledge_management_notes_for_fts()
+
+    Repo.insert_all(NoteSearch, query)
+  end
+
+  # INSERT INTO knowledge_management_notes_search(note_id, title, content, summary, tags)
+  # SELECT kmn.id, kmn.title, kmn.content, kmn.summary, GROUP_CONCAT(t.name, ' ⸱ ') tags
+
+  # LEFT JOIN knowledge_management_note_tags kmnt 
+  # ON kmn.id = kmnt.note_id 
+  # LEFT JOIN tags t 
+  # ON kmnt.tag_id = t.id 
+
+  # GROUP BY kmn.id, kmn.title, kmn.content, kmn.summary 
 end

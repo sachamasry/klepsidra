@@ -42,16 +42,24 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
 
   @impl true
   def handle_event("do-search", %{"value" => search_phrase}, socket) do
-    {:noreply,
-     socket
-     |> assign(:search_phrase, search_phrase)
-     |> assign(
-       :notes,
-       search_notes(
-         search_phrase,
-         socket.assigns.notes
-       )
-     )}
+    search_results =
+      if String.length(search_phrase) < 3 do
+        []
+      else
+        search_notes(
+          search_phrase,
+          []
+        )
+      end
+
+    socket =
+      socket
+      |> assign(
+        search_phrase: search_phrase,
+        notes: search_results
+      )
+
+    {:noreply, socket}
   end
 
   attr(:value, :any)
@@ -173,7 +181,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
                 <header class="basis-auto grow-0 shrink-0 px-14 pt-14 pb-5 border-b border-peach-fuzz-300/50">
                   <%= render_slot(@header_block) %>
                 </header>
-                <div class="flex-auto px-14 py-6 max-h-[90vh] overflow-y-auto">
+                <div class="flex-auto px-14 py-6 max-h-[70vh] overflow-y-auto">
                   <%= render_slot(@inner_block) %>
                 </div>
               </div>
@@ -185,7 +193,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
     """
   end
 
-  defp search_notes(search_phrase, default) when is_binary(search_phrase) do
+  defp search_notes(search_phrase, default) when is_bitstring(search_phrase) do
     try do
       Klepsidra.KnowledgeManagement.search_notes_and_highlight_snippet(search_phrase)
     rescue
@@ -194,5 +202,5 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
     end
   end
 
-  defp search_notes(_, default), do: default
+  # defp search_notes(_, default), do: default
 end

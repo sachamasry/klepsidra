@@ -16,7 +16,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
     BEGIN
       INSERT INTO knowledge_management_notes_search(rowid, note_id, title, content,
         summary, tags)
-      VALUES (NEW.rowid, NEW.note_id, NEW.title, NEW.content, NEW.summary, '');
+      VALUES (NEW.rowid, NEW.id, NEW.title, NEW.content, NEW.summary, '');
     END;
     """)
 
