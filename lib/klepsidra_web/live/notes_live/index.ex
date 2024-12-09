@@ -12,6 +12,10 @@ defmodule KlepsidraWeb.NotesLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    socket =
+      socket
+      |> assign(show_search: false)
+
     {:ok,
      stream(
        socket,
@@ -54,6 +58,15 @@ defmodule KlepsidraWeb.NotesLive.Index do
     {:ok, _} = KnowledgeManagement.delete_note(note)
 
     {:noreply, handle_deleted_note(socket, note, :knowledge_management_notes)}
+  end
+
+  @impl true
+  def handle_event("search_notes", _params, socket) do
+    socket =
+      socket
+      |> assign(show_search: true)
+
+    {:noreply, socket}
   end
 
   defp handle_deleted_note(socket, note, source_stream) do
