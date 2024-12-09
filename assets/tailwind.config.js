@@ -12,6 +12,15 @@ module.exports = {
     "../lib/*_web/**/*.*ex",
     '../deps/live_toast/lib/**/*.*ex'
   ],
+  safelist: [
+    'font-bold',
+    'group-hover:font-bold',
+    'underline',
+    'decoration-peach-fuzz-600',
+    'group-hover:decoration-peach-fuzz-50',
+    'text-peach-fuzz-600',
+    'group-hover:text-peach-fuzz-50'
+  ],
   theme: {
     extend: {
       colors: {

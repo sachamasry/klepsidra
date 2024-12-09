@@ -456,7 +456,9 @@ defmodule Klepsidra.KnowledgeManagement do
       select: %{
         id: ns.note_id,
         result:
-          fragment("snippet(knowledge_management_notes_search, -1, \'<b>\', \'</b>\', \'…\', 64)")
+          fragment(
+            "snippet(knowledge_management_notes_search, -1, \'<span class=\"font-semibold group-hover:font-bold underline decoration-peach-fuzz-600 group-hover:decoration-peach-fuzz-50 text-peach-fuzz-600 group-hover:text-peach-fuzz-50\">\', \'</span>\', \'…\', 64)"
+          )
       },
       where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
       order_by: [asc: :rank]

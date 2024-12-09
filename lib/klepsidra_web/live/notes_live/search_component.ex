@@ -52,11 +52,11 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
   def search_input(assigns) do
     ~H"""
     <div class="relative ">
-      <!-- Heroicon name: mini/magnifying-glass -->
+      <.icon name="hero-magnifying-glass-mini" class="absolute top-1/2 -translate-y-1/2 left-4" />
       <input
         {@rest}
         type="text"
-        class="h-12 w-full border-none focus:ring-0 pl-11 pr-4 text-gray-800 placeholder-gray-400 sm:text-sm"
+        class="rounded-md h-12 w-full border-none focus:ring-0 pl-12 pr-4 text-gray-800 placeholder-gray-400 sm:text-sm"
         placeholder="Search the docs.."
         role="combobox"
         aria-expanded="false"
@@ -97,7 +97,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
   def result_item(assigns) do
     ~H"""
     <li
-      class="cursor-default select-none rounded-md px-4 py-2 text-xl bg-zinc-100 hover:bg-zinc-800 hover:text-white hover:cursor-pointer flex flex-row space-x-2 items-center"
+      class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-zinc-100 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-2 items-center"
       id={"option-#{@doc.id}"}
       role="option"
       tabindex="-1"
