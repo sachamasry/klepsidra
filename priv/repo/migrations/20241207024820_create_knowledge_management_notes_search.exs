@@ -4,7 +4,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
   def up do
     execute("""
     CREATE VIRTUAL TABLE IF NOT EXISTS knowledge_management_notes_search
-    USING fts5(id UNINDEXED, title, content, summary, tags,
+    USING fts5(note_id UNINDEXED, title, content, summary, tags,
       tokenize='trigram remove_diacritics 1');
     """)
 
@@ -14,9 +14,9 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
     CREATE TRIGGER IF NOT EXISTS knowledge_management_notes_search_ai
     AFTER INSERT ON knowledge_management_notes
     BEGIN
-      INSERT INTO knowledge_management_notes_search(rowid, id, title, content,
+      INSERT INTO knowledge_management_notes_search(rowid, note_id, title, content,
         summary, tags)
-      VALUES (NEW.rowid, NEW.id, NEW.title, NEW.content, NEW.summary, '');
+      VALUES (NEW.rowid, NEW.note_id, NEW.title, NEW.content, NEW.summary, '');
     END;
     """)
 
@@ -36,7 +36,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
         ON kmnt.tag_id = t.id
         WHERE kmnt.note_id = NEW.note_id
       )
-      WHERE id = NEW.note_id;
+      WHERE note_id = NEW.note_id;
     END;
     """)
 
@@ -77,7 +77,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
         ON kmnt.tag_id = t.id
         WHERE kmnt.note_id = NEW.note_id
       )
-      WHERE id = OLD.note_id;
+      WHERE note_id = OLD.note_id;
     END;
     """)
   end

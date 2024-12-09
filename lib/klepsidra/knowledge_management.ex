@@ -454,7 +454,7 @@ defmodule Klepsidra.KnowledgeManagement do
   def search_notes_and_highlight_snippet(search_phrase) do
     from(ns in NoteSearch,
       select: %{
-        id: ns.id,
+        id: ns.note_id,
         result:
           fragment("snippet(knowledge_management_notes_search, -1, \'<b>\', \'</b>\', \'…\', 64)")
       },

@@ -5,12 +5,15 @@ defmodule Klepsidra.KnowledgeManagement.NoteSearch do
 
   This entity will take in the string fields of the `Notes` entity:
 
-  * title
-  * content
-  * summary
-  * tags (concatenated string list of tag names, for additional discoverability)
+  * `title`
+  * `content`
+  * `summary`
+  * `tags` (concatenated string list of tag names, for additional discoverability)
 
-  creating a copy of the data for its own purposes, generating
+  as well as `note_id`, to be able to refer back to the correct
+  notes record.
+
+  This creates a copy of the data for its own purposes, generating
   _trigram_ idexes on all the above fields, providing substring
   searches.
   """
@@ -18,10 +21,10 @@ defmodule Klepsidra.KnowledgeManagement.NoteSearch do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true, source: :rowid}
-  @foreign_key_type Ecto.UUID
 
   @type t :: %__MODULE__{
-          id: Ecto.UUID.t(),
+          id: integer(),
+          note_id: Ecto.UUID.t(),
           title: String.t(),
           content: String.t(),
           summary: String.t(),
@@ -29,6 +32,7 @@ defmodule Klepsidra.KnowledgeManagement.NoteSearch do
           rank: float()
         }
   schema "knowledge_management_notes_search" do
+    field :note_id, :bitstring
     field :title, :string
     field :content, :string
     field :summary, :string
@@ -39,7 +43,7 @@ defmodule Klepsidra.KnowledgeManagement.NoteSearch do
   @doc false
   def changeset(note_search, attrs) do
     note_search
-    |> cast(attrs, [:id, :title, :content, :summary])
-    |> validate_required([:id, :title, :content])
+    |> cast(attrs, [:id, :note_id, :title, :content, :summary, :tags])
+    |> validate_required([:id, :note_id, :title, :content])
   end
 end
