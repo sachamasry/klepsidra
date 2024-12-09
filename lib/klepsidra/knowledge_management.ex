@@ -430,14 +430,15 @@ defmodule Klepsidra.KnowledgeManagement do
       [%Klepsidra.KnowledgeManagement.NoteSearch{}, ...]
 
   """
-  def search_notes(search_phrase) do
-    from(ns in NoteSearch,
-      select: [:rank, :id, :title, :content, :summary, :tags],
-      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
-      order_by: [asc: :rank]
-    )
-    |> Repo.all()
-  end
+
+  # def search_notes(search_phrase) do
+  #   from(ns in NoteSearch,
+  #     select: [:rank, :id, :title, :content, :summary, :tags],
+  #     where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
+  #     order_by: [asc: :rank]
+  #   )
+  #   |> Repo.all()
+  # end
 
   def search_notes_and_highlight(search_phrase) do
     from(ns in NoteSearch,

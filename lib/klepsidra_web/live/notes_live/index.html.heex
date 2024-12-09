@@ -1,11 +1,16 @@
 <.header>
   Knowledge management notes
   <:actions>
+    <.outline_button>Search notes</.outline_button>
     <.link patch={~p"/knowledge_management/notes/new"}>
       <.outline_button>New note</.outline_button>
     </.link>
   </:actions>
 </.header>
+
+<div>
+  <.live_component module={SearchComponent} id="search-results" show={false} on_cancel={%JS{}} />
+</div>
 
 <.table
   id="knowledge_management_notes"

@@ -8,6 +8,7 @@ defmodule KlepsidraWeb.NotesLive.Index do
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.Note
+  alias KlepsidraWeb.NotesLive.SearchComponent
 
   @impl true
   def mount(_params, _session, socket) do
