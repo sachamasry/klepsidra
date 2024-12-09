@@ -33,11 +33,16 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_new(
-       :notes,
-       fn -> [] end
-     )
-     |> assign_new(:search_query, fn -> "" end)}
+     |> assign(
+       notes: [],
+       search_query: ""
+     )}
+
+    # |> assign_new(
+    #   :notes,
+    #   fn -> [] end
+    # )
+    # |> assign_new(:search_query, fn -> "" end)}
   end
 
   @impl true
@@ -193,13 +198,13 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
     """
   end
 
-  defp search_notes(search_phrase, default) when is_bitstring(search_phrase) do
-    try do
-      Klepsidra.KnowledgeManagement.search_notes_and_highlight_snippet(search_phrase)
-    rescue
-      Exqlite.Error ->
-        default
-    end
+  defp search_notes(search_phrase, _default) when is_bitstring(search_phrase) do
+    # try do
+    Klepsidra.KnowledgeManagement.search_notes_and_highlight_snippet(search_phrase)
+    # rescue
+    #   Exqlite.Error ->
+    #     default
+    # end
   end
 
   # defp search_notes(_, default), do: default

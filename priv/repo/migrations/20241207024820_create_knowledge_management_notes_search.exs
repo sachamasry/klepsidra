@@ -46,7 +46,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
     CREATE TRIGGER IF NOT EXISTS knowledge_management_notes_search_ad
     AFTER DELETE ON knowledge_management_notes
     BEGIN
-      DELETE FROM knowledge_management_notes_search WHERE rowid = OLD.rowid;
+      DELETE FROM knowledge_management_notes_search WHERE note_id = OLD.id;
     END;
     """)
 
