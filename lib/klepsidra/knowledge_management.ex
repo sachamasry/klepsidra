@@ -455,6 +455,8 @@ defmodule Klepsidra.KnowledgeManagement do
     from(ns in NoteSearch,
       select: %{
         id: ns.note_id,
+        title: ns.title,
+        summary: ns.summary,
         result:
           fragment(
             "snippet(knowledge_management_notes_search, -1, \'<span class=\"font-semibold group-hover:font-bold underline decoration-peach-fuzz-600 group-hover:decoration-peach-fuzz-50 text-peach-fuzz-600 group-hover:text-peach-fuzz-50\">\', \'</span>\', \'…\', 64)"

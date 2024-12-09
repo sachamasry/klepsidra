@@ -52,7 +52,7 @@ defmodule KlepsidraWeb.CoreComponents do
     >
       <div
         id={"#{@id}-bg"}
-        class="modal-component__backdrop bg-peach-fuzz-lightness-25/90 border-p fixed inset-0 transition-opacity"
+        class="modal-component__backdrop bg-peach-fuzz-lightness-25/90 fixed inset-0 transition-opacity"
         aria-hidden="true"
       />
       <div
@@ -63,7 +63,7 @@ defmodule KlepsidraWeb.CoreComponents do
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center border-peach-fuzz-300 ">
+        <div class="flex min-h-full items-center justify-center border-peach-fuzz-300">
           <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
             <.focus_wrap
               id={"#{@id}-container"}
