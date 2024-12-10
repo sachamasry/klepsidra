@@ -167,9 +167,9 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden relative rounded-2xl shadow-lg bg-peach-fuzz-lightness-88 shadow-peach-fuzz-300/20 ring-1 ring-peach-fuzz-300/30 transition min-h-[30vh] max-h-[90vh]"
+              class="hidden relative rounded-2xl shadow-lg bg-peach-fuzz-lightness-88 shadow-peach-fuzz-300/20 ring-1 ring-peach-fuzz-300/30 transition min-h-[30vh] max-h-[90vh] py-6"
             >
-              <div class="absolute top-6 right-5">
+              <div class="absolute top-8 right-5">
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
@@ -179,13 +179,34 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
                   <.icon name="hero-x-mark-solid" class="bg-peach-fuzz-500 h-5 w-5" />
                 </button>
               </div>
-              <div id={"#{@id}-content"} class="flex flex-col">
-                <header class="basis-auto grow-0 shrink-0 px-14 pt-14 pb-5 border-b border-peach-fuzz-300/50">
+              <div id={"#{@id}-content"} class="search-results flex flex-col">
+                <header class="search-results__header basis-auto grow-0 shrink-0 px-14 pb-5 border-b border-peach-fuzz-300/50">
                   <%= render_slot(@header_block) %>
                 </header>
-                <div class="flex-auto px-14 py-6 max-h-[70vh] overflow-y-auto">
+                <div class="search-results__body flex-auto px-14 py-6 max-h-[70vh] overflow-y-auto">
                   <%= render_slot(@inner_block) %>
                 </div>
+                <footer class="search-results__footer flex-auto px-14 py-6 border-t border-peach-fuzz-300/50 max-h-[20vh] overflow-y-auto">
+                  <details>
+                    <summary class="text-violet-900">Advanced search suggestions</summary>
+                    <div>
+                      <h4>Searching for phrase nearness</h4>
+                      <p>
+                        To search for specific phrases which appear close to each other, use a
+                        <strong>NEAR</strong>
+                        query.
+                      </p>
+                      <code>NEAR("phrase 1" "phrase 2", distance)</code>
+                      <p>
+                        Where <em>phrase 1</em>
+                        and <em>phrase 2</em>
+                        can be single words or actual phrases of multiple words. You can use as many phrases as needed, in double quotation marks. Use
+                        <em>distance</em>
+                        to specify maximum number of letters separating the phrases.
+                      </p>
+                    </div>
+                  </details>
+                </footer>
               </div>
             </.focus_wrap>
           </div>
