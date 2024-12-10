@@ -1,7 +1,9 @@
 <.header>
   Knowledge management notes
   <:actions>
-    <.outline_button phx-click="search_notes">Search notes</.outline_button>
+    <.outline_button phx-click={JS.push("search_notes", value: %{show_search: true})}>
+      <.icon name="hero-magnifying-glass-mini" />Search notes
+    </.outline_button>
     <.link patch={~p"/knowledge_management/notes/new"}>
       <.outline_button>New note</.outline_button>
     </.link>
@@ -13,7 +15,7 @@
     module={SearchComponent}
     id="search-results"
     show={@show_search}
-    on_cancel={%JS{}}
+    on_cancel={JS.push("search_notes", value: %{show_search: false})}
   />
 </div>
 

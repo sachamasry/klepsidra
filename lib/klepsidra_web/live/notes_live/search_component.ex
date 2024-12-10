@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div id="document-search-container">
       <.search_modal :if={@show} id="search-modal" show on_cancel={@on_cancel}>
         <:header_block>
           <.search_input
@@ -37,12 +37,6 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
        notes: [],
        search_query: ""
      )}
-
-    # |> assign_new(
-    #   :notes,
-    #   fn -> [] end
-    # )
-    # |> assign_new(:search_query, fn -> "" end)}
   end
 
   @impl true
@@ -119,16 +113,17 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
   def result_item(assigns) do
     ~H"""
     <li
-      class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-peach-fuzz-lightness-38 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-2 items-center"
+      class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-peach-fuzz-lightness-38 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-4 items-center"
       id={"option-#{@doc.id}"}
       role="option"
       tabindex="-1"
     >
       <!-- svg of a document -->
+      <.icon name="hero-document-text" class="" />
       <div>
-        <%= @doc.title %>
-        <div :if={@doc.summary} class="text-sm"><%= @doc.summary %></div>
-        <div class="text-xs"><%= @doc.result |> Phoenix.HTML.raw() %></div>
+        <div class="text-lg font-semibold leading-6 text-slate-700"><%= @doc.title %></div>
+        <div :if={@doc.summary} class="text-base leading-6"><%= @doc.summary %></div>
+        <div class="text-sm leading-6 italic"><%= @doc.result |> Phoenix.HTML.raw() %></div>
       </div>
     </li>
     """
@@ -198,14 +193,12 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
     """
   end
 
-  defp search_notes(search_phrase, _default) when is_bitstring(search_phrase) do
-    # try do
-    Klepsidra.KnowledgeManagement.search_notes_and_highlight_snippet(search_phrase)
-    # rescue
-    #   Exqlite.Error ->
-    #     default
-    # end
+  defp search_notes(search_phrase, default) when is_bitstring(search_phrase) do
+    try do
+      Klepsidra.KnowledgeManagement.search_notes_and_highlight_snippet(search_phrase)
+    rescue
+      Exqlite.Error ->
+        default
+    end
   end
-
-  # defp search_notes(_, default), do: default
 end

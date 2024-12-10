@@ -61,10 +61,10 @@ defmodule KlepsidraWeb.NotesLive.Index do
   end
 
   @impl true
-  def handle_event("search_notes", _params, socket) do
+  def handle_event("search_notes", %{"show_search" => show_search}, socket) do
     socket =
       socket
-      |> assign(show_search: true)
+      |> assign(show_search: show_search)
 
     {:noreply, socket}
   end
