@@ -58,7 +58,7 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNotesSearch do
     BEGIN
       UPDATE knowledge_management_notes_search
       SET title = NEW.title, content = NEW.content, summary = NEW.summary
-      WHERE note_id = NEW.note_id;
+      WHERE note_id = NEW.id;
     END;
     """)
 

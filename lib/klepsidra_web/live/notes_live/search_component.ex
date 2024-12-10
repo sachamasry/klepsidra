@@ -86,7 +86,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
 
   def search_results(assigns) do
     ~H"""
-    <ul class="-mb-2 py-2 text-sm text-gray-800 flex space-y-3 flex-col" id="options" role="listbox">
+    <ul class="-mb-2 py-2 text-sm text-gray-800 flex space-y-2 flex-col" id="options" role="listbox">
       <li
         :if={@docs == []}
         id="option-none"
@@ -113,15 +113,17 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
   def result_item(assigns) do
     ~H"""
     <li
-      class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-peach-fuzz-lightness-38 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-4 items-center"
+      class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-peach-fuzz-lightness-38 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-2 items-center"
       id={"option-#{@doc.id}"}
       role="option"
       tabindex="-1"
     >
       <!-- svg of a document -->
-      <.icon name="hero-document-text" class="h-5 w-5" />
+      <.icon name="hero-document-text" class="basis-5 shrink-0 grow-0 h-5 w-5" />
       <div>
-        <div class="text-lg font-semibold leading-6 text-slate-700"><%= @doc.title %></div>
+        <div class="text-lg font-semibold leading-6 text-slate-700 group-hover:text-white group-hover:font-bold">
+          <%= @doc.title %>
+        </div>
         <div :if={@doc.summary} class="text-base leading-6"><%= @doc.summary %></div>
         <div class="text-sm leading-6 italic"><%= @doc.result |> Phoenix.HTML.raw() %></div>
       </div>
