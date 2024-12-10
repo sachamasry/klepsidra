@@ -35,7 +35,7 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
         rendered_content: "some rendered_content",
         rendered_content_format: :html,
         summary: "some summary",
-        status: :draft,
+        status: :literature,
         review_date: ~D[2024-12-02],
         pinned: true,
         attachments: %{},

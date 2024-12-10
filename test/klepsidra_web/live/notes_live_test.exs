@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.NotesLiveTest do
     # rendered_content: "some rendered_content",
     # rendered_content_format: :html,
     summary: "some summary",
-    status: :draft,
+    status: :reference,
     review_date: "2024-12-02"
     # pinned: true
     # priority: 42

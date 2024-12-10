@@ -90,7 +90,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
           label="Content format"
           prompt="Choose a value"
           selected="markdown"
-          options={Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :content_format)}
+          options={@content_format_options}
         />
         <.input field={@form[:summary]} type="text" label="Summary" />
         <.input
@@ -99,7 +99,7 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
           label="Status"
           prompt="Choose a value"
           selected="fleeting"
-          options={Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :status)}
+          options={@status_options}
         />
         <.input field={@form[:review_date]} type="date" label="Review date" />
         <:actions>
@@ -113,6 +113,14 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
   @impl true
   def update(%{note: note} = assigns, socket) do
     note = note |> Repo.preload(:tags)
+
+    status_options =
+      Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :status)
+      |> Enum.map(fn i -> {i |> Atom.to_string() |> String.capitalize(), i} end)
+
+    content_format_options =
+      Ecto.Enum.values(Klepsidra.KnowledgeManagement.Note, :content_format)
+      |> Enum.map(fn i -> {i |> Atom.to_string() |> String.capitalize(), i} end)
 
     socket =
       socket
@@ -130,7 +138,11 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
       |> assign_new(:form, fn ->
         to_form(KnowledgeManagement.change_note(note))
       end)
-      |> assign(new_tag_colour: {"#94a3b8", "#fff"})
+      |> assign(
+        new_tag_colour: {"#94a3b8", "#fff"},
+        content_format_options: content_format_options,
+        status_options: status_options
+      )
 
     {:ok, socket}
   end

@@ -45,6 +45,8 @@ defmodule KlepsidraWeb.NotesLive.Show do
 
     note = KnowledgeManagement.get_note!(note_id) |> Repo.preload(:tags)
 
+    formatted_status = note.status |> Atom.to_string() |> String.capitalize()
+
     socket =
       socket
       |> TagUtilities.generate_tag_options(
@@ -59,7 +61,8 @@ defmodule KlepsidraWeb.NotesLive.Show do
       )
       |> assign(
         live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
-        new_tag_colour: {"#94a3b8", "#fff"}
+        new_tag_colour: {"#94a3b8", "#fff"},
+        formatted_status: formatted_status
       )
 
     {:ok, socket}

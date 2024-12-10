@@ -36,11 +36,11 @@ defmodule Klepsidra.KnowledgeManagement.Note do
   schema "knowledge_management_notes" do
     field :title, :string
     field :content, :string
-    field :content_format, Ecto.Enum, values: [:markdown, :"org-mode", :plaintext]
+    field :content_format, Ecto.Enum, values: [:markdown, :"org-mode", :wikitext, :plaintext]
     field :rendered_content, :string
-    field :rendered_content_format, Ecto.Enum, values: [:html, :pdf, :plaintext]
+    field :rendered_content_format, Ecto.Enum, values: [:html, :markdown, :pdf, :plaintext]
     field :summary, :string
-    field :status, Ecto.Enum, values: [:draft, :fleeting, :evergreen, :archived]
+    field :status, Ecto.Enum, values: [:fleeting, :literature, :reference, :permanent, :archived]
     field :review_date, :date
     field :pinned, :boolean, default: false
     field :attachments, :map
