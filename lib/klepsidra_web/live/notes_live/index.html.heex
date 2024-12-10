@@ -2,10 +2,12 @@
   Knowledge management notes
   <:actions>
     <.outline_button phx-click={JS.push("search_notes", value: %{show_search: true})}>
-      <.icon name="hero-magnifying-glass-mini" />Search notes
+      <.icon name="hero-magnifying-glass" />Search notes
     </.outline_button>
     <.link patch={~p"/knowledge_management/notes/new"}>
-      <.outline_button>New note</.outline_button>
+      <.outline_button>
+        <.icon name="hero-plus" /> New note
+      </.outline_button>
     </.link>
   </:actions>
 </.header>

@@ -119,7 +119,7 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
       tabindex="-1"
     >
       <!-- svg of a document -->
-      <.icon name="hero-document-text" class="" />
+      <.icon name="hero-document-text" class="h-5 w-5" />
       <div>
         <div class="text-lg font-semibold leading-6 text-slate-700"><%= @doc.title %></div>
         <div :if={@doc.summary} class="text-base leading-6"><%= @doc.summary %></div>
