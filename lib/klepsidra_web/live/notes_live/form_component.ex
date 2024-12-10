@@ -31,7 +31,12 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" label="Title" />
+        <.input
+          field={@form[:title]}
+          type="text"
+          label="Title"
+          placeholder="Unique and meaningful title for the note"
+        />
 
         <div id="tag-selector" class={"flex #{if @selected_tag_queue != [], do: "gap-2"}"}>
           <div
@@ -83,21 +88,26 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
           </.tag_add_button>
         </div>
 
-        <.input field={@form[:content]} type="textarea" label="Note content" />
+        <.input field={@form[:content]} type="textarea" label="Note" placeholder="Type your note" />
         <.input
           field={@form[:content_format]}
           type="select"
-          label="Content format"
-          prompt="Choose a value"
+          label="Note format"
+          prompt="Choose a format"
           selected="markdown"
           options={@content_format_options}
         />
-        <.input field={@form[:summary]} type="text" label="Summary" />
+        <.input
+          field={@form[:summary]}
+          type="text"
+          label="Summary"
+          placeholder="Brief summary or abstract of the note"
+        />
         <.input
           field={@form[:status]}
           type="select"
           label="Status"
-          prompt="Choose a value"
+          prompt="Choose a status"
           selected="fleeting"
           options={@status_options}
         />
