@@ -1,32 +1,30 @@
 <.header>
   Relationship type <%= @relationship_type.id %>
-  <:subtitle>This is a relationship_type record from your database.</:subtitle>
+  <:subtitle></:subtitle>
   <:actions>
     <.link
-      patch={~p"/knowledge_management_relationship_types/#{@relationship_type}/show/edit"}
+      patch={~p"/knowledge_management/relationship_types/#{@relationship_type}/show/edit"}
       phx-click={JS.push_focus()}
     >
-      <.button>Edit relationship_type</.button>
+      <.outline_button>Edit relationship type</.outline_button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Id"><%= @relationship_type.id %></:item>
   <:item title="Name"><%= @relationship_type.name %></:item>
   <:item title="Description"><%= @relationship_type.description %></:item>
-  <:item title="Is predefined"><%= @relationship_type.is_predefined %></:item>
 </.list>
 
-<.back navigate={~p"/knowledge_management_relationship_types"}>
-  Back to knowledge_management_relationship_types
+<.back navigate={~p"/knowledge_management/relationship_types"}>
+  Back to relationship types
 </.back>
 
 <.modal
   :if={@live_action == :edit}
   id="relationship_type-modal"
   show
-  on_cancel={JS.patch(~p"/knowledge_management_relationship_types/#{@relationship_type}")}
+  on_cancel={JS.patch(~p"/knowledge_management/relationship_types/#{@relationship_type}")}
 >
   <.live_component
     module={KlepsidraWeb.RelationshipTypeLive.FormComponent}
@@ -34,6 +32,6 @@
     title={@page_title}
     action={@live_action}
     relationship_type={@relationship_type}
-    patch={~p"/knowledge_management_relationship_types/#{@relationship_type}"}
+    patch={~p"/knowledge_management/relationship_types/#{@relationship_type}"}
   />
 </.modal>

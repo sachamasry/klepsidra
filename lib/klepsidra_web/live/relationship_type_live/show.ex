@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Show do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.KnowledgeManagement
 
@@ -18,6 +19,6 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Show do
      |> assign(:relationship_type, KnowledgeManagement.get_relationship_type!(id))}
   end
 
-  defp page_title(:show), do: "Show Relationship type"
-  defp page_title(:edit), do: "Edit Relationship type"
+  defp page_title(:show), do: "Show relationship type"
+  defp page_title(:edit), do: "Edit relationship type"
 end

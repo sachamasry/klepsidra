@@ -17,7 +17,6 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementRelationshipTypes d
         comment: "The relationship type; must be unique and meaningful"
 
       add :description, :text,
-        null: false,
         comment: "Brief description of relationship type and its use in knowledge management"
 
       add :is_predefined, :boolean,

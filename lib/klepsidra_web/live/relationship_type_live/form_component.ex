@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage relationship_type records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -21,12 +21,10 @@ defmodule KlepsidraWeb.RelationshipTypeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:id]} type="text" label="Id" />
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:is_predefined]} type="checkbox" label="Is predefined" />
+        <.input field={@form[:description]} type="textarea" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Relationship type</.button>
+          <.button phx-disable-with="Saving...">Save</.button>
         </:actions>
       </.simple_form>
     </div>

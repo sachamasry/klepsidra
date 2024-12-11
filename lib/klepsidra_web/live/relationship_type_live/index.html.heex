@@ -1,8 +1,8 @@
 <.header>
-  Listing Knowledge management relationship types
+  Knowledge management relationship types
   <:actions>
-    <.link patch={~p"/knowledge_management_relationship_types/new"}>
-      <.button>New Relationship type</.button>
+    <.link patch={~p"/knowledge_management/relationship_types/new"}>
+      <.outline_button>New relationship type</.outline_button>
     </.link>
   </:actions>
 </.header>
@@ -12,7 +12,7 @@
   rows={@streams.knowledge_management_relationship_types}
   row_click={
     fn {_id, relationship_type} ->
-      JS.navigate(~p"/knowledge_management_relationship_types/#{relationship_type}")
+      JS.navigate(~p"/knowledge_management/relationship_types/#{relationship_type}")
     end
   }
 >
@@ -22,16 +22,13 @@
   <:col :let={{_id, relationship_type}} label="Description">
     <%= relationship_type.description %>
   </:col>
-  <:col :let={{_id, relationship_type}} label="Is predefined">
-    <%= relationship_type.is_predefined %>
-  </:col>
   <:action :let={{_id, relationship_type}}>
     <div class="sr-only">
-      <.link navigate={~p"/knowledge_management_relationship_types/#{relationship_type}"}>
+      <.link navigate={~p"/knowledge_management/relationship_types/#{relationship_type}"}>
         Show
       </.link>
     </div>
-    <.link patch={~p"/knowledge_management_relationship_types/#{relationship_type}/edit"}>
+    <.link patch={~p"/knowledge_management/relationship_types/#{relationship_type}/edit"}>
       Edit
     </.link>
   </:action>
@@ -49,7 +46,7 @@
   :if={@live_action in [:new, :edit]}
   id="relationship_type-modal"
   show
-  on_cancel={JS.patch(~p"/knowledge_management_relationship_types")}
+  on_cancel={JS.patch(~p"/knowledge_management/relationship_types")}
 >
   <.live_component
     module={KlepsidraWeb.RelationshipTypeLive.FormComponent}
@@ -57,6 +54,6 @@
     title={@page_title}
     action={@live_action}
     relationship_type={@relationship_type}
-    patch={~p"/knowledge_management_relationship_types"}
+    patch={~p"/knowledge_management/relationship_types"}
   />
 </.modal>

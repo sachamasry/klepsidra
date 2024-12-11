@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Index do
   @moduledoc false
 
   use KlepsidraWeb, :live_view
+  import KlepsidraWeb.ButtonComponents
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.RelationshipType
@@ -23,19 +24,19 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Relationship type")
+    |> assign(:page_title, "Edit relationship type")
     |> assign(:relationship_type, KnowledgeManagement.get_relationship_type!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Relationship type")
+    |> assign(:page_title, "New relationship type")
     |> assign(:relationship_type, %RelationshipType{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Knowledge management relationship types")
+    |> assign(:page_title, "Relationship types")
     |> assign(:relationship_type, nil)
   end
 
