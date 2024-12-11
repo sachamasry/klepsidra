@@ -9,6 +9,7 @@ defmodule KlepsidraWeb.NotesLive.Show do
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
   alias Klepsidra.KnowledgeManagement
+  alias KlepsidraWeb.NotesLive.NoteRelationshipComponent
   alias Klepsidra.Repo
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
@@ -62,7 +63,8 @@ defmodule KlepsidraWeb.NotesLive.Show do
       |> assign(
         live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
         new_tag_colour: {"#94a3b8", "#fff"},
-        formatted_status: formatted_status
+        formatted_status: formatted_status,
+        note_id: note_id
       )
 
     {:ok, socket}

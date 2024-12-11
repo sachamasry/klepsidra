@@ -6,7 +6,6 @@ defmodule KlepsidraWeb.TimerLive.Show do
   import KlepsidraWeb.ButtonComponents
   import LiveToast
 
-  import KlepsidraWeb.ButtonComponents
   alias Klepsidra.Categorisation
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS

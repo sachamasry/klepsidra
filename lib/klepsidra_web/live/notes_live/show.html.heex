@@ -10,7 +10,7 @@
 
 <article :if={@note.rendered_content_format == :html} class="max-w-prose">
   <%= @note.rendered_content |> Phoenix.HTML.raw() %>
-  <footer class="text-sm text-violet-400 mt-5">
+  <footer class="text-sm text-violet-800 mt-5">
     <p>
       Created on <time><%= @note.inserted_at %></time>
       <br />Last edited on <time><%= @note.updated_at %></time>
@@ -81,6 +81,13 @@
     </.tag_add_button>
   </div>
 </.form>
+
+<.live_component
+  module={NoteRelationshipComponent}
+  id={:new_note_relationship}
+  note_id={@note_id}
+  action={:new_note_relationship}
+/>
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>
 
