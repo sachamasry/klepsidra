@@ -19,6 +19,10 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementRelationshipTypes d
       add :description, :text,
         comment: "Brief description of relationship type and its use in knowledge management"
 
+      add :default, :boolean,
+        default: false,
+        comment: "Set this as a default, generic relationship type"
+
       add :is_predefined, :boolean,
         default: false,
         null: false,

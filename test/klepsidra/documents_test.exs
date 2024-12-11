@@ -187,7 +187,7 @@ defmodule Klepsidra.DocumentsTest do
   end
 
   describe "user_documents" do
-    alias Klepsidra.Documents.UserDocument
+    # alias Klepsidra.Documents.UserDocument
 
     import Klepsidra.DocumentsFixtures
 

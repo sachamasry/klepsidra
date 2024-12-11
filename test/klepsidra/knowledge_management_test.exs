@@ -364,7 +364,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
 
     import Klepsidra.KnowledgeManagementFixtures
 
-    @invalid_attrs %{name: nil, description: nil, is_predefined: nil}
+    @invalid_attrs %{name: nil, description: nil, default: false, is_predefined: nil}
 
     test "list_knowledge_management_relationship_types/0 returns all knowledge_management_relationship_types" do
       relationship_type = relationship_type_fixture()
@@ -405,6 +405,7 @@ defmodule Klepsidra.KnowledgeManagementTest do
       update_attrs = %{
         name: "some updated name",
         description: "some updated description",
+        default: true,
         is_predefined: false
       }
 

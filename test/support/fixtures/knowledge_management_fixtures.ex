@@ -89,6 +89,7 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
       |> Enum.into(%{
         name: "some relationship type",
         description: "some description",
+        default: true,
         is_predefined: true
       })
       |> Klepsidra.KnowledgeManagement.create_relationship_type()
