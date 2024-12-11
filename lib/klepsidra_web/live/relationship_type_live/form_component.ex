@@ -2,6 +2,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.FormComponent do
   @moduledoc false
 
   use KlepsidraWeb, :live_component
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
 
@@ -66,7 +67,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Relationship type updated successfully")
+         |> put_toast(:info, "Relationship type updated successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -81,7 +82,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Relationship type created successfully")
+         |> put_toast(:info, "Relationship type created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

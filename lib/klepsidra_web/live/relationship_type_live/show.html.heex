@@ -1,6 +1,6 @@
 <.header>
-  Relationship type <%= @relationship_type.id %>
-  <:subtitle></:subtitle>
+  <%= @relationship_type.name %>
+  <:subtitle><%= @relationship_type.description %></:subtitle>
   <:actions>
     <.link
       patch={~p"/knowledge_management/relationship_types/#{@relationship_type}/show/edit"}
@@ -10,11 +10,6 @@
     </.link>
   </:actions>
 </.header>
-
-<.list>
-  <:item title="Name"><%= @relationship_type.name %></:item>
-  <:item title="Description"><%= @relationship_type.description %></:item>
-</.list>
 
 <.back navigate={~p"/knowledge_management/relationship_types"}>
   Back to relationship types

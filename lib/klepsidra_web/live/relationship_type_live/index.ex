@@ -3,6 +3,7 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Index do
 
   use KlepsidraWeb, :live_view
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.RelationshipType
@@ -53,6 +54,17 @@ defmodule KlepsidraWeb.RelationshipTypeLive.Index do
     relationship_type = KnowledgeManagement.get_relationship_type!(id)
     {:ok, _} = KnowledgeManagement.delete_relationship_type(relationship_type)
 
-    {:noreply, stream_delete(socket, :knowledge_management_relationship_types, relationship_type)}
+    {:noreply,
+     handle_deleted_relationship_type(
+       socket,
+       relationship_type,
+       :knowledge_management_relationship_types
+     )}
+  end
+
+  defp handle_deleted_relationship_type(socket, relationship_type, source_stream) do
+    socket
+    |> stream_delete(source_stream, relationship_type)
+    |> put_toast(:info, "Relationship type deleted successfully")
   end
 end
