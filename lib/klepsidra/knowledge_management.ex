@@ -540,7 +540,7 @@ defmodule Klepsidra.KnowledgeManagement do
 
   """
   def list_knowledge_management_relationship_types do
-    Repo.all(RelationshipType)
+    RelationshipType |> order_by(asc: :name) |> Repo.all()
   end
 
   @doc """
