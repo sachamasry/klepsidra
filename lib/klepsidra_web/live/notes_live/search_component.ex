@@ -189,8 +189,8 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
                 <footer class="search-results__footer flex-auto px-14 py-6 border-t border-peach-fuzz-300/50 max-h-[20vh] overflow-y-auto">
                   <details>
                     <summary class="text-violet-900">Advanced search suggestions</summary>
-                    <div>
-                      <h4>Searching for phrase nearness</h4>
+                    <details>
+                      <summary>Searching for phrase nearness</summary>
                       <p>
                         To search for specific phrases which appear close to each other, use a
                         <strong>NEAR</strong>
@@ -204,7 +204,13 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
                         <em>distance</em>
                         to specify maximum number of letters separating the phrases.
                       </p>
-                    </div>
+                    </details>
+                    <details>
+                      <summary>Searching by column</summary>
+                    </details>
+                    <details>
+                      <summary>Boolean operators</summary>
+                    </details>
                   </details>
                 </footer>
               </div>

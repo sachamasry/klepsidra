@@ -358,4 +358,87 @@ defmodule Klepsidra.KnowledgeManagementTest do
   #     assert %Ecto.Changeset{} = KnowledgeManagement.change_note_search(note_search)
   #   end
   # end
+
+  describe "knowledge_management_relationship_types" do
+    alias Klepsidra.KnowledgeManagement.RelationshipType
+
+    import Klepsidra.KnowledgeManagementFixtures
+
+    @invalid_attrs %{name: nil, description: nil, is_predefined: nil}
+
+    test "list_knowledge_management_relationship_types/0 returns all knowledge_management_relationship_types" do
+      relationship_type = relationship_type_fixture()
+
+      assert KnowledgeManagement.list_knowledge_management_relationship_types() == [
+               relationship_type
+             ]
+    end
+
+    test "get_relationship_type!/1 returns the relationship_type with given id" do
+      relationship_type = relationship_type_fixture()
+      assert KnowledgeManagement.get_relationship_type!(relationship_type.id) == relationship_type
+    end
+
+    test "create_relationship_type/1 with valid data creates a relationship_type" do
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        is_predefined: true
+      }
+
+      assert {:ok, %RelationshipType{} = relationship_type} =
+               KnowledgeManagement.create_relationship_type(valid_attrs)
+
+      assert relationship_type.name == "some name"
+      assert relationship_type.description == "some description"
+      assert relationship_type.is_predefined == true
+    end
+
+    test "create_relationship_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+               KnowledgeManagement.create_relationship_type(@invalid_attrs)
+    end
+
+    test "update_relationship_type/2 with valid data updates the relationship_type" do
+      relationship_type = relationship_type_fixture()
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        is_predefined: false
+      }
+
+      assert {:ok, %RelationshipType{} = relationship_type} =
+               KnowledgeManagement.update_relationship_type(relationship_type, update_attrs)
+
+      assert relationship_type.name == "some updated name"
+      assert relationship_type.description == "some updated description"
+      assert relationship_type.is_predefined == false
+    end
+
+    test "update_relationship_type/2 with invalid data returns error changeset" do
+      relationship_type = relationship_type_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               KnowledgeManagement.update_relationship_type(relationship_type, @invalid_attrs)
+
+      assert relationship_type == KnowledgeManagement.get_relationship_type!(relationship_type.id)
+    end
+
+    test "delete_relationship_type/1 deletes the relationship_type" do
+      relationship_type = relationship_type_fixture()
+
+      assert {:ok, %RelationshipType{}} =
+               KnowledgeManagement.delete_relationship_type(relationship_type)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        KnowledgeManagement.get_relationship_type!(relationship_type.id)
+      end
+    end
+
+    test "change_relationship_type/1 returns a relationship_type changeset" do
+      relationship_type = relationship_type_fixture()
+      assert %Ecto.Changeset{} = KnowledgeManagement.change_relationship_type(relationship_type)
+    end
+  end
 end

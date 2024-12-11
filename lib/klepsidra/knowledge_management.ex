@@ -527,4 +527,100 @@ defmodule Klepsidra.KnowledgeManagement do
   # ON kmnt.tag_id = t.id 
 
   # GROUP BY kmn.id, kmn.title, kmn.content, kmn.summary 
+
+  alias Klepsidra.KnowledgeManagement.RelationshipType
+
+  @doc """
+  Returns the list of knowledge_management_relationship_types.
+
+  ## Examples
+
+      iex> list_knowledge_management_relationship_types()
+      [%RelationshipType{}, ...]
+
+  """
+  def list_knowledge_management_relationship_types do
+    Repo.all(RelationshipType)
+  end
+
+  @doc """
+  Gets a single relationship_type.
+
+  Raises `Ecto.NoResultsError` if the Relationship type does not exist.
+
+  ## Examples
+
+      iex> get_relationship_type!(123)
+      %RelationshipType{}
+
+      iex> get_relationship_type!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_relationship_type!(id), do: Repo.get!(RelationshipType, id)
+
+  @doc """
+  Creates a relationship_type.
+
+  ## Examples
+
+      iex> create_relationship_type(%{field: value})
+      {:ok, %RelationshipType{}}
+
+      iex> create_relationship_type(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_relationship_type(attrs \\ %{}) do
+    %RelationshipType{}
+    |> RelationshipType.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a relationship_type.
+
+  ## Examples
+
+      iex> update_relationship_type(relationship_type, %{field: new_value})
+      {:ok, %RelationshipType{}}
+
+      iex> update_relationship_type(relationship_type, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_relationship_type(%RelationshipType{} = relationship_type, attrs) do
+    relationship_type
+    |> RelationshipType.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a relationship_type.
+
+  ## Examples
+
+      iex> delete_relationship_type(relationship_type)
+      {:ok, %RelationshipType{}}
+
+      iex> delete_relationship_type(relationship_type)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_relationship_type(%RelationshipType{} = relationship_type) do
+    Repo.delete(relationship_type)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking relationship_type changes.
+
+  ## Examples
+
+      iex> change_relationship_type(relationship_type)
+      %Ecto.Changeset{data: %RelationshipType{}}
+
+  """
+  def change_relationship_type(%RelationshipType{} = relationship_type, attrs \\ %{}) do
+    RelationshipType.changeset(relationship_type, attrs)
+  end
 end

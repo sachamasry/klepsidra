@@ -79,4 +79,20 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
 
     note_tags
   end
+
+  @doc """
+  Generate a relationship_type.
+  """
+  def relationship_type_fixture(attrs \\ %{}) do
+    {:ok, relationship_type} =
+      attrs
+      |> Enum.into(%{
+        name: "some relationship type",
+        description: "some description",
+        is_predefined: true
+      })
+      |> Klepsidra.KnowledgeManagement.create_relationship_type()
+
+    relationship_type
+  end
 end

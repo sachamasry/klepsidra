@@ -155,6 +155,16 @@ defmodule KlepsidraWeb.Router do
 
     live "/trips/:id", TripLive.Show, :show
     live "/trips/:id/show/edit", TripLive.Show, :edit
+
+    live "/knowledge_management_relationship_types", RelationshipTypeLive.Index, :index
+    live "/knowledge_management_relationship_types/new", RelationshipTypeLive.Index, :new
+    live "/knowledge_management_relationship_types/:id/edit", RelationshipTypeLive.Index, :edit
+
+    live "/knowledge_management_relationship_types/:id", RelationshipTypeLive.Show, :show
+
+    live "/knowledge_management_relationship_types/:id/show/edit",
+         RelationshipTypeLive.Show,
+         :edit
   end
 
   # Other scopes may use custom stacks.

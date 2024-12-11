@@ -40,7 +40,10 @@ defmodule Klepsidra.KnowledgeManagement.Note do
     field :rendered_content, :string
     field :rendered_content_format, Ecto.Enum, values: [:html, :markdown, :pdf, :plaintext]
     field :summary, :string
-    field :status, Ecto.Enum, values: [:fleeting, :literature, :reference, :permanent, :archived]
+
+    field :status, Ecto.Enum,
+      values: [:fleeting, :literature, :reference, :permanent, :hub, :archived]
+
     field :review_date, :date
     field :pinned, :boolean, default: false
     field :attachments, :map

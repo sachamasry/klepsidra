@@ -2675,6 +2675,19 @@ CREATE TABLE knowledge_management_annotation_tags (
 
 <!-- livebook:{"break_markdown":true} -->
 
+Table `knowledge_management_relationship_types`
+
+```sql
+CREATE TABLE knowledge_management_relationship_types(
+    relationship_id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,  -- Relationship name
+    description TEXT,           -- Explanation of the relationship type
+    is_predefined BOOLEAN DEFAULT 1 -- Indicates if the type is part of the tight list
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
 Table `knowledge_management_links`
 
 Handles interconnections between notes.
@@ -2684,10 +2697,13 @@ CREATE TABLE knowledge_management_links (
     link_id SERIAL PRIMARY KEY,
     source_note_id UUID NOT NULL,
     target_note_id UUID NOT NULL,
-    link_type ENUM('reference', 'embed', 'transclusion') NOT NULL,
+    relationship_type_id INTEGER NOT NULL,
+    description TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (source_note_id) REFERENCES knowledge_management_notes (note_id),
     FOREIGN KEY (target_note_id) REFERENCES knowledge_management_notes (note_id)
+    FOREIGN KEY (relationship_type_id) REFERENCES knowledge_management_relationship_types (relationship_id)
+
 );
 ```
 

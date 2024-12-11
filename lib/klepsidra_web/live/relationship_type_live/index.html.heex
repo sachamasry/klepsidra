@@ -1,0 +1,62 @@
+<.header>
+  Listing Knowledge management relationship types
+  <:actions>
+    <.link patch={~p"/knowledge_management_relationship_types/new"}>
+      <.button>New Relationship type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="knowledge_management_relationship_types"
+  rows={@streams.knowledge_management_relationship_types}
+  row_click={
+    fn {_id, relationship_type} ->
+      JS.navigate(~p"/knowledge_management_relationship_types/#{relationship_type}")
+    end
+  }
+>
+  <:col :let={{_id, relationship_type}} label="Name">
+    <%= relationship_type.name %>
+  </:col>
+  <:col :let={{_id, relationship_type}} label="Description">
+    <%= relationship_type.description %>
+  </:col>
+  <:col :let={{_id, relationship_type}} label="Is predefined">
+    <%= relationship_type.is_predefined %>
+  </:col>
+  <:action :let={{_id, relationship_type}}>
+    <div class="sr-only">
+      <.link navigate={~p"/knowledge_management_relationship_types/#{relationship_type}"}>
+        Show
+      </.link>
+    </div>
+    <.link patch={~p"/knowledge_management_relationship_types/#{relationship_type}/edit"}>
+      Edit
+    </.link>
+  </:action>
+  <:action :let={{id, relationship_type}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: relationship_type.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="relationship_type-modal"
+  show
+  on_cancel={JS.patch(~p"/knowledge_management_relationship_types")}
+>
+  <.live_component
+    module={KlepsidraWeb.RelationshipTypeLive.FormComponent}
+    id={@relationship_type.id || :new}
+    title={@page_title}
+    action={@live_action}
+    relationship_type={@relationship_type}
+    patch={~p"/knowledge_management_relationship_types"}
+  />
+</.modal>
