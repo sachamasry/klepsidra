@@ -96,4 +96,21 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
 
     relationship_type
   end
+
+  @doc """
+  Generate a note_relation.
+  """
+  def note_relation_fixture(attrs \\ %{}) do
+    {:ok, note_relation} =
+      attrs
+      |> Enum.into(%{
+        source_note_id: "7488a646-e31f-11e4-aace-600308960662",
+        target_note_id: "7488a646-e31f-11e4-aace-600308960662",
+        relationship_type_id: "7488a646-e31f-11e4-aace-600308960662",
+        properties: %{}
+      })
+      |> Klepsidra.KnowledgeManagement.create_note_relation()
+
+    note_relation
+  end
 end

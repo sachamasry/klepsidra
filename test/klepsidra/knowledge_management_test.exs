@@ -442,4 +442,91 @@ defmodule Klepsidra.KnowledgeManagementTest do
       assert %Ecto.Changeset{} = KnowledgeManagement.change_relationship_type(relationship_type)
     end
   end
+
+  describe "knowledge_management_note_relations" do
+    alias Klepsidra.KnowledgeManagement.NoteRelation
+
+    import Klepsidra.KnowledgeManagementFixtures
+
+    @invalid_attrs %{
+      source_note_id: nil,
+      target_note_id: nil,
+      relationship_type_id: nil,
+      properties: nil
+    }
+
+    # test "list_knowledge_management_note_relations/0 returns all knowledge_management_note_relations" do
+    #   note_relation = note_relation_fixture()
+    #   assert KnowledgeManagement.list_knowledge_management_note_relations() == [note_relation]
+    # end
+
+    # test "get_note_relation!/1 returns the note_relation with given id" do
+    #   note_relation = note_relation_fixture()
+    #   assert KnowledgeManagement.get_note_relation!(note_relation.id) == note_relation
+    # end
+
+    # test "create_note_relation/1 with valid data creates a note_relation" do
+    #   valid_attrs = %{
+    #     source_note_id: "7488a646-e31f-11e4-aace-600308960662",
+    #     target_note_id: "7488a646-e31f-11e4-aace-600308960662",
+    #     relationship_type_id: "7488a646-e31f-11e4-aace-600308960662",
+    #     properties: %{}
+    #   }
+
+    #   assert {:ok, %NoteRelation{} = note_relation} =
+    #            KnowledgeManagement.create_note_relation(valid_attrs)
+
+    #   assert note_relation.source_note_id == "7488a646-e31f-11e4-aace-600308960662"
+    #   assert note_relation.target_note_id == "7488a646-e31f-11e4-aace-600308960662"
+    #   assert note_relation.relationship_type_id == "7488a646-e31f-11e4-aace-600308960662"
+    #   assert note_relation.properties == %{}
+    # end
+
+    # test "create_note_relation/1 with invalid data returns error changeset" do
+    #   assert {:error, %Ecto.Changeset{}} =
+    #            KnowledgeManagement.create_note_relation(@invalid_attrs)
+    # end
+
+    # test "update_note_relation/2 with valid data updates the note_relation" do
+    #   note_relation = note_relation_fixture()
+
+    #   update_attrs = %{
+    #     source_note_id: "7488a646-e31f-11e4-aace-600308960668",
+    #     target_note_id: "7488a646-e31f-11e4-aace-600308960668",
+    #     relationship_type_id: "7488a646-e31f-11e4-aace-600308960668",
+    #     properties: %{}
+    #   }
+
+    #   assert {:ok, %NoteRelation{} = note_relation} =
+    #            KnowledgeManagement.update_note_relation(note_relation, update_attrs)
+
+    #   assert note_relation.source_note_id == "7488a646-e31f-11e4-aace-600308960668"
+    #   assert note_relation.target_note_id == "7488a646-e31f-11e4-aace-600308960668"
+    #   assert note_relation.relationship_type_id == "7488a646-e31f-11e4-aace-600308960668"
+    #   assert note_relation.properties == %{}
+    # end
+
+    # test "update_note_relation/2 with invalid data returns error changeset" do
+    #   note_relation = note_relation_fixture()
+
+    #   assert {:error, %Ecto.Changeset{}} =
+    #            KnowledgeManagement.update_note_relation(note_relation, @invalid_attrs)
+
+    #   assert note_relation == KnowledgeManagement.get_note_relation!(note_relation.id)
+    # end
+
+    # test "delete_note_relation/1 deletes the note_relation" do
+    #   note_relation = note_relation_fixture()
+    #   assert {:ok, %NoteRelation{}} = KnowledgeManagement.delete_note_relation(note_relation)
+
+    #   assert_raise Ecto.NoResultsError, fn ->
+    #     KnowledgeManagement.get_note_relation!(note_relation.id)
+    #   end
+    # end
+
+    # test "change_note_relation/1 returns a note_relation changeset" do
+    #   note_relation = note_relation_fixture()
+    #   assert %Ecto.Changeset{} = KnowledgeManagement.change_note_relation(note_relation)
+    # end
+  end
 end

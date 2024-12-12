@@ -623,4 +623,146 @@ defmodule Klepsidra.KnowledgeManagement do
   def change_relationship_type(%RelationshipType{} = relationship_type, attrs \\ %{}) do
     RelationshipType.changeset(relationship_type, attrs)
   end
+
+  alias Klepsidra.KnowledgeManagement.NoteRelation
+
+  @doc """
+  Returns the list of knowledge_management_note_relations.
+
+  ## Examples
+
+      iex> list_knowledge_management_note_relations()
+      [%NoteRelation{}, ...]
+
+  """
+  def list_knowledge_management_note_relations do
+    Repo.all(NoteRelation)
+  end
+
+  @doc """
+  Gets a single note relation.
+
+  Raises `Ecto.NoResultsError` if the note relation does not exist.
+
+  ## Examples
+
+      iex> get_note_relation!(123, 234, 345)
+      %NoteRelation{}
+
+      iex> get_note_relation!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+
+  @spec get_note_relation!(
+          source_note_id :: Ecto.UUID.t(),
+          target_note_id :: Ecto.UUID.t(),
+          relationship_type_id :: Ecto.UUID.t()
+        ) :: [NoteRelation.t(), ...]
+  def get_note_relation!(source_note_id, target_note_id, relationship_type_id) do
+    query =
+      from nr in NoteRelation,
+        where:
+          nr.source_note_id == ^source_note_id and nr.target_note_id == ^target_note_id and
+            nr.relationship_type_id == ^relationship_type_id
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Creates a new note relation.
+
+  ## Examples
+
+      iex> create_note_relation(%{field: value})
+      {:ok, %NoteRelation{}}
+
+      iex> create_note_relation(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_note_relation(attrs :: map()) ::
+          {:ok, NoteRelation.t()}
+  def create_note_relation(attrs \\ %{}) do
+    # now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+
+    # # Check if the relation already exists 
+    # existing_relation =
+    #   Repo.get_by(NoteRelation,
+    #     source_note_id: attrs.source_note_id,
+    #     target_note_id: attrs.target_note_id,
+    #     relationship_type_id: attrs.relationship_type_id
+    #   )
+
+    # # Repo.update(changeset)
+    # if existing_relation do
+    #   {:ok, :already_exists}
+    # else
+    #   # Insert a new relation with timestamps
+    #   note_relation_entry = %NoteRelation{
+    #     source_note_id: attrs.source_note_id,
+    #     target_note_id: attrs.target_note_id,
+    #     relationship_type_id: attrs.relationship_type_id,
+    #     properties: attrs.properties,
+    #     inserted_at: now,
+    #     updated_at: now
+    #   }
+
+    #   case Repo.insert(note_relation_entry) do
+    #     {:ok, _} -> {:ok, :inserted}
+    #     {:error, _} -> {:error, :insert_failed}
+    #   end
+    # end
+
+    %NoteRelation{}
+    |> NoteRelation.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a note_relation.
+
+  ## Examples
+
+      iex> update_note_relation(note_relation, %{field: new_value})
+      {:ok, %NoteRelation{}}
+
+      iex> update_note_relation(note_relation, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_note_relation(%NoteRelation{} = note_relation, attrs) do
+    note_relation
+    |> NoteRelation.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a note_relation.
+
+  ## Examples
+
+      iex> delete_note_relation(note_relation)
+      {:ok, %NoteRelation{}}
+
+      iex> delete_note_relation(note_relation)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_note_relation(%NoteRelation{} = note_relation) do
+    Repo.delete(note_relation)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking note_relation changes.
+
+  ## Examples
+
+      iex> change_note_relation(note_relation)
+      %Ecto.Changeset{data: %NoteRelation{}}
+
+  """
+  def change_note_relation(%NoteRelation{} = note_relation, attrs \\ %{}) do
+    NoteRelation.changeset(note_relation, attrs)
+  end
 end

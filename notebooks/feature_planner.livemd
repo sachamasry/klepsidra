@@ -2688,12 +2688,12 @@ CREATE TABLE knowledge_management_relationship_types(
 
 <!-- livebook:{"break_markdown":true} -->
 
-Table `knowledge_management_links`
+Table `knowledge_management_note_relations`
 
 Handles interconnections between notes.
 
 ```sql
-CREATE TABLE knowledge_management_links (
+CREATE TABLE knowledge_management_note_relations (
     link_id SERIAL PRIMARY KEY,
     source_note_id UUID NOT NULL,
     target_note_id UUID NOT NULL,
