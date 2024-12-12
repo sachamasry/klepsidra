@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
     ~H"""
     <div id="note-relationship-container">
       <.relationship_maker
-        title="Relate notes"
+        title="Relate to other notes"
         id="note-relation-form"
         for={@note_relation_form}
         phx-submit="save"
@@ -19,6 +19,10 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         phx-target={@myself}
         phx-value-id={@note_id}
       />
+
+      <.relation_listing related_notes={@outbound_notes} title="Links from this note" />
+
+      <.relation_listing related_notes={@inbound_notes} title="Links to this note" />
     </div>
     """
   end
@@ -111,14 +115,56 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
 
   def relationship_maker(assigns) do
     ~H"""
-    <h3>
-      <%= @title %>
-    </h3>
-    <.simple_form :let={f} for={@for} id={@id}>
-      <.input field={f[:target_note_id]} type="text" autocomplete="off" />
-      <.input field={f[:relationship_type_id]} type="text" autocomplete="off" />
-      <.button phx-disable-with="Saving note...">Relate notes</.button>
-    </.simple_form>
+    <section class="rounded-lg my-6 p-6 bg-peach-fuzz-lightness-105">
+      <h3 class="font-extrabold text-violet-900/50">
+        <%= @title %>
+      </h3>
+      <.simple_form :let={f} for={@for} id={@id}>
+        <.input field={f[:target_note_id]} type="text" autocomplete="off" />
+        <.input field={f[:relationship_type_id]} type="text" autocomplete="off" />
+        <.button phx-disable-with="Saving note...">Relate</.button>
+      </.simple_form>
+    </section>
+    """
+  end
+
+  attr(:title, :string, default: "Links")
+
+  attr(:related_notes, :list,
+    required: true,
+    doc: "List of related notes to pass to Phoenix.HTML.Form.options_for_select/2"
+  )
+
+  def relation_listing(assigns) do
+    ~H"""
+    <section :if={@related_notes != []} class="rounded-lg my-6 p-6 bg-peach-fuzz-lightness-105">
+      <h3 class="font-extrabold text-violet-900/50">
+        <%= @title %>
+      </h3>
+      <div :for={note <- @related_notes}>
+        <.related_notes note={note} />
+      </div>
+    </section>
+    """
+  end
+
+  attr :note, :map, required: true
+
+  def related_notes(assigns) do
+    ~H"""
+    <article>
+      <header>
+        <h4>
+          <%= @note.title %>
+        </h4>
+        <div>
+          <%= @note.summary %>
+        </div>
+      </header>
+      <div>
+        <%= @note.content %>
+      </div>
+    </article>
     """
   end
 end

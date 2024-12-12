@@ -88,6 +88,8 @@
   note_id={@note_id}
   action={:new_note_relation}
   patch={~p"/knowledge_management/notes/#{@note}"}
+  outbound_notes={@outbound_notes}
+  inbound_notes={@inbound_notes}
 />
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>

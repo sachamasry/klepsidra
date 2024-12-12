@@ -66,7 +66,9 @@ defmodule KlepsidraWeb.NotesLive.Show do
         live_select_form: to_form(TagSearch.changeset(%{}), as: "tag_form"),
         new_tag_colour: {"#94a3b8", "#fff"},
         formatted_status: formatted_status,
-        note_id: note_id
+        note_id: note_id,
+        outbound_notes: [%{title: "Non-identification", summary: "", content: "See also Not-self. It is possible to notice an impulse, thought, desire, aversion, concern, etc, without identifying with that sensation. That is: the relationship can become “I sense a feeling of impatience” (akin to hearing a sound from the street outside), rather than “I’m impatient” or even “I can’t believe this is taking so long” (Everything takes longer than you think it will). This practice is not about ignoring impulses—you still sense them and can choose to act on them—but rather about making them an object rather than a subject, removing them from the driver’s seat, etc."}, %{title: "Unsatisfactoriness", summary: "The nature of existence is that all phenomena are {impermanent}, {unsatisfactory}, and {not-self}.", content: "One of the Three characteristics of existence central to Buddhism. It describes the pervasive subtle suffering of life: one is always trying to escape thoughts, feelings, and concepts which are undesirable; or else one is grasping at objects of desire."}, %{title: "Hedonic treadmill", summary: "Desire is the root of all unhappiness", content: "You find yourself wanting something so much—a new computer, a partner, a house, more intellectual freedom, more friends, etc—and then once you have them, the goalposts immediately shift. Those things you wanted so badly become normal, no longer something worthy of special aspiration, and now you simply find yourself wanting the next thing."}],
+        inbound_notes: []
       )
 
     {:ok, socket}
