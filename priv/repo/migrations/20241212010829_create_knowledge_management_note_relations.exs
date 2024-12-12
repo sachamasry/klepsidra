@@ -44,5 +44,29 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementNoteRelations do
 
       timestamps()
     end
+
+    create(
+      index(:knowledge_management_note_relations, [:source_note_id],
+        comment: "Index of `source_note_id` field"
+      )
+    )
+
+    create(
+      index(:knowledge_management_note_relations, [:target_note_id],
+        comment: "Index of `source_note_id` field"
+      )
+    )
+
+    create(
+      index(:knowledge_management_note_relations, [:source_note_id, :target_note_id],
+        comment: "Composite index of `source_note_id` and `target_note_id` fields"
+      )
+    )
+
+    create(
+      index(:knowledge_management_note_relations, [:target_note_id, :source_note_id],
+        comment: "Composite index of `target_note_id` and `source_note_id`  fields"
+      )
+    )
   end
 end

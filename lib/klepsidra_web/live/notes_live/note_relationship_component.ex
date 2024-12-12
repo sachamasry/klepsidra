@@ -20,9 +20,17 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         phx-value-id={@note_id}
       />
 
-      <.relation_listing related_notes={@outbound_notes} title="Links from this note" />
+      <.relation_listing
+        related_notes={@outbound_note_relations}
+        related_note_count={@note_relation_counts.outbound}
+        title="Links from this note"
+      />
 
-      <.relation_listing related_notes={@inbound_notes} title="Links to this note" />
+      <.relation_listing
+        related_notes={@inbound_note_relations}
+        related_note_count={@note_relation_counts.inbound}
+        title="Links to this note"
+      />
     </div>
     """
   end
@@ -135,6 +143,8 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
     doc: "List of related notes to pass to Phoenix.HTML.Form.options_for_select/2"
   )
 
+  attr(:related_note_count, :integer, default: 0, doc: "Count of all related notes")
+
   def relation_listing(assigns) do
     ~H"""
     <section
@@ -142,7 +152,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105 grid grid-cols-2 gap-6"
     >
       <h3 class="font-extrabold text-violet-900/50 col-span-2">
-        <%= @title %>
+        <%= @title %> (<%= @related_note_count %>)
       </h3>
       <.related_notes :for={note <- @related_notes} note={note} />
     </section>
@@ -153,9 +163,12 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
 
   def related_notes(assigns) do
     ~H"""
-    <article class="col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75">
-      <a href={"#{@note.id}"}>
+    <article class="group col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer">
+      <.link navigate={~p"/knowledge_management/notes/#{@note.id}"}>
         <header>
+          <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover:text-white">
+            <%= @note.relationship_type %>
+          </h5>
           <h4 class="font-semibold mb-4">
             <%= @note.title %>
           </h4>
@@ -163,10 +176,10 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
             <%= @note.summary %>
           </div>
         </header>
-        <div class={if(String.length(@note.summary) > 0, do: "line-clamp-2", else: "line-clamp-4")}>
+        <div class={if(@note.summary, do: "line-clamp-2", else: "line-clamp-4")}>
           <%= @note.content |> Phoenix.HTML.raw() %>
         </div>
-      </a>
+      </.link>
     </article>
     """
   end

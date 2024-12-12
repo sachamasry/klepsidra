@@ -735,4 +735,93 @@ defmodule Klepsidra.KnowledgeManagement do
   def change_note_relation(%NoteRelation{} = note_relation, attrs \\ %{}) do
     NoteRelation.changeset(note_relation, attrs)
   end
+
+  @spec from_knowledge_management_note_relations() :: Ecto.Query.t()
+  def from_knowledge_management_note_relations() do
+    from(nr in NoteRelation, as: :note_relations)
+  end
+
+  @spec filter_knowledge_management_note_relations_and_cond_note_join(
+          query :: Ecto.Query.t(),
+          starting_note_id :: Ecto.UUID.t(),
+          direction :: :inbound | :outbound
+        ) ::
+          Ecto.Query.t()
+  def filter_knowledge_management_note_relations_and_cond_note_join(
+        query,
+        starting_note_id,
+        :outbound
+      ) do
+    from [note_relations: nr] in query,
+      where: nr.source_note_id == ^starting_note_id,
+      left_join: n in Note,
+      as: :notes,
+      on: nr.target_note_id == n.id
+  end
+
+  def filter_knowledge_management_note_relations_and_cond_note_join(
+        query,
+        starting_note_id,
+        :inbound
+      ) do
+    from [note_relations: nr] in query,
+      where: nr.target_note_id == ^starting_note_id,
+      left_join: n in Note,
+      as: :notes,
+      on: nr.source_note_id == n.id
+  end
+
+  @spec join_knowledge_management_note_relations_with_relationship_types(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_knowledge_management_note_relations_with_relationship_types(query) do
+    from [note_relations: nr] in query,
+      left_join: rt in RelationshipType,
+      as: :rel_types,
+      on: nr.relationship_type_id == rt.id
+  end
+
+  @spec select_knowledge_management_note_relations(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_knowledge_management_note_relations(query) do
+    from [note_relations: nr, notes: n, rel_types: rt] in query,
+      select: %{
+        id: n.id,
+        title: n.title,
+        summary: n.summary,
+        content: n.rendered_content,
+        status: n.status,
+        relationship_type: rt.name
+      }
+  end
+
+  @spec select_knowledge_management_note_relations_aggregates(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def select_knowledge_management_note_relations_aggregates(query) do
+    from [note_relations: nr, notes: n, rel_types: rt] in query,
+      select: %{
+        count: count(n.id)
+      }
+  end
+
+  @spec list_related_notes(starting_note_id :: Ecto.UUID.t(), direction :: :inbound | :outbound) ::
+          [%{}, ...]
+  def list_related_notes(starting_note_id, direction \\ :outbound) do
+    from_knowledge_management_note_relations()
+    |> filter_knowledge_management_note_relations_and_cond_note_join(starting_note_id, direction)
+    |> join_knowledge_management_note_relations_with_relationship_types()
+    |> select_knowledge_management_note_relations()
+    |> Repo.all()
+  end
+
+  @spec aggregate_related_notes(
+          starting_note_id :: Ecto.UUID.t(),
+          direction :: :inbound | :outbound
+        ) ::
+          %{count: integer()}
+  def aggregate_related_notes(starting_note_id, direction \\ :outbound) do
+    from_knowledge_management_note_relations()
+    |> filter_knowledge_management_note_relations_and_cond_note_join(starting_note_id, direction)
+    |> join_knowledge_management_note_relations_with_relationship_types()
+    |> select_knowledge_management_note_relations_aggregates()
+    |> Repo.one()
+  end
 end

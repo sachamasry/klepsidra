@@ -22,6 +22,8 @@
   <:item title="Status"><%= @formatted_status %></:item>
 </.list>
 
+<.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>
+
 <.form
   for={@live_select_form}
   id="live-select-form--show"
@@ -88,8 +90,14 @@
   note_id={@note_id}
   action={:new_note_relation}
   patch={~p"/knowledge_management/notes/#{@note}"}
-  outbound_notes={@outbound_notes}
-  inbound_notes={@inbound_notes}
+  outbound_note_relations={@outbound_note_relations}
+  inbound_note_relations={@inbound_note_relations}
+  note_relation_counts={
+    %{
+      outbound: @outbound_note_relation_count.count,
+      inbound: @inbound_note_relation_count.count
+    }
+  }
 />
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>
