@@ -682,38 +682,8 @@ defmodule Klepsidra.KnowledgeManagement do
 
   """
   @spec create_note_relation(attrs :: map()) ::
-          {:ok, NoteRelation.t()}
+          {:ok, NoteRelation.t()} | {:error, Ecto.Changeset.t()}
   def create_note_relation(attrs \\ %{}) do
-    # now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
-
-    # # Check if the relation already exists 
-    # existing_relation =
-    #   Repo.get_by(NoteRelation,
-    #     source_note_id: attrs.source_note_id,
-    #     target_note_id: attrs.target_note_id,
-    #     relationship_type_id: attrs.relationship_type_id
-    #   )
-
-    # # Repo.update(changeset)
-    # if existing_relation do
-    #   {:ok, :already_exists}
-    # else
-    #   # Insert a new relation with timestamps
-    #   note_relation_entry = %NoteRelation{
-    #     source_note_id: attrs.source_note_id,
-    #     target_note_id: attrs.target_note_id,
-    #     relationship_type_id: attrs.relationship_type_id,
-    #     properties: attrs.properties,
-    #     inserted_at: now,
-    #     updated_at: now
-    #   }
-
-    #   case Repo.insert(note_relation_entry) do
-    #     {:ok, _} -> {:ok, :inserted}
-    #     {:error, _} -> {:error, :insert_failed}
-    #   end
-    # end
-
     %NoteRelation{}
     |> NoteRelation.changeset(attrs)
     |> Repo.insert()

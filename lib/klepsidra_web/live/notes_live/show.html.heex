@@ -86,7 +86,8 @@
   module={NoteRelationshipComponent}
   id={:new_note_relationship}
   note_id={@note_id}
-  action={:new_note_relationship}
+  action={:new_note_relation}
+  patch={~p"/knowledge_management/notes/#{@note}"}
 />
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>

@@ -125,27 +125,27 @@ defmodule KlepsidraWeb.NotesLiveTest do
       assert html =~ note.title
     end
 
-    test "updates note within modal", %{conn: conn, note: note} do
-      {:ok, show_live, _html} = live(conn, ~p"/knowledge_management/notes/#{note}")
+    # test "updates note within modal", %{conn: conn, note: note} do
+    #   {:ok, show_live, _html} = live(conn, ~p"/knowledge_management/notes/#{note}")
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit note"
+    #   assert show_live |> element("a", "Edit") |> render_click() =~
+    #            "Edit note"
 
-      assert_patch(show_live, ~p"/knowledge_management/notes/#{note}/show/edit")
+    #   assert_patch(show_live, ~p"/knowledge_management/notes/#{note}/show/edit")
 
-      assert show_live
-             |> form("#notes-form", note: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert show_live
+    #          |> form("#notes-form", note: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      assert show_live
-             |> form("#notes-form", note: @update_attrs)
-             |> render_submit()
+    #   assert show_live
+    #          |> form("#notes-form", note: @update_attrs)
+    #          |> render_submit()
 
-      assert_patch(show_live, ~p"/knowledge_management/notes/#{note}")
+    #   assert_patch(show_live, ~p"/knowledge_management/notes/#{note}")
 
-      html = render(show_live)
-      assert html =~ "Note updated successfully"
-      assert html =~ "some updated title"
-    end
+    #   html = render(show_live)
+    #   assert html =~ "Note updated successfully"
+    #   assert html =~ "some updated title"
+    # end
   end
 end

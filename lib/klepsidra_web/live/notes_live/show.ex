@@ -4,11 +4,13 @@ defmodule KlepsidraWeb.NotesLive.Show do
   use KlepsidraWeb, :live_view
 
   import KlepsidraWeb.ButtonComponents
+  import LiveToast
 
   alias Klepsidra.Categorisation
   alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
   alias Klepsidra.KnowledgeManagement
+  alias Klepsidra.KnowledgeManagement.NoteRelation
   alias KlepsidraWeb.NotesLive.NoteRelationshipComponent
   alias Klepsidra.Repo
   alias Klepsidra.Categorisation.Tag
@@ -92,6 +94,7 @@ defmodule KlepsidraWeb.NotesLive.Show do
       )
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:note, note)
+      |> assign(note_relation: %NoteRelation{})
 
     {:noreply, socket}
   end
@@ -251,6 +254,24 @@ defmodule KlepsidraWeb.NotesLive.Show do
   end
 
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
+
+  @impl true
+  def handle_info(
+        {KlepsidraWeb.NotesLive.NoteRelationshipComponent, {:saved_note_relation, note_relation}},
+        socket
+      ) do
+    {:noreply, handle_saved_note_relation(socket, note_relation)}
+  end
+
+  defp handle_saved_note_relation(socket, _note_relation) do
+    # note_metadata = title_notes_section(socket.assigns.note_count + 1)
+
+    socket
+    # |> assign(:note_count, note_metadata.note_count)
+    # |> assign(:notes_title, note_metadata.section_title)
+    # |> stream_insert(:notes, note, at: 0)
+    |> put_toast(:info, "Notes related successfully")
+  end
 
   defp page_title(:show), do: "Show note"
   defp page_title(:edit), do: "Edit note"
