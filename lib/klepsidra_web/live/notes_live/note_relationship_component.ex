@@ -21,15 +21,17 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       />
 
       <.relation_listing
+        title="Links from this note"
+        relation_direction={:outbound}
         related_notes={@outbound_note_relations}
         related_note_count={@note_relation_counts.outbound}
-        title="Links from this note"
       />
 
       <.relation_listing
+        title="Links to this note"
+        relation_direction={:inbound}
         related_notes={@inbound_note_relations}
         related_note_count={@note_relation_counts.inbound}
-        title="Links to this note"
       />
     </div>
     """
@@ -138,6 +140,13 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
 
   attr(:title, :string, default: "Links")
 
+  attr(:relation_direction, :atom,
+    values: [:outbound, :inbound],
+    default: :outbound,
+    doc:
+      "Defines whether the relationship stems out from this note to the related one `:outbound`, or in from the related note `:inbound`"
+  )
+
   attr(:related_notes, :list,
     required: true,
     doc: "List of related notes to pass to Phoenix.HTML.Form.options_for_select/2"
@@ -154,10 +163,21 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       <h3 class="font-extrabold text-violet-900/50 col-span-2">
         <%= @title %> (<%= @related_note_count %>)
       </h3>
-      <.related_notes :for={note <- @related_notes} note={note} />
+      <.related_notes
+        :for={note <- @related_notes}
+        relation_direction={@relation_direction}
+        note={note}
+      />
     </section>
     """
   end
+
+  attr(:relation_direction, :atom,
+    values: [:outbound, :inbound],
+    default: :outbound,
+    doc:
+      "Defines whether the relationship stems out from this note to the related one `:outbound`, or in from the related note `:inbound`"
+  )
 
   attr :note, :map, required: true
 
@@ -167,7 +187,13 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       <.link navigate={~p"/knowledge_management/notes/#{@note.id}"}>
         <header>
           <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover:text-white">
+            <.icon :if={@relation_direction == :inbound} name="hero-arrow-long-left" class="h-4 w-4" />
             <%= @note.relationship_type %>
+            <.icon
+              :if={@relation_direction == :outbound}
+              name="hero-arrow-long-right"
+              class="h-4 w-4"
+            />
           </h5>
           <h4 class="font-semibold mb-4">
             <%= @note.title %>
