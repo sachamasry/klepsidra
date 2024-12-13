@@ -286,7 +286,10 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         <header>
           <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover:text-white">
             <.icon :if={@relation_direction == :inbound} name="hero-arrow-long-left" class="h-4 w-4" />
-            <%= @note.relationship_type %>
+            <%= if(@relation_direction == :inbound,
+              do: @note.reverse_relationship_type,
+              else: @note.relationship_type
+            ) %>
             <.icon
               :if={@relation_direction == :outbound}
               name="hero-arrow-long-right"

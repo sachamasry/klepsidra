@@ -139,7 +139,7 @@ predefined_relationship_types = [
   },
   %{
     name: "Depends on",
-    reverse_name: "Depended on by",
+    reverse_name: "Depended on",
     description:
       "GENERAL: Indicates a foundational dependency, such as the source note relying on the content of the target note"
   },

@@ -5,14 +5,16 @@ defmodule KlepsidraWeb.RelationshipTypeLiveTest do
   import Klepsidra.KnowledgeManagementFixtures
 
   @create_attrs %{
-    name: "some name",
+    name: "Relates",
+    reverse_name: "Related by",
     description: "some description"
   }
   @update_attrs %{
-    name: "some updated name",
+    name: "Parent of",
+    reverse_name: "Child of",
     description: "some updated description"
   }
-  @invalid_attrs %{name: nil, description: nil}
+  @invalid_attrs %{name: nil, reverse_name: nil, description: nil}
 
   defp create_relationship_type(_) do
     relationship_type = relationship_type_fixture()
@@ -52,7 +54,7 @@ defmodule KlepsidraWeb.RelationshipTypeLiveTest do
 
       html = render(index_live)
       assert html =~ "Relationship type created successfully"
-      assert html =~ "some name"
+      assert html =~ "Supports"
     end
 
     test "updates relationship_type in listing", %{
@@ -86,7 +88,7 @@ defmodule KlepsidraWeb.RelationshipTypeLiveTest do
 
       html = render(index_live)
       assert html =~ "Relationship type updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "Parent of"
     end
 
     test "deletes relationship_type in listing", %{
@@ -147,7 +149,7 @@ defmodule KlepsidraWeb.RelationshipTypeLiveTest do
 
       html = render(show_live)
       assert html =~ "Relationship type updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "Parent of"
     end
   end
 end

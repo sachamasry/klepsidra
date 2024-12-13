@@ -840,7 +840,8 @@ defmodule Klepsidra.KnowledgeManagement do
         summary: n.summary,
         content: n.rendered_content,
         status: n.status,
-        relationship_type: rt.name
+        relationship_type: rt.name,
+        reverse_relationship_type: rt.reverse_name
       }
   end
 

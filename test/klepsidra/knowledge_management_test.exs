@@ -381,7 +381,8 @@ defmodule Klepsidra.KnowledgeManagementTest do
 
     test "create_relationship_type/1 with valid data creates a relationship_type" do
       valid_attrs = %{
-        name: "some name",
+        name: "Explains",
+        reverse_name: "Explained by",
         description: "some description",
         is_predefined: true
       }
@@ -389,7 +390,8 @@ defmodule Klepsidra.KnowledgeManagementTest do
       assert {:ok, %RelationshipType{} = relationship_type} =
                KnowledgeManagement.create_relationship_type(valid_attrs)
 
-      assert relationship_type.name == "some name"
+      assert relationship_type.name == "Explains"
+      assert relationship_type.reverse_name == "Explained by"
       assert relationship_type.description == "some description"
       assert relationship_type.is_predefined == true
     end

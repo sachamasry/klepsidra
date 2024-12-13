@@ -87,7 +87,8 @@ defmodule Klepsidra.KnowledgeManagementFixtures do
     {:ok, relationship_type} =
       attrs
       |> Enum.into(%{
-        name: "some relationship type",
+        name: "Supports",
+        reverse_name: "Supported by",
         description: "some description",
         default: true,
         is_predefined: true

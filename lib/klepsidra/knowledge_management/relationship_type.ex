@@ -15,12 +15,14 @@ defmodule Klepsidra.KnowledgeManagement.RelationshipType do
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           name: String.t(),
+          reverse_name: String.t(),
           description: String.t(),
           default: boolean(),
           is_predefined: boolean()
         }
   schema "knowledge_management_relationship_types" do
     field :name, :string
+    field :reverse_name, :string
     field :description, :string
     field :default, :boolean, default: false
     field :is_predefined, :boolean, default: false
@@ -31,8 +33,8 @@ defmodule Klepsidra.KnowledgeManagement.RelationshipType do
   @doc false
   def changeset(relationship_type, attrs) do
     relationship_type
-    |> cast(attrs, [:name, :description, :default, :is_predefined])
-    |> validate_required([:name], message: "Enter the relationship type")
+    |> cast(attrs, [:name, :reverse_name, :description, :default, :is_predefined])
+    |> validate_required([:name, :reverse_name], message: "Enter the relationship type and")
     |> unique_constraint(:name, message: "A relationship type with this name already exists")
     |> validate_required([:default, :is_predefined])
   end
