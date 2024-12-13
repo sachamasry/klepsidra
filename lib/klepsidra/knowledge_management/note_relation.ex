@@ -27,6 +27,7 @@ defmodule Klepsidra.KnowledgeManagement.NoteRelation do
     belongs_to(:target_note, Note, primary_key: true, type: Ecto.UUID)
     belongs_to(:relationship_type, RelationshipType, primary_key: true, type: Ecto.UUID)
     field :properties, :map
+    field :reverse_relation, :boolean, default: false, virtual: true
 
     timestamps()
   end
@@ -34,7 +35,13 @@ defmodule Klepsidra.KnowledgeManagement.NoteRelation do
   @doc false
   def changeset(note_relation, attrs) do
     note_relation
-    |> cast(attrs, [:source_note_id, :target_note_id, :relationship_type_id, :properties])
+    |> cast(attrs, [
+      :source_note_id,
+      :target_note_id,
+      :relationship_type_id,
+      :properties,
+      :reverse_relation
+    ])
     |> unique_constraint([:source_note, :target_note, :relationship_type],
       name:
         "knowledge_management_note_relations_source_note_id_target_note_id_relationship_type_id_index",

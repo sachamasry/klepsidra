@@ -52,9 +52,11 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
             label="Relationship type"
             field={f[:relationship_type_id]}
             type="select"
+            value={false}
             selected={@relationship_type_options.default}
             options={@relationship_type_options.all}
           />
+          <.input label="Make this an inbound relation?" field={f[:reverse_relation]} type="checkbox" />
           <.button phx-disable-with="Saving note...">Relate</.button>
         </.simple_form>
       </section>
@@ -143,15 +145,25 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         %{
           "id" => source_note_id,
           "relationship_type_id" => relationship_type_id,
-          "target_note_id" => target_note_id
+          "target_note_id" => target_note_id,
+          "reverse_relation" => reverse_relation
         },
         socket
       ) do
-    note_relation_params = %{
-      source_note_id: source_note_id,
-      relationship_type_id: relationship_type_id,
-      target_note_id: target_note_id
-    }
+    note_relation_params =
+      if reverse_relation == true do
+        %{
+          source_note_id: source_note_id,
+          relationship_type_id: relationship_type_id,
+          target_note_id: target_note_id
+        }
+      else
+        %{
+          source_note_id: target_note_id,
+          relationship_type_id: relationship_type_id,
+          target_note_id: source_note_id
+        }
+      end
 
     save_note_relation(socket, socket.assigns.action, note_relation_params)
   end
