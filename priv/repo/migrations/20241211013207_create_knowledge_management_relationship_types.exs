@@ -14,7 +14,13 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementRelationshipTypes d
 
       add :name, :string,
         null: false,
-        comment: "The relationship type; must be unique and meaningful"
+        comment:
+          "The relationship type; must be unique and meaningful. Named to reflect its outbound nature, i.e. 'note A' -- relates to --> 'note B' with relationship type"
+
+      add :reverse_name, :string,
+        null: false,
+        comment:
+          "The relationship type; must be unique and meaningful. Named to reflect its reverse relationship - inbound - nature, i.e. 'note A' <-- is related from -- 'note B' with relationship type"
 
       add :description, :text,
         comment: "Brief description of relationship type and its use in knowledge management"
@@ -34,6 +40,15 @@ defmodule Klepsidra.Repo.Migrations.CreateKnowledgeManagementRelationshipTypes d
     create unique_index(:knowledge_management_relationship_types, :name,
              comment:
                "Unique index of the relationship type `name` field, optimising searches filtering and ordering notes by their title"
+           )
+
+    create index(:knowledge_management_relationship_types, :reverse_name,
+             comment:
+               "Index of the relationship type `reverse_name` field, optimising searches filtering and ordering notes by their inverse title"
+           )
+
+    create index(:knowledge_management_relationship_types, :default,
+             comment: "Index on default flag of relationship types"
            )
 
     create index(:knowledge_management_relationship_types, :is_predefined,

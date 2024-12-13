@@ -2681,7 +2681,9 @@ Table `knowledge_management_relationship_types`
 CREATE TABLE knowledge_management_relationship_types(
     relationship_id INTEGER PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,  -- Relationship name
+    reverse_name TEXT,          -- Reverse relationship name
     description TEXT,           -- Explanation of the relationship type
+    default BOOLEAN,            -- Flag the default, most generic, relationship type to use
     is_predefined BOOLEAN DEFAULT 1 -- Indicates if the type is part of the tight list
 );
 ```
