@@ -10,16 +10,54 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
   def render(assigns) do
     ~H"""
     <div id="note-relationship-container">
-      <.relationship_maker
-        title="Relate to other notes"
-        id="note-relation-form"
-        for={@note_relation_form}
-        phx-submit="save"
-        phx-change="validate"
-        phx-target={@myself}
-        phx-value-id={@note_id}
-        relationship_type_options={@relationship_type_options}
-      />
+      <section class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105">
+        <h3 class="font-extrabold text-violet-900/50">
+          Relate to other notes
+        </h3>
+
+        <.simple_form
+          :let={f}
+          for={@note_relation_form}
+          id={@id}
+          phx-submit="save"
+          phx-change="validate"
+          phx-target={@myself}
+          phx-value-id={@note_id}
+        >
+          <.live_select
+            field={f[:target_note_id]}
+            mode={:single}
+            label="Target note"
+            allow_clear
+            options={[]}
+            placeholder="Select the note to relate to the open one"
+            debounce={200}
+            dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+            update_min_len={3}
+            phx-target={@myself}
+          >
+            <:option :let={option}>
+              <div class="group border-b hover:border-transparent border-peach-fuzz-300/50 py-2">
+                <div class="flex">
+                  <%= option.label %>
+                </div>
+                <div class="text-xs">
+                  <%= option.result |> Phoenix.HTML.raw() %>
+                </div>
+              </div>
+            </:option>
+          </.live_select>
+
+          <.input
+            label="Relationship type"
+            field={f[:relationship_type_id]}
+            type="select"
+            selected={@relationship_type_options.default}
+            options={@relationship_type_options.all}
+          />
+          <.button phx-disable-with="Saving note...">Relate</.button>
+        </.simple_form>
+      </section>
 
       <.relation_listing
         title="Links from this note"
@@ -51,7 +89,47 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
   end
 
   @impl true
+  def handle_event(
+        "live_select_change",
+        %{
+          "field" => "new_note_relationship_target_note_id",
+          "id" => live_select_id,
+          "text" => note_search_phrase
+        },
+        socket
+      ) do
+    notes = search_notes(note_search_phrase, [])
+
+    send_update(LiveSelect.Component, id: live_select_id, options: notes)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("validate", %{"note_relation" => note_relation_params}, socket) do
+    changeset =
+      %NoteRelation{}
+      |> KnowledgeManagement.change_note_relation(note_relation_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
+  end
+
+  @impl true
+  def handle_event(
+        "validate",
+        %{
+          "id" => source_note_id,
+          "relationship_type_id" => relationship_type_id,
+          "target_note_id" => target_note_id
+        },
+        socket
+      ) do
+    note_relation_params = %{
+      source_note_id: source_note_id,
+      relationship_type_id: relationship_type_id,
+      target_note_id: target_note_id
+    }
+
     changeset =
       %NoteRelation{}
       |> KnowledgeManagement.change_note_relation(note_relation_params)
@@ -62,10 +140,18 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
 
   def handle_event(
         "save",
-        %{"id" => id, "note_relation" => note_relation_params},
+        %{
+          "id" => source_note_id,
+          "relationship_type_id" => relationship_type_id,
+          "target_note_id" => target_note_id
+        },
         socket
       ) do
-    note_relation_params = Map.put(note_relation_params, "source_note_id", id)
+    note_relation_params = %{
+      source_note_id: source_note_id,
+      relationship_type_id: relationship_type_id,
+      target_note_id: target_note_id
+    }
 
     save_note_relation(socket, socket.assigns.action, note_relation_params)
   end
@@ -89,25 +175,6 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         {:noreply, assign_form(socket, changeset)}
     end
   end
-
-  # defp save_note(socket, :new_embedded_note, note_params) do
-  # case TimeTracking.create_note(note_params) do
-  #   {:ok, note} ->
-  #     notify_parent({:saved_note, note})
-
-  #     changeset =
-  #       TimeTracking.change_note(%Note{})
-
-  #     {
-  #       :noreply,
-  #       socket
-  #       |> assign_form(changeset)
-  #     }
-
-  #   {:error, %Ecto.Changeset{} = changeset} ->
-  #     {:noreply, assign_form(socket, changeset)}
-  # end
-  # end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :note_relation_form, to_form(changeset))
@@ -137,6 +204,26 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       </h3>
       <.simple_form :let={f} for={@for} id={@id}>
         <.input field={f[:target_note_id]} type="text" autocomplete="off" />
+
+        <.live_select
+          field={f[:target_note_id]}
+          mode={:single}
+          label="Target note"
+          allow_clear
+          options={[]}
+          placeholder="Select the note to relate to the open one"
+          debounce={200}
+          dropdown_extra_class="bg-white max-h-48 overflow-y-scroll"
+          update_min_len={3}
+          phx-target="#_target_note_id_live_select_component"
+        >
+          <:option :let={option}>
+            <div class="flex">
+              <%= option.label %>
+            </div>
+          </:option>
+        </.live_select>
+
         <.input
           field={f[:relationship_type_id]}
           type="select"
@@ -219,5 +306,14 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       </.link>
     </article>
     """
+  end
+
+  defp search_notes(search_phrase, default) when is_bitstring(search_phrase) do
+    try do
+      KnowledgeManagement.search_notes_and_highlight_snippet_options_for_select(search_phrase)
+    rescue
+      Exqlite.Error ->
+        default
+    end
   end
 end

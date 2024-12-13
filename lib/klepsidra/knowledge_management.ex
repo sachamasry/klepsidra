@@ -423,6 +423,52 @@ defmodule Klepsidra.KnowledgeManagement do
     Repo.all(NoteSearch)
   end
 
+  @spec from_note_search_fts() :: Ecto.Query.t()
+  def from_note_search_fts() do
+    from(ns in NoteSearch, as: :note_search)
+  end
+
+  @spec filter_note_search_fts_matching_fts(query :: Ecto.Query.t(), search_phrase :: String.t()) ::
+          Ecto.Query.t()
+  def filter_note_search_fts_matching_fts(query, search_phrase) do
+    from [note_search: ns] in query,
+      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase)
+  end
+
+  @spec order_by_note_search_fts_asc_rank(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_by_note_search_fts_asc_rank(query) do
+    from [note_search: ns] in query,
+      order_by: [asc: :rank]
+  end
+
+  @spec select_note_search_fts_all_fields(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_note_search_fts_all_fields(query) do
+    from [note_search: ns] in query,
+      select: %{
+        id: ns.note_id,
+        title: ns.title,
+        summary: ns.summary,
+        result:
+          fragment(
+            "snippet(knowledge_management_notes_search, -1, \'<span class=\"font-semibold group-hover:font-bold underline decoration-peach-fuzz-600 group-hover:decoration-peach-fuzz-50 text-peach-fuzz-600 group-hover:text-peach-fuzz-50\">\', \'</span>\', \'…\', 64)"
+          )
+      }
+  end
+
+  @spec select_note_search_fts_options_for_select(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_note_search_fts_options_for_select(query) do
+    from [note_search: ns] in query,
+      select: %{
+        value: ns.note_id,
+        label: ns.title,
+        summary: ns.summary,
+        result:
+          fragment(
+            "snippet(knowledge_management_notes_search, -1, \'<span class=\"font-semibold group-hover:font-bold underline decoration-peach-fuzz-600 group-hover:decoration-peach-fuzz-50 text-peach-fuzz-600 group-hover:text-peach-fuzz-50\">\', \'</span>\', \'…\', 64)"
+          )
+      }
+  end
+
   @doc """
   Search knowledge management notes using full-text search.
 
@@ -432,41 +478,23 @@ defmodule Klepsidra.KnowledgeManagement do
       [%Klepsidra.KnowledgeManagement.NoteSearch{}, ...]
 
   """
-
-  # def search_notes(search_phrase) do
-  #   from(ns in NoteSearch,
-  #     select: [:rank, :id, :title, :content, :summary, :tags],
-  #     where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
-  #     order_by: [asc: :rank]
-  #   )
-  #   |> Repo.all()
-  # end
-
-  def search_notes_and_highlight(search_phrase) do
-    from(ns in NoteSearch,
-      select: fragment("highlight(knowledge_management_notes_search, 0, \'<b>\', \'</b>\')"),
-      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
-      order_by: [asc: :rank]
-    )
-    |> Repo.all()
-  end
-
   @spec search_notes_and_highlight_snippet(search_phrase :: String.t()) ::
           [%{id: Ecto.UUID.t(), result: String.t()}, ...]
   def search_notes_and_highlight_snippet(search_phrase) do
-    from(ns in NoteSearch,
-      select: %{
-        id: ns.note_id,
-        title: ns.title,
-        summary: ns.summary,
-        result:
-          fragment(
-            "snippet(knowledge_management_notes_search, -1, \'<span class=\"font-semibold group-hover:font-bold underline decoration-peach-fuzz-600 group-hover:decoration-peach-fuzz-50 text-peach-fuzz-600 group-hover:text-peach-fuzz-50\">\', \'</span>\', \'…\', 64)"
-          )
-      },
-      where: fragment("knowledge_management_notes_search MATCH ?", ^search_phrase),
-      order_by: [asc: :rank]
-    )
+    from_note_search_fts()
+    |> filter_note_search_fts_matching_fts(search_phrase)
+    |> order_by_note_search_fts_asc_rank()
+    |> select_note_search_fts_all_fields()
+    |> Repo.all()
+  end
+
+  @spec search_notes_and_highlight_snippet_options_for_select(search_phrase :: String.t()) ::
+          [%{id: Ecto.UUID.t(), result: String.t()}, ...]
+  def search_notes_and_highlight_snippet_options_for_select(search_phrase) do
+    from_note_search_fts()
+    |> filter_note_search_fts_matching_fts(search_phrase)
+    |> order_by_note_search_fts_asc_rank()
+    |> select_note_search_fts_options_for_select()
     |> Repo.all()
   end
 
