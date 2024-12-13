@@ -47,6 +47,9 @@ defmodule Klepsidra.KnowledgeManagement.NoteRelation do
         "knowledge_management_note_relations_source_note_id_target_note_id_relationship_type_id_index",
       message: "These notes have already been related with that relationship type"
     )
-    |> validate_required([:source_note_id, :target_note_id, :relationship_type_id])
+    |> validate_required([:target_note_id], message: "You must select the note you're linking to")
+    |> validate_required([:relationship_type_id],
+      message: "You must select the relationship type"
+    )
   end
 end

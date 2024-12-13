@@ -60,20 +60,6 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
           <.button phx-disable-with="Saving note...">Relate</.button>
         </.simple_form>
       </section>
-
-      <.relation_listing
-        title="Links from this note"
-        relation_direction={:outbound}
-        related_notes={@outbound_note_relations}
-        related_note_count={@note_relation_counts.outbound}
-      />
-
-      <.relation_listing
-        title="Links to this note"
-        relation_direction={:inbound}
-        related_notes={@inbound_note_relations}
-        related_note_count={@note_relation_counts.inbound}
-      />
     </div>
     """
   end
@@ -113,7 +99,11 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       |> KnowledgeManagement.change_note_relation(note_relation_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign_form(socket, changeset)}
+    socket =
+      socket
+      |> assign_form(changeset)
+
+    {:noreply, socket}
   end
 
   @impl true
@@ -137,41 +127,60 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       |> KnowledgeManagement.change_note_relation(note_relation_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign_form(socket, changeset)}
+    socket =
+      socket
+      |> assign_form(changeset)
+
+    {:noreply, socket}
   end
 
   def handle_event(
         "save",
         %{
-          "id" => source_note_id,
+          "id" => current_note_id,
           "relationship_type_id" => relationship_type_id,
           "target_note_id" => target_note_id,
-          "reverse_relation" => reverse_relation
+          "reverse_relation" => "false"
         },
         socket
       ) do
     note_relation_params =
-      if reverse_relation == true do
-        %{
-          source_note_id: source_note_id,
-          relationship_type_id: relationship_type_id,
-          target_note_id: target_note_id
-        }
-      else
-        %{
-          source_note_id: target_note_id,
-          relationship_type_id: relationship_type_id,
-          target_note_id: source_note_id
-        }
-      end
+      construct_note_relation_map(current_note_id, target_note_id, relationship_type_id)
 
-    save_note_relation(socket, socket.assigns.action, note_relation_params)
+    save_note_relation(socket, socket.assigns.action, note_relation_params, :outbound)
   end
 
-  defp save_note_relation(socket, :new_note_relation, note_relation_params) do
+  def handle_event(
+        "save",
+        %{
+          "id" => current_note_id,
+          "relationship_type_id" => relationship_type_id,
+          "target_note_id" => target_note_id,
+          "reverse_relation" => "true"
+        },
+        socket
+      ) do
+    note_relation_params =
+      construct_note_relation_map(current_note_id, target_note_id, relationship_type_id)
+
+    save_note_relation(socket, socket.assigns.action, note_relation_params, :inbound)
+  end
+
+  defp save_note_relation(socket, :new_note_relation, note_relation_params, direction) do
     case KnowledgeManagement.create_note_relation(note_relation_params) do
       {:ok, note_relation} ->
-        notify_parent({:saved_note_relation, note_relation})
+        note_relation =
+          KnowledgeManagement.get_related_note(
+            note_relation.source_note_id,
+            note_relation.target_note_id,
+            note_relation.relationship_type_id
+          )
+
+        if direction == :inbound do
+          notify_parent({:saved_inbound_note_relation, note_relation})
+        else
+          notify_parent({:saved_outbound_note_relation, note_relation})
+        end
 
         changeset =
           KnowledgeManagement.change_note_relation(%NoteRelation{})
@@ -186,6 +195,14 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}
     end
+  end
+
+  defp construct_note_relation_map(source_note_id, target_note_id, relationship_type_id) do
+    %{
+      source_note_id: source_note_id,
+      relationship_type_id: relationship_type_id,
+      target_note_id: target_note_id
+    }
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
@@ -245,81 +262,6 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         <.button phx-disable-with="Saving note...">Relate</.button>
       </.simple_form>
     </section>
-    """
-  end
-
-  attr(:title, :string, default: "Links")
-
-  attr(:relation_direction, :atom,
-    values: [:outbound, :inbound],
-    default: :outbound,
-    doc:
-      "Defines whether the relationship stems out from this note to the related one `:outbound`, or in from the related note `:inbound`"
-  )
-
-  attr(:related_notes, :list,
-    required: true,
-    doc: "List of related notes to pass to Phoenix.HTML.Form.options_for_select/2"
-  )
-
-  attr(:related_note_count, :integer, default: 0, doc: "Count of all related notes")
-
-  def relation_listing(assigns) do
-    ~H"""
-    <section
-      :if={@related_notes != []}
-      class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105 grid grid-cols-2 gap-6"
-    >
-      <h3 class="font-extrabold text-violet-900/50 col-span-2">
-        <%= @title %> (<%= @related_note_count %>)
-      </h3>
-      <.related_notes
-        :for={note <- @related_notes}
-        relation_direction={@relation_direction}
-        note={note}
-      />
-    </section>
-    """
-  end
-
-  attr(:relation_direction, :atom,
-    values: [:outbound, :inbound],
-    default: :outbound,
-    doc:
-      "Defines whether the relationship stems out from this note to the related one `:outbound`, or in from the related note `:inbound`"
-  )
-
-  attr :note, :map, required: true
-
-  def related_notes(assigns) do
-    ~H"""
-    <article class="group col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer">
-      <.link navigate={~p"/knowledge_management/notes/#{@note.id}"}>
-        <header>
-          <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover:text-white">
-            <.icon :if={@relation_direction == :inbound} name="hero-arrow-long-left" class="h-4 w-4" />
-            <%= if(@relation_direction == :inbound,
-              do: @note.reverse_relationship_type,
-              else: @note.relationship_type
-            ) %>
-            <.icon
-              :if={@relation_direction == :outbound}
-              name="hero-arrow-long-right"
-              class="h-4 w-4"
-            />
-          </h5>
-          <h4 class="font-semibold mb-4">
-            <%= @note.title %>
-          </h4>
-          <div :if={@note.summary} class="line-clamp-2 mb-4 italic">
-            <%= @note.summary %>
-          </div>
-        </header>
-        <div class={if(@note.summary, do: "line-clamp-2", else: "line-clamp-4")}>
-          <%= @note.content |> Phoenix.HTML.raw() %>
-        </div>
-      </.link>
-    </article>
     """
   end
 

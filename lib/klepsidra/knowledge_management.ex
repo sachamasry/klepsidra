@@ -822,6 +822,46 @@ defmodule Klepsidra.KnowledgeManagement do
       on: nr.source_note_id == n.id
   end
 
+  @spec filter_one_knowledge_management_note_relation_and_cond_note_join(
+          query :: Ecto.Query.t(),
+          starting_note_id :: Ecto.UUID.t(),
+          target_note_id :: Ecto.UUID.t(),
+          relationship_type_id :: Ecto.UUID.t(),
+          direction :: :inbound | :outbound
+        ) ::
+          Ecto.Query.t()
+  def filter_one_knowledge_management_note_relation_and_cond_note_join(
+        query,
+        starting_note_id,
+        target_note_id,
+        relationship_type_id,
+        :outbound
+      ) do
+    from [note_relations: nr] in query,
+      where:
+        nr.source_note_id == ^starting_note_id and nr.target_note_id == ^target_note_id and
+          nr.relationship_type_id == ^relationship_type_id,
+      left_join: n in Note,
+      as: :notes,
+      on: nr.target_note_id == n.id
+  end
+
+  def filter_one_knowledge_management_note_relation_and_cond_note_join(
+        query,
+        starting_note_id,
+        target_note_id,
+        relationship_type_id,
+        :inbound
+      ) do
+    from [note_relations: nr] in query,
+      where:
+        nr.source_note_id == ^starting_note_id and nr.target_note_id == ^target_note_id and
+          nr.relationship_type_id == ^relationship_type_id,
+      left_join: n in Note,
+      as: :notes,
+      on: nr.source_note_id == n.id
+  end
+
   @spec join_knowledge_management_note_relations_with_relationship_types(query :: Ecto.Query.t()) ::
           Ecto.Query.t()
   def join_knowledge_management_note_relations_with_relationship_types(query) do
@@ -862,6 +902,31 @@ defmodule Klepsidra.KnowledgeManagement do
     |> join_knowledge_management_note_relations_with_relationship_types()
     |> select_knowledge_management_note_relations()
     |> Repo.all()
+  end
+
+  @spec get_related_note(
+          starting_note_id :: Ecto.UUID.t(),
+          target_note_id :: Ecto.UUID.t(),
+          relationship_type_id :: Ecto.UUID.t(),
+          direction :: :inbound | :outbound
+        ) ::
+          [%{}, ...]
+  def get_related_note(
+        starting_note_id,
+        target_note_id,
+        relationship_type_id,
+        direction \\ :outbound
+      ) do
+    from_knowledge_management_note_relations()
+    |> filter_one_knowledge_management_note_relation_and_cond_note_join(
+      starting_note_id,
+      target_note_id,
+      relationship_type_id,
+      direction
+    )
+    |> join_knowledge_management_note_relations_with_relationship_types()
+    |> select_knowledge_management_note_relations()
+    |> Repo.one()
   end
 
   @spec aggregate_related_notes(

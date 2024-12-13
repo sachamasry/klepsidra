@@ -91,14 +91,21 @@
   action={:new_note_relation}
   patch={~p"/knowledge_management/notes/#{@note}"}
   relationship_type_options={@relationship_type_options}
-  outbound_note_relations={@outbound_note_relations}
-  inbound_note_relations={@inbound_note_relations}
-  note_relation_counts={
-    %{
-      outbound: @outbound_note_relation_count.count,
-      inbound: @inbound_note_relation_count.count
-    }
-  }
+  note_relation_counts={@note_relation_counts}
+/>
+
+<.relation_listing
+  title="Links from this note"
+  relation_direction={:outbound}
+  related_entities={@streams.outbound_note_relations}
+  related_entity_count={@note_relation_counts.outbound}
+/>
+
+<.relation_listing
+  title="Links to this note"
+  relation_direction={:inbound}
+  related_entities={@streams.inbound_note_relations}
+  related_entity_count={@note_relation_counts.inbound}
 />
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>

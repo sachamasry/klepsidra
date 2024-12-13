@@ -4,10 +4,10 @@ defmodule KlepsidraWeb.NotesLive.Show do
   use KlepsidraWeb, :live_view
 
   import KlepsidraWeb.ButtonComponents
+  import KlepsidraWeb.RelatedEntityComponents
   import LiveToast
 
   alias Klepsidra.Categorisation
-  alias LiveSelect.Component
   alias Klepsidra.DynamicCSS
   alias Klepsidra.KnowledgeManagement
   alias Klepsidra.KnowledgeManagement.NoteRelation
@@ -15,6 +15,7 @@ defmodule KlepsidraWeb.NotesLive.Show do
   alias Klepsidra.Repo
   alias Klepsidra.Categorisation.Tag
   alias KlepsidraWeb.TagLive.TagUtilities
+  alias LiveSelect.Component
 
   defmodule TagSearch do
     @moduledoc """
@@ -57,9 +58,13 @@ defmodule KlepsidraWeb.NotesLive.Show do
       KnowledgeManagement.get_default_knowledge_management_relationship_type_option_for_select()
 
     outbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :outbound)
-    outbound_note_relation_count = KnowledgeManagement.aggregate_related_notes(note_id, :outbound)
     inbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :inbound)
-    inbound_note_relation_count = KnowledgeManagement.aggregate_related_notes(note_id, :inbound)
+
+    note_relation_counts =
+      %{
+        outbound: KnowledgeManagement.aggregate_related_notes(note_id, :outbound).count,
+        inbound: KnowledgeManagement.aggregate_related_notes(note_id, :inbound).count
+      }
 
     socket =
       socket
@@ -82,11 +87,10 @@ defmodule KlepsidraWeb.NotesLive.Show do
           default: default_relationship_type,
           all: relationship_type_options
         },
-        outbound_note_relations: outbound_note_relations,
-        outbound_note_relation_count: outbound_note_relation_count,
-        inbound_note_relations: inbound_note_relations,
-        inbound_note_relation_count: inbound_note_relation_count
+        note_relation_counts: note_relation_counts
       )
+      |> stream(:outbound_note_relations, outbound_note_relations)
+      |> stream(:inbound_note_relations, inbound_note_relations)
 
     {:ok, socket}
   end
@@ -276,19 +280,39 @@ defmodule KlepsidraWeb.NotesLive.Show do
 
   @impl true
   def handle_info(
-        {KlepsidraWeb.NotesLive.NoteRelationshipComponent, {:saved_note_relation, note_relation}},
+        {KlepsidraWeb.NotesLive.NoteRelationshipComponent,
+         {:saved_outbound_note_relation, note_relation}},
         socket
       ) do
-    {:noreply, handle_saved_note_relation(socket, note_relation)}
+    {:noreply, handle_saved_note_relation(socket, note_relation, :outbound)}
   end
 
-  defp handle_saved_note_relation(socket, _note_relation) do
+  @impl true
+  def handle_info(
+        {KlepsidraWeb.NotesLive.NoteRelationshipComponent,
+         {:saved_inbound_note_relation, note_relation}},
+        socket
+      ) do
+    {:noreply, handle_saved_note_relation(socket, note_relation, :inbound)}
+  end
+
+  defp handle_saved_note_relation(socket, note_relation, :outbound) do
     # note_metadata = title_notes_section(socket.assigns.note_count + 1)
 
     socket
+    |> stream_insert(:outbound_note_relations, note_relation, at: 0)
     # |> assign(:note_count, note_metadata.note_count)
     # |> assign(:notes_title, note_metadata.section_title)
-    # |> stream_insert(:notes, note, at: 0)
+    |> put_toast(:info, "Notes related successfully")
+  end
+
+  defp handle_saved_note_relation(socket, note_relation, :inbound) do
+    # note_metadata = title_notes_section(socket.assigns.note_count + 1)
+
+    socket
+    |> stream_insert(:inbound_note_relations, note_relation, at: 0)
+    # |> assign(:note_count, note_metadata.note_count)
+    # |> assign(:notes_title, note_metadata.section_title)
     |> put_toast(:info, "Notes related successfully")
   end
 
