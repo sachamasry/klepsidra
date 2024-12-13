@@ -18,6 +18,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         phx-change="validate"
         phx-target={@myself}
         phx-value-id={@note_id}
+        relationship_type_options={@relationship_type_options}
       />
 
       <.relation_listing
@@ -118,6 +119,11 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
   attr(:id, :string, required: true, doc: "The ID of the relation-definer form")
   attr(:for, :any, required: true, doc: "The datastructure for the form")
 
+  attr(:relationship_type_options, :list,
+    default: [],
+    doc: "A list of all possible relationship types, formatted for a select type input"
+  )
+
   attr(:rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target),
     doc: "Arbitrary HTML and Phoenix attributes to apply to the form"
@@ -131,7 +137,12 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
       </h3>
       <.simple_form :let={f} for={@for} id={@id}>
         <.input field={f[:target_note_id]} type="text" autocomplete="off" />
-        <.input field={f[:relationship_type_id]} type="text" autocomplete="off" />
+        <.input
+          field={f[:relationship_type_id]}
+          type="select"
+          selected={@relationship_type_options.default}
+          options={@relationship_type_options.all}
+        />
         <.button phx-disable-with="Saving note...">Relate</.button>
       </.simple_form>
     </section>

@@ -50,6 +50,12 @@ defmodule KlepsidraWeb.NotesLive.Show do
 
     formatted_status = note.status |> Atom.to_string() |> String.capitalize()
 
+    relationship_type_options =
+      KnowledgeManagement.list_knowledge_management_relationship_type_options_for_select()
+
+    default_relationship_type =
+      KnowledgeManagement.get_default_knowledge_management_relationship_type_option_for_select()
+
     outbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :outbound)
     outbound_note_relation_count = KnowledgeManagement.aggregate_related_notes(note_id, :outbound)
     inbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :inbound)
@@ -72,6 +78,10 @@ defmodule KlepsidraWeb.NotesLive.Show do
         new_tag_colour: {"#94a3b8", "#fff"},
         formatted_status: formatted_status,
         note_id: note_id,
+        relationship_type_options: %{
+          default: default_relationship_type,
+          all: relationship_type_options
+        },
         outbound_note_relations: outbound_note_relations,
         outbound_note_relation_count: outbound_note_relation_count,
         inbound_note_relations: inbound_note_relations,

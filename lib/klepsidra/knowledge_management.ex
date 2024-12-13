@@ -543,6 +543,29 @@ defmodule Klepsidra.KnowledgeManagement do
     RelationshipType |> order_by(asc: :name) |> Repo.all()
   end
 
+  @spec list_knowledge_management_relationship_type_options_for_select() :: [
+          %{label: Ecto.UUID.t(), value: String.t()},
+          ...
+        ]
+  def list_knowledge_management_relationship_type_options_for_select() do
+    query =
+      from rt in RelationshipType,
+        order_by: [asc: rt.name],
+        select: {rt.name, rt.id}
+
+    Repo.all(query)
+  end
+
+  @spec get_default_knowledge_management_relationship_type_option_for_select() :: Ecto.UUID.t()
+  def get_default_knowledge_management_relationship_type_option_for_select() do
+    query =
+      from rt in RelationshipType,
+        where: rt.default == true,
+        select: rt.id
+
+    Repo.one(query)
+  end
+
   @doc """
   Gets a single relationship_type.
 
