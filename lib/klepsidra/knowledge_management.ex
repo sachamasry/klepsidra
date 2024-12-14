@@ -709,7 +709,7 @@ defmodule Klepsidra.KnowledgeManagement do
           source_note_id :: Ecto.UUID.t(),
           target_note_id :: Ecto.UUID.t(),
           relationship_type_id :: Ecto.UUID.t()
-        ) :: [NoteRelation.t(), ...]
+        ) :: NoteRelation.t()
   def get_note_relation!(source_note_id, target_note_id, relationship_type_id) do
     query =
       from nr in NoteRelation,
@@ -881,7 +881,10 @@ defmodule Klepsidra.KnowledgeManagement do
         content: n.rendered_content,
         status: n.status,
         relationship_type: rt.name,
-        reverse_relationship_type: rt.reverse_name
+        reverse_relationship_type: rt.reverse_name,
+        source_note_id: nr.source_note_id,
+        target_note_id: nr.target_note_id,
+        relationship_type_id: nr.relationship_type_id
       }
   end
 

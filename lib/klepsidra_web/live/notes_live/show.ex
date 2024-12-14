@@ -279,6 +279,63 @@ defmodule KlepsidraWeb.NotesLive.Show do
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
   @impl true
+  def handle_event(
+        "delete-outbound",
+        %{
+          "dom_id" => dom_id,
+          "source_note_id" => source_note_id,
+          "target_note_id" => target_note_id,
+          "relationship_type_id" => relationship_type_id
+        },
+        socket
+      ) do
+    note_relation =
+      KnowledgeManagement.get_note_relation!(source_note_id, target_note_id, relationship_type_id)
+
+    {:ok, _} = KnowledgeManagement.delete_note_relation(note_relation)
+
+    {:noreply,
+     handle_deleted_note_relation(
+       socket,
+       dom_id,
+       :outbound_note_relations,
+       :outbound_relations_count
+     )}
+  end
+
+  @impl true
+  def handle_event(
+        "delete-inbound",
+        %{
+          "dom_id" => dom_id,
+          "source_note_id" => source_note_id,
+          "target_note_id" => target_note_id,
+          "relationship_type_id" => relationship_type_id
+        },
+        socket
+      ) do
+    note_relation =
+      KnowledgeManagement.get_note_relation!(source_note_id, target_note_id, relationship_type_id)
+
+    {:ok, _} = KnowledgeManagement.delete_note_relation(note_relation)
+
+    {:noreply,
+     handle_deleted_note_relation(
+       socket,
+       dom_id,
+       :inbound_note_relations,
+       :inbound_relations_count
+     )}
+  end
+
+  defp handle_deleted_note_relation(socket, note_relation_dom_id, source_stream, count_assigns) do
+    socket
+    |> stream_delete_by_dom_id(source_stream, note_relation_dom_id)
+    |> update(count_assigns, fn count -> count - 1 end)
+    |> put_toast(:info, "Note relationship deleted successfully")
+  end
+
+  @impl true
   def handle_info(
         {KlepsidraWeb.NotesLive.NoteRelationshipComponent,
          {:saved_outbound_note_relation, note_relation}},

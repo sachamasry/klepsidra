@@ -52,7 +52,7 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
       "Defines whether the relationship stems out from this entity to the related one `:outbound`, or back in from the related entity `:inbound`"
   )
 
-  attr(:title, :string, required: true)
+  attr(:title, :string, required: true, doc: "Primary title for the related entity")
 
   attr :entity, :map, required: true
 
@@ -61,11 +61,31 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
     <article
       id={@id}
       name={@title}
-      class="group col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer"
+      class="group/entity relative col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75 hover:bg-peach-fuzz-600 hover:cursor-pointer hover:text-white"
     >
-      <.link navigate={~p"/knowledge_management/notes/#{@entity.id}"}>
+      <.link
+        phx-click={
+          JS.push("delete-#{@relation_direction}",
+            value: %{
+              dom_id: @id,
+              source_note_id: @entity.source_note_id,
+              target_note_id: @entity.target_note_id,
+              relationship_type_id: @entity.relationship_type_id
+            }
+          )
+          |> hide("##{@id}")
+        }
+        data-confirm="Are you sure you want to delete this relationship?"
+        class="group/unlink absolute right-5 top-5 h-6 w-6 hover:bg-rose-100 rounded-md"
+      >
+        <.icon
+          name="hero-trash"
+          class="relative h-4 w-4 inset-1/2 align-top -translate-x-1/2 -translate-y-1/2 bg-peach-fuzz-lightness-75 group-hover/unlink:bg-rose-600"
+        />
+      </.link>
+      <.link navigate={~p"/knowledge_management/notes/#{@entity.id}"} class="">
         <header>
-          <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover:text-white">
+          <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover/entity:text-white">
             <.icon :if={@relation_direction == :inbound} name="hero-arrow-long-left" class="h-4 w-4" />
             <%= if(@relation_direction == :inbound,
               do: @entity.reverse_relationship_type,

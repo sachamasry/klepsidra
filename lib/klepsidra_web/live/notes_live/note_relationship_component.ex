@@ -173,7 +173,8 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
           KnowledgeManagement.get_related_note(
             note_relation.source_note_id,
             note_relation.target_note_id,
-            note_relation.relationship_type_id
+            note_relation.relationship_type_id,
+            direction
           )
 
         if direction == :inbound do
@@ -200,8 +201,8 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
   defp construct_note_relation_map(source_note_id, target_note_id, relationship_type_id) do
     %{
       source_note_id: source_note_id,
-      relationship_type_id: relationship_type_id,
-      target_note_id: target_note_id
+      target_note_id: target_note_id,
+      relationship_type_id: relationship_type_id
     }
   end
 
