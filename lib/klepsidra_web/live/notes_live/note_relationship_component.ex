@@ -161,7 +161,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         socket
       ) do
     note_relation_params =
-      construct_note_relation_map(current_note_id, target_note_id, relationship_type_id)
+      construct_note_relation_map(target_note_id, current_note_id, relationship_type_id)
 
     save_note_relation(socket, socket.assigns.action, note_relation_params, :inbound)
   end

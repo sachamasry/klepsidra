@@ -21,15 +21,16 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
 
   def relation_listing(assigns) do
     ~H"""
-    <section
-      :if={@related_entities != []}
-      class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105 grid grid-cols-2 gap-6"
-    >
+    <section :if={@related_entities != []} class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105">
       <h3 class="font-extrabold text-violet-900/50 col-span-2">
         <%= @title %> (<%= @related_entity_count %>)
       </h3>
 
-      <div phx-update="stream" id={"#{@relation_direction}-related-entities"}>
+      <div
+        phx-update="stream"
+        id={"#{@relation_direction}-related-entities"}
+        class="grid grid-cols-2 gap-6 mt-4"
+      >
         <.related_entity
           :for={{dom_id, related_entity} <- @related_entities}
           id={dom_id}

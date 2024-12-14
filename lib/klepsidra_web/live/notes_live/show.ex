@@ -60,11 +60,10 @@ defmodule KlepsidraWeb.NotesLive.Show do
     outbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :outbound)
     inbound_note_relations = KnowledgeManagement.list_related_notes(note_id, :inbound)
 
-    note_relation_counts =
-      %{
-        outbound: KnowledgeManagement.aggregate_related_notes(note_id, :outbound).count,
-        inbound: KnowledgeManagement.aggregate_related_notes(note_id, :inbound).count
-      }
+    outbound_relations_count =
+      KnowledgeManagement.aggregate_related_notes(note_id, :outbound).count
+
+    inbound_relations_count = KnowledgeManagement.aggregate_related_notes(note_id, :inbound).count
 
     socket =
       socket
@@ -87,7 +86,8 @@ defmodule KlepsidraWeb.NotesLive.Show do
           default: default_relationship_type,
           all: relationship_type_options
         },
-        note_relation_counts: note_relation_counts
+        outbound_relations_count: outbound_relations_count,
+        inbound_relations_count: inbound_relations_count
       )
       |> stream(:outbound_note_relations, outbound_note_relations)
       |> stream(:inbound_note_relations, inbound_note_relations)
@@ -297,22 +297,16 @@ defmodule KlepsidraWeb.NotesLive.Show do
   end
 
   defp handle_saved_note_relation(socket, note_relation, :outbound) do
-    # note_metadata = title_notes_section(socket.assigns.note_count + 1)
-
     socket
     |> stream_insert(:outbound_note_relations, note_relation, at: 0)
-    # |> assign(:note_count, note_metadata.note_count)
-    # |> assign(:notes_title, note_metadata.section_title)
+    |> update(:outbound_relations_count, fn count -> count + 1 end)
     |> put_toast(:info, "Notes related successfully")
   end
 
   defp handle_saved_note_relation(socket, note_relation, :inbound) do
-    # note_metadata = title_notes_section(socket.assigns.note_count + 1)
-
     socket
     |> stream_insert(:inbound_note_relations, note_relation, at: 0)
-    # |> assign(:note_count, note_metadata.note_count)
-    # |> assign(:notes_title, note_metadata.section_title)
+    |> update(:inbound_relations_count, fn count -> count + 1 end)
     |> put_toast(:info, "Notes related successfully")
   end
 
