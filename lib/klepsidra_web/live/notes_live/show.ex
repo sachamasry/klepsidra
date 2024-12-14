@@ -337,6 +337,14 @@ defmodule KlepsidraWeb.NotesLive.Show do
 
   @impl true
   def handle_info(
+        {KlepsidraWeb.NotesLive.FormComponent, {:saved, _note}},
+        socket
+      ) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(
         {KlepsidraWeb.NotesLive.NoteRelationshipComponent,
          {:saved_outbound_note_relation, note_relation}},
         socket

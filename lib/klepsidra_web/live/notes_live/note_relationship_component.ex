@@ -57,7 +57,12 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
             options={@relationship_type_options.all}
           />
 
-          <.input label="Relationship properties" field={f[:properties]} type="textarea" />
+          <.input
+            label="Relationship properties"
+            placeholder="Record specific properties, or metadata, further describing this relationship, in JSON notation"
+            field={f[:properties]}
+            type="textarea"
+          />
           <.input label="Make this an inbound relation?" field={f[:reverse_relation]} type="checkbox" />
           <.button phx-disable-with="Saving note...">Relate</.button>
         </.simple_form>

@@ -62,6 +62,7 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
       id={@id}
       name={@title}
       class="group/entity relative col-span-1 rounded-lg max-h-48 overflow-clip p-6 bg-peach-fuzz-lightness-75 hover:bg-peach-fuzz-600 hover:cursor-pointer hover:text-white"
+      title={@entity.properties}
     >
       <.link
         phx-click={

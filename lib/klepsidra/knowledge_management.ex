@@ -881,6 +881,7 @@ defmodule Klepsidra.KnowledgeManagement do
         content: n.rendered_content,
         status: n.status,
         relationship_type: rt.name,
+        properties: nr.properties,
         reverse_relationship_type: rt.reverse_name,
         source_note_id: nr.source_note_id,
         target_note_id: nr.target_note_id,
