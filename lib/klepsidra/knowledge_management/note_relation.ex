@@ -20,13 +20,13 @@ defmodule Klepsidra.KnowledgeManagement.NoteRelation do
           source_note_id: Ecto.UUID.t(),
           target_note_id: Ecto.UUID.t(),
           relationship_type_id: Ecto.UUID.t(),
-          properties: map()
+          properties: String.t()
         }
   schema "knowledge_management_note_relations" do
     belongs_to(:source_note, Note, primary_key: true, type: Ecto.UUID)
     belongs_to(:target_note, Note, primary_key: true, type: Ecto.UUID)
     belongs_to(:relationship_type, RelationshipType, primary_key: true, type: Ecto.UUID)
-    field :properties, :map
+    field :properties, :string
     field :reverse_relation, :boolean, default: false, virtual: true
 
     timestamps()

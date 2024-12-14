@@ -56,6 +56,8 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
             selected={@relationship_type_options.default}
             options={@relationship_type_options.all}
           />
+
+          <.input label="Relationship properties" field={f[:properties]} type="textarea" />
           <.input label="Make this an inbound relation?" field={f[:reverse_relation]} type="checkbox" />
           <.button phx-disable-with="Saving note...">Relate</.button>
         </.simple_form>
@@ -140,12 +142,18 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
           "id" => current_note_id,
           "relationship_type_id" => relationship_type_id,
           "target_note_id" => target_note_id,
+          "properties" => properties,
           "reverse_relation" => "false"
         },
         socket
       ) do
     note_relation_params =
-      construct_note_relation_map(current_note_id, target_note_id, relationship_type_id)
+      construct_note_relation_map(
+        current_note_id,
+        target_note_id,
+        relationship_type_id,
+        properties
+      )
 
     save_note_relation(socket, socket.assigns.action, note_relation_params, :outbound)
   end
@@ -156,12 +164,18 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
           "id" => current_note_id,
           "relationship_type_id" => relationship_type_id,
           "target_note_id" => target_note_id,
+          "properties" => properties,
           "reverse_relation" => "true"
         },
         socket
       ) do
     note_relation_params =
-      construct_note_relation_map(target_note_id, current_note_id, relationship_type_id)
+      construct_note_relation_map(
+        target_note_id,
+        current_note_id,
+        relationship_type_id,
+        properties
+      )
 
     save_note_relation(socket, socket.assigns.action, note_relation_params, :inbound)
   end
@@ -198,11 +212,17 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
     end
   end
 
-  defp construct_note_relation_map(source_note_id, target_note_id, relationship_type_id) do
+  defp construct_note_relation_map(
+         source_note_id,
+         target_note_id,
+         relationship_type_id,
+         properties
+       ) do
     %{
       source_note_id: source_note_id,
       target_note_id: target_note_id,
-      relationship_type_id: relationship_type_id
+      relationship_type_id: relationship_type_id,
+      properties: properties
     }
   end
 
