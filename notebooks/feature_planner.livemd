@@ -9,7 +9,8 @@
 3. [Trip tracker](#trip-tracker)
    1. [Trip tracker schema](#trip-tracker-schema)
 4. [Notes](#notes)
-5. To-Dos
+5. [Unified search](#unified-search)
+6. To-Dos
 
 ## User authentication
 
@@ -2724,3 +2725,132 @@ CREATE TABLE knowledge_management_reviews (
     FOREIGN KEY (note_id) REFERENCES knowledge_management_notes (note_id)
 );
 ```
+
+## Unified search
+
+_Unified search_ encapsulates the idea that all, or almost all, entities in a system be indexd for full-text search, enabling excellent user experience through searching for _anything_ from one central location.
+
+<!-- livebook:{"break_markdown":true} -->
+
+An implementation direction for this unified search is a hybrid approach with first-class fields for faceted search and a generic content field for broader full-text search. In determining the discrete fields needed for the actual faceted search, a focus on attributes commonly shared across many disparate entities was taken. These fields should serve as filters or facets, enabling advanced and precise searches.
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Entity Metadata
+
+   * entity_id: Unique identifier for each entity (e.g., user ID, post ID, product ID).
+   * entity_type: Type of the entity (e.g., “user”, “post”, “product”).
+
+2. Temporal Attributes
+
+   * created_at: Timestamp indicating when the entity was created.
+   * updated_at: Timestamp for the last update to the entity.
+
+3. Categorical Attributes
+
+   * category: High-level category or type within an entity type (e.g., “blog”, “news”, “profile”).
+   * status: Current state of the entity (e.g., “active”, “archived”, “draft”).
+
+4. Ownership/Associations
+
+   * owner_id: ID of the user or entity that owns this item (e.g., author of a post, creator of a product).
+   * group_id: ID of a related grouping or collection (e.g., project ID, organization ID).
+
+5. Searchable Identifiers
+
+   * title: A short descriptive title (e.g., post title, product name, username).
+   * subtitle: Secondary descriptor (subtitle, abstract, or summary).
+   * tags: A list of tags or keywords for faceted filtering.
+
+6. Location Information
+
+   * location: Geographical location associated with the entity, if applicable (e.g., city, country).
+
+7. Generic Content
+
+   * content: Concatenation of all other non-first-class searchable fields.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Example: Aggregated View Design
+
+```sql
+CREATE VIEW search_view AS
+SELECT 
+    -- Shared across all entities
+    entity_id, 
+    entity_type,         -- Type of entity (e.g., “user”, “post”, “product”).
+    category,            -- High-level category.
+    status,              -- State of the entity.
+    owner_id,            -- ID of the owner or creator.
+    group_id,            -- Associated group or collection.
+    title,               -- Primary descriptor.
+    subtitle,            -- Secondary descriptor (subtitle, abstract, or summary).
+    tags,                -- List of tags or keywords.
+    location,            -- Associated geographical location.
+    created_at, 
+    updated_at, 
+    
+    -- Concatenated content field for full-text search
+    content
+FROM (
+    -- Example for "users"
+    SELECT 
+        user_id AS entity_id, 
+        'user' AS entity_type, 
+        created_at, 
+        updated_at, 
+        NULL AS category, 
+        status, 
+        user_id AS owner_id, 
+        NULL AS group_id, 
+        name AS title, 
+        tags, 
+        location, 
+        bio || ' ' || additional_info AS content
+    FROM users
+    UNION ALL
+    -- Example for "posts"
+    SELECT 
+        post_id AS entity_id, 
+        'post' AS entity_type, 
+        created_at, 
+        updated_at, 
+        category, 
+        status, 
+        author_id AS owner_id, 
+        project_id AS group_id, 
+        title, 
+        tags, 
+        location, 
+        title || ' ' || body || ' ' || metadata AS content
+    FROM posts
+    UNION ALL
+    -- Example for "products"
+    SELECT 
+        product_id AS entity_id, 
+        'product' AS entity_type, 
+        created_at, 
+        updated_at, 
+        category, 
+        status, 
+        creator_id AS owner_id, 
+        NULL AS group_id, 
+        name AS title, 
+        tags, 
+        location, 
+        name || ' ' || description || ' ' || specifications AS content
+    FROM products
+);
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Why These Fields?
+
+1. entity_id and entity_type: Essential for identifying the source and type of data in searches.
+2. created_at and updated_at: Useful for temporal filtering, e.g., finding recent or outdated entities.
+3. category and status: Allow faceted search based on the nature or lifecycle stage of the entity.
+4. owner_id and group_id: Enable filtering by ownership or related collections.
+5. title, subtitle and tags: Provide concise, meaningful entry points for both display and filtering.
+6. content: Consolidates all text fields to ensure comprehensive full-text search.

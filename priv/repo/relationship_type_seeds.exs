@@ -179,6 +179,12 @@ predefined_relationship_types = [
     reverse_name: "Co-occurs with",
     description:
       "TEMPORAL: Notes two events or ideas that happen simultaneously or are strongly correlated"
+  },
+  %{
+    name: "Mechanism of",
+    reverse_name: "Mechanism for",
+    description:
+      "Identifies a causal relationship, where one idea is a mechanism of the latter's functioning"
   }
 ]
 
