@@ -37,6 +37,8 @@ all:
 	@echo "	db-migrate   			Migrate database"
 	@echo "	db-doc 				Generate database schema documentation"
 	@echo
+	@echo "	rebuild-fts-index		Rebuild the application full-text search (FTS) index"
+	@echo
 
 setup: get-production-dependencies tls-certificate compile-project db-migration setup-assets
 
@@ -192,3 +194,9 @@ security-scan:
 	@echo "==> Generating detailed Paraxial codebase scan"
 	source ./.env && mix paraxial.scan
 	@echo "--> Detailed Paraxial codebase scan complete. Run the application server to upload scan results"
+
+# Rebuilds the full-text search index
+rebuild-fts-index:
+	@echo "==> Building new full-text search (FTS) index"
+	MIX_ENV=test mix rebuild_fts_index
+	@echo "--> Successfully built new full-text search (FTS) index"

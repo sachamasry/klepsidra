@@ -8,6 +8,13 @@ defmodule Klepsidra.Search do
 
   alias Klepsidra.Search.UnifiedSearch
 
+  @type exqlite_result :: %Exqlite.Result{
+          columns: [String.t()] | nil,
+          command: atom(),
+          num_rows: integer(),
+          rows: [[term()] | term()] | nil
+        }
+
   @doc """
   Force a full rebuild of the full-text search index.
 
@@ -28,7 +35,8 @@ defmodule Klepsidra.Search do
   table will need to be carried out by way of incremental `INSERT INTO`
   queries, best run by defined `TRIGGER`s.
   """
-  @spec rebuild_fts_index() :: {:ok, Exqlite.Result.t()}
+  @spec rebuild_fts_index() ::
+          {:ok, exqlite_result()} | any()
   def rebuild_fts_index do
     Repo.transaction(fn ->
       Ecto.Adapters.SQL.query!(

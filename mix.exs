@@ -24,7 +24,7 @@ defmodule Klepsidra.MixProject do
       ],
       dialyzer: [
         plt_add_deps: :apps_direct,
-        plt_add_apps: [:ecto, :decimal],
+        plt_add_apps: [:mix, :ecto, :decimal],
         plt_ignore_apps: [],
         list_unused_filters: true,
         flags: [
