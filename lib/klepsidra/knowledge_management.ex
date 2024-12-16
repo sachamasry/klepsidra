@@ -546,16 +546,6 @@ defmodule Klepsidra.KnowledgeManagement do
     Repo.insert_all(NoteSearch, query)
   end
 
-  # INSERT INTO knowledge_management_notes_search(note_id, title, content, summary, tags)
-  # SELECT kmn.id, kmn.title, kmn.content, kmn.summary, GROUP_CONCAT(t.name, ' ⸱ ') tags
-
-  # LEFT JOIN knowledge_management_note_tags kmnt 
-  # ON kmn.id = kmnt.note_id 
-  # LEFT JOIN tags t 
-  # ON kmnt.tag_id = t.id 
-
-  # GROUP BY kmn.id, kmn.title, kmn.content, kmn.summary 
-
   alias Klepsidra.KnowledgeManagement.RelationshipType
 
   @doc """
