@@ -4,7 +4,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
   def up do
     execute("""
     CREATE VIEW IF NOT EXISTS unified_search_view AS
-    SELECT rowid, entity_id, entity, category, status, owner_id, group_id, title, subtitle, tags, location, content, inserted_at, updated_at FROM
+    SELECT rowid, entity_id, entity, category, status, owner_id, group_id, title, subtitle, NULL AS author, tags, location, body, inserted_at, updated_at FROM
     (
     -- Annotations
     SELECT rowid AS rowid, id AS entity_id, 'annotation' AS entity,
@@ -14,7 +14,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     END AS category,
     NULL AS status, NULL AS owner_id, NULL AS group_id, author_name AS title,
     NULL AS subtitle, NULL AS tags, NULL AS location,
-    concat(text, ' · ', comment, ' · ', position_reference) AS content,
+    concat(text, ' · ', comment, ' · ', position_reference) AS body,
     inserted_at, updated_at
     FROM annotations a
     UNION ALL
@@ -25,7 +25,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     'Business partner note' AS category,
     NULL AS status, NULL AS owner_id, NULL AS group_id, bp.name AS title,
     NULL AS subtitle, NULL AS tags, NULL AS location,
-    note AS content,
+    note AS body,
     bpn.inserted_at, bpn.updated_at
     FROM business_partner_notes bpn
     LEFT JOIN business_partners bp
@@ -45,7 +45,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     END AS status,
     NULL AS owner_id, NULL AS group_id, name AS title, NULL AS subtitle,
     NULL AS tags, NULL AS location,
-    NULL AS content,
+    NULL AS body,
     inserted_at, updated_at
     FROM business_partners bp
     UNION ALL
@@ -58,7 +58,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     NULL AS status, NULL AS owner_id, NULL AS group_id,
     di.name AS title, NULL AS subtitle, NULL AS tags,
     lc.country_name AS location,
-    concat(di.description, ' · ', di.contact_information, ' · ', di.website_url) AS content,
+    concat(di.description, ' · ', di.contact_information, ' · ', di.website_url) AS body,
     di.inserted_at, di.updated_at
     FROM document_issuers di
     LEFT JOIN locations_countries lc
@@ -72,7 +72,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     'Document type' AS category,
     NULL AS status, NULL AS owner_id, NULL AS group_id,
     name AS title, NULL AS subtitle, NULL AS tags, NULL AS location,
-    description AS content,
+    description AS body,
     inserted_at, updated_at
     FROM document_types dt
     UNION ALL
@@ -83,7 +83,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     je.highlights AS title, NULL AS subtitle,
     GROUP_CONCAT(t.name, ' · ') AS tags,
     NULL AS location,
-    je.entry_text_markdown AS content,
+    je.entry_text_markdown AS body,
     je.inserted_at, je.updated_at
     FROM journal_entries je
     LEFT JOIN journal_entry_types jety
@@ -108,7 +108,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     END AS status,
     NULL AS owner_id, NULL AS group_id, name AS title, NULL AS subtitle,
     NULL AS tags, NULL AS location,
-    description AS content,
+    description AS body,
     inserted_at, updated_at
     FROM journal_entry_types jet
     UNION ALL
@@ -120,7 +120,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     kmn.status AS status, NULL AS owner_id, NULL AS group_id,
     kmn.title AS title, kmn.summary AS subtitle,
     GROUP_CONCAT(t.name, ' · ') AS tags, NULL AS location,
-    kmn.content AS content,
+    kmn.content AS body,
     kmn.inserted_at, kmn.updated_at
     FROM knowledge_management_notes kmn
     LEFT JOIN knowledge_management_note_tags kmnt
@@ -136,7 +136,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     NULL AS status, NULL AS owner_id, NULL AS group_id,
     name AS title, reverse_name AS subtitle,
     NULL AS tags, NULL AS location,
-    description AS content,
+    description AS body,
     inserted_at, updated_at
     FROM knowledge_management_relationship_types kmrt
     UNION ALL
@@ -148,7 +148,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     NULL AS status, NULL AS owner_id, NULL AS group_id,
     p.name AS title, NULL AS subtitle,
     NULL AS tags, NULL AS location,
-    pn.note AS content,
+    pn.note AS body,
     pn.inserted_at, pn.updated_at
     FROM project_notes pn
     LEFT JOIN projects p
@@ -165,7 +165,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     p.name AS title, NULL AS subtitle,
     GROUP_CONCAT(t.name, ' · ') AS tags,
     NULL AS location,
-    concat(p.description, ' · ', bp.name, ' · ', p.project_type, ' · ', p.status, ' · ', p.priority) AS content,
+    concat(p.description, ' · ', bp.name, ' · ', p.project_type, ' · ', p.status, ' · ', p.priority) AS body,
     p.inserted_at, p.updated_at
     FROM projects p
     LEFT JOIN project_tags pt
@@ -180,7 +180,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     tn.id AS entity_id, 'timer_note' AS entity, 'Timer note' AS category,
     NULL AS status, NULL AS owner_id, NULL AS group_id, NULL AS title,
     NULL AS subtitle, NULL AS tags, NULL AS location,
-    tn.note AS content,
+    tn.note AS body,
     tn.inserted_at, tn.updated_at
     FROM timer_notes tn
     LEFT JOIN timers t
@@ -198,7 +198,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     NULL AS subtitle,
     GROUP_CONCAT(ta.name, ' · ') AS tags,
     NULL AS location,
-    concat(t.description, ' · ', bp.name, ' · ', p.name, ' · ', GROUP_CONCAT(tn.note, ' · ')) AS content,
+    concat(t.description, ' · ', bp.name, ' · ', p.name, ' · ', GROUP_CONCAT(tn.note, ' · ')) AS body,
     t.inserted_at, t.updated_at
     FROM timers t
     LEFT JOIN timer_tags tt
@@ -221,7 +221,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     END AS status,
     tt.user_id AS owner_id, NULL AS group_id, u.user_name AS title,
     lc.country_name AS subtitle, NULL AS tags, NULL AS location,
-    concat(tt.description, ' · ', tt.entry_date, ' · ', tt.entry_point, ' · ', tt.exit_date, ' · ', tt.exit_point) AS content,
+    concat(tt.description, ' · ', tt.entry_date, ' · ', tt.entry_point, ' · ', tt.exit_date, ' · ', tt.exit_point) AS body,
     tt.inserted_at, tt.updated_at
     FROM travel_trips tt
     LEFT JOIN users u
@@ -240,7 +240,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     END AS status,
     ud.user_id AS owner_id, NULL AS group_id, ud.name AS title,
     u.user_name AS subtitle, NULL AS tags, lc.country_name AS location,
-    concat(ud.description, ' · ', u.user_name, ' · ', di.name, ' · ', ud.unique_reference_number, ' · ', ud.issued_at, ' · ', ud.expires_at, ' · ', ud.invalidation_reason) AS content,
+    concat(ud.description, ' · ', u.user_name, ' · ', di.name, ' · ', ud.unique_reference_number, ' · ', ud.issued_at, ' · ', ud.expires_at, ' · ', ud.invalidation_reason) AS body,
     ud.inserted_at, ud.updated_at
     FROM user_documents ud
     LEFT JOIN document_issuers di
