@@ -70,16 +70,19 @@ What is incredibly useful about this software is that these snippets can be open
     * [X] On creation of new relation, add to stream
     * [X] Permit deletion, and removal from stream
   * [ ] Develop a FTS search feature, opening a page listing all matching results
+    * [X] Develop unified entity view
+    * [X] Create FTS table
+    * [ ] Create query and protocol for completely rebuilding the FTS table from the view
+    * [ ] Implement global search view
 * [ ] UI and UX improvements
   * [X] Start implementing new colour scheme based around Peach Fuzz, Pantone 13-1023
-  * [ ] Begin converting all colour references to OKCLH
   * [ ] Randomise colours for new tags
   * [ ] Display tags for open and closed timers, on timer listings
   * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
 * [ ] Debugging
   * [X] Tagging notes that haven't yet been saved doesn't work
   * [X] Updating notes fails with the following error message:
-  * [ ] Journal entries cannot be viewed as the show view breaks
+  * [X] Journal entries cannot be viewed as the show view breaks
   * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
 
 ## Release 0.1.5
@@ -92,6 +95,7 @@ Audit all existing code for documentation quality, documenting missing functiona
   * [ ] End date, project review date, deadline date, etc.
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
 * [ ] UI and UX improvements
+  * [ ] Convert all colour references to OKCLH
   * [ ] On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
   * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
   * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
