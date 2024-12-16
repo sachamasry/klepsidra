@@ -15,7 +15,7 @@ defmodule KlepsidraWeb.SearchPageLive do
     <.header>
       Search
       <:actions>
-        <.outline_button phx-click={JS.push("search", value: %{show_search: true})}>
+        <.outline_button :if={false} phx-click={JS.push("search", value: %{show_search: true})}>
           <.icon name="hero-magnifying-glass" /> Search
         </.outline_button>
       </:actions>
@@ -26,6 +26,7 @@ defmodule KlepsidraWeb.SearchPageLive do
         module={SearchComponent}
         id="search-results"
         show={@show_search}
+        modal={false}
         on_cancel={JS.push("search", value: %{show_search: false})}
       />
     </div>

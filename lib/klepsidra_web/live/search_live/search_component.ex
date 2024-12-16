@@ -10,14 +10,16 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
     {:ok, socket, temporary_assigns: [entities: []]}
   end
 
+  attr :modal, :boolean, default: true, doc: "Display search in a modal pop-up?"
+
   @impl true
   def render(assigns) do
     ~H"""
     <div id="document-search-container">
-      <.search_modal :if={@show} id="search-modal" show on_cancel={@on_cancel}>
+      <.search_modal :if={@show && @modal} id="search-modal" show on_cancel={@on_cancel}>
         <:header_block>
           <.search_input
-            placeholder="Searc "
+            placeholder="Search"
             value={@search_query}
             phx-target={@myself}
             phx-keyup="do-search"
@@ -26,6 +28,17 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
         </:header_block>
         <.search_results docs={@entities} />
       </.search_modal>
+
+      <div :if={@modal == false} class="mt-6">
+        <.search_input
+          placeholder="Search"
+          value={@search_query}
+          phx-target={@myself}
+          phx-keyup="do-search"
+          phx-debounce="200"
+        />
+        <.search_results docs={@entities} />
+      </div>
     </div>
     """
   end
@@ -255,20 +268,24 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
     })
   end
 
-  defp add_entity_icon_and_url(%{entity: "business_partner_note"} = search_result) do
-    Map.merge(search_result, %{icon_name: nil, url: "/annotations/#{search_result.id}"})
-  end
-
   defp add_entity_icon_and_url(
          %{entity: "business_partner_note", category: "Customer note"} = search_result
        ) do
-    Map.merge(search_result, %{icon_name: nil, url: "/customers/#{search_result.id}"})
+    business_partner_id =
+      Klepsidra.BusinessPartners.get_note!(search_result.id)
+      |> Map.get(:business_partner_id)
+
+    Map.merge(search_result, %{icon_name: nil, url: "/customers/#{business_partner_id}"})
   end
 
   defp add_entity_icon_and_url(
          %{entity: "business_partner_note", category: "Supplier note"} = search_result
        ) do
-    Map.merge(search_result, %{icon_name: nil, url: "/suppliers/#{search_result.id}"})
+    business_partner_id =
+      Klepsidra.BusinessPartners.get_note!(search_result.id)
+      |> Map.get(:business_partner_id)
+
+    Map.merge(search_result, %{icon_name: nil, url: "/suppliers/#{business_partner_id}"})
   end
 
   defp add_entity_icon_and_url(
@@ -280,7 +297,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
   defp add_entity_icon_and_url(
          %{entity: "business_partner_note", category: "Supplier"} = search_result
        ) do
-    Map.merge(search_result, %{icon_name: "hero-briefcase", url: "/suppliers/"})
+    Map.merge(search_result, %{icon_name: "hero-briefcase", url: "/suppliers/#{search_result.id}"})
   end
 
   defp add_entity_icon_and_url(%{entity: "document_issuer"} = search_result) do
@@ -319,7 +336,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
   end
 
   defp add_entity_icon_and_url(
-         %{entity: "knowledge_management_relationship_tpye"} = search_result
+         %{entity: "knowledge_management_relationship_type"} = search_result
        ) do
     Map.merge(search_result, %{
       icon_name: "hero-link",
@@ -328,9 +345,13 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
   end
 
   defp add_entity_icon_and_url(%{entity: "project_note"} = search_result) do
+    project_id =
+      Klepsidra.Projects.get_note!(search_result.id)
+      |> Map.get(:project_id)
+
     Map.merge(search_result, %{
       icon_name: nil,
-      url: "/projects/#{search_result.id}"
+      url: "/projects/#{project_id}"
     })
   end
 
@@ -342,9 +363,13 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
   end
 
   defp add_entity_icon_and_url(%{entity: "timer_note"} = search_result) do
+    timer_id =
+      Klepsidra.TimeTracking.get_note!(search_result.id)
+      |> Map.get(:timer_id)
+
     Map.merge(search_result, %{
       icon_name: nil,
-      url: "/timers/#{search_result.id}"
+      url: "/timers/#{timer_id}"
     })
   end
 
