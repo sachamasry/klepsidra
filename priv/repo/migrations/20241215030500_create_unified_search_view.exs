@@ -52,7 +52,10 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     bpn.rowid + 1_000_000_000_000 AS rowid,
     bpn.id AS entity_id,
     'business_partner_note' AS entity,
-    'Business partner note' AS category,
+    CASE
+    WHEN bp.customer THEN 'Customer note'
+    WHEN bp.supplier THEN 'Supplier note'
+    END AS category,
     NULL AS status,
     NULL AS owner_id,
     NULL AS group_id,
@@ -205,7 +208,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     SELECT
     kmn.rowid + 7_000_000_000_000 AS rowid,
     kmn.id AS entity_id,
-    'knowledge_managent_note' AS entity,
+    'knowledge_management_note' AS entity,
     'Knowledge management note' AS category,
     kmn.status AS status,
     NULL AS owner_id,

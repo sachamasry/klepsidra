@@ -51,6 +51,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
           search_phrase,
           []
         )
+        |> add_application_affordances()
       end
 
     socket =
@@ -99,11 +100,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
         No Results
       </li>
 
-      <.link
-        :for={doc <- @docs}
-        navigate={~p"/knowledge_management/notes/#{doc.id}"}
-        id={"doc-#{doc.id}"}
-      >
+      <.link :for={doc <- @docs} navigate={"#{doc.url}"} id={"doc-#{doc.id}"}>
         <.result_item doc={doc} />
       </.link>
     </ul>
@@ -111,6 +108,12 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
   end
 
   attr :doc, :map, required: true
+
+  attr :icon_name, :string,
+    default: "hero-document-text",
+    doc: "Icon to display next to search result"
+
+  # attr :url, :string, required: true
 
   def result_item(assigns) do
     ~H"""
@@ -121,7 +124,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
       tabindex="-1"
     >
       <!-- svg of a document -->
-      <.icon name="hero-document-text" class="basis-5 shrink-0 grow-0 h-5 w-5" />
+      <.icon name={"#{@doc.icon_name || @icon_name}"} class="basis-5 shrink-0 grow-0 h-5 w-5" />
       <div>
         <div class="text-lg font-semibold leading-6 text-slate-700 group-hover:text-white group-hover:font-bold">
           <%= @doc.title %>
@@ -231,5 +234,145 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
       Exqlite.Error ->
         default
     end
+  end
+
+  defp add_application_affordances(search_results) when is_list(search_results) do
+    search_results
+    |> Enum.map(fn rec -> add_entity_icon_and_url(rec) end)
+  end
+
+  defp add_entity_icon_and_url(%{entity: "annotation", category: "Quote"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-chat-bubble-bottom-center-text",
+      url: "/annotations/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "annotation"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-pencil-square",
+      url: "/annotations/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "business_partner_note"} = search_result) do
+    Map.merge(search_result, %{icon_name: nil, url: "/annotations/#{search_result.id}"})
+  end
+
+  defp add_entity_icon_and_url(
+         %{entity: "business_partner_note", category: "Customer note"} = search_result
+       ) do
+    Map.merge(search_result, %{icon_name: nil, url: "/customers/#{search_result.id}"})
+  end
+
+  defp add_entity_icon_and_url(
+         %{entity: "business_partner_note", category: "Supplier note"} = search_result
+       ) do
+    Map.merge(search_result, %{icon_name: nil, url: "/suppliers/#{search_result.id}"})
+  end
+
+  defp add_entity_icon_and_url(
+         %{entity: "business_partner", category: "Customer"} = search_result
+       ) do
+    Map.merge(search_result, %{icon_name: "hero-briefcase", url: "/customers/#{search_result.id}"})
+  end
+
+  defp add_entity_icon_and_url(
+         %{entity: "business_partner_note", category: "Supplier"} = search_result
+       ) do
+    Map.merge(search_result, %{icon_name: "hero-briefcase", url: "/suppliers/"})
+  end
+
+  defp add_entity_icon_and_url(%{entity: "document_issuer"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-document",
+      url: "/document_issuers/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "document_type"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-document",
+      url: "/document_types/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "journal_entry"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-book-open",
+      url: "/journal_entries/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "journal_entry_type"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-book-open",
+      url: "/journal_entry_types/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "knowledge_management_note"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: nil,
+      url: "/knowledge_management/notes/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(
+         %{entity: "knowledge_management_relationship_tpye"} = search_result
+       ) do
+    Map.merge(search_result, %{
+      icon_name: "hero-link",
+      url: "/knowledge_management/relationship_types/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "project_note"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: nil,
+      url: "/projects/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "project"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-calendar-date-range",
+      url: "/projects/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "timer_note"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: nil,
+      url: "/timers/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "timer"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-clock",
+      url: "/timers/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "travel_trip"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-globe-europe-africa",
+      url: "/trips/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(%{entity: "user_document"} = search_result) do
+    Map.merge(search_result, %{
+      icon_name: "hero-document",
+      url: "/user_documents/#{search_result.id}"
+    })
+  end
+
+  defp add_entity_icon_and_url(search_result) do
+    Map.merge(search_result, %{
+      icon_name: nil,
+      url: "/#{search_result.entity}/#{search_result.id}"
+    })
   end
 end
