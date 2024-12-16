@@ -48,7 +48,7 @@ defmodule Klepsidra.Search.UnifiedSearch do
           location: String.t(),
           text: String.t()
         }
-  schema "unified_search" do
+  schema "search" do
     field :entity_id, Ecto.UUID
     field :entity, :string
     field :category, :string

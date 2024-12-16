@@ -7,7 +7,7 @@ defmodule KlepsidraWeb.SearchPageLive do
   use KlepsidraWeb, :live_view
 
   import KlepsidraWeb.ButtonComponents
-  alias KlepsidraWeb.NotesLive.SearchComponent
+  alias KlepsidraWeb.SearchLive.SearchComponent
 
   @impl true
   def render(assigns) do
@@ -26,7 +26,7 @@ defmodule KlepsidraWeb.SearchPageLive do
         module={SearchComponent}
         id="search-results"
         show={@show_search}
-        on_cancel={JS.push("search_notes", value: %{show_search: false})}
+        on_cancel={JS.push("search", value: %{show_search: false})}
       />
     </div>
     """

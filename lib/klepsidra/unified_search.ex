@@ -57,14 +57,14 @@ defmodule Klepsidra.Search do
   @spec filter_search_fts_matching_fts(query :: Ecto.Query.t(), search_phrase :: String.t()) ::
           Ecto.Query.t()
   def filter_search_fts_matching_fts(query, search_phrase) do
-    from [search: ns] in query,
+    from [search: s] in query,
       where: fragment("search MATCH ?", ^search_phrase)
   end
 
   @doc false
   @spec order_by_search_fts_asc_rank(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def order_by_search_fts_asc_rank(query) do
-    from [search: ns] in query,
+    from [search: s] in query,
       order_by: [asc: :rank]
   end
 
