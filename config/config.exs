@@ -10,6 +10,23 @@ import Config
 config :klepsidra,
   ecto_repos: [Klepsidra.Repo]
 
+config :klepsidra, Oban,
+  engine: Oban.Engines.Lite,
+  queues: [default: 10, mailers: 20, events: 50, media: 5],
+  repo: Klepsidra.Repo,
+  plugins: [
+    {Oban.Plugins.Cron,
+     crontab: [
+       # {"* * * * *", MyApp.MinuteWorker},
+       # {"* * * * *", Klepsidra.Workers.ScheduledFtsRebuildWorker, queue: :default},
+       # {"0 * * * *", MyApp.HourlyWorker, args: %{custom: "arg"}},
+       {"0 * * * *", Klepsidra.Workers.ScheduledFtsRebuildWorker, queue: :default}
+       # {"0 0 * * *", MyApp.DailyWorker, max_attempts: 1},
+       # {"0 12 * * MON", MyApp.MondayWorker, queue: :scheduled, tags: ["mondays"]},
+       # {"@daily", MyApp.AnotherDailyWorker}
+     ]}
+  ]
+
 config :klepsidra, Klepsidra.TimeTracking.Timer,
   default_date_format: "{WDfull}, {D} {Mshort} {YYYY}",
   default_time_format: "{h24}:{m}"

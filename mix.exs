@@ -198,7 +198,8 @@ defmodule Klepsidra.MixProject do
       {:color_contrast, "~> 1.1"},
       # {:phoenix_live_head, "~> 0.2.0"},
       {:phoenix_live_head,
-       path: "~/Development/elixir/vendor/for-pr/phoenix_live_head", override: true}
+       path: "~/Development/elixir/vendor/for-pr/phoenix_live_head", override: true},
+      {:oban, "~> 2.17"}
     ]
   end
 

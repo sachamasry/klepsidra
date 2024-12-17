@@ -17,6 +17,8 @@ config :klepsidra, KlepsidraWeb.Endpoint,
   secret_key_base: "rAphGD+z8WlJq/eQccHqCldYLmiOvi+4+8xVTZw0CFNdjDqVjw1Fys86GQgfEzvC",
   server: false
 
+config :klepsidra, Oban, testing: :inline
+
 # In test we don't send emails.
 config :klepsidra, Klepsidra.Mailer, adapter: Swoosh.Adapters.Test
 

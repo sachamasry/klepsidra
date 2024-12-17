@@ -12,6 +12,8 @@ defmodule Klepsidra.Application do
       KlepsidraWeb.Telemetry,
       # Start the Ecto repository
       Klepsidra.Repo,
+      # Start Oban
+      {Oban, Application.fetch_env!(:klepsidra, Oban)},
       # Start the PubSub system
       {Phoenix.PubSub, name: Klepsidra.PubSub},
       # Start Finch
