@@ -198,5 +198,5 @@ security-scan:
 # Rebuilds the full-text search index
 rebuild-fts-index:
 	@echo "==> Building new full-text search (FTS) index"
-	MIX_ENV=test mix rebuild_fts_index
+	MIX_ENV=prod mix rebuild_fts_index
 	@echo "--> Successfully built new full-text search (FTS) index"
