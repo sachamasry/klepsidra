@@ -333,7 +333,7 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     tn.timer_id = t.id
     UNION ALL
     -- Timers
-    SELECT
+    	SELECT
     t.rowid + 12_000_000_000_000 AS rowid,
     t.id AS entity_id,
     'timer' AS entity,
@@ -348,29 +348,34 @@ defmodule Klepsidra.Repo.Migrations.CreateUnifiedSearchView do
     concat(t.start_stamp, '–', t.end_stamp) AS title,
     NULL AS subtitle,
     NULL AS author,
-    GROUP_CONCAT(ta.name, ' · ') AS tags,
+    ta.tags AS tags,
     NULL AS location,
-    concat(t.description, ' · ', bp.name, ' · ', p.name, ' · ', GROUP_CONCAT(tn.note, ' · ')) AS text,
+    concat(t.description, ' · ', tn.notes, ' · ', bp.name, ' · ', p.name) AS text,
     t.inserted_at,
     t.updated_at
     FROM
     timers t
-    LEFT JOIN timer_tags tt
-    ON
-    t.id = tt.timer_id
-    LEFT JOIN tags ta
-    ON
-    tt.tag_id = ta.id
     LEFT JOIN business_partners bp
     ON
     T.business_partner_id = bp.id
     LEFT JOIN projects p
     ON
     t.project_id = p.id
-    LEFT JOIN timer_notes tn
-    ON
-    t.id = tn.timer_id
-    GROUP BY entity_id
+    LEFT JOIN (
+    SELECT tt.timer_id, GROUP_CONCAT(t.name, ' · ') AS tags
+    FROM timer_tags tt
+    LEFT JOIN tags t
+    ON tt.tag_id = t.id
+    GROUP BY tt.timer_id
+    ) AS ta
+    ON t.id = ta.timer_id
+    LEFT JOIN (
+    SELECT tn.timer_id, GROUP_CONCAT(tn.note, ' · ') AS notes
+    FROM timer_notes tn
+    GROUP BY tn.timer_id
+    ) AS tn
+    ON tn.timer_id = t.id
+    GROUP BY t.id
     UNION ALL
     -- Trips
     SELECT
