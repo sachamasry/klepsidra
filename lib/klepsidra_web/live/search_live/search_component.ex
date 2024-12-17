@@ -31,6 +31,7 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
 
       <div :if={@modal == false} class="mt-6">
         <.search_input
+          autofocus
           placeholder="Search"
           value={@search_query}
           phx-target={@myself}
@@ -126,14 +127,13 @@ defmodule KlepsidraWeb.SearchLive.SearchComponent do
     default: "hero-document-text",
     doc: "Icon to display next to search result"
 
-  # attr :url, :string, required: true
-
   def result_item(assigns) do
     ~H"""
     <li
       class="group cursor-default select-none rounded-md px-4 py-2 text-xl bg-peach-fuzz-lightness-38 hover:bg-peach-fuzz-600 hover:text-white hover:cursor-pointer flex flex-row space-x-2 items-center"
       id={"option-#{@doc.id}"}
       role="option"
+      title={# {@doc.text}}
       tabindex="-1"
     >
       <!-- svg of a document -->
