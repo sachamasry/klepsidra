@@ -1,6 +1,6 @@
 <.header>
-  <%= @user_document.name || "" %>
-  <:subtitle><%= @user_document.description %></:subtitle>
+  {@user_document.name || ""}
+  <:subtitle>{@user_document.description}</:subtitle>
   <:actions>
     <.link patch={~p"/user_documents/#{@user_document.id}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit user document</.outline_button>
@@ -13,20 +13,20 @@
     <div class={"rounded-full h-full aspect-square #{if @user_document.valid == 1, do: "bg-emerald-500", else: "bg-rose-500"}"}>
     </div>
   </:item>
-  <:item title="User"><%= @user_document.user_name %></:item>
-  <:item title="Document type"><%= @user_document.document_type_name %></:item>
-  <:item title="Issuing country"><%= @user_document.country_name %></:item>
-  <:item title="Document issuer"><%= @user_document.document_issuer_name %></:item>
-  <:item title="Unique reference number"><%= @user_document.unique_reference_number %></:item>
-  <:item title="Issue date"><%= @user_document.issued_at %></:item>
-  <:item title="Expiry date"><%= @user_document.expires_at %></:item>
+  <:item title="User">{@user_document.user_name}</:item>
+  <:item title="Document type">{@user_document.document_type_name}</:item>
+  <:item title="Issuing country">{@user_document.country_name}</:item>
+  <:item title="Document issuer">{@user_document.document_issuer_name}</:item>
+  <:item title="Unique reference number">{@user_document.unique_reference_number}</:item>
+  <:item title="Issue date">{@user_document.issued_at}</:item>
+  <:item title="Expiry date">{@user_document.expires_at}</:item>
   <:item :if={@user_document.is_active == false} title="Invalidation reason">
     <p>Document is <em>not</em> currently valid</p>
-    <%= @user_document.invalidation_reason %>
+    {@user_document.invalidation_reason}
   </:item>
-  <:item title="File URL"><%= @user_document.file_url %></:item>
+  <:item title="File URL">{@user_document.file_url}</:item>
   <:item title="Lead time for user action (days)">
-    <%= @user_document.custom_buffer_time_days %>
+    {@user_document.custom_buffer_time_days}
   </:item>
 </.list>
 

@@ -1,6 +1,6 @@
 <.header>
-  <%= @document_type.name %>
-  <:subtitle><%= @document_type.description %></:subtitle>
+  {@document_type.name}
+  <:subtitle>{@document_type.description}</:subtitle>
   <:actions>
     <.link patch={~p"/document_types/#{@document_type}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit document type</.outline_button>
@@ -12,7 +12,7 @@
 
 <.list>
   <:item title="Maximum document validity">
-    <%= @document_type.max_validity_duration %> <%= @document_type.max_validity_period_unit %>
+    {@document_type.max_validity_duration} {@document_type.max_validity_period_unit}
   </:item>
   <:item :if={@document_type.is_country_specific} title="This document type is country-specific">
   </:item>

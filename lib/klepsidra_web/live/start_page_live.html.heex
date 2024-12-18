@@ -1,16 +1,12 @@
 <.header>
-  <%= @today %>
+  {@today}
   <:actions>
     <div class="flex gap-2">
       <.link phx-keyup="start_timer" patch={~p"/start_timer"}>
-        <.outline_button class="flex gap-2 items-center">
-          <Lucideicons.timer class="h-4 w-4" aria-hidden /> Start Timer
-        </.outline_button>
+        <.outline_button class="flex gap-2 items-center">Start Timer</.outline_button>
       </.link>
       <.link patch={~p"/new_timer"}>
-        <.outline_button class="flex gap-2 items-center">
-          <Lucideicons.calendar_range class="h-4 w-4" aria-hidden /> Manual Timer
-        </.outline_button>
+        <.outline_button class="flex gap-2 items-center">Manual Timer</.outline_button>
       </.link>
     </div>
   </:actions>
@@ -34,13 +30,13 @@
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[18ex]">
       <div class="leading-snug inline-block">
         <div class="block font-extrabold text-xs leading-[1.75] text-slate-400 inline-block">
-          <%= timer.start_stamp %>
+          {timer.start_stamp}
         </div>
         <div
           :if={timer.formatted_start_date}
           class="block align-top uppercase text-xs leading-[1.75] text-pink-600/75 font-normal"
         >
-          <%= timer.formatted_start_date %>
+          {timer.formatted_start_date}
         </div>
       </div>
     </:col>
@@ -49,15 +45,15 @@
         class="inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
-        <%= timer.summary %>
+        {timer.summary}
       </span>
     </:col>
     <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-normal">
       <div class="">
-        <%= timer.project_name %>
+        {timer.project_name}
       </div>
       <div class="uppercase text-violet-700 font-medium">
-        <%= timer.business_partner_name %>
+        {timer.business_partner_name}
       </div>
     </:col>
     <:action :let={{_id, timer}}>
@@ -96,12 +92,12 @@
   <div class="border-p rounded-2xl px-6 py-4 bg-violet-900 text-white text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-65% to-purple-900 to-95%">
     <h2>Closed timers</h2>
     <p>
-      <%= @human_readable_duration %> <%= if @human_readable_duration != "", do: "timed", else: "" %> (<%= @closed_timer_count %> <%= if @closed_timer_count ==
-                                                                                                                                           1,
-                                                                                                                                         do:
-                                                                                                                                           "activity",
-                                                                                                                                         else:
-                                                                                                                                           "activities" %> timed today)
+      {@human_readable_duration} {if @human_readable_duration != "", do: "timed", else: ""} ({@closed_timer_count} {if @closed_timer_count ==
+                                                                                                                         1,
+                                                                                                                       do:
+                                                                                                                         "activity",
+                                                                                                                       else:
+                                                                                                                         "activities"} timed today)
     </p>
   </div>
 
@@ -118,16 +114,16 @@
     <:col :let={{_id, timer}} label="Timings" class="align-top max-w-[18ex]">
       <div class="leading-snug inline-block">
         <div class="block font-extrabold text-xs leading-[1.75] text-slate-400 inline-block">
-          <%= timer.start_stamp %>&nbsp;&ndash;&nbsp<%= timer.end_stamp %>
+          {timer.start_stamp}&nbsp;&ndash;&nbsp{timer.end_stamp}
         </div>
         <div class="block leading-[1] align-top text-sm leading-normal">
-          <%= timer.formatted_duration %>
+          {timer.formatted_duration}
         </div>
         <div
           :if={timer.formatted_start_date}
           class="block align-top uppercase text-xs leading-[1.75] text-pink-600/75 font-normal"
         >
-          <%= timer.formatted_start_date %>
+          {timer.formatted_start_date}
         </div>
       </div>
     </:col>
@@ -136,15 +132,15 @@
         class="inline-block overflow-hidden w-[37ex] max-h-[2.7rem]"
         title={timer.description |> to_string()}
       >
-        <%= timer.summary %>
+        {timer.summary}
       </span>
     </:col>
     <:col :let={{_id, timer}} label="Project / Customer" class="align-top leading-normal">
       <div class="">
-        <%= timer.project_name %>
+        {timer.project_name}
       </div>
       <div class="uppercase text-violet-700 font-medium">
-        <%= timer.business_partner_name %>
+        {timer.business_partner_name}
       </div>
     </:col>
     <:action :let={{_id, timer}}>
@@ -225,7 +221,7 @@
 
 <.modal :if={@live_action == :new_note} id="note-modal" show on_cancel={JS.patch(~p"/")}>
   <.header>
-    <%= @page_title %>
+    {@page_title}
   </.header>
 
   <.live_component

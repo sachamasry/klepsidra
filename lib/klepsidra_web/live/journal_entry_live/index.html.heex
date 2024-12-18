@@ -13,13 +13,13 @@
   row_click={fn {_id, journal_entry} -> JS.navigate(~p"/journal_entries/#{journal_entry}") end}
 >
   <:col :let={{_id, journal_entry}} label="Entry for">
-    <%= journal_entry.journal_for %>
+    {journal_entry.journal_for}
   </:col>
   <:col :let={{_id, journal_entry}} label="Journal entry">
-    <%= journal_entry.highlights || journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+    {journal_entry.highlights || journal_entry.entry_text_html |> Phoenix.HTML.raw()}
   </:col>
   <:col :let={{_id, journal_entry}} label="Entry type">
-    <%= journal_entry.entry_type.name %>
+    {journal_entry.entry_type.name}
   </:col>
   <:action :let={{_id, journal_entry}}>
     <div class="sr-only">

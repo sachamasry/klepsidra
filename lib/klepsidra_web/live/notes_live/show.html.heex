@@ -1,6 +1,6 @@
 <.header>
-  <%= @note.title %>
-  <:subtitle><%= @note.summary %></:subtitle>
+  {@note.title}
+  <:subtitle>{@note.summary}</:subtitle>
   <:actions>
     <.link patch={~p"/knowledge_management/notes/#{@note}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit note</.outline_button>
@@ -9,17 +9,17 @@
 </.header>
 
 <article :if={@note.rendered_content_format == :html} class="max-w-prose">
-  <%= @note.rendered_content |> Phoenix.HTML.raw() %>
+  {@note.rendered_content |> Phoenix.HTML.raw()}
   <footer class="text-sm text-violet-800 mt-5">
     <p>
-      Created on <time><%= @note.inserted_at %></time>
-      <br />Last updated on <time><%= @note.updated_at %></time>
+      Created on <time>{@note.inserted_at}</time>
+      <br />Last updated on <time>{@note.updated_at}</time>
     </p>
   </footer>
 </article>
 
 <.list>
-  <:item title="Status"><%= @formatted_status %></:item>
+  <:item title="Status">{@formatted_status}</:item>
 </.list>
 
 <.back navigate={~p"/knowledge_management/notes"}>Back to notes</.back>
@@ -55,7 +55,7 @@
       >
         <:option :let={option}>
           <div class="flex" title={option.description}>
-            <%= option.label %>
+            {option.label}
           </div>
         </:option>
         <:tag :let={option}>
@@ -64,7 +64,7 @@
             title={option.description}
           >
             <.link navigate={~p"/tags/#{option.value}"}>
-              <%= option.label %>
+              {option.label}
             </.link>
           </div>
         </:tag>

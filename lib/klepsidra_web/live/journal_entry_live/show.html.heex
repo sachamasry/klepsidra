@@ -1,5 +1,5 @@
 <.header>
-  <%= @journal_entry_type %>: <%= @journal_entry.journal_for %>
+  {@journal_entry_type}: {@journal_entry.journal_for}
   <:subtitle></:subtitle>
   <:actions>
     <.link patch={~p"/journal_entries/#{@journal_entry}/show/edit"} phx-click={JS.push_focus()}>
@@ -9,16 +9,16 @@
 </.header>
 
 <article class="mt-5 max-w-[60ch]">
-  <header class="font-semibold"><%= @journal_entry.highlights %></header>
+  <header class="font-semibold">{@journal_entry.highlights}</header>
 
   <section class="mt-5">
-    <%= @journal_entry.entry_text_html |> Phoenix.HTML.raw() %>
+    {@journal_entry.entry_text_html |> Phoenix.HTML.raw()}
   </section>
 
   <footer class="text-sm text-violet-400 mt-5">
     <p>
       Reflection recorded on <time><%= @journal_entry.inserted_at %></time>.<br />Last edited on
-      <time><%= @journal_entry.updated_at %></time>
+      <time>{@journal_entry.updated_at}</time>
     </p>
   </footer>
 </article>
@@ -54,7 +54,7 @@
       >
         <:option :let={option}>
           <div class="flex" title={option.description}>
-            <%= option.label %>
+            {option.label}
           </div>
         </:option>
         <:tag :let={option}>
@@ -63,7 +63,7 @@
             title={option.description}
           >
             <.link navigate={~p"/tags/#{option.value}"}>
-              <%= option.label %>
+              {option.label}
             </.link>
           </div>
         </:tag>
@@ -84,8 +84,8 @@
 </.form>
 
 <.list>
-  <:item title="Mood"><%= @journal_entry.mood %></:item>
-  <:item title="Location"><%= @location_formatted_name %></:item>
+  <:item title="Mood">{@journal_entry.mood}</:item>
+  <:item title="Location">{@location_formatted_name}</:item>
 </.list>
 
 <.back navigate={~p"/journal_entries"}>Back to journal entries</.back>

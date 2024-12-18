@@ -15,16 +15,16 @@
   rows={@streams.timers}
   row_click={fn {_id, timer} -> JS.navigate(~p"/timers/#{timer.id}") end}
 >
-  <:col :let={{_id, timer}} label="Start time"><%= timer.start_stamp %></:col>
-  <:col :let={{_id, timer}} label="End time"><%= timer.end_stamp %></:col>
-  <:col :let={{_id, timer}} label="Duration"><%= timer.duration %></:col>
-  <:col :let={{_id, timer}} label="Duration time unit"><%= timer.duration_time_unit %></:col>
-  <:col :let={{_id, timer}} label="Billable duration"><%= timer.billing_duration %></:col>
+  <:col :let={{_id, timer}} label="Start time">{timer.start_stamp}</:col>
+  <:col :let={{_id, timer}} label="End time">{timer.end_stamp}</:col>
+  <:col :let={{_id, timer}} label="Duration">{timer.duration}</:col>
+  <:col :let={{_id, timer}} label="Duration time unit">{timer.duration_time_unit}</:col>
+  <:col :let={{_id, timer}} label="Billable duration">{timer.billing_duration}</:col>
   <:col :let={{_id, timer}} label="Billable duration time unit">
-    <%= timer.billing_duration_time_unit %>
+    {timer.billing_duration_time_unit}
   </:col>
   <:col :let={{_id, timer}} label="Description">
-    <%= case timer.description do
+    {case timer.description do
       nil ->
         ""
 
@@ -36,10 +36,10 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:col>
   <:col :let={{_id, timer}} label="Customer">
-    <%= timer.business_partner_name %>
+    {timer.business_partner_name}
   </:col>
   <:action :let={{_id, timer}}>
     <div class="sr-only">
@@ -112,7 +112,7 @@
 
 <.modal :if={@live_action == :new_note} id="note-modal" show on_cancel={JS.patch(~p"/timers")}>
   <.header>
-    <%= @page_title %>
+    {@page_title}
   </.header>
 
   <.live_component

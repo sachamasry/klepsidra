@@ -30,9 +30,9 @@ defmodule KlepsidraWeb.AnnotationComponents do
     ~H"""
     <div :if={@quote} class="container flex justify-center my-10">
       <blockquote class="max-w-prose border-y border-double border-violet-500 font-serif subpixel-antialiased italic text-lg px-14 py-6">
-        <p class="text-left"><%= @quote %></p>
+        <p class="text-left">{@quote}</p>
         <p class="mt-4 text-center">
-          <cite>—<%= @author %></cite>
+          <cite>—{@author}</cite>
           <.link navigate={@navigate}>
             <.icon
               name="hero-arrow-top-right-on-square"

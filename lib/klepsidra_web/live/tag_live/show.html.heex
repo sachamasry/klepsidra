@@ -1,5 +1,5 @@
 <.header>
-  Tag <em><%= @tag.name %></em>
+  Tag <em>{@tag.name}</em>
   <:actions>
     <.link patch={~p"/tags/#{@tag}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit tag</.outline_button>
@@ -9,7 +9,7 @@
 
 <.list>
   <:item title="Description">
-    <%= case @tag.description do
+    {case @tag.description do
       nil ->
         ""
 
@@ -21,10 +21,10 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:item>
-  <:item title="Tag colour"><%= @tag.colour %></:item>
-  <:item title="Foreground colour"><%= @tag.fg_colour %></:item>
+  <:item title="Tag colour">{@tag.colour}</:item>
+  <:item title="Foreground colour">{@tag.fg_colour}</:item>
 </.list>
 
 <.back navigate={~p"/tags"}>Back to tags</.back>

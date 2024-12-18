@@ -1,6 +1,6 @@
 <.header>
-  <%= @document_issuer.name %>
-  <:subtitle><%= @document_issuer.description %></:subtitle>
+  {@document_issuer.name}
+  <:subtitle>{@document_issuer.description}</:subtitle>
   <:actions>
     <.link patch={~p"/document_issuers/#{@document_issuer}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit document issuer</.outline_button>
@@ -9,9 +9,9 @@
 </.header>
 
 <.list>
-  <:item title="Country"><%= @issuing_country_name %></:item>
+  <:item title="Country">{@issuing_country_name}</:item>
   <:item title="Website URL">
-    <a href={@document_issuer.website_url}><%= @document_issuer.website_url %></a>
+    <a href={@document_issuer.website_url}>{@document_issuer.website_url}</a>
   </:item>
   <:item :if={map_size(@document_issuer.contact_information) > 0} title="Contact information">
     <pre>

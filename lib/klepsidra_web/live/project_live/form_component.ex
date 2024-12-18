@@ -19,7 +19,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
       </.header>
 
       <.simple_form
@@ -59,13 +59,13 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
             >
               <:option :let={option}>
                 <div class="flex" title={option.description}>
-                  <%= option.label %>
+                  {option.label}
                 </div>
               </:option>
               <:tag :let={option}>
                 <div class={"#{option.tag_class} py-1.5 px-3 rounded-l-md"} title={option.description}>
                   <.link navigate={~p"/tags/#{option.value}"}>
-                    <%= option.label %>
+                    {option.label}
                   </.link>
                 </div>
               </:tag>
@@ -79,7 +79,7 @@ defmodule KlepsidraWeb.ProjectLive.FormComponent do
             <.input field={@form[:bg_colour]} type="color" value={elem(@new_tag_colour, 0)} />
           </div>
 
-          <.tag_add_button id="tag-selector__add-button--show" phx-click={enable_tag_selector()}>
+          <.tag_add_button id="tag-selector__add-button" phx-click={enable_tag_selector()}>
             Add tag <.icon name="hero-plus" />
           </.tag_add_button>
         </div>

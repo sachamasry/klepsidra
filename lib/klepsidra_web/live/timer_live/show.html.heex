@@ -1,6 +1,6 @@
 <.header>
-  <%= @timer.start_stamp %>–<%= @timer.end_stamp %>
-  <%= if is_nil(@timer.end_stamp), do: "(Running timer)" %>
+  {@timer.start_stamp}–{@timer.end_stamp}
+  {if is_nil(@timer.end_stamp), do: "(Running timer)"}
   <:subtitle></:subtitle>
   <:actions>
     <.link :if={is_nil(@timer.end_stamp)} patch={~p"/timers/#{@timer.id}/stop-timer"}>
@@ -16,7 +16,7 @@
 </.header>
 
 <section class="max-w-prose">
-  <%= @timer_description %>
+  {@timer_description}
 </section>
 
 <.form
@@ -50,7 +50,7 @@
       >
         <:option :let={option}>
           <div class="flex" title={option.description}>
-            <%= option.label %>
+            {option.label}
           </div>
         </:option>
         <:tag :let={option}>
@@ -59,7 +59,7 @@
             title={option.description}
           >
             <.link navigate={~p"/tags/#{option.value}"}>
-              <%= option.label %>
+              {option.label}
             </.link>
           </div>
         </:tag>
@@ -80,18 +80,18 @@
 </.form>
 
 <.list>
-  <:item title="Start time"><%= @timer.start_stamp %></:item>
-  <:item title="End time"><%= @timer.end_stamp %></:item>
-  <:item title="Duration"><%= @timer.duration %></:item>
-  <:item title="Duration time unit"><%= @timer.duration_time_unit %></:item>
-  <:item title="Billable duration"><%= @timer.billing_duration %></:item>
-  <:item title="Billable duration time unit"><%= @timer.billing_duration_time_unit %></:item>
+  <:item title="Start time">{@timer.start_stamp}</:item>
+  <:item title="End time">{@timer.end_stamp}</:item>
+  <:item title="Duration">{@timer.duration}</:item>
+  <:item title="Duration time unit">{@timer.duration_time_unit}</:item>
+  <:item title="Billable duration">{@timer.billing_duration}</:item>
+  <:item title="Billable duration time unit">{@timer.billing_duration_time_unit}</:item>
 </.list>
 
 <.back navigate={"#{@return_to}"}>Back to activity timers</.back>
 
 <h2 class="border-p rounded-2xl mt-10 px-6 py-4 text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-65% to-purple-900 to-95% text-white">
-  <%= @notes_title %>
+  {@notes_title}
 </h2>
 
 <.live_component
@@ -104,16 +104,16 @@
 <div id="timer-notes" phx-update="stream" class="timer-notes mt-6 divide-y divide-violet-100">
   <div :for={{note_id, note} <- @streams.notes} id={note_id} class="my-6">
     <div class="timer-notes__datetime mt-6 text-violet-800 font-medium">
-      <%= note.inserted_at |> Cldr.DateTime.to_string!() %>
+      {note.inserted_at |> Cldr.DateTime.to_string!()}
     </div>
     <div class="timer-notes__note max-w-prose markdown-content my-6">
-      <%= Earmark.as_html!(note.note,
+      {Earmark.as_html!(note.note,
         compact_output: true,
         code_class_prefix: "lang-",
         smartypants: true
       )
       |> HtmlSanitizeEx.html5()
-      |> Phoenix.HTML.raw() %>
+      |> Phoenix.HTML.raw()}
     </div>
 
     <.link patch={~p"/timers/#{@timer}/notes/#{note.id}/edit"} phx-click={JS.push_focus()}>
@@ -173,7 +173,7 @@
   on_cancel={JS.patch(~p"/timers/#{@timer}")}
 >
   <.header>
-    <%= @page_title %>
+    {@page_title}
   </.header>
   <.live_component
     module={NoteFormComponent}

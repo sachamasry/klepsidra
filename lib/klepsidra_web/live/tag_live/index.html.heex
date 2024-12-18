@@ -12,10 +12,10 @@
   rows={@streams.tags}
   row_click={fn {_id, tag} -> JS.navigate(~p"/tags/#{tag}") end}
 >
-  <:col :let={{_id, tag}} label="Name"><%= tag.name %></:col>
-  <:col :let={{_id, tag}} label="Colour"><%= tag.colour %></:col>
+  <:col :let={{_id, tag}} label="Name">{tag.name}</:col>
+  <:col :let={{_id, tag}} label="Colour">{tag.colour}</:col>
   <:col :let={{_id, tag}} label="Description">
-    <%= case tag.description do
+    {case tag.description do
       nil ->
         ""
 
@@ -27,7 +27,7 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:col>
   <:action :let={{_id, tag}}>
     <div class="sr-only">

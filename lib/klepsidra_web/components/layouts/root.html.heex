@@ -6,7 +6,7 @@
     <meta name="csrf-token" content={get_csrf_token()} />
     <meta name="csp-nonce" content={get_csp_nonce()} />
     <.live_title suffix=" · Activity timer">
-      <%= assigns[:page_title] || "Klepsidra" %>
+      {assigns[:page_title] || "Klepsidra"}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
@@ -19,7 +19,7 @@
     </style>
   </head>
   <body class="bg-peach-fuzz-lightness-88 antialiased">
-    <%= @inner_content %>
+    {@inner_content}
 
     <dialog
       id="danger_dialog"

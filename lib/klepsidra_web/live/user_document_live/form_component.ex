@@ -14,7 +14,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle></:subtitle>
       </.header>
 
@@ -42,7 +42,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>
@@ -62,7 +62,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>
@@ -82,7 +82,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>
@@ -102,7 +102,7 @@ defmodule KlepsidraWeb.UserDocumentLive.FormComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>

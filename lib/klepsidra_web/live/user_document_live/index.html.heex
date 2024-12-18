@@ -14,21 +14,21 @@
   row_title={fn {_id, user_document} -> user_document.description end}
 >
   <:col :let={{_id, user_document}} label="Document name">
-    <%= user_document.name %>
+    {user_document.name}
   </:col>
   <:col :let={{_id, user_document}} label="Document type">
-    <%= user_document.document_type_name %>
+    {user_document.document_type_name}
   </:col>
   <:col :let={{_id, user_document}} label="Issuer / Country">
-    <div><%= user_document.document_issuer_name %></div>
-    <div><%= user_document.country_name %></div>
+    <div>{user_document.document_issuer_name}</div>
+    <div>{user_document.country_name}</div>
   </:col>
   <:col :let={{_id, user_document}} label="Unique reference number">
-    <%= user_document.unique_reference_number %>
+    {user_document.unique_reference_number}
   </:col>
   <:col :let={{_id, user_document}} label="Issue / Expiry dates">
-    <div><%= user_document.issued_at %></div>
-    <div><%= user_document.expires_at %></div>
+    <div>{user_document.issued_at}</div>
+    <div>{user_document.expires_at}</div>
   </:col>
   <:col :let={{_id, user_document}} label="Valid?">
     <div class={"rounded-full h-full aspect-square w-5 #{if user_document.valid == 1, do: "bg-emerald-500", else: "bg-rose-500"}"}>

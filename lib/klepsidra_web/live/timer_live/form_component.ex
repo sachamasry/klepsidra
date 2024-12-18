@@ -22,7 +22,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
       </.header>
 
       <.simple_form
@@ -71,13 +71,13 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
             >
               <:option :let={option}>
                 <div class="flex" title={option.description}>
-                  <%= option.label %>
+                  {option.label}
                 </div>
               </:option>
               <:tag :let={option}>
                 <div class={"#{option.tag_class} py-1.5 px-3 rounded-l-md"} title={option.description}>
                   <.link navigate={~p"/tags/#{option.value}"}>
-                    <%= option.label %>
+                    {option.label}
                   </.link>
                 </div>
               </:tag>

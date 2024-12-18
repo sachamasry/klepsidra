@@ -13,10 +13,10 @@
   row_click={fn {_id, annotation} -> JS.navigate(~p"/annotations/#{annotation}") end}
 >
   <:col :let={{_id, annotation}} label="Type">
-    <%= annotation.entry_type |> String.capitalize() %>
+    {annotation.entry_type |> String.capitalize()}
   </:col>
-  <:col :let={{_id, annotation}} label="Text"><%= annotation.text %></:col>
-  <:col :let={{_id, annotation}} label="Author"><%= annotation.author_name %></:col>
+  <:col :let={{_id, annotation}} label="Text">{annotation.text}</:col>
+  <:col :let={{_id, annotation}} label="Author">{annotation.author_name}</:col>
   <:action :let={{_id, annotation}}>
     <div class="sr-only">
       <.link navigate={~p"/annotations/#{annotation}"}>Show</.link>

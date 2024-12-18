@@ -122,10 +122,10 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
       <.icon name="hero-document-text" class="basis-5 shrink-0 grow-0 h-5 w-5" />
       <div>
         <div class="text-lg font-semibold leading-6 text-slate-700 group-hover:text-white group-hover:font-bold">
-          <%= @doc.title %>
+          {@doc.title}
         </div>
-        <div :if={@doc.summary} class="text-base leading-6"><%= @doc.summary %></div>
-        <div class="text-sm leading-6 italic"><%= @doc.result |> Phoenix.HTML.raw() %></div>
+        <div :if={@doc.summary} class="text-base leading-6">{@doc.summary}</div>
+        <div class="text-sm leading-6 italic">{@doc.result |> Phoenix.HTML.raw()}</div>
       </div>
     </li>
     """
@@ -181,10 +181,10 @@ defmodule KlepsidraWeb.NotesLive.SearchComponent do
               </div>
               <div id={"#{@id}-content"} class="search-results flex flex-col">
                 <header class="search-results__header basis-auto grow-0 shrink-0 px-14 pb-5 border-b border-peach-fuzz-300/50">
-                  <%= render_slot(@header_block) %>
+                  {render_slot(@header_block)}
                 </header>
                 <div class="search-results__body flex-auto px-14 py-6 max-h-[70vh] overflow-y-auto">
-                  <%= render_slot(@inner_block) %>
+                  {render_slot(@inner_block)}
                 </div>
                 <footer class="search-results__footer flex-auto px-14 py-6 border-t border-peach-fuzz-300/50 max-h-[20vh] overflow-y-auto">
                   <details>

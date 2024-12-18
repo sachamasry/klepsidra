@@ -1,7 +1,7 @@
 <.header>
-  <%= @project.name %>
+  {@project.name}
   <:subtitle>
-    <%= case @project.description do
+    {case @project.description do
       nil ->
         ""
 
@@ -13,7 +13,7 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:subtitle>
   <:actions>
     <.link patch={~p"/projects/#{@project}/show/edit"} phx-click={JS.push_focus()}>
@@ -53,7 +53,7 @@
       >
         <:option :let={option}>
           <div class="flex" title={option.description}>
-            <%= option.label %>
+            {option.label}
           </div>
         </:option>
         <:tag :let={option}>
@@ -62,7 +62,7 @@
             title={option.description}
           >
             <.link navigate={~p"/tags/#{option.value}"}>
-              <%= option.label %>
+              {option.label}
             </.link>
           </div>
         </:tag>
@@ -90,8 +90,8 @@
 </.list>
 
 <div>
-  <%= @duration_in_hours %> timed
-  <span :if={@human_readable_duration}>(<%= @human_readable_duration %>)</span>
+  {@duration_in_hours} timed
+  <span :if={@human_readable_duration}>({@human_readable_duration})</span>
 </div>
 
 <.back navigate={~p"/projects"}>Back to projects</.back>

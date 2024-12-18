@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.AnnotationLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle>Record source material annotations or quotes</:subtitle>
       </.header>
 

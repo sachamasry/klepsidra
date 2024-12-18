@@ -1,5 +1,5 @@
 <.header>
-  <%= @trip_title %>
+  {@trip_title}
   <:subtitle></:subtitle>
   <:actions>
     <.link patch={~p"/trips/#{@trip.id}/show/edit"} phx-click={JS.push_focus()}>
@@ -9,13 +9,13 @@
 </.header>
 
 <.list>
-  <:item title="User"><%= @trip.user_name %></:item>
-  <:item title="Document used"><%= @trip.user_document_name %></:item>
-  <:item title="Country"><%= @trip.country_name %></:item>
-  <:item title="Entry date"><%= @trip.entry_date %></:item>
-  <:item title="Entry point"><%= @trip.entry_point %></:item>
-  <:item title="Exit date"><%= @trip.exit_date %></:item>
-  <:item title="Exit point"><%= @trip.exit_point %></:item>
+  <:item title="User">{@trip.user_name}</:item>
+  <:item title="Document used">{@trip.user_document_name}</:item>
+  <:item title="Country">{@trip.country_name}</:item>
+  <:item title="Entry date">{@trip.entry_date}</:item>
+  <:item title="Entry point">{@trip.entry_point}</:item>
+  <:item title="Exit date">{@trip.exit_date}</:item>
+  <:item title="Exit point">{@trip.exit_point}</:item>
 </.list>
 
 <.back navigate={~p"/trips"}>Back to trips</.back>

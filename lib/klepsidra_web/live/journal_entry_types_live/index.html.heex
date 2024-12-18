@@ -16,9 +16,9 @@
     end
   }
 >
-  <:col :let={{_id, journal_entry_types}} label="Name"><%= journal_entry_types.name %></:col>
+  <:col :let={{_id, journal_entry_types}} label="Name">{journal_entry_types.name}</:col>
   <:col :let={{_id, journal_entry_types}} label="Description">
-    <%= journal_entry_types.description %>
+    {journal_entry_types.description}
   </:col>
   <:action :let={{_id, journal_entry_types}}>
     <div class="sr-only">

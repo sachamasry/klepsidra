@@ -12,9 +12,9 @@
   rows={@streams.projects}
   row_click={fn {_id, project} -> JS.navigate(~p"/projects/#{project}") end}
 >
-  <:col :let={{_id, project}} label="Name"><%= project.name %></:col>
+  <:col :let={{_id, project}} label="Name">{project.name}</:col>
   <:col :let={{_id, project}} label="Description">
-    <%= case project.description do
+    {case project.description do
       nil ->
         ""
 
@@ -26,7 +26,7 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:col>
   <:col :let={{_id, project}} label="Active?">
     <div class={"rounded-full h-full aspect-square w-5 #{if project.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>

@@ -1,6 +1,6 @@
 <.header>
-  <%= @journal_entry_types.name %>
-  <:subtitle><%= @journal_entry_types.description %></:subtitle>
+  {@journal_entry_types.name}
+  <:subtitle>{@journal_entry_types.description}</:subtitle>
   <:actions>
     <.link
       patch={~p"/journal_entry_types/#{@journal_entry_types}/show/edit"}

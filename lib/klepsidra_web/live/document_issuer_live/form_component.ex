@@ -13,7 +13,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle></:subtitle>
       </.header>
 
@@ -43,7 +43,7 @@ defmodule KlepsidraWeb.DocumentIssuerLive.FormComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>

@@ -39,10 +39,10 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
             <:option :let={option}>
               <div class="group border-b hover:border-transparent border-peach-fuzz-300/50 py-2">
                 <div class="flex">
-                  <%= option.label %>
+                  {option.label}
                 </div>
                 <div class="text-xs">
-                  <%= option.result |> Phoenix.HTML.raw() %>
+                  {option.result |> Phoenix.HTML.raw()}
                 </div>
               </div>
             </:option>
@@ -255,7 +255,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
     ~H"""
     <section class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105">
       <h3 class="font-extrabold text-violet-900/50">
-        <%= @title %>
+        {@title}
       </h3>
       <.simple_form :let={f} for={@for} id={@id}>
         <.input field={f[:target_note_id]} type="text" autocomplete="off" />
@@ -274,7 +274,7 @@ defmodule KlepsidraWeb.NotesLive.NoteRelationshipComponent do
         >
           <:option :let={option}>
             <div class="flex">
-              <%= option.label %>
+              {option.label}
             </div>
           </:option>
         </.live_select>

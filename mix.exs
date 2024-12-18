@@ -166,7 +166,7 @@ defmodule Klepsidra.MixProject do
       {:ecto_sqlite3, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.20.2"},
+      {:phoenix_live_view, "~> 1.0.1"},
       {:floki, ">= 0.30.0"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -199,8 +199,8 @@ defmodule Klepsidra.MixProject do
       # {:phoenix_live_head, "~> 0.2.0"},
       {:phoenix_live_head,
        path: "~/Development/elixir/vendor/for-pr/phoenix_live_head", override: true},
-      {:oban, "~> 2.17"},
-      {:lucide_icons, "~> 1.1"}
+      {:oban, "~> 2.17"}
+      # {:lucide_icons, "~> 1.1.2"}
     ]
   end
 

@@ -13,7 +13,7 @@ defmodule KlepsidraWeb.DocumentTypeLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle></:subtitle>
       </.header>
 

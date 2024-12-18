@@ -23,7 +23,7 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
     ~H"""
     <section :if={@related_entities != []} class="rounded-2xl my-6 p-6 bg-peach-fuzz-lightness-105">
       <h3 class="font-extrabold text-violet-900/50 col-span-2">
-        <%= @title %> (<%= @related_entity_count %>)
+        {@title} ({@related_entity_count})
       </h3>
 
       <div
@@ -88,10 +88,10 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
         <header>
           <h5 class="uppercase text-xs text-peach-fuzz-500 group-hover/entity:text-white">
             <.icon :if={@relation_direction == :inbound} name="hero-arrow-long-left" class="h-4 w-4" />
-            <%= if(@relation_direction == :inbound,
+            {if(@relation_direction == :inbound,
               do: @entity.reverse_relationship_type,
               else: @entity.relationship_type
-            ) %>
+            )}
             <.icon
               :if={@relation_direction == :outbound}
               name="hero-arrow-long-right"
@@ -99,14 +99,14 @@ defmodule KlepsidraWeb.RelatedEntityComponents do
             />
           </h5>
           <h4 class="font-semibold mb-4">
-            <%= @entity.title %>
+            {@entity.title}
           </h4>
           <div :if={@entity.summary} class="line-clamp-2 mb-4 italic">
-            <%= @entity.summary %>
+            {@entity.summary}
           </div>
         </header>
         <div class={if(@entity.summary, do: "line-clamp-2", else: "line-clamp-4")}>
-          <%= @entity.content |> Phoenix.HTML.raw() %>
+          {@entity.content |> Phoenix.HTML.raw()}
         </div>
       </.link>
     </article>

@@ -1,5 +1,5 @@
 <.header>
-  <%= @business_partner.name %>
+  {@business_partner.name}
   <:actions>
     <.link patch={~p"/customers/#{@business_partner}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit customer</.outline_button>
@@ -9,7 +9,7 @@
 
 <.list>
   <:item title="Description">
-    <%= case @business_partner.description do
+    {case @business_partner.description do
       nil ->
         ""
 
@@ -21,11 +21,11 @@
         )
         |> HtmlSanitizeEx.html5()
         |> Phoenix.HTML.raw()
-    end %>
+    end}
   </:item>
-  <:item title="Customer"><%= @business_partner.customer %></:item>
-  <:item title="Supplier"><%= @business_partner.supplier %></:item>
-  <:item title="Active"><%= @business_partner.active %></:item>
+  <:item title="Customer">{@business_partner.customer}</:item>
+  <:item title="Supplier">{@business_partner.supplier}</:item>
+  <:item title="Active">{@business_partner.active}</:item>
 </.list>
 
 <.back navigate={~p"/customers"}>Back to customers</.back>

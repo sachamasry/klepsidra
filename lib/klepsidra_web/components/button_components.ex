@@ -33,7 +33,7 @@ defmodule KlepsidraWeb.ButtonComponents do
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </button>
     """
   end
@@ -70,7 +70,7 @@ defmodule KlepsidraWeb.ButtonComponents do
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </button>
     """
   end

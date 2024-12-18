@@ -11,7 +11,7 @@ defmodule KlepsidraWeb.ActivityTypeLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
       </.header>
 
       <.simple_form

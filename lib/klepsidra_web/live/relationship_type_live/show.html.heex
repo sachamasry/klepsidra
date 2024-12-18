@@ -1,6 +1,6 @@
 <.header>
-  <%= @relationship_type.name %> / <%= @relationship_type.reverse_name %>
-  <:subtitle><%= @relationship_type.description %></:subtitle>
+  {@relationship_type.name} / {@relationship_type.reverse_name}
+  <:subtitle>{@relationship_type.description}</:subtitle>
   <:actions>
     <.link
       patch={~p"/knowledge_management/relationship_types/#{@relationship_type}/show/edit"}

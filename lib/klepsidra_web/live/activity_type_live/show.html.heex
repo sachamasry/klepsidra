@@ -1,5 +1,5 @@
 <.header>
-  <%= @activity_type.name %>
+  {@activity_type.name}
   <:actions>
     <.link patch={~p"/activity_types/#{@activity_type}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit activity type</.outline_button>
@@ -8,7 +8,7 @@
 </.header>
 
 <.list>
-  <:item title="Billing rate"><%= @activity_type.billing_rate %></:item>
+  <:item title="Billing rate">{@activity_type.billing_rate}</:item>
   <:item title="Active?">
     <div class={"rounded-full h-full aspect-square #{if @activity_type.active, do: "bg-emerald-500", else: "bg-rose-500"}"}>
     </div>
