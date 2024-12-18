@@ -25,7 +25,7 @@ defmodule Klepsidra.MixProject do
       dialyzer: [
         plt_add_deps: :apps_direct,
         plt_add_apps: [:mix, :ecto, :decimal],
-        plt_ignore_apps: [],
+        plt_ignore_apps: [:lucideicons],
         list_unused_filters: true,
         flags: [
           "-Wunmatched_returns",
@@ -199,7 +199,8 @@ defmodule Klepsidra.MixProject do
       # {:phoenix_live_head, "~> 0.2.0"},
       {:phoenix_live_head,
        path: "~/Development/elixir/vendor/for-pr/phoenix_live_head", override: true},
-      {:oban, "~> 2.17"}
+      {:oban, "~> 2.17"},
+      {:lucide_icons, "~> 1.1"}
     ]
   end
 

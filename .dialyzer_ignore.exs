@@ -22,5 +22,6 @@
   {"lib/klepsidra_web/router.ex", :unknown_function},
   {"lib/klepsidra_web/live/start_page_live.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
-  {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun}
+  {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun},
+  {"lib/klepsidra_web/live/start_page_live.html.heex", :unknown_function}
 ]
