@@ -87,6 +87,14 @@ What is incredibly useful about this software is that these snippets can be open
   * [X] Updating notes fails with the following error message:
   * [X] Journal entries cannot be viewed as the show view breaks
   * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
+  * [ ] A new bug is present in production, in timer `form_component` views, related to the tag `live_select` component:
+
+```
+** (FunctionClauseError) no function clause matching in KlepsidraWeb.StartPageLive.handle_event/3          
+    (klepsidra 0.1.3) lib/klepsidra_web/live/start_page_live.ex:159: KlepsidraWeb.StartPageLive.handle_event("selection_
+recovery", [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#fff", "label" => "project research", "tag_
+class" => "tag-project_research", "value" => "c4840fda-5983-4081-be05-bdb956ccc714"}]...
+```
 
 ## Release 0.1.5
 
