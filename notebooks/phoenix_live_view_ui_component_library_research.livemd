@@ -1,0 +1,316 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# Phoenix LiveView UI component library choices 2024
+
+## Synopsis
+
+In order to develop advanced user interfaces quickly, with an eye to making them aesthetically pleasing, useful and consistent, it is best to select one of the many Tailwind-based user interface component libraries. Using a well-developed library should result in faster development, richer interfaces, and a consistent look and feel to the application.
+
+<!-- livebook:{"break_markdown":true} -->
+
+The following are community-component systems recommended by Phoenix LiveView, as a replacement and enhancement for the minimal core component system provided by the framework:
+
+* [Bloom](#bloom): The opinionated, open-source extension to Phoenix Core Components
+* [Doggo](#doggo): Headless UI components for Phoenix
+* [SaladUI](#saladui): Phoenix Liveview component library inspired by shadcn UI
+* [Petal Components](#petal-components): Phoenix + Live View HEEX Components
+* [PrimerLive](#primer-live): An implementation of GitHub's Primer Design System using Phoenix LiveView
+* [Mishka Chelekom](#mishka-chelekom): Phoenix + LiveView UI kit and HEEx components
+* [Fluxon UI](#fluxon-ui): Elegant and accessible UI components for Phoenix LiveView
+* [Surface UI](#surface-ui)
+
+### Others
+
+* [Station UI](#station-ui)
+* [PHX UI](#phx-ui)
+* [Moon](#moon)
+
+## Doggo
+
+[Doggo on GitHub](https://github.com/woylie/doggo) |  [Doggo on HexDocs](https://hexdocs.pm/doggo/readme.html)
+
+License: MIT
+
+Actively Maintained: Yes
+
+Doggo is a relatively new project, approximately one year old as at December 2024. It is obviously targeted at Phoenix, with easy integration and customisation, however its components are not very styled out of the box.
+
+## SaladUI
+
+[SaladUI on GitHub](https://github.com/bluzky/salad_ui) | [SaladUI on HexDocs](https://hexdocs.pm/salad_ui/readme.html)
+
+License: MIT
+
+Actively Maintained: Yes
+
+SaladUI is also a new project, apparently less than one year old. It looks better than Doggo, and has more examples upon which to build.
+
+It is missing certain components, which can be a problem:
+
+* Carousel
+* Combobox
+* Context menu
+* Drawer
+
+While some others, such as select, are pretty but not usable by keyboard, and infuriating!
+
+## Bloom
+
+* [Bloom on GitHub](https://github.com/chrisgreg/bloom)
+
+License: MIT
+
+Actively Maintained: Somewhat
+
+> The opinionated extension to Phoenix core_components, inspired by shadcn.
+
+> A set of HEEX components that can be independently installed and edited to your hearts content.
+
+Bloow isn't a full component library, and it knows it. The components it does have look polished and appeal to contemporary tastes.
+
+Notable components:
+
+* Code snippet
+* Glow buttons
+* Gradient text
+* Marquee: a simple, carousel-like component, slowly scrolling constituent items across the parent element, both horizontally and vertically, in both directions
+* Cards and Bento grids
+
+<!-- livebook:{"break_markdown":true} -->
+
+Bloom is a useful dependency to use when what you really want is one of the above-named notable components. For all other uses, it is best avoided due to its lack of completeness.
+
+## Fluxon UI
+
+[Fluxon UI](https://fluxonui.com/)
+
+License: Commercial
+
+Price: \$149 / \$399 / \$699
+
+<!-- livebook:{"break_markdown":true} -->
+
+Notable components:
+
+* Tables: with clickable headers, useful for sorting actions
+* Menu items: can be populated with buttons, links, headers, seaparators and other custom content
+* Modals: well-styled modals, with a choice of dimension constraints and stylable backdrops
+* Sheets: side-panel overlays
+* Tooltips: stylable pop-up tooltips on element hover
+* Popovers: contextual overlays for interactive content, such as system help
+* Checkboxes: with sublabels and descriptions
+* Inputs: with description and help text, inner and outer prefixes and suffixes, i.e. currency selectors
+* Select controls: with styling, overriding native look and feel, searchable, multiple choice
+* Switches
+* Label: with sublabels and descriptions
+
+<!-- livebook:{"break_markdown":true} -->
+
+Fluxon is the best component library I have seen, with good styling choices, ARIA-compliance and accessibility, keyboard navigation, and useful user affordances for excellent UX. However, it is very incomplete, though with a promise of regular maintenance and constant improvement.
+
+## Primer Live
+
+[Primer Live on GitHub](https://github.com/ArthurClemens/primer_live?tab=readme-ov-file) | [Primer Live on HexDocs](https://hexdocs.pm/primer_live/PrimerLive.html) | [Primer Live demo](https://primer-live.org/)
+
+License: MIT
+
+Actively maintained: Yes
+
+<!-- livebook:{"break_markdown":true} -->
+
+Based on [GitHub's Primer Design System](https://primer.style/), Primer Live is very featured, but also not at all aesthetically pleasing. It is functional but fairly ugly overall.
+
+Notable components:
+
+* GitHub octicons
+* Footnote
+* Tabs
+* Timeline
+
+<!-- livebook:{"break_markdown":true} -->
+
+Apart from some of the components mentioned above, such as the timeline, there is very little recommending this component system.
+
+## Mishka Chelekom
+
+[Mishka Chelekom on GitHub](https://github.com/mishka-group/mishka_chelekom) | [Mishka Chelekom website](https://github.com/mishka-group/mishka_chelekom)
+
+License: Apache-2.0 license
+
+Actively Maintained: Yes
+
+<!-- livebook:{"break_markdown":true} -->
+
+Notable components:
+
+* Carousels
+* Chat
+* Navbar
+* Drawers
+* Timeline: vertical and horizontal, with customisable icons and line thicknesses
+* Tables: striped rows, styled rows, row spacing, internal border customisation
+* Tabs: horizontal and vertical (left and right side)
+* Toasts
+* Stepper: display steps in a multi-step action
+* Accordions
+* Avatars: including collapsible avatar groups
+* Video: with styling, captions, caption size, caption background and opacity options
+* Image gallery
+* Skeleton: static or animated entity _loading_ placeholder
+* Rating
+* Buttons: variety of buttons, including with icons, and button groups
+* Breadcrumbs: customisable separators
+* Pagination
+* Popovers
+* Spinners: good range of spinners indicating activity
+* Dividers: with styles, colours and icons
+* Indicators: status updates, notifications
+* Speed dial: quick access to multiple actions
+* Device mockups
+* Table of contents
+* Sidebar: for navigation and collapsible content
+
+<!-- livebook:{"break_markdown":true} -->
+
+This is a very featured component library, though not always beautiful or elegant. As it is still a young library, there is a range of features, but some are not very capable.
+
+## Surface UI
+
+[Surface UI on GitHub](https://github.com/surface-ui/surface) | [Surface UI website](https://surface-ui.org/properties)
+
+License: MIT
+
+Actively maintained: Somewhat
+
+<!-- livebook:{"break_markdown":true} -->
+
+Surface comes with very few components, apparently existing to extend the packaged, default `core_components`, shipping with LiveView.
+
+Notable components:
+
+* Markdown: validates and translates content to HTML at compile-time
+
+## Petal Components
+
+[Petal Components on GitHub](https://github.com/PetalFramework/petal_components) | [Petal website](https://petal.build/pro)
+
+License: Commercial
+
+Price: $299/year
+
+Actively maintained: Yes
+
+<!-- livebook:{"break_markdown":true} -->
+
+Featured components:
+
+* Cards
+* Combo box control: the combo box is very advanced, offering drop-down view and select, multiple select, tag select and easy delete with keyboard, search for entries, add new option
+* Data tables: tables with sorting, pagination and search functionality
+* Radio card: presenting options as styled buttons
+* Layouts: ready-made layouts, including complex sidebars
+* Local time: time formatted to a range of locales
+* Marquee: horizontal and vertical
+* Skeleton: styled range of skeleton components
+* Tables: multi-lined tables
+
+<!-- livebook:{"break_markdown":true} -->
+
+Petal is extremely polished, offering some stand-out components, but its annual license fee is a serious commitment standing in the way of peaceful project longevity.
+
+## Station UI
+
+[Station UI on GitHub](https://github.com/DockYard/station-ui) | [Station UI on Figma](https://www.figma.com/community/file/1338983767724300048/station-ui-an-open-source-design-system-and-component-library) | [Designer's website: Brad Sarro](https://www.bradsarro.com/station-ui)
+
+License: MIT
+
+Actively maintained: Yes (DockYard project)
+
+<!-- livebook:{"break_markdown":true} -->
+
+Looking around the Figma layouts, this looks like a very competent project, the components are clean and presentable, and it is developed by DockYard, one of the biggest commercial names in Elixir. There are also mentions of its use in LiveView Native, another DockYard product.
+
+The trouble is, there is no demo of Station UI, and very little is written about it online, so there is no real way of auditioning it as a library.
+
+Based on the project's own description:
+
+> Station UI is a design system and component library built by DockYard to accelerate product development.
+
+> Built on Elixir/Phoenix and TailwindCSS, the components were designed with extensibility in mind. You can use them as is in order to ship features quickly, or customize their functionality and styling without ever feeling locked in.
+
+> In addition to these benefits, Station UI also replaces Phoenix Core Components. Station UI makes this seamless by including a compatibility layer with the same API as Phoenix Core Components, allowing the generators in the phoenix ecosystem (live, auth, etc.) to render with Station UI components without any changes to the generated code.
+
+Reducing us as remote consumers of this _good_. This leaves the snippets of positive information as the only guide recommending it:
+
+> Launching the first open source component library for Elixir & LiveView Native.
+> 
+> Station UI provides thoughtful UX defaults, limitless customization, and baseline accessibility features out of the box.
+
+> ...united vocabulary...accessible technology...speed matters...no JavaScript, build in feedback must be CSS attributes...built for total customization
+
+> Out of the box, Station UI components are designed with native UX best-practices with Android and Apple guidelines.
+
+> The live web-based library provides code snippets for drop-in LiveView Native components.
+
+> Station UI first released within design’s domain to significantly reduce design consultation time. Building client facing design systems originally took our team 2-4 weeks, depending on complexity. With Station UI we were able to accomplished a branded design system in just 2-4 days.
+
+All these are _very_ desirable goals, particularly that it was designed with LiveView Native, with Apple and Android guidelines, which is a long-term goal of ongoing projects.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Just for the advertised benefits this project is worth a serious tryout on a real application codebase, even if it doesn't fultfil all requirements for a professional application.
+
+## PHX UI
+
+[PHX UI](https://phxui.com/)
+
+License: Commercial (\$299: personal, \$799: teams)
+
+<!-- livebook:{"break_markdown":true} -->
+
+PHX UI is very expensive, and its component demo doesn't reveal any advanced components, thus no compelling reason to consider it seriously.
+
+## Moon
+
+[Moon GitHub repo](https://github.com/coingaming/moon) | [Moon website](https://surface.moon.io/)
+
+License: MIT
+
+Actively maintained: Yes
+
+<!-- livebook:{"break_markdown":true} -->
+
+Notable components:
+
+* Auth code: a styled display for TOTP code entry
+* Carousels
+* Inset input fields: field labels are presented _inside_ the taller than usual input control
+* Menu items
+* Editable table cells
+* Tabs and steps
+* Customisable tooltips
+* Drawers: even though an old component, and soon to be deprecated, there is a drawer component that _moves_, or squeezes existing page content, useful for creating a permanent sidebar feature
+
+<!-- livebook:{"break_markdown":true} -->
+
+Overall, Moon is a very aesthetically pleasing design system, and is fairly featured, containing many desirable new components, as well as replacement components which are far better stlyled than Phoenix defaults.
+
+## Conclusion
+
+For completeness, the Station UI library deserves a serious attempt, both as it is a DockYard production, and also as it has its eye firmly on LiveView Native.
+
+Doggo is too young, its styling is not compelling, and is completely ignorable. SaladUI does a little better, but does nothing spectacular yet to recommend it.
+
+Bloom takes a simpler approach, to be a replacement for the core component library, which it seems to be a good fit for. It is worth trying, for a few of its components which it appears to do well, but it doesn't go nearly far enough to be a serious aid in professional application development.
+
+Fluxon UI does better, with a few interesting components, but as it is a commercial option, it doesn't go nearly far enough to justify its use, payment and licensing restrictions. For its good looks, it can provide a good veneer, but will end up balooning development costs.
+
+Primer Live is quite simply ugly. Nothing that it offers is so advanced to make it desirable, except in situations where one may need to mix and match components from separate libraries.
+
+Mishka Chelekom is the first library which is compelling; it offers a large variety of components, each with a rich set of variations, which can make it useful in a range of situations. It isn't always beautiful, which makes it a stand-in for core functionality, with components from more pleasing systems to supplant its shortcomings.
+
+Surface UI offers next to nothing, so is best avoided. PHX UI is similar, despite being a commercial and expensive offering, and will die on its present trajectory.
+
+Of the commercial products, Petal is by far the most beautiful, and also rich and featured systems, including some things such as drop-down select controls with multi-select, search _and_ add capabilities, and excellent keyboard accessibility. Its data table is also rich and full-featured in exactly the way needed in contemporary development. All of this is good, but the system isn't so rich that it overcomes the serious _annual_ commercial lock-in.
+
+Finally, the Moon design system is a very notable open-source contender in this race. It is beautifully styled, obviously in active development, and has some powerful features. It isn't quite a drop-in library as some of the others here, but it promises it is lightweight.
