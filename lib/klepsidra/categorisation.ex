@@ -336,6 +336,32 @@ defmodule Klepsidra.Categorisation do
     do: Repo.get_by!(TimerTags, timer_id: timer_id, tag_id: tag_id)
 
   @doc """
+  Gets all timer tag records.
+
+  Returns empty list if no tags exist for the timer.
+
+  ## Examples
+
+      iex> get_timer_tags("timer_id")
+      [%TimerTags{}, ...]
+
+      iex> get_timer_tags("")
+      []
+
+  """
+  @spec get_timer_tags(timer_id :: Ecto.UUID.t()) :: [TimerTags.t(), ...]
+  def get_timer_tags(timer_id) do
+    query =
+      from(tag in Tag,
+        right_join: tt in TimerTags,
+        on: tt.tag_id == tag.id,
+        where: tt.timer_id == ^timer_id
+      )
+
+    Repo.all(query)
+  end
+
+  @doc """
   Attach a single tag to a project. Checks if the tag is already associated
   with the project, only adding it if it’s missing.
 

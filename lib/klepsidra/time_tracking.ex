@@ -7,7 +7,9 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.Repo
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
+  alias Klepsidra.Categorisation.Tag
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Math
 
   @typedoc """
@@ -491,12 +493,18 @@ defmodule Klepsidra.TimeTracking do
       left_join: bp in assoc(t, :business_partner),
       as: :business_partners,
       left_join: p in assoc(t, :project),
-      as: :projects
+      as: :projects,
+      left_join: tt in TimerTags,
+      as: :timer_tags,
+      on: tt.timer_id == t.id,
+      left_join: tag in Tag,
+      as: :tags,
+      on: tt.tag_id == tag.id
   end
 
   @spec select_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_columns(query) do
-    from [timers: t, business_partners: bp, projects: p] in query,
+    from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
       select: %{
         id: t.id,
         start_stamp: t.start_stamp,
@@ -505,10 +513,17 @@ defmodule Klepsidra.TimeTracking do
         duration_time_unit: t.duration_time_unit,
         description: t.description |> coalesce(""),
         project_name: p.name |> coalesce(""),
+        tags: fragment("GROUP_CONCAT(?, ', ')", tag.name),
         business_partner_id: t.business_partner_id,
         business_partner_name: bp.name |> coalesce(""),
         inserted_at: t.inserted_at
       }
+  end
+
+  @spec group_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def group_timer_columns(query) do
+    from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
+      group_by: t.id
   end
 
   def format_timer_fields(timer_list, date) when is_list(timer_list) do
@@ -551,6 +566,7 @@ defmodule Klepsidra.TimeTracking do
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
     |> select_timer_columns()
+    |> group_timer_columns()
     |> Repo.all()
     |> format_timer_fields(date)
   end
