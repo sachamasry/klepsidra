@@ -461,44 +461,58 @@ defmodule Klepsidra.TimeTracking do
     |> List.first()
   end
 
-  @doc """
-  Gets a list of closed timers started on the specified date.
+  @spec from_timers() :: Ecto.Query.t()
+  def from_timers() do
+    from(t in Timer, as: :timers)
+  end
 
-  A closed timer is one which has an end datetime stamp recorded, as well as
-  a starting one.
-  """
-  @spec get_closed_timers_for_date(NaiveDateTime.t()) ::
-          [Klepsidra.TimeTracking.Timer.t(), ...] | []
-  def get_closed_timers_for_date(date) when is_struct(date, NaiveDateTime) do
-    start_of_day = NaiveDateTime.beginning_of_day(date)
-    end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
+  @spec filter_timers_closed_only(query :: Ecto.Query.t(), date :: Date.t()) ::
+          Ecto.Query.t()
+  def filter_timers_closed_only(query, date) do
+    next_day = Date.add(date, 1)
 
-    query =
-      from(
-        at in Timer,
-        left_join: bp in assoc(at, :business_partner),
-        left_join: p in assoc(at, :project),
-        where:
-          at.start_stamp <= type(^end_of_day, :naive_datetime) and
-            at.end_stamp >= type(^start_of_day, :naive_datetime) and
-            not is_nil(at.end_stamp),
-        order_by: [desc: at.inserted_at, asc: at.id],
-        select: %{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          description: at.description |> coalesce(""),
-          project_name: p.name |> coalesce(""),
-          business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name |> coalesce(""),
-          inserted_at: at.inserted_at
-        }
-      )
+    from [timers: t] in query,
+      where:
+        t.start_stamp <= type(^next_day, :date) and
+          not is_nil(t.end_stamp) and
+          t.end_stamp >= type(^date, :date)
+  end
 
-    query
-    |> Repo.all()
+  @spec order_timers_inserted_desc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_timers_inserted_desc_id_asc(query) do
+    from [timers: t] in query,
+      order_by: [desc: t.inserted_at, asc: t.id]
+  end
+
+  @spec join_bp_and_project(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_bp_and_project(query) do
+    from [timers: t] in query,
+      left_join: bp in assoc(t, :business_partner),
+      as: :business_partners,
+      left_join: p in assoc(t, :project),
+      as: :projects
+  end
+
+  @spec select_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_columns(query) do
+    from [timers: t, business_partners: bp, projects: p] in query,
+      select: %{
+        id: t.id,
+        start_stamp: t.start_stamp,
+        end_stamp: t.end_stamp,
+        duration: t.duration,
+        duration_time_unit: t.duration_time_unit,
+        description: t.description |> coalesce(""),
+        project_name: p.name |> coalesce(""),
+        business_partner_id: t.business_partner_id,
+        business_partner_name: bp.name |> coalesce(""),
+        inserted_at: t.inserted_at
+      }
+  end
+
+  def format_timer_fields(timer_list, date) when is_list(timer_list) do
+    timer_list
     |> Enum.map(fn rec ->
       Map.merge(rec, %{
         start_stamp:
@@ -510,7 +524,7 @@ defmodule Klepsidra.TimeTracking do
           |> Phoenix.HTML.raw(),
         formatted_start_date:
           if(
-            NaiveDateTime.compare(Timer.parse_html_datetime!(rec.start_stamp), start_of_day) ==
+            Date.compare(Timer.parse_html_datetime!(rec.start_stamp), date) ==
               :lt,
             do: "Started yesterday",
             else: ""
@@ -521,6 +535,24 @@ defmodule Klepsidra.TimeTracking do
           |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
       })
     end)
+  end
+
+  @doc """
+  Gets a list of closed timers started on the specified date.
+
+  A closed timer is one which has an end datetime stamp recorded, as well as
+  a starting one.
+  """
+  @spec get_closed_timers_for_date(date :: Date.t()) ::
+          [map(), ...] | []
+  def get_closed_timers_for_date(date) when is_struct(date, Date) do
+    from_timers()
+    |> filter_timers_closed_only(date)
+    |> order_timers_inserted_desc_id_asc()
+    |> join_bp_and_project()
+    |> select_timer_columns()
+    |> Repo.all()
+    |> format_timer_fields(date)
   end
 
   @doc """

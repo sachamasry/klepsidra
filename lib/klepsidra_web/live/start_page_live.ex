@@ -19,6 +19,8 @@ defmodule KlepsidraWeb.StartPageLive do
   @impl true
   def mount(_params, _session, socket) do
     current_datetime_stamp = get_current_datetime_stamp()
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     quote = Klepsidra.KnowledgeManagement.get_random_quote()
     aggregate_duration = get_aggregate_duration_for_date(current_datetime_stamp)
 
@@ -43,7 +45,7 @@ defmodule KlepsidraWeb.StartPageLive do
         closed_timer_count: closed_timer_count
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
-      |> stream(:closed_timers, TimeTracking.get_closed_timers_for_date(current_datetime_stamp))
+      |> stream(:closed_timers, TimeTracking.get_closed_timers_for_date(current_date_stamp))
 
     {:ok, socket}
   end
