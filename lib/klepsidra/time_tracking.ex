@@ -4,13 +4,12 @@ defmodule Klepsidra.TimeTracking do
   """
 
   import Ecto.Query, warn: false
+  alias Klepsidra.Categorisation
+  alias Klepsidra.Math
   alias Klepsidra.Repo
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
-  alias Klepsidra.Categorisation.Tag
   alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.Categorisation.TimerTags
-  alias Klepsidra.Math
 
   @typedoc """
   The `timer_record.t()` type is a list of the fields and data types returned in
@@ -493,18 +492,12 @@ defmodule Klepsidra.TimeTracking do
       left_join: bp in assoc(t, :business_partner),
       as: :business_partners,
       left_join: p in assoc(t, :project),
-      as: :projects,
-      left_join: tt in TimerTags,
-      as: :timer_tags,
-      on: tt.timer_id == t.id,
-      left_join: tag in Tag,
-      as: :tags,
-      on: tt.tag_id == tag.id
+      as: :projects
   end
 
   @spec select_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_columns(query) do
-    from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
+    from [timers: t, business_partners: bp, projects: p] in query,
       select: %{
         id: t.id,
         start_stamp: t.start_stamp,
@@ -513,7 +506,6 @@ defmodule Klepsidra.TimeTracking do
         duration_time_unit: t.duration_time_unit,
         description: t.description |> coalesce(""),
         project_name: p.name |> coalesce(""),
-        tags: fragment("GROUP_CONCAT(?, ', ')", tag.name),
         business_partner_id: t.business_partner_id,
         business_partner_name: bp.name |> coalesce(""),
         inserted_at: t.inserted_at
@@ -526,6 +518,8 @@ defmodule Klepsidra.TimeTracking do
       group_by: t.id
   end
 
+  @spec format_timer_fields(timer_list :: [map(), ...] | [], date :: Date.t()) ::
+          [map(), ...] | []
   def format_timer_fields(timer_list, date) when is_list(timer_list) do
     timer_list
     |> Enum.map(fn rec ->
@@ -552,6 +546,14 @@ defmodule Klepsidra.TimeTracking do
     end)
   end
 
+  @spec format_timer_fields_attach_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
+  def format_timer_fields_attach_tags(timer_list) do
+    timer_list
+    |> Enum.map(fn rec ->
+      Map.merge(rec, %{tags: Categorisation.get_timer_tags(rec.id)})
+    end)
+  end
+
   @doc """
   Gets a list of closed timers started on the specified date.
 
@@ -566,8 +568,8 @@ defmodule Klepsidra.TimeTracking do
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
     |> select_timer_columns()
-    |> group_timer_columns()
     |> Repo.all()
+    |> format_timer_fields_attach_tags()
     |> format_timer_fields(date)
   end
 
