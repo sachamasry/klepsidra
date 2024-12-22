@@ -12,6 +12,7 @@ defmodule KlepsidraWeb.StartPageLive do
   import KlepsidraWeb.AnnotationComponents
   import KlepsidraWeb.ButtonComponents
 
+  alias Klepsidra.DynamicCSS
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
@@ -369,5 +370,20 @@ defmodule KlepsidraWeb.StartPageLive do
     |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
     |> Timer.convert_durations_to_base_time_unit()
     |> Timer.sum_base_unit_durations()
+  end
+
+  attr :tag, :map, default: []
+
+  def display_tags(assigns) do
+    Phx.Live.Head.push_content(
+      "style[id*=dynamic-style-block]",
+      :set,
+      DynamicCSS.generate_tag_styles([@tag])
+    )
+
+    ~H"""
+    <div class={"tag-#{DynamicCSS.convert_tag_name_to_class(@tag.name)} py-1.5 px-3 rounded-md h-4 w-3"}>
+    </div>
+    """
   end
 end

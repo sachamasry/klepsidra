@@ -143,6 +143,9 @@
         {timer.business_partner_name}
       </div>
     </:col>
+    <:col :let={{_id, timer}} label="Tags" class="">
+      <.display_tags :for={tag <- @timer.tags} />
+    </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
         <.link navigate={~p"/timers/#{timer.id}?return_to=/"}>Show</.link>
