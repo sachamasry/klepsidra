@@ -35,8 +35,21 @@ defmodule KlepsidraWeb.StartPageLive do
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
     today = format_date(current_datetime_stamp)
 
+    closed_timers = TimeTracking.get_closed_timers_for_date(current_date_stamp)
+
+    aggregate_tag_list =
+      closed_timers
+      |> Enum.map(fn rec -> rec.tags end)
+      |> List.flatten()
+      |> DynamicCSS.generate_tag_styles()
+
     socket =
       socket
+      |> Phx.Live.Head.push_content(
+        "style[id*=dynamic-style-block]",
+        :set,
+        aggregate_tag_list
+      )
       |> assign(:today, today)
       |> assign(
         quote: quote,
@@ -46,7 +59,7 @@ defmodule KlepsidraWeb.StartPageLive do
         closed_timer_count: closed_timer_count
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
-      |> stream(:closed_timers, TimeTracking.get_closed_timers_for_date(current_date_stamp))
+      |> stream(:closed_timers, closed_timers)
 
     {:ok, socket}
   end
@@ -375,14 +388,11 @@ defmodule KlepsidraWeb.StartPageLive do
   attr :tag, :map, default: []
 
   def display_tags(assigns) do
-    Phx.Live.Head.push_content(
-      "style[id*=dynamic-style-block]",
-      :set,
-      DynamicCSS.generate_tag_styles([@tag])
-    )
-
     ~H"""
-    <div class={"tag-#{DynamicCSS.convert_tag_name_to_class(@tag.name)} py-1.5 px-3 rounded-md h-4 w-3"}>
+    <div
+      class={"tag-#{DynamicCSS.convert_tag_name_to_class(@tag.name)} rounded-full basis-4 h-4"}
+      title={"#{@tag.name}"}
+    >
     </div>
     """
   end

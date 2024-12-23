@@ -144,7 +144,9 @@
       </div>
     </:col>
     <:col :let={{_id, timer}} label="Tags" class="">
-      <.display_tags :for={tag <- @timer.tags} />
+      <div class="flex gap-2">
+        <.display_tags :for={tag <- timer.tags} tag={tag} />
+      </div>
     </:col>
     <:action :let={{_id, timer}}>
       <div class="sr-only">
