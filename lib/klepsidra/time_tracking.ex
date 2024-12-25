@@ -575,26 +575,6 @@ defmodule Klepsidra.TimeTracking do
 
   @doc """
   """
-  def truncate(text, opts) do
-    max_length = opts[:max_length] || 59
-    omission = opts[:omission] || "..."
-
-    cond do
-      not String.valid?(text) ->
-        text
-
-      String.length(text) < max_length ->
-        text
-
-      true ->
-        length_with_omission = max_length - String.length(omission)
-
-        "#{String.slice(text, 0, length_with_omission)}#{omission}"
-    end
-  end
-
-  @doc """
-  """
   def markdown_to_html(markdown, _options \\ []) do
     markdown
     |> Earmark.as_html!(
@@ -858,6 +838,7 @@ defmodule Klepsidra.TimeTracking do
   def get_note!(id), do: Repo.get!(Note, id)
 
   @doc false
+  # @spec get_note_by_timer_id!(timer_id :: Ecto.UUID.t()) :: Klepsidra.TimeTracking.Note.t()
   def get_note_by_timer_id!(timer_id) do
     Note
     |> where(timer_id: ^timer_id)
