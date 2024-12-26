@@ -591,6 +591,14 @@ defmodule Klepsidra.TimeTracking do
           t.end_stamp >= type(^date, :date)
   end
 
+  @spec filter_timers_open_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def filter_timers_open_only(query) do
+    from [timers: t] in query,
+      where:
+        not is_nil(t.start_stamp) and
+          is_nil(t.end_stamp)
+  end
+
   @spec order_timers_inserted_desc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def order_timers_inserted_desc_id_asc(query) do
     from [timers: t] in query,
@@ -630,10 +638,22 @@ defmodule Klepsidra.TimeTracking do
       select: count(t.id)
   end
 
-  @spec group_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
-  def group_timer_columns(query) do
-    from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
+  @spec select_timer_duration_sum(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_duration_sum(query) do
+    from [timers: t] in query,
+      select: {sum(t.duration), t.duration_time_unit}
+  end
+
+  @spec group_timer_columns_by_timer_id(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def group_timer_columns_by_timer_id(query) do
+    from [timers: t] in query,
       group_by: t.id
+  end
+
+  @spec group_timer_columns_by_duration_time_unit(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def group_timer_columns_by_duration_time_unit(query) do
+    from [timers: t] in query,
+      group_by: t.duration_time_unit
   end
 
   @spec format_timer_fields(timer_list :: [map(), ...] | [], date :: Date.t()) ::
@@ -713,16 +733,10 @@ defmodule Klepsidra.TimeTracking do
   """
   @spec get_open_timer_count() :: integer()
   def get_open_timer_count() do
-    query =
-      from(
-        at in "timers",
-        select: count(at.id),
-        where:
-          not is_nil(at.start_stamp) and
-            is_nil(at.end_stamp)
-      )
-
-    Repo.one(query)
+    from_timers()
+    |> filter_timers_open_only()
+    |> select_timer_count()
+    |> Repo.one()
   end
 
   @doc """
@@ -731,24 +745,14 @@ defmodule Klepsidra.TimeTracking do
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
   """
-  @spec get_closed_timer_durations_for_date(NaiveDateTime.t()) ::
+  @spec get_closed_timer_durations_for_date(date :: Date.t()) ::
           [{integer, bitstring()}, ...] | []
-  def get_closed_timer_durations_for_date(date) when is_struct(date, NaiveDateTime) do
-    start_of_day = NaiveDateTime.beginning_of_day(date)
-    end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
-
-    query =
-      from(
-        at in "timers",
-        select: {sum(at.duration), at.duration_time_unit},
-        group_by: at.duration_time_unit,
-        where:
-          at.start_stamp <= type(^end_of_day, :naive_datetime) and
-            at.end_stamp >= type(^start_of_day, :naive_datetime) and
-            not is_nil(at.end_stamp)
-      )
-
-    Repo.all(query)
+  def get_closed_timer_durations_for_date(date) when is_struct(date, Date) do
+    from_timers()
+    |> filter_timers_closed_only(date)
+    |> select_timer_duration_sum()
+    |> group_timer_columns_by_duration_time_unit()
+    |> Repo.all()
   end
 
   @doc """

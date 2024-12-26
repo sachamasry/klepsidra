@@ -19,11 +19,10 @@ defmodule KlepsidraWeb.StartPageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    current_datetime_stamp = get_current_datetime_stamp()
     current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
 
     quote = Klepsidra.KnowledgeManagement.get_random_quote()
-    aggregate_duration = get_aggregate_duration_for_date(current_datetime_stamp)
+    aggregate_duration = get_aggregate_duration_for_date(current_date_stamp)
 
     human_readable_duration =
       Timer.format_human_readable_duration(aggregate_duration, [
@@ -32,7 +31,7 @@ defmodule KlepsidraWeb.StartPageLive do
       ])
 
     open_timer_count = TimeTracking.get_open_timer_count()
-    today = format_date(current_datetime_stamp)
+    today = format_date(get_current_datetime_stamp())
 
     closed_timers = TimeTracking.get_closed_timers_for_date(current_date_stamp)
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
@@ -387,8 +386,8 @@ defmodule KlepsidraWeb.StartPageLive do
     end
   end
 
-  defp get_aggregate_duration_for_date(datetime_stamp) do
-    datetime_stamp
+  defp get_aggregate_duration_for_date(date_stamp) do
+    date_stamp
     |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
     |> Timer.convert_durations_to_base_time_unit()
     |> Timer.sum_base_unit_durations()
