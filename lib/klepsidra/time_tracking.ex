@@ -582,9 +582,11 @@ defmodule Klepsidra.TimeTracking do
   @spec filter_timers_closed_only(query :: Ecto.Query.t(), date :: Date.t()) ::
           Ecto.Query.t()
   def filter_timers_closed_only(query, date) do
+    next_day = Date.add(date, 1)
+
     from [timers: t] in query,
       where:
-        t.start_stamp <= type(^date, :date) and
+        t.start_stamp < type(^next_day, :date) and
           not is_nil(t.end_stamp) and
           t.end_stamp >= type(^date, :date)
   end

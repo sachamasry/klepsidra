@@ -91,14 +91,7 @@
 <div class="closed-timers-list mt-10 rounded-3xl">
   <div class="border-p rounded-2xl px-6 py-4 bg-violet-900 text-white text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-65% to-purple-900 to-95%">
     <h2>Closed timers</h2>
-    <p>
-      {@human_readable_duration} {if @human_readable_duration != "", do: "timed", else: ""} ({@closed_timer_count} {if @closed_timer_count ==
-                                                                                                                         1,
-                                                                                                                       do:
-                                                                                                                         "activity",
-                                                                                                                       else:
-                                                                                                                         "activities"} timed today)
-    </p>
+    <p>{@closed_timer_statistics}</p>
   </div>
 
   <div class="my-6 text-center">

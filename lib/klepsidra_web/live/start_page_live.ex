@@ -37,6 +37,14 @@ defmodule KlepsidraWeb.StartPageLive do
     closed_timers = TimeTracking.get_closed_timers_for_date(current_date_stamp)
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
 
+    closed_timer_message =
+      "#{human_readable_duration} 
+       #{if(human_readable_duration != "" and not is_nil(human_readable_duration),
+      do: "timed",
+      else: "")}
+      #{closed_timer_count} #{if(closed_timer_count == 1, do: "activity", else: "activities")}
+         timed today"
+
     aggregate_tag_list =
       closed_timers
       |> Enum.map(fn rec -> rec.tags end)
@@ -56,7 +64,8 @@ defmodule KlepsidraWeb.StartPageLive do
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
         open_timer_count: open_timer_count,
-        closed_timer_count: closed_timer_count
+        closed_timer_count: closed_timer_count,
+        closed_timer_statistics: closed_timer_message
       )
       |> stream(:open_timers, TimeTracking.get_all_open_timers())
       |> stream(:closed_timers, closed_timers)
