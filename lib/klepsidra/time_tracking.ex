@@ -11,6 +11,116 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
 
+  @doc """
+  Returns the list of activity_types.
+
+  ## Examples
+
+      iex> list_activity_types()
+      [%ActivityType{}, ...]
+
+  """
+  def list_activity_types do
+    ActivityType |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of active activity_types.
+
+  ## Examples
+
+      iex> list_active_activity_types()
+      [%ActivityType{}, ...]
+
+  """
+  def list_active_activity_types do
+    ActivityType
+    |> where(active: true)
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single activity_type.
+
+  Raises `Ecto.NoResultsError` if the Activity type does not exist.
+
+  ## Examples
+
+      iex> get_activity_type!(123)
+      %ActivityType{}
+
+      iex> get_activity_type!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_activity_type!(id), do: Repo.get!(ActivityType, id)
+
+  @doc """
+  Creates a activity_type.
+
+  ## Examples
+
+      iex> create_activity_type(%{field: value})
+      {:ok, %ActivityType{}}
+
+      iex> create_activity_type(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_activity_type(attrs \\ %{}) do
+    %ActivityType{}
+    |> ActivityType.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a activity_type.
+
+  ## Examples
+
+      iex> update_activity_type(activity_type, %{field: new_value})
+      {:ok, %ActivityType{}}
+
+      iex> update_activity_type(activity_type, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_activity_type(%ActivityType{} = activity_type, attrs) do
+    activity_type
+    |> ActivityType.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes an activity_type.
+
+  ## Examples
+
+      iex> delete_activity_type(activity_type)
+      {:ok, %ActivityType{}}
+
+      iex> delete_activity_type(activity_type)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_activity_type(%ActivityType{} = activity_type) do
+    Repo.delete(activity_type)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking activity_type changes.
+
+  ## Examples
+
+      iex> change_activity_type(activity_type)
+      %Ecto.Changeset{data: %ActivityType{}}
+
+  """
+  def change_activity_type(%ActivityType{} = activity_type, attrs \\ %{}) do
+    ActivityType.changeset(activity_type, attrs)
+  end
+
   @typedoc """
   The `timer_record.t()` type is a list of the fields and data types returned in
   timer record queries.
@@ -36,6 +146,7 @@ defmodule Klepsidra.TimeTracking do
           updated_at: NaiveDateTime.t(),
           modified: integer()
         }
+
   @typedoc """
   The `duration.t()` type is a map containing a time duration in several formats:
 
@@ -49,6 +160,7 @@ defmodule Klepsidra.TimeTracking do
           duration_in_hours: bitstring(),
           human_readable_duration: bitstring() | nil
         }
+
   @typedoc """
   When filtering timer queries, a `timer_filter.t()` filter structure will be passed
   with criteria to filter by. The type specifies those fields and their types.
@@ -470,11 +582,9 @@ defmodule Klepsidra.TimeTracking do
   @spec filter_timers_closed_only(query :: Ecto.Query.t(), date :: Date.t()) ::
           Ecto.Query.t()
   def filter_timers_closed_only(query, date) do
-    next_day = Date.add(date, 1)
-
     from [timers: t] in query,
       where:
-        t.start_stamp <= type(^next_day, :date) and
+        t.start_stamp <= type(^date, :date) and
           not is_nil(t.end_stamp) and
           t.end_stamp >= type(^date, :date)
   end
@@ -510,6 +620,12 @@ defmodule Klepsidra.TimeTracking do
         business_partner_name: bp.name |> coalesce(""),
         inserted_at: t.inserted_at
       }
+  end
+
+  @spec select_timer_count(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_count(query) do
+    from [timers: t] in query,
+      select: count(t.id)
   end
 
   @spec group_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -574,39 +690,17 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  """
-  def markdown_to_html(markdown, _options \\ []) do
-    markdown
-    |> Earmark.as_html!(
-      compact_output: true,
-      code_class_prefix: "lang-",
-      smartypants: true
-    )
-    |> HtmlSanitizeEx.html5()
-  end
-
-  @doc """
   Gets a count of closed timers started on the specified date.
 
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
   """
-  @spec get_closed_timer_count_for_date(NaiveDateTime.t()) :: integer()
-  def get_closed_timer_count_for_date(date) when is_struct(date, NaiveDateTime) do
-    start_of_day = NaiveDateTime.beginning_of_day(date)
-    end_of_day = NaiveDateTime.add(start_of_day, 24, :hour)
-
-    query =
-      from(
-        at in "timers",
-        select: count(at.id),
-        where:
-          at.start_stamp <= type(^end_of_day, :naive_datetime) and
-            at.end_stamp >= type(^start_of_day, :naive_datetime) and
-            not is_nil(at.end_stamp)
-      )
-
-    Repo.one(query)
+  @spec get_closed_timer_count_for_date(Date.t()) :: integer()
+  def get_closed_timer_count_for_date(date) when is_struct(date, Date) do
+    from_timers()
+    |> filter_timers_closed_only(date)
+    |> select_timer_count()
+    |> Repo.one()
   end
 
   @doc """
@@ -838,7 +932,7 @@ defmodule Klepsidra.TimeTracking do
   def get_note!(id), do: Repo.get!(Note, id)
 
   @doc false
-  # @spec get_note_by_timer_id!(timer_id :: Ecto.UUID.t()) :: Klepsidra.TimeTracking.Note.t()
+  @spec get_note_by_timer_id!(timer_id :: Ecto.UUID.t()) :: Klepsidra.TimeTracking.Note.t() | []
   def get_note_by_timer_id!(timer_id) do
     Note
     |> where(timer_id: ^timer_id)
@@ -912,112 +1006,14 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Returns the list of activity_types.
-
-  ## Examples
-
-      iex> list_activity_types()
-      [%ActivityType{}, ...]
-
   """
-  def list_activity_types do
-    ActivityType |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
-  end
-
-  @doc """
-  Returns the list of active activity_types.
-
-  ## Examples
-
-      iex> list_active_activity_types()
-      [%ActivityType{}, ...]
-
-  """
-  def list_active_activity_types do
-    ActivityType
-    |> where(active: true)
-    |> order_by(asc: fragment("name COLLATE NOCASE"))
-    |> Repo.all()
-  end
-
-  @doc """
-  Gets a single activity_type.
-
-  Raises `Ecto.NoResultsError` if the Activity type does not exist.
-
-  ## Examples
-
-      iex> get_activity_type!(123)
-      %ActivityType{}
-
-      iex> get_activity_type!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_activity_type!(id), do: Repo.get!(ActivityType, id)
-
-  @doc """
-  Creates a activity_type.
-
-  ## Examples
-
-      iex> create_activity_type(%{field: value})
-      {:ok, %ActivityType{}}
-
-      iex> create_activity_type(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_activity_type(attrs \\ %{}) do
-    %ActivityType{}
-    |> ActivityType.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a activity_type.
-
-  ## Examples
-
-      iex> update_activity_type(activity_type, %{field: new_value})
-      {:ok, %ActivityType{}}
-
-      iex> update_activity_type(activity_type, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_activity_type(%ActivityType{} = activity_type, attrs) do
-    activity_type
-    |> ActivityType.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes an activity_type.
-
-  ## Examples
-
-      iex> delete_activity_type(activity_type)
-      {:ok, %ActivityType{}}
-
-      iex> delete_activity_type(activity_type)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_activity_type(%ActivityType{} = activity_type) do
-    Repo.delete(activity_type)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking activity_type changes.
-
-  ## Examples
-
-      iex> change_activity_type(activity_type)
-      %Ecto.Changeset{data: %ActivityType{}}
-
-  """
-  def change_activity_type(%ActivityType{} = activity_type, attrs \\ %{}) do
-    ActivityType.changeset(activity_type, attrs)
+  def markdown_to_html(markdown, _options \\ []) do
+    markdown
+    |> Earmark.as_html!(
+      compact_output: true,
+      code_class_prefix: "lang-",
+      smartypants: true
+    )
+    |> HtmlSanitizeEx.html5()
   end
 end

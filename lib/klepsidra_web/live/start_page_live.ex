@@ -32,10 +32,10 @@ defmodule KlepsidraWeb.StartPageLive do
       ])
 
     open_timer_count = TimeTracking.get_open_timer_count()
-    closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_datetime_stamp)
     today = format_date(current_datetime_stamp)
 
     closed_timers = TimeTracking.get_closed_timers_for_date(current_date_stamp)
+    closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
 
     aggregate_tag_list =
       closed_timers
