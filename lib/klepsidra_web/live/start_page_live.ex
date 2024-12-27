@@ -30,6 +30,7 @@ defmodule KlepsidraWeb.StartPageLive do
         :minute_increment
       ])
 
+    open_timers = TimeTracking.get_all_open_timers(current_date_stamp)
     open_timer_count = TimeTracking.get_open_timer_count()
     today = format_date(get_current_datetime_stamp())
 
@@ -66,7 +67,7 @@ defmodule KlepsidraWeb.StartPageLive do
         closed_timer_count: closed_timer_count,
         closed_timer_statistics: closed_timer_message
       )
-      |> stream(:open_timers, TimeTracking.get_all_open_timers())
+      |> stream(:open_timers, open_timers)
       |> stream(:closed_timers, closed_timers)
 
     {:ok, socket}

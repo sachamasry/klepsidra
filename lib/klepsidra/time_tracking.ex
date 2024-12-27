@@ -664,7 +664,10 @@ defmodule Klepsidra.TimeTracking do
       Map.merge(rec, %{
         start_stamp:
           Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp)),
+        end_stamp:
+          if(rec.end_stamp,
+            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
+          ),
         summary:
           rec.description
           |> markdown_to_html()
@@ -784,50 +787,16 @@ defmodule Klepsidra.TimeTracking do
 
   A timer is considered open if it has no `end_stamp`.
   """
-  @spec get_all_open_timers() :: [Klepsidra.TimeTracking.Timer.t(), ...] | []
-  def get_all_open_timers() do
-    query =
-      from(
-        at in Timer,
-        left_join: bp in assoc(at, :business_partner),
-        left_join: p in assoc(at, :project),
-        select: %{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          description: at.description |> coalesce(""),
-          project_name: p.name |> coalesce(""),
-          business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name |> coalesce(""),
-          inserted_at: at.inserted_at
-        },
-        where:
-          not is_nil(at.start_stamp) and
-            is_nil(at.end_stamp),
-        order_by: [desc: at.start_stamp, desc: at.inserted_at]
-      )
-
-    query
+  @spec get_all_open_timers(date :: Date.t()) :: [Klepsidra.TimeTracking.Timer.t(), ...] | []
+  def get_all_open_timers(date) do
+    from_timers()
+    |> filter_timers_open_only()
+    |> order_timers_inserted_desc_id_asc()
+    |> join_bp_and_project()
+    |> select_timer_columns()
     |> Repo.all()
-    |> Enum.map(fn rec ->
-      Map.merge(rec, %{
-        start_stamp:
-          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp: nil,
-        formatted_start_date:
-          Timex.from_now(
-            Timer.parse_html_datetime!(rec.start_stamp),
-            NaiveDateTime.local_now()
-          ),
-        summary:
-          rec.description
-          |> to_string()
-          |> markdown_to_html()
-          |> Phoenix.HTML.raw()
-      })
-    end)
+    |> format_timer_fields_attach_tags()
+    |> format_timer_fields(date)
   end
 
   @doc """
