@@ -10,6 +10,7 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
+  alias Klepsidra.Projects.Project
 
   @doc """
   Returns the list of activity_types.
@@ -579,9 +580,17 @@ defmodule Klepsidra.TimeTracking do
     from(t in Timer, as: :timers)
   end
 
-  @spec filter_timers_closed_only(query :: Ecto.Query.t(), date :: Date.t()) ::
+  @spec filter_timers_closed_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def filter_timers_closed_only(query) do
+    from [timers: t] in query,
+      where:
+        not is_nil(t.start_stamp) and
+          not is_nil(t.end_stamp)
+  end
+
+  @spec filter_timers_closed_only_for_date(query :: Ecto.Query.t(), date :: Date.t()) ::
           Ecto.Query.t()
-  def filter_timers_closed_only(query, date) do
+  def filter_timers_closed_only_for_date(query, date) do
     next_day = Date.add(date, 1)
 
     from [timers: t] in query,
@@ -597,6 +606,13 @@ defmodule Klepsidra.TimeTracking do
       where:
         not is_nil(t.start_stamp) and
           is_nil(t.end_stamp)
+  end
+
+  @spec filter_timers_by_project(query :: Ecto.Query.t(), project_id :: Ecto.UUID.t()) ::
+          Ecto.Query.t()
+  def filter_timers_by_project(query, project_id) do
+    from [timers: t] in query,
+      where: t.project_id == ^project_id
   end
 
   @spec order_timers_inserted_desc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -705,7 +721,7 @@ defmodule Klepsidra.TimeTracking do
           [map(), ...] | []
   def get_closed_timers_for_date(date) when is_struct(date, Date) do
     from_timers()
-    |> filter_timers_closed_only(date)
+    |> filter_timers_closed_only_for_date(date)
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
     |> select_timer_columns()
@@ -723,7 +739,7 @@ defmodule Klepsidra.TimeTracking do
   @spec get_closed_timer_count_for_date(Date.t()) :: integer()
   def get_closed_timer_count_for_date(date) when is_struct(date, Date) do
     from_timers()
-    |> filter_timers_closed_only(date)
+    |> filter_timers_closed_only_for_date(date)
     |> select_timer_count()
     |> Repo.one()
   end
@@ -752,7 +768,7 @@ defmodule Klepsidra.TimeTracking do
           [{integer, bitstring()}, ...] | []
   def get_closed_timer_durations_for_date(date) when is_struct(date, Date) do
     from_timers()
-    |> filter_timers_closed_only(date)
+    |> filter_timers_closed_only_for_date(date)
     |> select_timer_duration_sum()
     |> group_timer_columns_by_duration_time_unit()
     |> Repo.all()
@@ -768,18 +784,12 @@ defmodule Klepsidra.TimeTracking do
           [{integer, bitstring()}, ...] | []
   def get_closed_timer_durations_for_project(project_id)
       when is_bitstring(project_id) do
-    query =
-      from(
-        at in "timers",
-        select: {sum(at.duration), at.duration_time_unit},
-        group_by: at.duration_time_unit,
-        where:
-          not is_nil(at.start_stamp) and
-            not is_nil(at.end_stamp) and
-            at.project_id == ^project_id
-      )
-
-    Repo.all(query)
+    from_timers()
+    |> filter_timers_closed_only()
+    |> filter_timers_by_project(project_id)
+    |> select_timer_duration_sum()
+    |> group_timer_columns_by_duration_time_unit()
+    |> Repo.all()
   end
 
   @doc """
