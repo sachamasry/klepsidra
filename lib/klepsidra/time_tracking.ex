@@ -10,7 +10,6 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
-  alias Klepsidra.Projects.Project
 
   @doc """
   Returns the list of activity_types.
@@ -575,6 +574,10 @@ defmodule Klepsidra.TimeTracking do
     |> List.first()
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL from statement, a starting point in
+  the timer query pipeline, selecting _from_ the timers table.
+  """
   @spec from_timers() :: Ecto.Query.t()
   def from_timers() do
     from(t in Timer, as: :timers)
