@@ -583,6 +583,12 @@ defmodule Klepsidra.TimeTracking do
     from(t in Timer, as: :timers)
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL WHERE statement, filtering
+  for closed timers only.
+
+  Strictly speaking, closed timers are those with  non-nil start and end stamps.
+  """
   @spec filter_timers_closed_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def filter_timers_closed_only(query) do
     from [timers: t] in query,
@@ -591,6 +597,13 @@ defmodule Klepsidra.TimeTracking do
           not is_nil(t.end_stamp)
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL WHERE statement, filtering
+  for closed timers for a given date.
+
+  In this context, a closed timer is one with a non-nil start stamp starting on the
+  given date, and a non-nil end stamp ending on or after the date.
+  """
   @spec filter_timers_closed_only_for_date(query :: Ecto.Query.t(), date :: Date.t()) ::
           Ecto.Query.t()
   def filter_timers_closed_only_for_date(query, date) do
@@ -603,6 +616,12 @@ defmodule Klepsidra.TimeTracking do
           t.end_stamp >= type(^date, :date)
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL WHERE statement, filtering
+  for open timers only.
+
+  Open timers have a non-nil start stamp and a nil end stamp.
+  """
   @spec filter_timers_open_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def filter_timers_open_only(query) do
     from [timers: t] in query,
@@ -611,6 +630,10 @@ defmodule Klepsidra.TimeTracking do
           is_nil(t.end_stamp)
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL WHERE statement, filtering
+  for timers assigned to a project.
+  """
   @spec filter_timers_by_project(query :: Ecto.Query.t(), project_id :: Ecto.UUID.t()) ::
           Ecto.Query.t()
   def filter_timers_by_project(query, project_id) do
