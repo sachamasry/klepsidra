@@ -641,12 +641,21 @@ defmodule Klepsidra.TimeTracking do
       where: t.project_id == ^project_id
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL ORDER BY statement, sorting
+  timers by their inserted_at date and time stamp, in descending order.
+  """
   @spec order_timers_inserted_desc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def order_timers_inserted_desc_id_asc(query) do
     from [timers: t] in query,
       order_by: [desc: t.inserted_at, asc: t.id]
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL JOIN statement, joining
+  the base timer table to the business partners and projects tables using an
+  inner join.
+  """
   @spec join_bp_and_project(query :: Ecto.Query.t()) ::
           Ecto.Query.t()
   def join_bp_and_project(query) do
@@ -657,6 +666,13 @@ defmodule Klepsidra.TimeTracking do
       as: :projects
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL SELECT statement, defining
+  a map of fields to be returned from the query.
+
+  Note the use of the coalesce() function, ensuring that any nil values are
+  converted to empty strings.
+  """
   @spec select_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_columns(query) do
     from [timers: t, business_partners: bp, projects: p] in query,
@@ -674,30 +690,52 @@ defmodule Klepsidra.TimeTracking do
       }
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL SELECT statement, returning
+  a timer count only.
+  """
   @spec select_timer_count(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_count(query) do
     from [timers: t] in query,
       select: count(t.id)
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL SELECT statement, returning
+  a sum of timer durations.
+  """
   @spec select_timer_duration_sum(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_duration_sum(query) do
     from [timers: t] in query,
       select: {sum(t.duration), t.duration_time_unit}
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL GROUP BY statement, ensuring
+  that records returned by the SELECT statement are grouped by the timer ID.
+  """
   @spec group_timer_columns_by_timer_id(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def group_timer_columns_by_timer_id(query) do
     from [timers: t] in query,
       group_by: t.id
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL GROUP BY statement, ensuring
+  that records returned by the SELECT statement are grouped by the duration time
+  unit.
+  """
   @spec group_timer_columns_by_duration_time_unit(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def group_timer_columns_by_duration_time_unit(query) do
     from [timers: t] in query,
       group_by: t.duration_time_unit
   end
 
+  @doc """
+  Post query formatting function, converting the timestamps to a human-readable
+  time format only, formatting the start date as relative to the current time,
+  formatting the duration in user-friendly time units.
+  """
   @spec format_timer_fields(timer_list :: [map(), ...] | [], date :: Date.t()) ::
           [map(), ...] | []
   def format_timer_fields(timer_list, date) when is_list(timer_list) do
@@ -729,6 +767,9 @@ defmodule Klepsidra.TimeTracking do
     end)
   end
 
+  @doc """
+  Post query formatting function, formatting display of tags attached to the timer record.
+  """
   @spec format_timer_fields_attach_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
   def format_timer_fields_attach_tags(timer_list) do
     timer_list
