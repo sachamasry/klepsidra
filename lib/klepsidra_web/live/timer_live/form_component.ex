@@ -527,9 +527,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
   defp save_timer(socket, :new_timer, timer_params) do
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+        timer = TimeTracking.get_formatted_timer_record!(timer.id, current_date_stamp)
 
         Tag.handle_tag_list_changes(
           [],
@@ -555,9 +557,11 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
   end
 
   defp save_timer(socket, :edit_timer, timer_params) do
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+        timer = TimeTracking.get_formatted_timer_record!(timer.id, current_date_stamp)
 
         if timer.start_stamp != "" && timer.end_stamp != "" && not is_nil(timer.end_stamp) do
           notify_parent({:updated_closed_timer, timer})

@@ -5,6 +5,7 @@ defmodule Klepsidra.TimeTracking do
 
   import Ecto.Query, warn: false
   alias Klepsidra.Categorisation
+  alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Math
   alias Klepsidra.Repo
   alias Klepsidra.TimeTracking.ActivityType
@@ -522,56 +523,26 @@ defmodule Klepsidra.TimeTracking do
       iex> get_timer!(456)
       ** (Ecto.NoResultsError)
   """
-  def get_formatted_timer_record!(id) do
-    query =
-      from(at in Timer,
-        where: at.id == ^id,
-        left_join: p in assoc(at, :project),
-        left_join: bp in assoc(at, :business_partner),
-        left_join: act in assoc(at, :activity_type),
-        select: %{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          project_id: p.id,
-          project_name: p.name |> coalesce(""),
-          business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name |> coalesce(""),
-          billable: at.billable,
-          billing_duration: at.billing_duration,
-          billing_duration_time_unit: at.billing_duration_time_unit,
-          billing_rate: at.billing_rate,
-          activity_type_id: act.id,
-          activity_type: act.name |> coalesce(""),
-          description: at.description |> coalesce(""),
-          inserted_at: at.inserted_at
-        }
-      )
-
-    query
-    |> Repo.all()
-    |> Enum.map(fn rec ->
-      Map.merge(rec, %{
-        start_stamp:
-          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp:
-          if(rec.end_stamp,
-            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
-          ),
-        summary:
-          rec.description
-          |> markdown_to_html()
-          |> Phoenix.HTML.raw(),
-        formatted_start_date: "",
-        formatted_duration:
-          {rec.duration, rec.duration_time_unit}
-          |> Timer.convert_duration_to_base_time_unit()
-          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      })
-    end)
-    |> List.first()
+  @spec get_formatted_timer_record!(id :: Ecto.UUID.t(), date :: Date.t()) ::
+          %{
+            end_stamp: nil | binary(),
+            formatted_duration: nil | String.t(),
+            formatted_start_date: binary(),
+            start_stamp: binary(),
+            summary: {:safe, any()},
+            description: binary() | [binary()],
+            duration: integer(),
+            duration_time_unit: binary()
+          }
+  def get_formatted_timer_record!(id, date) when is_struct(date, Date) do
+    from_timers()
+    |> filter_timers_matching_id(id)
+    |> join_bp_and_project()
+    |> join_timers_with_activity_type()
+    |> select_timer_columns_expanded()
+    |> Repo.one()
+    |> format_timer_fields_attach_tags_single_timer()
+    |> format_timer_fields_single_timer(date)
   end
 
   @doc """
@@ -581,6 +552,16 @@ defmodule Klepsidra.TimeTracking do
   @spec from_timers() :: Ecto.Query.t()
   def from_timers() do
     from(t in Timer, as: :timers)
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL WHERE statement, filtering
+  for timers matching desired ID only.
+  """
+  @spec filter_timers_matching_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) :: Ecto.Query.t()
+  def filter_timers_matching_id(query, id) do
+    from [timers: t] in query,
+      where: t.id == ^id
   end
 
   @doc """
@@ -653,6 +634,32 @@ defmodule Klepsidra.TimeTracking do
 
   @doc """
   Query composition function, equivalent to the SQL JOIN statement, joining
+  the base timer table to the activity types table using an
+  inner join.
+  """
+  @spec join_timers_with_activity_type(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_timers_with_activity_type(query) do
+    from [timers: t] in query,
+      left_join: ac_t in assoc(t, :activity_type),
+      as: :activity_type
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL JOIN statement, joining
+  the base timer table to the business partners table using an
+  inner join.
+  """
+  @spec join_timers_with_bp(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_timers_with_bp(query) do
+    from [timers: t] in query,
+      left_join: bp in assoc(t, :business_partner),
+      as: :business_partners
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL JOIN statement, joining
   the base timer table to the business partners and projects tables using an
   inner join.
   """
@@ -684,8 +691,38 @@ defmodule Klepsidra.TimeTracking do
         duration_time_unit: t.duration_time_unit,
         description: t.description |> coalesce(""),
         project_name: p.name |> coalesce(""),
+        business_partner_name: bp.name |> coalesce(""),
+        inserted_at: t.inserted_at
+      }
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL SELECT statement, defining
+  an expanded map of fields to be returned from the query.
+
+  Note the use of the coalesce() function, ensuring that any nil values are
+  converted to empty strings.
+  """
+  @spec select_timer_columns_expanded(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_columns_expanded(query) do
+    from [timers: t, business_partners: bp, projects: p, activity_type: ac_t] in query,
+      select: %{
+        id: t.id,
+        start_stamp: t.start_stamp,
+        end_stamp: t.end_stamp,
+        duration: t.duration,
+        duration_time_unit: t.duration_time_unit,
+        description: t.description |> coalesce(""),
+        project_id: p.id,
+        project_name: p.name |> coalesce(""),
         business_partner_id: t.business_partner_id,
         business_partner_name: bp.name |> coalesce(""),
+        billable: t.billable,
+        billing_duration: t.billing_duration,
+        billing_duration_time_unit: t.billing_duration_time_unit,
+        billing_rate: t.billing_rate,
+        activity_type_id: ac_t.id,
+        activity_type: ac_t.name |> coalesce(""),
         inserted_at: t.inserted_at
       }
   end
@@ -732,50 +769,65 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Post query formatting function, converting the timestamps to a human-readable
-  time format only, formatting the start date as relative to the current time,
-  formatting the duration in user-friendly time units.
+  Post-query formatting function for a timer list, converting timestamps to a
+  human-readable time format only, formatting the start date as relative to
+  the current time, formatting the duration in user-friendly time units.
   """
   @spec format_timer_fields(timer_list :: [map(), ...] | [], date :: Date.t()) ::
           [map(), ...] | []
   def format_timer_fields(timer_list, date) when is_list(timer_list) do
-    timer_list
-    |> Enum.map(fn rec ->
-      Map.merge(rec, %{
-        start_stamp:
-          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp:
-          if(rec.end_stamp,
-            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
-          ),
-        summary:
-          rec.description
-          |> markdown_to_html()
-          |> Phoenix.HTML.raw(),
-        formatted_start_date:
-          if(
-            Date.compare(Timer.parse_html_datetime!(rec.start_stamp), date) ==
-              :lt,
-            do: "Started yesterday",
-            else: ""
-          ),
-        formatted_duration:
-          {rec.duration, rec.duration_time_unit}
-          |> Timer.convert_duration_to_base_time_unit()
-          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      })
-    end)
+    Enum.map(timer_list, fn timer -> format_timer_fields_single_timer(timer, date) end)
   end
 
   @doc """
-  Post query formatting function, formatting display of tags attached to the timer record.
+  Post-query formatting function for a single timer, converting the timestamps
+  to a human-readable time format only, formatting the start date as relative
+  to the current time, formatting the duration in user-friendly time units.
+  """
+  @spec format_timer_fields_single_timer(timer :: map() | nil, date :: Date.t()) ::
+          map()
+  def format_timer_fields_single_timer(timer, date) do
+    Map.merge(timer, %{
+      start_stamp:
+        Timer.format_human_readable_time!(Timer.parse_html_datetime!(timer.start_stamp)),
+      end_stamp:
+        if(timer.end_stamp,
+          do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(timer.end_stamp))
+        ),
+      summary:
+        timer.description
+        |> markdown_to_html()
+        |> Phoenix.HTML.raw(),
+      formatted_start_date:
+        if(
+          Date.compare(Timer.parse_html_datetime!(timer.start_stamp), date) ==
+            :lt,
+          do: "Started yesterday",
+          else: ""
+        ),
+      formatted_duration:
+        {timer.duration, timer.duration_time_unit}
+        |> Timer.convert_duration_to_base_time_unit()
+        |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
+    })
+  end
+
+  @doc """
+  Post query formatting function, formatting display of tags attached to the
+  list of timer records.
   """
   @spec format_timer_fields_attach_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
   def format_timer_fields_attach_tags(timer_list) do
-    timer_list
-    |> Enum.map(fn rec ->
-      Map.merge(rec, %{tags: Categorisation.get_timer_tags(rec.id)})
-    end)
+    Enum.map(timer_list, fn timer -> format_timer_fields_attach_tags_single_timer(timer) end)
+  end
+
+  @doc """
+  Post query formatting function, formatting display of tags attached to a single
+  timer record.
+  """
+  @spec format_timer_fields_attach_tags_single_timer(timer :: %{id: Ecto.UUID.t()} | nil) :: map()
+  def format_timer_fields_attach_tags_single_timer(timer) do
+    Map.merge(timer, %{tags: Categorisation.get_timer_tags(timer.id)})
   end
 
   @doc """
@@ -952,19 +1004,6 @@ defmodule Klepsidra.TimeTracking do
   """
   def list_notes do
     Repo.all(Note)
-  end
-
-  @doc """
-  Returns a list of notes matching the given `filter`.
-
-  Example filter:
-
-  %{timer_id: 42}
-  """
-  def list_notes(filter) when is_map(filter) do
-    # from(Note)
-    # |> filter_notes_by_timer(filter)
-    # |> Repo.all()
   end
 
   @doc """

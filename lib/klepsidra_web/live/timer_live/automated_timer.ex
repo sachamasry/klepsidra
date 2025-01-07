@@ -480,6 +480,8 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   def handle_event("key_up", %{"key" => _}, socket), do: {:noreply, socket}
 
   defp save_timer(socket, :start_timer, timer_params) do
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     timer_params =
       Map.merge(timer_params, %{
         "start_stamp" =>
@@ -493,7 +495,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
 
     case TimeTracking.create_timer(timer_params) do
       {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+        timer = TimeTracking.get_formatted_timer_record!(timer.id, current_date_stamp)
 
         Tag.handle_tag_list_changes(
           [],
@@ -515,9 +517,11 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
   end
 
   defp save_timer(socket, :stop_timer, timer_params) do
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     case TimeTracking.update_timer(socket.assigns.timer, timer_params) do
       {:ok, timer} ->
-        timer = TimeTracking.get_formatted_timer_record!(timer.id)
+        timer = TimeTracking.get_formatted_timer_record!(timer.id, current_date_stamp)
         notify_parent({:timer_stopped, timer})
 
         {:noreply,
