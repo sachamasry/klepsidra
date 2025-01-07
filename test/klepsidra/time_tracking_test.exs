@@ -20,10 +20,11 @@ defmodule Klepsidra.TimeTrackingTest do
       billing_duration_time_unit: nil
     }
 
-    test "list_timers/0 returns all timers" do
-      timer = timer_fixture()
-      assert TimeTracking.list_timers() == [timer]
-    end
+    # list_timers/0 now deprecated as too primitive
+    # test "list_timers/0 returns all timers" do
+    #   timer = timer_fixture()
+    #   assert TimeTracking.list_timers() == [timer]
+    # end
 
     test "get_timer!/1 returns the timer with given id" do
       timer = timer_fixture()

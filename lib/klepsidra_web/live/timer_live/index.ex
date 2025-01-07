@@ -13,10 +13,12 @@ defmodule KlepsidraWeb.TimerLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     socket =
       socket
       |> assign(display_help: false)
-      |> stream(:timers, TimeTracking.list_timers_with_customers())
+      |> stream(:timers, TimeTracking.list_all_timers(current_date_stamp))
 
     {:ok, socket}
   end

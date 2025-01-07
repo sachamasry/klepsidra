@@ -30,11 +30,11 @@ defmodule KlepsidraWeb.StartPageLive do
         :minute_increment
       ])
 
-    open_timers = TimeTracking.get_all_open_timers(current_date_stamp)
+    open_timers = TimeTracking.list_all_open_timers(current_date_stamp)
     open_timer_count = TimeTracking.get_open_timer_count()
     today = format_date(get_current_datetime_stamp())
 
-    closed_timers = TimeTracking.get_closed_timers_for_date(current_date_stamp)
+    closed_timers = TimeTracking.list_closed_timers_for_date(current_date_stamp)
     closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
 
     closed_timer_message =

@@ -105,7 +105,24 @@ recovery", [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#ff
 class" => "tag-project_research", "value" => "c4840fda-5983-4081-be05-bdb956ccc714"}]...
 ```
 
-* [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
+* [ ] New bug found in production
+  ```
+  ** (KeyError) key :description not found in: %{label: "Apostrophe CMS", value: "ba8389a7-47bf-4835-a2e4-7bd87a38e64b"}
+  (klepsidra 0.1.3) lib/klepsidra_web/live/notes_live/show.html.heex:64: anonymous fn/3 in KlepsidraWeb.NotesLive.Show
+  .render/1                                                                                                                   (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:414: Phoenix.LiveView.Diff.traverse/7                           (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:555: anonymous fn/4 in Phoenix.LiveView.Diff.traverse_dynamic/7                                                         
+  (elixir 1.18.1) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3                                             
+  (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:412: Phoenix.LiveView.Diff.traverse/7                       
+  (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:582: anonymous fn/3 in Phoenix.LiveView.Diff.traverse_comprehension/5                                                                                                               
+  (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3                                        
+  (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3
+  Last message: %Phoenix.Socket.Message{topic: "lv:phx-GBhlSHRIO92Xs13B", event: "event", payload: %{"cid" => 2, "event" =
+  > "selection_recovery", "type" => "hook", "value" => [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#
+  fff", "label" => "Apostrophe CMS", "tag_class" => "tag-Apostrophe_CMS", "value" => "ba8389a7-47bf-4835-a2e4-7bd87a38e64b
+  "}]}, ref: "770", join_ref: "764"}
+  14:07:19.364 [error] GenServer #PID<0.3881.0> terminating
+  ```
+
+  * [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
   * [ ] Migrate entire development effort to OpenBSD as a primary developemnt host
 
 ## Release 0.1.5

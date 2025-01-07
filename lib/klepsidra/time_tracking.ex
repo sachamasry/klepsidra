@@ -5,7 +5,6 @@ defmodule Klepsidra.TimeTracking do
 
   import Ecto.Query, warn: false
   alias Klepsidra.Categorisation
-  alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Math
   alias Klepsidra.Repo
   alias Klepsidra.TimeTracking.ActivityType
@@ -175,19 +174,6 @@ defmodule Klepsidra.TimeTracking do
           billable: bitstring(),
           modified: binary() | integer()
         }
-
-  @doc """
-  Returns the list of timers.
-
-  ## Examples
-
-      iex> list_timers()
-      [%Timer{}, ...]
-
-  """
-  def list_timers do
-    Timer |> order_by(desc: :start_stamp) |> Repo.all()
-  end
 
   @spec list_timers(filter :: map()) :: [map(), ...]
   @doc """
@@ -437,61 +423,6 @@ defmodule Klepsidra.TimeTracking do
       )
 
     Repo.all(query)
-  end
-
-  @doc """
-  Returns the list of timers, with `business_partner` association preloaded.
-
-  ## Examples
-
-      iex> list_timers()
-      [%Timer{}, ...]
-
-  """
-  def list_timers_with_customers do
-    query =
-      from(
-        at in Timer,
-        left_join: bp in assoc(at, :business_partner),
-        left_join: p in assoc(at, :project),
-        order_by: [desc: at.inserted_at, asc: at.id],
-        select: %{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          billing_duration: at.billing_duration,
-          billing_duration_time_unit: at.billing_duration_time_unit,
-          description: at.description |> coalesce(""),
-          project_name: p.name |> coalesce(""),
-          business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name |> coalesce(""),
-          inserted_at: at.inserted_at
-        }
-      )
-
-    query
-    |> Repo.all()
-    |> Enum.map(fn rec ->
-      Map.merge(rec, %{
-        start_stamp:
-          Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.start_stamp)),
-        end_stamp:
-          if(rec.end_stamp,
-            do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(rec.end_stamp))
-          ),
-        summary:
-          rec.description
-          |> markdown_to_html()
-          |> Phoenix.HTML.raw(),
-        formatted_start_date: nil,
-        formatted_duration:
-          {rec.duration, rec.duration_time_unit}
-          |> Timer.convert_duration_to_base_time_unit()
-          |> Klepsidra.TimeTracking.Timer.format_human_readable_duration()
-      })
-    end)
   end
 
   @doc """
@@ -831,14 +762,52 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Returns the list of timers, with `business_partner` and project associations
+  preloaded.
+
+  ## Examples
+
+      iex> list_timers()
+      [%{}, ...]
+
+  """
+  @spec list_all_timers(date :: Date.t()) :: [map(), ...]
+  def list_all_timers(date) do
+    from_timers()
+    |> order_timers_inserted_desc_id_asc()
+    |> join_bp_and_project()
+    |> join_timers_with_activity_type()
+    |> select_timer_columns_expanded()
+    |> Repo.all()
+    |> format_timer_fields(date)
+  end
+
+  @doc """
+  Gets a list of all open timers.
+
+  A timer is considered open if it has no `end_stamp`.
+  """
+  @spec list_all_open_timers(date :: Date.t()) :: [Klepsidra.TimeTracking.Timer.t(), ...] | []
+  def list_all_open_timers(date) do
+    from_timers()
+    |> filter_timers_open_only()
+    |> order_timers_inserted_desc_id_asc()
+    |> join_bp_and_project()
+    |> select_timer_columns()
+    |> Repo.all()
+    |> format_timer_fields_attach_tags()
+    |> format_timer_fields(date)
+  end
+
+  @doc """
   Gets a list of closed timers started on the specified date.
 
   A closed timer is one which has an end datetime stamp recorded, as well as
   a starting one.
   """
-  @spec get_closed_timers_for_date(date :: Date.t()) ::
+  @spec list_closed_timers_for_date(date :: Date.t()) ::
           [map(), ...] | []
-  def get_closed_timers_for_date(date) when is_struct(date, Date) do
+  def list_closed_timers_for_date(date) when is_struct(date, Date) do
     from_timers()
     |> filter_timers_closed_only_for_date(date)
     |> order_timers_inserted_desc_id_asc()
@@ -909,23 +878,6 @@ defmodule Klepsidra.TimeTracking do
     |> select_timer_duration_sum()
     |> group_timer_columns_by_duration_time_unit()
     |> Repo.all()
-  end
-
-  @doc """
-  Gets a list of all open timers.
-
-  A timer is considered open if it has no `end_stamp`.
-  """
-  @spec get_all_open_timers(date :: Date.t()) :: [Klepsidra.TimeTracking.Timer.t(), ...] | []
-  def get_all_open_timers(date) do
-    from_timers()
-    |> filter_timers_open_only()
-    |> order_timers_inserted_desc_id_asc()
-    |> join_bp_and_project()
-    |> select_timer_columns()
-    |> Repo.all()
-    |> format_timer_fields_attach_tags()
-    |> format_timer_fields(date)
   end
 
   @doc """
