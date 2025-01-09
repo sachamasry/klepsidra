@@ -5,6 +5,11 @@
     <.link patch={~p"/knowledge_management/notes/#{@note}/show/edit"} phx-click={JS.push_focus()}>
       <.outline_button>Edit note</.outline_button>
     </.link>
+    <.link patch={~p"/knowledge_management/notes/new"}>
+      <.outline_button>
+        <.icon name="hero-plus" /> New note
+      </.outline_button>
+    </.link>
   </:actions>
 </.header>
 
