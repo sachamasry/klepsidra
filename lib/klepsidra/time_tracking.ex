@@ -613,7 +613,7 @@ defmodule Klepsidra.TimeTracking do
           Ecto.Query.t()
   def join_timers_with_tags(query) do
     from [timers: t] in query,
-      left_join: ta in assoc(t, :tags),
+      left_join: tag in assoc(t, :tags),
       as: :tags
   end
 
@@ -655,19 +655,21 @@ defmodule Klepsidra.TimeTracking do
         inserted_at: t.inserted_at,
         tags:
           fragment(
-            "JSON_GROUP_ARRAY(JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?))",
+            "JSON_GROUP_ARRAY(CASE WHEN ? IS NOT NULL THEN JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?, 'fg_colour', ?) END)",
+            tag.id,
             tag.id,
             tag.name,
-            tag.colour
+            tag.colour,
+            tag.fg_colour
           )
       }
   end
 
   @doc """
-  Query composition function, equivalent to the SQL SELECT statement, defining
+  Query composition function, equivalent to the SQL `SELECT` statement, defining
   an expanded map of fields to be returned from the query.
 
-  Note the use of the coalesce() function, ensuring that any nil values are
+  Note the use of the `coalesce()` function, ensuring that any `nil` values are
   converted to empty strings.
   """
   @spec select_timer_columns_expanded(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -694,6 +696,13 @@ defmodule Klepsidra.TimeTracking do
       }
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL `SELECT`` statement, defining
+  an expanded map of fields to be returned from the query.
+
+  Note the use of the `coalesce()` function, ensuring that any `nil` values are
+  converted to empty strings.
+  """
   @spec select_timer_columns_expanded_with_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_columns_expanded_with_tags(query) do
     from [timers: t, business_partners: bp, projects: p, activity_type: ac_t, tags: tag] in query,
@@ -712,16 +721,34 @@ defmodule Klepsidra.TimeTracking do
         activity_type: ac_t.name |> coalesce(""),
         tags:
           fragment(
-            "JSON_GROUP_ARRAY(JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?))",
+            "JSON_GROUP_ARRAY(CASE WHEN ? IS NOT NULL THEN JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?, 'fg_colour', ?) END)",
+            tag.id,
             tag.id,
             tag.name,
-            tag.colour
+            tag.colour,
+            tag.fg_colour
           ),
         billable: t.billable,
         billing_duration: t.billing_duration,
         billing_duration_time_unit: t.billing_duration_time_unit,
         billing_rate: t.billing_rate,
         inserted_at: t.inserted_at
+      }
+  end
+
+  @spec select_timer_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_tags(query) do
+    from [tags: tag] in query,
+      select: %{
+        tags:
+          fragment(
+            "JSON_GROUP_ARRAY(CASE WHEN ? IS NOT NULL THEN JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?, 'fg_colour', ?) END)",
+            tag.id,
+            tag.id,
+            tag.name,
+            tag.colour,
+            tag.fg_colour
+          )
       }
   end
 
@@ -878,6 +905,14 @@ defmodule Klepsidra.TimeTracking do
     |> format_timer_fields(date)
   end
 
+  def list_all_timer_tags_for_date(date) when is_struct(date, Date) do
+    from_timers()
+    |> join_timers_with_tags()
+    |> select_timer_tags()
+    |> group_timer_columns_by_timer_id()
+    |> Repo.all()
+  end
+
   @doc """
   Gets a list of all open timers.
 
@@ -891,6 +926,8 @@ defmodule Klepsidra.TimeTracking do
     |> join_bp_and_project()
     |> join_timers_with_tags()
     |> select_timer_columns_with_tags()
+    # |> select_timer_columns()
+    |> group_timer_columns_by_timer_id()
     |> Repo.all()
     |> format_timer_fields(date)
   end

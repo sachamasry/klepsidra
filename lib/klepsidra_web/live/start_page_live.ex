@@ -49,6 +49,8 @@ defmodule KlepsidraWeb.StartPageLive do
       closed_timers
       |> Enum.map(fn rec -> rec.tags end)
       |> List.flatten()
+      |> Enum.reject(fn i -> is_nil(i) end)
+      |> IO.inspect()
       |> DynamicCSS.generate_tag_styles()
 
     socket =
@@ -69,6 +71,7 @@ defmodule KlepsidraWeb.StartPageLive do
       )
       |> stream(:open_timers, open_timers)
       |> stream(:closed_timers, closed_timers)
+    # |> IO.inspect()
 
     {:ok, socket}
   end
@@ -399,8 +402,8 @@ defmodule KlepsidraWeb.StartPageLive do
   def display_tags(assigns) do
     ~H"""
     <div
-      class={"tag-#{DynamicCSS.convert_tag_name_to_class(@tag.name)} rounded-full basis-4 h-4"}
-      title={"#{@tag.name}"}
+      class={"tag-#{DynamicCSS.convert_tag_name_to_class(@tag["name"])} rounded-full basis-4 h-4"}
+      title={"#{@tag["name"]}"}
     >
     </div>
     """
