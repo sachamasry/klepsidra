@@ -470,9 +470,9 @@ defmodule Klepsidra.TimeTracking do
     |> filter_timers_matching_id(id)
     |> join_bp_and_project()
     |> join_timers_with_activity_type()
-    |> select_timer_columns_expanded()
+    |> join_timers_with_tags()
+    |> select_timer_columns_expanded_with_tags()
     |> Repo.one()
-    |> format_timer_fields_attach_tags_single_timer()
     |> format_timer_fields_single_timer(date)
   end
 
@@ -605,6 +605,19 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Query composition function, equivalent to the SQL JOIN statement, joining
+  the base timer table to the tags table using an
+  inner join.
+  """
+  @spec join_timers_with_tags(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def join_timers_with_tags(query) do
+    from [timers: t] in query,
+      left_join: ta in assoc(t, :tags),
+      as: :tags
+  end
+
+  @doc """
   Query composition function, equivalent to the SQL SELECT statement, defining
   a map of fields to be returned from the query.
 
@@ -624,6 +637,29 @@ defmodule Klepsidra.TimeTracking do
         project_name: p.name |> coalesce(""),
         business_partner_name: bp.name |> coalesce(""),
         inserted_at: t.inserted_at
+      }
+  end
+
+  @spec select_timer_columns_with_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_columns_with_tags(query) do
+    from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
+      select: %{
+        id: t.id,
+        start_stamp: t.start_stamp,
+        end_stamp: t.end_stamp,
+        duration: t.duration,
+        duration_time_unit: t.duration_time_unit,
+        description: t.description |> coalesce(""),
+        project_name: p.name |> coalesce(""),
+        business_partner_name: bp.name |> coalesce(""),
+        inserted_at: t.inserted_at,
+        tags:
+          fragment(
+            "JSON_GROUP_ARRAY(JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?))",
+            tag.id,
+            tag.name,
+            tag.colour
+          )
       }
   end
 
@@ -648,12 +684,43 @@ defmodule Klepsidra.TimeTracking do
         project_name: p.name |> coalesce(""),
         business_partner_id: t.business_partner_id,
         business_partner_name: bp.name |> coalesce(""),
+        activity_type_id: ac_t.id,
+        activity_type: ac_t.name |> coalesce(""),
         billable: t.billable,
         billing_duration: t.billing_duration,
         billing_duration_time_unit: t.billing_duration_time_unit,
         billing_rate: t.billing_rate,
+        inserted_at: t.inserted_at
+      }
+  end
+
+  @spec select_timer_columns_expanded_with_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def select_timer_columns_expanded_with_tags(query) do
+    from [timers: t, business_partners: bp, projects: p, activity_type: ac_t, tags: tag] in query,
+      select: %{
+        id: t.id,
+        start_stamp: t.start_stamp,
+        end_stamp: t.end_stamp,
+        duration: t.duration,
+        duration_time_unit: t.duration_time_unit,
+        description: t.description |> coalesce(""),
+        project_id: p.id,
+        project_name: p.name |> coalesce(""),
+        business_partner_id: t.business_partner_id,
+        business_partner_name: bp.name |> coalesce(""),
         activity_type_id: ac_t.id,
         activity_type: ac_t.name |> coalesce(""),
+        tags:
+          fragment(
+            "JSON_GROUP_ARRAY(JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?))",
+            tag.id,
+            tag.name,
+            tag.colour
+          ),
+        billable: t.billable,
+        billing_duration: t.billing_duration,
+        billing_duration_time_unit: t.billing_duration_time_unit,
+        billing_rate: t.billing_rate,
         inserted_at: t.inserted_at
       }
   end
@@ -717,6 +784,33 @@ defmodule Klepsidra.TimeTracking do
   """
   @spec format_timer_fields_single_timer(timer :: map() | nil, date :: Date.t()) ::
           map()
+  def format_timer_fields_single_timer(%{tags: tags} = timer, date) do
+    Map.merge(timer, %{
+      start_stamp:
+        Timer.format_human_readable_time!(Timer.parse_html_datetime!(timer.start_stamp)),
+      end_stamp:
+        if(timer.end_stamp,
+          do: Timer.format_human_readable_time!(Timer.parse_html_datetime!(timer.end_stamp))
+        ),
+      summary:
+        timer.description
+        |> markdown_to_html()
+        |> Phoenix.HTML.raw(),
+      formatted_start_date:
+        if(
+          Date.compare(Timer.parse_html_datetime!(timer.start_stamp), date) ==
+            :lt,
+          do: "Started yesterday",
+          else: ""
+        ),
+      formatted_duration:
+        {timer.duration, timer.duration_time_unit}
+        |> Timer.convert_duration_to_base_time_unit()
+        |> Klepsidra.TimeTracking.Timer.format_human_readable_duration(),
+      tags: Jason.decode!(tags)
+    })
+  end
+
   def format_timer_fields_single_timer(timer, date) do
     Map.merge(timer, %{
       start_stamp:
@@ -777,7 +871,9 @@ defmodule Klepsidra.TimeTracking do
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
     |> join_timers_with_activity_type()
-    |> select_timer_columns_expanded()
+    |> join_timers_with_tags()
+    |> select_timer_columns_expanded_with_tags()
+    |> group_timer_columns_by_timer_id()
     |> Repo.all()
     |> format_timer_fields(date)
   end
@@ -793,9 +889,9 @@ defmodule Klepsidra.TimeTracking do
     |> filter_timers_open_only()
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
-    |> select_timer_columns()
+    |> join_timers_with_tags()
+    |> select_timer_columns_with_tags()
     |> Repo.all()
-    |> format_timer_fields_attach_tags()
     |> format_timer_fields(date)
   end
 
@@ -812,9 +908,10 @@ defmodule Klepsidra.TimeTracking do
     |> filter_timers_closed_only_for_date(date)
     |> order_timers_inserted_desc_id_asc()
     |> join_bp_and_project()
-    |> select_timer_columns()
+    |> join_timers_with_tags()
+    |> select_timer_columns_with_tags()
+    |> group_timer_columns_by_timer_id()
     |> Repo.all()
-    |> format_timer_fields_attach_tags()
     |> format_timer_fields(date)
   end
 
