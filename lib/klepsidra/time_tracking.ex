@@ -4,7 +4,6 @@ defmodule Klepsidra.TimeTracking do
   """
 
   import Ecto.Query, warn: false
-  alias Klepsidra.Categorisation
   alias Klepsidra.Math
   alias Klepsidra.Repo
   alias Klepsidra.TimeTracking.ActivityType
@@ -488,7 +487,7 @@ defmodule Klepsidra.TimeTracking do
 
   @doc """
   Query composition function, equivalent to the SQL `WHERE` statement, filtering
-  for timers matching desired `ID` only.
+  for timers matching desired timer `ID` only.
   """
   @spec filter_timers_matching_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) :: Ecto.Query.t()
   def filter_timers_matching_id(query, id) do
@@ -533,7 +532,7 @@ defmodule Klepsidra.TimeTracking do
   Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for open timers only.
 
-  Open timers have a non-nil start stamp and a nil end stamp.
+  Open timers have a non-nil start stamp and a `nil` end stamp.
   """
   @spec filter_timers_open_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def filter_timers_open_only(query) do
@@ -547,8 +546,8 @@ defmodule Klepsidra.TimeTracking do
   Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for all timers falling on the provided date.
   """
-  @spec filter_timers_for_date(query :: Ecto.Query.t(), date :: Date.t()) :: Ecto.Query.t()
-  def filter_timers_for_date(query, date) do
+  @spec filter_timers_by_date(query :: Ecto.Query.t(), date :: Date.t()) :: Ecto.Query.t()
+  def filter_timers_by_date(query, date) do
     next_day = Date.add(date, 1)
 
     from [timers: t] in query,
@@ -558,7 +557,17 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL WHERE statement, filtering
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
+  for all non-nil tag `ID`s.
+  """
+  @spec filter_timers_with_non_nil_tag_id(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def filter_timers_with_non_nil_tag_id(query) do
+    from [tags: tag] in query,
+      where: not is_nil(tag.id)
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for timers assigned to a project.
   """
   @spec filter_timers_by_project(query :: Ecto.Query.t(), project_id :: Ecto.UUID.t()) ::
@@ -569,7 +578,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL ORDER BY statement, sorting
+  Query composition function, equivalent to the SQL `ORDER BY` statement, sorting
   timers by their inserted_at date and time stamp, in descending order.
   """
   @spec order_timers_inserted_desc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -579,9 +588,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL JOIN statement, joining
-  the base timer table to the activity types table using an
-  inner join.
+  Query composition function, equivalent to the SQL `JOIN` statement, joining
+  the base timer table to the activity types table using an inner join.
   """
   @spec join_timers_with_activity_type(query :: Ecto.Query.t()) ::
           Ecto.Query.t()
@@ -592,9 +600,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL JOIN statement, joining
-  the base timer table to the business partners table using an
-  inner join.
+  Query composition function, equivalent to the SQL `JOIN` statement, joining
+  the base timer table to the business partners table using an inner join.
   """
   @spec join_timers_with_bp(query :: Ecto.Query.t()) ::
           Ecto.Query.t()
@@ -605,7 +612,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL JOIN statement, joining
+  Query composition function, equivalent to the SQL `JOIN` statement, joining
   the base timer table to the business partners and projects tables using an
   inner join.
   """
@@ -620,9 +627,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL JOIN statement, joining
-  the base timer table to the tags table using an
-  inner join.
+  Query composition function, equivalent to the SQL `JOIN` statement, joining
+  the base timer table to the tags table using an inner join.
   """
   @spec join_timers_with_tags(query :: Ecto.Query.t()) ::
           Ecto.Query.t()
@@ -633,10 +639,10 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL SELECT statement, defining
+  Query composition function, equivalent to the SQL `SELECT` statement, defining
   a map of fields to be returned from the query.
 
-  Note the use of the coalesce() function, ensuring that any nil values are
+  Note the use of the coalesce() function, ensuring that any `nil` values are
   converted to empty strings.
   """
   @spec select_timer_columns(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -655,6 +661,13 @@ defmodule Klepsidra.TimeTracking do
       }
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL `SELECT` statement, defining
+  a map of fields to be returned from the query, including aggregated tag fields.
+
+  Note the use of the coalesce() function, ensuring that any `nil` values are
+  converted to empty strings.
+  """
   @spec select_timer_columns_with_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_columns_with_tags(query) do
     from [timers: t, business_partners: bp, projects: p, tags: tag] in query,
@@ -712,8 +725,9 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL `SELECT`` statement, defining
-  an expanded map of fields to be returned from the query.
+  Query composition function, equivalent to the SQL `SELECT` statement, defining
+  an expanded map of fields to be returned from the query, along with an aggregated
+  tag field.
 
   Note the use of the `coalesce()` function, ensuring that any `nil` values are
   converted to empty strings.
@@ -751,24 +765,23 @@ defmodule Klepsidra.TimeTracking do
       }
   end
 
+  @doc """
+  Query composition function, equivalent to the SQL `SELECT` statement, returning
+  a list of desired tag fields.
+  """
   @spec select_timer_tags(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def select_timer_tags(query) do
     from [tags: tag] in query,
       select: %{
-        tags:
-          fragment(
-            "JSON_GROUP_ARRAY(CASE WHEN ? IS NOT NULL THEN JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?, 'fg_colour', ?) END)",
-            tag.id,
-            tag.id,
-            tag.name,
-            tag.colour,
-            tag.fg_colour
-          )
+        id: tag.id,
+        name: tag.name,
+        bg_colour: tag.colour,
+        fg_colour: tag.fg_colour
       }
   end
 
   @doc """
-  Query composition function, equivalent to the SQL SELECT statement, returning
+  Query composition function, equivalent to the SQL `SELECT` statement, returning
   a timer count only.
   """
   @spec select_timer_count(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -778,7 +791,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL SELECT statement, returning
+  Query composition function, equivalent to the SQL `SELECT` statement, returning
   a sum of timer durations.
   """
   @spec select_timer_duration_sum(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -788,8 +801,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL GROUP BY statement, ensuring
-  that records returned by the SELECT statement are grouped by the timer ID.
+  Query composition function, equivalent to the SQL `GROUP BY` statement, ensuring
+  that records returned by the `SELECT` statement are grouped by the timer `ID`.
   """
   @spec group_timer_columns_by_timer_id(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def group_timer_columns_by_timer_id(query) do
@@ -798,8 +811,18 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL GROUP BY statement, ensuring
-  that records returned by the SELECT statement are grouped by the duration time
+  Query composition function, equivalent to the SQL `GROUP BY` statement, ensuring
+  that records returned by the `SELECT` statement are grouped by tag `ID`s.
+  """
+  @spec group_timers_by_tag_id(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def group_timers_by_tag_id(query) do
+    from [tags: tag] in query,
+      group_by: tag.id
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL `GROUP BY` statement, ensuring
+  that records returned by the `SELECT` statement are grouped by the duration time
   unit.
   """
   @spec group_timer_columns_by_duration_time_unit(query :: Ecto.Query.t()) :: Ecto.Query.t()
@@ -823,6 +846,9 @@ defmodule Klepsidra.TimeTracking do
   Post-query formatting function for a single timer, converting the timestamps
   to a human-readable time format only, formatting the start date as relative
   to the current time, formatting the duration in user-friendly time units.
+
+  Note if the individual timer record has a `tags` key, then it is expected to
+  be in pure JSON format, and will be converted to a map structure.
   """
   @spec format_timer_fields_single_timer(timer :: map() | nil, date :: Date.t()) ::
           map()
@@ -880,32 +906,12 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Post query formatting function, formatting display of tags attached to the
-  list of timer records.
-  """
-  @spec format_timer_fields_attached_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
-  def format_timer_fields_attached_tags(timer_list) do
-    Enum.map(timer_list, fn timer ->
-      Map.merge(timer, %{tags: Jason.decode!(timer.tags)})
-    end)
-  end
-
-  @doc """
-  Post query formatting function, formatting display of tags attached to a single
-  timer record.
-  """
-  @spec format_timer_fields_attach_tags_single_timer(timer :: %{id: Ecto.UUID.t()} | nil) :: map()
-  def format_timer_fields_attach_tags_single_timer(timer) do
-    Map.merge(timer, %{tags: Categorisation.get_timer_tags(timer.id)})
-  end
-
-  @doc """
-  Returns the list of timers, with `business_partner` and project associations
-  preloaded.
+  Returns the list of timers, with `business_partner`, `project`,
+  `activity_type` and `tags` associations.
 
   ## Examples
 
-      iex> list_timers()
+      iex> list_timers(~D[2025-01-11])
       [%{}, ...]
 
   """
@@ -922,14 +928,18 @@ defmodule Klepsidra.TimeTracking do
     |> format_timer_fields(date)
   end
 
+  @doc """
+  Gets a list of all timers for the specified date.
+  """
+  @spec list_all_timer_tags_for_date(date :: Date.t()) :: [map(), ...]
   def list_all_timer_tags_for_date(date) when is_struct(date, Date) do
     from_timers()
     |> join_timers_with_tags()
-    |> filter_timers_for_date(date)
+    |> filter_timers_by_date(date)
+    |> filter_timers_with_non_nil_tag_id()
     |> select_timer_tags()
-    |> group_timer_columns_by_timer_id()
+    |> group_timers_by_tag_id()
     |> Repo.all()
-    |> format_timer_fields_attached_tags()
   end
 
   @doc """
@@ -945,7 +955,6 @@ defmodule Klepsidra.TimeTracking do
     |> join_bp_and_project()
     |> join_timers_with_tags()
     |> select_timer_columns_with_tags()
-    # |> select_timer_columns()
     |> group_timer_columns_by_timer_id()
     |> Repo.all()
     |> format_timer_fields(date)

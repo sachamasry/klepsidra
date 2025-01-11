@@ -46,11 +46,8 @@ defmodule KlepsidraWeb.StartPageLive do
          timed today"
 
     aggregate_tag_list =
-      closed_timers
-      |> Enum.map(fn rec -> rec.tags end)
-      |> List.flatten()
-      |> Enum.reject(fn i -> is_nil(i) end)
-      |> IO.inspect()
+      current_date_stamp
+      |> TimeTracking.list_all_timer_tags_for_date()
       |> DynamicCSS.generate_tag_styles()
 
     socket =
@@ -71,7 +68,6 @@ defmodule KlepsidraWeb.StartPageLive do
       )
       |> stream(:open_timers, open_timers)
       |> stream(:closed_timers, closed_timers)
-    # |> IO.inspect()
 
     {:ok, socket}
   end
