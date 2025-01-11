@@ -477,8 +477,9 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL from statement, a starting point in
-  the timer query pipeline, selecting _from_ the timers table.
+  Query composition function, equivalent to the SQL `FROM` statement,
+  a starting point in the timer query pipeline, selecting _from_
+  the timers table.
   """
   @spec from_timers() :: Ecto.Query.t()
   def from_timers() do
@@ -486,8 +487,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL WHERE statement, filtering
-  for timers matching desired ID only.
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
+  for timers matching desired `ID` only.
   """
   @spec filter_timers_matching_id(query :: Ecto.Query.t(), id :: Ecto.UUID.t()) :: Ecto.Query.t()
   def filter_timers_matching_id(query, id) do
@@ -496,10 +497,10 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL WHERE statement, filtering
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for closed timers only.
 
-  Strictly speaking, closed timers are those with  non-nil start and end stamps.
+  Strictly speaking, closed timers are those with non-nil start and end stamps.
   """
   @spec filter_timers_closed_only(query :: Ecto.Query.t()) :: Ecto.Query.t()
   def filter_timers_closed_only(query) do
@@ -510,7 +511,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL WHERE statement, filtering
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for closed timers for a given date.
 
   In this context, a closed timer is one with a non-nil start stamp starting on the
@@ -529,7 +530,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Query composition function, equivalent to the SQL WHERE statement, filtering
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
   for open timers only.
 
   Open timers have a non-nil start stamp and a nil end stamp.
@@ -540,6 +541,20 @@ defmodule Klepsidra.TimeTracking do
       where:
         not is_nil(t.start_stamp) and
           is_nil(t.end_stamp)
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL `WHERE` statement, filtering
+  for all timers falling on the provided date.
+  """
+  @spec filter_timers_for_date(query :: Ecto.Query.t(), date :: Date.t()) :: Ecto.Query.t()
+  def filter_timers_for_date(query, date) do
+    next_day = Date.add(date, 1)
+
+    from [timers: t] in query,
+      where:
+        is_nil(t.end_stamp) or
+          fragment("? BETWEEN ? AND ?", t.end_stamp, ^date, ^next_day)
   end
 
   @doc """
@@ -868,9 +883,11 @@ defmodule Klepsidra.TimeTracking do
   Post query formatting function, formatting display of tags attached to the
   list of timer records.
   """
-  @spec format_timer_fields_attach_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
-  def format_timer_fields_attach_tags(timer_list) do
-    Enum.map(timer_list, fn timer -> format_timer_fields_attach_tags_single_timer(timer) end)
+  @spec format_timer_fields_attached_tags(timer_list :: [map(), ...] | []) :: [map(), ...] | []
+  def format_timer_fields_attached_tags(timer_list) do
+    Enum.map(timer_list, fn timer ->
+      Map.merge(timer, %{tags: Jason.decode!(timer.tags)})
+    end)
   end
 
   @doc """
@@ -908,9 +925,11 @@ defmodule Klepsidra.TimeTracking do
   def list_all_timer_tags_for_date(date) when is_struct(date, Date) do
     from_timers()
     |> join_timers_with_tags()
+    |> filter_timers_for_date(date)
     |> select_timer_tags()
     |> group_timer_columns_by_timer_id()
     |> Repo.all()
+    |> format_timer_fields_attached_tags()
   end
 
   @doc """
