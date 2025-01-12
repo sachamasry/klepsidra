@@ -217,7 +217,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       )
       |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :set,
+        :add,
         DynamicCSS.generate_tag_styles(timer.tags)
       )
 
@@ -333,7 +333,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
       )
       |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :set,
+        :add,
         DynamicCSS.generate_tag_styles(tags_applied)
       )
 

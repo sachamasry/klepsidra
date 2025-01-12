@@ -90,7 +90,14 @@ What is incredibly useful about this software is that these snippets can be open
   * [X] Updating notes fails with the following error message:
   * [X] Journal entries cannot be viewed as the show view breaks
   * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
-  * [ ] A new bug is present in production, in timer `form_component` views, related to the tag `live_select` component:
+* [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
+  * [ ] Migrate entire development effort to OpenBSD as a primary developemnt host
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Debugging
+
+* [ ] A new bug is present in production, in timer `form_component` views, related to the tag `live_select` component:
 
 ```
 ** (FunctionClauseError) no function clause matching in KlepsidraWeb.StartPageLive.handle_event/3          
@@ -100,24 +107,38 @@ class" => "tag-project_research", "value" => "c4840fda-5983-4081-be05-bdb956ccc7
 ```
 
 * [ ] Another bug found in production
-  ```
-  ** (KeyError) key :description not found in: %{label: "Apostrophe CMS", value: "ba8389a7-47bf-4835-a2e4-7bd87a38e64b"}
-  (klepsidra 0.1.3) lib/klepsidra_web/live/notes_live/show.html.heex:64: anonymous fn/3 in KlepsidraWeb.NotesLive.Show
-  .render/1                                                                                                                   (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:414: Phoenix.LiveView.Diff.traverse/7                           (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:555: anonymous fn/4 in Phoenix.LiveView.Diff.traverse_dynamic/7                                                         
-  (elixir 1.18.1) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3                                             
-  (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:412: Phoenix.LiveView.Diff.traverse/7                       
-  (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:582: anonymous fn/3 in Phoenix.LiveView.Diff.traverse_comprehension/5                                                                                                               
-  (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3                                        
-  (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3
-  Last message: %Phoenix.Socket.Message{topic: "lv:phx-GBhlSHRIO92Xs13B", event: "event", payload: %{"cid" => 2, "event" =
-  > "selection_recovery", "type" => "hook", "value" => [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#
-  fff", "label" => "Apostrophe CMS", "tag_class" => "tag-Apostrophe_CMS", "value" => "ba8389a7-47bf-4835-a2e4-7bd87a38e64b
-  "}]}, ref: "770", join_ref: "764"}
-  14:07:19.364 [error] GenServer #PID<0.3881.0> terminating
-  ```
 
-  * [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
-  * [ ] Migrate entire development effort to OpenBSD as a primary developemnt host
+```
+** (KeyError) key :description not found in: %{label: "Apostrophe CMS", value: "ba8389a7-47bf-4835-a2e4-7bd87a38e64b"}
+    (klepsidra 0.1.3) lib/klepsidra_web/live/notes_live/show.html.heex:64: anonymous fn/3 in KlepsidraWeb.NotesLive.Show
+.render/1                                                                                                                   (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:414: Phoenix.LiveView.Diff.traverse/7                           (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:555: anonymous fn/4 in Phoenix.LiveView.Diff.traverse_dynamic/7                                                         
+    (elixir 1.18.1) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3                                             
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:412: Phoenix.LiveView.Diff.traverse/7                       
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:582: anonymous fn/3 in Phoenix.LiveView.Diff.traverse_comprehension/5                                                                                                               
+    (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3                                        
+    (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3
+Last message: %Phoenix.Socket.Message{topic: "lv:phx-GBhlSHRIO92Xs13B", event: "event", payload: %{"cid" => 2, "event" =
+> "selection_recovery", "type" => "hook", "value" => [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#
+fff", "label" => "Apostrophe CMS", "tag_class" => "tag-Apostrophe_CMS", "value" => "ba8389a7-47bf-4835-a2e4-7bd87a38e64b
+"}]}, ref: "770", join_ref: "764"}
+14:07:19.364 [error] GenServer #PID<0.3881.0> terminating
+```
+
+```
+** (FunctionClauseError) no function clause matching in KlepsidraWeb.StartPageLive.handle_event/3                                               (klepsidra 0.1.3) lib/klepsidra_web/live/start_page_live.ex:183: KlepsidraWeb.StartPageLive.handle_event("selection_recovery", [%{"bg_colour" => "#1fec04", "description" => "General reading, for the fun of it, for exploration, for the satiation of curiosity, for unstructured,
+ undirected learning of new ideas and concepts", "fg_colour" => "#000000", "label" => "reading", "tag_class" => "tag-reading", "value" => "4
+a948bdd-50ce-40f7-9cfb-5e1f2367595b"}, %{"bg_colour" => "#0460c3", "description" => "", "fg_colour" => "#ffffff", "label" => "research", "ta
+g_class" => "tag-research", "value" => "54406958-c7e0-4b7c-ac18-4fe2530ff848"}], #Phoenix.LiveView.Socket<id: "phx-GBnxR-iHnUm0zDiB", endpoint: KlepsidraWeb.Endpoint, view: KlepsidraWeb.StartPageLive, parent_pid: nil, root_pid: #PID<0.18406.0>, router: KlepsidraWeb.Router, assigns: %{quote: %Klepsidra.KnowledgeManagement.Annotation{__meta__: #Ecto.Schema.Metadata<:loaded, "annotations">, id: "dc56bac0-dc23-46dd-9628-e2747060d3c6", entry_type: "quote", text: "Man will only become better when you make him see what he is like.", author_name: "Anton Chekov", comment: "(Greene, Robert, The Laws of Human Nature, Introduction, p.11)", position_reference: nil, inserted_at: ~N[2024-11-12 02:41:53], updated_at: ~N[2024-11-12 02:41:53]}, __changed__: %{}, flash: %{}, aggregate_duration: Cldr.Unit.new!(:second, 0), human_readable_duration: nil, open_timer_count: 0, today: "Monday, 13 Jan 2025", closed_timer_count: 0, closed_timer_statistics: " \n       \n      0 activities\n         timed today", live_action: nil, streams: %{__changed__: MapSet.new([]), open_timers: %Phoenix.LiveView.LiveStream{name: :open_timers, dom_id: #Function<3.61555307/1 in Phoenix.LiveView.LiveStream.new/4>, ref: "0", inserts: [], deletes: [], reset?: false, consumable?: false}, closed_timers: %Phoenix.LiveView.LiveStream{name: :closed_timers, dom_id: #Function<3.61555307/1 in Phoenix.LiveView.LiveStream.new/4>, ref: "1", inserts: [], deletes: [], reset?: false, consumable?: false}, __configured__: %{}, __ref__: 2}}, transport_pid: #PID<0.1047.0>, ...>)                                                                     
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/channel.ex:508: anonymous fn/3 in Phoenix.LiveView.Channel.view_handle_event/3              (telemetry 1.3.0) /Users/sacha/bin/klepsidra/deps/telemetry/src/telemetry.erl:324: :telemetry.span/3                                        (phoenix_live_view 1.0.1) lib/phoenix_live_view/channel.ex:260: Phoenix.LiveView.Channel.handle_info/2                                      (stdlib 6.2) gen_server.erl:2345: :gen_server.try_handle_info/3                                                                         
+    (stdlib 6.2) gen_server.erl:2433: :gen_server.handle_msg/6                                                                              
+    (stdlib 6.2) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+Last message: %Phoenix.Socket.Message{topic: "lv:phx-GBnxR-iHnUm0zDiB", event: "event", payload: %{"event" => "selection_recovery", "type" =
+> "hook", "value" => [%{"bg_colour" => "#1fec04", "description" => "General reading, for the fun of it, for exploration, for the satiation o
+f curiosity, for unstructured, undirected learning of new ideas and concepts", "fg_colour" => "#000000", "label" => "reading", "tag_class" =
+> "tag-reading", "value" => "4a948bdd-50ce-40f7-9cfb-5e1f2367595b"}, %{"bg_colour" => "#0460c3", "description" => "", "fg_colour" => "#fffff
+f", "label" => "research", "tag_class" => "tag-research", "value" => "54406958-c7e0-4b7c-ac18-4fe2530ff848"}]}, ref: "35651", join_ref: "35650"}
+00:00:06.722 [error] GenServer #PID<0.18407.0> terminating
+```
 
 ## Release 0.1.5
 

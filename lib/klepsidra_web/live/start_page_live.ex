@@ -54,7 +54,7 @@ defmodule KlepsidraWeb.StartPageLive do
       socket
       |> Phx.Live.Head.push_content(
         "style[id*=dynamic-style-block]",
-        :set,
+        :add,
         aggregate_tag_list
       )
       |> assign(:today, today)
