@@ -67,7 +67,6 @@ What is incredibly useful about this software is that these snippets can be open
     * [X] Convert note relationships into stream assigns
     * [X] On creation of new relation, add to stream
     * [X] Permit deletion, and removal from stream
-    * [ ] Improve UX through less intrusive, modal relationship creation
   * [X] Develop a FTS search feature, opening a page listing all matching results
     * [X] Develop unified entity view
     * [X] Create FTS table
@@ -75,23 +74,15 @@ What is incredibly useful about this software is that these snippets can be open
     * [X] Create mix task for easy rebuilding of FTS table
     * [X] Implement global search view
     * [X] Implement global search view, displaying all results directly in the view, not a modal
-* [ ] UI and UX improvements
+* [X] UI and UX improvements
   * [X] Start implementing new colour scheme based around Peach Fuzz, Pantone 13-1023
-    * [ ] Rebuild CSS around new colour scheme and two new typefaces: Advocate (?) and selected Huerta Tipografica typeface, or Calluna & Calluna Sans
-  * [ ] Randomise colours for new tags
-  * [ ] Display tags for open and closed timers, on timer listings
-  * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
-  * [ ] Clean up timer information presentation, particularly in the show view
 * [ ] Refactoring
   * [ ] Clean up all timer queries: there is much duplication among timer queries, with complex code and doubled-up business logic. Reduce the quantity of code, duplication, and logic
-  * [ ] Refactor out conditional statements in `render` statements and page templates, leading to improved performance
 * [ ] Debugging
   * [X] Tagging notes that haven't yet been saved doesn't work
   * [X] Updating notes fails with the following error message:
   * [X] Journal entries cannot be viewed as the show view breaks
   * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
-* [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
-  * [ ] Migrate entire development effort to OpenBSD as a primary developemnt host
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -125,6 +116,19 @@ fff", "label" => "Apostrophe CMS", "tag_class" => "tag-Apostrophe_CMS", "value" 
 ```
 
 ```
+** (KeyError) key :description not found in: %{label: "backup", value: "e9d0e5d0-0a6d-4191-9bcf-9b7d3aad3b7c"}
+    (klepsidra 0.1.3) lib/klepsidra_web/live/notes_live/show.html.heex:69: anonymous fn/3 in KlepsidraWeb.NotesLive.Show.render/1
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:414: Phoenix.LiveView.Diff.traverse/7
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:555: anonymous fn/4 in Phoenix.LiveView.Diff.traverse_dynamic/7
+    (elixir 1.18.1) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:412: Phoenix.LiveView.Diff.traverse/7
+    (phoenix_live_view 1.0.1) lib/phoenix_live_view/diff.ex:582: anonymous fn/3 in Phoenix.LiveView.Diff.traverse_comprehension/5
+    (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3
+    (elixir 1.18.1) lib/enum.ex:1840: Enum."-map_reduce/3-lists^mapfoldl/2-0-"/3
+Last message: %Phoenix.Socket.Message{topic: "lv:phx-GBobRJOra4F12RNC", event: "event", payload: %{"cid" => 2, "event" => "selection_recovery", "type" => "hook", "value" => [%{"bg_colour" => "#94a3b8", "description" => "", "fg_colour" => "#fff", "label" => "backup", "tag_class" => "tag-backup", "value" => "e9d0e5d0-0a6d-4191-9bcf-9b7d3aad3b7c"}]}, ref: "33878", join_ref: "33872"}
+```
+
+```
 ** (FunctionClauseError) no function clause matching in KlepsidraWeb.StartPageLive.handle_event/3                                               (klepsidra 0.1.3) lib/klepsidra_web/live/start_page_live.ex:183: KlepsidraWeb.StartPageLive.handle_event("selection_recovery", [%{"bg_colour" => "#1fec04", "description" => "General reading, for the fun of it, for exploration, for the satiation of curiosity, for unstructured,
  undirected learning of new ideas and concepts", "fg_colour" => "#000000", "label" => "reading", "tag_class" => "tag-reading", "value" => "4
 a948bdd-50ce-40f7-9cfb-5e1f2367595b"}, %{"bg_colour" => "#0460c3", "description" => "", "fg_colour" => "#ffffff", "label" => "research", "ta
@@ -151,19 +155,6 @@ Audit all existing code for documentation quality, documenting missing functiona
 * [ ] Add field(s) to projects
   * [ ] End date, project review date, deadline date, etc.
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
-* [ ] UI and UX improvements
-  * [ ] Notes improvements
-    * [ ] Improve note entry textarea field: make it possible to expand the textarea, without it shrinking back to default size with each input event
-    * [ ] When creating a new note, on note save transport user directly to newly created note
-    * [ ] Inside note show views, add '+ New note' button, making it easy to quickly create new notes while reading existing notes
-  * [ ] Convert all colour references to OKLCH
-  * [ ] On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
-  * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
-  * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
-  * [ ] Develop a _card_ component
-    * [ ] Wrap the _quote of the day_ component in a card, for a more visually delineated aesthetic
-    * [ ] Apply the quote component on the _show_ view, cleaning up extraneous information
-    * [ ] Apply the quote component on the _listing_ view, creating a new listing interface, moving away from a merely tabular presentation
 * [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
   * [ ] Create `travel_visa_types` entity
   * [ ] Create `travel_visas` entity
@@ -174,9 +165,6 @@ Audit all existing code for documentation quality, documenting missing functiona
   * [ ] Create `visa_blocks` entity
   * [ ] Create `country_visa_blocks` entity
 * [ ] Increase the power of knowledge base notes, through forced spaced repetition, automated by the system
-* [ ] Notes UX improvements
-  * [ ] Make notes accessible to uses outside the application, through a text editor, provided in Markdown and possibly plain text formats
-  * [ ] Make note relationship linking possible from _within_ notes, in a LogSeq or other wiki-style manner, using double brackets `[[...]]` or braces `{{...}}`, and have the link automatically reified at save time
 * [ ] _Today_ view
   * [ ] Provide daily navigation facility: back and forward a day; jump to today
 * [ ] Timer reporting and analysis
@@ -189,6 +177,44 @@ Audit all existing code for documentation quality, documenting missing functiona
   * [ ] Create protocol for rebuilding the FTS index, and its periodicity
     * [X] Established automatic, cron-like hourly rebuild protocol
     * [ ] Plan for more sophisticated rebuild trigger, one based aroung time delay and actual database change
+
+<!-- livebook:{"break_markdown":true} -->
+
+### UI/UX
+
+* [ ] Rebuild CSS around new colour scheme and two new typefaces: Advocate (?) and selected Huerta Tipografica typeface, or Calluna & Calluna Sans
+* [ ] Randomise colours for new tags
+* [ ] Display tags for open and closed timers, on timer listings
+* [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
+* [ ] Clean up timer information presentation, particularly in the show view
+* [ ] Convert all colour references to OKLCH
+* [ ] Notes improvements
+  * [ ] Improve UX through less intrusive, modal relationship creation
+  * [ ] Improve note entry textarea field: make it possible to expand the textarea, without it shrinking back to default size with each input event
+  * [ ] When creating a new note, on note save transport user directly to newly created note
+  * [ ] Inside note show views, add '+ New note' button, making it easy to quickly create new notes while reading existing notes
+  * [ ] On timer note timeline, next to the `created_on` date, display the `updated_on` date in a visually highlighted way, showing that a note was edited and when
+  * [ ] Ensure a second warning message is displayed to the user, ensuring they truly understand the impact of deleting a timer with notes attached
+  * [ ] Look for good UX examples, as this is likely to become a UX annoyance, more than a saviour of data loss
+  * [ ] Develop a _card_ component
+    * [ ] Wrap the _quote of the day_ component in a card, for a more visually delineated aesthetic
+    * [ ] Apply the quote component on the _show_ view, cleaning up extraneous information
+    * [ ] Apply the quote component on the _listing_ view, creating a new listing interface, moving away from a merely tabular presentation
+  * [ ] Make notes accessible to uses outside the application, through a text editor, provided in Markdown and possibly plain text formats
+  * [ ] Make note relationship linking possible from _within_ notes, in a LogSeq or other wiki-style manner, using double brackets `[[...]]` or braces `{{...}}`, and have the link automatically reified at save time
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Refactoring
+
+* [ ] Refactor out conditional statements in `render` statements and page templates, leading to improved performance
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Miscellaneous
+
+* [ ] Cross-platform development: port application to OpenBSD to test whether it works on that OS
+  * [ ] Migrate entire development effort to OpenBSD as a primary developemnt host
 
 ## Release 0.1.6
 

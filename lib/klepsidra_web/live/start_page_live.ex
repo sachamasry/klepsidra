@@ -179,6 +179,11 @@ defmodule KlepsidraWeb.StartPageLive do
     {:noreply, handle_saved_note(socket, note)}
   end
 
+  def handle_event("selection_recovery", selection_from_client, socket) do
+    IO.inspect(selection_from_client, label: "Selection from client")
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event("delete-open-timer", %{"id" => id}, socket) do
     timer = TimeTracking.get_timer!(id)
