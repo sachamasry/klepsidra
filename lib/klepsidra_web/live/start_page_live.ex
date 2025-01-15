@@ -180,7 +180,10 @@ defmodule KlepsidraWeb.StartPageLive do
   end
 
   def handle_event("selection_recovery", selection_from_client, socket) do
-    IO.inspect({NaiveDateTime.local_now(), selection_from_client}, label: "===> SELECTION FROM CLIENT")
+    IO.inspect({NaiveDateTime.local_now(), selection_from_client},
+      label: "===> SELECTION FROM CLIENT"
+    )
+
     {:noreply, socket}
   end
 

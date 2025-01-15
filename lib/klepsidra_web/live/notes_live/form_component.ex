@@ -88,7 +88,13 @@ defmodule KlepsidraWeb.NotesLive.FormComponent do
           </.tag_add_button>
         </div>
 
-        <.input field={@form[:content]} type="textarea" label="Note" placeholder="Type your note" />
+        <.input
+          field={@form[:content]}
+          type="textarea"
+          label="Note"
+          placeholder="Type your note"
+          phx-update="ignore"
+        />
         <.input
           field={@form[:content_format]}
           type="select"
