@@ -47,6 +47,7 @@ defmodule KlepsidraWeb.JournalEntryLive.FormComponent do
           type="textarea"
           label="Journal entry"
           phx-debounce="1500"
+          phx-update="ignore"
         />
         <.input
           field={@form[:highlights]}
