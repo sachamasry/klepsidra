@@ -303,6 +303,14 @@ defmodule KlepsidraWeb.NotesLive.Show do
      )}
   end
 
+  def handle_event("selection_recovery", selection_from_client, socket) do
+    IO.inspect({NaiveDateTime.local_now(), selection_from_client},
+      label: "===> SELECTION FROM CLIENT"
+    )
+
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event(
         "delete-inbound",
