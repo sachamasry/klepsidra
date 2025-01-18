@@ -303,13 +303,45 @@ defmodule KlepsidraWeb.NotesLive.Show do
      )}
   end
 
+  @impl true
   def handle_event("selection_recovery", selection_from_client, socket) do
+    # selection recovery. If we are here, it means that the view has crashed
+    # The values have been sent to the form by LV selection recovery and are now in the selection assigns
+    # However, the label have been lost because selection recovery only sends the values.
+    # Therefore, the component sends this event with the selection stored on the client, which contains the labels
+    # Using this selection, we can restore the options and augment the current selection with the labels
+
     IO.inspect({NaiveDateTime.local_now(), selection_from_client},
       label: "===> SELECTION FROM CLIENT"
     )
 
+    # options =
+    #   for %{"label" => label, "value" => value} <- selection_from_client do
+    #     %{label: label, value: value}
+    #   end
+
+    # json = Phoenix.json_library()
+
     {:noreply, socket}
+    # assign(socket,
+    #        options: options,
+    #        selection:
+    #          Enum.map(socket.assigns.selection, fn %{value: value} ->
+    #            Enum.find(options, fn %{value: option_value} ->
+    #              json.encode(option_value) == json.encode(value)
+    #            end)
+    #          end)
+    #          |> Enum.filter(& &1)
+    # )}
   end
+
+  # def handle_event("selection_recovery", selection_from_client, socket) do
+  #   IO.inspect({NaiveDateTime.local_now(), selection_from_client},
+  #     label: "===> SELECTION FROM CLIENT"
+  #   )
+
+  #   {:noreply, socket}
+  # end
 
   @impl true
   def handle_event(
