@@ -69,6 +69,9 @@ defmodule KlepsidraWeb.NotesLive.Index do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_event("selection_recovery", _selection_from_client, socket), do: {:noreply, socket}
+
   defp handle_deleted_note(socket, note, source_stream) do
     socket
     |> stream_delete(source_stream, note)
