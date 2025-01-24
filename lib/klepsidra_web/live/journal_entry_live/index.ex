@@ -59,6 +59,9 @@ defmodule KlepsidraWeb.JournalEntryLive.Index do
     {:noreply, handle_deleted_journal_entry(socket, journal_entry, :journal_entries)}
   end
 
+  @impl true
+  def handle_event("selection_recovery", _selection_from_client, socket), do: {:noreply, socket}
+
   defp handle_deleted_journal_entry(socket, journal_entry, source_stream) do
     socket
     |> stream_delete(source_stream, journal_entry)
