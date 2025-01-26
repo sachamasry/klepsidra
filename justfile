@@ -156,6 +156,12 @@ db-migrate:
 	MIX_ENV=prod mix ecto.migrate
 	@echo "--> Database successfully migrated"
 
+# Roll last database migration back
+[group('Database management')]
+db-rollback:
+	@echo "==> Rolling back last database migration"
+	MIX_ENV=prod mix ecto.rollback
+
 # Rebuild database full-text search index
 [group('Database management')]
 rebuild-fts-index:
