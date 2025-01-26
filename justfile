@@ -1,6 +1,8 @@
 # Klepsidra: Justfile v0.1 2025-01-22
 #
 
+set dotenv-load true
+
 SCHEMASPY_BASE_DIR			:= '~/Development/vendor/schemaspy'
 SCHEMASPY_JAR				:= 'schemaspy-6.2.4.jar'
 SCHEMASPY_JDBC_DRIVER		:= 'sqlite-jdbc-3.46.0.0.jar'
