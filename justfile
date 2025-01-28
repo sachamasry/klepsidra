@@ -185,6 +185,19 @@ check:
 	mix check --config .check.exs || mix check --config .check.exs --retry || mix check --config .check.exs --retry
 	@echo "--> Successfully ran all code analysis & testing tools"
 
+# Run type checks on the codebase (Dialyzer)
+[group('Quality management')]
+typecheck:
+	@echo "==> Running type checks on codebase"
+	mix dialyzer
+	@echo "--> Successfully checked data types in the codebase"
+
+# Explain Dialyzer type check errors
+[group('Quality management')]
+typecheck-explain warning:
+	@echo "==> Explaining type check error '{{warning}}'"
+	mix dialyzer.explain '{{warning}}'
+
 # Run all code tests
 [group('Quality management')]
 test:
