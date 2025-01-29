@@ -188,9 +188,11 @@ defmodule Klepsidra.MixProject do
       # Possibly deprecated :all_the_cities
       {:all_the_cities, "~> 0.1.0"},
       # Possibly deprecated :place
+      {:mdex, "~> 0.2"},
       {:place, "~> 0.1"},
       {:location, git: "https://github.com/plausible/location"},
       {:timex, "~> 3.7"},
+      # To be deprecated :earmark - replaced by MDEx
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
       {:live_toast, "~> 0.6.4"},

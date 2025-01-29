@@ -29,7 +29,7 @@ run:
 [group('Server')]
 dev:
 	@echo "==> Starting Klepsidra in development mode"
-	source .env && PORT=4003 MIX_ENV=prod mix phx.server
+	iex -S mix phx.server
 
 # Initial project setup
 [group('Installation and configuration')]

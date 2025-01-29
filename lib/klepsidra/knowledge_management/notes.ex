@@ -15,6 +15,7 @@ defmodule Klepsidra.KnowledgeManagement.Note do
   import Ecto.Changeset
 
   alias Klepsidra.Categorisation.Tag
+  alias Klepsidra.Markdown
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -87,25 +88,14 @@ defmodule Klepsidra.KnowledgeManagement.Note do
   HTML.
   """
   def generate_html_entry(%{valid?: true, changes: %{content: content}} = changeset) do
-    put_change(changeset, :rendered_content, convert_markdown_to_html(content))
+    case Markdown.to_html(content) do
+      {:ok, html_content} ->
+        put_change(changeset, :rendered_content, html_content)
+
+      {_, _} ->
+        changeset
+    end
   end
 
   def generate_html_entry(changeset), do: changeset
-
-  @doc """
-  Take in markdown-formatted text, converting it to HTML.
-  """
-  def convert_markdown_to_html(markdown_string) when is_bitstring(markdown_string) do
-    Earmark.as_html!(markdown_string,
-      breaks: true,
-      code_class_prefix: "lang- language-",
-      compact_output: false,
-      escape: false,
-      footnotes: true,
-      gfm_tables: true,
-      smartypants: true,
-      sub_sup: true
-    )
-    |> HtmlSanitizeEx.html5()
-  end
 end
