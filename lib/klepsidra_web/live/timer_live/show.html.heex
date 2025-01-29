@@ -54,10 +54,7 @@
           </div>
         </:option>
         <:tag :let={option}>
-          <div
-            class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}
-            title={option.description}
-          >
+          <div class={"tag-#{DynamicCSS.convert_tag_name_to_class(option.label)} py-1.5 px-3 rounded-l-md"}>
             <.link navigate={~p"/tags/#{option.value}"}>
               {option.label}
             </.link>
