@@ -22,6 +22,7 @@ defmodule KlepsidraWeb.Live.NoteLive.NoteFormComponent do
           type="textarea"
           placeholder="Type a new note here"
           autocomplete="off"
+          phx-update="ignore"
         />
         <.button phx-disable-with="Saving note...">Save note</.button>
       </.simple_form>
