@@ -116,6 +116,7 @@ defmodule KlepsidraWeb.TimerLive.AutomatedTimer do
             type="textarea"
             label="Description"
             placeholder="What did you work on?"
+            phx-update="ignore"
           />
         </div>
 

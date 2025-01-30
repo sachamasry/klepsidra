@@ -96,7 +96,7 @@ defmodule KlepsidraWeb.TimerLive.FormComponent do
           </.tag_add_button>
         </div>
 
-        <.input field={@form[:description]} type="textarea" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" phx-update="ignore" />
 
         <.input field={@form[:project_id]} type="select" label="Project" options={@projects} />
 
