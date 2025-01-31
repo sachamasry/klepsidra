@@ -127,6 +127,10 @@ config :ex_cldr_units, :additional_units,
   # Year
   year_increment: [base_unit: :second, factor: 31_557_600, offset: 0]
 
+config :error_tracker,
+  repo: Klepsidra.Repo,
+  otp_app: :klepsidra
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

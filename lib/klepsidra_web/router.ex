@@ -1,5 +1,6 @@
 defmodule KlepsidraWeb.Router do
   use KlepsidraWeb, :router
+  use ErrorTracker.Web, :router
 
   @moduledoc false
 
@@ -190,4 +191,6 @@ defmodule KlepsidraWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
+
+  error_tracker_dashboard("/errors")
 end

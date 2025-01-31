@@ -180,6 +180,7 @@ defmodule Klepsidra.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:nimble_csv, "~> 1.1"},
+      {:error_tracker, "~> 0.2"},
       {:ex_cldr, "~> 2.37"},
       {:ex_cldr_currencies, "~> 2.13"},
       {:ex_cldr_languages, "~> 0.3.3"},

@@ -17,6 +17,7 @@
   {"lib/klepsidra/mailer.ex", :unknown_function},
   {"lib/klepsidra_web/klepsidra_csp.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},
+  {"lib/klepsidra_web/components/layouts/root.html.heex", :unknown_function},
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
   {"lib/klepsidra_web/router.ex", :unknown_function},
