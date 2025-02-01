@@ -1,5 +1,6 @@
 defmodule KlepsidraWeb.Router do
   use KlepsidraWeb, :router
+  use ErrorTracker.Integrations.Plug
   use ErrorTracker.Web, :router
 
   @moduledoc false
@@ -192,5 +193,10 @@ defmodule KlepsidraWeb.Router do
     end
   end
 
-  error_tracker_dashboard("/errors")
+  scope "/error_tracker", KlepsidraWeb do
+    pipe_through :browser
+    # pipe_through([:browser]) #, :csrf_protection]) #, :appropriate_authentication])
+
+    error_tracker_dashboard("/")
+  end
 end
