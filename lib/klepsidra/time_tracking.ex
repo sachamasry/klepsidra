@@ -305,38 +305,47 @@ defmodule Klepsidra.TimeTracking do
     } =
       filter
 
-    order_by = [asc: :inserted_at]
-
     query =
-      from(
-        at in Timer,
-        left_join: p in assoc(at, :project),
-        left_join: bp in assoc(at, :business_partner),
-        left_join: act in assoc(at, :activity_type),
-        where: not is_nil(at.end_stamp),
-        order_by: ^order_by,
-        select: %{
-          id: at.id,
-          start_stamp: at.start_stamp,
-          end_stamp: at.end_stamp,
-          duration: at.duration,
-          duration_time_unit: at.duration_time_unit,
-          project_id: p.id,
-          project_name: p.name |> coalesce(""),
-          business_partner_id: at.business_partner_id,
-          business_partner_name: bp.name |> coalesce(""),
-          billable: at.billable,
-          billing_duration: at.billing_duration,
-          billing_duration_time_unit: at.billing_duration_time_unit,
-          billing_rate: at.billing_rate,
-          activity_type_id: act.id,
-          activity_type: act.name |> coalesce(""),
-          description: at.description |> coalesce(""),
-          inserted_at: at.inserted_at,
-          updated_at: at.updated_at,
-          modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
-        }
-      )
+      from_timers()
+      |> join_bp_and_project()
+      |> join_timers_with_activity_type()
+      # |> join_timers_with_tags()
+      |> filter_timers_closed_only()
+      |> order_timers_inserted_asc_id_asc()
+      |> select_timer_columns_expanded_modified_with_tags()
+
+    # order_by = [asc: :inserted_at]
+
+    # |> query =
+    #   from(
+    #     at in Timer,
+    #     left_join: p in assoc(at, :project),
+    #     left_join: bp in assoc(at, :business_partner),
+    #     left_join: act in assoc(at, :activity_type),
+    #     where: not is_nil(at.end_stamp),
+    #     order_by: ^order_by,
+    #     select: %{
+    #       id: at.id,
+    #       start_stamp: at.start_stamp,
+    #       end_stamp: at.end_stamp,
+    #       duration: at.duration,
+    #       duration_time_unit: at.duration_time_unit,
+    #       project_id: p.id,
+    #       project_name: p.name |> coalesce(""),
+    #       business_partner_id: at.business_partner_id,
+    #       business_partner_name: bp.name |> coalesce(""),
+    #       billable: at.billable,
+    #       billing_duration: at.billing_duration,
+    #       billing_duration_time_unit: at.billing_duration_time_unit,
+    #       billing_rate: at.billing_rate,
+    #       activity_type_id: act.id,
+    #       activity_type: act.name |> coalesce(""),
+    #       description: at.description |> coalesce(""),
+    #       inserted_at: at.inserted_at,
+    #       updated_at: at.updated_at,
+    #       modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
+    #     }
+    #   )
 
     timer_subquery =
       query
@@ -346,7 +355,7 @@ defmodule Klepsidra.TimeTracking do
       |> filter_by_activity_type_id(%{activity_type_id: activity_type_id})
       |> filter_by_billable(%{billable: billable})
 
-    from(at in subquery(timer_subquery))
+    from(t in subquery(timer_subquery))
   end
 
   defp filter_by_date(query, %{from: "", to: ""}), do: query
@@ -589,6 +598,16 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Query composition function, equivalent to the SQL `ORDER BY` statement, sorting
+  timers by their inserted_at date and time stamp, in ascending order.
+  """
+  @spec order_timers_inserted_asc_id_asc(query :: Ecto.Query.t()) :: Ecto.Query.t()
+  def order_timers_inserted_asc_id_asc(query) do
+    from [timers: t] in query,
+      order_by: [asc: t.inserted_at, asc: t.id]
+  end
+
+  @doc """
   Query composition function, equivalent to the SQL `JOIN` statement, joining
   the base timer table to the activity types table using an inner join.
   """
@@ -763,6 +782,51 @@ defmodule Klepsidra.TimeTracking do
         billing_duration_time_unit: t.billing_duration_time_unit,
         billing_rate: t.billing_rate,
         inserted_at: t.inserted_at
+      }
+  end
+
+  @doc """
+  Query composition function, equivalent to the SQL `SELECT` statement, defining
+  an expanded map of fields to be returned from the query, along with an aggregated
+  tag field, and an additional `modified` field, a boolean deciding whether the
+  record has been edited, or modified, at least once since initial creation.
+
+  Note the use of the `coalesce()` function, ensuring that any `nil` values are
+  converted to empty strings.
+  """
+  @spec select_timer_columns_expanded_modified_with_tags(query :: Ecto.Query.t()) ::
+          Ecto.Query.t()
+  def select_timer_columns_expanded_modified_with_tags(query) do
+    from [timers: t, business_partners: bp, projects: p, activity_type: ac_t, tags: tag] in query,
+      select: %{
+        id: t.id,
+        start_stamp: t.start_stamp,
+        end_stamp: t.end_stamp,
+        duration: t.duration,
+        duration_time_unit: t.duration_time_unit,
+        description: t.description |> coalesce(""),
+        project_id: p.id,
+        project_name: p.name |> coalesce(""),
+        business_partner_id: t.business_partner_id,
+        business_partner_name: bp.name |> coalesce(""),
+        activity_type_id: ac_t.id,
+        activity_type: ac_t.name |> coalesce(""),
+        tags:
+          fragment(
+            "JSON_GROUP_ARRAY(CASE WHEN ? IS NOT NULL THEN JSON_OBJECT('id', ?, 'name', ?, 'bg_colour', ?, 'fg_colour', ?) END)",
+            tag.id,
+            tag.id,
+            tag.name,
+            tag.colour,
+            tag.fg_colour
+          ),
+        billable: t.billable,
+        billing_duration: t.billing_duration,
+        billing_duration_time_unit: t.billing_duration_time_unit,
+        billing_rate: t.billing_rate,
+        inserted_at: t.inserted_at,
+        updated_at: t.updated_at,
+        modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
       }
   end
 
