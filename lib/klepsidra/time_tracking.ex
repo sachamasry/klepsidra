@@ -11,7 +11,7 @@ defmodule Klepsidra.TimeTracking do
   alias Klepsidra.TimeTracking.Timer
 
   @doc """
-  Returns the list of activity_types.
+  Returns a list of activity types.
 
   ## Examples
 
@@ -19,12 +19,13 @@ defmodule Klepsidra.TimeTracking do
       [%ActivityType{}, ...]
 
   """
+  @spec list_activity_types() :: [ActivityType.t(), ...]
   def list_activity_types do
     ActivityType |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
   end
 
   @doc """
-  Returns the list of active activity_types.
+  Returns a list of active activity types.
 
   ## Examples
 
@@ -32,6 +33,7 @@ defmodule Klepsidra.TimeTracking do
       [%ActivityType{}, ...]
 
   """
+  @spec list_active_activity_types() :: [ActivityType.t(), ...]
   def list_active_activity_types do
     ActivityType
     |> where(active: true)
@@ -40,9 +42,9 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Gets a single activity_type.
+  Gets a single activity type.
 
-  Raises `Ecto.NoResultsError` if the Activity type does not exist.
+  Raises `Ecto.NoResultsError` if the activity type does not exist.
 
   ## Examples
 
@@ -53,10 +55,11 @@ defmodule Klepsidra.TimeTracking do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_activity_type!(id :: Ecto.UUID.t()) :: ActivityType.t()
   def get_activity_type!(id), do: Repo.get!(ActivityType, id)
 
   @doc """
-  Creates a activity_type.
+  Creates an activity type.
 
   ## Examples
 
@@ -67,6 +70,8 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_activity_type(attrs :: map()) ::
+          {:ok, ActivityType.t()} | {:error, Ecto.Changeset.t()}
   def create_activity_type(attrs \\ %{}) do
     %ActivityType{}
     |> ActivityType.changeset(attrs)
@@ -74,7 +79,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Updates a activity_type.
+  Updates an activity type.
 
   ## Examples
 
@@ -85,6 +90,8 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_activity_type(activity_type :: ActivityType.t(), attrs :: map()) ::
+          {:ok, ActivityType.t()} | {:error, Ecto.Changeset.t()}
   def update_activity_type(%ActivityType{} = activity_type, attrs) do
     activity_type
     |> ActivityType.changeset(attrs)
@@ -92,7 +99,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Deletes an activity_type.
+  Deletes an activity type.
 
   ## Examples
 
@@ -103,12 +110,14 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_activity_type(activity_type :: ActivityType.t()) ::
+          {:ok, ActivityType.t()} | {:error, Ecto.Changeset.t()}
   def delete_activity_type(%ActivityType{} = activity_type) do
     Repo.delete(activity_type)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking activity_type changes.
+  Returns an `%Ecto.Changeset{}` for tracking activity type changes.
 
   ## Examples
 
@@ -116,6 +125,7 @@ defmodule Klepsidra.TimeTracking do
       %Ecto.Changeset{data: %ActivityType{}}
 
   """
+  @spec change_activity_type(ActivityType.t()) :: Ecto.Changeset.t()
   def change_activity_type(%ActivityType{} = activity_type, attrs \\ %{}) do
     ActivityType.changeset(activity_type, attrs)
   end
@@ -254,11 +264,6 @@ defmodule Klepsidra.TimeTracking do
     |> Repo.all()
   end
 
-  @doc """
-  Constructs base, composable query, returning a list of timer records with joins
-  to business partners, projects, activity types and tags, ready to be used for
-  timer reports.
-  """
   @spec list_timers_query(filter :: timer_filter()) :: map()
   defp list_timers_query(filter) when is_map(filter) do
     %{

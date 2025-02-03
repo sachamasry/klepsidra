@@ -20,7 +20,9 @@
   {"lib/klepsidra_web/components/layouts/root.html.heex", :unknown_function},
   {"lib/klepsidra_web/controllers/page_html.ex", :unknown_function},
   {"lib/klepsidra_web/endpoint.ex", :unknown_function},
+  {"lib/klepsidra_web/endpoint.ex", :unmatched_return},
   {"lib/klepsidra_web/router.ex", :unknown_function},
+  {"lib/klepsidra_web/router.ex", :unmatched_return},
   {"lib/klepsidra_web/live/start_page_live.ex", :call},
   {"lib/klepsidra_web/live/start_page_live.ex", :no_return},
   {"lib/klepsidra_web/live/start_page_live.ex", :unused_fun}
