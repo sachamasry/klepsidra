@@ -174,28 +174,32 @@ defmodule Klepsidra.TimeTracking do
           modified: binary() | integer()
         }
 
-  @spec list_timers(filter :: timer_filter()) :: [map(), ...]
   @doc """
-  Returns a list of timers, filtered by criteria in the `filter`
-  parameter.
+  Core timer reporting query, returning multiple timer data matching a set of criteria.
+  The query returns a map, with a list of matching timer records, a timer count,
+  average and aggregate timer and billing durations.
 
-  ## Examples
+  Available filtering criteria are:
 
-      iex> list_timers(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
-      [%{...}]
-  """
-  def list_timers(%{modified: modified} = filter) when is_map(filter) do
-    list_timers_query(filter)
-    |> filter_by_modification_status(%{modified: modified})
-    |> Repo.all()
-  end
+  * `modified` Has the record been modified since creation? (Boolean)
+  * `from` and `to` date range to restrict results to. (Date)
+  * `project_id` filter results to the specified project ID. (UUID)
+  * `business_partner_id` filter results to the specified business partner's ID. (UUID)
+  * `activity_type_id` filter results to the specified activity type ID. (UUID)
 
-  @doc """
+  ## Notes
+
+  All the above queries are built on top of the same composable Ecto queries,
+  reducing the possibility of query duplication, drift, return of too much data
+  through large `SELECT` statements, and other problems arising out of multiple
+  analysis of the same data.
 
   ## Examples
 
       iex> list_timers_with_statistics(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
       %{meta: %{
+          timer_count: 42,
+          average_duration: 1.15,
           aggregate_duration: %{
             duration_in_hours: "4.2 hours",
             base_unit_duration: Cldr.Unit.new!(:second, 15120),
@@ -235,6 +239,62 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Returns a list of timers, filtered by criteria in the `filter`
+  parameter.
+
+  ## Examples
+
+      iex> list_timers(%{from: "", to: "", project_id: "", business_partner_id: "90bc20d3-be65-46ea-a579-453d6ae3d378", activity_type_id: "", billable: "", modified: ""})
+      [%{...}]
+  """
+  @spec list_timers(filter :: timer_filter()) :: [map(), ...]
+  def list_timers(%{modified: modified} = filter) when is_map(filter) do
+    list_timers_query(filter)
+    |> filter_by_modification_status(%{modified: modified})
+    |> Repo.all()
+  end
+
+  @doc """
+  Constructs base, composable query, returning a list of timer records with joins
+  to business partners, projects, activity types and tags, ready to be used for
+  timer reports.
+  """
+  @spec list_timers_query(filter :: timer_filter()) :: map()
+  defp list_timers_query(filter) when is_map(filter) do
+    %{
+      from: from,
+      to: to,
+      project_id: project_id,
+      business_partner_id: business_partner_id,
+      activity_type_id: activity_type_id,
+      billable: billable
+    } =
+      filter
+
+    query =
+      from_timers()
+      |> join_bp_and_project()
+      |> join_timers_with_activity_type()
+      |> join_timers_with_tags()
+      |> filter_timers_closed_only()
+      |> group_timer_columns_by_timer_id()
+      |> order_timers_inserted_asc_id_asc()
+      |> select_timer_columns_expanded_modified_with_tags()
+
+    timer_subquery =
+      query
+      |> filter_by_date(%{from: from, to: to})
+      |> filter_by_project_id(%{project_id: project_id})
+      |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
+      |> filter_by_activity_type_id(%{activity_type_id: activity_type_id})
+      |> filter_by_billable(%{billable: billable})
+
+    from(t in subquery(timer_subquery))
+  end
+
+  @doc """
+  Building on a base composable query, returns count of timers matching filter
+  criteria supplied in `timer_filter` argument.
 
   ## Examples
 
@@ -250,6 +310,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Building on a base composable query, returns aggregate timer duration for timers
+  matching filter criteria supplied in `timer_filter` argument.
 
   ## Examples
 
@@ -270,6 +332,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
+  Building on a base composable query, returns timer aggregate billing duration for
+  timers matching filter criteria supplied in `timer_filter` argument.
 
   ## Examples
 
@@ -291,71 +355,6 @@ defmodule Klepsidra.TimeTracking do
     |> group_by([at], at.billing_duration_time_unit)
     |> Repo.all()
     |> Timer.calculate_aggregate_duration_for_timers()
-  end
-
-  @spec list_timers_query(filter :: timer_filter()) :: map()
-  defp list_timers_query(filter) when is_map(filter) do
-    %{
-      from: from,
-      to: to,
-      project_id: project_id,
-      business_partner_id: business_partner_id,
-      activity_type_id: activity_type_id,
-      billable: billable
-    } =
-      filter
-
-    query =
-      from_timers()
-      |> join_bp_and_project()
-      |> join_timers_with_activity_type()
-      # |> join_timers_with_tags()
-      |> filter_timers_closed_only()
-      |> order_timers_inserted_asc_id_asc()
-      |> select_timer_columns_expanded_modified_with_tags()
-
-    # order_by = [asc: :inserted_at]
-
-    # |> query =
-    #   from(
-    #     at in Timer,
-    #     left_join: p in assoc(at, :project),
-    #     left_join: bp in assoc(at, :business_partner),
-    #     left_join: act in assoc(at, :activity_type),
-    #     where: not is_nil(at.end_stamp),
-    #     order_by: ^order_by,
-    #     select: %{
-    #       id: at.id,
-    #       start_stamp: at.start_stamp,
-    #       end_stamp: at.end_stamp,
-    #       duration: at.duration,
-    #       duration_time_unit: at.duration_time_unit,
-    #       project_id: p.id,
-    #       project_name: p.name |> coalesce(""),
-    #       business_partner_id: at.business_partner_id,
-    #       business_partner_name: bp.name |> coalesce(""),
-    #       billable: at.billable,
-    #       billing_duration: at.billing_duration,
-    #       billing_duration_time_unit: at.billing_duration_time_unit,
-    #       billing_rate: at.billing_rate,
-    #       activity_type_id: act.id,
-    #       activity_type: act.name |> coalesce(""),
-    #       description: at.description |> coalesce(""),
-    #       inserted_at: at.inserted_at,
-    #       updated_at: at.updated_at,
-    #       modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
-    #     }
-    #   )
-
-    timer_subquery =
-      query
-      |> filter_by_date(%{from: from, to: to})
-      |> filter_by_project_id(%{project_id: project_id})
-      |> filter_by_business_partner_id(%{business_partner_id: business_partner_id})
-      |> filter_by_activity_type_id(%{activity_type_id: activity_type_id})
-      |> filter_by_billable(%{billable: billable})
-
-    from(t in subquery(timer_subquery))
   end
 
   defp filter_by_date(query, %{from: "", to: ""}), do: query
@@ -826,7 +825,7 @@ defmodule Klepsidra.TimeTracking do
         billing_rate: t.billing_rate,
         inserted_at: t.inserted_at,
         updated_at: t.updated_at,
-        modified: fragment("iif(? != ?, true, false)", at.inserted_at, at.updated_at)
+        modified: fragment("iif(? != ?, true, false)", t.inserted_at, t.updated_at)
       }
   end
 
