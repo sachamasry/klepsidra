@@ -3,6 +3,8 @@ defmodule Klepsidra.TimeTracking do
   The TimeTracking context.
   """
 
+  use Private
+
   import Ecto.Query, warn: false
   alias Klepsidra.Math
   alias Klepsidra.Repo
@@ -362,6 +364,8 @@ defmodule Klepsidra.TimeTracking do
     |> Timer.calculate_aggregate_duration_for_timers()
   end
 
+  @spec filter_by_date(query :: Ecto.Queryable.t(), %{from: bitstring(), to: bitstring()}) ::
+          Ecto.Queryable.t()
   defp filter_by_date(query, %{from: "", to: ""}), do: query
 
   defp filter_by_date(query, %{from: from, to: ""}) do
@@ -378,6 +382,10 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.end_stamp <= ^to)
   end
 
+  @spec filter_by_project_id(query :: Ecto.Queryable.t(), %{
+          project_id: Ecto.UUID.t() | bitstring()
+        }) ::
+          Ecto.Queryable.t()
   defp filter_by_project_id(query, %{project_id: ""}), do: query
 
   defp filter_by_project_id(query, %{project_id: project_id}) do
@@ -385,6 +393,10 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.project_id == ^project_id)
   end
 
+  @spec filter_by_business_partner_id(query :: Ecto.Queryable.t(), %{
+          business_partner_id: Ecto.UUID.t() | bitstring()
+        }) ::
+          Ecto.Queryable.t()
   defp filter_by_business_partner_id(query, %{business_partner_id: ""}), do: query
 
   defp filter_by_business_partner_id(query, %{business_partner_id: business_partner_id}) do
@@ -392,6 +404,10 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.business_partner_id == ^business_partner_id)
   end
 
+  @spec filter_by_activity_type_id(query :: Ecto.Queryable.t(), %{
+          activity_type_id: Ecto.UUID.t() | bitstring()
+        }) ::
+          Ecto.Queryable.t()
   defp filter_by_activity_type_id(query, %{activity_type_id: ""}), do: query
 
   defp filter_by_activity_type_id(query, %{activity_type_id: activity_type_id}) do
@@ -399,6 +415,8 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.activity_type_id == ^activity_type_id)
   end
 
+  @spec filter_by_billable(query :: Ecto.Queryable.t(), %{billable: bitstring()}) ::
+          Ecto.Queryable.t()
   defp filter_by_billable(query, %{billable: ""}), do: query
 
   defp filter_by_billable(query, %{billable: billable}) do
@@ -406,6 +424,10 @@ defmodule Klepsidra.TimeTracking do
     |> where([at], at.billable == ^billable)
   end
 
+  @spec filter_by_modification_status(query :: Ecto.Queryable.t(), %{
+          modified: bitstring()
+        }) ::
+          Ecto.Queryable.t()
   defp filter_by_modification_status(query, %{modified: ""}), do: query
 
   defp filter_by_modification_status(query, %{modified: modified}) when is_bitstring(modified) do
@@ -419,7 +441,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @doc """
-  Returns the list of timers, along with the associated tags.
+  Returns the list of timers along with associated tags.
 
   ## Examples
 
@@ -427,6 +449,7 @@ defmodule Klepsidra.TimeTracking do
       [%Timer{}, ...]
 
   """
+  @spec list_timers_with_tags() :: Timer.t()
   def list_timers_with_tags do
     query =
       from(
@@ -452,10 +475,12 @@ defmodule Klepsidra.TimeTracking do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_timer!(id :: Ecto.UUID.t()) :: Timer.t()
   def get_timer!(id), do: Repo.get!(Timer, id)
 
   @doc """
-  Gets a single timer, with its `business_partner` association preloaded.
+  Gets a single timer, with its business partner, project, activity type, and
+  tags association preloaded.
 
   Raises `Ecto.NoResultsError` if the Timer does not exist.
 
@@ -1123,6 +1148,7 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_timer(attrs :: map()) :: {:ok, Timer.t()} | {:error, Ecto.Changeset.t()}
   def create_timer(attrs \\ %{}) do
     %Timer{}
     |> Timer.changeset(attrs)
@@ -1141,6 +1167,8 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_timer(timer :: Timer.t(), attrs :: map()) ::
+          {:ok, Timer.t()} | {:error, Ecto.Changeset.t()}
   def update_timer(%Timer{} = timer, attrs) do
     timer
     |> Timer.changeset(attrs)
@@ -1159,6 +1187,7 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_timer(timer :: Timer.t()) :: {:ok, Timer.t()} | {:error, Ecto.Changeset.t()}
   def delete_timer(%Timer{} = timer) do
     Repo.delete(timer)
   end
@@ -1172,6 +1201,7 @@ defmodule Klepsidra.TimeTracking do
       %Ecto.Changeset{data: %Timer{}}
 
   """
+  @spec change_timer(timer :: Timer.t(), attrs :: map()) :: Ecto.Changeset.t()
   def change_timer(%Timer{} = timer, attrs \\ %{}) do
     Timer.changeset(timer, attrs)
   end
@@ -1185,6 +1215,7 @@ defmodule Klepsidra.TimeTracking do
       [%Note{}, ...]
 
   """
+  @spec list_notes() :: [Note.t(), ...]
   def list_notes do
     Repo.all(Note)
   end
@@ -1203,6 +1234,7 @@ defmodule Klepsidra.TimeTracking do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_note!(id :: Ecto.UUID.t()) :: Note.t()
   def get_note!(id), do: Repo.get!(Note, id)
 
   @doc false
@@ -1226,6 +1258,7 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_note(attrs :: map()) :: {:ok, Note.t()} | {:error, Ecto.Changeset.t()}
   def create_note(attrs \\ %{}) do
     %Note{}
     |> Note.changeset(attrs)
@@ -1244,6 +1277,8 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_note(note :: Note.t(), attrs :: map()) ::
+          {:ok, Note.t()} | {:error, Ecto.Changeset.t()}
   def update_note(%Note{} = note, attrs) do
     note
     |> Note.changeset(attrs)
@@ -1262,6 +1297,7 @@ defmodule Klepsidra.TimeTracking do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_note(note :: Note.t()) :: {:ok, Note.t()} | {:error, Ecto.Changeset.t()}
   def delete_note(%Note{} = note) do
     Repo.delete(note)
   end
@@ -1275,12 +1311,15 @@ defmodule Klepsidra.TimeTracking do
       %Ecto.Changeset{data: %Note{}}
 
   """
+  @spec change_note(note :: any(), attrs :: map()) :: Ecto.Changeset.t()
   def change_note(%Note{} = note, attrs \\ %{}) do
     Note.changeset(note, attrs)
   end
 
   @doc """
+  DEPRECATED function
   """
+  @spec markdown_to_html(markdown :: bitstring(), options :: list()) :: bitstring()
   def markdown_to_html(markdown, _options \\ []) do
     markdown
     |> Earmark.as_html!(
