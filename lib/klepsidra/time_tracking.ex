@@ -8,6 +8,7 @@ defmodule Klepsidra.TimeTracking do
   import Ecto.Query, warn: false
   alias Klepsidra.Math
   alias Klepsidra.Repo
+  alias Klepsidra.Markdown
   alias Klepsidra.TimeTracking.ActivityType
   alias Klepsidra.TimeTracking.Note
   alias Klepsidra.TimeTracking.Timer
@@ -956,7 +957,7 @@ defmodule Klepsidra.TimeTracking do
         ),
       summary:
         timer.description
-        |> markdown_to_html()
+        |> Markdown.to_html!()
         |> Phoenix.HTML.raw(),
       formatted_start_date:
         if(
@@ -983,7 +984,7 @@ defmodule Klepsidra.TimeTracking do
         ),
       summary:
         timer.description
-        |> markdown_to_html()
+        |> Markdown.to_html!()
         |> Phoenix.HTML.raw(),
       formatted_start_date:
         if(
@@ -1314,19 +1315,5 @@ defmodule Klepsidra.TimeTracking do
   @spec change_note(note :: any(), attrs :: map()) :: Ecto.Changeset.t()
   def change_note(%Note{} = note, attrs \\ %{}) do
     Note.changeset(note, attrs)
-  end
-
-  @doc """
-  DEPRECATED function
-  """
-  @spec markdown_to_html(markdown :: bitstring(), options :: list()) :: bitstring()
-  def markdown_to_html(markdown, _options \\ []) do
-    markdown
-    |> Earmark.as_html!(
-      compact_output: true,
-      code_class_prefix: "lang-",
-      smartypants: true
-    )
-    |> HtmlSanitizeEx.html5()
   end
 end
