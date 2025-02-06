@@ -67,4 +67,16 @@ defmodule Klepsidra.Markdown do
       features: [sanitize: true, syntax_highlight_theme: "catpuccin_macchiato"]
     )
   end
+
+  @doc """
+  Wrapper around the `to_html/2` function, matching for an `{:ok, _}` tuple,
+  returning the converted HTML string, or an empty string.
+  """
+  @spec to_html_returning_string(markdown :: binary, opts :: list()) :: bitstring()
+  def to_html_returning_string(markdown \\ "", opts \\ []) do
+    case to_html(markdown, opts) do
+      {:ok, html_string} -> html_string
+      _ -> ""
+    end
+  end
 end

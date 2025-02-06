@@ -20,7 +20,7 @@ defmodule KlepsidraWeb.TagLive.Index do
         matches: []
       )
 
-    {:ok, stream(socket, :tags, Categorisation.list_tags())}
+    {:ok, stream(socket, :tags, Categorisation.list_tags_description_md_to_html())}
   end
 
   @impl true

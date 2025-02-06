@@ -193,8 +193,6 @@ defmodule Klepsidra.MixProject do
       {:place, "~> 0.1"},
       {:location, git: "https://github.com/plausible/location"},
       {:timex, "~> 3.7"},
-      # To be deprecated :earmark - replaced by MDEx
-      {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.3"},
       {:live_toast, "~> 0.6.4"},
       {:live_select, "~> 1.5.2"},

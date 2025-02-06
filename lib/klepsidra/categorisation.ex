@@ -13,12 +13,13 @@ defmodule Klepsidra.Categorisation do
   """
 
   import Ecto.Query, warn: false
-  alias Klepsidra.Repo
 
   alias Klepsidra.Categorisation.Tag
   alias Klepsidra.Categorisation.TimerTags
   alias Klepsidra.Categorisation.ProjectTags
   alias Klepsidra.Categorisation.JournalEntryTags
+  alias Klepsidra.Markdown
+  alias Klepsidra.Repo
 
   @doc """
   Returns the list of tags.
@@ -30,7 +31,37 @@ defmodule Klepsidra.Categorisation do
 
   """
   def list_tags do
-    Tag |> order_by(asc: fragment("name COLLATE NOCASE")) |> Repo.all()
+    Tag
+    |> order_by(asc: fragment("name COLLATE NOCASE"))
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns a list of all tags, with description fields translated
+  from Markdown to HTML.
+  """
+  @spec list_tags_description_md_to_html() :: [map(), ...]
+  def list_tags_description_md_to_html() do
+    from(
+      t in Tag,
+      order_by: [asc: t.name],
+      select: %{
+        id: t.id,
+        name: t.name,
+        description: t.description |> coalesce(""),
+        colour: t.colour,
+        fg_colour: t.fg_colour
+      }
+    )
+    |> Repo.all()
+    |> Enum.map(fn map ->
+      Map.update(map, :description, "", fn
+        "" -> ""
+        value ->
+          Markdown.to_html_returning_string(value)
+          |> Phoenix.HTML.raw()
+      end)
+    end)
   end
 
   @doc """
@@ -38,7 +69,12 @@ defmodule Klepsidra.Categorisation do
 
   Raises `Ecto.NoResultsError` if the Tag does not exist.
 
-  ## Examples
+@doc 
+Returns a list of all tags, with description fields translated
+  from Markdown to HTML.
+
+@spec list_tags_description_md_to_html() :: [map(), ...]
+  #md_to Examples
 
       iex> get_tag!(123)
       %Tag{}
@@ -47,16 +83,18 @@ defmodule Klepsidra.Categorisation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_tag!(id), do: Repo.get!(Tag, id)
 
   @doc """
   Gets multiple tags.
-
-  Raises `Ecto.NoResultsError` if the Tag id is not a proper UUID.
+  Raises `
+  "" -> ""
+  Ecto.NoResultsError` if the Tag id is not a proper UUID.
 
   ## Examples
 
-      iex> get_tags!([123, 789])
+      iex
+  > get_tags!([_returning_string(value)23, 789])
+|> Phoenix.HTML.raw()
       %Tag{}
 
       iex> get_tag!([])
