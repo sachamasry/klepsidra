@@ -70,12 +70,13 @@ defmodule Klepsidra.Markdown do
 
   @doc """
   Wrapper around the `to_html/2` function, matching for an `{:ok, _}` tuple,
-  returning the converted HTML string, or an empty string.
+  returning an empty string on error, or the converted HTML string, marked
+  as 'raw' HTML, ready to use.
   """
-  @spec to_html_returning_string(markdown :: binary, opts :: list()) :: bitstring()
-  def to_html_returning_string(markdown \\ "", opts \\ []) do
+  @spec to_raw_html(markdown :: binary, opts :: list()) :: bitstring()
+  def to_raw_html(markdown \\ "", opts \\ []) do
     case to_html(markdown, opts) do
-      {:ok, html_string} -> html_string
+      {:ok, html_string} -> html_string |> Phoenix.HTML.raw()
       _ -> ""
     end
   end

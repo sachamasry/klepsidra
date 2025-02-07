@@ -39,6 +39,12 @@ defmodule Klepsidra.Categorisation do
   @doc """
   Returns a list of all tags, with description fields translated
   from Markdown to HTML.
+
+  ## Examples
+
+      iex> list_tags_description_md_to_html()
+      [%{}, ...]
+
   """
   @spec list_tags_description_md_to_html() :: [map(), ...]
   def list_tags_description_md_to_html() do
@@ -56,10 +62,11 @@ defmodule Klepsidra.Categorisation do
     |> Repo.all()
     |> Enum.map(fn map ->
       Map.update(map, :description, "", fn
-        "" -> ""
+        "" ->
+          ""
+
         value ->
-          Markdown.to_html_returning_string(value)
-          |> Phoenix.HTML.raw()
+          Markdown.to_raw_html(value)
       end)
     end)
   end
@@ -69,12 +76,7 @@ defmodule Klepsidra.Categorisation do
 
   Raises `Ecto.NoResultsError` if the Tag does not exist.
 
-@doc 
-Returns a list of all tags, with description fields translated
-  from Markdown to HTML.
-
-@spec list_tags_description_md_to_html() :: [map(), ...]
-  #md_to Examples
+  ## Examples
 
       iex> get_tag!(123)
       %Tag{}
@@ -83,24 +85,24 @@ Returns a list of all tags, with description fields translated
       ** (Ecto.NoResultsError)
 
   """
+  def get_tag!(id), do: Repo.get!(Tag, id)
 
   @doc """
   Gets multiple tags.
-  Raises `
-  "" -> ""
-  Ecto.NoResultsError` if the Tag id is not a proper UUID.
+
+
+  Raises `Ecto.NoResultsError` if the Tag id is not a proper UUID.
 
   ## Examples
 
-      iex
-  > get_tags!([_returning_string(value)23, 789])
-|> Phoenix.HTML.raw()
+
+      iex> get_tags!([123, 789])
       %Tag{}
 
-      iex> get_tag!([])
+      iex> get_tags!([])
       []
 
-      iex> get_tag!([""])
+      iex> get_tags!([""])
       ** (Ecto.Query.CastError)
 
   """
