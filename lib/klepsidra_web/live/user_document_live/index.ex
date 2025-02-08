@@ -50,6 +50,9 @@ defmodule KlepsidraWeb.UserDocumentLive.Index do
   end
 
   @impl true
+  def handle_event("selection_recovery", _selection_from_client, socket), do: {:noreply, socket}
+
+  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     user_document = Documents.get_user_document!(id)
     {:ok, _} = Documents.delete_user_document(user_document)
