@@ -809,7 +809,9 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @spec calculate_aggregate_duration_for_timers(timers :: [duration_tuple(), ...]) :: %{
           base_unit_duration: Cldr.Unit.t(),
-          duration_in_hours: bitstring(),
+          hour_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: float(),
+          duration_in_hours_string: String.t(),
           human_readable_duration: bitstring() | nil
         }
   def calculate_aggregate_duration_for_timers(timers) when is_list(timers) do
@@ -821,7 +823,9 @@ defmodule Klepsidra.TimeTracking.Timer do
 
   @spec format_aggregate_duration_for_project(base_unit_duration :: Cldr.Unit.t()) :: %{
           base_unit_duration: Cldr.Unit.t(),
-          duration_in_hours: String.t(),
+          hour_unit_duration: Cldr.Unit.t(),
+          duration_in_hours: float(),
+          duration_in_hours_string: String.t(),
           human_readable_duration: String.t() | nil
         }
   def format_aggregate_duration_for_project(base_unit_duration)
@@ -830,7 +834,6 @@ defmodule Klepsidra.TimeTracking.Timer do
       base_unit_duration
       |> Klepsidra.Cldr.Unit.convert!(:hour_increment)
       |> then(fn i -> Cldr.Unit.round(i, 1) end)
-      |> Klepsidra.Cldr.Unit.to_string!()
 
     duration_in_dhm_format =
       format_human_readable_duration(base_unit_duration,
@@ -844,7 +847,9 @@ defmodule Klepsidra.TimeTracking.Timer do
 
     %{
       base_unit_duration: base_unit_duration,
-      duration_in_hours: duration_in_hours,
+      hour_unit_duration: duration_in_hours,
+      duration_in_hours: duration_in_hours.value |> Decimal.to_float(),
+      duration_in_hours_string: Klepsidra.Cldr.Unit.to_string!(duration_in_hours),
       human_readable_duration: duration_in_dhm_format
     }
   end

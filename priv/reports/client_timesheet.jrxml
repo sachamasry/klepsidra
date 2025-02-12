@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
 	<style name="Title" fontName="Arial" fontSize="26.0" bold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18.0"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12.0" bold="true"/>
+	<style name="Column header" forecolor="#555555" fontName="Calluna Sans" fontSize="8.0" bold="false"/>
 	<style name="Detail" fontName="Arial" fontSize="12.0"/>
 	<query language="JSON"><![CDATA[]]></query>
 	<field name="id" class="java.lang.String">
@@ -108,18 +108,19 @@
 		<description><![CDATA[end_time]]></description>
 		<property name="net.sf.jasperreports.json.field.expression" value="end_time"/>
 	</field>
+	<field name="end_date" class="java.lang.String">
+		<description><![CDATA[end_date]]></description>
+		<property name="net.sf.jasperreports.json.field.expression" value="end_date"/>
+	</field>
+	<field name="billing_duration_in_hours" class="java.math.BigDecimal">
+		<description><![CDATA[billing_duration_in_hours]]></description>
+		<property name="net.sf.jasperreports.json.field.expression" value="billing_duration_in_hours"/>
+	</field>
 	<sortField name="start_stamp"/>
-	<group name="BusinessPartnerGroup">
+	<group name="BusinessPartnerGroup" startNewPage="true">
 		<expression><![CDATA[$F{business_partner_name}]]></expression>
 		<groupHeader>
-			<band height="30">
-				<element kind="textField" uuid="461747a7-62b4-4033-92cb-7f2edb226849" x="80" y="0" width="270" height="30" fontName="Calluna Sans" fontSize="16.0" textAdjust="StretchHeight" bold="false" hTextAlign="Left">
-					<expression><![CDATA[$F{business_partner_name}]]></expression>
-				</element>
-				<element kind="line" uuid="9d02e302-57b8-432b-babd-efb2418804ba" positionType="FixRelativeToBottom" x="0" y="28" width="450" height="1">
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</element>
-			</band>
+			<band/>
 		</groupHeader>
 		<groupFooter>
 			<band height="50"/>
@@ -136,23 +137,45 @@
 		</groupHeader>
 	</group>
 	<background splitType="Stretch"/>
-	<title height="85" splitType="Stretch">
+	<title height="115" splitType="Stretch">
 		<element kind="image" uuid="88796d59-cd8c-43c1-853f-dd6acfa88258" positionType="Float" x="360" y="0" width="85" height="85">
 			<expression><![CDATA["/Users/sacha/Local documents/DevilRay/Branding/DevilRay-logo-sq.png"]]></expression>
 		</element>
 		<element kind="staticText" uuid="bcf29663-c4b8-483e-a197-e5f6920fd2a2" x="0" y="50" width="263" height="33" fontName="Calluna Sans" vTextAlign="Middle" style="Title">
 			<text><![CDATA[Client Timesheet]]></text>
 		</element>
+		<element kind="textField" uuid="461747a7-62b4-4033-92cb-7f2edb226849" x="20" y="85" width="280" height="30" fontName="Calluna Sans" fontSize="16.0" textAdjust="StretchHeight" bold="false" hTextAlign="Left">
+			<expression><![CDATA[$F{business_partner_name}]]></expression>
+		</element>
 	</title>
 	<pageHeader splitType="Stretch"/>
-	<columnHeader height="6" splitType="Stretch"/>
+	<columnHeader height="35" splitType="Stretch">
+		<element kind="textField" uuid="04ef3945-8cc8-4c54-9c7f-a45ba25d57ea" x="399" y="0" width="50" height="30" fontName="Calluna Sans" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+			<expression><![CDATA["HOURS"]]></expression>
+		</element>
+		<element kind="line" uuid="9d02e302-57b8-432b-babd-efb2418804ba" positionType="FixRelativeToBottom" x="-1" y="31" width="450" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+		<element kind="textField" uuid="cbd9f98a-f54d-4007-8686-4abd120a4500" x="50" y="0" width="340" height="30" fontName="Calluna Sans" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
+			<expression><![CDATA["ACTIVITY AND DESCRIPTION"]]></expression>
+		</element>
+		<element kind="textField" uuid="7c24d45d-120c-4377-9955-1981f32de1ed" x="1" y="0" width="40" height="30" fontName="Calluna Sans" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+			<expression><![CDATA["TIME"]]></expression>
+		</element>
+	</columnHeader>
 	<detail>
-		<band height="32">
-			<element kind="textField" uuid="0f4bb758-4bb2-4eb4-9086-a6a6868205ba" x="50" y="2" width="340" height="30" fontName="Calluna Lght" textAdjust="StretchHeight">
+		<band height="39">
+			<element kind="textField" uuid="0f4bb758-4bb2-4eb4-9086-a6a6868205ba" x="50" y="1" width="340" height="30" fontName="Calluna Lght" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{description}]]></expression>
+				<property name="com.jaspersoft.studio.unit.y" value="mm"/>
 			</element>
-			<element kind="textField" uuid="055b3540-72b0-4b60-b5a8-ea65d336047f" x="0" y="2" width="42" height="30" fontName="Calluna Lght" hTextAlign="Right">
+			<element kind="textField" uuid="055b3540-72b0-4b60-b5a8-ea65d336047f" x="0" y="1" width="42" height="30" fontName="Calluna Lght" hTextAlign="Right">
 				<expression><![CDATA[$F{start_time}]]></expression>
+				<property name="com.jaspersoft.studio.unit.y" value="mm"/>
+			</element>
+			<element kind="textField" uuid="4cb31305-ae53-4813-b936-a6f5bce596b9" x="400" y="1" width="50" height="30" fontName="Calluna Lght" hTextAlign="Right">
+				<expression><![CDATA[$F{billing_duration_in_hours}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e59c9b7b-9d94-4a75-a264-cb55ddc4eb9b"/>
 				<property name="com.jaspersoft.studio.unit.y" value="mm"/>
 			</element>
 		</band>
@@ -170,7 +193,7 @@
 			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
 		</element>
 		<element kind="textField" uuid="e16da2cc-f2dd-4b0a-a299-981148326ee6" x="0" y="10" width="197" height="20" fontName="Calluna Sans" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" style="Column header">
-			<expression><![CDATA["Generated on " + new java.util.Date()]]></expression>
+			<expression><![CDATA["Generated on " + DATEFORMAT(new java.util.Date(), "d MMMM y")]]></expression>
 		</element>
 	</pageFooter>
 	<summary splitType="Stretch"/>
