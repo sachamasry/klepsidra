@@ -848,7 +848,7 @@ defmodule Klepsidra.TimeTracking.Timer do
     %{
       base_unit_duration: base_unit_duration,
       hour_unit_duration: duration_in_hours,
-      duration_in_hours: duration_in_hours.value |> Decimal.to_float(),
+      duration_in_hours: duration_in_hours |> Cldr.Unit.to_float_unit() |> Cldr.Unit.value(),
       duration_in_hours_string: Klepsidra.Cldr.Unit.to_string!(duration_in_hours),
       human_readable_duration: duration_in_dhm_format
     }
