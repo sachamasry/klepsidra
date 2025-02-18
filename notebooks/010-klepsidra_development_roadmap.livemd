@@ -78,13 +78,14 @@ What is incredibly useful about this software is that these snippets can be open
 * [X] UI and UX improvements
   * [X] Start implementing new colour scheme based around Peach Fuzz, Pantone 13-1023
   * [X] Rectified UI error where a resized textarea in a note editing form, snaps back to default size following further user input
+  * [X] Designed first system report: client timesheet
 * [X] Refactoring
   * [X] Clean up all timer queries: there is much duplication among timer queries, with complex code and doubled-up business logic. Reduce the quantity of code, duplication, and logic
-* [ ] Debugging
+* [X] Debugging
   * [X] Tagging notes that haven't yet been saved doesn't work
   * [X] Updating notes fails with the following error message:
   * [X] Journal entries cannot be viewed as the show view breaks
-  * [ ] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component)
+  * [X] There seems to be an issue when the last tag has been removed from an edit view, and a new one is manually added in the show view, where suddenly both are attached to the entity, only temporarily, on the `show` view (still recorded somewhere in component); _Note: I have not been able to replicate this error_
 
 ## Release 0.1.5
 
@@ -92,6 +93,8 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 <!-- livebook:{"break_markdown":true} -->
 
+* [ ] Develop reporting infrastructure
+  * [ ] Develop and document reporting workflow: how data is to be queried and passed for report creation; what system will generate reports; how the report generatore will be called and monitored; whether to keep a job queue
 * [ ] Consider splitting trip recording into single border crossings, instead of entry/exit pairs
 * [ ] Create simple tasks/to-do feature, taking fields and functionality from `act` software
 * [ ] Add field(s) to projects
