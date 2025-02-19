@@ -13,10 +13,10 @@ defmodule Klepsidra.NamingUtilities do
   naming format, finally returning a string-based map with Java-named
   string keys.
   """
-  @spec underscore_to_camel(map :: map()) :: map()
-  def underscore_to_camel(map) when is_map(map) do
+  @spec underscore_map_to_camel_case(map :: map()) :: map()
+  def underscore_map_to_camel_case(map) when is_map(map) do
     map
-    |> Enum.map(fn {key, value} -> {camelcase_key(key), value} end)
+    |> Enum.map(fn {key, value} -> {camel_case_key(key), value} end)
     |> Enum.into(%{})
   end
 
@@ -25,14 +25,14 @@ defmodule Klepsidra.NamingUtilities do
   format: a string beginning with a lowercase letter, followed
   by a capital letter at the start of each new word.
   """
-  @spec camelcase_key(key :: atom() | binary()) :: binary()
-  def camelcase_key(key) when is_atom(key) do
+  @spec camel_case_key(key :: atom() | binary()) :: binary()
+  def camel_case_key(key) when is_atom(key) do
     key
     |> Atom.to_string()
     |> Naming.camelize(:lower)
   end
 
-  def camelcase_key(key) when is_binary(key) do
+  def camel_case_key(key) when is_binary(key) do
     key
     |> Naming.camelize(:lower)
   end

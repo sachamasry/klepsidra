@@ -7,6 +7,12 @@ config :klepsidra, Klepsidra.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
 
+config :klepsidra, Klepsidra.ReporterRepo,
+       database: Path.expand("../db/reporter_dev.db", Path.dirname(__ENV__.file)),
+       pool_size: 5,
+       stacktrace: true,
+       show_sensitive_data_on_connection_error: false
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
