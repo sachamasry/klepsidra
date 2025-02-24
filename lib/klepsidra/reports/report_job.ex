@@ -1,4 +1,4 @@
-defmodule Klepsidra.ReportJob do
+defmodule Klepsidra.Reports.ReportJob do
   @moduledoc """
   Defines a schema for the `ReportJob` entity, a queue and audit trail of all
   jobs, requesting the generation of a report.
@@ -15,8 +15,8 @@ defmodule Klepsidra.ReportJob do
           report_name: String.t(),
           report_template: String.t(),
           output_format: String.t(),
-          state: String.t(),
           report_fingerprint: String.t(),
+          state: String.t(),
           parameters: map(),
           errors: map(),
           meta: map(),
@@ -35,9 +35,10 @@ defmodule Klepsidra.ReportJob do
     field :report_name, :string
     field :report_template, :string
     field :output_format, :string
-    field :state, :string
     field :report_fingerprint, :string
-    field :parameters, :string  # Stored as JSON string
+    field :state, :string
+    # Stored as JSON string
+    field :parameters, :string
     field :errors, :map
     field :meta, :map
     field :attempt, :integer
@@ -52,5 +53,38 @@ defmodule Klepsidra.ReportJob do
     field :discarded_at, :string
 
     timestamps()
+  end
+
+  @doc false
+  def changeset(report_job, attrs) do
+    report_job
+    |> cast(attrs, [
+      :report_name,
+      :report_template,
+      :output_format,
+      :report_fingerprint,
+      :state,
+      :parameters,
+      :errors,
+      :meta,
+      :attempt,
+      :max_attempts,
+      :priority,
+      :result_path,
+      :scheduled_at,
+      :attempted_at,
+      :attempted_by,
+      :cancelled_at,
+      :completed_at,
+      :discarded_at
+    ])
+    |> validate_required([
+      :report_name,
+      :report_template,
+      :output_format,
+      :report_fingerprint,
+      :parameters,
+      :scheduled_at
+    ])
   end
 end

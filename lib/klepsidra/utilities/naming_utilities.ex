@@ -1,4 +1,4 @@
-defmodule Klepsidra.NamingUtilities do
+defmodule Klepsidra.Utilities.NamingUtilities do
   @moduledoc """
   This module handles naming conversion, namely that of
   underscore-delimited naming-as used in Elixir-to camel-cased
