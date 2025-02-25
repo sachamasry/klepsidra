@@ -234,15 +234,9 @@ defmodule Klepsidra.TimeTracking do
           timer_list: [map(), ...],
           meta: %{
             timer_count: non_neg_integer(),
-            aggregate_duration: duration(),
-            average_timer_duration: duration(),
-            aggregate_billing_duration: %{
-              base_unit_duration: Cldr.Unit.t(),
-              hour_unit_duration: Cldr.Unit.t(),
-              duration_in_hours: float(),
-              duration_in_hours_string: String.t(),
-              human_readable_duration: String.t() | nil
-            }
+            aggregate_duration: duration_in_hours(),
+            average_timer_duration: duration_in_hours(),
+            aggregate_billing_duration: duration_in_hours()
           }
         }
   def list_timers_with_statistics(filter) when is_map(filter) do
