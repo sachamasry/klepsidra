@@ -110,6 +110,13 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment: "Timestamp specifying when the report job was discarded"
     end
 
+    create unique_index(
+             :report_jobs,
+             [:report_name, :report_template, :output_format, :report_fingerprint, :scheduled_at],
+             comment:
+               "Composite unique index of `report_name`, `report_template`, `output_format`, `report_fingerprint` and `scheduled_at` fields."
+           )
+
     create index(:report_jobs, :report_name, comment: "Index of queued report type")
     create index(:report_jobs, :output_format, comment: "Index of output format type")
 

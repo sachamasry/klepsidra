@@ -12,7 +12,7 @@ defmodule Klepsidra.Application do
       KlepsidraWeb.Telemetry,
       # Start the Ecto repository
       Klepsidra.Repo,
-      Klepsidra.ReporterRepo, 
+      Klepsidra.ReporterRepo,
       # Start Oban
       {Oban, Application.fetch_env!(:klepsidra, Oban)},
       # Start the PubSub system

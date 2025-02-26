@@ -4,7 +4,6 @@ defmodule Klepsidra.ReportJobs do
   """
 
   import Ecto.Query, warn: false
-  alias Klepsidra.Repo
   alias Klepsidra.ReporterRepo
   alias Klepsidra.Reports.ReportJob
 
