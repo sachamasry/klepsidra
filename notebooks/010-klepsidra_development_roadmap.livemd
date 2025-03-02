@@ -95,21 +95,14 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 * [ ] Develop reporting infrastructure
   * [ ] Develop and document reporting workflow: how data is to be queried and passed for report creation; what system will generate reports; how the report generatore will be called and monitored; whether to keep a job queue
+* [ ] Further activity refinement is necessary
+  * [ ] Look into how to provide first, second and possibly third-level activity type refinement
+  * [ ] It is likely that projects will have to be categorised into project _types_
 * [ ] Consider splitting trip recording into single border crossings, instead of entry/exit pairs
 * [ ] Create simple tasks/to-do feature, taking fields and functionality from `act` software
 * [ ] Add field(s) to projects
   * [ ] End date, project review date, deadline date, etc.
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
-* [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
-  * [ ] Create `travel_visa_types` entity
-  * [ ] Create `travel_visas` entity
-  * [ ] Create `user_preferences` entity
-  * [ ] Create `notifications` entity
-  * [ ] Create `visa_types` entity
-  * [ ] Create `visas` entity
-  * [ ] Create `visa_blocks` entity
-  * [ ] Create `country_visa_blocks` entity
-* [ ] Increase the power of knowledge base notes, through forced spaced repetition, automated by the system
 * [ ] _Today_ view
   * [ ] Provide daily navigation facility: back and forward a day; jump to today
 * [ ] Timer reporting and analysis
@@ -127,10 +120,13 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 ### UI/UX
 
-* [ ] Rebuild CSS around new colour scheme and two new typefaces: Advocate (?) and selected Huerta Tipografica typeface, or Calluna & Calluna Sans
-* [ ] Randomise colours for new tags
+* [ ] Improve existing timer display UX
+  * [ ] Display auxilliary information, such as project and customer, with links to the entity
+  * [ ] Clean up display of all time durations and increments
 * [ ] Display tags for open and closed timers, on timer listings
 * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
+* [ ] Rebuild CSS around new colour scheme and two new typefaces: Advocate (?) and selected Huerta Tipografica typeface, or Calluna & Calluna Sans
+* [ ] Randomise colours for new tags
 * [ ] Clean up timer information presentation, particularly in the show view
 * [ ] Convert all colour references to OKLCH
 * [ ] Notes improvements
@@ -163,6 +159,16 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 ## Release 0.1.6
 
+* [ ] Create new feature, recording time spent in economic territories/countries, for nomads, showing how close to limit they are, according to the prevailing legislation
+  * [ ] Create `travel_visa_types` entity
+  * [ ] Create `travel_visas` entity
+  * [ ] Create `user_preferences` entity
+  * [ ] Create `notifications` entity
+  * [ ] Create `visa_types` entity
+  * [ ] Create `visas` entity
+  * [ ] Create `visa_blocks` entity
+  * [ ] Create `country_visa_blocks` entity
+* [ ] Increase the power of knowledge base notes, through forced spaced repetition, automated by the system
 * [X] Expand full text search to encompass all relevant tables and fields in application
   * [X] Enable SQLite notes fields full-text search (timers, business partners, projects)
   * [X] Enable SQLite description fields full-text search (tags, projects)

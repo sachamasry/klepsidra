@@ -3,7 +3,6 @@ defmodule Klepsidra.Utilities.HashFunctions do
   This module simplifies interfacing to Erlang's `:crypto` module, providing string hashing functions, for _fingerprinting_ purposes.
   """
 
-
   @doc """
   Takes a message, hashing it with the [BLAKE2b](https://www.blake2.net/)
   hashing function, encoding the resultant binary into a base-16 encoded
@@ -22,7 +21,7 @@ defmodule Klepsidra.Utilities.HashFunctions do
   		iex> compute_hash()
   		** (UndefinedFunctionError)
   """
-  @spec compute_hash(message :: bitstring() | map()) :: any()
+  @spec compute_hash(message :: binary() | map()) :: binary()
   def compute_hash(message) when is_bitstring(message) do
     :crypto.hash(:blake2b, message)
     |> Base.encode16(padding: false, case: :lower)

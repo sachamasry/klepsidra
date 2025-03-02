@@ -15,6 +15,8 @@
   {"lib/klepsidra/ex_cldr.ex", :unknown_function},
   {"lib/klepsidra/ex_cldr.ex", :unknown_type},
   {"lib/klepsidra/mailer.ex", :unknown_function},
+  {"lib/klepsidra/utilities/hash_functions.ex", :no_return},
+  {"lib/klepsidra/utilities/hash_functions.ex", :extra_range},
   {"lib/klepsidra_web/klepsidra_csp.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts.ex", :unknown_function},
   {"lib/klepsidra_web/components/layouts/root.html.heex", :unknown_function},

@@ -5,7 +5,7 @@ defmodule Klepsidra.MixProject do
     [
       app: :klepsidra,
       name: "Klepsidra",
-      version: "0.1.3",
+      version: "0.1.4",
       source: "https://github.com/sachamasry/klepsidra-timer",
       homepage_url: "",
       elixir: "~> 1.16",
