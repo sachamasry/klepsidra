@@ -41,19 +41,13 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         default: "",
         null: false,
         comment:
-          "The parameter fingerprint is a hash of the full set of unique report criteria, uniquely identifying each requested report. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the parameter fingerprint matches."
+          "The parameter fingerprint is a hash of the full set of unique report parameters and input dataset, uniquely identifying each requested report. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the parameter fingerprint matches."
 
-      add :report_data, :map,
+      add :parameters_and_data, :map,
         default: %{},
         null: false,
         comment:
-          "This field records the full dataset used in the generation of this report, encoded in JSON format, data which will be used for generating the finished report"
-
-      add :data_fingerprint, :string,
-        default: "",
-        null: false,
-        comment:
-          "The data fingerprint is a hash of the full report dataset, uniquely identifying each requested report by the dataset that makes it up. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the dataset fingerprint matches."
+          "Record of the full input parameters, and input dataset used in the generation of this report, encoded in JSON format, data which will be used for generating the finished report"
 
       add :errors, :map,
         default: %{},
@@ -156,7 +150,6 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
                :report_template,
                :output_format,
                :parameter_fingerprint,
-               :data_fingerprint,
                :scheduled_at
              ],
              comment:
@@ -174,11 +167,6 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
     create index(:report_jobs, :parameter_fingerprint,
              comment:
                "Index of report parameter 'fingerprint' improving speed of retrieval of identical jobs"
-           )
-
-    create index(:report_jobs, :data_fingerprint,
-             comment:
-               "Index of report data 'fingerprint' improving speed of retrieval of identical jobs"
            )
 
     create index(:report_jobs, :priority, comment: "Index of job priority")
