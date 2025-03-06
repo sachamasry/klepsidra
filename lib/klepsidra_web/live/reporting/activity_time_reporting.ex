@@ -22,7 +22,37 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
     projects = Klepsidra.Projects.list_active_projects()
     customers = Klepsidra.BusinessPartners.list_active_customers()
     activity_types = Klepsidra.TimeTracking.list_active_activity_types()
-    filtered_timers = TimeTracking.list_timers_with_statistics(filter)
+
+    filtered_timers =
+      %{
+        meta: %{
+          timer_count: 0,
+          aggregate_duration: %{
+            human_readable_duration: "0 hours and 0 minutes",
+            base_unit_duration: Cldr.Unit.new!(:second, 0),
+            duration_in_hours: 0.0,
+            duration_in_hours_string: "0 hours",
+            hour_unit_duration: Cldr.Unit.new!(:hour_increment, "0.0")
+          },
+          aggregate_billing_duration: %{
+            human_readable_duration: "0 hours and 0 minutes",
+            base_unit_duration: Cldr.Unit.new!(:second, 0),
+            duration_in_hours: 0.0,
+            duration_in_hours_string: "0.0 hours",
+            hour_unit_duration: Cldr.Unit.new!(:hour_increment, "0.0")
+          },
+          average_timer_duration: %{
+            human_readable_duration: "0 hours and 0 minutes",
+            base_unit_duration: Cldr.Unit.new!(:second, "0"),
+            duration_in_hours: 0.0,
+            duration_in_hours_string: "0 hours",
+            hour_unit_duration: Cldr.Unit.new!(:hour_increment, 0)
+          }
+        },
+        timer_list: []
+      }
+
+    # TimeTracking.list_timers_with_statistics(filter)
 
     {:ok,
      socket
