@@ -32,17 +32,23 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "The current job state. All jobs will start life with a state of 'pending' and will be updated to 'complete' once the job has been generated. Other states include 'cancelled' and 'discarded'."
 
-      add :report_fingerprint, :string,
+      add :criteria_fingerprint, :string,
         default: "",
         null: false,
         comment:
-          "The report fingerprint is a hash of the full set of unique report criteria, used to uniquely identify each report. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the fingerprint matches."
+          "The criteria fingerprint is a hash of the full set of unique report criteria, uniquely identifying each requested report. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the criteria fingerprint matches."
 
       add :parameters, :map,
         default: %{},
         null: false,
         comment:
           "This field records the full dataset used in the generation of this report, encoded in JSON format, data which will be used for generating the finished report"
+
+      add :dataset_fingerprint, :string,
+        default: "",
+        null: false,
+        comment:
+          "The dataset fingerprint is a hash of the full report dataset, uniquely identifying each requested report by the dataset that makes it up. The fingerprint improves performance, as reports which are computationally expensive to produce can simply be fetched from the queue, in situations where the dataset fingerprint matches."
 
       add :errors, :map,
         default: %{},
@@ -112,9 +118,16 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
 
     create unique_index(
              :report_jobs,
-             [:report_name, :report_template, :output_format, :report_fingerprint, :scheduled_at],
+             [
+               :report_name,
+               :report_template,
+               :output_format,
+               :criteria_fingerprint,
+               :dataset_fingerprint,
+               :scheduled_at
+             ],
              comment:
-               "Composite unique index of `report_name`, `report_template`, `output_format`, `report_fingerprint` and `scheduled_at` fields."
+               "Composite unique index of `report_name`, `report_template`, `output_format`, `criteria_fingerprint`, `dataset_fingerprint` and `scheduled_at` fields."
            )
 
     create index(:report_jobs, :report_name, comment: "Index of queued report type")
@@ -124,9 +137,14 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
              comment: "Index of job queue state, for easy retrieval, ordering and search"
            )
 
-    create index(:report_jobs, :report_fingerprint,
+    create index(:report_jobs, :criteria_fingerprint,
              comment:
-               "Index of report 'fingerpring' improving speed of retrieval of identical jobs"
+               "Index of report criteria 'fingerprint' improving speed of retrieval of identical jobs"
+           )
+
+    create index(:report_jobs, :dataset_fingerprint,
+             comment:
+               "Index of report dataset 'fingerprint' improving speed of retrieval of identical jobs"
            )
 
     create index(:report_jobs, :priority, comment: "Index of job priority")

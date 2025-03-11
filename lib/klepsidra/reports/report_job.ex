@@ -15,9 +15,10 @@ defmodule Klepsidra.Reports.ReportJob do
           report_name: String.t(),
           report_template: String.t(),
           output_format: String.t(),
-          report_fingerprint: String.t(),
+          criteria_fingerprint: String.t(),
           state: String.t(),
           parameters: map(),
+          dataset_fingerprint: String.t(),
           errors: map(),
           meta: map(),
           attempt: integer(),
@@ -34,11 +35,12 @@ defmodule Klepsidra.Reports.ReportJob do
   schema "report_jobs" do
     field :report_name, :string
     field :report_template, :string
-    field :output_format, :string
-    field :report_fingerprint, :string
+    field :output_format, :string, default: "pdf"
+    field :criteria_fingerprint, :string
     field :state, :string
     # Stored as JSON string
     field :parameters, :string
+    field :dataset_fingerprint, :string
     field :errors, :map
     field :meta, :map
     field :attempt, :integer
@@ -62,9 +64,10 @@ defmodule Klepsidra.Reports.ReportJob do
       :report_name,
       :report_template,
       :output_format,
-      :report_fingerprint,
+      :criteria_fingerprint,
       :state,
       :parameters,
+      :dataset_fingerprint,
       :errors,
       :meta,
       :attempt,
@@ -82,8 +85,9 @@ defmodule Klepsidra.Reports.ReportJob do
       :report_name,
       :report_template,
       :output_format,
-      :report_fingerprint,
+      :criteria_fingerprint,
       :parameters,
+      :dataset_fingerprint,
       :scheduled_at
     ])
   end

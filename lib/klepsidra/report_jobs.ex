@@ -19,9 +19,21 @@ defmodule Klepsidra.ReportJobs do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_report_job(attrs :: map()) :: {:ok, ReportJob.t()} | {:error, Ecto.Changeset.t()}
   def create_report_job(attrs \\ %{}) do
     %ReportJob{}
     |> ReportJob.changeset(attrs)
     |> ReporterRepo.insert()
+  end
+
+  @doc """
+  Retrieve jobs matching `state`, by default "completed".
+  """
+  @spec get_completed_jobs(state :: bitstring()) :: [ReportJob.t(), ...]
+  def get_completed_jobs(state \\ "completed") when is_bitstring(state) do
+    ReportJob
+    |> where(state: ^state)
+    |> order_by(asc: :inserted_at)
+    |> ReporterRepo.all()
   end
 end
