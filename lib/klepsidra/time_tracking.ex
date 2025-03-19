@@ -296,13 +296,13 @@ defmodule Klepsidra.TimeTracking do
 
     query =
       from_timers()
+      |> select_timer_columns_expanded_modified_with_tags()
       |> join_bp_and_project()
       |> join_timers_with_activity_type()
       |> join_timers_with_tags()
       |> filter_timers_closed_only()
       |> group_timer_columns_by_timer_id()
       |> order_timers_inserted_asc_id_asc()
-      |> select_timer_columns_expanded_modified_with_tags()
 
     timer_subquery =
       query
@@ -393,18 +393,18 @@ defmodule Klepsidra.TimeTracking do
           Ecto.Queryable.t()
   defp filter_by_date(query, %{from: "", to: ""}), do: query
 
+  defp filter_by_date(query, %{from: from, to: to}) do
+    query
+    |> where([at], at.start_stamp >= ^from)
+    |> where([at], at.end_stamp <= ^to)
+  end
+
   defp filter_by_date(query, %{from: from, to: ""}) do
     where(query, [at], at.start_stamp >= ^from)
   end
 
   defp filter_by_date(query, %{from: "", to: to}) do
     where(query, [at], at.end_stamp <= ^to)
-  end
-
-  defp filter_by_date(query, %{from: from, to: to}) do
-    query
-    |> where([at], at.start_stamp >= ^from)
-    |> where([at], at.end_stamp <= ^to)
   end
 
   @spec filter_by_project_id(query :: Ecto.Queryable.t(), %{
@@ -1109,12 +1109,12 @@ defmodule Klepsidra.TimeTracking do
           [map(), ...] | []
   def list_closed_timers_for_date(date) when is_struct(date, Date) do
     from_timers()
-    |> filter_timers_closed_only_for_date(date)
-    |> order_timers_inserted_desc_id_asc()
+    |> select_timer_columns_with_tags()
     |> join_bp_and_project()
     |> join_timers_with_tags()
-    |> select_timer_columns_with_tags()
+    |> filter_timers_closed_only_for_date(date)
     |> group_timer_columns_by_timer_id()
+    |> order_timers_inserted_desc_id_asc()
     |> Repo.all()
     |> format_timer_fields(date)
   end
