@@ -20,6 +20,7 @@ defmodule KlepsidraWeb.StartPageLive do
   @impl true
   def mount(_params, _session, socket) do
     current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+    current_datetime = NaiveDateTime.local_now()
 
     quote = Klepsidra.KnowledgeManagement.get_random_quote()
 
@@ -29,8 +30,8 @@ defmodule KlepsidraWeb.StartPageLive do
 
     matching_closed_timers =
       %{
-        from: current_date_stamp |> Date.add(-1) |> Date.to_string(),
-        to: current_date_stamp |> Date.add(1) |> Date.to_string(),
+        from: current_datetime,
+        to: current_datetime,
         project_id: "",
         business_partner_id: "",
         activity_type_id: "",

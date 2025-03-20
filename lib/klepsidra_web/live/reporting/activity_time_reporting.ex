@@ -147,7 +147,7 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
           "activity_type_id" => activity_type_id,
           "billable" => billable,
           "modified" => modified
-        } = params,
+        },
         socket
       ) do
     from = parse_date(from)
