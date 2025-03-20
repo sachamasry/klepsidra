@@ -147,7 +147,7 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
           "activity_type_id" => activity_type_id,
           "billable" => billable,
           "modified" => modified
-        },
+        } = params,
         socket
       ) do
     from = parse_date(from)
@@ -217,6 +217,6 @@ defmodule KlepsidraWeb.TimerLive.ActivityTimeReporting do
   defp parse_date(""), do: ""
 
   defp parse_date(date) when is_bitstring(date) do
-    Timex.parse!(date, "{YYYY}-{0M}-{D}") |> NaiveDateTime.to_string()
+    Timex.parse!(date, "{YYYY}-{0M}-{D}")
   end
 end

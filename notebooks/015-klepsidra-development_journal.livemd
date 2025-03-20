@@ -1,0 +1,68 @@
+<!-- livebook:{"autosave_interval_s":60,"persist_outputs":true} -->
+
+# Klepsidra: Development journal
+
+## Introduction
+
+In the course of developing a software application, many decisions have to be made which shape the future outcome not only of the software itself, but the philososphy which guides it forward. Without a record of these decisions, any maintenance and future expansion efforts can fail or simply demand inordinate amounts of time. This journal was brought to life to record some of these decisions, as even with a single developer, decisions made in the past get forgotten, leading to much lost time.
+
+## A day's timers
+
+A decision taken quickly in the early days of Klepsidra's development is what constitutes that day's timers. Most pragmatic and functional approaches solve this by looking at the naturally imposed extents of the day: a day's activities are all those taking place from midnight of the day, up to 23:59 of the same day, covering a twenty four hour period. Pure and simple.
+
+<!-- livebook:{"break_markdown":true} -->
+
+My preferred definition diverges from this, as I am a _night owl_. That means that all time spent working on something continues contextually past midnight, but only pragmatically so, until that _bridging_ activity is complete. Contextually, activities taking place in the early hours of the next day are still realistically part of the prior day's activities, but there is no simple automated algorithm to detect this, so the line is drawn to include activities crossing the midnight boundary. It is important to have this definition enshrined to prevent _double-counting_, i.e. counting a bridging activity's duration once for the day it was started, and again for the day it was completed. There are only two ways to break this tie: count durations only up to the midnight boundary for the prior day, and from the boundary for the following day, or to keep activity durations contiguous, counting them towards the day they were started. I felt the latter choice was more in line with expectation, in keeping with the principle of _least surprise_, and is easier to calculate.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Timer Rules
+
+1. **A timed activity** is aligned with _human practicality_ as a starting point, thus activities **can be at most 24 hours long**
+2. **A day's activities include all activities started on that date, ending on the same or next day**, respecting rule (1)
+   1. the activity's **start datetime** is on that date, any time **between 00:00:00 and 23:59:59 hours**
+   2. the activity **has an end time**, or it is considered an _open activity_, not a closed one
+   3. the activity **has an end time no later than 23:59:59 of the following day**
+
+<!-- livebook:{"break_markdown":true} -->
+
+Extending the above rule from one day, to a period simply extends the postulated rules above. When looking to get all activities timed in a period—a week, month, or custom date range—It isn't enough just to filter for activities falling between two dates, as it will result in incorrect calculations. Given that the above rule (1) is respected, a filter for activities within a date range, with _from_ indicating the start date of the range, and _end_ indicating the end date, and assuming that _end_ is always greater than or equal to _start_, rule (2) is generalised as follows:
+
+1. include all activities whose **start datetimes** fall **between "_start_ 00:00:00" and "_end_ 23:59:59"**
+2. include all activities which **have an end datetime**
+3. include all activities whose **end datetime** falls **between  "_start_ 00:00:01" and "(_end_ + 1) 23:59:59"**
+
+<!-- livebook:{"break_markdown":true} -->
+
+Following on from this, when only a _from_ date has been provided to the filter, return all those activities:
+
+1. whose **start datetimes** fall **on or after "_start_ 00:00:00"**
+2. which **have an end datetime**
+
+<!-- livebook:{"break_markdown":true} -->
+
+Whereas, when only an _end_ date has been provided to the filter, return all those activities:
+
+1. whose **start datetime** falls **on or before "_end_ 23:59:59"**
+2. whose **end datetime** falls **on or before "(_end_ + 1) 23:59:59"**
+3. which **have an end datetime**
+
+<!-- livebook:{"break_markdown":true} -->
+
+I will illustrate this with a few examples, using a fictitious 30th of February as the day in question, for which I want to see only that day's activities.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Given the following activities:
+
+| Activity ID | Start datetime      | End datetime        | Description                |
+| ----------- | ------------------- | ------------------- | -------------------------- |
+| A           | 2025-02-28 12:34:00 | 2025-02-28 13:45:59 | Shaving yaks               |
+| B           | 2025-02-28 13:46:00 | 2025-02-29 12:34:59 | Trapping spiders           |
+| C           | 2025-02-29 01:23:00 | 2025-02-29 04:45:59 | Owl-stretching time        |
+| D           | 2025-02-29 23:45:00 | 2025-02-30 01:23:45 | Bat-spotting               |
+| E           | 2025-02-30 12:34:00 | 2025-02-30 13:45:59 | Counting the rays of light |
+
+<!-- livebook:{"break_markdown":true} -->
+
+When counting the activities belonging to the 29th of Feburary only, activity _A_ is ignored as it falls fully within the 28th; activity _B_ still belongs to the 28th, as it was begun on that day, despite it continuing into the 29th; activities _C_ and _D_ both count as activities taking place on the 29th, with the first having been started and completed within the day, and the second having been started on that day, even though it spilled over into the 30th; finally, _E_ also doesn't belong to the 29th as it fully takes place on the 30th.

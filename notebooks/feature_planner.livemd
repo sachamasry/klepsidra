@@ -1765,7 +1765,6 @@ Tracks document details for each user, including expiry dates and types.
 #### Indexes
 
 1. Unique Index on `unique_reference_number`
-
    * Field: unique_reference_number
    * Purpose: Ensures that reference numbers (e.g., passport numbers) are unique across documents and facilitates fast lookups by this field.
    * Index Type: Unique index.
@@ -1775,7 +1774,6 @@ CREATE UNIQUE INDEX idx_documents_unique_reference_number ON documents(unique_re
 ```
 
 1. Index on `user_id`
-
    * Field: user_id
    * Purpose: Supports queries that filter or join by user, such as retrieving all documents for a specific user.
    * Index Type: Standard B-Tree.
@@ -1785,7 +1783,6 @@ CREATE INDEX idx_documents_user_id ON documents(user_id);
 ```
 
 1. Composite Index on `user_id` and `document_type_id`
-
    * Fields: (user_id, document_type_id)
    * Purpose: Optimizes queries where users search for documents by type. For instance:
 
@@ -1798,7 +1795,6 @@ CREATE INDEX idx_documents_user_type ON documents(user_id, document_type_id);
 ```
 
 1. Index on `expires_at`
-
    * Field: expires_at
    * Purpose: Facilitates queries for finding documents that are about to expire. Critical for generating expiration reminders and notifications.
    * Index Type: Standard B-Tree.
@@ -1808,7 +1804,6 @@ CREATE INDEX idx_documents_expires_at ON documents(expires_at);
 ```
 
 1. Index on `country_id`
-
    * Field: country_id
    * Purpose: Useful for queries that filter documents by the issuing country. For example:
 
@@ -1821,7 +1816,6 @@ CREATE INDEX idx_documents_country_id ON documents(country_id);
 ```
 
 1. Composite Index on `document_type_id` and `country_id`
-
    * Fields: (document_type_id, country_id)
    * Purpose: Optimizes queries for filtering by document type and country, such as when finding templates or issuing rules for a particular type in a specific country.
    * Example Query:
@@ -1835,7 +1829,6 @@ CREATE INDEX idx_documents_is_active ON documents(is_active);
 ```
 
 1. Full-Text Index on `name` and `description` (Optional)
-
    * Fields: (name, description)
    * Purpose: Supports full-text search when users search for documents by name or description.
    * Database-Specific:

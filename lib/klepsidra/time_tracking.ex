@@ -389,12 +389,16 @@ defmodule Klepsidra.TimeTracking do
     |> Timer.calculate_aggregate_duration_for_timers()
   end
 
-  @spec filter_by_date(query :: Ecto.Queryable.t(), %{from: bitstring(), to: bitstring()}) ::
+  @spec filter_by_date(query :: Ecto.Queryable.t(), %{
+          from: bitstring() | NaiveDateTime.t(),
+          to: bitstring() | NaiveDateTime.t()
+        }) ::
           Ecto.Queryable.t()
+  defp filter_by_date(query, %{from: nil, to: nil}), do: query
   defp filter_by_date(query, %{from: "", to: ""}), do: query
 
-  defp filter_by_date(query, %{from: from, to: ""}) do
-    from_start_of_day = from <> " 00:00:00"
+  defp filter_by_date(query, %{from: from, to: ""}) when is_struct(from, NaiveDateTime) do
+    from_start_of_day = from |> NaiveDateTime.beginning_of_day() |> NaiveDateTime.to_string()
 
     where(
       query,
@@ -405,35 +409,21 @@ defmodule Klepsidra.TimeTracking do
         ^from_start_of_day
       )
     )
-
-    # at.start_stamp >= ^from)
   end
 
   defp filter_by_date(query, %{from: "", to: to}) do
-    to_end_of_day = to <> " 23:59:00"
+    from_end_of_range = to |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
 
-    where(
-      query,
-      [at],
-      fragment(
-        "datetime(?) <= ?",
-        at.end_stamp,
-        ^to_end_of_day
-      )
-    )
-  end
-
-  defp filter_by_date(query, %{from: from, to: to}) do
-    from_start_of_day = from <> " 00:00:00"
-    to_end_of_day = to <> " 23:59:00"
+    to_end_of_range =
+      to |> NaiveDateTime.add(1, :day) |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
 
     query
     |> where(
       [at],
       fragment(
-        "datetime(?) >= ?",
+        "datetime(?) <= ?",
         at.start_stamp,
-        ^from_start_of_day
+        ^from_end_of_range
       )
     )
     |> where(
@@ -441,7 +431,36 @@ defmodule Klepsidra.TimeTracking do
       fragment(
         "datetime(?) <= ?",
         at.end_stamp,
-        ^to_end_of_day
+        ^to_end_of_range
+      )
+    )
+  end
+
+  defp filter_by_date(query, %{from: from, to: to}) do
+    from_start_of_range = from |> NaiveDateTime.beginning_of_day() |> NaiveDateTime.to_string()
+    from_end_of_range = to |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
+    to_start_of_range = from_start_of_range
+
+    to_end_of_range =
+      to |> NaiveDateTime.add(1, :day) |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
+
+    query
+    |> where(
+      [at],
+      fragment(
+        "datetime(?) between ? and ?",
+        at.start_stamp,
+        ^from_start_of_range,
+        ^from_end_of_range
+      )
+    )
+    |> where(
+      [at],
+      fragment(
+        "datetime(?) between ? and ?",
+        at.end_stamp,
+        ^to_start_of_range,
+        ^to_end_of_range
       )
     )
   end
