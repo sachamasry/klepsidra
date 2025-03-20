@@ -22,20 +22,43 @@ defmodule KlepsidraWeb.StartPageLive do
     current_date_stamp = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
 
     quote = Klepsidra.KnowledgeManagement.get_random_quote()
-    aggregate_duration = get_aggregate_duration_for_date(current_date_stamp)
-
-    human_readable_duration =
-      Timer.format_human_readable_duration(aggregate_duration, [
-        :hour_increment,
-        :minute_increment
-      ])
 
     open_timers = TimeTracking.list_all_open_timers(current_date_stamp)
     open_timer_count = TimeTracking.get_open_timer_count()
     today = format_date(get_current_datetime_stamp())
 
-    closed_timers = TimeTracking.list_closed_timers_for_date(current_date_stamp)
-    closed_timer_count = TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
+    matching_closed_timers =
+      %{
+        from: current_date_stamp |> Date.add(-1) |> Date.to_string(),
+        to: current_date_stamp |> Date.add(1) |> Date.to_string(),
+        project_id: "",
+        business_partner_id: "",
+        activity_type_id: "",
+        billable: "",
+        modified: ""
+      }
+      |> TimeTracking.list_timers_with_statistics()
+
+    closed_timers =
+      matching_closed_timers.timer_list
+      |> TimeTracking.format_timer_fields(current_date_stamp)
+
+    # TimeTracking.list_closed_timers_for_date(current_date_stamp)
+    closed_timer_count = matching_closed_timers.meta.timer_count
+    # TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
+
+    aggregate_duration = matching_closed_timers.meta.aggregate_duration.base_unit_duration
+    # get_aggregate_duration_for_date(current_date_stamp)
+    human_readable_duration =
+      matching_closed_timers.meta.aggregate_duration.human_readable_duration
+
+    human_readable_billing_duration =
+      matching_closed_timers.meta.aggregate_billing_duration.human_readable_duration
+
+    # Timer.format_human_readable_duration(aggregate_duration, [
+    #   :hour_increment,
+    #   :minute_increment
+    # ])
 
     closed_timer_message =
       "#{human_readable_duration} 
@@ -62,6 +85,7 @@ defmodule KlepsidraWeb.StartPageLive do
         quote: quote,
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
+        human_readable_billing_duration: human_readable_billing_duration,
         open_timer_count: open_timer_count,
         closed_timer_count: closed_timer_count,
         closed_timer_statistics: closed_timer_message
@@ -389,12 +413,12 @@ defmodule KlepsidraWeb.StartPageLive do
     end
   end
 
-  defp get_aggregate_duration_for_date(date_stamp) do
-    date_stamp
-    |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
-    |> Timer.convert_durations_to_base_time_unit()
-    |> Timer.sum_base_unit_durations()
-  end
+  # defp get_aggregate_duration_for_date(date_stamp) do
+  #   date_stamp
+  #   |> Klepsidra.TimeTracking.get_closed_timer_durations_for_date()
+  #   |> Timer.convert_durations_to_base_time_unit()
+  #   |> Timer.sum_base_unit_durations()
+  # end
 
   attr :tag, :map, default: []
 

@@ -853,4 +853,13 @@ defmodule Klepsidra.TimeTracking.Timer do
       human_readable_duration: duration_in_dhm_format
     }
   end
+
+  def format_aggregate_duration_for_project(0),
+    do: %{
+      base_unit_duration: Cldr.Unit.new!(:second, 0),
+      hour_unit_duration: Cldr.Unit.new!(:hour_increment, 0),
+      duration_in_hours: 0.0,
+      duration_in_hours_string: "0 hours",
+      human_readable_duration: "0 hours"
+    }
 end

@@ -4,9 +4,9 @@
 
 ## Outline
 
-1. [Release 0.1.3](#release-013) <== Current
-2. [Release 0.1.4](#release-014) <== In development
-3. [Release 0.1.5](#release-015)
+1. [Release 0.1.3](#release-013)
+2. [Release 0.1.4](#release-014) <== Current
+3. [Release 0.1.5](#release-015) <== In development
 4. [Release 0.1.6](#release-016)
 5. [Release 0.2](#release-02)
 6. [Release 0.3](#release-03)
@@ -95,6 +95,7 @@ Audit all existing code for documentation quality, documenting missing functiona
 
 * [ ] Develop reporting infrastructure
   * [ ] Develop and document reporting workflow: how data is to be queried and passed for report creation; what system will generate reports; how the report generatore will be called and monitored; whether to keep a job queue
+  * [ ] Create a PDF timesheet report to provide to customers
 * [ ] Further activity refinement is necessary
   * [ ] Look into how to provide first, second and possibly third-level activity type refinement
   * [ ] It is likely that projects will have to be categorised into project _types_
@@ -105,16 +106,19 @@ Audit all existing code for documentation quality, documenting missing functiona
   * [ ] Completed, completion notes, type of completion, e.g. finished, cancelled, deprioritised, etc.
 * [ ] _Today_ view
   * [ ] Provide daily navigation facility: back and forward a day; jump to today
+  * [ ] Provide overview of productive work
+    * [X] Display accrued billable hours for that day
+    * [ ] Display accrued billable hours for that week
 * [ ] Timer reporting and analysis
   * [ ] Develop tag-based filtering in the reporting view
   * [ ] Report on aggregate time spent, or timed, by tag, reporting on tag _show_ page
   * [ ] Report on aggregate time spent by activity type, reporting on activity_type _show_ page
-* [ ] Develop soft-delete/undelete in database ([Automatic Undo/Redo Using SQLite](https://sqlite.org/undoredo.html))
-* [ ] Creation of a proper timesheet report, printable, to provide customers
-* [ ] Search and FTS index improvements
-  * [ ] Create protocol for rebuilding the FTS index, and its periodicity
-    * [X] Established automatic, cron-like hourly rebuild protocol
-    * [ ] Plan for more sophisticated rebuild trigger, one based aroung time delay and actual database change
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Database
+
+* [ ] Develop database synchronisation infrastructure
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -123,8 +127,10 @@ Audit all existing code for documentation quality, documenting missing functiona
 * [ ] Improve existing timer display UX
   * [ ] Display auxilliary information, such as project and customer, with links to the entity
   * [ ] Clean up display of all time durations and increments
-* [ ] Display tags for open and closed timers, on timer listings
-* [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
+* [ ] Timer listings on the start page
+  * [X] Display tags for open and closed timers, on timer listings
+  * [X] Do not display the open timer when there are no running timers
+  * [ ] Restyle timer listings, giving more visual value to the time recorded, rather than the times the timer was started and stopped
 * [ ] Rebuild CSS around new colour scheme and two new typefaces: Advocate (?) and selected Huerta Tipografica typeface, or Calluna & Calluna Sans
 * [ ] Randomise colours for new tags
 * [ ] Clean up timer information presentation, particularly in the show view
@@ -173,6 +179,16 @@ Audit all existing code for documentation quality, documenting missing functiona
   * [X] Enable SQLite notes fields full-text search (timers, business partners, projects)
   * [X] Enable SQLite description fields full-text search (tags, projects)
 * [ ] Use SQLite built-in functionality to regularly create database backup
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Database improvements
+
+* [ ] Develop soft-delete/undelete in database ([Automatic Undo/Redo Using SQLite](https://sqlite.org/undoredo.html))
+* [ ] Search and FTS index improvements
+  * [ ] Create protocol for rebuilding the FTS index, and its periodicity
+    * [X] Established automatic, cron-like hourly rebuild protocol
+    * [ ] Plan for more sophisticated rebuild trigger, one based aroung time delay and actual database change
 
 ## Release 0.2
 
