@@ -92,24 +92,38 @@
   <div class="border-p rounded-2xl px-6 py-4 bg-violet-900 text-white text-lg font-medium bg-gradient-to-r from-violet-900 from-15% via-violet-700 via-65% to-purple-900 to-95%">
     <h2 class="px-4 md:px-6 my-4">Timed activities</h2>
     <div class="statistics__container flex flex-wrap">
-      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto group select-none cursor-pointer border-r lg:border-r-0">
-        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-gray-300 whitespace-nowrap flex w-content border-b group-hover:text-indigo-700 dark:group-hover:text-indigo-500 border-transparent">Activities timed</div>
+      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto select-none border-r lg:border-r-0">
+        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-violet-300 whitespace-nowrap flex w-content border-b border-transparent">Activities<br /> timed</div>
         <div class="my-1 space-y-2">
           <p class="font-bold text-xl dark:text-gray-100">{@closed_timer_count}</p>
         </div>
       </div>
 
-      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto group select-none cursor-pointer border-r lg:border-r-0 lg:border-l border-gray-300">
-        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-gray-300 whitespace-nowrap flex w-content border-b group-hover:text-indigo-700 dark:group-hover:text-indigo-500 border-transparent">Total duration</div>
+      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto select-none border-r lg:border-r-0 lg:border-l border-gray-300">
+        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-violet-300 whitespace-nowrap flex w-content border-b border-transparent">Total<br /> duration</div>
         <div class="my-1 space-y-2">
           <p class="font-bold text-xl dark:text-gray-100">{@human_readable_duration}</p>
         </div>
       </div>
 
-      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto group select-none cursor-pointer border-r lg:border-r-0 lg:border-l border-gray-300">
-        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-gray-300 whitespace-nowrap flex w-content border-b group-hover:text-indigo-700 dark:group-hover:text-indigo-500 border-transparent">Billable hours</div>
+      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto select-none border-r lg:border-r-0 lg:border-l border-gray-300">
+        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-violet-300 whitespace-nowrap flex w-content border-b border-transparent">Billable hours<br />Day</div>
         <div class="my-1 space-y-2">
-          <p class="font-bold text-xl dark:text-gray-100">{@human_readable_billing_duration}</p>
+          <p class="font-bold text-xl dark:text-gray-100">{@human_readable_billing_duration_today}</p>
+        </div>
+      </div>
+
+      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto select-none border-r lg:border-r-0 lg:border-l border-gray-300">
+        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-violet-300 whitespace-nowrap flex w-content border-b border-transparent">Billable hours<br />Week</div>
+        <div class="my-1 space-y-2">
+          <p class="font-bold text-xl dark:text-gray-100">{@human_readable_billing_duration_week}</p>
+        </div>
+      </div>
+
+      <div class="statistics__item relative px-4 md:px-6 w-1/2 my-4 lg:w-auto select-none border-r lg:border-r-0 lg:border-l border-gray-300">
+        <div class="text-xs font-bold tracking-wide text-gray-500 uppercase dark:text-violet-300 whitespace-nowrap flex w-content border-b border-transparent">Billable hours<br />Month</div>
+        <div class="my-1 space-y-2">
+          <p class="font-bold text-xl dark:text-gray-100">{@human_readable_billing_duration_month}</p>
         </div>
       </div>
     </div>

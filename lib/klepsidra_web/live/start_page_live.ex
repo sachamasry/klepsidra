@@ -55,8 +55,40 @@ defmodule KlepsidraWeb.StartPageLive do
     human_readable_duration =
       matching_closed_timers.meta.aggregate_duration.human_readable_duration
 
-    human_readable_billing_duration =
+    human_readable_billing_duration_today =
       matching_closed_timers.meta.aggregate_billing_duration.duration_in_hours
+      |> Decimal.from_float()
+      |> Decimal.normalize()
+      |> Decimal.to_string()
+
+    human_readable_billing_duration_week =
+      %{
+        from: current_datetime |> Date.beginning_of_week(),
+        to: current_datetime |> Date.end_of_week(),
+        project_id: "",
+        business_partner_id: "",
+        activity_type_id: "",
+        billable: "",
+        modified: ""
+      }
+      |> TimeTracking.list_timers_aggregate_billing_duration()
+      |> Map.get(:duration_in_hours)
+      |> Decimal.from_float()
+      |> Decimal.normalize()
+      |> Decimal.to_string()
+
+    human_readable_billing_duration_month =
+      %{
+        from: current_datetime |> Date.beginning_of_month(),
+        to: current_datetime |> Date.end_of_month(),
+        project_id: "",
+        business_partner_id: "",
+        activity_type_id: "",
+        billable: "",
+        modified: ""
+      }
+      |> TimeTracking.list_timers_aggregate_billing_duration()
+      |> Map.get(:duration_in_hours)
       |> Decimal.from_float()
       |> Decimal.normalize()
       |> Decimal.to_string()
@@ -91,7 +123,9 @@ defmodule KlepsidraWeb.StartPageLive do
         quote: quote,
         aggregate_duration: aggregate_duration,
         human_readable_duration: human_readable_duration,
-        human_readable_billing_duration: human_readable_billing_duration,
+        human_readable_billing_duration_today: human_readable_billing_duration_today,
+        human_readable_billing_duration_week: human_readable_billing_duration_week,
+        human_readable_billing_duration_month: human_readable_billing_duration_month,
         open_timer_count: open_timer_count,
         closed_timer_count: closed_timer_count,
         closed_timer_statistics: closed_timer_message

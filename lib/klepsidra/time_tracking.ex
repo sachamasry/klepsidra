@@ -390,8 +390,8 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @spec filter_by_date(query :: Ecto.Queryable.t(), %{
-          from: bitstring() | NaiveDateTime.t(),
-          to: bitstring() | NaiveDateTime.t()
+          from: bitstring() | NaiveDateTime.t() | Date.t(),
+          to: bitstring() | NaiveDateTime.t() | Date.t()
         }) ::
           Ecto.Queryable.t()
   defp filter_by_date(query, %{from: nil, to: nil}), do: query
@@ -411,7 +411,7 @@ defmodule Klepsidra.TimeTracking do
     )
   end
 
-  defp filter_by_date(query, %{from: "", to: to}) do
+  defp filter_by_date(query, %{from: "", to: to}) when is_struct(to, NaiveDateTime) do
     from_end_of_range = to |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
 
     to_end_of_range =
@@ -436,7 +436,8 @@ defmodule Klepsidra.TimeTracking do
     )
   end
 
-  defp filter_by_date(query, %{from: from, to: to}) do
+  defp filter_by_date(query, %{from: from, to: to})
+       when is_struct(from, NaiveDateTime) and is_struct(to, NaiveDateTime) do
     from_start_of_range = from |> NaiveDateTime.beginning_of_day() |> NaiveDateTime.to_string()
     from_end_of_range = to |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
     to_start_of_range = from_start_of_range
@@ -458,6 +459,36 @@ defmodule Klepsidra.TimeTracking do
       [at],
       fragment(
         "datetime(?) between ? and ?",
+        at.end_stamp,
+        ^to_start_of_range,
+        ^to_end_of_range
+      )
+    )
+  end
+
+  defp filter_by_date(query, %{from: from, to: to})
+       when is_struct(from, Date) and is_struct(to, Date) do
+    from_start_of_range = from |> Date.to_string()
+    from_end_of_range = to |> Date.to_string()
+    to_start_of_range = from_start_of_range
+
+    to_end_of_range =
+      to |> Date.add(1) |> Date.to_string()
+
+    query
+    |> where(
+      [at],
+      fragment(
+        "DATE(?) between ? and ?",
+        at.start_stamp,
+        ^from_start_of_range,
+        ^from_end_of_range
+      )
+    )
+    |> where(
+      [at],
+      fragment(
+        "DATE(?) between ? and ?",
         at.end_stamp,
         ^to_start_of_range,
         ^to_end_of_range
