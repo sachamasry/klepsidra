@@ -48,13 +48,18 @@ defmodule KlepsidraWeb.StartPageLive do
     closed_timer_count = matching_closed_timers.meta.timer_count
     # TimeTracking.get_closed_timer_count_for_date(current_date_stamp)
 
-    aggregate_duration = matching_closed_timers.meta.aggregate_duration.base_unit_duration
+    aggregate_duration =
+      matching_closed_timers.meta.aggregate_duration.base_unit_duration
+
     # get_aggregate_duration_for_date(current_date_stamp)
     human_readable_duration =
       matching_closed_timers.meta.aggregate_duration.human_readable_duration
 
     human_readable_billing_duration =
-      matching_closed_timers.meta.aggregate_billing_duration.human_readable_duration
+      matching_closed_timers.meta.aggregate_billing_duration.duration_in_hours
+      |> Decimal.from_float()
+      |> Decimal.normalize()
+      |> Decimal.to_string()
 
     # Timer.format_human_readable_duration(aggregate_duration, [
     #   :hour_increment,
