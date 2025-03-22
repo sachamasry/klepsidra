@@ -14,12 +14,12 @@ defmodule Klepsidra.Reporting.ReportTableManager do
   well as to safeguard data confidentiality and privacy.
   """
   @spec create_temporary_table(
+          dataset :: [map(), ...],
           report_job_id :: Ecto.UUID.t(),
-          report_name :: String.t(),
-          dataset :: [map(), ...]
+          report_name :: String.t()
         ) :: String.t()
-  def create_temporary_table(report_job_id, report_name, dataset)
-      when is_bitstring(report_name) and is_list(dataset) and dataset != [] do
+  def create_temporary_table(dataset, report_job_id, report_name)
+      when is_list(dataset) and dataset != [] and is_bitstring(report_name) do
     table_name = construct_table_name(report_job_id, report_name)
 
     # Infer field types from first record
@@ -32,7 +32,7 @@ defmodule Klepsidra.Reporting.ReportTableManager do
     ReporterRepo.query!(create_table_sql_statement)
 
     # Insert data
-    insert_dataset_into_table(table_name, dataset, columns)
+    insert_dataset_into_table(table_name, dataset)
   end
 
   @spec delete_temporary_table(report_job_id :: Ecto.UUID.t(), report_name :: String.t()) ::
@@ -96,7 +96,7 @@ defmodule Klepsidra.Reporting.ReportTableManager do
       |> Enum.map(fn {field, type} -> "#{field} #{type}" end)
       |> Enum.join(", ")
 
-    "CREATE TABLE IF NOT EXISTS #{table_name} (#{column_definitions}) WITHOUT ROWID;"
+    "CREATE TABLE IF NOT EXISTS #{table_name} (#{column_definitions});"
   end
 
   @spec generate_drop_table_sql(table_name :: String.t()) :: String.t()
@@ -104,19 +104,29 @@ defmodule Klepsidra.Reporting.ReportTableManager do
     "DROP TABLE IF EXISTS #{table_name};"
   end
 
-  defp insert_dataset_into_table(table_name, dataset, columns) do
-    column_names = columns |> Enum.map(fn {field, _} -> field end)
+  defp insert_dataset_into_table(table_name, dataset) do
+    dataset =
+      dataset
+      |> Enum.map(fn record ->
+        Enum.map(record, fn {key, value} ->
+          {key, Klepsidra.Reporting.ReportTableManager.type_conversion(value)}
+        end)
+      end)
 
-    # <>
-    insert_sql =
-      "INSERT INTO #{table_name} (#{Enum.join(column_names, ", ")}) VALUES "
-
-    # Enum.map(dataset, fn record ->
-    #   values = Enum.map(column_names, &"'#{Map.get(record, &1)}'")
-    #   "(#{Enum.join(values, ", ")})"
-    # end))
-    # |> Enum.join(", ")
-
-    # Repo.query!(insert_sql)
+    ReporterRepo.insert_all(table_name, dataset)
   end
+
+  @spec type_conversion(value :: any()) :: any()
+  def type_conversion(value) when is_number(value), do: value
+
+  def type_conversion(value) when is_struct(value, NaiveDateTime),
+    do: NaiveDateTime.to_string(value)
+
+  def type_conversion(value) when is_struct(value, DateTime), do: DateTime.to_string(value)
+  def type_conversion(value) when is_struct(value, Date), do: Date.to_string(value)
+  def type_conversion(value) when is_struct(value, Decimal), do: Decimal.to_string(value)
+  def type_conversion(true), do: 1
+  def type_conversion(false), do: 0
+  def type_conversion(value) when is_bitstring(value), do: value
+  def type_conversion(value) when is_nil(value), do: ""
 end

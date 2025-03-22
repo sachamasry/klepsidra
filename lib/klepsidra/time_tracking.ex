@@ -283,7 +283,7 @@ defmodule Klepsidra.TimeTracking do
   end
 
   @spec list_timers_query(filter :: timer_filter()) :: map()
-  defp list_timers_query(filter) when is_map(filter) do
+  def list_timers_query(filter) when is_map(filter) do
     %{
       from: from,
       to: to,
