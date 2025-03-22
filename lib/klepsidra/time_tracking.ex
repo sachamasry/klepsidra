@@ -400,15 +400,13 @@ defmodule Klepsidra.TimeTracking do
   defp filter_by_date(query, %{from: from, to: ""}) when is_struct(from, NaiveDateTime) do
     from_start_of_day = from |> NaiveDateTime.beginning_of_day() |> NaiveDateTime.to_string()
 
-    where(
-      query,
-      [at],
-      fragment(
-        "datetime(?) >= ?",
-        at.start_stamp,
-        ^from_start_of_day
-      )
-    )
+    filter_by_date_from(query, from_start_of_day)
+  end
+
+  defp filter_by_date(query, %{from: from, to: ""}) when is_struct(from, Date) do
+    from = Date.to_string(from)
+
+    filter_by_date_from(query, from)
   end
 
   defp filter_by_date(query, %{from: "", to: to}) when is_struct(to, NaiveDateTime) do
@@ -417,23 +415,14 @@ defmodule Klepsidra.TimeTracking do
     to_end_of_range =
       to |> NaiveDateTime.add(1, :day) |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
 
-    query
-    |> where(
-      [at],
-      fragment(
-        "datetime(?) <= ?",
-        at.start_stamp,
-        ^from_end_of_range
-      )
-    )
-    |> where(
-      [at],
-      fragment(
-        "datetime(?) <= ?",
-        at.end_stamp,
-        ^to_end_of_range
-      )
-    )
+    filter_by_date_to(query, from_end_of_range, to_end_of_range)
+  end
+
+  defp filter_by_date(query, %{from: "", to: to}) when is_struct(to, Date) do
+    from_end_of_range = Date.to_string(to)
+    to_end_of_range = to |> Date.add(1) |> Date.to_string()
+
+    filter_by_date_to(query, from_end_of_range, to_end_of_range)
   end
 
   defp filter_by_date(query, %{from: from, to: to})
@@ -445,53 +434,90 @@ defmodule Klepsidra.TimeTracking do
     to_end_of_range =
       to |> NaiveDateTime.add(1, :day) |> NaiveDateTime.end_of_day() |> NaiveDateTime.to_string()
 
-    query
-    |> where(
-      [at],
-      fragment(
-        "datetime(?) between ? and ?",
-        at.start_stamp,
-        ^from_start_of_range,
-        ^from_end_of_range
-      )
-    )
-    |> where(
-      [at],
-      fragment(
-        "datetime(?) between ? and ?",
-        at.end_stamp,
-        ^to_start_of_range,
-        ^to_end_of_range
-      )
+    filter_by_date_range(
+      query,
+      from_start_of_range,
+      from_end_of_range,
+      to_start_of_range,
+      to_end_of_range
     )
   end
 
   defp filter_by_date(query, %{from: from, to: to})
        when is_struct(from, Date) and is_struct(to, Date) do
-    from_start_of_range = from |> Date.to_string()
-    from_end_of_range = to |> Date.to_string()
+    from_start_of_range =
+      from |> NaiveDateTime.new!(Time.new!(0, 0, 0, 0)) |> NaiveDateTime.to_string()
+
+    from_end_of_range =
+      to |> NaiveDateTime.new!(Time.new!(23, 59, 59, 0)) |> NaiveDateTime.to_string()
+
     to_start_of_range = from_start_of_range
 
     to_end_of_range =
-      to |> Date.add(1) |> Date.to_string()
+      to
+      |> Date.add(1)
+      |> NaiveDateTime.new!(Time.new!(23, 59, 59, 0))
+      |> NaiveDateTime.to_string()
 
+    filter_by_date_range(
+      query,
+      from_start_of_range,
+      from_end_of_range,
+      to_start_of_range,
+      to_end_of_range
+    )
+  end
+
+  defp filter_by_date_from(query, from) when is_bitstring(from) do
+    where(
+      query,
+      [at],
+      fragment(
+        "datetime(?) >= ?",
+        at.start_stamp,
+        ^from
+      )
+    )
+  end
+
+  defp filter_by_date_to(query, from, to) when is_bitstring(to) do
     query
     |> where(
       [at],
       fragment(
-        "DATE(?) between ? and ?",
+        "datetime(?) <= ?",
         at.start_stamp,
-        ^from_start_of_range,
-        ^from_end_of_range
+        ^from
       )
     )
     |> where(
       [at],
       fragment(
-        "DATE(?) between ? and ?",
+        "datetime(?) <= ?",
         at.end_stamp,
-        ^to_start_of_range,
-        ^to_end_of_range
+        ^to
+      )
+    )
+  end
+
+  defp filter_by_date_range(query, from_range_start, from_range_end, to_range_start, to_range_end) do
+    query
+    |> where(
+      [at],
+      fragment(
+        "DATETIME(?) between ? and ?",
+        at.start_stamp,
+        ^from_range_start,
+        ^from_range_end
+      )
+    )
+    |> where(
+      [at],
+      fragment(
+        "DATETIME(?) between ? and ?",
+        at.end_stamp,
+        ^to_range_start,
+        ^to_range_end
       )
     )
   end
