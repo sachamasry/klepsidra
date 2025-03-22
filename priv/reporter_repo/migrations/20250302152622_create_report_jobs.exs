@@ -88,12 +88,12 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
 
       timestamps()
 
-      add :scheduled_at, :string,
+      add :scheduled_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Timestamp specifying when the report job was scheduled"
 
-      add :attempted_at, :string,
+      add :attempted_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Timestamp specifying when the report job was last attempted"
@@ -104,22 +104,22 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "Audit trail of the user, node and any other distinction to process, application or subsystem requesting the report"
 
-      add :cancelled_at, :string,
+      add :cancelled_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Timestamp specifying when the report job was cancelled"
 
-      add :completed_at, :string,
+      add :completed_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Timestamp specifying when the report job was finally successfully completed"
 
-      add :discarded_at, :string,
+      add :discarded_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Timestamp specifying when the report job was discarded"
 
-      add :cache_expires_at, :string,
+      add :cache_expires_at, :utc_datetime,
         default: "",
         null: false,
         comment: "Optional cached report validity expiry date for date-based cache invalidation"
@@ -132,11 +132,11 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         default: true,
         commens: "Manual cache invalidation flag"
 
-      add :cache_invalidated_reason, :map,
+      add :cache_invalidation_reason, :map,
         default: %{},
         comment: "Reason why this cached report was invalidated"
 
-      add :cache_last_accessed, :string,
+      add :cache_last_accessed_at, :utc_datetime,
         default: "",
         null: false,
         comment:
@@ -147,13 +147,14 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
              :report_jobs,
              [
                :report_name,
+               :report_version,
                :report_template,
                :output_format,
                :parameter_fingerprint,
                :scheduled_at
              ],
              comment:
-               "Composite unique index of `report_name`, `report_template`, `output_format`, `parameter_fingerprint`, `data_fingerprint` and `scheduled_at` fields."
+               "Composite unique index of `report_name`, `report_version`, `report_template`, `output_format`, `parameter_fingerprint`, `data_fingerprint` and `scheduled_at` fields."
            )
 
     create index(:report_jobs, :report_name, comment: "Index of queued report type")
@@ -195,7 +196,7 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
              comment: "Index of job by `cache_is_valid` cache validity flag"
            )
 
-    create index(:report_jobs, :cache_last_accessed,
+    create index(:report_jobs, :cache_last_accessed_at,
              comment: "Index of job by `cache_last_accessed` cache use recency datetime stamp"
            )
   end

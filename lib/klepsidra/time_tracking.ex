@@ -468,6 +468,8 @@ defmodule Klepsidra.TimeTracking do
     )
   end
 
+  @spec filter_by_date_from(query :: Ecto.Queryable.t(), from :: String.t()) ::
+          Ecto.Queryable.t()
   defp filter_by_date_from(query, from) when is_bitstring(from) do
     where(
       query,
@@ -480,6 +482,8 @@ defmodule Klepsidra.TimeTracking do
     )
   end
 
+  @spec filter_by_date_to(query :: Ecto.Queryable.t(), from :: String.t(), to :: String.t()) ::
+          Ecto.Queryable.t()
   defp filter_by_date_to(query, from, to) when is_bitstring(to) do
     query
     |> where(
@@ -500,6 +504,14 @@ defmodule Klepsidra.TimeTracking do
     )
   end
 
+  @spec filter_by_date_range(
+          query :: Ecto.Queryable.t(),
+          from_range_start :: String.t(),
+          from_range_end :: String.t(),
+          to_range_start :: String.t(),
+          to_range_end :: String.t()
+        ) ::
+          Ecto.Queryable.t()
   defp filter_by_date_range(query, from_range_start, from_range_end, to_range_start, to_range_end) do
     query
     |> where(
