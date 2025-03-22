@@ -49,6 +49,12 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "Record of the full input parameters, and input dataset used in the generation of this report, encoded in JSON format, data which will be used for generating the finished report"
 
+      add :temporary_tables_created, :map,
+        default: %{},
+        null: false,
+        comment:
+          "Record of all temporary tables created during the generation of the report, for data reference and later temporary table deletion"
+
       add :errors, :map,
         default: %{},
         null: false,

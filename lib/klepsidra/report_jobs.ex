@@ -8,6 +8,23 @@ defmodule Klepsidra.ReportJobs do
   alias Klepsidra.Reports.ReportJob
 
   @doc """
+  Gets a single report job.
+
+  Raises `Ecto.NoResultsError` if the report job does not exist.
+
+  ## Examples
+
+      iex> get_report_job!(123)
+      %ReportJob{}
+
+      iex> get_report_job!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_report_job!(id :: Ecto.UUID.t()) :: ReportJob.t()
+  def get_report_job!(id), do: ReporterRepo.get!(ReportJob, id)
+
+  @doc """
   Creates a new report job, adding it to the queue.
 
   ## Examples

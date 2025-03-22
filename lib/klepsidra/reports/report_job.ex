@@ -6,6 +6,9 @@ defmodule Klepsidra.Reports.ReportJob do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Klepsidra.ReportJobs
+  alias Klepsidra.Reporting.ReportTableManager
+  alias Klepsidra.Utilities.HashFunctions
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -19,6 +22,7 @@ defmodule Klepsidra.Reports.ReportJob do
           state: String.t(),
           parameter_fingerprint: String.t(),
           parameters_and_data: map(),
+          temporary_tables_created: map(),
           errors: map(),
           meta: map(),
           attempt: integer(),
@@ -46,6 +50,7 @@ defmodule Klepsidra.Reports.ReportJob do
     field :state, :string
     field :parameter_fingerprint, :string
     field :parameters_and_data, :map
+    field :temporary_tables_created, :map
     field :errors, :map
     field :meta, :map
     field :attempt, :integer, default: 1
@@ -54,19 +59,16 @@ defmodule Klepsidra.Reports.ReportJob do
     field :result_path, :string
     field :generation_time_ms, :integer, default: 0
     field :scheduled_at, :utc_datetime, default: DateTime.utc_now() |> DateTime.truncate(:second)
-    field :attempted_at, :utc_datetime
+    field :attempted_at, :string #:utc_datetime
     field :attempted_by, :map
-    field :cancelled_at, :utc_datetime
-    field :completed_at, :utc_datetime
-    field :discarded_at, :utc_datetime
-
-    field :cache_expires_at, :utc_datetime,
-      default: DateTime.utc_now() |> DateTime.add(7, :day) |> DateTime.truncate(:second)
-
+    field :cancelled_at, :string #:utc_datetime
+    field :completed_at, :string #:utc_datetime
+    field :discarded_at, :string #:utc_datetime
+    field :cache_expires_at, :string #:utc_datetime
     field :cache_hits, :integer, default: 0
     field :cache_is_valid, :boolean, default: true
     field :cache_invalidation_reason, :map
-    field :cache_last_accessed_at, :utc_datetime
+    field :cache_last_accessed_at, :string #:utc_datetime
 
     timestamps()
   end
@@ -82,6 +84,7 @@ defmodule Klepsidra.Reports.ReportJob do
       :state,
       :parameter_fingerprint,
       :parameters_and_data,
+      :temporary_tables_created,
       :errors,
       :meta,
       :attempt,
@@ -108,5 +111,31 @@ defmodule Klepsidra.Reports.ReportJob do
       :parameter_fingerprint,
       :parameters_and_data
     ])
+  end
+
+  def queue_report_job(report_name, report_template, parameters, dataset, _options \\ [])
+      when is_bitstring(report_name) and is_bitstring(report_template) and is_map(parameters) and
+             is_list(dataset) do
+    parameters_and_data = %{parameters: parameters, data: dataset}
+    parameter_fingerprint = HashFunctions.compute_hash(parameters_and_data)
+
+    report_job_params =
+      %{
+        report_name: report_name,
+        report_template: report_template,
+        parameter_fingerprint: parameter_fingerprint,
+        parameters_and_data: parameters_and_data
+      }
+
+    case ReportJobs.create_report_job(report_job_params) do
+      {:ok, report_job} ->
+        table_name =
+          ReportTableManager.construct_table_name(report_job.id, report_job.report_name)
+
+        ReportTableManager.create_temporary_table(table_name, dataset)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        changeset
+    end
   end
 end

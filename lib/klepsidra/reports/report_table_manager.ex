@@ -14,13 +14,16 @@ defmodule Klepsidra.Reporting.ReportTableManager do
   well as to safeguard data confidentiality and privacy.
   """
   @spec create_temporary_table(
-          dataset :: [map(), ...],
-          report_job_id :: Ecto.UUID.t(),
-          report_name :: String.t()
+          # report_job_id :: Ecto.UUID.t(),
+          # report_name :: String.t(),
+          table_name :: String.t(),
+          dataset :: [map(), ...]
         ) :: String.t()
-  def create_temporary_table(dataset, report_job_id, report_name)
-      when is_list(dataset) and dataset != [] and is_bitstring(report_name) do
-    table_name = construct_table_name(report_job_id, report_name)
+          # def create_temporary_table(report_job_id, report_name, dataset)
+  def create_temporary_table(table_name, dataset)
+      when is_list(dataset) and dataset != [] and is_bitstring(table_name) do
+    # table_name =
+    #   construct_table_name(report_job_id, report_name_to_table_name(report_name))
 
     # Infer field types from first record
     columns = infer_column_types(List.first(dataset))
@@ -50,8 +53,16 @@ defmodule Klepsidra.Reporting.ReportTableManager do
 
   @spec construct_table_name(report_job_id :: Ecto.UUID.t(), report_name :: String.t()) ::
           bitstring()
-  defp construct_table_name(report_job_id, report_name) do
-    "report_#{report_name}_#{report_job_id |> String.replace("-", "_")}"
+  def construct_table_name(report_job_id, report_name) do
+    db_compatible_table_name = report_name_to_table_name(report_name)
+    db_compatible_job_id = report_job_id |> String.replace("-", "_")
+
+    "report_#{db_compatible_table_name}_#{db_compatible_job_id}"
+  end
+
+  @spec report_name_to_table_name(report_name :: String.t()) :: String.t()
+  def report_name_to_table_name(report_name) do
+    report_name |> String.trim() |> String.downcase() |> String.replace(" ", "_")
   end
 
   @doc """
