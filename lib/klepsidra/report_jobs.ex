@@ -44,6 +44,26 @@ defmodule Klepsidra.ReportJobs do
   end
 
   @doc """
+  Updates a report job.
+
+  ## Examples
+
+      iex> update_report_job(report_job, %{field: new_value})
+      {:ok, %ReportJob{}}
+
+      iex> update_report_job(report_job, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_report_job(report_job :: ReportJob.t(), attrs :: map()) ::
+          {:ok, ReportJob.t()} | {:error, Ecto.Changeset.t()}
+  def update_report_job(%ReportJob{} = report_job, attrs) do
+    report_job
+    |> ReportJob.changeset(attrs)
+    |> ReporterRepo.update()
+  end
+
+  @doc """
   Retrieve jobs matching `state`, by default "completed".
   """
   @spec get_completed_jobs(state :: bitstring()) :: [ReportJob.t(), ...]

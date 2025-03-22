@@ -59,16 +59,22 @@ defmodule Klepsidra.Reports.ReportJob do
     field :result_path, :string
     field :generation_time_ms, :integer, default: 0
     field :scheduled_at, :utc_datetime, default: DateTime.utc_now() |> DateTime.truncate(:second)
-    field :attempted_at, :string #:utc_datetime
+    # :utc_datetime
+    field :attempted_at, :string
     field :attempted_by, :map
-    field :cancelled_at, :string #:utc_datetime
-    field :completed_at, :string #:utc_datetime
-    field :discarded_at, :string #:utc_datetime
-    field :cache_expires_at, :string #:utc_datetime
+    # :utc_datetime
+    field :cancelled_at, :string
+    # :utc_datetime
+    field :completed_at, :string
+    # :utc_datetime
+    field :discarded_at, :string
+    # :utc_datetime
+    field :cache_expires_at, :string
     field :cache_hits, :integer, default: 0
     field :cache_is_valid, :boolean, default: true
     field :cache_invalidation_reason, :map
-    field :cache_last_accessed_at, :string #:utc_datetime
+    # :utc_datetime
+    field :cache_last_accessed_at, :string
 
     timestamps()
   end
@@ -133,6 +139,25 @@ defmodule Klepsidra.Reports.ReportJob do
           ReportTableManager.construct_table_name(report_job.id, report_job.report_name)
 
         ReportTableManager.create_temporary_table(table_name, dataset)
+
+        IO.inspect(report_job, label: "Report job returned on save")
+
+        current_temp_table_map =
+          case Map.get(report_job, :temporary_tables_created, %{}) do
+            nil -> %{}
+            map -> map
+          end
+
+        IO.inspect(current_temp_table_map, label: "Initial temporary table map")
+
+        new_temp_table_map =
+          Map.put(current_temp_table_map, :primary, table_name)
+
+        IO.inspect(new_temp_table_map, label: "Initial temporary table map")
+
+        ReportJobs.update_report_job(report_job, %{
+          temporary_tables_created: new_temp_table_map
+        })
 
       {:error, %Ecto.Changeset{} = changeset} ->
         changeset
