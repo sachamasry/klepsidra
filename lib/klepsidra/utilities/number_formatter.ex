@@ -24,11 +24,11 @@ defmodule Klepsidra.Utilities.NumberFormatter do
   """
   @spec human_format(number :: integer() | float() | Decimal.t()) :: String.t()
   def human_format(number) when is_integer(number) do
-    to_string(number)
+    Integer.to_string(number)
   end
 
   def human_format(number) when is_float(number) do
-    number
+    Float.to_string(number)
     |> String.trim_trailing("0")
     |> String.trim_trailing(".")
   end
