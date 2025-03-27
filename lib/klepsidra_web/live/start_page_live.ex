@@ -16,6 +16,7 @@ defmodule KlepsidraWeb.StartPageLive do
   alias Klepsidra.TimeTracking
   alias Klepsidra.TimeTracking.Timer
   alias Klepsidra.TimeTracking.TimeUnits, as: Units
+  alias Klepsidra.Utilities.NumberFormatter
 
   @impl true
   def mount(_params, _session, socket) do
@@ -57,9 +58,7 @@ defmodule KlepsidraWeb.StartPageLive do
 
     human_readable_billing_duration_today =
       matching_closed_timers.meta.aggregate_billing_duration.duration_in_hours
-      |> Decimal.from_float()
-      |> Decimal.normalize()
-      |> Decimal.to_string()
+      |> NumberFormatter.human_format()
 
     human_readable_billing_duration_week =
       %{
@@ -73,9 +72,7 @@ defmodule KlepsidraWeb.StartPageLive do
       }
       |> TimeTracking.list_timers_aggregate_billing_duration()
       |> Map.get(:duration_in_hours)
-      |> Decimal.from_float()
-      |> Decimal.normalize()
-      |> Decimal.to_string()
+      |> NumberFormatter.human_format()
 
     human_readable_billing_duration_month =
       %{
