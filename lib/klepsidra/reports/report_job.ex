@@ -47,7 +47,11 @@ defmodule Klepsidra.Reports.ReportJob do
     field :report_version, :integer, default: 1
     field :report_template, :string
     field :output_format, :string, default: "pdf"
-    field :state, :string
+
+    field :state, Ecto.Enum,
+      values: [:scheduled, :available, :executing, :retryable, :completed, :discarded, :cancelled],
+      default: :available
+
     field :parameter_fingerprint, :string
     field :parameters_and_data, :map
     field :temporary_tables_created, :map
@@ -122,7 +126,23 @@ defmodule Klepsidra.Reports.ReportJob do
   def queue_report_job(report_name, report_template, parameters, dataset, _options \\ [])
       when is_bitstring(report_name) and is_bitstring(report_template) and is_map(parameters) and
              is_list(dataset) do
-    parameters_and_data = %{parameters: parameters, data: dataset}
+    unique_job_id = Ecto.UUID.generate()
+    # temporary_tables_created = Keyword.get(options, :temporary_tables, %{})
+
+    IO.inspect(unique_job_id, label: "Unique Job ID to be used")
+
+    primary_table_name =
+      ReportTableManager.construct_table_name(unique_job_id, report_name)
+
+    IO.inspect(primary_table_name, label: "Primary dataset table name")
+
+    ReportTableManager.create_temporary_table(primary_table_name, dataset)
+
+    IO.inspect("Temporary table created")
+
+    temporary_tables_created = %{primary: primary_table_name}
+
+    parameters_and_data = %{parameters: parameters}
     parameter_fingerprint = HashFunctions.compute_hash(parameters_and_data)
 
     report_job_params =
@@ -130,34 +150,13 @@ defmodule Klepsidra.Reports.ReportJob do
         report_name: report_name,
         report_template: report_template,
         parameter_fingerprint: parameter_fingerprint,
-        parameters_and_data: parameters_and_data
+        parameters_and_data: parameters_and_data,
+        temporary_tables_created: temporary_tables_created
       }
 
     case ReportJobs.create_report_job(report_job_params) do
       {:ok, report_job} ->
-        table_name =
-          ReportTableManager.construct_table_name(report_job.id, report_job.report_name)
-
-        ReportTableManager.create_temporary_table(table_name, dataset)
-
-        IO.inspect(report_job, label: "Report job returned on save")
-
-        current_temp_table_map =
-          case Map.get(report_job, :temporary_tables_created, %{}) do
-            nil -> %{}
-            map -> map
-          end
-
-        IO.inspect(current_temp_table_map, label: "Initial temporary table map")
-
-        new_temp_table_map =
-          Map.put(current_temp_table_map, :primary, table_name)
-
-        IO.inspect(new_temp_table_map, label: "Initial temporary table map")
-
-        ReportJobs.update_report_job(report_job, %{
-          temporary_tables_created: new_temp_table_map
-        })
+        report_job
 
       {:error, %Ecto.Changeset{} = changeset} ->
         changeset

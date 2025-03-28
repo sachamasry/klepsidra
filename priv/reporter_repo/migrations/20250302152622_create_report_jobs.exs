@@ -32,10 +32,10 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment: "Selects the desired output file format"
 
       add :state, :string,
-        default: "pending",
+        default: "available",
         null: false,
         comment:
-          "The current job state. All jobs will start life with a state of 'pending' and will be updated to 'complete' once the job has been generated. Other states include 'cancelled' and 'discarded'."
+          "The current job state. All jobs will start life with a state of 'available' and will be updated to 'completed' once the report has been successfully generated. The following is a valid (and ordered) list of all accepted states: 'scheduled', 'available', 'executing', 'retryable', 'completed', 'discarded', and 'cancelled'."
 
       add :parameter_fingerprint, :string,
         default: "",
