@@ -63,6 +63,12 @@ config :klepsidra, KlepsidraWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :klepsidra, Klepsidra.Mailer, adapter: Swoosh.Adapters.Local
 
+config :klepsidra, :jasper_reports,
+       report_template_directory: "priv/reports",
+       font_resources_directory: "priv/reports/fonts",
+       font_set_path: "priv/reports/fonts/DRReportFontSet.jar"
+
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
