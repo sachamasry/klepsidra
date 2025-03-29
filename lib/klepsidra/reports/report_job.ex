@@ -127,18 +127,11 @@ defmodule Klepsidra.Reports.ReportJob do
       when is_bitstring(report_name) and is_bitstring(report_template) and is_map(parameters) and
              is_list(dataset) do
     unique_job_id = Ecto.UUID.generate()
-    # temporary_tables_created = Keyword.get(options, :temporary_tables, %{})
-
-    IO.inspect(unique_job_id, label: "Unique Job ID to be used")
 
     primary_table_name =
       ReportTableManager.construct_table_name(unique_job_id, report_name)
 
-    IO.inspect(primary_table_name, label: "Primary dataset table name")
-
     ReportTableManager.create_temporary_table(primary_table_name, dataset)
-
-    IO.inspect("Temporary table created")
 
     temporary_tables_created = %{primary: primary_table_name}
 

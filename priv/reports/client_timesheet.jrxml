@@ -11,36 +11,39 @@
 	<style name="Default style" default="true" forecolor="#000000" fontName="Calluna" fontSize="10.0"/>
 	<style name="defaultFieldLabels" forecolor="#555555" vTextAlign="Bottom" fontName="Calluna Sans" fontSize="8.0" bold="false"/>
 	<style name="Page footer" style="defaultFieldLabels" vTextAlign="Bottom"/>
+	<parameter name="TABLE_NAME" forPrompting="false" class="java.lang.String">
+		<defaultValueExpression><![CDATA["demo_report_client_timesheet"]]></defaultValueExpression>
+	</parameter>
 	<query language="SQL"><![CDATA[SELECT business_partner_name,
 	start_date,
 	start_time,
 	description,
 	billing_duration_in_hours
-FROM demo_report_client_timesheet]]></query>
+FROM $P!{TABLE_NAME} ]]></query>
 	<field name="business_partner_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="business_partner_name"/>
 		<property name="com.jaspersoft.studio.field.label" value="business_partner_name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="demo_report_client_timesheet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="XXXdemo_report_client_timesheet"/>
 	</field>
 	<field name="start_date" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="start_date"/>
 		<property name="com.jaspersoft.studio.field.label" value="start_date"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="demo_report_client_timesheet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="XXXdemo_report_client_timesheet"/>
 	</field>
 	<field name="start_time" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="start_time"/>
 		<property name="com.jaspersoft.studio.field.label" value="start_time"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="demo_report_client_timesheet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="XXXdemo_report_client_timesheet"/>
 	</field>
 	<field name="description" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="description"/>
 		<property name="com.jaspersoft.studio.field.label" value="description"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="demo_report_client_timesheet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="XXXdemo_report_client_timesheet"/>
 	</field>
 	<field name="billing_duration_in_hours" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="billing_duration_in_hours"/>
 		<property name="com.jaspersoft.studio.field.label" value="billing_duration_in_hours"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="demo_report_client_timesheet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="XXXdemo_report_client_timesheet"/>
 	</field>
 	<group name="BusinessPartnerGroup" keepTogether="true" preventOrphanFooter="true" startNewPage="true" resetPageNumber="true">
 		<expression><![CDATA[$F{business_partner_name}]]></expression>
