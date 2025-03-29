@@ -12,30 +12,33 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         null: false,
         comment: "UUID-based report job primary key"
 
+      add :state, :string,
+        default: "available",
+        null: false,
+        comment:
+          "The current job state. All jobs will start life with a state of 'available' and will be updated to 'completed' once the report has been successfully generated. The following is a valid (and ordered) list of all accepted states: 'scheduled', 'available', 'executing', 'retryable', 'completed', 'discarded', and 'cancelled'."
+
       add :report_name, :string,
         null: false,
+        comment: "Unique human-formatted name for the requested report"
+
+      add :system_report_name, :string,
+        null: false,
         comment: "Unique system name for the requested report"
+
+      add :report_template_name, :string,
+        null: false,
+        comment: "Unique human-formatted name for the requested report template"
 
       add :report_version, :integer,
         default: 0,
         comment:
           "Report version, used for cache invalidation, incremented when (a) the report template or logic has been updated; (b) when the shape or format of the data has been modified; and (c) any bug fixes or improvements have been made to the report generation code"
 
-      add :report_template, :string,
+      add :template_path, :string,
         null: false,
         comment:
-          "Reference to the file name of the requested report template (multiple distinct template layouts can exist for each report type)"
-
-      add :output_format, :string,
-        default: "pdf",
-        null: false,
-        comment: "Selects the desired output file format"
-
-      add :state, :string,
-        default: "available",
-        null: false,
-        comment:
-          "The current job state. All jobs will start life with a state of 'available' and will be updated to 'completed' once the report has been successfully generated. The following is a valid (and ordered) list of all accepted states: 'scheduled', 'available', 'executing', 'retryable', 'completed', 'discarded', and 'cancelled'."
+          "Absolute path to the `.jrxml` template file of the requested report template (multiple distinct template layouts can exist for each report type)"
 
       add :parameter_fingerprint, :string,
         default: "",
@@ -54,6 +57,19 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         null: false,
         comment:
           "Record of all temporary tables created during the generation of the report, for data reference and later temporary table deletion"
+
+      add :output_path, :string,
+        null: false,
+        comment: "Absolute path where the generated report will be saved"
+
+      add :output_filename, :string,
+        null: false,
+        comment: "The desired output file name for the generated report"
+
+      add :output_type, :string,
+        null: false,
+        default: "pdf",
+        comment: "Selects the desired output file format"
 
       add :errors, :map,
         default: %{},
@@ -153,19 +169,21 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
              :report_jobs,
              [
                :report_name,
+               :system_report_name,
+               :report_template_name,
+               :output_type,
                :report_version,
-               :report_template,
-               :output_format,
                :parameter_fingerprint,
                :scheduled_at
              ],
              comment:
-               "Composite unique index of `report_name`, `report_version`, `report_template`, `output_format`, `parameter_fingerprint`, `data_fingerprint` and `scheduled_at` fields."
+               "Composite unique index of `report_name`, `system_report_name`, `report_template_name`, `output_type`, `report_version`, `parameter_fingerprint`, and `scheduled_at` fields."
            )
 
-    create index(:report_jobs, :report_name, comment: "Index of queued report type")
+    create index(:report_jobs, :report_name, comment: "Index of queued report name")
+    create index(:report_jobs, :system_report_name, comment: "Index of queued report system name")
     create index(:report_jobs, :report_version, comment: "Index of report version")
-    create index(:report_jobs, :output_format, comment: "Index of output format type")
+    create index(:report_jobs, :output_type, comment: "Index of report output type")
 
     create index(:report_jobs, :state,
              comment: "Index of job queue state, for easy retrieval, ordering and search"
@@ -178,8 +196,8 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
 
     create index(:report_jobs, :priority, comment: "Index of job priority")
 
-    create index(:report_jobs, :result_path,
-             comment: "Index of job by generated report file path"
+    create index(:report_jobs, :output_path,
+             comment: "Index of job by generated report output file path"
            )
 
     create index(:report_jobs, :inserted_at,

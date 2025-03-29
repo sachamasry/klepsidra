@@ -27,8 +27,7 @@ defmodule Klepsidra.Repo.Migrations.CreateReports do
         comment:
           "The system permits endless customisation of reports, accepting the registration of multiple template designs and layouts for the same report. This field specifies the human-formatted name of this particular template or report variation"
 
-      add :description, :text,
-        comment: "Description of the report type and its intended use"
+      add :description, :text, comment: "Description of the report type and its intended use"
 
       add :template_path, :string,
         null: false,
@@ -47,10 +46,18 @@ defmodule Klepsidra.Repo.Migrations.CreateReports do
         comment:
           "Template defining how the output report file will be named. Use of brackets `{` and `}` allows specification of common replacement patterns, which will be substituted at point of job request."
 
+      add :is_system_managed, :boolean,
+        default: false,
+        null: false,
+        comment:
+          "The `is_system_managed` flag prevents record deletion and modification of `system_report_name`, `output_type` and `template_path` fields, as any of these changes would result in broken system functionality.."
+
       timestamps()
     end
 
-    create unique_index(:reports, [:report_name, :system_report_name, :report_template_name, :output_type],
+    create unique_index(
+             :reports,
+             [:report_name, :system_report_name, :report_template_name, :output_type],
              comment:
                "Composite unique index of the report name and its template name, comprising the `report_name`, `system_report_name`, `report_template_name` and `output_type` fields, which together form a single unique report"
            )

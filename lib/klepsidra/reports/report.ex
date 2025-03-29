@@ -18,7 +18,8 @@ defmodule Klepsidra.Reports.Report do
           description: String.t(),
           template_path: String.t(),
           output_type: atom(),
-          output_filename_template: String.t()
+          output_filename_template: String.t(),
+          is_system_managed: boolean()
         }
   schema "reports" do
     field :report_name, :string
@@ -28,6 +29,7 @@ defmodule Klepsidra.Reports.Report do
     field :template_path, :string
     field :output_type, Ecto.Enum, values: [:pdf, :html, :csv, :xls, :docx, :pptx, :odt, :ods]
     field :output_filename_template, :string
+    field :is_system_managed, :boolean, default: false
 
     timestamps()
   end
@@ -42,7 +44,8 @@ defmodule Klepsidra.Reports.Report do
       :description,
       :template_path,
       :output_type,
-      :output_filename_template
+      :output_filename_template,
+      :is_system_managed
     ])
     |> validate_required([
       :report_name,
