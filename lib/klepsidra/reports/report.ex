@@ -14,9 +14,10 @@ defmodule Klepsidra.Reports.Report do
           id: Ecto.UUID.t(),
           report_name: String.t(),
           system_report_name: String.t(),
-          report_template_name: String.t(),
-          description: String.t(),
+          template_variant_name: String.t(),
+          system_template_name: String.t(),
           template_path: String.t(),
+          description: String.t(),
           output_type: atom(),
           output_filename_template: String.t(),
           is_system_managed: boolean()
@@ -24,10 +25,14 @@ defmodule Klepsidra.Reports.Report do
   schema "reports" do
     field :report_name, :string
     field :system_report_name, :string
-    field :report_template_name, :string
-    field :description, :string
+    field :template_variant_name, :string
+    field :system_template_name, :string
     field :template_path, :string
-    field :output_type, Ecto.Enum, values: [:pdf, :html, :csv, :xls, :docx, :pptx, :odt, :ods]
+    field :description, :string
+
+    field :output_type, Ecto.Enum,
+          values: [:pdf, :html, :rtf, :txt, :csv, :json, :xlsx, :docx, :pptx, :odt, :ods]
+
     field :output_filename_template, :string
     field :is_system_managed, :boolean, default: false
 
@@ -40,9 +45,10 @@ defmodule Klepsidra.Reports.Report do
     |> cast(attrs, [
       :report_name,
       :system_report_name,
-      :report_template_name,
-      :description,
+      :template_variant_name,
+      :system_template_name,
       :template_path,
+      :description,
       :output_type,
       :output_filename_template,
       :is_system_managed
@@ -50,7 +56,7 @@ defmodule Klepsidra.Reports.Report do
     |> validate_required([
       :report_name,
       :system_report_name,
-      :report_template_name,
+      :template_variant_name,
       :template_path,
       :output_type,
       :output_filename_template

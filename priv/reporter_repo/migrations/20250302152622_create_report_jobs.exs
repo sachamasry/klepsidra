@@ -24,11 +24,19 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
 
       add :system_report_name, :string,
         null: false,
-        comment: "Unique system name for the requested report"
+        comment:
+          "A report name for machine consumption. The name must not include spaces (underscore delimited words), 'illegal' non-ASCII characters, using only lowercase characters."
 
-      add :report_template_name, :string,
+      add :template_variant_name, :string,
         null: false,
-        comment: "Unique human-formatted name for the requested report template"
+        default: "Default",
+        comment:
+          "Specifies the human-formatted name of this particular template or report variant."
+
+      add :system_template_name, :string,
+        null: false,
+        comment:
+          "A template variant name for machine consumption. The name must not include spaces (underscore delimited words), 'illegal' non-ASCII characters, using only lowercase characters."
 
       add :report_version, :integer,
         default: 0,
@@ -60,7 +68,7 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
 
       add :output_path, :string,
         null: false,
-        comment: "Absolute path where the generated report will be saved"
+        comment: "Absolute path where the generated report will be created"
 
       add :output_filename, :string,
         null: false,
@@ -168,20 +176,24 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
     create unique_index(
              :report_jobs,
              [
-               :report_name,
                :system_report_name,
-               :report_template_name,
+               :system_template_name,
                :output_type,
                :report_version,
                :parameter_fingerprint,
                :scheduled_at
              ],
              comment:
-               "Composite unique index of `report_name`, `system_report_name`, `report_template_name`, `output_type`, `report_version`, `parameter_fingerprint`, and `scheduled_at` fields."
+               "Composite unique index of `system_report_name`, `system_template_name`, `output_type`, `report_version`, `parameter_fingerprint` and `scheduled_at` fields."
            )
 
     create index(:report_jobs, :report_name, comment: "Index of queued report name")
-    create index(:report_jobs, :system_report_name, comment: "Index of queued report system name")
+    create index(:report_jobs, :system_report_name, comment: "Index of queued report name")
+
+    create index(:report_jobs, :system_template_name,
+             comment: "Index of queued report template name"
+           )
+
     create index(:report_jobs, :report_version, comment: "Index of report version")
     create index(:report_jobs, :output_type, comment: "Index of report output type")
 

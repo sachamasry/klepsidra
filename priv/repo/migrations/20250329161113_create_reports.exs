@@ -14,37 +14,42 @@ defmodule Klepsidra.Repo.Migrations.CreateReports do
 
       add :report_name, :string,
         null: false,
-        comment: "A human-formatted report name"
+        comment: "Unique human-formatted report name"
 
       add :system_report_name, :string,
         null: false,
         comment:
           "A report name for machine consumption. The name must not include spaces (underscore delimited words), 'illegal' non-ASCII characters, using only lowercase characters."
 
-      add :report_template_name, :string,
+      add :template_variant_name, :string,
         null: false,
         default: "Default",
         comment:
-          "The system permits endless customisation of reports, accepting the registration of multiple template designs and layouts for the same report. This field specifies the human-formatted name of this particular template or report variation"
+          "The system permits endless customisation of reports, accepting the registration of multiple template designs and layouts for the same report. This field specifies the human-formatted name of this particular template or report variant."
 
-      add :description, :text, comment: "Description of the report type and its intended use"
+      add :system_template_name, :string,
+        null: false,
+        comment:
+          "A template variant name for machine consumption. The name must not include spaces (underscore delimited words), 'illegal' non-ASCII characters, using only lowercase characters."
 
       add :template_path, :string,
         null: false,
         comment:
           "Absolute path of the report template file (`.jrxml`), which will be used to correctly typeset and lay out the report"
 
+      add :description, :text, comment: "Description of the report type and its intended use"
+
       add :output_type, :string,
         null: false,
         default: "pdf",
         comment:
-          "Choice of output file type, from a selection of: PDF, HTML, Excel (XLS), Word (DOCX), PowerPoint (PPTX), OpenDocument Text (ODT), OpenDocumnet Spreadsheet (ODS)"
+          "Choice of output file type, from a selection of: PDF, HTML, RTF, TXT, Excel (XLSX), Word (DOCX), PowerPoint (PPTX), OpenDocument Text (ODT), OpenDocumnet Spreadsheet (ODS)"
 
       add :output_filename_template, :string,
         null: false,
-        default: "{system_report_name}_{date}.pdf",
+        default: "{system_report_name}_{date}",
         comment:
-          "Template defining how the output report file will be named. Use of brackets `{` and `}` allows specification of common replacement patterns, which will be substituted at point of job request."
+          "Template defining how the output report file will be named. Use of brackets `{` and `}` allows specification of common replacement patterns, which will be substituted at point of job request. Do not append the file extension as this will be automatically done at point of generation."
 
       add :is_system_managed, :boolean,
         default: false,
@@ -57,9 +62,9 @@ defmodule Klepsidra.Repo.Migrations.CreateReports do
 
     create unique_index(
              :reports,
-             [:report_name, :system_report_name, :report_template_name, :output_type],
+             [:report_name, :system_report_name, :template_variant_name, :output_type],
              comment:
-               "Composite unique index of the report name and its template name, comprising the `report_name`, `system_report_name`, `report_template_name` and `output_type` fields, which together form a single unique report"
+               "Composite unique index of the report name and its template name, comprising the `report_name`, `system_report_name`, `template_variant_name` and `output_type` fields, which together form a single unique report"
            )
 
     create unique_index(:reports, :template_path,
@@ -77,9 +82,9 @@ defmodule Klepsidra.Repo.Migrations.CreateReports do
                "Index of the `system_report_name` field, optimising searches filtering and ordering machine-named reports by name"
            )
 
-    create index(:reports, :report_template_name,
+    create index(:reports, :template_variant_name,
              comment:
-               "Index of the `report_template_name` field, optimising searches filtering and ordering report template names"
+               "Index of the `report_variant_name` field, optimising searches filtering and ordering report variants"
            )
 
     create index(:reports, :output_type,
