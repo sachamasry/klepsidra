@@ -48,6 +48,16 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "Absolute path to the `.jrxml` template file of the requested report template (multiple distinct template layouts can exist for each report type)"
 
+      add :template_file_last_modified, :utc_datetime_usec,
+        null: false,
+        comment:
+          "Template file's last modified datetime stamp, down to the microsecond level of detail. A primary check for template changes, if the last modified stamp is the same, then the hash function doesn't need be invoked, saving processing resources."
+
+      add :template_file_hash, :string,
+        null: false,
+        comment:
+          "Unique SHA-256 hash of the report template file. If the current file hash maches the recorded hash, then use the memoised compiled template, preventing an expensive (half-second and above) template file compilation."
+
       add :parameter_fingerprint, :string,
         default: "",
         null: false,
@@ -66,10 +76,6 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "Record of all temporary tables created during the generation of the report, for data reference and later temporary table deletion"
 
-      add :output_path, :string,
-        null: false,
-        comment: "Absolute path where the generated report will be created"
-
       add :output_filename, :string,
         null: false,
         comment: "The desired output file name for the generated report"
@@ -78,6 +84,16 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         null: false,
         default: "pdf",
         comment: "Selects the desired output file format"
+
+      add :generated_report, :binary,
+        null: false,
+        comment:
+          "Binary BLOB field, storing the generated report as part of a memoisation strategy preventing the computationally expensive re-generation of a report that has already been created."
+
+      add :generation_time_ms, :integer,
+        default: 0,
+        null: false,
+        comment: "Indicates the time taken to generate the report (in milliseconds)"
 
       add :errors, :map,
         default: %{},
@@ -105,18 +121,6 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         null: false,
         comment:
           "What is this report's priority? Zero indicates no priority, the higher the number, the more urgent the generation of this report. After report generation, the priority acts as a cache bias, acting as an importance level for cache retention policies, where high-priority cached reports are kept in storage for longer. Reports that are expensive to generate can be assigned higher priority to avoid regeneration, and where frequently accessed reports can have their priority automatically increased"
-
-      add :result_path, :string,
-        default: "",
-        null: false,
-        comment: "The full path of the completed report file"
-
-      add :generation_time_ms, :integer,
-        default: 0,
-        null: false,
-        comment: "Indicates the time taken to generate the report (in milliseconds)"
-
-      timestamps()
 
       add :scheduled_at, :utc_datetime,
         default: "",
@@ -171,6 +175,8 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         null: false,
         comment:
           "When was this cached report was last used? Helps with the cleanup of unused cached reports"
+
+      timestamps()
     end
 
     create unique_index(
@@ -207,10 +213,6 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
            )
 
     create index(:report_jobs, :priority, comment: "Index of job priority")
-
-    create index(:report_jobs, :output_path,
-             comment: "Index of job by generated report output file path"
-           )
 
     create index(:report_jobs, :inserted_at,
              comment: "Index of job by `inserted_at` datetime stamp"

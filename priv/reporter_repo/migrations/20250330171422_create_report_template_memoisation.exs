@@ -13,19 +13,19 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportTemplateMemoisation do
         comment:
           "Absolute report template path-based primary key. Each unique report variant will be backed by precisely one report template, located at a necessarily unique file path, making it a good primary key candidate."
 
-      add :template_hash, :string,
+      add :template_file_last_modified, :utc_datetime_usec,
         null: false,
         comment:
-          "Unique SHA-256 hash of the template file. If the current file hash maches the recorded hash, then use the memoised compiled template, preventing an expensive (half-second and above) template file compilation."
+          "Template file's last modified datetime stamp, down to the microsecond level of detail. A primary check for template changes, if the last modified stamp is the same, then the hash function doesn't need be invoked, saving processing resources."
+
+      add :template_file_hash, :string,
+        null: false,
+        comment:
+          "Unique SHA-256 hash of the report template file. If the current file hash maches the recorded hash, then use the memoised compiled template, preventing an expensive (half-second and above) template file compilation."
 
       add :compiled_report_template, :binary,
         null: false,
         comment: "Binary BLOB field, storing the in-memory compiled report template."
-
-      add :last_modified, :utc_datetime_usec,
-        null: false,
-        comment:
-          "Template file's last modified datetime stamp, in microseconds. A primary check for template changes, if the `last_modified` stamp is the same, then not even the hash function need be invoked, saving further processing resources."
 
       timestamps()
     end

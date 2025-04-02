@@ -24,19 +24,20 @@ defmodule Klepsidra.Reports.ReportJob do
           system_template_name: String.t(),
           report_version: integer(),
           template_path: String.t(),
+          template_file_hash: String.t(),
+          template_file_last_modified: String.t(),
           parameter_fingerprint: String.t(),
           parameters_and_data: map(),
           temporary_tables_created: map(),
-          output_path: String.t(),
           output_filename: String.t(),
           output_type: atom(),
+          generated_report: binary(),
+          generation_time_ms: integer(),
           errors: map(),
           meta: map(),
           attempt: integer(),
           max_attempts: integer(),
           priority: integer(),
-          result_path: String.t(),
-          generation_time_ms: integer(),
           scheduled_at: DateTime.t(),
           attempted_at: DateTime.t(),
           attempted_by: map(),
@@ -60,23 +61,25 @@ defmodule Klepsidra.Reports.ReportJob do
     field :system_template_name, :string
     field :report_version, :integer, default: 1
     field :template_path, :string
+    field :template_file_last_modified, :utc_datetime_usec
+    field :template_file_hash, :string
 
     field :parameter_fingerprint, :string
     field :parameters_and_data, :map
     field :temporary_tables_created, :map
-    field :output_path, :string
     field :output_filename, :string
 
     field :output_type, Ecto.Enum,
       values: [:pdf, :html, :rtf, :txt, :csv, :json, :xlsx, :docx, :pptx, :odt, :ods]
+
+    field :generated_report, :binary
+    field :generation_time_ms, :integer, default: 0
 
     field :errors, :map
     field :meta, :map
     field :attempt, :integer, default: 1
     field :max_attempts, :integer, default: 3
     field :priority, :integer, default: 0
-    field :result_path, :string
-    field :generation_time_ms, :integer, default: 0
     field :scheduled_at, :utc_datetime, default: DateTime.utc_now() |> DateTime.truncate(:second)
     # :utc_datetime
     field :attempted_at, :string
@@ -109,19 +112,21 @@ defmodule Klepsidra.Reports.ReportJob do
       :system_template_name,
       :report_version,
       :template_path,
+      :template_file_last_modified,
+      :template_file_hash,
       :parameter_fingerprint,
       :parameters_and_data,
       :temporary_tables_created,
-      :output_path,
       :output_filename,
       :output_type,
+      :generated_report,
+      :generation_time_ms,
       :errors,
       :meta,
       :attempt,
       :max_attempts,
       :priority,
       :result_path,
-      :generation_time_ms,
       :scheduled_at,
       :attempted_at,
       :attempted_by,
