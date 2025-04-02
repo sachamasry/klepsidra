@@ -24,8 +24,8 @@ defmodule Klepsidra.Reports.ReportJob do
           system_template_name: String.t(),
           report_version: integer(),
           template_path: String.t(),
+          template_file_last_modified: integer(),
           template_file_hash: String.t(),
-          template_file_last_modified: String.t(),
           parameter_fingerprint: String.t(),
           parameters_and_data: map(),
           temporary_tables_created: map(),
@@ -61,7 +61,7 @@ defmodule Klepsidra.Reports.ReportJob do
     field :system_template_name, :string
     field :report_version, :integer, default: 1
     field :template_path, :string
-    field :template_file_last_modified, :utc_datetime_usec
+    field :template_file_last_modified, :integer
     field :template_file_hash, :string
 
     field :parameter_fingerprint, :string
@@ -126,7 +126,6 @@ defmodule Klepsidra.Reports.ReportJob do
       :attempt,
       :max_attempts,
       :priority,
-      :result_path,
       :scheduled_at,
       :attempted_at,
       :attempted_by,
@@ -181,6 +180,9 @@ defmodule Klepsidra.Reports.ReportJob do
       output_filename_template: output_filename_template
     } = Reports.get_report_by_system_report_name(system_report_name)
 
+    template_file_last_modified_stamp =
+      Klepsidra.Utilities.FilesystemUtilities.get_file_last_modified_stamp(template_path)
+
     report_job_params =
       %{
         report_name: report_name,
@@ -188,6 +190,7 @@ defmodule Klepsidra.Reports.ReportJob do
         template_variant_name: template_variant_name,
         system_template_name: system_template_name,
         template_path: template_path,
+        template_file_last_modified: template_file_last_modified_stamp,
         parameter_fingerprint: parameter_fingerprint,
         parameters_and_data: parameters_and_data,
         temporary_tables_created: temporary_tables_created,

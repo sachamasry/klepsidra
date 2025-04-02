@@ -13,8 +13,9 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportTemplateMemoisation do
         comment:
           "Absolute report template path-based primary key. Each unique report variant will be backed by precisely one report template, located at a necessarily unique file path, making it a good primary key candidate."
 
-      add :template_file_last_modified, :utc_datetime_usec,
+      add :template_file_last_modified, :integer,
         null: false,
+        default: 0,
         comment:
           "Template file's last modified datetime stamp, down to the microsecond level of detail. A primary check for template changes, if the last modified stamp is the same, then the hash function doesn't need be invoked, saving processing resources."
 

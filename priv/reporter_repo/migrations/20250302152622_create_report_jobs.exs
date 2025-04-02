@@ -48,8 +48,9 @@ defmodule Klepsidra.ReporterRepo.Migrations.CreateReportJobs do
         comment:
           "Absolute path to the `.jrxml` template file of the requested report template (multiple distinct template layouts can exist for each report type)"
 
-      add :template_file_last_modified, :utc_datetime_usec,
+      add :template_file_last_modified, :integer,
         null: false,
+        default: 0,
         comment:
           "Template file's last modified datetime stamp, down to the microsecond level of detail. A primary check for template changes, if the last modified stamp is the same, then the hash function doesn't need be invoked, saving processing resources."
 
