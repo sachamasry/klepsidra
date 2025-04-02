@@ -200,7 +200,8 @@ defmodule Klepsidra.MixProject do
       {:live_select, "~> 1.5.2"},
       {:color_contrast, "~> 1.1"},
       {:phoenix_live_head, "~> 0.3.0"},
-      {:oban, "~> 2.17"}
+      {:oban, "~> 2.17"},
+      {:benchee, "~> 1.2"}
       # {:lucide_icons, "~> 1.1.2"}
     ]
   end

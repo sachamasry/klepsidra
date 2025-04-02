@@ -31,4 +31,16 @@ defmodule Klepsidra.Utilities.HashFunctions do
     :crypto.hash(:blake2b, :erlang.term_to_binary(message))
     |> Base.encode16(padding: false, case: :lower)
   end
+
+  def read_file!(path) do
+    File.read!(path)
+  end
+
+  def hash_sha256(data) do
+    :crypto.hash(:sha256, data)
+  end
+
+  def hash_blake2(data) do
+    :crypto.hash(:blake2b, data)
+  end
 end
